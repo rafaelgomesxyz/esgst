@@ -18,7 +18,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
       description: [
         ['ul', [
           ['li', [
-            `Adds more details to each giveaway in your `,
+            'Adds more details to each giveaway in your ',
             ['a', { href: `https://www.steamgifts.com/giveaways/created` }, 'created'],
             `/`,
             ['a', { href: `https://www.steamgifts.com/giveaways/entered` }, 'entered'],
@@ -30,7 +30,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
             ['li', `How many points the giveaway is worth next to the game's name.`],
             ['li', [
               `An icon (`,
-              ['i', { class: `fa fa-steam` }],
+              ['i', { class: 'fa fa-steam' }],
               `) next to the game's name that links to the game's Steam store page.`
             ]],
             ['li', `For the entered/won pages only, the creator's username next to the giveaway's end time.`],
@@ -42,7 +42,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
       ],
       features: {
         cewgd_c: {
-          name: `Enable for Created pages.`,
+          name: 'Enable for Created pages.',
           sg: true,
           features: {
             cewgd_c_p: {
@@ -50,7 +50,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
               sg: true
             },
             cewgd_c_sl: {
-              name: `Steam Link`,
+              name: 'Steam Link',
               sg: true
             },
             cewgd_c_t: {
@@ -68,7 +68,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
           }
         },
         cewgd_e: {
-          name: `Enable for Entered pages.`,
+          name: 'Enable for Entered pages.',
           sg: true,
           features: {
             cewgd_e_p: {
@@ -76,7 +76,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
               sg: true
             },
             cewgd_e_sl: {
-              name: `Steam Link`,
+              name: 'Steam Link',
               sg: true
             },
             cewgd_e_t: {
@@ -90,7 +90,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
           }
         },
         cewgd_w: {
-          name: `Enable for Won pages.`,
+          name: 'Enable for Won pages.',
           sg: true,
           features: {
             cewgd_w_p: {
@@ -98,7 +98,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
               sg: true
             },
             cewgd_w_sl: {
-              name: `Steam Link`,
+              name: 'Steam Link',
               sg: true
             },
             cewgd_w_t: {
@@ -124,13 +124,13 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
   }
 
   init() {
-    if (shared.common.isCurrentPath(`My Giveaways - Created`) && gSettings.cewgd_c) {
+    if (shared.common.isCurrentPath('My Giveaways - Created') && gSettings.cewgd_c) {
       this.currentId = 'cewgd_c';
       this.created = true;
-    } else if (shared.common.isCurrentPath(`My Giveaways - Entered`) && gSettings.cewgd_e) {
+    } else if (shared.common.isCurrentPath('My Giveaways - Entered') && gSettings.cewgd_e) {
       this.currentId = 'cewgd_e';
       this.entered = true;
-    } else if (shared.common.isCurrentPath(`My Giveaways - Won`) && gSettings.cewgd_w) {
+    } else if (shared.common.isCurrentPath('My Giveaways - Won') && gSettings.cewgd_w) {
       this.currentId = 'cewgd_w';
       this.won = true;
     }
@@ -147,31 +147,31 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
     }
     const tableHeading = context.querySelector(
       shared.common.getSelectors(endless, [
-        `X.table__heading`
+        'X.table__heading'
       ])
     );
-    if (!tableHeading || tableHeading.querySelector(`.esgst-cewgd-heading`)) {
+    if (!tableHeading || tableHeading.querySelector('.esgst-cewgd-heading')) {
       return;
     }
     const items = [];
     if (gSettings[`${this.currentId}_t`]) {
       items.push(
-        ['div', { class: `table__column--width-small text-center esgst-cewgd-heading` }, 'Type']
+        ['div', { class: 'table__column--width-small text-center esgst-cewgd-heading' }, 'Type']
       );
     }
     if (gSettings[`${this.currentId}_l`]) {
       items.push(
-        ['div', { class: `table__column--width-small text-center esgst-cewgd-heading` }, 'Level']
+        ['div', { class: 'table__column--width-small text-center esgst-cewgd-heading' }, 'Level']
       );
     }
     if (this.created && gSettings[`${this.currentId}_w`]) {
       items.push(
-        ['div', { class: `table__column--width-small text-center esgst-cewgd-heading` }, `Winner(s)`]
+        ['div', { class: 'table__column--width-small text-center esgst-cewgd-heading' }, `Winner(s)`]
       );
     }
     if (this.won && gSettings[`${this.currentId}_e`]) {
       items.push(
-        ['div', { class: `table__column--width-small text-center esgst-cewgd-heading` }, 'Entries']
+        ['div', { class: 'table__column--width-small text-center esgst-cewgd-heading' }, 'Entries']
       );
     }
     shared.common.createElements_v2(tableHeading.firstElementChild, 'afterEnd', items);
@@ -201,7 +201,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
     const details = shared.esgst.giveaways[giveaway.code];
     let shouldUpdateWinners = false;
     if (!giveaway.deleted && details && details.gameSteamId && Array.isArray(details.winners)) {
-      shouldUpdateWinners = details.v !== shared.esgst.CURRENT_GIVEAWAY_VERSION || !details.winners.length || details.winners.filter(x => x.status !== 'Received' && x.status !== `Not Received`).length > 0;
+      shouldUpdateWinners = details.v !== shared.esgst.CURRENT_GIVEAWAY_VERSION || !details.winners.length || details.winners.filter(x => x.status !== 'Received' && x.status !== 'Not Received').length > 0;
     }
     if ((this.created || this.won) && shouldUpdateWinners) {
       await this.fetchWinners(giveaway, now);
@@ -250,7 +250,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
         this.addDetails(giveaway);
         return;
       }
-      const elements = responseHtml.querySelectorAll(`.table__row-inner-wrap`);
+      const elements = responseHtml.querySelectorAll('.table__row-inner-wrap');
       for (const element of elements) {
         details.winners.push({
           status: element.lastElementChild.textContent.trim(),
@@ -258,8 +258,8 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
         });
       }
       nextPage += 1;
-      pagination = responseHtml.querySelector(`.pagination__navigation`);
-    } while (pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
+      pagination = responseHtml.querySelector('.pagination__navigation');
+    } while (pagination && !pagination.lastElementChild.classList.contains('is-selected'));
     details.lastUpdate = now;
     this.giveaways[giveaway.code] = details;
     this.addDetails(giveaway, details);
@@ -316,7 +316,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
     if (giveaway.id && gSettings[`${this.currentId}_sl`]) {
       headingItems.push(
         ['a', { class: 'giveaway__icon', href: `http://store.steampowered.com/${giveaway.type.slice(0, -1)}/${giveaway.id}`, target: '_blank' }, [
-          ['i', { class: `fa fa-steam`}]
+          ['i', { class: 'fa fa-steam'}]
         ]]
       );
     }
@@ -324,25 +324,25 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
 
     for (const child of giveaway.heading.children) {
       if (child === giveaway.headingName || child.classList.contains('giveaway__heading__name') || child.classList.contains('featured__heading__medium')) {
-        child.setAttribute(`data-draggable-id`, 'name');
+        child.setAttribute('data-draggable-id', 'name');
         continue;
       }
       if (child.textContent.match(/\(.+?\sCopies\)/)) {
-        child.setAttribute(`data-draggable-id`, 'copies');
+        child.setAttribute('data-draggable-id', 'copies');
         continue;
       }
       if (child.textContent.match(/\(.+?P\)/)) {
-        child.setAttribute(`data-draggable-id`, 'points');
+        child.setAttribute('data-draggable-id', 'points');
         continue;
       }
       const url = child.getAttribute('href');
       if (url) {
         if (url.match(/store.steampowered.com/)) {
-          child.setAttribute(`data-draggable-id`, 'steam');
+          child.setAttribute('data-draggable-id', 'steam');
           continue;
         }
         if (url.match(/\/giveaways\/search/)) {
-          child.setAttribute(`data-draggable-id`, 'search');
+          child.setAttribute('data-draggable-id', 'search');
         }
       }
     }
@@ -362,16 +362,16 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
     } else {
       giveaway.blacklist = true;
     }
-    giveaway.creator = (details && details.creator) || `-`;
+    giveaway.creator = (details && details.creator) || '-';
     if (giveaway.creators.indexOf(giveaway.creator.toLowerCase()) < 0) {
       giveaway.creators.push(giveaway.creator.toLowerCase());
     }
 
     if (this.entered || this.won) {
       shared.common.createElements_v2(giveaway.endTimeColumn, 'beforeEnd', [
-        ` by `,
+        ' by ',
         details
-          ? ['a', { class: `table__column__secondary-link`, href: `/user/${giveaway.creator}` }, giveaway.creator]
+          ? ['a', { class: 'table__column__secondary-link', href: `/user/${giveaway.creator}` }, giveaway.creator]
           : `?`
       ]);
     }
@@ -412,15 +412,15 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
       } else if (giveaway.public) {
         type = 'Public';
       } else {
-        type = `-`;
+        type = '-';
       }
       columnItems.push(
-        ['div', { class: `table__column--width-small text-center` }, type]
+        ['div', { class: 'table__column--width-small text-center' }, type]
       );
     }
     if (gSettings[`${this.currentId}_l`]) {
       columnItems.push(
-        ['div', { class: `table__column--width-small text-center` }, details && utils.isSet(giveaway.level) ? giveaway.level : `-`]
+        ['div', { class: 'table__column--width-small text-center' }, details && utils.isSet(giveaway.level) ? giveaway.level : '-']
       );
     }
     if (this.created && gSettings[`${this.currentId}_w`]) {
@@ -430,11 +430,11 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
         winners = [];
         const firstWinner = details.winners[0].username;
         winners.push(
-          ['a', { class: `table__column__secondary-link`, href: `/user/${firstWinner}` }, firstWinner]
+          ['a', { class: 'table__column__secondary-link', href: `/user/${firstWinner}` }, firstWinner]
         );
         if (numWinners > 1) {
           winners.push(
-            ['span', { class: `esgst-clickable table__column__secondary-link`, onclick: this.openWinnersPopup.bind(this, details) }, ` (+${numWinners - 1} more)`]
+            ['span', { class: 'esgst-clickable table__column__secondary-link', onclick: this.openWinnersPopup.bind(this, details) }, ` (+${numWinners - 1} more)`]
           );
           let received = 0;
           for (const winner of details.winners) {
@@ -445,18 +445,18 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
           giveaway.innerWrap.lastElementChild.insertAdjacentText('beforeend', ` (${received}/${numWinners})`);
         }
       } else {
-        winners = `-`;
+        winners = '-';
       }
       columnItems.push(
-        ['div', { class: `table__column--width-small text-center` }, winners]
+        ['div', { class: 'table__column--width-small text-center' }, winners]
       );
     }
     if (this.won && gSettings[`${this.currentId}_e`]) {
       columnItems.push(
-        ['div', { class: `table__column--width-small text-center` }, details && utils.isSet(giveaway.entries) ? giveaway.entries : `-`]
+        ['div', { class: 'table__column--width-small text-center' }, details && utils.isSet(giveaway.entries) ? giveaway.entries : '-']
       );
     }
-    shared.common.createElements_v2(giveaway.panel || giveaway.innerWrap.querySelector(`.table__column--width-fill`), 'afterEnd', columnItems);
+    shared.common.createElements_v2(giveaway.panel || giveaway.innerWrap.querySelector('.table__column--width-fill'), 'afterEnd', columnItems);
 
     if (giveaway.gwcContext) {
       giveaway.chancePerPoint = Math.round(giveaway.chance / Math.max(1, giveaway.points) * 100) / 100;
@@ -476,14 +476,14 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
 
   openWinnersPopup(details) {
     const popup = new Popup({
-      icon: `fa-users`,
+      icon: 'fa-users',
       title: 'Winners',
       addScrollable: 'left'
     });
     let html = [
       ['div', { class: 'table__heading' }, [
-        ['div', { class: `table__column--width-small` }, 'Winner'],
-        ['div', { class: `table__column--width-small` }, 'Received']
+        ['div', { class: 'table__column--width-small' }, 'Winner'],
+        ['div', { class: 'table__column--width-small' }, 'Received']
       ]],
       ['div', { class: 'table__rows' }, []]
     ];
@@ -491,25 +491,25 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
       let className = ``;
       switch (winner.status) {
         case 'Received':
-          className = `fa fa-check-circle esgst-green`;
+          className = 'fa fa-check-circle esgst-green';
           break;
-        case `Not Received`:
-          className = `fa fa-times-circle esgst-red`;
+        case 'Not Received':
+          className = 'fa fa-times-circle esgst-red';
           break;
-        case `Awaiting Feedback`:
-          className = `fa fa-question-circle esgst-grey`;
+        case 'Awaiting Feedback':
+          className = 'fa fa-question-circle esgst-grey';
           break;
         default:
           break;
       }
       // @ts-ignore
       html[1][2].push(
-        ['div', { class: `table__row-outer-wrap` }, [
-          ['div', { class: `table__row-inner-wrap` }, [
-            ['div', { class: `table__column--width-small` }, [
-              ['a', { class: `table__column__secondary-link`, href: `/user/${winner.username}` }, winner.username]
+        ['div', { class: 'table__row-outer-wrap' }, [
+          ['div', { class: 'table__row-inner-wrap' }, [
+            ['div', { class: 'table__column--width-small' }, [
+              ['a', { class: 'table__column__secondary-link', href: `/user/${winner.username}` }, winner.username]
             ]],
-            ['div', { class: `table__column--width-small` }, [
+            ['div', { class: 'table__column--width-small' }, [
               ['i', { class: className }]
             ]]
           ]]

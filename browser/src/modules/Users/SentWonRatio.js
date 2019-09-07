@@ -16,7 +16,7 @@ class UsersSentWonRatio extends Module {
           ['li', [
             `Adds a "Ratio" row containing a user's sent/won ratio (which is their number of gifts sent divided by their number of gifts won) below the "Gifts Sent" row of their `,
             ['a', { href: `https://www.steamgifts.com/user/cg` }, 'profile'],
-            ` page.`
+            ' page.'
           ]]
         ]]
       ],
@@ -52,7 +52,7 @@ class UsersSentWonRatio extends Module {
           ],
           icon: [
             {
-              class: `fa-pie-chart`,
+              class: 'fa-pie-chart',
               color: `#77899a`
             }
           ]
@@ -61,7 +61,7 @@ class UsersSentWonRatio extends Module {
           columns: [
             {
               color: `#8f96a6`,
-              name: `Full Value`
+              name: 'Full Value'
             },
             {
               color: `#8f96a6`,
@@ -74,7 +74,7 @@ class UsersSentWonRatio extends Module {
           columns: [
             {
               color: `#8f96a6`,
-              name: `Reduced Value`
+              name: 'Reduced Value'
             },
             {
               color: `#8f96a6`,
@@ -87,7 +87,7 @@ class UsersSentWonRatio extends Module {
           columns: [
             {
               color: `#8f96a6`,
-              name: `No Value`
+              name: 'No Value'
             },
             {
               color: `#8f96a6`,
@@ -103,7 +103,7 @@ class UsersSentWonRatio extends Module {
         {
           columns: [
             {
-              name: `Real Value`
+              name: 'Real Value'
             },
             {
               color: `#8f96a6`,
@@ -112,7 +112,7 @@ class UsersSentWonRatio extends Module {
           ],
           icon: [
             {
-              class: `fa-dollar`,
+              class: 'fa-dollar',
               color: `#84cfda`
             }
           ]
@@ -121,7 +121,7 @@ class UsersSentWonRatio extends Module {
     };
     createElements(profile.sentRow, 'afterEnd', [{
       attributes: {
-        class: `esgst-swr-ratio featured__table__row`,
+        class: 'esgst-swr-ratio featured__table__row',
         title: getFeatureTooltip('swr')
       },
       type: 'div',
@@ -138,7 +138,7 @@ class UsersSentWonRatio extends Module {
         type: 'div',
         children: [{
           attributes: {
-            [`data-ui-tooltip`]: JSON.stringify(ratioTooltip)
+            ['data-ui-tooltip']: JSON.stringify(ratioTooltip)
           },
           text: ratio,
           type: 'span'
@@ -147,7 +147,7 @@ class UsersSentWonRatio extends Module {
           type: 'node'
         }, {
           attributes: {
-            [`data-ui-tooltip`]: JSON.stringify(cvTooltip)
+            ['data-ui-tooltip']: JSON.stringify(cvTooltip)
           },
           text: gSettings.vrcv ? `${cvRatio} / ${realCVRatio.toLocaleString('en')}` : cvRatio,
           type: 'span'

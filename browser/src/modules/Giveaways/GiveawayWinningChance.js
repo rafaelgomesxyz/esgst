@@ -15,11 +15,11 @@ class GiveawaysGiveawayWinningChance extends Module {
         ['ul', [
           ['li', [
             `Adds an element (`,
-            ['i', { class: `fa fa-area-chart` }],
+            ['i', { class: 'fa fa-area-chart' }],
             ` [Chance] %) below a giveaway's start time (in any page) that shows your chance of winning the giveaway.`
           ]],
           ['li', `The chance is calculated by rounding up (using 2 decimals) the result of the following formula: number_of_copies / number_of_entries * 100`],
-          ['li', `You can move the element around by dragging and dropping it.`]
+          ['li', 'You can move the element around by dragging and dropping it.']
         ]]
       ],
       features: {
@@ -30,7 +30,7 @@ class GiveawaysGiveawayWinningChance extends Module {
               ['li', `For example, if a giveaway has 5 entries, the current chance of winning it is 20%, but after you enter it, it will have 6 entries, so the chance will decrease to 16.67%.`]
             ]]
           ],
-          name: `Show what the chance will be when you enter the giveaway instead of the current chance.`,
+          name: 'Show what the chance will be when you enter the giveaway instead of the current chance.',
           sg: true
         },
         gwc_a: {
@@ -45,7 +45,7 @@ class GiveawaysGiveawayWinningChance extends Module {
               sg: true
             }
           },
-          name: `Use advanced formula.`,
+          name: 'Use advanced formula.',
           sg: true
         },
         gwc_h: {
@@ -63,12 +63,12 @@ class GiveawaysGiveawayWinningChance extends Module {
               prefix: `Image Border Width: `
             }
           ],
-          name: `Highlight the giveaway.`,
+          name: 'Highlight the giveaway.',
           sg: true
         }
       },
       id: 'gwc',
-      name: `Giveaway Winning Chance`,
+      name: 'Giveaway Winning Chance',
       sg: true,
       type: 'giveaways',
       featureMap: {
@@ -85,13 +85,13 @@ class GiveawaysGiveawayWinningChance extends Module {
   gwc_addChances(giveaways, main, source) {
     giveaways.forEach(giveaway => {
       if (giveaway.sgTools || (main && (this.esgst.createdPath || (this.esgst.wonPath && (!gSettings.cewgd || !gSettings.cewgd_w || !gSettings.cewgd_w_e)) || this.esgst.newGiveawayPath || this.esgst.archivePath))) return;
-      if (((giveaway.inviteOnly && ((main && (this.esgst.giveawayPath || this.esgst.enteredPath || (this.esgst.wonPath && gSettings.cewgd && gSettings.cewgd_w && gSettings.cewgd_w_e))) || !main || giveaway.ended || giveaway.id)) || !giveaway.inviteOnly) && !giveaway.innerWrap.getElementsByClassName(`esgst-gwc`)[0]) {
+      if (((giveaway.inviteOnly && ((main && (this.esgst.giveawayPath || this.esgst.enteredPath || (this.esgst.wonPath && gSettings.cewgd && gSettings.cewgd_w && gSettings.cewgd_w_e))) || !main || giveaway.ended || giveaway.id)) || !giveaway.inviteOnly) && !giveaway.innerWrap.getElementsByClassName('esgst-gwc')[0]) {
         if (giveaway.started) {
           giveaway.gwcContext = createElements(giveaway.panel, (gSettings.gv && ((main && this.esgst.giveawaysPath) || (source === 'gb' && gSettings.gv_gb) || (source === 'ged' && gSettings.gv_ged) || (source === 'ge' && gSettings.gv_ge))) ? 'afterBegin' : 'beforeEnd', [{
             attributes: {
               class: `${this.esgst.giveawayPath ? 'featured__column' : ``} esgst-gwc`,
-              [`data-draggable-id`]: 'gwc',
-              title: getFeatureTooltip('gwc', `Giveaway Winning Chance`)
+              ['data-draggable-id']: 'gwc',
+              title: getFeatureTooltip('gwc', 'Giveaway Winning Chance')
             },
             type: 'div'
           }]);
@@ -122,8 +122,8 @@ class GiveawaysGiveawayWinningChance extends Module {
     if (giveaway.points) {
       giveaway.gwcContext.title = getFeatureTooltip('gwc', `Giveaway Winning Chance (${common.round(giveaway.chancePerPoint, 4)}% basic and ${common.round(giveaway.projectedChancePerPoint)}% advanced per point)`);
     }
-    giveaway.gwcContext.setAttribute(`data-chance`, giveaway.chance);
-    giveaway.gwcContext.setAttribute(`data-projectedChance`, giveaway.projectedChance);
+    giveaway.gwcContext.setAttribute('data-chance', giveaway.chance);
+    giveaway.gwcContext.setAttribute('data-projectedChance', giveaway.projectedChance);
     for (i = gSettings.gwc_colors.length - 1; i > -1; --i) {
       colors = gSettings.gwc_colors[i];
       if (basicChance >= parseFloat(colors.lower) && basicChance <= parseFloat(colors.upper)) {
@@ -139,22 +139,22 @@ class GiveawaysGiveawayWinningChance extends Module {
       }
     }
     if (gSettings.gwc_h) {
-      giveaway.headingName.classList.add(`esgst-gwc-highlight`);
+      giveaway.headingName.classList.add('esgst-gwc-highlight');
       giveaway.headingName.style.color = gSettings.gwc_a && !gSettings.gwc_a_b ? advancedColor : basicColor;
       if (giveaway.image) {
-        giveaway.image.classList.add(`esgst-gwc-highlight`);
+        giveaway.image.classList.add('esgst-gwc-highlight');
         giveaway.image.style.color = `${gSettings.gwc_a && !gSettings.gwc_a_b ? advancedColor : basicColor}`;
         giveaway.image.style.boxShadow = `${gSettings.gwc_a && !gSettings.gwc_a_b ? advancedColor : basicColor} 0px 0px 0px var(--esgst-gwc-highlight-width, 3px) inset`;
       }
     }
     if (this.esgst.enteredPath || this.esgst.wonPath) {
-      giveaway.gwcContext.style.display = `inline-block`;
+      giveaway.gwcContext.style.display = 'inline-block';
     }
     const items = [];
     if (!this.esgst.enteredPath && !this.esgst.wonPath) {
       items.push({
         attributes: {
-          class: `fa fa-area-chart`
+          class: 'fa fa-area-chart'
         },
         type: 'i'
       });
@@ -214,8 +214,8 @@ class GiveawaysGiveawayWinningChance extends Module {
 
   gwc_addHeading(context, main, source, endless) {
     if (this.esgst.createdPath || (this.esgst.wonPath && (!gSettings.cewgd || !gSettings.cewgd_w || !gSettings.cewgd_w_e)) || !main) return;
-    const table = context.querySelector(`${endless ? `.esgst-es-page-${endless} .table__heading, .esgst-es-page-${endless}.table__heading` : `.table__heading`}`);
-    if (!table || table.getElementsByClassName(`esgst-gwcr-heading`)[0]) return;
+    const table = context.querySelector(`${endless ? `.esgst-es-page-${endless} .table__heading, .esgst-es-page-${endless}.table__heading` : '.table__heading'}`);
+    if (!table || table.getElementsByClassName('esgst-gwcr-heading')[0]) return;
     let title = ``;
     if (gSettings.gwc) {
       title += `Chance / `;
@@ -229,7 +229,7 @@ class GiveawaysGiveawayWinningChance extends Module {
     title = title.slice(0, -3);
     createElements(table.firstElementChild, 'afterEnd', [{
       attributes: {
-        class: `table__column--width-small text-center esgst-gwcr-heading`
+        class: 'table__column--width-small text-center esgst-gwcr-heading'
       },
       text: title,
       type: 'div'

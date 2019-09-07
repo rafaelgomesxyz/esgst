@@ -179,7 +179,7 @@ async function doFetch(parameters, request, sender, callback) {
     /**
      * @property {string} tab.cookieStoreId
      */
-    if (tab.cookieStoreId === `firefox-default`) {
+    if (tab.cookieStoreId === 'firefox-default') {
       let response = null;
       let responseText = null;
       try {
@@ -368,7 +368,7 @@ browser.runtime.onMessage.addListener((request, sender) => {
           resolve(await browser.permissions.request(JSON.parse(request.permissions)));
         } catch (e) {
           const tab = await browser.tabs.create({
-            url: browser.runtime.getURL(`permissions.html`)
+            url: browser.runtime.getURL('permissions.html')
           });
           permissionRequests[tab.id] = { originId: sender.tab.id, permissions: request.permissions, resolve };
         }

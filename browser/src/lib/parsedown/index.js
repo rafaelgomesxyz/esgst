@@ -37,20 +37,20 @@ function strlen(string) {
     next = prev = ``;
     if (code >= 0xD800 && code <= 0xDBFF) {
       if (string.length <= i + 1) {
-        throw new Error(`High surrogate without following low surrogate`);
+        throw new Error('High surrogate without following low surrogate');
       }
       next = string.charCodeAt(i + 1);
       if (next < 0xDC00 || next > 0xDFFF) {
-        throw new Error(`High surrogate without following low surrogate`);
+        throw new Error('High surrogate without following low surrogate');
       }
       return string.charAt(i) + string.charAt(i + 1);
     } else if (code >= 0xDC00 && code <= 0xDFFF) {
       if (i === 0) {
-        throw new Error(`Low surrogate without preceding high surrogate`);
+        throw new Error('Low surrogate without preceding high surrogate');
       }
       prev = string.charCodeAt(i - 1);
       if (prev < 0xD800 || prev > 0xDBFF) {
-        throw new Error(`Low surrogate without preceding high surrogate`);
+        throw new Error('Low surrogate without preceding high surrogate');
       }
       return false;
     }
@@ -87,7 +87,7 @@ variables = {
     [`#`]: ['Header'],
     [`*`]: ['Rule', 'List'],
     [`+`]: ['List'],
-    [`-`]: ['SetextHeader', 'Table', 'Rule', 'List'],
+    ['-']: ['SetextHeader', 'Table', 'Rule', 'List'],
     ['0']: ['List'],
     ['1']: ['List'],
     ['2']: ['List'],
@@ -131,7 +131,7 @@ variables = {
   },
   markupEscaped: false,
   regexHtmlAttribute: `[a-zA-Z_:][:.-\\w]*(?:\\s*=\\s*(?:[^"'=<>\`\\s]+|"[^"]*"|'[^']*'))?`,
-  specialCharacters: [`\\`, `\``, `*`, '_', `{`, `}`, `[`, `]`, `(`, `)`, `>`, `#`, `+`, `-`, `.`, `!`, `|`],
+  specialCharacters: [`\\`, `\``, `*`, '_', `{`, `}`, `[`, `]`, `(`, `)`, `>`, `#`, `+`, '-', '.', `!`, `|`],
   strongRegex: {
     [`*`]: /^[*]{2}((?:\\\\\*|[^*]|[*][^*]*[*])+?)[*]{2}(?![*])/,
     ['_']: /^__((?:\\\\_|[^_]|_[^_]*_)+?)__(?!_)/u
@@ -169,11 +169,11 @@ methods = {
         parts = line.split(`\t`);
         line = parts.shift();
         parts.forEach(part => {
-          line += `${` `.repeat(4 - line.length % 4)}${part}`; // original method: mb_strlen with UTF-8
+          line += `${' '.repeat(4 - line.length % 4)}${part}`; // original method: mb_strlen with UTF-8
         });
       }
       indent = 0;
-      while (methods.isSet(line[indent]) && line[indent] === ` `) {
+      while (methods.isSet(line[indent]) && line[indent] === ' ') {
         indent += 1;
       }
       text = indent > 0 ? line.slice(indent) : line;
@@ -277,7 +277,7 @@ methods = {
     if (variables.markupEscaped) {
       return;
     }
-    if (methods.isSet(line.text[3]) && line.text[3] === `-` && line.text[2] === `-` && line.text[1] === `!`) {
+    if (methods.isSet(line.text[3]) && line.text[3] === '-' && line.text[2] === '-' && line.text[1] === `!`) {
       let block = {
         markup: line.body
       };
@@ -359,7 +359,7 @@ methods = {
   },
   blockList: line => {
     let matches, name, pattern;
-    [name, pattern] = line.text[0] <= `-` ? ['ul', `[*+-]`] : ['ol', `[0-9]+[.]`];
+    [name, pattern] = line.text[0] <= '-' ? ['ul', `[*+-]`] : ['ol', `[0-9]+[.]`];
     matches = line.text.match(new RegExp(`^(${pattern}[ ]+)(.*)`));
     if (matches) {
       let block = {
@@ -371,7 +371,7 @@ methods = {
         pattern
       };
       if (name === 'ol') {
-        let listStart = matches[0].slice(0, matches[0].indexOf(`.`));
+        let listStart = matches[0].slice(0, matches[0].indexOf('.'));
         if (listStart !== '1') {
           block.element.attributes = {
             start: listStart
@@ -839,7 +839,7 @@ methods = {
       };
     }
     matches = excerpt.text.match(new RegExp(`^<\\w*(?:[ ]*${variables.regexHtmlAttribute})*[ ]*/?>`));
-    if (excerpt.text[1] !== ` ` && matches) {
+    if (excerpt.text[1] !== ' ' && matches) {
       return {
         extent: strlen(matches[0]),
         markup: matches[0],

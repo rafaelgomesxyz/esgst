@@ -22,7 +22,7 @@ class GeneralHeaderRefresher extends Module {
         ['ul', [
           ['li', `Refreshes the header icons (created/won/inbox for SteamGIFTS and inbox for SteamTrades) and the points on SteamGifts (in any page) every specified number of minutes.`],
           ['li', `There are also options to notify you when there are new wishlist giveaways open, when the key for a game you won is delivered, when you reach 400P and when you receive a new message.`],
-          ['li', `You can upload a custom sound for the browser notifications.`],
+          ['li', 'You can upload a custom sound for the browser notifications.'],
           ['li', `If you enable the options to show browser notifications, you will be asked to give the permission to ESGST by your browser.`]
         ]]
       ],
@@ -32,16 +32,16 @@ class GeneralHeaderRefresher extends Module {
             hr_w_n: {
               features: {
                 hr_w_n_s: {
-                  name: `Play a sound with this notification.`,
+                  name: 'Play a sound with this notification.',
                   inputItems: true,
                   sg: true
                 }
               },
-              name: `Also show as a browser notification.`,
+              name: 'Also show as a browser notification.',
               sg: true
             },
             hr_w_h: {
-              name: `Only indicate for giveaways ending in a specified number of hours.`,
+              name: 'Only indicate for giveaways ending in a specified number of hours.',
               inputItems: [
                 {
                   id: 'hr_w_hours',
@@ -66,12 +66,12 @@ class GeneralHeaderRefresher extends Module {
             hr_g_n: {
               features: {
                 hr_g_n_s: {
-                  name: `Play a sound with this notification.`,
+                  name: 'Play a sound with this notification.',
                   inputItems: true,
                   sg: true
                 }
               },
-              name: `Also show as a browser notification.`,
+              name: 'Also show as a browser notification.',
               sg: true
             }
           },
@@ -85,7 +85,7 @@ class GeneralHeaderRefresher extends Module {
           sg: true
         },
         hr_b: {
-          name: `Keep refreshing in the background when you go to another tab or minimize the browser.`,
+          name: 'Keep refreshing in the background when you go to another tab or minimize the browser.',
           sg: true,
           st: true
         },
@@ -95,19 +95,19 @@ class GeneralHeaderRefresher extends Module {
               ['li', `With this option disabled, notifications will automatically close after a few seconds.`]
             ]]
           ],
-          name: `Only close notifications manually.`,
+          name: 'Only close notifications manually.',
           sg: true,
           st: true
         },
         hr_fp: {
           features: {
             hr_fp_s: {
-              name: `Play a sound with this notification.`,
+              name: 'Play a sound with this notification.',
               inputItems: true,
               sg: true
             }
           },
-          name: `Show a browser notification if there are 400P or more.`,
+          name: 'Show a browser notification if there are 400P or more.',
           sg: true
         },
         hr_p: {
@@ -126,13 +126,13 @@ class GeneralHeaderRefresher extends Module {
             hr_m_n: {
               features: {
                 hr_m_n_s: {
-                  name: `Play a sound with this notification.`,
+                  name: 'Play a sound with this notification.',
                   inputItems: true,
                   sg: true,
                   st: true
                 }
               },
-              name: `Also show as a browser notification.`,
+              name: 'Also show as a browser notification.',
               sg: true,
               st: true
             }
@@ -149,7 +149,7 @@ class GeneralHeaderRefresher extends Module {
           ],
           features: {
             hr_a_r: {
-              name: `Refresh the page after setting it as active.`,
+              name: 'Refresh the page after setting it as active.',
               sg: true,
               st: true
             },
@@ -168,12 +168,12 @@ class GeneralHeaderRefresher extends Module {
       inputItems: [
         {
           id: 'hr_minutes',
-          prefix: `Refresh every `,
-          suffix: ` minutes`
+          prefix: 'Refresh every ',
+          suffix: ' minutes'
         }
       ],
       id: 'hr',
-      name: `Header Refresher`,
+      name: 'Header Refresher',
       sg: true,
       st: true,
       type: 'general'
@@ -328,13 +328,13 @@ class GeneralHeaderRefresher extends Module {
       await this.esgst.onLevelContainerUpdated();
       this.esgst.fullLevel = parseFloat(this.esgst.levelContainer.getAttribute('title').match(/\d+(\.\d*)?/)[0]);
       this.esgst.level = parseInt(this.esgst.fullLevel);
-      this.esgst.createdButton = navigation.getElementsByClassName(`fa-gift`)[0];
+      this.esgst.createdButton = navigation.getElementsByClassName('fa-gift')[0];
       if (this.esgst.createdButton) {
-        this.esgst.createdButton = this.esgst.createdButton.closest(`.nav__button-container`);
+        this.esgst.createdButton = this.esgst.createdButton.closest('.nav__button-container');
       }
-      this.esgst.wonButton = navigation.getElementsByClassName(`fa-trophy`)[0];
+      this.esgst.wonButton = navigation.getElementsByClassName('fa-trophy')[0];
       if (this.esgst.wonButton) {
-        this.esgst.wonButton = this.esgst.wonButton.closest(`.nav__button-container`);
+        this.esgst.wonButton = this.esgst.wonButton.closest('.nav__button-container');
       }
       if (gSettings.hr_w && context !== document) {
         this.esgst.wishlist = 0;
@@ -362,7 +362,7 @@ class GeneralHeaderRefresher extends Module {
         setLocalValue('hrWishlistCache', JSON.stringify(cache));
       }
     }
-    this.esgst.inboxButton = navigation.getElementsByClassName(`fa-envelope`)[0];
+    this.esgst.inboxButton = navigation.getElementsByClassName('fa-envelope')[0];
     if (this.esgst.inboxButton) {
       this.esgst.inboxButton = this.esgst.inboxButton.closest(`.nav__button-container, .nav_btn_container`);
       this.esgst.messageCountContainer = this.esgst.inboxButton.querySelector(`.nav__notification, .message_count`);
@@ -395,7 +395,7 @@ class GeneralHeaderRefresher extends Module {
         context.fillStyle = `#e9202a`;
         context.fillRect(8, 6, 8, 10);
         context.fillStyle = `#fff`;
-        context.font = `bold 10px Arial`;
+        context.font = 'bold 10px Arial';
         context.textAlign = 'left';
         if (messageCount > 9) {
           messageCount = `+`;
@@ -514,7 +514,7 @@ class GeneralHeaderRefresher extends Module {
         details.msg += `\n\nAn error happened when trying to play the sound.`;
       }
     }
-    let notification = new Notification(`ESGST Notification`, {
+    let notification = new Notification('ESGST Notification', {
       body: details.msg,
       icon: `https://dl.dropboxusercontent.com/s/lr3t3bxrxfxylqe/esgstIcon.ico?raw=1`,
       requireInteraction: gSettings.hr_c,

@@ -15,19 +15,19 @@ class GiveawaysGiveawayFilters extends Filters {
   constructor() {
     super('gf');
     this.info = {
-      description: `Filter giveaways.`,
+      description: 'Filter giveaways.',
       features: {
         gf_s: {
-          description: `Hide individual giveaways.`,
+          description: 'Hide individual giveaways.',
           guideUrl: `https://www.steamgifts.com`,
           guideSteps: [
-            [`.esgst-gf-hide-button:first()`, `Click here to hide this giveaway.`, { reflex: true, reflexOnly: true }],
-            [`#esgst .esgst-header-menu-button:not(.arrow)`, `Click here to open the ESGST menu.`, { reflex: true,reflexOnly: true }],
-            [`.page__heading__button[title="Manage hidden giveaways"]`, `Click here to view your hidden giveaways.`, { reflex: true, reflexOnly: true }],
-            [`.esgst-popup-layer:not(.esgst-hidden) .esgst-gf-unhide-button:first()`, `Click here to unhide the giveaway.`, { reflex: true, reflexOnly: true, waitForElement: 10 }],
+            [`.esgst-gf-hide-button:first()`, 'Click here to hide this giveaway.', { reflex: true, reflexOnly: true }],
+            [`#esgst .esgst-header-menu-button:not(.arrow)`, 'Click here to open the ESGST menu.', { reflex: true,reflexOnly: true }],
+            [`.page__heading__button[title="Manage hidden giveaways"]`, 'Click here to view your hidden giveaways.', { reflex: true, reflexOnly: true }],
+            [`.esgst-popup-layer:not(.esgst-hidden) .esgst-gf-unhide-button:first()`, 'Click here to unhide the giveaway.', { reflex: true, reflexOnly: true, waitForElement: 10 }],
             [``, `And that's it!`]
           ],
-          name: `Single Filters`,
+          name: 'Single Filters',
           sg: true,
           features: {
             gf_s_s: {
@@ -39,10 +39,10 @@ class GiveawaysGiveawayFilters extends Filters {
         gf_m: {
           description: [
             ['ul', [
-              ['li', `Allows you to hide multiple giveaways in a page using many different filters.`],
+              ['li', 'Allows you to hide multiple giveaways in a page using many different filters.'],
               ['li', [
                 `Adds a toggle switch with a button (`,
-                ['i', { class: `fa fa-sliders` }],
+                ['i', { class: 'fa fa-sliders' }],
                 `) to the main page heading of any `,
                 ['a', { href: `https://www.steamgifts.com/giveaways` }, 'giveaways'],
                 `/`,
@@ -64,17 +64,17 @@ class GiveawaysGiveawayFilters extends Filters {
                 ['ul', [
                   ['li', [
                     `"Show all" (`,
-                    ['i', { class: `fa fa-check-square` }],
+                    ['i', { class: 'fa fa-check-square' }],
                     `) does not hide any giveaways that apply to the filter (this is the default state).`
                   ]],
                   ['li', [
                     `"Show only" (`,
-                    ['i', { class: `fa fa-square` }],
+                    ['i', { class: 'fa fa-square' }],
                     `) hides any giveaways that do not apply to the filter.`
                   ]],
                   ['li', [
                     `"Hide all" (`,
-                    ['i', { class: `fa fa-square-o` }],
+                    ['i', { class: 'fa fa-square-o' }],
                     `) hides any giveaways that apply to the filter.`
                   ]]
                 ]],
@@ -84,15 +84,15 @@ class GiveawaysGiveawayFilters extends Filters {
               ['ul', [
                 ['li', `Basic rules are the ones that you can change directly in the filter panel, using the sliders/checkboxes as explained in the previous item.`],
                 ['li', [
-                  `Exception rules are the ones that you can change by clicking on the icon `,
-                  ['i', { class: `fa fa-gear` }],
+                  'Exception rules are the ones that you can change by clicking on the icon ',
+                  ['i', { class: 'fa fa-gear' }],
                   ` in the filter panel. They are exceptions to the basic rules. For example, if you set the basic rule of the "Created" filter to "hide all" and you add an exception rule for the "Level" filter to the 0-5 range, none of your created giveaways that are for the levels 0-5 will be hidden, because they apply to the exception.`
                 ]],
                 ['li', [
                   `Override rules are the ones that you can change by clicking on the icon (`,
-                  ['i', { class: `fa fa-exclamation esgst-faded` }],
-                  ` if set to overridable and `,
-                  ['i', { class: `fa fa-exclamation` }],
+                  ['i', { class: 'fa fa-exclamation esgst-faded' }],
+                  ' if set to overridable and ',
+                  ['i', { class: 'fa fa-exclamation' }],
                   ` if set to non-overridable) next to each filter. They are enforcements of the basic rules. Continuing the previous example, if you set the override rule of the "Created" filter to "non-overridable", then all of your created giveaways will be hidden, because even if they apply to the exception, the basic rule is being enforced by the override rule, so the exception cannot override it.`
                 ]]
               ]]
@@ -100,17 +100,17 @@ class GiveawaysGiveawayFilters extends Filters {
           ],
           features: {
             gf_m_b: {
-              name: `Hide basic filters.`,
+              name: 'Hide basic filters.',
               sg: true
             },
             gf_m_a: {
-              name: `Hide advanced filters.`,
+              name: 'Hide advanced filters.',
               sg: true
             },
             gf_level: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways by level.`]
+                  ['li', 'Allows you to filter giveaways by level.']
                 ]]
               ],
               name: 'Level',
@@ -119,7 +119,7 @@ class GiveawaysGiveawayFilters extends Filters {
             gf_entries: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways by number of entries.`]
+                  ['li', 'Allows you to filter giveaways by number of entries.']
                 ]]
               ],
               name: 'Entries',
@@ -128,7 +128,7 @@ class GiveawaysGiveawayFilters extends Filters {
             gf_copies: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways by number of copies.`]
+                  ['li', 'Allows you to filter giveaways by number of copies.']
                 ]]
               ],
               name: 'Copies',
@@ -137,7 +137,7 @@ class GiveawaysGiveawayFilters extends Filters {
             gf_points: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways by how many points they cost.`]
+                  ['li', 'Allows you to filter giveaways by how many points they cost.']
                 ]]
               ],
               name: 'Points',
@@ -146,7 +146,7 @@ class GiveawaysGiveawayFilters extends Filters {
             gf_comments: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways by number of comments.`]
+                  ['li', 'Allows you to filter giveaways by number of comments.']
                 ]]
               ],
               name: 'Comments',
@@ -155,19 +155,19 @@ class GiveawaysGiveawayFilters extends Filters {
             gf_minutesToEnd: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways by how much time they have left.`]
+                  ['li', 'Allows you to filter giveaways by how much time they have left.']
                 ]]
               ],
-              name: `Minutes To End`,
+              name: 'Minutes To End',
               sg: true
             },
             gf_minutesFromStart: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways by how long ago they started.`]
+                  ['li', 'Allows you to filter giveaways by how long ago they started.']
                 ]]
               ],
-              name: `Minutes From Start`,
+              name: 'Minutes From Start',
               sg: true
             },
             gf_chance: {
@@ -187,27 +187,27 @@ class GiveawaysGiveawayFilters extends Filters {
                   ['li', `Allows you to filter giveaways by projected chance (advanced).`]
                 ]]
               ],
-              name: `Projected Chance`,
+              name: 'Projected Chance',
               sg: true
             },
             gf_chancePerPoint: {
               dependencies: ['gwc'],
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways by chance per point using the basic chance.`]
+                  ['li', 'Allows you to filter giveaways by chance per point using the basic chance.']
                 ]]
               ],
-              name: `Chance Per Point`,
+              name: 'Chance Per Point',
               sg: true
             },
             gf_projectedChancePerPoint: {
               dependencies: ['gwc', 'gwc_a'],
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways by chance per point using the advanced chance.`]
+                  ['li', 'Allows you to filter giveaways by chance per point using the advanced chance.']
                 ]]
               ],
-              name: `Projected Chance Per Point`,
+              name: 'Projected Chance Per Point',
               sg: true
             },
             gf_ratio: {
@@ -227,24 +227,24 @@ class GiveawaysGiveawayFilters extends Filters {
                   ['li', `Allows you to filter giveaways by projected ratio (advanced).`]
                 ]]
               ],
-              name: `Projected Ratio`,
+              name: 'Projected Ratio',
               sg: true
             },
             gf_pointsToWin: {
               dependencies: ['gptw'],
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways by points to win.`]
+                  ['li', 'Allows you to filter giveaways by points to win.']
                 ]]
               ],
-              name: `Points To Win`,
+              name: 'Points To Win',
               sg: true
             },
             gf_rating: {
               dependencies: ['gc', 'gc_r'],
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways by rating percentage of the game.`]
+                  ['li', 'Allows you to filter giveaways by rating percentage of the game.']
                 ]]
               ],
               name: 'Rating',
@@ -254,7 +254,7 @@ class GiveawaysGiveawayFilters extends Filters {
               dependencies: ['gc', 'gc_r'],
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways by the number of reviews that the game has.`]
+                  ['li', 'Allows you to filter giveaways by the number of reviews that the game has.']
                 ]]
               ],
               name: 'Reviews',
@@ -264,16 +264,16 @@ class GiveawaysGiveawayFilters extends Filters {
               dependencies: ['gc', 'gc_rd'],
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways by release date of the game.`]
+                  ['li', 'Allows you to filter giveaways by release date of the game.']
                 ]]
               ],
-              name: `Release Date`,
+              name: 'Release Date',
               sg: true
             },
             gf_pinned: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways that are pinned.`]
+                  ['li', 'Allows you to filter giveaways that are pinned.']
                 ]]
               ],
               name: 'Pinned',
@@ -282,7 +282,7 @@ class GiveawaysGiveawayFilters extends Filters {
             gf_public: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways that are public.`]
+                  ['li', 'Allows you to filter giveaways that are public.']
                 ]]
               ],
               name: 'Public',
@@ -291,16 +291,16 @@ class GiveawaysGiveawayFilters extends Filters {
             gf_inviteOnly: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways that are invite only.`]
+                  ['li', 'Allows you to filter giveaways that are invite only.']
                 ]]
               ],
-              name: `Invite Only`,
+              name: 'Invite Only',
               sg: true
             },
             gf_group: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways that are for groups.`]
+                  ['li', 'Allows you to filter giveaways that are for groups.']
                 ]]
               ],
               name: 'Group',
@@ -309,7 +309,7 @@ class GiveawaysGiveawayFilters extends Filters {
             gf_whitelist: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways that are for whitelist.`]
+                  ['li', 'Allows you to filter giveaways that are for whitelist.']
                 ]]
               ],
               name: 'Whitelist',
@@ -318,10 +318,10 @@ class GiveawaysGiveawayFilters extends Filters {
             gf_regionRestricted: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways that are region restricted.`]
+                  ['li', 'Allows you to filter giveaways that are region restricted.']
                 ]]
               ],
-              name: `Region Restricted`,
+              name: 'Region Restricted',
               sg: true
             },
             gf_enterable: {
@@ -341,13 +341,13 @@ class GiveawaysGiveawayFilters extends Filters {
                   ['li', `The difference between this filter and [id=gf_enterable] is that this filter checks if you can enter the giveaway at the moment, not if you are allowed to enter the giveaway (for example, if the giveaway has not started yet or you do not have enough points to enter the giveaway, the giveaway is not considered as currently enterable, but just enterable).`]
                 ]]
               ],
-              name: `Currently Enterable`,
+              name: 'Currently Enterable',
               sg: true
             },
             gf_created: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways created by yourself.`]
+                  ['li', 'Allows you to filter giveaways created by yourself.']
                 ]]
               ],
               name: 'Created',
@@ -356,7 +356,7 @@ class GiveawaysGiveawayFilters extends Filters {
             gf_received: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways that have been marked as received.`]
+                  ['li', 'Allows you to filter giveaways that have been marked as received.']
                 ]]
               ],
               name: 'Received',
@@ -365,25 +365,25 @@ class GiveawaysGiveawayFilters extends Filters {
             gf_notReceived: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways that have been marked as not received.`]
+                  ['li', 'Allows you to filter giveaways that have been marked as not received.']
                 ]]
               ],
-              name: `Not Received`,
+              name: 'Not Received',
               sg: true
             },
             gf_awaitingFeedback: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways that are awaiting feedback.`]
+                  ['li', 'Allows you to filter giveaways that are awaiting feedback.']
                 ]]
               ],
-              name: `Awaiting Feedback`,
+              name: 'Awaiting Feedback',
               sg: true
             },
             gf_entered: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways that you have entered.`]
+                  ['li', 'Allows you to filter giveaways that you have entered.']
                 ]]
               ],
               name: 'Entered',
@@ -392,7 +392,7 @@ class GiveawaysGiveawayFilters extends Filters {
             gf_started: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways that have started.`]
+                  ['li', 'Allows you to filter giveaways that have started.']
                 ]]
               ],
               name: 'Started',
@@ -401,7 +401,7 @@ class GiveawaysGiveawayFilters extends Filters {
             gf_ended: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways that have ended.`]
+                  ['li', 'Allows you to filter giveaways that have ended.']
                 ]]
               ],
               name: 'Ended',
@@ -410,7 +410,7 @@ class GiveawaysGiveawayFilters extends Filters {
             gf_deleted: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways that have been deleted.`]
+                  ['li', 'Allows you to filter giveaways that have been deleted.']
                 ]]
               ],
               name: 'Deleted',
@@ -419,7 +419,7 @@ class GiveawaysGiveawayFilters extends Filters {
             gf_owned: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways for games that you own on Steam.`]
+                  ['li', 'Allows you to filter giveaways for games that you own on Steam.']
                 ]]
               ],
               name: 'Owned',
@@ -428,7 +428,7 @@ class GiveawaysGiveawayFilters extends Filters {
             gf_wishlisted: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways for games that you have wishlisted on Steam.`]
+                  ['li', 'Allows you to filter giveaways for games that you have wishlisted on Steam.']
                 ]]
               ],
               name: 'Wishlisted',
@@ -437,7 +437,7 @@ class GiveawaysGiveawayFilters extends Filters {
             gf_followed: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways for games that you have followed on Steam.`]
+                  ['li', 'Allows you to filter giveaways for games that you have followed on Steam.']
                 ]]
               ],
               name: 'Followed',
@@ -447,7 +447,7 @@ class GiveawaysGiveawayFilters extends Filters {
             gf_hidden: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways for games that you have hidden on SteamGifts.`]
+                  ['li', 'Allows you to filter giveaways for games that you have hidden on SteamGifts.']
                 ]]
               ],
               name: 'Hidden',
@@ -456,7 +456,7 @@ class GiveawaysGiveawayFilters extends Filters {
             gf_ignored: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways for games that you have ignored on Steam.`]
+                  ['li', 'Allows you to filter giveaways for games that you have ignored on Steam.']
                 ]]
               ],
               name: 'Ignored',
@@ -466,53 +466,53 @@ class GiveawaysGiveawayFilters extends Filters {
               dependencies: ['egh'],
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways for games that you have previously entered giveaways for.`]
+                  ['li', 'Allows you to filter giveaways for games that you have previously entered giveaways for.']
                 ]]
               ],
-              name: `Previously Entered`,
+              name: 'Previously Entered',
               sg: true
             },
             gf_previouslyWon: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways for games that you have previously won.`]
+                  ['li', 'Allows you to filter giveaways for games that you have previously won.']
                 ]]
               ],
-              name: `Previously Won`,
+              name: 'Previously Won',
               sg: true
             },
             gf_fullCV: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways for games that give full CV.`]
+                  ['li', 'Allows you to filter giveaways for games that give full CV.']
                 ]]
               ],
-              name: `Full CV`,
+              name: 'Full CV',
               sg: true
             },
             gf_reducedCV: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways for games that give reduced CV.`]
+                  ['li', 'Allows you to filter giveaways for games that give reduced CV.']
                 ]]
               ],
-              name: `Reduced CV`,
+              name: 'Reduced CV',
               sg: true
             },
             gf_noCV: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways for games that give no CV.`]
+                  ['li', 'Allows you to filter giveaways for games that give no CV.']
                 ]]
               ],
-              name: `No CV`,
+              name: 'No CV',
               sg: true
             },
             gf_sgTools: {
               dependencies: ['ge'],
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter SGTools giveaways.`]
+                  ['li', 'Allows you to filter SGTools giveaways.']
                 ]]
               ],
               name: 'SGTools',
@@ -522,7 +522,7 @@ class GiveawaysGiveawayFilters extends Filters {
               dependencies: ['cl', 'ggl'],
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways by group.`]
+                  ['li', 'Allows you to filter giveaways by group.']
                 ]]
               ],
               name: 'Groups',
@@ -531,7 +531,7 @@ class GiveawaysGiveawayFilters extends Filters {
             gf_creators: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways by creator.`]
+                  ['li', 'Allows you to filter giveaways by creator.']
                 ]]
               ],
               name: 'Creators',
@@ -540,7 +540,7 @@ class GiveawaysGiveawayFilters extends Filters {
             gf_winners: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways by winner.`]
+                  ['li', 'Allows you to filter giveaways by winner.']
                 ]]
               ],
               name: 'Winners',
@@ -550,7 +550,7 @@ class GiveawaysGiveawayFilters extends Filters {
               dependencies: ['gc', 'gc_lg'],
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways for games that Steam is learning about.`]
+                  ['li', 'Allows you to filter giveaways for games that Steam is learning about.']
                 ]]
               ],
               name: 'Learning',
@@ -560,7 +560,7 @@ class GiveawaysGiveawayFilters extends Filters {
               dependencies: ['gc', 'gc_rm'],
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways for games that have been removed from the Steam store.`]
+                  ['li', 'Allows you to filter giveaways for games that have been removed from the Steam store.']
                 ]]
               ],
               name: 'Removed',
@@ -570,7 +570,7 @@ class GiveawaysGiveawayFilters extends Filters {
               dependencies: ['gc', 'gc_bd'],
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways for games that are banned on Steam.`]
+                  ['li', 'Allows you to filter giveaways for games that are banned on Steam.']
                 ]]
               ],
               name: 'Banned',
@@ -580,17 +580,17 @@ class GiveawaysGiveawayFilters extends Filters {
               dependencies: ['gc', 'gc_tc'],
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways for games that have trading cards.`]
+                  ['li', 'Allows you to filter giveaways for games that have trading cards.']
                 ]]
               ],
-              name: `Trading Cards`,
+              name: 'Trading Cards',
               sg: true
             },
             gf_achievements: {
               dependencies: ['gc', 'gc_a'],
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways for games that have achievements.`]
+                  ['li', 'Allows you to filter giveaways for games that have achievements.']
                 ]]
               ],
               name: 'Achievements',
@@ -600,7 +600,7 @@ class GiveawaysGiveawayFilters extends Filters {
               dependencies: ['gc', 'gc_sp'],
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways for games that are singleplayer.`]
+                  ['li', 'Allows you to filter giveaways for games that are singleplayer.']
                 ]]
               ],
               name: 'Singleplayer',
@@ -610,7 +610,7 @@ class GiveawaysGiveawayFilters extends Filters {
               dependencies: ['gc', 'gc_mp'],
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways for games that are multiplayer.`]
+                  ['li', 'Allows you to filter giveaways for games that are multiplayer.']
                 ]]
               ],
               name: 'Multiplayer',
@@ -620,17 +620,17 @@ class GiveawaysGiveawayFilters extends Filters {
               dependencies: ['gc', 'gc_sc'],
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways for games that have Steam Cloud.`]
+                  ['li', 'Allows you to filter giveaways for games that have Steam Cloud.']
                 ]]
               ],
-              name: `Steam Cloud`,
+              name: 'Steam Cloud',
               sg: true
             },
             gf_linux: {
               dependencies: ['gc', 'gc_l'],
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways for games that have are compatible with Linux.`]
+                  ['li', 'Allows you to filter giveaways for games that have are compatible with Linux.']
                 ]]
               ],
               name: 'Linux',
@@ -640,7 +640,7 @@ class GiveawaysGiveawayFilters extends Filters {
               dependencies: ['gc', 'gc_m'],
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways for games that are compatible with Mac.`]
+                  ['li', 'Allows you to filter giveaways for games that are compatible with Mac.']
                 ]]
               ],
               name: 'Mac',
@@ -650,7 +650,7 @@ class GiveawaysGiveawayFilters extends Filters {
               dependencies: ['gc', 'gc_dlc'],
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways for games that are DLCs.`]
+                  ['li', 'Allows you to filter giveaways for games that are DLCs.']
                 ]]
               ],
               name: 'DLC',
@@ -660,7 +660,7 @@ class GiveawaysGiveawayFilters extends Filters {
               dependencies: ['gc', 'gc_dlc', 'gc_dlc_o'],
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways for games that are DLCs and have a base game that you own.`]
+                  ['li', 'Allows you to filter giveaways for games that are DLCs and have a base game that you own.']
                 ]]
               ],
               name: `DLC (Owned Base)`,
@@ -670,7 +670,7 @@ class GiveawaysGiveawayFilters extends Filters {
               dependencies: ['gc', 'gc_dlc', 'gc_dlc_b'],
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways for games that are DLCs and have a free base game.`]
+                  ['li', 'Allows you to filter giveaways for games that are DLCs and have a free base game.']
                 ]]
               ],
               name: `DLC (Free Base)`,
@@ -680,7 +680,7 @@ class GiveawaysGiveawayFilters extends Filters {
               dependencies: ['gc', 'gc_dlc', 'gc_dlc_b'],
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways for games that are DLCs and have a non-free base game.`]
+                  ['li', 'Allows you to filter giveaways for games that are DLCs and have a non-free base game.']
                 ]]
               ],
               name: `DLC (Non-Free Base)`,
@@ -690,7 +690,7 @@ class GiveawaysGiveawayFilters extends Filters {
               dependencies: ['gc', 'gc_p'],
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways for games that are packages.`]
+                  ['li', 'Allows you to filter giveaways for games that are packages.']
                 ]]
               ],
               name: 'Package',
@@ -700,17 +700,17 @@ class GiveawaysGiveawayFilters extends Filters {
               dependencies: ['gc', 'gc_ea'],
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways for games that are in early access.`]
+                  ['li', 'Allows you to filter giveaways for games that are in early access.']
                 ]]
               ],
-              name: `Early Access`,
+              name: 'Early Access',
               sg: true
             },
             gf_genres: {
               dependencies: ['gc', 'gc_g'],
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways by game genre.`]
+                  ['li', 'Allows you to filter giveaways by game genre.']
                 ]]
               ],
               name: 'Genres',
@@ -720,10 +720,10 @@ class GiveawaysGiveawayFilters extends Filters {
               dependencies: ['gt'],
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter giveaways by game tags.`]
+                  ['li', 'Allows you to filter giveaways by game tags.']
                 ]]
               ],
-              name: `Game Tags`,
+              name: 'Game Tags',
               sg: true
             },
             gf_os: {
@@ -772,12 +772,12 @@ class GiveawaysGiveawayFilters extends Filters {
               sg: true
             }
           },
-          name: `Multiple Filters`,
+          name: 'Multiple Filters',
           sg: true
         }
       },
       id: 'gf',
-      name: `Giveaway Filters`,
+      name: 'Giveaway Filters',
       sg: true,
       sync: `Owned/Wishlisted/Ignored Games, Giveaways, Hidden Games, No CV Games, Reduced CV Games, Won Games`,
       syncKeys: ['Games', 'Giveaways', 'HiddenGames', 'NoCvGames', 'ReducedCvGames', 'WonGames'],
@@ -788,7 +788,7 @@ class GiveawaysGiveawayFilters extends Filters {
   init() {
     if (gSettings.gf_s) {
       if (gSettings.gf_s_s) {
-        this.addSingleButton(`fa-gift`);
+        this.addSingleButton('fa-gift');
       }
       this.esgst.giveawayFeatures.push(this.gf_getGiveaways.bind(this));
     }
@@ -815,7 +815,7 @@ class GiveawaysGiveawayFilters extends Filters {
       for (key in inputs) {
         inputs[key] = document.querySelector(`[name="${key}"]`);
       }
-      document.getElementsByClassName(`form__submit-button js__submit-form`)[0].addEventListener('click', () => {
+      document.getElementsByClassName('form__submit-button js__submit-form')[0].addEventListener('click', () => {
         const settings = [];
         for (key in inputs) {
           settings.push({
@@ -832,27 +832,27 @@ class GiveawaysGiveawayFilters extends Filters {
     giveaways.forEach(giveaway => {
       if (giveaway.creator !== gSettings.username && !giveaway.ended && !giveaway.entered && giveaway.url) {
         if (source === 'gf' || this.esgst.giveawayPath) {
-          if (!giveaway.innerWrap.getElementsByClassName(`esgst-gf-unhide-button`)[0] && this.esgst.giveaways[giveaway.code] && this.esgst.giveaways[giveaway.code].hidden) {
+          if (!giveaway.innerWrap.getElementsByClassName('esgst-gf-unhide-button')[0] && this.esgst.giveaways[giveaway.code] && this.esgst.giveaways[giveaway.code].hidden) {
             new Button(giveaway.headingName, 'beforeBegin', {
               callbacks: [this.gf_hideGiveaway.bind(this, giveaway, main), null, this.gf_unhideGiveaway.bind(this, giveaway, main), null],
-              className: `esgst-gf-unhide-button`,
-              icons: [`fa-eye-slash esgst-clickable`, `fa-circle-o-notch fa-spin`, `fa-eye esgst-clickable`, `fa-circle-o-notch fa-spin`],
+              className: 'esgst-gf-unhide-button',
+              icons: ['fa-eye-slash esgst-clickable', 'fa-circle-o-notch fa-spin', 'fa-eye esgst-clickable', 'fa-circle-o-notch fa-spin'],
               id: 'gf_s',
               index: 2,
-              titles: [`Hide giveaway`, `Hiding giveaway...`, `Unhide giveaway`, `Unhiding giveaway...`]
-            }).button.setAttribute(`data-draggable-id`, 'gf');
+              titles: ['Hide giveaway', 'Hiding giveaway...', 'Unhide giveaway', 'Unhiding giveaway...']
+            }).button.setAttribute('data-draggable-id', 'gf');
           }
         }
         if ((source !== 'gc' && (this.esgst.giveawaysPath || this.esgst.groupPath)) || this.esgst.giveawayPath) {
-          if (!giveaway.innerWrap.getElementsByClassName(`esgst-gf-hide-button`)[0] && (!this.esgst.giveaways[giveaway.code] || !this.esgst.giveaways[giveaway.code].hidden || !this.esgst.giveaways[giveaway.code].code)) {
+          if (!giveaway.innerWrap.getElementsByClassName('esgst-gf-hide-button')[0] && (!this.esgst.giveaways[giveaway.code] || !this.esgst.giveaways[giveaway.code].hidden || !this.esgst.giveaways[giveaway.code].code)) {
             new Button(giveaway.headingName, 'beforeBegin', {
               callbacks: [this.gf_hideGiveaway.bind(this, giveaway, main), null, this.gf_unhideGiveaway.bind(this, giveaway, main), null],
-              className: `esgst-gf-hide-button`,
-              icons: [`fa-eye-slash esgst-clickable`, `fa-circle-o-notch fa-spin`, `fa-eye esgst-clickable`, `fa-circle-o-notch fa-spin`],
+              className: 'esgst-gf-hide-button',
+              icons: ['fa-eye-slash esgst-clickable', 'fa-circle-o-notch fa-spin', 'fa-eye esgst-clickable', 'fa-circle-o-notch fa-spin'],
               id: 'gf_s',
               index: 0,
-              titles: [`Hide giveaway`, `Hiding giveaway...`, `Unhide giveaway`, `Unhiding giveaway...`]
-            }).button.setAttribute(`data-draggable-id`, 'gf');
+              titles: ['Hide giveaway', 'Hiding giveaway...', 'Unhide giveaway', 'Unhiding giveaway...']
+            }).button.setAttribute('data-draggable-id', 'gf');
           }
         }
       }
@@ -927,13 +927,13 @@ class GiveawaysGiveawayFilters extends Filters {
       minutesToEnd: {
         check: !this.esgst.wonPath || popup,
         minValue: 0,
-        name: `Minutes To End`,
+        name: 'Minutes To End',
         type: 'number'
       },
       minutesFromStart: {
         check: !this.esgst.wonPath || popup,
         minValue: 0,
-        name: `Minutes From Start`,
+        name: 'Minutes From Start',
         type: 'number'
       },
       chance: {
@@ -948,7 +948,7 @@ class GiveawaysGiveawayFilters extends Filters {
         check: gSettings.gwc && gSettings.gwc_a && (((!this.esgst.enteredPath || gSettings.cewgd) && !this.esgst.createdPath && !this.esgst.wonPath) || popup),
         maxValue: 100,
         minValue: 0,
-        name: `Projected Chance`,
+        name: 'Projected Chance',
         step: 0.01,
         type: 'number'
       },
@@ -956,7 +956,7 @@ class GiveawaysGiveawayFilters extends Filters {
         check: gSettings.gwc && (((!this.esgst.enteredPath || gSettings.cewgd) && !this.esgst.createdPath && !this.esgst.wonPath) || popup),
         maxValue: 100,
         minValue: 0,
-        name: `Chance Per Point`,
+        name: 'Chance Per Point',
         step: 0.01,
         type: 'number'
       },
@@ -964,7 +964,7 @@ class GiveawaysGiveawayFilters extends Filters {
         check: gSettings.gwc && gSettings.gwc_a && (((!this.esgst.enteredPath || gSettings.cewgd) && !this.esgst.createdPath && !this.esgst.wonPath) || popup),
         maxValue: 100,
         minValue: 0,
-        name: `Projected Chance Per Point`,
+        name: 'Projected Chance Per Point',
         step: 0.01,
         type: 'number'
       },
@@ -977,13 +977,13 @@ class GiveawaysGiveawayFilters extends Filters {
       projectedRatio: {
         check: gSettings.gwr && gSettings.gwr_a && (((!this.esgst.enteredPath || gSettings.cewgd) && !this.esgst.createdPath && !this.esgst.wonPath) || popup),
         minValue: 0,
-        name: `Projected Ratio`,
+        name: 'Projected Ratio',
         type: 'number'
       },
       pointsToWin: {
         check: gSettings.gptw && (((!this.esgst.enteredPath || gSettings.cewgd) && !this.esgst.createdPath && !this.esgst.wonPath) || popup),
         minValue: 0,
-        name: `Points To Win`,
+        name: 'Points To Win',
         type: 'number'
       },
       rating: {
@@ -1005,7 +1005,7 @@ class GiveawaysGiveawayFilters extends Filters {
         category: 'gc_rd',
         check: !this.esgst.parameters.release_date_min && !this.esgst.parameters.release_date_max,
         date: true,
-        name: `Release Date`,
+        name: 'Release Date',
         type: 'number'
       },
       pinned: {
@@ -1020,7 +1020,7 @@ class GiveawaysGiveawayFilters extends Filters {
       },
       inviteOnly: {
         check: ((!this.esgst.createdPath || gSettings.cewgd) && (!this.esgst.enteredPath || gSettings.cewgd) && (!this.esgst.wonPath || gSettings.cewgd)) || popup,
-        name: `Invite Only`,
+        name: 'Invite Only',
         type: 'boolean'
       },
       group: {
@@ -1035,7 +1035,7 @@ class GiveawaysGiveawayFilters extends Filters {
       },
       regionRestricted: {
         check: ((!this.esgst.createdPath || gSettings.cewgd) && (!this.esgst.enteredPath || gSettings.cewgd) && (!this.esgst.wonPath || gSettings.cewgd)) || popup,
-        name: `Region Restricted`,
+        name: 'Region Restricted',
         type: 'boolean'
       },
       enterable: {
@@ -1045,7 +1045,7 @@ class GiveawaysGiveawayFilters extends Filters {
       },
       currentlyEnterable: {
         check: popup === 'Ge',
-        name: `Currently Enterable`,
+        name: 'Currently Enterable',
         type: 'boolean'
       },
       created: {
@@ -1060,12 +1060,12 @@ class GiveawaysGiveawayFilters extends Filters {
       },
       notReceived: {
         check: this.esgst.createdPath || this.esgst.wonPath,
-        name: `Not Received`,
+        name: 'Not Received',
         type: 'boolean'
       },
       awaitingFeedback: {
         check: this.esgst.createdPath || this.esgst.wonPath,
-        name: `Awaiting Feedback`,
+        name: 'Awaiting Feedback',
         type: 'boolean'
       },
       entered: {
@@ -1120,30 +1120,30 @@ class GiveawaysGiveawayFilters extends Filters {
       },
       previouslyEntered: {
         check: true,
-        name: `Previously Entered`,
+        name: 'Previously Entered',
         type: 'boolean'
       },
       previouslyWon: {
         check: true,
-        name: `Previously Won`,
+        name: 'Previously Won',
         sync: ['WonGames'],
         type: 'boolean'
       },
       fullCV: {
         check: true,
-        name: `Full CV`,
+        name: 'Full CV',
         sync: ['ReducedCvGames', 'NoCvGames'],
         type: 'boolean'
       },
       reducedCV: {
         check: true,
-        name: `Reduced CV`,
+        name: 'Reduced CV',
         sync: ['ReducedCvGames'],
         type: 'boolean'
       },
       noCV: {
         check: true,
-        name: `No CV`,
+        name: 'No CV',
         sync: ['NoCvGames'],
         type: 'boolean'
       },
@@ -1191,7 +1191,7 @@ class GiveawaysGiveawayFilters extends Filters {
       tradingCards: {
         category: 'gc_tc',
         check: true,
-        name: `Trading Cards`,
+        name: 'Trading Cards',
         type: 'boolean'
       },
       achievements: {
@@ -1215,7 +1215,7 @@ class GiveawaysGiveawayFilters extends Filters {
       steamCloud: {
         category: 'gc_sc',
         check: true,
-        name: `Steam Cloud`,
+        name: 'Steam Cloud',
         type: 'boolean'
       },
       linux: {
@@ -1263,7 +1263,7 @@ class GiveawaysGiveawayFilters extends Filters {
       earlyAccess: {
         category: 'gc_ea',
         check: true,
-        name: `Early Access`,
+        name: 'Early Access',
         type: 'boolean'
       },
       genres: {
@@ -1276,7 +1276,7 @@ class GiveawaysGiveawayFilters extends Filters {
       tags: {
         check: true,
         list: true,
-        name: `Game Tags`,
+        name: 'Game Tags',
         type: 'string'
       }
     };

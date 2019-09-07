@@ -8,13 +8,13 @@ class GiveawaysVisibleInviteOnlyGiveaways extends Module {
     this.info = {
       description: [
         ['ul', [
-          ['li', `Displays information for open invite-only giveaways in profile pages if the information is available in the storage.`],
+          ['li', 'Displays information for open invite-only giveaways in profile pages if the information is available in the storage.'],
           ['li', `To add information about a giveaway from someone else to the storage, you must enter the giveaway and visit your entered page with [id=cewgd] enabled.`],
           ['li', `To add information about your own giveaways to the storage, you must sync your giveaways in the sync menu or check your profile with [id=ugd].`]
         ]]
       ],
       id: 'viog',
-      name: `Visible Invite-Only Giveaways`,
+      name: 'Visible Invite-Only Giveaways',
       sg: true,
       type: 'giveaways',
       featureMap: {
@@ -71,10 +71,10 @@ class GiveawaysVisibleInviteOnlyGiveaways extends Module {
             ? ['span', { class: 'giveaway__heading__thin', 'data-draggable-id': 'copies', ref: ref => giveaway.copiesContainer = ref }, `(${giveaway.copies} Copies)`]
             : null,
           ['a', { class: 'giveaway__icon', 'data-draggable-id': 'steam', href: `https://store.steampowered.com/${giveaway.type.slice(0, -1)}/${giveaway.id}/`, rel: 'nofollow', target: '_blank' }, [
-            ['i', { class: `fa fa-steam` }]
+            ['i', { class: 'fa fa-steam' }]
           ]],
           ['a', { class: 'giveaway__icon', 'data-draggable-id': 'search', href: `/giveaways/search?${giveaway.type.slice(0, -1)}/${giveaway.id}` }, [
-            ['i', { class: `fa fa-search` }]
+            ['i', { class: 'fa fa-search' }]
           ]]
         ]);
       }

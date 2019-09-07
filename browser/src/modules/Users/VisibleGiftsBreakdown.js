@@ -12,11 +12,11 @@ class UsersVisibleGiftsBreakdown extends Module {
             `Shows the gifts breakdown of a user in their profile page, with the following initials:`
           ]],
           ['ul', [
-            ['li', `FCV - Full CV`],
-            ['li', `RCV - Reduced CV`],
-            ['li', `NCV - No CV`],
-            ['li', `A - Awaiting Feedback`],
-            ['li', `NR - Not Received`]
+            ['li', 'FCV - Full CV'],
+            ['li', 'RCV - Reduced CV'],
+            ['li', 'NCV - No CV'],
+            ['li', 'A - Awaiting Feedback'],
+            ['li', 'NR - Not Received']
           ]]
         ]]
       ],
@@ -33,7 +33,7 @@ class UsersVisibleGiftsBreakdown extends Module {
           tooltip: `[FCV], [RCV], [NCV], [A] and [NR] will be replaced with their respective values.`
         }
       ],
-      name: `Visible Gifts Breakdown`,
+      name: 'Visible Gifts Breakdown',
       options: {
         title: `Position: `,
         values: ['Left', 'Right']

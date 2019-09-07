@@ -11,15 +11,15 @@ class CommentsCommentSearcher extends Module {
         ['ul', [
           ['li', [
             `Adds a button (`,
-            ['i', { class: `fa fa-comments` }],
-            ` `,
-            ['i', { class: `fa fa-search` }],
+            ['i', { class: 'fa fa-comments' }],
+            ' ',
+            ['i', { class: 'fa fa-search' }],
             `) to the main page heading of any page that allows you to search for comments made by specific users in the page.`
           ]]
         ]]
       ],
       id: 'cs',
-      name: `Comment Searcher`,
+      name: 'Comment Searcher',
       sg: true,
       st: true,
       type: 'comments'
@@ -27,15 +27,15 @@ class CommentsCommentSearcher extends Module {
   }
 
   init() {
-    if (!shared.esgst.commentsPath || (shared.esgst.giveawayPath && document.getElementsByClassName(`table--summary`)[0])) return;
+    if (!shared.esgst.commentsPath || (shared.esgst.giveawayPath && document.getElementsByClassName('table--summary')[0])) return;
     new Process({
       headingButton: {
         id: 'cs',
-        icons: [`fa-comments`, `fa-search`],
-        title: `Search comments from specific users`
+        icons: ['fa-comments', 'fa-search'],
+        title: 'Search comments from specific users'
       },
       popup: {
-        icon: `fa-comments`,
+        icon: 'fa-comments',
         title: `Search comments from specific users:`,
         textInputs: [
           {
@@ -47,10 +47,10 @@ class CommentsCommentSearcher extends Module {
             check: true,
             description: [
               `Limit search by pages, from `,
-              ['input', { class: `esgst-switch-input`, min: 'i', name: 'cs_minPage', type: 'number', value: gSettings.cs_minPage }],
-              ` to `,
-              ['input', { class: `esgst-switch-input`, min: 'i', name: 'cs_maxPage', type: 'number', value: gSettings.cs_maxPage }],
-              `.`
+              ['input', { class: 'esgst-switch-input', min: 'i', name: 'cs_minPage', type: 'number', value: gSettings.cs_minPage }],
+              ' to ',
+              ['input', { class: 'esgst-switch-input', min: 'i', name: 'cs_maxPage', type: 'number', value: gSettings.cs_maxPage }],
+              '.'
             ],
             id: 'cs_limitPages',
             tooltip: `If unchecked, all pages will be searched.`
@@ -107,7 +107,7 @@ class CommentsCommentSearcher extends Module {
       element.lastElementChild.innerHTML = ``;
       const items = [{
         attributes: {
-          class: `comment comments comment_outer`
+          class: 'comment comments comment_outer'
         },
         type: 'div',
         children: []
@@ -117,7 +117,7 @@ class CommentsCommentSearcher extends Module {
         parent.lastElementChild.remove();
         shared.common.createElements(parent, 'beforeEnd', [{
           attributes: {
-            class: `comment__children comment_children`
+            class: 'comment__children comment_children'
           },
           type: 'div',
           children: [{
@@ -160,7 +160,7 @@ class CommentsCommentSearcher extends Module {
         }
         items[0].children.push({
           attributes: {
-            class: `comment__children comment_children`
+            class: 'comment__children comment_children'
           },
           type: 'div',
           children: [{

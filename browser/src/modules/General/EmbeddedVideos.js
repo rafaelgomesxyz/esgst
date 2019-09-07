@@ -16,7 +16,7 @@ class GeneralEmbeddedVideos extends Module {
         ]]
       ],
       id: 'ev',
-      name: `Embedded Videos`,
+      name: 'Embedded Videos',
       sg: true,
       st: true,
       type: 'general',
@@ -28,7 +28,7 @@ class GeneralEmbeddedVideos extends Module {
 
   ev_getVideos(context, main, source, endless) {
     let types, i, numTypes, type, videos, j, numVideos, video, previous, next, embedUrl, url, text, title;
-    types = [`youtube.com`, `youtu.be`, `vimeo.com`];
+    types = ['youtube.com', 'youtu.be', 'vimeo.com'];
     for (i = 0, numTypes = types.length; i < numTypes; ++i) {
       type = types[i];
       videos = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} a[href*="${type}"], .esgst-es-page-${endless}a[href*="${type}"]` : `a[href*="${type}"]`}`);

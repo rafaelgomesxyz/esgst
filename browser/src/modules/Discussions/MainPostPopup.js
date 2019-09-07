@@ -15,7 +15,7 @@ class DiscussionsMainPostPopup extends Module {
         ['ul', [
           ['li', [
             `Hides the main post of a discussion and adds a button (`,
-            ['i', { class: `fa fa-home` }],
+            ['i', { class: 'fa fa-home' }],
             `) to its main page heading that allows you to open the main post through a popup.`
           ]],
           ['li', `This feature is useful if you have [id=fmph] enabled, which allows you to view the main post of a discussion from any scrolling position.`]
@@ -24,12 +24,12 @@ class DiscussionsMainPostPopup extends Module {
       features: {
         mpp_r: {
           dependencies: ['ct'],
-          name: `Only hide the main post if it has been marked as read.`,
+          name: 'Only hide the main post if it has been marked as read.',
           sg: true
         }
       },
       id: 'mpp',
-      name: `Main Post Popup`,
+      name: 'Main Post Popup',
       sg: true,
       type: 'discussions'
     };
@@ -39,9 +39,9 @@ class DiscussionsMainPostPopup extends Module {
     if (!this.esgst.discussionPath) {
       return;
     }
-    let button = createHeadingButton({ id: 'mpp', icons: [`fa-home`], title: `Open the main post` });
+    let button = createHeadingButton({ id: 'mpp', icons: ['fa-home'], title: 'Open the main post' });
     let MPPPost = document.createElement('div');
-    MPPPost.className = `page__outer-wrap`;
+    MPPPost.className = 'page__outer-wrap';
     let Sibling;
     do {
       Sibling = this.esgst.mainPageHeading.previousElementSibling;
@@ -67,20 +67,20 @@ class DiscussionsMainPostPopup extends Module {
       Hidden = true;
       window.scrollTo(0, 0);
     }
-    MPPPost.classList.add(Hidden ? `esgst-mpp-hidden` : `esgst-mpp-visible`, `esgst-text-left`);
+    MPPPost.classList.add(Hidden ? 'esgst-mpp-hidden' : 'esgst-mpp-visible', 'esgst-text-left');
     button.addEventListener('click', () => {
       if (!Hidden) {
-        MPPPost.classList.remove(`esgst-mpp-visible`);
-        MPPPost.classList.add(`esgst-mpp-hidden`);
+        MPPPost.classList.remove('esgst-mpp-visible');
+        MPPPost.classList.add('esgst-mpp-hidden');
       }
       let popup = new Popup({ icon: ``, title: ``, popup: MPPPost });
-      MPPPost.classList.add(`esgst-mpp-popup`);
+      MPPPost.classList.add('esgst-mpp-popup');
       popup.open();
       popup.onClose = () => {
-        MPPPost.classList.remove(`esgst-mpp-popup`);
+        MPPPost.classList.remove('esgst-mpp-popup');
         if (!Hidden) {
-          MPPPost.classList.remove(`esgst-mpp-hidden`);
-          MPPPost.classList.add(`esgst-mpp-visible`);
+          MPPPost.classList.remove('esgst-mpp-hidden');
+          MPPPost.classList.add('esgst-mpp-visible');
           MPPPost.removeAttribute('style');
           this.esgst.mainPageHeading.parentElement.insertBefore(MPPPost, this.esgst.mainPageHeading);
         }

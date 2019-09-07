@@ -54,7 +54,7 @@ class Comments extends Module {
       this.esgst.modules.commentsCommentTracker.ct_getComments(count, comments, null, false, false, false, main || endless || mainEndless);
     }
     if (gSettings.rfi) {
-      if (gSettings.rfi_s && (!main || shared.common.isCurrentPath('Messages')) && (!context.getAttribute || !context.getAttribute(`data-rfi`))) {
+      if (gSettings.rfi_s && (!main || shared.common.isCurrentPath('Messages')) && (!context.getAttribute || !context.getAttribute('data-rfi'))) {
         await this.esgst.modules.commentsReplyFromInbox.rfi_getReplies(comments, main || endless || mainEndless);
       }
     }
@@ -68,8 +68,8 @@ class Comments extends Module {
     comments = [];
     matches = context.querySelectorAll(common.getSelectors(endless, [
       `X:not(.comment--submit) > .comment__parent`,
-      `X.comment__child`,
-      `X.comment_inner`
+      'X.comment__child',
+      'X.comment_inner'
     ]));
     sourceLink = mainContext.querySelector(`.page__heading__breadcrumbs a[href*="/giveaway/"], .page__heading__breadcrumbs a[href*="/discussion/"], .page__heading__breadcrumbs a[href*="/ticket/"], .page_heading_breadcrumbs a[href*="/trade/"]`);
     for (i = matches.length - 1; i >= 0; --i) {
@@ -91,7 +91,7 @@ class Comments extends Module {
       return;
     }
     comment.author = author.textContent.trim();
-    comment.summary = comment.comment.querySelector(`.comment__summary`, `.comment_inner`);
+    comment.summary = comment.comment.querySelector('.comment__summary', '.comment_inner');
     comment.displayState = comment.comment.querySelector(`.comment__display-state, .comment_body_default`);
     comment.text = comment.displayState ? comment.displayState.textContent.trim().replace(/View\sattached\simage\./, ``) : ``;
     comment.bump = comment.text.replace(/[^A-Za-z]/g, ``).match(/^(havea|takea|thanksand|thankyou)?bump(ing|ity|o)?$/i);
@@ -104,11 +104,11 @@ class Comments extends Module {
       comment.permalink = matches[n - 1];
     }
     comment.id = comment.permalink ? comment.permalink.getAttribute('href').match(/\/comment\/(.+)/)[1] : ``;
-    comment.timestamp = parseInt(comment.actions.querySelector(`[data-timestamp]`).getAttribute(`data-timestamp`));
+    comment.timestamp = parseInt(comment.actions.querySelector(`[data-timestamp]`).getAttribute('data-timestamp'));
     if (!main || shared.common.isCurrentPath('Messages')) {
       if (this.esgst.sg) {
         try {
-          source = comment.comment.closest(`.comments`).previousElementSibling.firstElementChild.firstElementChild.getAttribute('href');
+          source = comment.comment.closest('.comments').previousElementSibling.firstElementChild.firstElementChild.getAttribute('href');
         } catch (e) { /**/
         }
       } else {

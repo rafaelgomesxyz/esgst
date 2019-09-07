@@ -14,7 +14,7 @@ class GiveawaysGiveawayLevelHighlighter extends Module {
         giveaway: this.highlight.bind(this)
       },
       id: 'glh',
-      name: `Giveaway Level Highlighter`,
+      name: 'Giveaway Level Highlighter',
       sg: true,
       type: 'giveaways'
     };
@@ -30,7 +30,7 @@ class GiveawaysGiveawayLevelHighlighter extends Module {
         continue;
       }
       giveaway.levelColumn.setAttribute('style', `${color ? `color: ${color} !important;` : ``}${bgColor ? `background-color: ${bgColor};` : ``}`);
-      giveaway.levelColumn.classList.add(`esgst-glh-highlight`);
+      giveaway.levelColumn.classList.add('esgst-glh-highlight');
     }
   }
 }

@@ -24,13 +24,13 @@ class GiveawaysHiddenGamesManager extends Module {
         ['ul', [
           ['li', [
             `Adds a button (`,
-            ['i', { class: `fa fa-eye-slash` }],
-            ` `,
-            ['i', { class: `fa fa-plus-circle` }],
-            ` `,
-            ['i', { class: `fa fa-times-circle` }],
+            ['i', { class: 'fa fa-eye-slash' }],
+            ' ',
+            ['i', { class: 'fa fa-plus-circle' }],
+            ' ',
+            ['i', { class: 'fa fa-times-circle' }],
             `) to your `,
-            ['a', { href: `https://www.steamgifts.com/account/settings/giveaways/filters` }, `giveaway filters`],
+            ['a', { href: `https://www.steamgifts.com/account/settings/giveaways/filters` }, 'giveaway filters'],
             ` page that allows you to add / remove games to / from your hidden list.`
           ]],
           ['li', `You can add all your owned / ignored games with a single click.`],
@@ -38,7 +38,7 @@ class GiveawaysHiddenGamesManager extends Module {
         ]]
       ],
       id: 'hgm',
-      name: `Hidden Games Manager`,
+      name: 'Hidden Games Manager',
       sg: true,
       type: 'giveaways',
       features: {
@@ -54,7 +54,7 @@ class GiveawaysHiddenGamesManager extends Module {
     if (!window.location.pathname.match(/^\/account\/settings\/giveaways\/filters/)) return;
     let button = createHeadingButton({
       id: 'hgm',
-      icons: [`fa-eye-slash`, `fa-plus-circle`, `fa-times-circle`],
+      icons: ['fa-eye-slash', 'fa-plus-circle', 'fa-times-circle'],
       title: `Add / remove games to / from the list`
     });
     button.addEventListener('click', this.openPopup.bind(this, { button }));
@@ -65,7 +65,7 @@ class GiveawaysHiddenGamesManager extends Module {
       obj.popup.open();
       return;
     }
-    obj.popup = new Popup({ addScrollable: true, icon: `fa-plus fa-times`, title: `Add / remove hidden games:` });
+    obj.popup = new Popup({ addScrollable: true, icon: 'fa-plus fa-times', title: `Add / remove hidden games:` });
     obj.result = createElements(obj.popup.scrollable, 'beforeEnd', [{
       attributes: {
         class: 'markdown'
@@ -75,13 +75,13 @@ class GiveawaysHiddenGamesManager extends Module {
     obj.textArea = common.createElements_v2(obj.popup.description, 'afterBegin', [
       ['textarea', { placeholder: `https://store.steampowered.com/app/400\nhttps://store.steampowered.com/sub/1280`}]
     ]);
-    new ToggleSwitch(obj.popup.scrollable, 'hgm_addOwned', false, `Add all owned games.`, false, false, null, gSettings.hgm_addOwned);
-    new ToggleSwitch(obj.popup.scrollable, 'hgm_addIgnored', false, `Add all ignored games.`, false, false, null, gSettings.hgm_addIgnored);
+    new ToggleSwitch(obj.popup.scrollable, 'hgm_addOwned', false, 'Add all owned games.', false, false, null, gSettings.hgm_addOwned);
+    new ToggleSwitch(obj.popup.scrollable, 'hgm_addIgnored', false, 'Add all ignored games.', false, false, null, gSettings.hgm_addIgnored);
     new ToggleSwitch(obj.popup.scrollable, 'hgm_addBanned', false, `Add all banned games (requires syncing delisted games in the settings menu).`, false, false, null, gSettings.hgm_addBanned);
-    new ToggleSwitch(obj.popup.scrollable, 'hgm_removeTextArea', false, `Only remove games from text area.`, false, false, null, gSettings.hgm_removeTextArea);
-    new ToggleSwitch(obj.popup.scrollable, 'hgm_removeOwned', false, `Only remove owned games.`, false, false, null, gSettings.hgm_removeOwned);
-    new ToggleSwitch(obj.popup.scrollable, 'hgm_removeWishlisted', false, `Only remove wishlisted games.`, false, false, null, gSettings.hgm_removeWishlisted);
-    new ToggleSwitch(obj.popup.scrollable, 'hgm_removeFollowed', false, `Only remove followed games.`, false, false, null, gSettings.hgm_removeFollowed);
+    new ToggleSwitch(obj.popup.scrollable, 'hgm_removeTextArea', false, 'Only remove games from text area.', false, false, null, gSettings.hgm_removeTextArea);
+    new ToggleSwitch(obj.popup.scrollable, 'hgm_removeOwned', false, 'Only remove owned games.', false, false, null, gSettings.hgm_removeOwned);
+    new ToggleSwitch(obj.popup.scrollable, 'hgm_removeWishlisted', false, 'Only remove wishlisted games.', false, false, null, gSettings.hgm_removeWishlisted);
+    new ToggleSwitch(obj.popup.scrollable, 'hgm_removeFollowed', false, 'Only remove followed games.', false, false, null, gSettings.hgm_removeFollowed);
     new ToggleSwitch(obj.popup.scrollable, 'hgm_removeTagged', false, [
       'Only remove games tagged with: ',
       ['input', { class: 'esgst-switch-input esgst-switch-input-large', placeholder: 'tag1, tag2, tag3, ...', type: 'text', value: gSettings.hgm_tags.join(', '), onchange: event => { gSettings.hgm_tags = Array.from(new Set(event.target.value.toLowerCase().split(/,\s*/))); shared.common.setSetting('hgm_tags', gSettings.hgm_tags); } }]
@@ -90,8 +90,8 @@ class GiveawaysHiddenGamesManager extends Module {
     obj.popup.description.appendChild(new ButtonSet({
       color1: 'green',
       color2: 'grey',
-      icon1: `fa-arrow-circle-right`,
-      icon2: `fa-plus`,
+      icon1: 'fa-arrow-circle-right',
+      icon2: 'fa-plus',
       title1: 'Add',
       title2: 'Cancel',
       callback1: this.startAdding.bind(this, obj),
@@ -100,8 +100,8 @@ class GiveawaysHiddenGamesManager extends Module {
     obj.popup.description.appendChild(new ButtonSet({
       color1: 'green',
       color2: 'grey',
-      icon1: `fa-arrow-circle-right`,
-      icon2: `fa-times`,
+      icon1: 'fa-arrow-circle-right',
+      icon2: 'fa-times',
       title1: 'Remove',
       title2: 'Cancel',
       callback1: this.startRemoving.bind(this, obj, false),
@@ -110,8 +110,8 @@ class GiveawaysHiddenGamesManager extends Module {
     obj.popup.description.appendChild(new ButtonSet({
       color1: 'green',
       color2: 'grey',
-      icon1: `fa-arrow-circle-down`,
-      icon2: `fa-times`,
+      icon1: 'fa-arrow-circle-down',
+      icon2: 'fa-times',
       title1: 'Export',
       title2: 'Cancel',
       callback1: this.startExporting.bind(this, obj),
@@ -134,14 +134,14 @@ class GiveawaysHiddenGamesManager extends Module {
 
     obj.running = true;
     obj.canceled = false;
-    obj.button.classList.add(`esgst-busy`);
+    obj.button.classList.add('esgst-busy');
     createElements(obj.progress, 'inner', [{
       attributes: {
-        class: `fa fa-circle-o-notch fa-spin`
+        class: 'fa fa-circle-o-notch fa-spin'
       },
       type: 'i'
     }, {
-      text: `Adding games...`,
+      text: 'Adding games...',
       type: 'span'
     }]);
     obj.result.innerHTML = ``;
@@ -187,7 +187,7 @@ class GiveawaysHiddenGamesManager extends Module {
       window.alert(message);
     }
     
-    obj.button.classList.remove(`esgst-busy`);
+    obj.button.classList.remove('esgst-busy');
     obj.progress.innerHTML = ``;
     obj.running = false;
   }
@@ -203,10 +203,10 @@ class GiveawaysHiddenGamesManager extends Module {
     obj.running = true;
     obj.canceled = false;
     obj.lastPage = ``;
-    obj.button.classList.add(`esgst-busy`);
+    obj.button.classList.add('esgst-busy');
     createElements(obj.progress, 'inner', [{
       attributes: {
-        class: `fa fa-circle-o-notch fa-spin`
+        class: 'fa fa-circle-o-notch fa-spin'
       },
       type: 'i'
     }, {
@@ -216,7 +216,7 @@ class GiveawaysHiddenGamesManager extends Module {
     if (!exportOnly) {
       createElements(obj.result, 'inner', [{
         attributes: {
-          class: `esgst-bold`
+          class: 'esgst-bold'
         },
         text: `Removed Games:`,
         type: 'span'
@@ -257,14 +257,14 @@ class GiveawaysHiddenGamesManager extends Module {
       }
       createElements(obj.progress, 'inner', [{
         attributes: {
-          class: `fa fa-circle-o-notch fa-spin`
+          class: 'fa fa-circle-o-notch fa-spin'
         },
         type: 'i'
       }, {
         text: `${exportOnly ? 'Exporting' : 'Removing'} games (page ${nextPage}${obj.lastPage})...`,
         type: 'span'
       }]);
-      let elements = context.getElementsByClassName(`table__row-outer-wrap`);
+      let elements = context.getElementsByClassName('table__row-outer-wrap');
       for (let i = 0, n = elements.length; i < n; i++) {
         let element = elements[i];
         let info = await this.esgst.modules.games.games_getInfo(element);
@@ -278,7 +278,7 @@ class GiveawaysHiddenGamesManager extends Module {
           continue;
         }
         newGames[info.type][info.id] = { hidden: null };
-        let button = element.getElementsByClassName(`table__remove-default`)[0];
+        let button = element.getElementsByClassName('table__remove-default')[0];
         if (context === document) {
           button.dispatchEvent(new Event('click'));
         } else {
@@ -298,28 +298,28 @@ class GiveawaysHiddenGamesManager extends Module {
       }
       nextPage += 1;
       pagination = context.getElementsByClassName('pagination__navigation')[0];
-    } while (!obj.canceled && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
+    } while (!obj.canceled && pagination && !pagination.lastElementChild.classList.contains('is-selected'));
 
     if (exportOnly) {
       const file = [].concat(
         ...appIds.map(id => `https://store.steampowered.com/app/${id}`),
         ...subIds.map(id => `https://store.steampowered.com/sub/${id}`)
       ).join(`\n`);
-      common.downloadFile(file, `steamgifts-hidden-games.txt`);
+      common.downloadFile(file, 'steamgifts-hidden-games.txt');
     } else {
       await common.lockAndSaveGames(newGames);
 
       if (obj.result.children.length === 1) {
         createElements(obj.result, 'inner', [{
           attributes: {
-            class: `esgst-bold`
+            class: 'esgst-bold'
           },
-          text: `0 games removed.`,
+          text: '0 games removed.',
           type: 'span'
         }]);
       }
     }
-    obj.button.classList.remove(`esgst-busy`);
+    obj.button.classList.remove('esgst-busy');
     obj.progress.innerHTML = ``;
     obj.running = false;
   }
@@ -329,7 +329,7 @@ class GiveawaysHiddenGamesManager extends Module {
     if (obj.hideObj) {
       obj.hideObj.canceled = true;
     }
-    obj.button.classList.remove(`esgst-busy`);
+    obj.button.classList.remove('esgst-busy');
     obj.progress.innerHTML = ``;
   }
 }

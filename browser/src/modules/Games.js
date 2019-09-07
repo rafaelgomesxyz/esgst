@@ -70,10 +70,10 @@ class Games extends Module {
       all: []
     };
     if (this.esgst.discussionPath && main) {
-      matchesQuery = `${endless ? `.esgst-es-page-${endless} .featured__outer-wrap--giveaway, .esgst-es-page-${endless}.featured__outer-wrap--giveaway` : `.featured__outer-wrap--giveaway`}, ${endless ? `.esgst-es-page-${endless} .giveaway__row-outer-wrap, .esgst-es-page-${endless}.giveaway__row-outer-wrap` : `.giveaway__row-outer-wrap`}, ${endless ? `.esgst-es-page-${endless} .table__row-outer-wrap, .esgst-es-page-${endless}.table__row-outer-wrap` : `.table__row-outer-wrap`}, ${endless ? `.esgst-es-page-${endless} .markdown table td, .esgst-es-page-${endless}.markdown table td` : `.markdown table td`}`;
+      matchesQuery = `${endless ? `.esgst-es-page-${endless} .featured__outer-wrap--giveaway, .esgst-es-page-${endless}.featured__outer-wrap--giveaway` : '.featured__outer-wrap--giveaway'}, ${endless ? `.esgst-es-page-${endless} .giveaway__row-outer-wrap, .esgst-es-page-${endless}.giveaway__row-outer-wrap` : '.giveaway__row-outer-wrap'}, ${endless ? `.esgst-es-page-${endless} .table__row-outer-wrap, .esgst-es-page-${endless}.table__row-outer-wrap` : '.table__row-outer-wrap'}, ${endless ? `.esgst-es-page-${endless} .markdown table td, .esgst-es-page-${endless}.markdown table td` : '.markdown table td'}`;
       headingNameQuery = `.giveaway__heading__name, .featured__heading__medium, .table__column__heading, a`;
     } else {
-      matchesQuery = `${endless ? `.esgst-es-page-${endless} .featured__outer-wrap--giveaway, .esgst-es-page-${endless}.featured__outer-wrap--giveaway` : `.featured__outer-wrap--giveaway`}, ${endless ? `.esgst-es-page-${endless} .giveaway__row-outer-wrap, .esgst-es-page-${endless}.giveaway__row-outer-wrap` : `.giveaway__row-outer-wrap`}, ${endless ? `.esgst-es-page-${endless} .table__row-outer-wrap, .esgst-es-page-${endless}.table__row-outer-wrap` : `.table__row-outer-wrap`}`;
+      matchesQuery = `${endless ? `.esgst-es-page-${endless} .featured__outer-wrap--giveaway, .esgst-es-page-${endless}.featured__outer-wrap--giveaway` : '.featured__outer-wrap--giveaway'}, ${endless ? `.esgst-es-page-${endless} .giveaway__row-outer-wrap, .esgst-es-page-${endless}.giveaway__row-outer-wrap` : '.giveaway__row-outer-wrap'}, ${endless ? `.esgst-es-page-${endless} .table__row-outer-wrap, .esgst-es-page-${endless}.table__row-outer-wrap` : '.table__row-outer-wrap'}`;
       headingNameQuery = `.giveaway__heading__name, .featured__heading__medium, .table__column__heading`;
     }
     matches = context.querySelectorAll(matchesQuery);
@@ -87,11 +87,11 @@ class Games extends Module {
       game.container = game.outerWrap;
       game.columns = game.container.querySelector(`.giveaway__columns, .featured__columns`);
       game.table = !!game.container.closest('table');
-      game.grid = game.container.closest(`.esgst-gv-view`);
+      game.grid = game.container.closest('.esgst-gv-view');
       if (game.grid) {
-        game.gvIcons = game.container.getElementsByClassName(`esgst-gv-icons`)[0];
+        game.gvIcons = game.container.getElementsByClassName('esgst-gv-icons')[0];
       }
-      game.panel = game.container.querySelector(`.esgst-giveaway-panel`);
+      game.panel = game.container.querySelector('.esgst-giveaway-panel');
       info = await this.games_getInfo(game.container, main);
       game.headingName = game.container.querySelector(headingNameQuery);
       if (game.headingName) {
@@ -127,7 +127,7 @@ class Games extends Module {
           game.id = id;
           game.type = type;
           if (gSettings.updateHiddenGames && window.location.pathname.match(/^\/account\/settings\/giveaways\/filters/) && main) {
-            const removeButton = game.container.getElementsByClassName(`table__remove-default`)[0];
+            const removeButton = game.container.getElementsByClassName('table__remove-default')[0];
             if (removeButton) {
               removeButton.addEventListener('click', updateHiddenGames.bind(common, id, type, true));
             }
@@ -135,7 +135,7 @@ class Games extends Module {
           if (!games[type][id]) {
             games[type][id] = [];
           }
-          game.tagContext = (game.container.closest(`.poll`) && game.container.getElementsByClassName('table__column__heading')[0]) || game.headingName;
+          game.tagContext = (game.container.closest('.poll') && game.container.getElementsByClassName('table__column__heading')[0]) || game.headingName;
           game.tagPosition = 'afterEnd';
           game.saved = this.esgst.games[type][id];
           games[type][id].push(game);
@@ -169,15 +169,15 @@ class Games extends Module {
         type: `${info[1]}s`
       };
     }
-    const gameId = context.getAttribute(`data-game-id`);
+    const gameId = context.getAttribute('data-game-id');
     if (gameId && WHITELIST[gameId]) {
       return WHITELIST[gameId];
     }    
-    const missing = context.querySelector(`.table_image_thumbnail_missing`);
+    const missing = context.querySelector('.table_image_thumbnail_missing');
     if (!missing) {
       return null;
     }
-    const heading = context.querySelector(`.table__column__heading`);
+    const heading = context.querySelector('.table__column__heading');
     if (!heading) {
       return null;
     }

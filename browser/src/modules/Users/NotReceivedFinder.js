@@ -22,7 +22,7 @@ class UsersNotReceivedFinder extends Module {
         ['ul', [
           ['li', [
             `Adds a button (`,
-            ['i', { class: `fa fa-times-circle` }],
+            ['i', { class: 'fa fa-times-circle' }],
             `) to the "Gifts Won" and "Gifts Sent" rows of a user's `,
             ['a', { href: `https://www.steamgifts.com/user/cg` }, 'profile'],
             ` page that allows you to find all of their won/created giveaways that were marked as not received.`
@@ -32,7 +32,7 @@ class UsersNotReceivedFinder extends Module {
         ]]
       ],
       id: 'nrf',
-      name: `Not Received Finder`,
+      name: 'Not Received Finder',
       sg: true,
       type: 'users'
     };
@@ -49,13 +49,13 @@ class UsersNotReceivedFinder extends Module {
     }
     const button = createElements(profile[`${key}RowLeft`], 'beforeEnd', [{
       attributes: {
-        class: `esgst-nrf-button`
+        class: 'esgst-nrf-button'
       },
       type: 'span',
       children: [{
         attributes: {
-          class: `fa fa-times-circle`,
-          title: getFeatureTooltip('nrf', `Find not received giveaways`)
+          class: 'fa fa-times-circle',
+          title: getFeatureTooltip('nrf', 'Find not received giveaways')
         },
         type: 'i'
       }]
@@ -66,15 +66,15 @@ class UsersNotReceivedFinder extends Module {
       popup: {
         addProgress: true,
         addScrollable: 'left',
-        icon: `fa-times`,
+        icon: 'fa-times',
         options: [{
           check: key === 'sent',
-          description: `Also search inside giveaways with multiple copies.`,
+          description: 'Also search inside giveaways with multiple copies.',
           id: 'nrf_searchMultiple',
           tooltip: `If disabled, only giveaways with visible not received copies will be found (faster).`
         }, {
           check: true,
-          description: `Clear cache.`,
+          description: 'Clear cache.',
           id: 'nrf_clearCache',
           tooltip: `If enabled, the cache for this user will be cleared (slower).`
         }],
@@ -94,7 +94,7 @@ class UsersNotReceivedFinder extends Module {
     if (profile.username !== gSettings.username && !obj.nrfMessage) {
       obj.nrfMessage = createElements(obj.popup.scrollable, 'beforeBegin', [{
         attributes: {
-          class: `esgst-description`
+          class: 'esgst-description'
         },
         text: `If you're blacklisted / not whitelisted / not a member of the same Steam groups, not all giveaways will be found.`,
         type: 'div'
@@ -148,10 +148,10 @@ class UsersNotReceivedFinder extends Module {
 
   nrf_request(obj, details, response, responseHtml) {
     obj.popup.setProgress(`Searching ${obj.nrfUsername}'s giveaways (page ${details.nextPage}${details.lastPage})...`);
-    const elements = responseHtml.querySelectorAll(`div.giveaway__column--negative`);
+    const elements = responseHtml.querySelectorAll('div.giveaway__column--negative');
     for (const element of elements) {
       obj.nrfFound += element.querySelectorAll(`a[href*="/user/"]`).length;
-      const giveaway = element.closest(`.giveaway__row-outer-wrap`).cloneNode(true);
+      const giveaway = element.closest('.giveaway__row-outer-wrap').cloneNode(true);
       obj.nrfResults.appendChild(giveaway);
       obj.nrfResultsRaw += giveaway.outerHTML;
     }
@@ -161,7 +161,7 @@ class UsersNotReceivedFinder extends Module {
       for (const element of elements) {
         const match = element.textContent.match(/\((.+) Copies\)/);
         if (match && (parseInt(match[1]) > 3)) {
-          const giveaway = element.closest(`.giveaway__row-outer-wrap`);
+          const giveaway = element.closest('.giveaway__row-outer-wrap');
           const url = giveaway.getElementsByClassName('giveaway__heading__name')[0].getAttribute('href');
           if (url) {
             obj.nrfMultiple += 1;
@@ -188,7 +188,7 @@ class UsersNotReceivedFinder extends Module {
 
   nrf_requestGiveaway(obj, details, response, responseHtml) {
     obj.popup.setProgress(`Searching inside giveaways with multiple copies (${obj.nrfMultiple} left)...`);
-    const elements = responseHtml.getElementsByClassName(`table__column--width-small`);
+    const elements = responseHtml.getElementsByClassName('table__column--width-small');
     details.nrfFound = false;
     for (const element of elements) {
       if (!element.textContent.match(/Not Received/)) {

@@ -11,20 +11,20 @@ class GiveawaysHiddenGamesEnterButtonDisabler extends Module {
     this.info = {
       description: [
         ['ul', [
-          ['li', `Disables the enter button of any giveaway if you have hidden the game on SteamGifts so that you do not accidentally enter it.`]
+          ['li', 'Disables the enter button of any giveaway if you have hidden the game on SteamGifts so that you do not accidentally enter it.']
         ]]
       ],
       id: 'hgebd',
       name: `Hidden Game's Enter Button Disabler`,
       sg: true,
-      sync: `Hidden Games`,
+      sync: 'Hidden Games',
       syncKeys: ['HiddenGames'],
       type: 'giveaways'
     };
   }
 
   init() {
-    if (!this.esgst.giveawayPath || document.getElementsByClassName(`table--summary`)[0]) {
+    if (!this.esgst.giveawayPath || document.getElementsByClassName('table--summary')[0]) {
       return;
     }
     const hideButton = document.getElementsByClassName('featured__giveaway__hide')[0];
@@ -38,16 +38,16 @@ class GiveawaysHiddenGamesEnterButtonDisabler extends Module {
       }
       createElements(parent, 'afterBegin', [{
         attributes: {
-          class: `sidebar__error is-disabled`
+          class: 'sidebar__error is-disabled'
         },
         type: 'div',
         children: [{
           attributes: {
-            class: `fa fa-exclamation-circle`
+            class: 'fa fa-exclamation-circle'
           },
           type: 'i'
         }, {
-          text: ` Hidden Game`,
+          text: ' Hidden Game',
           type: 'node'
         }]
       }]);

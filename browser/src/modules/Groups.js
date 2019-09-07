@@ -20,7 +20,7 @@ class Groups extends Module {
     }
     const groups = [];
     for (const element of elements) {
-      if (!element.textContent || element.children.length || element.closest(`.markdown`)) {
+      if (!element.textContent || element.children.length || element.closest('.markdown')) {
         continue;
       }
       const group = {
@@ -65,8 +65,8 @@ class Groups extends Module {
       }
       group.context = group.element;
       this.esgst.currentGroups[group.id].elements.push(group.element);
-      group.innerWrap = element.closest(`.table__row-inner-wrap`) || group.container;
-      group.outerWrap = element.closest(`.table__row-outer-wrap`) || group.container;
+      group.innerWrap = element.closest('.table__row-inner-wrap') || group.container;
+      group.outerWrap = element.closest('.table__row-outer-wrap') || group.container;
       const isHeading = group.context.classList.contains('featured__heading__medium');
       if (isHeading) {
         group.tagContext = group.container;

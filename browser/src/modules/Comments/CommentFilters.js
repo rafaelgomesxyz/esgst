@@ -8,17 +8,17 @@ class CommentsCommentFilters extends Filters {
     this.info = {
       description: [
         ['ul', [
-          ['li', `Allows you to filter comments.`]
+          ['li', 'Allows you to filter comments.']
         ]]
       ],
       features: {
         cf_m: {
           description: [
             ['ul', [
-              ['li', `Allows you to hide multiple comments in a page using many different filters.`],
+              ['li', 'Allows you to hide multiple comments in a page using many different filters.'],
               ['li', [
                 `Adds a toggle switch with a button (`,
-                ['i', { class: `fa fa-sliders` }],
+                ['i', { class: 'fa fa-sliders' }],
                 `) to the main page heading of any comment page. The switch allows you to turn the filters on/off and the button allows you to manage your presets.`
               ]],
               ['li', `Adds a collapsible panel below the same main page heading that allows you to change/save the rules of a preset. The filters are separated in 2 categories:`],
@@ -28,40 +28,40 @@ class CommentsCommentFilters extends Filters {
                 ['ul', [
                   ['li', [
                     `"Show all" (`,
-                    ['i', { class: `fa fa-check-square` }],
+                    ['i', { class: 'fa fa-check-square' }],
                     `) does not hide any comments that apply to the filter (this is the default state).`
                   ]],
                   ['li', [
                     `"Show only" (`,
-                    ['i', { class: `fa fa-square` }],
+                    ['i', { class: 'fa fa-square' }],
                     `) hides any comments that do not apply to the filter.`
                   ]],
                   ['li', [
                     `"Hide all" (`,
-                    ['i', { class: `fa fa-square-o` }],
+                    ['i', { class: 'fa fa-square-o' }],
                     `) hides any comments that apply to the filter.`
                   ]]
                 ]]
               ]],
-              ['li', `A preset contains all of your rules and can be saved to be reused later. You can save as many presets as you want.`],
-              ['li', `Adds a text in parenthesis to the pagination of the page showing how many comments in the page are being filtered by the filters.`]
+              ['li', 'A preset contains all of your rules and can be saved to be reused later. You can save as many presets as you want.'],
+              ['li', 'Adds a text in parenthesis to the pagination of the page showing how many comments in the page are being filtered by the filters.']
             ]]
           ],
           features: {
             cf_m_b: {
-              name: `Hide basic filters.`,
+              name: 'Hide basic filters.',
               sg: true,
               st: true
             },
             cf_m_a: {
-              name: `Hide advanced filters.`,
+              name: 'Hide advanced filters.',
               sg: true,
               st: true
             },
             cf_bump: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter bump comments.`]
+                  ['li', 'Allows you to filter bump comments.']
                 ]]
               ],
               name: 'Bump',
@@ -71,7 +71,7 @@ class CommentsCommentFilters extends Filters {
             cf_length: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter comments by their length.`]
+                  ['li', 'Allows you to filter comments by their length.']
                 ]]
               ],
               name: 'Length',
@@ -81,7 +81,7 @@ class CommentsCommentFilters extends Filters {
             cf_words: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter comments containing certain words.`]
+                  ['li', 'Allows you to filter comments containing certain words.']
                 ]]
               ],
               name: 'Words',
@@ -89,13 +89,13 @@ class CommentsCommentFilters extends Filters {
               st: true
             }
           },
-          name: `Multiple Filters`,
+          name: 'Multiple Filters',
           sg: true,
           st: true
         }
       },
       id: 'cf',
-      name: `Comment Filters`,
+      name: 'Comment Filters',
       sg: true,
       st: true,
       type: 'comments'

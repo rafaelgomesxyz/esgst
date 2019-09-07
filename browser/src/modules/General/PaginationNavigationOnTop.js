@@ -12,7 +12,7 @@ class GeneralPaginationNavigationOnTop extends Module {
     this.info = {
       description: [
         ['ul', [
-          ['li', `Moves the pagination navigation of any page to the main page heading of the page.`]
+          ['li', 'Moves the pagination navigation of any page to the main page heading of the page.']
         ]]
       ],
       features: {
@@ -23,7 +23,7 @@ class GeneralPaginationNavigationOnTop extends Module {
         }
       },
       id: 'pnot',
-      name: `Pagination Navigation On Top`,
+      name: 'Pagination Navigation On Top',
       sg: true,
       st: true,
       type: 'general'

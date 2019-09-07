@@ -16,12 +16,12 @@ class UsersSteamGiftsProfileButton extends Module {
           ['li', [
             `Adds a button next to the "Visit Steam Profile" button of a user's `,
             ['a', { href: `https://www.steamtrades.com/user/76561198020696458` }, 'profile'],
-            ` page that allows you to go to their SteamGifts profile page.`
+            ' page that allows you to go to their SteamGifts profile page.'
           ]]
         ]]
       ],
       id: 'sgpb',
-      name: `SteamGifts Profile Button`,
+      name: 'SteamGifts Profile Button',
       st: true,
       type: 'users'
     };
@@ -36,13 +36,13 @@ class UsersSteamGiftsProfileButton extends Module {
     let button;
     button = createElements(profile.steamButtonContainer, 'beforeEnd', [{
       attributes: {
-        class: `esgst-sgpb-container`,
+        class: 'esgst-sgpb-container',
         title: getFeatureTooltip('sgpb')
       },
       type: 'div',
       children: [{
         attributes: {
-          class: `esgst-sgpb-button`,
+          class: 'esgst-sgpb-button',
           href: `https://www.steamgifts.com/go/user/${profile.steamId}`,
           rel: 'nofollow',
           target: '_blank'
@@ -60,7 +60,7 @@ class UsersSteamGiftsProfileButton extends Module {
             type: 'img'
           }]
         }, {
-          text: `Visit SteamGifts Profile`,
+          text: 'Visit SteamGifts Profile',
           type: 'span'
         }]
       }]

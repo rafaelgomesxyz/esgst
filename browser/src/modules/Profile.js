@@ -34,8 +34,8 @@ class Profile extends Module {
       `X.table__remove-default:not(.is-hidden)`
     ]));
     for (const element of elements) {
-      const container = element.closest(`.table__row-inner-wrap`);
-      const heading = container.querySelector(`.table__column__heading`);
+      const container = element.closest('.table__row-inner-wrap');
+      const heading = container.querySelector('.table__column__heading');
       const username = heading.textContent.trim();
       element.addEventListener('click', () => shared.common.updateWhitelistBlacklist(key, { username }, null));
     }
@@ -52,8 +52,8 @@ class Profile extends Module {
       } else {
         profile.id = ``;
       }
-      profile.username = profile.heading.querySelector(`.featured__heading__medium`).textContent.replace(/\s[\s\S]*/, ``);
-      profile.steamButtonContainer = context.getElementsByClassName(`sidebar__shortcut-outer-wrap`)[0];
+      profile.username = profile.heading.querySelector('.featured__heading__medium').textContent.replace(/\s[\s\S]*/, ``);
+      profile.steamButtonContainer = context.getElementsByClassName('sidebar__shortcut-outer-wrap')[0];
       profile.steamButton = profile.steamButtonContainer.querySelector(`[href*="/profiles/"]`);
       profile.steamId = profile.steamButton.getAttribute('href').match(/\d+/)[0];
       profile.name = profile.username;
@@ -77,7 +77,7 @@ class Profile extends Module {
             profile.wonRow = element.parentElement;
             profile.wonRowLeft = element;
             profile.wonRowRight = element.nextElementSibling;
-            rows = JSON.parse(profile.wonRowRight.firstElementChild.firstElementChild.getAttribute(`data-ui-tooltip`)).rows;
+            rows = JSON.parse(profile.wonRowRight.firstElementChild.firstElementChild.getAttribute('data-ui-tooltip')).rows;
             profile.wonCount = parseInt(rows[0].columns[1].name.replace(/,/g, ``));
             profile.wonFull = parseInt(rows[1].columns[1].name.replace(/,/g, ``));
             profile.wonReduced = parseInt(rows[2].columns[1].name.replace(/,/g, ``));
@@ -85,14 +85,14 @@ class Profile extends Module {
             profile.notWon = parseInt(rows[4].columns[1].name.replace(/,/g, ``));
             profile.wonNotReceived = profile.notWon;
             profile.wonCvContainer = profile.wonRowRight.firstElementChild.lastElementChild;
-            rows = JSON.parse(profile.wonCvContainer.getAttribute(`data-ui-tooltip`)).rows;
+            rows = JSON.parse(profile.wonCvContainer.getAttribute('data-ui-tooltip')).rows;
             profile.wonCV = parseFloat(profile.wonCvContainer.textContent.replace(/[$,]/g, ``));
             profile.realWonCV = parseFloat(rows[0].columns[1].name.replace(/[$,]/g, ``));
           } else if (key === 'Sent') {
             profile.sentRow = element.parentElement;
             profile.sentRowLeft = element;
             profile.sentRowRight = element.nextElementSibling;
-            rows = JSON.parse(profile.sentRowRight.firstElementChild.firstElementChild.getAttribute(`data-ui-tooltip`)).rows;
+            rows = JSON.parse(profile.sentRowRight.firstElementChild.firstElementChild.getAttribute('data-ui-tooltip')).rows;
             profile.sentCount = parseInt(rows[0].columns[1].name.replace(/,/g, ``));
             profile.sentFull = parseInt(rows[1].columns[1].name.replace(/,/g, ``));
             profile.sentReduced = parseInt(rows[2].columns[1].name.replace(/,/g, ``));
@@ -101,20 +101,20 @@ class Profile extends Module {
             profile.notSent = parseInt(rows[5].columns[1].name.replace(/,/g, ``));
             profile.sentNotReceived = profile.notSent;
             profile.sentCvContainer = profile.sentRowRight.firstElementChild.lastElementChild;
-            rows = JSON.parse(profile.sentCvContainer.getAttribute(`data-ui-tooltip`)).rows;
+            rows = JSON.parse(profile.sentCvContainer.getAttribute('data-ui-tooltip')).rows;
             profile.sentCV = parseFloat(profile.sentCvContainer.textContent.replace(/[$,]/g, ``));
             profile.realSentCV = parseFloat(rows[0].columns[1].name.replace(/[$,]/g, ``));
           }
         } else if (match[1] === 'Comments') {
           profile.commentsRow = element.parentElement;
-        } else if (match[1] === `Contributor Level`) {
+        } else if (match[1] === 'Contributor Level') {
           profile.levelRow = element.parentElement;
           profile.levelRowLeft = element;
           profile.levelRowRight = element.nextElementSibling;
-          rows = JSON.parse(profile.levelRowRight.firstElementChild.getAttribute(`data-ui-tooltip`)).rows;
+          rows = JSON.parse(profile.levelRowRight.firstElementChild.getAttribute('data-ui-tooltip')).rows;
           profile.level = parseFloat(rows[0].columns[1].name);
         } else if (match[1] === 'Registered') {
-          profile.registrationDate = parseInt(element.nextElementSibling.firstElementChild.getAttribute(`data-timestamp`));
+          profile.registrationDate = parseInt(element.nextElementSibling.firstElementChild.getAttribute('data-timestamp'));
         }
       }
     }

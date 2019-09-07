@@ -13,7 +13,7 @@ class GeneralPageLoadTimestamp extends Module {
         ]]
       ],
       id: 'plt',
-      name: `Page Load Timestamp`,
+      name: 'Page Load Timestamp',
       inputItems: [
         {
           id: 'plt_format',
@@ -37,8 +37,8 @@ class GeneralPageLoadTimestamp extends Module {
       case 0:
         if (this.esgst.sidebar) {
           common.createElements_v2(this.esgst.sidebar, 'afterBegin', [
-            ['span', { class: `esgst-plt` }, [
-              ['h3', { class: 'sidebar__heading' }, `Page Load Timestamp`],
+            ['span', { class: 'esgst-plt' }, [
+              ['h3', { class: 'sidebar__heading' }, 'Page Load Timestamp'],
               ['div', { class: 'sidebar__navigation' }, timestamp]
             ]]
           ]);
@@ -49,8 +49,8 @@ class GeneralPageLoadTimestamp extends Module {
           return;
         }
         common.createElements_v2(this.esgst.footer.firstElementChild.firstElementChild, 'beforeEnd', [
-          ['span', { class: `esgst-plt` }, [
-            ['span', { class: `esgst-bold` }, `Page Load Timestamp: `],
+          ['span', { class: 'esgst-plt' }, [
+            ['span', { class: 'esgst-bold' }, `Page Load Timestamp: `],
             ['span', timestamp]
           ]]
         ]);

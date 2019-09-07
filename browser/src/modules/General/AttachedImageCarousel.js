@@ -15,21 +15,21 @@ class GeneralAttachedImageCarousel extends Module {
         ['ul', [
           ['li', [
             `Adds a button (`,
-            ['i', { class: `fa fa-image` }],
+            ['i', { class: 'fa fa-image' }],
             `) to the main page heading of any page that allows you to navigate through a carousel containing all of the attached images in the page.`
           ]],
-          ['li', `The carousel can also be opened by clicking on any attached image in the page.`]
+          ['li', 'The carousel can also be opened by clicking on any attached image in the page.']
         ]]
       ],
       features: {
         aic_b: {
-          name: `Only trigger the carousel when clicking on the button in the main page heading.`,
+          name: 'Only trigger the carousel when clicking on the button in the main page heading.',
           sg: true,
           st: true
         }
       },
       id: 'aic',
-      name: `Attached Image Carousel`,
+      name: 'Attached Image Carousel',
       sg: true,
       st: true,
       type: 'general'
@@ -40,8 +40,8 @@ class GeneralAttachedImageCarousel extends Module {
     this.esgst.endlessFeatures.push(this.aic_getImages.bind(this));
     this.esgst.documentEvents.keydown.add(this.aic_move.bind(this));
     if (!this.esgst.mainPageHeading) return;
-    this.aicButton = createHeadingButton({ id: 'aic', icons: [`fa-image`], title: `View attached images` });
-    this.aicButton.classList.add(`esgst-hidden`);
+    this.aicButton = createHeadingButton({ id: 'aic', icons: ['fa-image'], title: 'View attached images' });
+    this.aicButton.classList.add('esgst-hidden');
     this.aicButton.addEventListener('click', this.aic_openCarousel.bind(this, 0, null));
   }
 
@@ -55,7 +55,7 @@ class GeneralAttachedImageCarousel extends Module {
   }
 
   aic_getImages(context, main, source, endless) {
-    let buttons = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .comment__toggle-attached, .esgst-es-page-${endless}.comment__toggle-attached` : `.comment__toggle-attached`}, ${endless ? `.esgst-es-page-${endless} .view_attached, .esgst-es-page-${endless}.view_attached` : `.view_attached`}`);
+    let buttons = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .comment__toggle-attached, .esgst-es-page-${endless}.comment__toggle-attached` : '.comment__toggle-attached'}, ${endless ? `.esgst-es-page-${endless} .view_attached, .esgst-es-page-${endless}.view_attached` : '.view_attached'}`);
     let found = false;
     for (let i = 0, n = buttons.length; i < n; i++) {
       let button = buttons[i];
@@ -65,13 +65,13 @@ class GeneralAttachedImageCarousel extends Module {
       if (!gSettings.aic_b) {
         image.addEventListener('click', this.aic_openCarousel.bind(this, index));
       }
-      let comment = button.closest(`.comment`);
+      let comment = button.closest('.comment');
       this.esgst.attachedImages.push({
         button: button,
         image: image,
         outerWrap: button,
-        qiv: context.getAttribute && context.getAttribute(`data-esgst-qiv`),
-        source: comment && comment.querySelector(`.comment__summary`).id,
+        qiv: context.getAttribute && context.getAttribute('data-esgst-qiv'),
+        source: comment && comment.querySelector('.comment__summary').id,
         url: url
       });
       found = true;
@@ -79,7 +79,7 @@ class GeneralAttachedImageCarousel extends Module {
     if (!found || !this.aicButton) {
       return;
     }
-    this.aicButton.classList.remove(`esgst-hidden`);
+    this.aicButton.classList.remove('esgst-hidden');
   }
 
   aic_openCarousel(i, event) {
@@ -89,7 +89,7 @@ class GeneralAttachedImageCarousel extends Module {
     }
     let carousel = createElements(document.body, 'beforeEnd', [{
       attributes: {
-        class: `esgst-popup-modal esgst-aic-carousel`
+        class: 'esgst-popup-modal esgst-aic-carousel'
       },
       type: 'div'
     }]);
@@ -99,7 +99,7 @@ class GeneralAttachedImageCarousel extends Module {
   }
 
   aic_removeCarousel(event) {
-    if (event.target.closest(`.esgst-aic-panel`) || event.target.closest('img')) return;
+    if (event.target.closest('.esgst-aic-panel') || event.target.closest('img')) return;
 
     event.currentTarget.remove();
   }
@@ -113,23 +113,23 @@ class GeneralAttachedImageCarousel extends Module {
     }
     const items = [{
       attributes: {
-        class: `esgst-aic-left-button`
+        class: 'esgst-aic-left-button'
       },
       type: 'div',
       children: [{
         attributes: {
-          class: `fa fa-chevron-left`
+          class: 'fa fa-chevron-left'
         },
         type: 'i'
       }]
     }, {
       attributes: {
-        class: `esgst-aic-right-button`
+        class: 'esgst-aic-right-button'
       },
       type: 'div',
       children: [{
         attributes: {
-          class: `fa fa-chevron-right`
+          class: 'fa fa-chevron-right'
         },
         type: 'i'
       }]
@@ -140,7 +140,7 @@ class GeneralAttachedImageCarousel extends Module {
     if (attachedImage.source) {
       items.push({
         attributes: {
-          class: `esgst-aic-source`
+          class: 'esgst-aic-source'
         },
         type: 'div',
         children: [{
@@ -154,21 +154,21 @@ class GeneralAttachedImageCarousel extends Module {
       });
     }
     const imageNode = attachedImage.image.cloneNode(true);
-    imageNode.classList.remove('is_hidden', `is-hidden`);
+    imageNode.classList.remove('is_hidden', 'is-hidden');
     const imageClass = imageNode.querySelector(`.is_hidden, .is-hidden`);
     if (imageClass) {
-      imageNode.classList.remove('is_hidden', `is-hidden`);
+      imageNode.classList.remove('is_hidden', 'is-hidden');
     }
     createElements(carousel, 'inner', [{
       attributes: {
-        class: `esgst-aic-panel`
+        class: 'esgst-aic-panel'
       },
       type: 'div',
       children: items
     }, {
       attributes: {
         href: attachedImage.url,
-        rel: `nofollow noreferrer`,
+        rel: 'nofollow noreferrer',
         target: '_blank'
       },
       type: 'a',
@@ -187,12 +187,12 @@ class GeneralAttachedImageCarousel extends Module {
     if (i > 0) {
       this.aicPrevious.addEventListener('click', this.aic_showImage.bind(this, carousel, i - 1));
     } else {
-      this.aicPrevious.classList.add(`esgst-disabled`);
+      this.aicPrevious.classList.add('esgst-disabled');
     }
     if (i < n - 1) {
       this.aicNext.addEventListener('click', this.aic_showImage.bind(this, carousel, i + 1));
     } else {
-      this.aicNext.classList.add(`esgst-disabled`);
+      this.aicNext.classList.add('esgst-disabled');
     }
     if (attachedImage.source) {
       panel.lastElementChild.addEventListener('click', () => {

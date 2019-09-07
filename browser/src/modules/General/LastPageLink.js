@@ -15,7 +15,7 @@ class GeneralLastPageLink extends Module {
         ]]
       ],
       id: 'lpl',
-      name: `Last Page Link`,
+      name: 'Last Page Link',
       sg: true,
       type: 'general'
     };
@@ -39,8 +39,8 @@ class GeneralLastPageLink extends Module {
     paginationNavigation = context.getElementsByClassName('pagination__navigation')[0];
     if (paginationNavigation) {
       element = paginationNavigation.lastElementChild;
-      if (element.classList.contains(`is-selected`) || element.classList.contains('is_selected') || element.querySelector(`.fa-angle-double-right`)) {
-        lastPage = parseInt(element.getAttribute(`data-page-number`));
+      if (element.classList.contains('is-selected') || element.classList.contains('is_selected') || element.querySelector('.fa-angle-double-right')) {
+        lastPage = parseInt(element.getAttribute('data-page-number'));
       } else if ((main && this.esgst.discussionPath) || discussion) {
         if (pagination) {
           lastPage = Math.ceil(parseInt(pagination.firstElementChild.lastElementChild.textContent.replace(/,/g, ``)) / 25);
@@ -87,7 +87,7 @@ class GeneralLastPageLink extends Module {
     url = `${window.location.pathname.replace(`/search`, ``)}/search?page=${this.esgst.lastPage}`;
     this.esgst.lastPageLink = [{
       attributes: {
-        [`data-page-number`]: this.esgst.lastPage,
+        ['data-page-number']: this.esgst.lastPage,
         href: url
       },
       type: 'a',
@@ -96,13 +96,13 @@ class GeneralLastPageLink extends Module {
         type: 'span'
       }, {
         attributes: {
-          class: `fa fa-angle-double-right`
+          class: 'fa fa-angle-double-right'
         },
         type: 'i'
       }]
     }];
     lastLink = this.esgst.paginationNavigation.lastElementChild;
-    if (!lastLink.classList.contains(`is-selected`) && !lastLink.querySelector(`.fa-angle-double-right`)) {
+    if (!lastLink.classList.contains('is-selected') && !lastLink.querySelector('.fa-angle-double-right')) {
       createElements(this.esgst.paginationNavigation, 'beforeEnd', this.esgst.lastPageLink);
     }
   }
@@ -117,7 +117,7 @@ class GeneralLastPageLink extends Module {
     }
     this.esgst.lastPageLink = [{
       attributes: {
-        [`data-page-number`]: this.esgst.lastPage,
+        ['data-page-number']: this.esgst.lastPage,
         href: url
       },
       type: 'a',
@@ -126,13 +126,13 @@ class GeneralLastPageLink extends Module {
         type: 'span'
       }, {
         attributes: {
-          class: `fa fa-angle-double-right`
+          class: 'fa fa-angle-double-right'
         },
         type: 'i'
       }]
     }];
     lastLink = this.esgst.paginationNavigation.lastElementChild;
-    if (this.esgst.currentPage !== this.esgst.lastPage && !lastLink.classList.contains(`is-selected`) && !lastLink.querySelector(`.fa-angle-double-right`)) {
+    if (this.esgst.currentPage !== this.esgst.lastPage && !lastLink.classList.contains('is-selected') && !lastLink.querySelector('.fa-angle-double-right')) {
       createElements(this.esgst.paginationNavigation, 'beforeEnd', this.esgst.lastPageLink);
     }
   }
@@ -149,7 +149,7 @@ class GeneralLastPageLink extends Module {
     }
     this.esgst.lastPageLink = [{
       attributes: {
-        [`data-page-number`]: this.esgst.lastPage,
+        ['data-page-number']: this.esgst.lastPage,
         href: url
       },
       type: 'a',
@@ -158,13 +158,13 @@ class GeneralLastPageLink extends Module {
         type: 'span'
       }, {
         attributes: {
-          class: `fa fa-angle-double-right`
+          class: 'fa fa-angle-double-right'
         },
         type: 'i'
       }]
     }];
     lastLink = this.esgst.paginationNavigation.lastElementChild;
-    if (this.esgst.currentPage !== this.esgst.lastPage && !lastLink.classList.contains(`is-selected`) && !lastLink.querySelector(`.fa-angle-double-right`)) {
+    if (this.esgst.currentPage !== this.esgst.lastPage && !lastLink.classList.contains('is-selected') && !lastLink.querySelector('.fa-angle-double-right')) {
       createElements(this.esgst.paginationNavigation, 'beforeEnd', this.esgst.lastPageLink);
     }
   }

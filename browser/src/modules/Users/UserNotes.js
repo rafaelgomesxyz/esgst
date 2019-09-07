@@ -21,9 +21,9 @@ class UsersUserNotes extends Module {
         ['ul', [
           ['li', [
             `Adds a button (`,
-            ['i', { class: `fa fa-sticky-note` }],
-            ` if there are notes saved and `,
-            ['i', { class: `fa fa-sticky-note-o` }],
+            ['i', { class: 'fa fa-sticky-note' }],
+            ' if there are notes saved and ',
+            ['i', { class: 'fa fa-sticky-note-o' }],
             ` if there are not) next to a user's username (in their `,
             ['a', { href: `https://www.steamgifts.com/user/cg` }, 'profile'],
             ` page) that allows you to save notes for them (only visible to you).`
@@ -39,7 +39,7 @@ class UsersUserNotes extends Module {
         }
       },
       id: 'un',
-      name: `User Notes`,
+      name: 'User Notes',
       sg: true,
       st: true,
       type: 'users',
@@ -68,8 +68,8 @@ class UsersUserNotes extends Module {
     }
     profile.unButton = createElements(profile.heading, position, [{
       attributes: {
-        class: `esgst-un-button`,
-        title: getFeatureTooltip('un', `Edit user notes`)
+        class: 'esgst-un-button',
+        title: getFeatureTooltip('un', 'Edit user notes')
       },
       type: 'a',
       children: [{
@@ -81,9 +81,9 @@ class UsersUserNotes extends Module {
     }]);
     profile.unIcon = profile.unButton.firstElementChild;
     if (savedUser && savedUser.notes) {
-      profile.unIcon.classList.add(`fa-sticky-note`);
+      profile.unIcon.classList.add('fa-sticky-note');
     } else {
-      profile.unIcon.classList.add(`fa-sticky-note-o`);
+      profile.unIcon.classList.add('fa-sticky-note-o');
     }
     profile.unButton.addEventListener('click', this.un_open.bind(this, profile));
   }
@@ -91,8 +91,8 @@ class UsersUserNotes extends Module {
   un_open(profile) {
     let set;
     profile.unPopup = new Popup({
-      addScrollable: true, icon: `fa-sticky-note`, isTemp: true, title: [
-        `Edit user notes for `,
+      addScrollable: true, icon: 'fa-sticky-note', isTemp: true, title: [
+        'Edit user notes for ',
         ['span', profile.name],
         `:`
       ]
@@ -106,10 +106,10 @@ class UsersUserNotes extends Module {
     set = new ButtonSet({
       color1: 'green',
       color2: 'grey',
-      icon1: `fa-check`,
-      icon2: `fa-circle-o-notch fa-spin`,
+      icon1: 'fa-check',
+      icon2: 'fa-circle-o-notch fa-spin',
       title1: 'Save',
-      title2: `Saving...`,
+      title2: 'Saving...',
       callback1: this.un_save.bind(this, profile)
     });
     profile.unTextArea.addEventListener('keydown', event => {
@@ -132,11 +132,11 @@ class UsersUserNotes extends Module {
       }
     };
     if (notes) {
-      profile.unIcon.classList.remove(`fa-sticky-note-o`);
-      profile.unIcon.classList.add(`fa-sticky-note`);
+      profile.unIcon.classList.remove('fa-sticky-note-o');
+      profile.unIcon.classList.add('fa-sticky-note');
     } else {
-      profile.unIcon.classList.remove(`fa-sticky-note`);
-      profile.unIcon.classList.add(`fa-sticky-note-o`);
+      profile.unIcon.classList.remove('fa-sticky-note');
+      profile.unIcon.classList.add('fa-sticky-note-o');
     }
     await saveUser(null, null, user);
     profile.unPopup.close();

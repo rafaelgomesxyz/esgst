@@ -7,20 +7,20 @@ class UsersLevelUpCalculator extends Module {
   constructor() {
     super();
     this.info = {
-      description: `Show how much real CV a user needs to level up.`,
+      description: 'Show how much real CV a user needs to level up.',
       features: {
         luc_c: {
-          name: `Display current user level.`,
+          name: 'Display current user level.',
           sg: true
         }
       },
       guideSteps: [
-        [`.esgst-luc-value`, `Here is how much this user needs to send (in real CV) to reach the next level. This value is calculated using the values mentioned <a class="table__column__secondary-link" href="https://www.steamgifts.com/discussion/XaCbA/">this discussion</a>.`],
+        ['.esgst-luc-value', `Here is how much this user needs to send (in real CV) to reach the next level. This value is calculated using the values mentioned <a class="table__column__secondary-link" href="https://www.steamgifts.com/discussion/XaCbA/">this discussion</a>.`],
         [``, `And that's it!`]
       ],
       guideUrl: `https://www.steamgifts.com/user/nobody`,
       id: 'luc',
-      name: `Level Up Calculator`,
+      name: 'Level Up Calculator',
       sg: true,
       type: 'users',
       featureMap: {
@@ -34,7 +34,7 @@ class UsersLevelUpCalculator extends Module {
       const cvRounded = Math.round(profile.realSentCV);
       if (cvRounded < value) {
         shared.common.createElements_v2(profile.levelRowRight, 'beforeEnd', [
-          ['span', { class: `esgst-luc-value`, title: shared.common.getFeatureTooltip('luc') }, `(${gSettings.luc_c ? `${profile.level} / ` : ``}~$${shared.common.round(value - cvRounded)} real CV to level ${index})`]
+          ['span', { class: 'esgst-luc-value', title: shared.common.getFeatureTooltip('luc') }, `(${gSettings.luc_c ? `${profile.level} / ` : ``}~$${shared.common.round(value - cvRounded)} real CV to level ${index})`]
         ]);
         break;
       }

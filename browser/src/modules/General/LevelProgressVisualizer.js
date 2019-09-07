@@ -19,8 +19,8 @@ class GeneralLevelProgressVisualizer extends Module {
     super();
     this.info = {
       colors: {
-        barColor: `Bar Color`,
-        projectedBarColor: `Projected Bar Color`,
+        barColor: 'Bar Color',
+        projectedBarColor: 'Projected Bar Color',
         barColorHover: `Bar Color (Hover / Account Page)`,
         projectedBarColorHover: `Projected Bar Color (Hover / Account Page)`,
         barColorSelected: `Bar Color (Account Page Hover)`,
@@ -28,12 +28,12 @@ class GeneralLevelProgressVisualizer extends Module {
       },
       description: [
         ['ul', [
-          ['li', `Displays a green bar in the account button at the header of any page that represents your level progress.`],
+          ['li', 'Displays a green bar in the account button at the header of any page that represents your level progress.'],
           ['li', `Also displays a lighter green bar, if you have any giveaways open, to estimate what your level will be when the giveaways are marked as received. If you hover over the account button, it shows the number of the estimated level.`]
         ]]
       ],
       id: 'lpv',
-      name: `Level Progress Visualizer`,
+      name: 'Level Progress Visualizer',
       sg: true,
       sync: `Giveaways, No CV Games, Reduced CV Games`,
       syncKeys: ['Giveaways', 'NoCvGames', 'ReducedCvGames'],
@@ -58,8 +58,8 @@ class GeneralLevelProgressVisualizer extends Module {
     if (cache.v !== 3 || currentLevel !== cache.level) {
       cache.level = currentLevel;
       const response = await FetchRequest.get(`/user/${gSettings.username}`);
-      const element = response.html.querySelectorAll(`.featured__table__row__right`)[6];
-      cache.cv = shared.common.round(parseFloat(JSON.parse(element.firstElementChild.lastElementChild.getAttribute(`data-ui-tooltip`)).rows[0].columns[1].name.replace(/[$,]/g, ``)));
+      const element = response.html.querySelectorAll('.featured__table__row__right')[6];
+      cache.cv = shared.common.round(parseFloat(JSON.parse(element.firstElementChild.lastElementChild.getAttribute('data-ui-tooltip')).rows[0].columns[1].name.replace(/[$,]/g, ``)));
       shared.common.setLocalValue('lpvCache', JSON.stringify(cache));
     }
     return cache;
@@ -98,9 +98,9 @@ class GeneralLevelProgressVisualizer extends Module {
     const barColorSelected = gSettings.lpv_barColorSelected;
     const projectedBarColorSelected = gSettings.lpv_projectedBarColorSelected;
     this.esgst.lpvStyleArray = [{
-      selector: `.esgst-lpv-container`,
+      selector: '.esgst-lpv-container',
       rules: [{
-        name: `background-image`,
+        name: 'background-image',
         values: [
           `linear-gradient(to right, ${barColor} ${firstBar}, ${projectedBarColor} ${firstBar}, ${projectedBarColor} ${projectedFirstBar}, transparent ${firstBar})`,
           `var(--esgst-lpv-button, linear-gradient(#8a92a1 0px, #757e8f 8px, #4e5666 100%))`
@@ -109,7 +109,7 @@ class GeneralLevelProgressVisualizer extends Module {
     }, {
       selector: `.esgst-lpv-container .nav__button--is-dropdown:hover`,
       rules: [{
-        name: `background-image`,
+        name: 'background-image',
         values: [
           `linear-gradient(to right, ${barColorHover} ${firstBar}, ${projectedBarColorHover} ${firstBar}, ${projectedBarColorHover} ${projectedFirstBar}, transparent ${firstBar})`,
           `var(--esgst-lpv-button-hover, linear-gradient(#9ba2b0 0px, #8c94a3 8px, #596070 100%))`
@@ -118,34 +118,34 @@ class GeneralLevelProgressVisualizer extends Module {
     }, {
       selector: `.esgst-lpv-container .nav__button--is-dropdown-arrow:hover`,
       rules: [{
-        name: `background-image`,
+        name: 'background-image',
         values: [
           `linear-gradient(to right, ${barColorHover} ${secondBar}, ${projectedBarColorHover} ${secondBar}, ${projectedBarColorHover} ${projectedSecondBar}, transparent ${secondBar})`,
           `var(--esgst-lpv-button-hover, linear-gradient(#9ba2b0 0px, #8c94a3 8px, #596070 100%))`
         ]
       }]
     }, {
-      selector: `.esgst-lpv-container .nav__button--is-dropdown-arrow.is-selected`,
+      selector: '.esgst-lpv-container .nav__button--is-dropdown-arrow.is-selected',
       rules: [{
-        name: `background-image`,
+        name: 'background-image',
         values: [
           `linear-gradient(to right, ${barColor} ${secondBar}, ${projectedBarColor} ${secondBar}, ${projectedBarColor} ${projectedSecondBar}, transparent ${secondBar})`,
           `var(--esgst-lpv-arrow, linear-gradient(#4e525f 0px, #434857 5px, #2b2e3a 100%))`
         ]
       }]
     }, {
-      selector: `.esgst-lpv-container.is-selected .nav__button--is-dropdown`,
+      selector: '.esgst-lpv-container.is-selected .nav__button--is-dropdown',
       rules: [{
-        name: `background-image`,
+        name: 'background-image',
         values: [
           `linear-gradient(to right, ${barColorHover} ${firstBar}, ${projectedBarColorHover} ${firstBar}, ${projectedBarColorHover} ${projectedFirstBar}, transparent ${firstBar})`,
           `var(--esgst-lpv-button-selected, linear-gradient(#d0d5de 0px, #c9cdd7 5px, #9097a6 100%))`
         ]
       }]
     }, {
-      selector: `.esgst-lpv-container.is-selected .nav__button--is-dropdown-arrow `,
+      selector: '.esgst-lpv-container.is-selected .nav__button--is-dropdown-arrow ',
       rules: [{
-        name: `background-image`,
+        name: 'background-image',
         values: [
           `linear-gradient(to right, ${barColorHover} ${secondBar}, ${projectedBarColorHover} ${secondBar}, ${projectedBarColorHover} ${projectedSecondBar}, transparent ${secondBar})`,
           `var(--esgst-lpv-button-selected, linear-gradient(#d0d5de 0px, #c9cdd7 5px, #9097a6 100%)) `
@@ -154,7 +154,7 @@ class GeneralLevelProgressVisualizer extends Module {
     }, {
       selector: `.esgst-lpv-container.is-selected .nav__button--is-dropdown:hover`,
       rules: [{
-        name: `background-image`,
+        name: 'background-image',
         values: [
           `linear-gradient(to right, ${barColorSelected} ${firstBar}, ${projectedBarColorSelected} ${firstBar}, ${projectedBarColorSelected} ${projectedFirstBar}, transparent ${firstBar})`,
           `var(--esgst-lpv-button-selected-hover, linear-gradient(#f0f1f5 0px, #d1d4de 100%)) `
@@ -163,16 +163,16 @@ class GeneralLevelProgressVisualizer extends Module {
     }, {
       selector: `.esgst-lpv-container.is-selected .nav__button--is-dropdown-arrow:hover:not(.is-selected)`,
       rules: [{
-        name: `background-image`,
+        name: 'background-image',
         values: [
           `linear-gradient(to right, ${barColorSelected} ${secondBar}, ${projectedBarColorSelected} ${secondBar}, ${projectedBarColorSelected} ${projectedSecondBar}, transparent ${secondBar})`,
           `var(--esgst-lpv-button-selected-hover, linear-gradient(#f0f1f5 0px, #d1d4de 100%))`
         ]
       }]
     }, {
-      selector: `.esgst-lpv-container.is-selected .nav__button--is-dropdown-arrow.is-selected `,
+      selector: '.esgst-lpv-container.is-selected .nav__button--is-dropdown-arrow.is-selected ',
       rules: [{
-        name: `background-image`,
+        name: 'background-image',
         values: [
           `linear-gradient(to right, ${barColorSelected} ${secondBar}, ${projectedBarColorSelected} ${secondBar}, ${projectedBarColorSelected} ${projectedSecondBar}, transparent ${secondBar})`,
           `var(--esgst-lpv-arrow-selected, linear-gradient(#4e525f 0px, #434857 5px, #2b2e3a 100%)) `
@@ -191,18 +191,18 @@ class GeneralLevelProgressVisualizer extends Module {
             rule.values = rule.values.concat(JSON.parse(JSON.stringify(this.esgst.pvStyleArray[i].rules[j].values)));
           }
           item.rules.push({
-            name: `background-position`,
+            name: 'background-position',
             values: [
-              `left top`,
-              `left top`,
-              `left bottom`,
-              `left bottom`
+              'left top',
+              'left top',
+              'left bottom',
+              'left bottom'
             ]
           }, {
-              name: `background-repeat`,
-              values: new Array(4).fill(`no-repeat`)
+              name: 'background-repeat',
+              values: new Array(4).fill('no-repeat')
             }, {
-              name: `background-size`,
+              name: 'background-size',
               values: [
                 `auto 50%`,
                 '0',
@@ -229,17 +229,17 @@ class GeneralLevelProgressVisualizer extends Module {
     if (!this.esgst.lpvStyle) {
       this.esgst.lpvStyle = createElements(this.esgst.style, 'afterEnd', [{
         attributes: {
-          id: `esgst-lpv-style`
+          id: 'esgst-lpv-style'
         },
         type: 'style'
       }]);
     }
     this.esgst.lpvStyle.textContent = styleString;
-    this.esgst.mainButton.parentElement.classList.add(`esgst-lpv-container`);
+    this.esgst.mainButton.parentElement.classList.add('esgst-lpv-container');
   }
 
   lpv_getCv() {
-    logger.info(`Beginning CV calculation...`);
+    logger.info('Beginning CV calculation...');
     let cv = 0;
     const user = this.esgst.users.users[gSettings.steamId];
     if (!user) {
@@ -320,7 +320,7 @@ class GeneralLevelProgressVisualizer extends Module {
         }
       }
     }
-    logger.info(`CV calculation ended...`);
+    logger.info('CV calculation ended...');
     return cv;
   }
 }

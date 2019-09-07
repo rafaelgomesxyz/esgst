@@ -15,7 +15,7 @@ class DiscussionsMainPostSkipper extends Module {
         ]]
       ],
       id: 'mps',
-      name: `Main Post Skipper`,
+      name: 'Main Post Skipper',
       sg: true,
       type: 'discussions'
     };

@@ -18,7 +18,7 @@ class UsersRealWonSentCVLink extends Module {
             ['a', { href: `https://www.steamgifts.com/user/cg` }, 'profile'],
             ` page into links that take you to their real won/sent CV pages on `,
             ['a', { href: `https://www.sgtools.info/` }, 'SGTools'],
-            `.`
+            '.'
           ]]
         ]]
       ],
@@ -48,22 +48,22 @@ class UsersRealWonSentCVLink extends Module {
     }
     createElements(profile.wonRowLeft, 'inner', [{
       attributes: {
-        class: `esgst-rwscvl-link`,
+        class: 'esgst-rwscvl-link',
         href: wonUrl,
         target: '_blank',
         title: getFeatureTooltip('rwscvl')
       },
-      text: `Gifts Won`,
+      text: 'Gifts Won',
       type: 'a'
     }]);
     createElements(profile.sentRowLeft, 'inner', [{
       attributes: {
-        class: `esgst-rwscvl-link`,
+        class: 'esgst-rwscvl-link',
         href: sentUrl,
         target: '_blank',
         title: getFeatureTooltip('rwscvl')
       },
-      text: `Gifts Sent`,
+      text: 'Gifts Sent',
       type: 'a'
     }]);
   }

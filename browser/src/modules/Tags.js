@@ -112,31 +112,31 @@ class Tags extends Module {
     if (!event.key.match(/^(ArrowDown|ArrowUp|Enter)$/) || event.repeat) {
       return;
     }
-    const selected = document.querySelector(`.esgst-tag-suggestion.esgst-selected`);
+    const selected = document.querySelector('.esgst-tag-suggestion.esgst-selected');
     let element = null;
     if (selected) {
       if (event.key === 'ArrowDown') {
         element = selected.nextElementSibling;
-        while (element && element.classList.contains(`esgst-hidden`)) {
+        while (element && element.classList.contains('esgst-hidden')) {
           element = element.nextElementSibling;
         }
       } else if (event.key === 'ArrowUp') {
         element = selected.previousElementSibling;
-        while (element && element.classList.contains(`esgst-hidden`)) {
+        while (element && element.classList.contains('esgst-hidden')) {
           element = element.previousElementSibling;
         }
       } else if (event.key === 'Enter') {
         event.stopPropagation();
         selected.click();
       }
-      selected.classList.remove(`esgst-selected`);
+      selected.classList.remove('esgst-selected');
       if (element) {
-        element.classList.add(`esgst-selected`);
+        element.classList.add('esgst-selected');
       }
     } else if (event.key !== 'Enter') {
       element = document.querySelector(`.esgst-tag-suggestion:not(.esgst-hidden)`);
       if (element) {
-        element.classList.add(`esgst-selected`);
+        element.classList.add('esgst-selected');
       }
     }
   }
@@ -149,9 +149,9 @@ class Tags extends Module {
   }
 
   tags_hideSuggestions(suggestions) {
-    suggestions.classList.add(`esgst-hidden`);
+    suggestions.classList.add('esgst-hidden');
     for (const item of suggestions.children) {
-      item.classList.remove(`esgst-selected`);
+      item.classList.remove('esgst-selected');
     }
   }
 
@@ -159,22 +159,22 @@ class Tags extends Module {
     items = items.all || items;
     for (const item of items) {
       const obj = {item, key: this.id, colorSetting: gSettings[`${this.id}_colors`]};
-      if (!item.container.getElementsByClassName(`esgst-tag-button`)[0]) {
+      if (!item.container.getElementsByClassName('esgst-tag-button')[0]) {
         createElements(item.tagContext, item.tagPosition, [{
           attributes: {
-            class: `esgst-tag-button esgst-faded`,
-            [`data-draggable-id`]: this.id,
-            title: getFeatureTooltip(this.id, `Edit tags`)
+            class: 'esgst-tag-button esgst-faded',
+            ['data-draggable-id']: this.id,
+            title: getFeatureTooltip(this.id, 'Edit tags')
           },
           type: 'a',
           children: [{
             attributes: {
-              class: `fa fa-tag`
+              class: 'fa fa-tag'
             },
             type: 'i'
           }, {
             attributes: {
-              class: `esgst-tags`
+              class: 'esgst-tags'
             },
             type: 'span'
           }]
@@ -264,27 +264,27 @@ class Tags extends Module {
       buttons: [{
         color1: 'green',
         color2: 'grey',
-        icon1: `fa-check`,
-        icon2: `fa-circle-o-notch fa-spin`,
+        icon1: 'fa-check',
+        icon2: 'fa-circle-o-notch fa-spin',
         title1: 'Save',
-        title2: `Saving...`,
+        title2: 'Saving...',
         callback1: this.tags_saveTags.bind(this, obj)
       }],
-      icon: `fa-tag`,
+      icon: 'fa-tag',
       isTemp: true,
       title: [
-        `Edit tags for `,
+        'Edit tags for ',
         ['span', (obj.items && `${obj.items.length} items`) || obj.item.name || obj.item.id],
         `:`
       ]
     });
     createElements(obj.popup.description, 'beforeEnd', [{
       attributes: {
-        class: `esgst-description`
+        class: 'esgst-description'
       },
       type: 'div',
       children: [{
-        text: `Drag the tags to move them.`,
+        text: 'Drag the tags to move them.',
         type: 'p'
       }, {
         type: 'br'
@@ -300,7 +300,7 @@ class Tags extends Module {
     }]);
     obj.tags = createElements(obj.popup.description, 'beforeEnd', [{
       attributes: {
-        class: `esgst-tags`
+        class: 'esgst-tags'
       },
       type: 'div'
     }]);
@@ -317,8 +317,8 @@ class Tags extends Module {
     }]);
     createElements(obj.popup.description, 'beforeEnd', [{
       attributes: {
-        class: `esgst-tag-list-button esgst-clickable fa fa-list`,
-        title: `Select from existing tags`
+        class: 'esgst-tag-list-button esgst-clickable fa fa-list',
+        title: 'Select from existing tags'
       },
       type: 'i'
     }]).addEventListener('click', this.tags_showTagList.bind(this, obj));
@@ -326,14 +326,14 @@ class Tags extends Module {
     if (gSettings[`${obj.key}_s`]) {
       obj.suggestions = createElements(obj.popup.description, 'beforeEnd', [{
         attributes: {
-          class: `esgst-tag-suggestions esgst-hidden`
+          class: 'esgst-tag-suggestions esgst-hidden'
         },
         type: 'div'
       }]);
       for (const tag of this.esgst[`${obj.key}Tags`]) {
         children.push({
           attributes: {
-            class: `esgst-tag-suggestion esgst-hidden`
+            class: 'esgst-tag-suggestion esgst-hidden'
           },
           events: {
             click: this.tags_addSuggestion.bind(this, obj),
@@ -348,7 +348,7 @@ class Tags extends Module {
     }
     createElements(obj.popup.description, 'beforeEnd', [{
       attributes: {
-        class: `esgst-description`
+        class: 'esgst-description'
       },
       text: `Use commas to separate tags, for example: Tag1, Tag2, ...`,
       type: 'div'
@@ -532,11 +532,11 @@ class Tags extends Module {
       if (!context) {
         continue;
       }
-      const button = context.getElementsByClassName(`esgst-tag-button`)[0];
+      const button = context.getElementsByClassName('esgst-tag-button')[0];
       if (!button) {
         continue;
       }
-      button.classList[elements ? 'remove' : 'add'](`esgst-faded`);
+      button.classList[elements ? 'remove' : 'add']('esgst-faded');
       const tagsContainer = button.lastElementChild;
       createElements(tagsContainer, 'inner', elements);
       for (const tagsBox of tagsContainer.children) {
@@ -553,7 +553,7 @@ class Tags extends Module {
   tags_template(text) {
     return {
       attributes: {
-        class: `esgst-tag global__image-outer-wrap author_avatar is_icon`
+        class: 'esgst-tag global__image-outer-wrap author_avatar is_icon'
       },
       text,
       type: 'span'
@@ -569,24 +569,24 @@ class Tags extends Module {
           this.tags_hideSuggestions(obj.suggestions);
         } else {
           const lastTag = tags[tags.length - 1].toLowerCase();
-          let selected = document.querySelector(`.esgst-tag-suggestion.esgst-selected`);
+          let selected = document.querySelector('.esgst-tag-suggestion.esgst-selected');
           if (selected) {
-            selected.classList.remove(`esgst-selected`);
+            selected.classList.remove('esgst-selected');
           }
           selected = null;
           for (const child of obj.suggestions.children) {
             const value = child.textContent.toLowerCase();
             if (value !== lastTag && value.match(new RegExp(`^${lastTag}`))) {
-              child.classList.remove(`esgst-hidden`);
+              child.classList.remove('esgst-hidden');
               if (!selected) {
                 selected = child;
               }
             } else {
-              child.classList.add(`esgst-hidden`);
+              child.classList.add('esgst-hidden');
             }
           }
           if (selected) {
-            obj.suggestions.classList.remove(`esgst-hidden`);
+            obj.suggestions.classList.remove('esgst-hidden');
           } else {
             this.tags_hideSuggestions(obj.suggestions);
           }
@@ -603,56 +603,56 @@ class Tags extends Module {
   tags_createTag(obj, tag) {
     const container = createElements(obj.tags, 'beforeEnd', [{
       attributes: {
-        class: `esgst-tag-preview`,
+        class: 'esgst-tag-preview',
         draggable: true
       },
       type: 'div',
       children: [{
         attributes: {
-          class: `esgst-tags`
+          class: 'esgst-tags'
         },
         type: 'div',
         children: [{
           attributes: {
-            class: `esgst-tag global__image-outer-wrap author_avatar is_icon`
+            class: 'esgst-tag global__image-outer-wrap author_avatar is_icon'
           },
           text: tag,
           type: 'span'
         }]
       }, {
         attributes: {
-          class: `esgst-hidden`,
+          class: 'esgst-hidden',
           type: 'text'
         },
         type: 'input'
       }, {
         attributes: {
-          title: `Set text color for this tag`,
+          title: 'Set text color for this tag',
           type: 'color'
         },
         type: 'input'
       }, {
         attributes: {
-          title: `Set background color for this tag`,
+          title: 'Set background color for this tag',
           type: 'color'
         },
         type: 'input'
       }, {
         attributes: {
-          class: `esgst-clickable fa fa-edit`,
-          title: `Edit tag`
+          class: 'esgst-clickable fa fa-edit',
+          title: 'Edit tag'
         },
         type: 'i'
       }, {
         attributes: {
-          class: `esgst-clickable fa fa-trash`,
-          title: `Delete tag`
+          class: 'esgst-clickable fa fa-trash',
+          title: 'Delete tag'
         },
         type: 'i'
       }, {
         attributes: {
-          class: `esgst-clickable fa fa-rotate-left`,
-          title: `Reset tag color`
+          class: 'esgst-clickable fa fa-rotate-left',
+          title: 'Reset tag color'
         },
         type: 'i'
       }]
@@ -711,8 +711,8 @@ class Tags extends Module {
     if (event.key !== 'Enter') {
       return;
     }
-    tagContainer.classList.remove(`esgst-hidden`);
-    input.classList.add(`esgst-hidden`);
+    tagContainer.classList.remove('esgst-hidden');
+    input.classList.add('esgst-hidden');
     const tag = input.value;
     tagBox.textContent = tag;
     const colors = obj.colorSetting[tag];
@@ -735,8 +735,8 @@ class Tags extends Module {
   }
 
   tags_showEdit(input, tagBox, tagContainer) {
-    tagContainer.classList.add(`esgst-hidden`);
-    input.classList.remove(`esgst-hidden`);
+    tagContainer.classList.add('esgst-hidden');
+    input.classList.remove('esgst-hidden');
     input.value = tagBox.textContent;
     input.focus();
   }
@@ -760,19 +760,19 @@ class Tags extends Module {
       buttons: [{
         color1: 'green',
         color2: ``,
-        icon1: `fa-check`,
+        icon1: 'fa-check',
         icon2: ``,
-        title1: `Add Tags`,
+        title1: 'Add Tags',
         title2: ``,
         callback1: this.tags_addTagsFromList.bind(this, obj)
       }],
-      icon: `fa-list`,
+      icon: 'fa-list',
       isTemp: true,
       title: `Select from existing tags:`
     });
     const list = createElements(obj.listPopup.scrollable, 'beforeEnd', [{
       attributes: {
-        class: `esgst-tag-list popup__keys__list`
+        class: 'esgst-tag-list popup__keys__list'
       },
       type: 'div'
     }]);
@@ -836,15 +836,15 @@ class Tags extends Module {
 
   tags_selectSuggestion(event) {
     for (const item of event.currentTarget.parentElement.children) {
-      item.classList.remove(`esgst-selected`);
+      item.classList.remove('esgst-selected');
     }
-    event.currentTarget.classList.add(`esgst-selected`);
+    event.currentTarget.classList.add('esgst-selected');
   }
 
   tags_unselectSuggestion(event) {
     const parent = event.currentTarget.parentElement;
     if (event.relatedTarget !== parent && parent.contains(event.relatedTarget)) {
-      event.currentTarget.classList.remove(`esgst-selected`);
+      event.currentTarget.classList.remove('esgst-selected');
     }
   }
 

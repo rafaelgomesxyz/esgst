@@ -10,7 +10,7 @@ class GiveawaysUnfadedEnteredGiveaway extends Module {
         ]]
       ],
       id: 'ueg',
-      name: `Unfaded Entered Giveaway`,
+      name: 'Unfaded Entered Giveaway',
       sg: true,
       type: 'giveaways',
       featureMap: {
@@ -20,9 +20,9 @@ class GiveawaysUnfadedEnteredGiveaway extends Module {
   }
 
   ueg_remove(context, main, source, endless) {
-    const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .giveaway__row-inner-wrap.is-faded, .esgst-es-page-${endless}.giveaway__row-inner-wrap.is-faded` : `.giveaway__row-inner-wrap.is-faded`}`);
+    const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .giveaway__row-inner-wrap.is-faded, .esgst-es-page-${endless}.giveaway__row-inner-wrap.is-faded` : '.giveaway__row-inner-wrap.is-faded'}`);
     for (let i = 0, n = elements.length; i < n; ++i) {
-      elements[i].classList.add(`esgst-ueg`);
+      elements[i].classList.add('esgst-ueg');
     }
   }
 }

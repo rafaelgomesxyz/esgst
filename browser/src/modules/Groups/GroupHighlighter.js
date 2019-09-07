@@ -16,16 +16,16 @@ class GroupsGroupHighlighter extends Module {
         ]]
       ],
       id: 'gh',
-      name: `Group Highlighter`,
+      name: 'Group Highlighter',
       sg: true,
-      sync: `Steam Groups`,
+      sync: 'Steam Groups',
       syncKeys: ['Groups'],
       type: 'groups'
     };
   }
 
   init() {
-    if (shared.common.isCurrentPath(`Steam - Groups`)) return;
+    if (shared.common.isCurrentPath('Steam - Groups')) return;
     shared.esgst.endlessFeatures.push(this.gh_highlightGroups.bind(this));
   }
 
@@ -40,7 +40,7 @@ class GroupsGroupHighlighter extends Module {
       for (j = savedGroups.length - 1; j >= 0 && savedGroups[j].code !== code; --j) {
       }
       if (j >= 0 && savedGroups[j].member) {
-        element.closest(`.table__row-outer-wrap`).classList.add(`esgst-gh-highlight`);
+        element.closest('.table__row-outer-wrap').classList.add('esgst-gh-highlight');
       }
     }
   }

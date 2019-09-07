@@ -60,7 +60,7 @@ class Discussions extends Module {
 
   async discussions_get(context, main, endless) {
     let discussions = [];
-    let elements = context.querySelectorAll(`.esgst-dt-menu`);
+    let elements = context.querySelectorAll('.esgst-dt-menu');
     for (const element of elements) {
       const id = element.getAttribute('href').match(/\/discussion\/(.+?)\//)[1];
       discussions.push({
@@ -108,7 +108,7 @@ class Discussions extends Module {
 
   async discussions_getInfo(context, main) {
     let match;
-    if (context.closest(`.poll`)) {
+    if (context.closest('.poll')) {
       return;
     }
     const discussion = {};
@@ -133,7 +133,7 @@ class Discussions extends Module {
       return;
     }
     discussion.bookmarkNode = discussion.headingColumn.querySelector('.icon-heading.fa.fa-bookmark, .icon-heading.fa.fa-bookmark-o');
-    discussion.closed = discussion.headingContainer.querySelector(`.fa-lock`);
+    discussion.closed = discussion.headingContainer.querySelector('.fa-lock');
     discussion.heading = discussion.headingContainer.lastElementChild;
     discussion.info = discussion.headingContainer.nextElementSibling;
     if (!discussion.heading) {
@@ -154,8 +154,8 @@ class Discussions extends Module {
       case 'discussion':
         discussion.saved = this.esgst.discussions[discussion.code];
         if (main && gSettings.df && gSettings.df_s && discussion.saved && discussion.saved.hidden) {
-          discussion.outerWrap.classList.add(`esgst-hidden`);
-          discussion.outerWrap.setAttribute(`data-esgst-not-filterable`, 'df');
+          discussion.outerWrap.classList.add('esgst-hidden');
+          discussion.outerWrap.setAttribute('data-esgst-not-filterable', 'df');
           if (gSettings.df_s_s) {
             shared.esgst.modules.discussionsDiscussionFilters.updateSingleCounter();
           }
@@ -175,17 +175,17 @@ class Discussions extends Module {
       case 'trade':
         discussion.saved = this.esgst.trades[discussion.code];
         if (main && gSettings.tf && gSettings.tf_s && discussion.saved && discussion.saved.hidden) {
-          discussion.outerWrap.classList.add(`esgst-hidden`);
-          discussion.outerWrap.setAttribute(`data-esgst-not-filterable`, 'df');
+          discussion.outerWrap.classList.add('esgst-hidden');
+          discussion.outerWrap.setAttribute('data-esgst-not-filterable', 'df');
           if (gSettings.tf_s_s) {
             shared.esgst.modules.tradesTradeFilters.updateSingleCounter();
           }
           return;
         }
         discussion.createdContainer = discussion.info.firstElementChild;
-        discussion.reputationElement = discussion.info.querySelector(`.reputation`);
-        discussion.positiveReputationElement = discussion.reputationElement.querySelector(`.is_positive`);
-        discussion.negativeReputationElement = discussion.reputationElement.querySelector(`.is_negative`);
+        discussion.reputationElement = discussion.info.querySelector('.reputation');
+        discussion.positiveReputationElement = discussion.reputationElement.querySelector('.is_positive');
+        discussion.negativeReputationElement = discussion.reputationElement.querySelector('.is_negative');
         discussion.positiveReputation = parseInt(discussion.positiveReputationElement.textContent.replace(/[^\d]/g, ``));
         discussion.negativeReputation = parseInt(discussion.negativeReputationElement.textContent.replace(/[^\d]/g, ``));
         break;
@@ -197,7 +197,7 @@ class Discussions extends Module {
     }
     if (discussion.createdContainer) {
       discussion.createdTime = discussion.createdContainer.textContent;
-      discussion.createdTimestamp = parseInt(discussion.createdContainer.getAttribute(`data-timestamp`)) * 1e3;
+      discussion.createdTimestamp = parseInt(discussion.createdContainer.getAttribute('data-timestamp')) * 1e3;
       if (this.esgst.giveawaysPath) {
         discussion.author = discussion.avatar.getAttribute('href').match(/\/user\/(.+)/)[1];
       } else {
@@ -209,7 +209,7 @@ class Discussions extends Module {
     }
     discussion.authors = [discussion.author.toLowerCase()];
     discussion.created = discussion.author === gSettings.username;
-    discussion.poll = discussion.outerWrap.querySelector(`.fa-align-left`);
+    discussion.poll = discussion.outerWrap.querySelector('.fa-align-left');
     discussion.commentsColumn = discussion.headingColumn.nextElementSibling || discussion.headingColumn.children[1];
     if (discussion.commentsColumn) {
       discussion.comments = parseInt(discussion.commentsColumn.firstElementChild.textContent.replace(/,/g, ``));
@@ -231,7 +231,7 @@ class Discussions extends Module {
       }
       discussion.lastPostAuthor = discussion.lastPostAuthor.firstElementChild.textContent;
       discussion.lastPostTime = discussion.lastPostTime.firstElementChild;
-      discussion.lastPostTimestamp = discussion.lastPostTime.getAttribute(`data-timestamp`);
+      discussion.lastPostTimestamp = discussion.lastPostTime.getAttribute('data-timestamp');
       discussion.lastPostTime = discussion.lastPostTime.textContent;
     }
     discussion.id = discussion.code;

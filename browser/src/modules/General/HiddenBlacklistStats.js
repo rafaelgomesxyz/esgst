@@ -7,14 +7,14 @@ class GeneralHiddenBlacklistStats extends Module {
       description: [
         ['ul', [
           ['li', [
-            `Hides the blacklist stats of your `,
+            'Hides the blacklist stats of your ',
             ['a', { href: `https://www.steamgifts.com/stats/personal/community` }, 'stats'],
-            ` page.`
+            ' page.'
           ]]
         ]]
       ],
       id: 'hbs',
-      name: `Hidden Blacklist Stats`,
+      name: 'Hidden Blacklist Stats',
       sg: true,
       type: 'general'
     };

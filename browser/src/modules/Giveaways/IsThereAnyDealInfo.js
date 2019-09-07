@@ -19,17 +19,17 @@ class GiveawaysIsThereAnyDealInfo extends Module {
       description: [
         ['ul', [
           ['li', [
-            `Adds a box to the sidebar of any `,
+            'Adds a box to the sidebar of any ',
             ['a', { href: `https://www.steamgifts.com/giveaway/aeqw7/` }, 'giveaway'],
             ` page that shows the best current deal for the game, the historical lowest price of the game and a list with all of the bundles that the game has been in. All of this information is retrieved from `,
             ['a', { href: `https://isthereanydeal.com` }, 'IsThereAnyDeal'],
-            `.`
+            '.'
           ]],
           ['li', `Results are cached for 24 hours, so if you access a giveaway for the same game again within that timeframe, the information will not change.`]
         ]]
       ],
       id: 'itadi',
-      name: `IsThereAnyDeal Info`,
+      name: 'IsThereAnyDeal Info',
       sg: true,
       type: 'giveaways'
     };
@@ -72,11 +72,11 @@ class GiveawaysIsThereAnyDealInfo extends Module {
         type: 'h3',
         children: [{
           attributes: {
-            class: `fa fa-circle-o-notch fa-spin`
+            class: 'fa fa-circle-o-notch fa-spin'
           },
           type: 'i'
         }, {
-          text: ` Loading IsThereAnyDeal info...`,
+          text: ' Loading IsThereAnyDeal info...',
           type: 'node'
         }]
       }]);
@@ -106,22 +106,22 @@ class GiveawaysIsThereAnyDealInfo extends Module {
       if (!match) {
         continue;
       }
-      itadi[match[1] === `Current Best` ? 'current' : 'historical'] = {
-        cut: deal.querySelector(`.gh-po__cut`).textContent.trim(),
-        date: deal.querySelector(`.date`).textContent.trim(),
-        price: deal.querySelector(`.gh-po__price`).textContent.trim(),
-        source: deal.querySelector(`.gh-po__shopTitle`).textContent.trim()
+      itadi[match[1] === 'Current Best' ? 'current' : 'historical'] = {
+        cut: deal.querySelector('.gh-po__cut').textContent.trim(),
+        date: deal.querySelector('.date').textContent.trim(),
+        price: deal.querySelector('.gh-po__price').textContent.trim(),
+        source: deal.querySelector('.gh-po__shopTitle').textContent.trim()
       };
     }
     const bundles = html.querySelectorAll(`.bundleTable tr:not(:first-child)`);
     for (const bundle of bundles) {
-      const link = bundle.querySelector(`.t-st3--link`);
+      const link = bundle.querySelector('.t-st3--link');
       itadi.bundles.push({
-        expiry: bundle.querySelector(`.bundleTable__expiry`).textContent.trim(),
+        expiry: bundle.querySelector('.bundleTable__expiry').textContent.trim(),
         id: link.getAttribute('href').match(/id\/(.+)/)[1],
         name: link.textContent.trim(),
-        price: bundle.querySelector(`.t-st3__price`).textContent.trim(),
-        source: bundle.querySelector(`.shopTitle`).textContent.trim()
+        price: bundle.querySelector('.t-st3__price').textContent.trim(),
+        source: bundle.querySelector('.shopTitle').textContent.trim()
       });
     }
     const deleteLock = await createLock('gameLock', 300);
@@ -194,26 +194,26 @@ class GiveawaysIsThereAnyDealInfo extends Module {
 
   itadi_addInfo(itadi, plain) {
     const items = [
-      ...this.itadi_template(`Best Current Deal`),
-      ...this.itadi_template(`Historical Lowest Price`),
+      ...this.itadi_template('Best Current Deal'),
+      ...this.itadi_template('Historical Lowest Price'),
       ...this.itadi_template('Bundles')
     ];
     if (itadi.current) {
       items[1].children.push(this.itadi_itemTemplate(`${itadi.current.source} (${itadi.current.date})`, `${itadi.current.price} (${itadi.current.cut})`, `https://isthereanydeal.com/game/${plain}/info/`));
     } else {
-      items[1].children.push(this.itadi_noItemTemplate(`There are no current deals for this game.`));
+      items[1].children.push(this.itadi_noItemTemplate('There are no current deals for this game.'));
     }
     if (itadi.historical) {
       items[3].children.push(this.itadi_itemTemplate(`${itadi.historical.source} (${itadi.historical.date})`, `${itadi.historical.price} (${itadi.historical.cut})`, `https://isthereanydeal.com/game/${plain}/info/`));
     } else {
-      items[3].children.push(this.itadi_noItemTemplate(`There is no price history for this game.`));
+      items[3].children.push(this.itadi_noItemTemplate('There is no price history for this game.'));
     }
     if (itadi.bundles && itadi.bundles.length) {
       for (const bundle of itadi.bundles) {
         items[5].children.push(this.itadi_itemTemplate(`${bundle.name} (${bundle.source})`, `${bundle.price} (${bundle.expiry})`, `https://isthereanydeal.com/specials/#/filter:id/${bundle.id}`));
       }
     } else {
-      items[5].children.push(this.itadi_noItemTemplate(`This game has never been in a bundle.`));
+      items[5].children.push(this.itadi_noItemTemplate('This game has never been in a bundle.'));
     }
     createElements(this.esgst.sidebar, 'beforeEnd', items);
   }

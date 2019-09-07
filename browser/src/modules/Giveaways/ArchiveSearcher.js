@@ -20,19 +20,19 @@ class GiveawaysArchiveSearcher extends Module {
     this.info = {
       description: [
         ['ul', [
-          ['li',`Allows you to search the archive by exact title or app id.`],
+          ['li','Allows you to search the archive by exact title or app id.'],
           ['li', `To search by exact title, wrap the title in double quotes, for example: "Dream"`],
           ['li', `To search by app id, use the "id:[id]" format, for example: id:229580`]
         ]]
       ],
       features: {
         as_t: {
-          name: `Open results in a new tab.`,
+          name: 'Open results in a new tab.',
           sg: true
         }
       },
       id: 'as',
-      name: `Archive Searcher`,
+      name: 'Archive Searcher',
       sg: true,
       type: 'giveaways'
     };
@@ -46,7 +46,7 @@ class GiveawaysArchiveSearcher extends Module {
 
     if (!this.esgst.archivePath) return;
 
-    let input = document.querySelector(`.sidebar__search-input`);
+    let input = document.querySelector('.sidebar__search-input');
     const temp = input.parentElement;
     input.outerHTML = `${input.outerHTML}`;
     input = temp.firstElementChild;
@@ -102,7 +102,7 @@ class GiveawaysArchiveSearcher extends Module {
       popup.open();
     } else {
       container = context = this.esgst.sidebar.nextElementSibling;
-      context.setAttribute(`data-esgst-popup`, 'true');
+      context.setAttribute('data-esgst-popup', 'true');
       context.innerHTML = ``;
     }
     new elementBuilder[shared.esgst.name].pageHeading({
@@ -114,7 +114,7 @@ class GiveawaysArchiveSearcher extends Module {
           url: this.esgst.settingsUrl
         },
         {
-          name: `Archive Searcher`,
+          name: 'Archive Searcher',
           url: `?esgst=as`
         }
       ]
@@ -122,7 +122,7 @@ class GiveawaysArchiveSearcher extends Module {
     obj.context = context;
 
     const progress = common.createElements_v2(container, 'beforeEnd', [['div']]);
-    progress.innerHTML = `Retrieving game title...`;
+    progress.innerHTML = 'Retrieving game title...';
 
     // retrieve the game title from Steam
     if (this.esgst.parameters.isAppId) {
@@ -149,8 +149,8 @@ class GiveawaysArchiveSearcher extends Module {
       color2: 'grey',
       icon1: ``,
       icon2: ``,
-      title1: `Load More`,
-      title2: `Loading...`,
+      title1: 'Load More',
+      title2: 'Loading...',
       callback1: async () => await this.as_request(obj)
     });
     obj.container = common.createElements_v2(obj.context, 'beforeEnd', [['div']]);
@@ -173,9 +173,9 @@ class GiveawaysArchiveSearcher extends Module {
         url: `${obj.url}${obj.page}`
       });
       const responseHtml = parseHtml(response.responseText);
-      const elements = responseHtml.querySelectorAll(`.table__row-outer-wrap`);
+      const elements = responseHtml.querySelectorAll('.table__row-outer-wrap');
       for (const element of elements) {
-        if (element.querySelector(`.table__column__heading`).textContent.match(/(.+?)( \(.+ Copies\))?$/)[1].toLowerCase() === obj.query) {
+        if (element.querySelector('.table__column__heading').textContent.match(/(.+?)( \(.+ Copies\))?$/)[1].toLowerCase() === obj.query) {
           if (obj.count < 25) {
             context.appendChild(element.cloneNode(true));
             obj.count += 1;
@@ -185,7 +185,7 @@ class GiveawaysArchiveSearcher extends Module {
         }
       }
       obj.page += 1;
-      pagination = responseHtml.querySelector(`.pagination__navigation`);
+      pagination = responseHtml.querySelector('.pagination__navigation');
     } while (obj.count < 25 && pagination && !pagination.lastElementChild.classList.contains(this.esgst.selectedClass));
     await endless_load(context);
   }

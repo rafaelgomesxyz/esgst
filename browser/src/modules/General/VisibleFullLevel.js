@@ -10,7 +10,7 @@ class GeneralVisibleFullLevel extends Module {
         ]]
       ],
       id: 'vfl',
-      name: `Visible Full Level`,
+      name: 'Visible Full Level',
       sg: true,
       type: 'general'
     };

@@ -19,12 +19,12 @@ class GiveawaysQuickGiveawaySearch extends Module {
       ],
       features: {
         qgs_h: {
-          name: `Hide the native search on the main page.`,
+          name: 'Hide the native search on the main page.',
           sg: true
         }
       },
       id: 'qgs',
-      name: `Quick Giveaway Search`,
+      name: 'Quick Giveaway Search',
       options: {
         title: `Position:`,
         values: ['Left', 'Right']
@@ -35,22 +35,22 @@ class GiveawaysQuickGiveawaySearch extends Module {
   }
 
   init() {
-    let container = createElements(document.getElementsByClassName(`nav__left-container`)[0], gSettings.qgs_index === 0 ? 'afterBegin' : 'beforeEnd', [{
+    let container = createElements(document.getElementsByClassName('nav__left-container')[0], gSettings.qgs_index === 0 ? 'afterBegin' : 'beforeEnd', [{
       attributes: {
-        class: `esgst-qgs-container`,
+        class: 'esgst-qgs-container',
         title: getFeatureTooltip('qgs')
       },
       type: 'div',
       children: [{
         attributes: {
-          class: `esgst-qgs-input`,
-          placeholder: `Search...`,
+          class: 'esgst-qgs-input',
+          placeholder: 'Search...',
           type: 'text'
         },
         type: 'input'
       }, {
         attributes: {
-          class: `fa fa-search`
+          class: 'fa fa-search'
         },
         type: 'i'
       }]
@@ -59,17 +59,17 @@ class GiveawaysQuickGiveawaySearch extends Module {
     container.addEventListener('mouseleave', this.qgs_collapse.bind(this));
     container.firstElementChild.addEventListener('keypress', this.qgs_trigger.bind(this));
     if (gSettings.qgs_h && this.esgst.giveawaysPath) {
-      document.getElementsByClassName(`sidebar__search-container`)[0].remove();
+      document.getElementsByClassName('sidebar__search-container')[0].remove();
     }
   }
 
   qgs_expand(event) {
-    event.currentTarget.classList.add(`esgst-qgs-container-expanded`);
+    event.currentTarget.classList.add('esgst-qgs-container-expanded');
   }
 
   qgs_collapse(event) {
-    if (event.relatedTarget && event.relatedTarget.closest(`.esgst-popout`)) return;
-    event.currentTarget.classList.remove(`esgst-qgs-container-expanded`);
+    if (event.relatedTarget && event.relatedTarget.closest('.esgst-popout')) return;
+    event.currentTarget.classList.remove('esgst-qgs-container-expanded');
   }
 
   qgs_trigger(event) {

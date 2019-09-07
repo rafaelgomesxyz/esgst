@@ -33,7 +33,7 @@ class UsersUserGiveawayData extends Module {
         ['ul', [
           ['li', [
             `Adds 2 identical buttons (`,
-            ['i', { class: `fa fa-bar-chart` }],
+            ['i', { class: 'fa fa-bar-chart' }],
             `) to the "Gifts Won" and "Gifts Sent" rows of a user's `,
             ['a', { href: `https://www.steamgifts.com/user/cg` }, 'profile'],
             ` page that allow you to gather data about their giveaways:`
@@ -53,12 +53,12 @@ class UsersUserGiveawayData extends Module {
         ugd_g: {
           name: `Display how many gifts you have won from / sent to the user to their profile page.`,
           sg: true,
-          sync: `Won Giveaways`,
+          sync: 'Won Giveaways',
           syncKeys: ['WonGiveaways']
         }
       },
       id: 'ugd',
-      name: `User Giveaway Data`,
+      name: 'User Giveaway Data',
       sg: true,
       type: 'users',
       featureMap: {
@@ -98,26 +98,26 @@ class UsersUserGiveawayData extends Module {
     }
 
     const context = common.createElements_v2(profile.commentsRow, 'afterEnd', [
-      ['div', { class: `esgst-ugd featured__table__row`, title: getFeatureTooltip('ugd') }, [
+      ['div', { class: 'esgst-ugd featured__table__row', title: getFeatureTooltip('ugd') }, [
         ['div', { class: 'featured__table__row__left' }, [
           `Won Games Playtime > `,
-          ['input', { class: `esgst-ugd-input`, min: '0', step: `0.1`, type: 'number', value: gSettings.ugd_playtime }],
-          ` hours`
+          ['input', { class: 'esgst-ugd-input', min: '0', step: '0.1', type: 'number', value: gSettings.ugd_playtime }],
+          ' hours'
         ]],
         ['div', { class: 'featured__table__row__right' }]
       ]],
-      ['div', { class: `esgst-ugd featured__table__row`, title: getFeatureTooltip('ugd') }, [
+      ['div', { class: 'esgst-ugd featured__table__row', title: getFeatureTooltip('ugd') }, [
         ['div', { class: 'featured__table__row__left' }, [
           `Won Games Achievements > `,
-          ['input', { class: `esgst-ugd-input`, max: '100', min: '0', step: `0.1`, type: 'number', value: gSettings.ugd_achievements }],
+          ['input', { class: 'esgst-ugd-input', max: '100', min: '0', step: '0.1', type: 'number', value: gSettings.ugd_achievements }],
           ` %`
         ]],
         ['div', { class: 'featured__table__row__right' }]
       ]],
-      ['div', { class: `esgst-ugd featured__table__row`, title: getFeatureTooltip('ugd') }, [
+      ['div', { class: 'esgst-ugd featured__table__row', title: getFeatureTooltip('ugd') }, [
         ['div', { class: 'featured__table__row__left' }],
         ['div', { class: 'featured__table__row__right' }, [
-          ['span', { class: `esgst-italic` }, `Last checked ${dateFns_format(ugdCache.lastCheck, `MMM dd, yyyy, HH:mm:ss`)}.`]
+          ['span', { class: 'esgst-italic' }, `Last checked ${dateFns_format(ugdCache.lastCheck, `MMM dd, yyyy, HH:mm:ss`)}.`]
         ]]
       ]]
     ]);
@@ -214,12 +214,12 @@ class UsersUserGiveawayData extends Module {
     }
 
     common.createElements_v2(profile.levelRow, 'afterEnd', [
-      ['div', { class: `esgst-ugd featured__table__row`, title: getFeatureTooltip('ugd') }, [
-        ['div', { class: 'featured__table__row__left' }, `Gifts Won From This User`],
+      ['div', { class: 'esgst-ugd featured__table__row', title: getFeatureTooltip('ugd') }, [
+        ['div', { class: 'featured__table__row__left' }, 'Gifts Won From This User'],
         ['div', { class: 'featured__table__row__right', title: won.join(`, `) }, won.length]
       ]],
-      ['div', { class: `esgst-ugd featured__table__row`, title: getFeatureTooltip('ugd') }, [
-        ['div', { class: 'featured__table__row__left' }, `Gifts Sent To This User`],
+      ['div', { class: 'esgst-ugd featured__table__row', title: getFeatureTooltip('ugd') }, [
+        ['div', { class: 'featured__table__row__left' }, 'Gifts Sent To This User'],
         ['div', { class: 'featured__table__row__right', title: sent.join(`, `) }, sent.length]
       ]]
     ]);
@@ -230,13 +230,13 @@ class UsersUserGiveawayData extends Module {
     if (context) {
       button = createElements(context, 'beforeEnd', [{
         attributes: {
-          class: `esgst-ugd-button`,
+          class: 'esgst-ugd-button',
           title: getFeatureTooltip('ugd', `Get ${key} giveaway data`)
         },
         type: 'span',
         children: [{
           attributes: {
-            class: `fa fa-bar-chart`
+            class: 'fa fa-bar-chart'
           },
           type: 'i'
         }]
@@ -247,19 +247,19 @@ class UsersUserGiveawayData extends Module {
     const details = {
       button: button,
       popup: {
-        icon: `fa-bar-chart`,
+        icon: 'fa-bar-chart',
         title: `Get ${user.username}'s ${key} giveaway data:`,
         options: [
           {
             check: key === 'won',
             dependencies: ['ugd_forceUpdate'],
-            description: `Get playtime stats.`,
+            description: 'Get playtime stats.',
             id: 'ugd_getPlaytime',
             tooltip: `Get playtime stats for each won game by this user (requires a Steam API Key inserted into the settings menu - does not check DLCs/packages).`
           }, {
             check: key === 'won',
             dependencies: ['ugd_forceUpdate'],
-            description: `Get achievements stats.`,
+            description: 'Get achievements stats.',
             id: 'ugd_getAchievements',
             tooltip: `Get achievements stats for each won game by this user (slower - does not check DLCs/packages).`
           }, {
@@ -269,7 +269,7 @@ class UsersUserGiveawayData extends Module {
             tooltip: `Playtime/achievements stats are updated automatically if you re-check the user after a week. With this option enabled, they are force-updated.`
           }, {
             check: true,
-            description: `Clear cache.`,
+            description: 'Clear cache.',
             id: 'ugd_clearCache',
             tooltip: `If enabled, the cache will be cleared and all giveaways will be retrieved again (slower).`
           }
@@ -278,7 +278,7 @@ class UsersUserGiveawayData extends Module {
         addScrollable: 'left',
         scrollableContent: !mainPopup && ugdCache ? [{
           attributes: {
-            class: `esgst-italic`
+            class: 'esgst-italic'
           },
           text: `Last checked ${dateFns_format(ugdCache.lastCheck, `MMM dd, yyyy, HH:mm:ss`)}.`,
           type: 'span'
@@ -320,7 +320,7 @@ class UsersUserGiveawayData extends Module {
     if (
       !obj.userGiveaways.sent || (
         obj.key === 'sent' &&
-        obj.userGiveaways.version !== `7.13.0`
+        obj.userGiveaways.version !== '7.13.0'
       )
     ) {
       obj.userGiveaways.sent = {
@@ -328,7 +328,7 @@ class UsersUserGiveawayData extends Module {
         subs: {}
       };
       obj.userGiveaways.sentTimestamp = 0;
-      obj.userGiveaways.version = `7.13.0`;
+      obj.userGiveaways.version = '7.13.0';
     }
     if (!obj.userGiveaways.won) {
       obj.userGiveaways.won = {
@@ -356,7 +356,7 @@ class UsersUserGiveawayData extends Module {
       },
       sentTimestamp: 0,
       wonTimestamp: 0,
-      version: `7.13.0`
+      version: '7.13.0'
     };
     if (!savedUser) {
       return userGiveaways;
@@ -407,7 +407,7 @@ class UsersUserGiveawayData extends Module {
 
     let found = false;
     const currentTime = Date.now();
-    const elements = responseHtml.getElementsByClassName(`giveaway__row-outer-wrap`);
+    const elements = responseHtml.getElementsByClassName('giveaway__row-outer-wrap');
     const n = elements.length;
     for (let i = 0; i < n; i++) {
       const giveawayObj = (
@@ -470,7 +470,7 @@ class UsersUserGiveawayData extends Module {
               for (const key in giveawayRaw.winnerColumns) {
                 if (giveawayRaw.winnerColumns.hasOwnProperty(key)) {
                   const column = giveawayRaw.winnerColumns[key];
-                  if (!column.status || column.status === `Awaiting Feedback`) {
+                  if (!column.status || column.status === 'Awaiting Feedback') {
                     continue;
                   }
                   for (const winner of column.winners) {
@@ -516,7 +516,7 @@ class UsersUserGiveawayData extends Module {
             let i;
             for (i = giveaway.winners.length - 1; i > -1; i--) {
               const winner = giveaway.winners[i];
-              if (winner.status !== 'Received' && winner.status !== `Not Received`) {
+              if (winner.status !== 'Received' && winner.status !== 'Not Received') {
                 break;
               }
             }
@@ -552,7 +552,7 @@ class UsersUserGiveawayData extends Module {
       return;
     }
 
-    obj.popup.setProgress(`Calculating results...`);
+    obj.popup.setProgress('Calculating results...');
 
     obj.games = obj.userGiveaways[obj.key];
     obj.perType = {};
@@ -570,7 +570,7 @@ class UsersUserGiveawayData extends Module {
           'Winners',
           obj.user.username === gSettings.username
             ? null
-            : ['i', { class: `fa fa-question-circle`, title: `This list might not be 100% accurate if the user has giveaways for more than 3 copies that you cannot access.` }]
+            : ['i', { class: 'fa fa-question-circle', title: `This list might not be 100% accurate if the user has giveaways for more than 3 copies that you cannot access.` }]
         ],
         values: []
       };
@@ -721,7 +721,7 @@ class UsersUserGiveawayData extends Module {
 
     obj.playtimes = null;
     if (gSettings.ugd_getPlaytime && obj.isUpdating) {
-      obj.popup.setProgress(`Retrieving playtime stats...`);
+      obj.popup.setProgress('Retrieving playtime stats...');
       obj.ugdCache.playtimes = {};
       try {
         const response = await request({
@@ -732,7 +732,7 @@ class UsersUserGiveawayData extends Module {
         obj.playtimes = JSON.parse(responseText).response.games;
       } catch (e) {
         logger.warning(e.stack);
-        window.alert(`An error occurred when retrieving playtime stats. Please check your Steam API key in the settings menu or try again later.`);
+        window.alert('An error occurred when retrieving playtime stats. Please check your Steam API key in the settings menu or try again later.');
         await this.ugd_complete(obj, results);
         await saveUser(null, null, obj.user);
         return;
@@ -803,7 +803,7 @@ class UsersUserGiveawayData extends Module {
     if (gSettings.ugd_getPlaytime) {
       items.push({
         attributes: {
-          class: `esgst-bold`
+          class: 'esgst-bold'
         },
         text: `${obj.playedCount} out of ${total} games with more than 0 hours playtime (${total > 0 ? Math.round(obj.playedCount / total * 10000) / 100 : 0}%)`,
         type: 'div'
@@ -812,7 +812,7 @@ class UsersUserGiveawayData extends Module {
     if (gSettings.ugd_getAchievements) {
       items.push({
         attributes: {
-          class: `esgst-bold`
+          class: 'esgst-bold'
         },
         text: `${obj.achievementCount} out of ${obj.achievementTotal} games with more than 0 achievements (${Math.round(obj.achievementCount / Math.max(1, obj.achievementTotal) * 10000) / 100}%)`,
         type: 'div'
@@ -939,9 +939,9 @@ class UsersUserGiveawayData extends Module {
             value: `0/0 (0%)`
           },
           [
-            ['a', { class: `table__column__secondary-link`, href: `/user/${giveaway.creator}` }, giveaway.creator]
+            ['a', { class: 'table__column__secondary-link', href: `/user/${giveaway.creator}` }, giveaway.creator]
           ]
-        ], packageId, true, false, `Hide contents of the package`, `Show contents of the package`);
+        ], packageId, true, false, 'Hide contents of the package', 'Show contents of the package');
       }
       group = obj.playtimeTable.getRowGroup(packageId);
       const packageTimestamp2Weeks = (parseFloat(group.columns[1].textContent) * 60) + timestamp2Weeks;
@@ -950,20 +950,20 @@ class UsersUserGiveawayData extends Module {
           ? `${Math.round(packageTimestamp2Weeks / 60 * 100) / 100}h`
           : `${packageTimestamp2Weeks}m`
       ) : '0';
-      group.columns[1].setAttribute(`data-sort-value`, packageTimestamp2Weeks);
+      group.columns[1].setAttribute('data-sort-value', packageTimestamp2Weeks);
       const packageTimestampForever = (parseFloat(group.columns[2].textContent) * 60) + timestampForever;
       group.columns[2].textContent = packageTimestampForever && packageTimestampForever > 0 ? (
         packageTimestampForever > 60
           ? `${Math.round(packageTimestampForever / 60 * 100) / 100}h`
           : `${packageTimestampForever}m`
       ) : '0';
-      group.columns[2].setAttribute(`data-sort-value`, packageTimestampForever);
+      group.columns[2].setAttribute('data-sort-value', packageTimestampForever);
       const packageParts = group.columns[3].textContent.match(/(.+?)\/(.+?)\s\((.+?)%\)/);
       const packageCount = parseInt(packageParts[1]) + count;
       const packageTotal = parseInt(packageParts[2]) + total;
       const packageAchievementsAttributes = packageTotal > 0 ? Math.round(packageCount / packageTotal * 10000) / 100 : 0;
       group.columns[3].textContent = `${packageCount}/${packageTotal} (${packageAchievementsAttributes}%)`;
-      group.columns[3].setAttribute(`data-sort-value`, packageAchievementsAttributes);
+      group.columns[3].setAttribute('data-sort-value', packageAchievementsAttributes);
     }
     obj.playtimeTable.addRow([
       {
@@ -984,7 +984,7 @@ class UsersUserGiveawayData extends Module {
         value: achievements
       },
       [
-        ['a', { class: `table__column__secondary-link`, href: `/user/${giveaway.creator}` }, giveaway.creator]
+        ['a', { class: 'table__column__secondary-link', href: `/user/${giveaway.creator}` }, giveaway.creator]
       ]
     ], packageId, false, true);
   }
@@ -1080,11 +1080,11 @@ class UsersUserGiveawayData extends Module {
       obj.mainPopup.progress.lastElementChild.textContent = msg;
     }
 
-    if (responseHtml.getElementsByClassName(`table--summary`)[0]) {
+    if (responseHtml.getElementsByClassName('table--summary')[0]) {
       return true;
     }
 
-    const elements = responseHtml.getElementsByClassName(`table__row-inner-wrap`);
+    const elements = responseHtml.getElementsByClassName('table__row-inner-wrap');
     const n = elements.length;
     for (let i = 0; i < n; i++) {
       const element = elements[i];
@@ -1100,7 +1100,7 @@ class UsersUserGiveawayData extends Module {
 
   async ugd_complete(obj, results) {
     const items = [
-      ['div', { class: `esgst-ugd-lists` }, []]
+      ['div', { class: 'esgst-ugd-lists' }, []]
     ];
     for (const key in obj.lists) {
       if (obj.lists.hasOwnProperty(key)) {
@@ -1113,7 +1113,7 @@ class UsersUserGiveawayData extends Module {
               alignment: 'left',
               size: 'fill',
               value: [
-                ['a', { class: `table__column__secondary-link`, href: key === 'gameName' ? `https://store.steampowered.com/${item.gameType.slice(0, -1)}/${item.gameSteamId}` : `/user/${item.name}` }, item.name]
+                ['a', { class: 'table__column__secondary-link', href: key === 'gameName' ? `https://store.steampowered.com/${item.gameType.slice(0, -1)}/${item.gameSteamId}` : `/user/${item.name}` }, item.name]
               ]
             },
             {
@@ -1127,12 +1127,12 @@ class UsersUserGiveawayData extends Module {
               value: item.values.map(x => x
                 ? ['span', [
                     x.code
-                      ? ['a', { class: `table__column__secondary-link`, href: `/giveaway/${x.code}/`, title: `Go to the giveaway` }, [
-                          ['i', { class: `fa fa-gift` }]
+                      ? ['a', { class: 'table__column__secondary-link', href: `/giveaway/${x.code}/`, title: 'Go to the giveaway' }, [
+                          ['i', { class: 'fa fa-gift' }]
                         ]]
                       : null,
-                    ` `,
-                    ['a', { class: `table__column__secondary-link`, href: key === 'gameName' ? `/user/${x.name}` : `https://store.steampowered.com/${x.gameType.slice(0, -1)}/${x.gameSteamId}` }, x.name]
+                    ' ',
+                    ['a', { class: 'table__column__secondary-link', href: key === 'gameName' ? `/user/${x.name}` : `https://store.steampowered.com/${x.gameType.slice(0, -1)}/${x.gameSteamId}` }, x.name]
                   ]]
                 : ['br']
               )

@@ -15,15 +15,15 @@ class GiveawaysUnhideGiveawayButton extends Module {
         ['ul', [
           ['li', [
             `Adds a button (`,
-            ['i', { class: `fa fa-eye` }],
+            ['i', { class: 'fa fa-eye' }],
             `) next to a giveaway's game name (in any page), if you have hidden the game on SteamGifts, that allows you to unhide the game without having to access your `,
-            ['a', { href: `https://www.steamgifts.com/account/settings/giveaways/filters` }, `giveaway filters`],
-            ` page.`
+            ['a', { href: `https://www.steamgifts.com/account/settings/giveaways/filters` }, 'giveaway filters'],
+            ' page.'
           ]]
         ]]
       ],
       id: 'ugb',
-      name: `Unhide Giveaway Button`,
+      name: 'Unhide Giveaway Button',
       sg: true,
       type: 'giveaways',
       featureMap: {
@@ -41,8 +41,8 @@ class GiveawaysUnhideGiveawayButton extends Module {
             type: 'a',
             children: [{
               attributes: {
-                class: `fa fa-eye giveaway__hide`,
-                title: getFeatureTooltip('ugb', `Unhide all giveaways for this game`)
+                class: 'fa fa-eye giveaway__hide',
+                title: getFeatureTooltip('ugb', 'Unhide all giveaways for this game')
               },
               type: 'i'
             }]
@@ -50,8 +50,8 @@ class GiveawaysUnhideGiveawayButton extends Module {
         } else {
           hideButton = createElements(giveaway.headingName, 'afterEnd', [{
             attributes: {
-              class: `fa fa-eye giveaway__hide giveaway__icon`,
-              title: getFeatureTooltip('ugb', `Unhide all giveaways for this game`)
+              class: 'fa fa-eye giveaway__hide giveaway__icon',
+              title: getFeatureTooltip('ugb', 'Unhide all giveaways for this game')
             },
             type: 'i'
           }]);

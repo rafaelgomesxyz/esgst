@@ -23,7 +23,7 @@ class UsersSharedGroupChecker extends Module {
         ['ul', [
           ['li', [
             `Adds a button (`,
-            ['i', { class: `fa fa-users` }],
+            ['i', { class: 'fa fa-users' }],
             `) next to a user's username (in their `,
             ['a', { href: `https://www.steamgifts.com/user/cg` }, 'profile'],
             ` page) that allows you to check which groups you are both members of.`
@@ -31,7 +31,7 @@ class UsersSharedGroupChecker extends Module {
         ]]
       ],
       id: 'sgc',
-      name: `Shared Group Checker`,
+      name: 'Shared Group Checker',
       sg: true,
       type: 'users',
       featureMap: {
@@ -47,13 +47,13 @@ class UsersSharedGroupChecker extends Module {
     }
     profile.sgcButton = createElements(profile.heading, 'beforeEnd', [{
       attributes: {
-        class: `esgst-sgc-button`,
-        title: getFeatureTooltip('sgc', `Check shared groups`)
+        class: 'esgst-sgc-button',
+        title: getFeatureTooltip('sgc', 'Check shared groups')
       },
       type: 'a',
       children: [{
         attributes: {
-          class: `fa fa-users`
+          class: 'fa fa-users'
         },
         type: 'i'
       }]
@@ -69,35 +69,35 @@ class UsersSharedGroupChecker extends Module {
         return;
       }
 
-      profile.sgcPopup = new Popup({ addScrollable: true, icon: `fa-users`, title: `Shared Groups` });
+      profile.sgcPopup = new Popup({ addScrollable: true, icon: 'fa-users', title: 'Shared Groups' });
       profile.sgcProgress = createElements(profile.sgcPopup.description, 'beforeEnd', [{
         type: 'div',
         children: [{
           attributes: {
-            class: `fa fa-circle-o-notch fa-spin`
+            class: 'fa fa-circle-o-notch fa-spin'
           },
           type: 'i'
         }, {
-          text: `Checking shared groups...`,
+          text: 'Checking shared groups...',
           type: 'span'
         }]
       }]);
       profile.sgcResults = createElements(profile.sgcPopup.scrollable, 'beforeEnd', [{
         attributes: {
-          class: `esgst-sgc-results esgst-glwc-results esgst-text-left`
+          class: 'esgst-sgc-results esgst-glwc-results esgst-text-left'
         },
         type: 'div',
         children: [{
           type: 'div',
           children: [{
             attributes: {
-              class: `esgst-glwc-heading`
+              class: 'esgst-glwc-heading'
             },
             text: 'Public',
             type: 'div'
           }, {
             attributes: {
-              class: `table esgst-hidden`
+              class: 'table esgst-hidden'
             },
             type: 'div',
             children: [{
@@ -107,7 +107,7 @@ class UsersSharedGroupChecker extends Module {
               type: 'div',
               children: [{
                 attributes: {
-                  class: `table__column--width-fill`
+                  class: 'table__column--width-fill'
                 },
                 text: 'Group',
                 type: 'div'
@@ -123,13 +123,13 @@ class UsersSharedGroupChecker extends Module {
           type: 'div',
           children: [{
             attributes: {
-              class: `esgst-glwc-heading`
+              class: 'esgst-glwc-heading'
             },
             text: 'Private',
             type: 'div'
           }, {
             attributes: {
-              class: `table esgst-hidden`
+              class: 'table esgst-hidden'
             },
             type: 'div',
             children: [{
@@ -139,7 +139,7 @@ class UsersSharedGroupChecker extends Module {
               type: 'div',
               children: [{
                 attributes: {
-                  class: `table__column--width-fill`
+                  class: 'table__column--width-fill'
                 },
                 text: 'Group',
                 type: 'div'
@@ -181,7 +181,7 @@ class UsersSharedGroupChecker extends Module {
     for (const element of elements) {
       const name = element.getElementsByClassName('linkTitle')[0].textContent;
       const avatar = element.getElementsByClassName('avatarMedium')[0].firstElementChild.firstElementChild.getAttribute('src');
-      const steamId = element.querySelector(`.steamLink`).getAttribute('href').match(/\d+/)[0];
+      const steamId = element.querySelector('.steamLink').getAttribute('href').match(/\d+/)[0];
       let i;
       for (i = shared.esgst.groups.length - 1; i > -1 && shared.esgst.groups[i].steamId !== steamId; i--) {
       }
@@ -192,12 +192,12 @@ class UsersSharedGroupChecker extends Module {
         name: name,
         html: [{
           attributes: {
-            class: `table__row-outer-wrap`
+            class: 'table__row-outer-wrap'
           },
           type: 'div',
           children: [{
             attributes: {
-              class: `table__row-inner-wrap`
+              class: 'table__row-inner-wrap'
             },
             type: 'div',
             children: [{
@@ -212,7 +212,7 @@ class UsersSharedGroupChecker extends Module {
               }]
             }, {
               attributes: {
-                class: `table__column--width-fill`
+                class: 'table__column--width-fill'
               },
               type: 'div',
               children: [{
@@ -234,10 +234,10 @@ class UsersSharedGroupChecker extends Module {
         sortArray(publicGroups, false, 'name').map(x => {
           createElements(profile.sgcPublicResults, 'beforeEnd', x.html).getElementsByClassName('table__column__heading')[0].textContent = x.name;
         });
-        profile.sgcPublic.classList.remove(`esgst-hidden`);
+        profile.sgcPublic.classList.remove('esgst-hidden');
       } else {
         createElements(profile.sgcPublic, 'outer', [{
-          text: `No shared public groups found.`,
+          text: 'No shared public groups found.',
           type: 'div'
         }]);
       }
@@ -245,10 +245,10 @@ class UsersSharedGroupChecker extends Module {
         sortArray(privateGroups, false, 'name').map(x => {
           createElements(profile.sgcPrivateResults, 'beforeEnd', x.html).getElementsByClassName('table__column__heading')[0].textContent = x.name;
         });
-        profile.sgcPrivate.classList.remove(`esgst-hidden`);
+        profile.sgcPrivate.classList.remove('esgst-hidden');
       } else {
         createElements(profile.sgcPrivate, 'outer', [{
-          text: `No shared private groups found.`,
+          text: 'No shared private groups found.',
           type: 'div'
         }]);
       }
@@ -256,7 +256,7 @@ class UsersSharedGroupChecker extends Module {
       profile.sgcProgress = null;
     } else {
       createElements(profile.sgcProgress, 'inner', [{
-        text: `No shared groups found.`,
+        text: 'No shared groups found.',
         type: 'node'
       }]);
     }

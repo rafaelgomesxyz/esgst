@@ -11,13 +11,13 @@ class CommentsCommentHistory extends Module {
           ['li', `Replaces SteamGifts' native comment button with a new one, so that ESGST can track your comments.`],
           ['li', [
             `Adds a button (`,
-            ['i', { class: `fa fa-comments esgst-yellow` }],
+            ['i', { class: 'fa fa-comments esgst-yellow' }],
             ` My Comment History) to the dropdown menu accessible by clicking on the arrow next to your avatar at the header of any page that allows you to view your comment history.`
           ]]
         ]]
       ],
       id: 'ch',
-      name: `Comment History`,
+      name: 'Comment History',
       sg: true,
       type: 'comments'
     };
@@ -33,37 +33,37 @@ class CommentsCommentHistory extends Module {
     new Process({
       button: shared.common.createElements(shared.esgst.accountDropdown.firstElementChild.lastElementChild, 'beforeBegin', [{
         attributes: {
-          class: `esgst-header-menu-row`,
-          [`data-link-id`]: 'ch',
-          [`data-link-key`]: 'account',
+          class: 'esgst-header-menu-row',
+          ['data-link-id']: 'ch',
+          ['data-link-key']: 'account',
           title: shared.common.getFeatureTooltip('ch')
         },
         type: 'div',
         children: [{
           attributes: {
-            class: `fa fa-fw fa-comments yellow`
+            class: 'fa fa-fw fa-comments yellow'
           },
           type: 'i'
         }, {
           type: 'div',
           children: [{
             attributes: {
-              class: `esgst-header-menu-name`
+              class: 'esgst-header-menu-name'
             },
-            text: `My Comment History`,
+            text: 'My Comment History',
             type: 'p'
           }, {
             attributes: {
-              class: `esgst-header-menu-description`
+              class: 'esgst-header-menu-description'
             },
-            text: `View your comment history.`,
+            text: 'View your comment history.',
             type: 'p'
           }]
         }]
       }]),
       popup: {
-        icon: `fa-comments`,
-        title: `Comment History`,
+        icon: 'fa-comments',
+        title: 'Comment History',
         addProgress: true,
         addScrollable: 'left'
       },
@@ -89,7 +89,7 @@ class CommentsCommentHistory extends Module {
   ch_requestUrl(obj, details, response, responseHtml) {
     let comment = responseHtml.getElementById(obj.ids[obj.index]);
     if (shared.esgst.sg) {
-      comment = comment.closest(`.comment`);
+      comment = comment.closest('.comment');
       comment.firstElementChild.classList.remove('comment__parent');
       comment.firstElementChild.classList.add('comment__child');
     }
@@ -97,7 +97,7 @@ class CommentsCommentHistory extends Module {
     let parent = comment.parentElement.closest(`.comment, .comment_outer`);
     const items = [{
       attributes: {
-        class: `comment comments comment_outer`
+        class: 'comment comments comment_outer'
       },
       type: 'div',
       children: []
@@ -106,7 +106,7 @@ class CommentsCommentHistory extends Module {
       parent.lastElementChild.remove();
       shared.common.createElements(parent, 'beforeEnd', [{
         attributes: {
-          class: `comment__children comment_children`
+          class: 'comment__children comment_children'
         },
         type: 'div',
         children: [{
@@ -149,7 +149,7 @@ class CommentsCommentHistory extends Module {
       }
       items[0].children.push({
         attributes: {
-          class: `comment__children comment_children`
+          class: 'comment__children comment_children'
         },
         type: 'div',
         children: [{

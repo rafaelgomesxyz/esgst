@@ -11,7 +11,7 @@ class CommentsReplyBoxOnTop extends Module {
         ]]
       ],
       id: 'rbot',
-      name: `Reply Box On Top`,
+      name: 'Reply Box On Top',
       sg: true,
       st: true,
       type: 'comments'
@@ -22,7 +22,7 @@ class CommentsReplyBoxOnTop extends Module {
     let element = shared.esgst.mainPageHeading;
     if (!shared.esgst.replyBox) {
       if (shared.esgst.st && shared.esgst.userPath) {
-        let review = document.getElementsByClassName(`notification yellow`)[0];
+        let review = document.getElementsByClassName('notification yellow')[0];
         if (!review) return;
         element.parentElement.insertBefore(review, element.nextElementSibling);
       }
@@ -30,7 +30,7 @@ class CommentsReplyBoxOnTop extends Module {
     }
     let box = shared.common.createElements(element, 'afterEnd', [{
       attributes: {
-        class: `esgst-rbot`
+        class: 'esgst-rbot'
       },
       type: 'div'
     }]);

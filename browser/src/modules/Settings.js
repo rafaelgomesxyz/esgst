@@ -65,7 +65,7 @@ class Settings {
         settings: true,
         isTemp: true
       });
-      popup.popup.classList.add(`esgst-text-left`);
+      popup.popup.classList.add('esgst-text-left');
       Container = popup.description;
       Context = popup.scrollable;
     } else {
@@ -74,8 +74,8 @@ class Settings {
     }
 
     const input = shared.common.createElements_v2(isPopup ? Container : shared.esgst.sidebar, 'afterBegin', [
-      ['div', { class: `sidebar__search-container` }, [
-        ['input', { class: `sidebar__search-input`, type: 'text', placeholder: `Search...` }]
+      ['div', { class: 'sidebar__search-container' }, [
+        ['input', { class: 'sidebar__search-input', type: 'text', placeholder: 'Search...' }]
       ]]
     ]).firstElementChild;
     if (isPopup && gSettings.scb) {
@@ -85,15 +85,15 @@ class Settings {
     let newIndicators = null;
 
     const buttonGroup = shared.common.createElements_v2(Container, 'beforeEnd', [
-      ['div', { class: `esgst-button-group` }]
+      ['div', { class: 'esgst-button-group' }]
     ]);
     
     buttonGroup.appendChild(new ButtonSet({
       color1: 'green',
       color2: 'grey',
       icon1: ``,
-      icon2: `fa-circle-o-notch fa-spin`,
-      title1: `Collapse All`,
+      icon2: 'fa-circle-o-notch fa-spin',
+      title1: 'Collapse All',
       title2: 'Collapsing',
       callback1: async () => {
         for (const item of this.collapseButtons) {
@@ -106,8 +106,8 @@ class Settings {
       color1: 'green',
       color2: 'grey',
       icon1: ``,
-      icon2: `fa-circle-o-notch fa-spin`,
-      title1: `Expand All`,
+      icon2: 'fa-circle-o-notch fa-spin',
+      title1: 'Expand All',
       title2: 'Expanding',
       callback1: async () => {
         for (const item of this.collapseButtons) {
@@ -120,8 +120,8 @@ class Settings {
       color1: 'green',
       color2: 'grey',
       icon1: ``,
-      icon2: `fa-circle-o-notch fa-spin`,
-      title1: `Dismiss All New`,
+      icon2: 'fa-circle-o-notch fa-spin',
+      title1: 'Dismiss All New',
       title2: 'Dismissing',
       callback1: async () => {      
         await shared.common.setSetting('dismissedOptions', shared.esgst.toDismiss);
@@ -130,126 +130,126 @@ class Settings {
         }
       }
     }).set;
-    dismissAllButton.classList.add(`esgst-hidden`);
+    dismissAllButton.classList.add('esgst-hidden');
     buttonGroup.appendChild(dismissAllButton);
 
-    Container.setAttribute(`data-esgst-popup`, true);
+    Container.setAttribute('data-esgst-popup', true);
     const items = [
       {
         check: true,
-        icons: [`fa-refresh`],
+        icons: ['fa-refresh'],
         position: 'afterBegin',
-        title: `Sync data`,
+        title: 'Sync data',
         onclick: () => setSync(true)
       },
       {
         check: true,
-        icons: [`fa-sign-in esgst-rotate-90`],
+        icons: ['fa-sign-in esgst-rotate-90'],
         position: 'afterBegin',
-        title: `Restore data`,
+        title: 'Restore data',
         onclick: () => shared.esgst.modules.loadDataManagement('import', true)
       },
       {
         check: true,
-        icons: [`fa-sign-out esgst-rotate-270`],
+        icons: ['fa-sign-out esgst-rotate-270'],
         position: 'afterBegin',
-        title: `Backup data`,
+        title: 'Backup data',
         onclick: () => shared.esgst.modules.loadDataManagement('export', true)
       },
       {
         check: true,
-        icons: [`fa-trash`],
+        icons: ['fa-trash'],
         position: 'afterBegin',
-        title: `Delete data`,
+        title: 'Delete data',
         onclick: () => shared.esgst.modules.loadDataManagement('delete', true)
       },
       {
         check: true,
-        icons: [`fa-gear`, `fa-arrow-circle-down`],
+        icons: ['fa-gear', 'fa-arrow-circle-down'],
         position: 'afterBegin',
         title: `Download settings (downloads your settings to your computer without your personal data so you can easily share them with other users)`,
         onclick: () => shared.common.exportSettings()
       },
       {
         check: true,
-        icons: [`fa-paint-brush`],
+        icons: ['fa-paint-brush'],
         position: 'afterBegin',
-        title: `Clean old data`,
+        title: 'Clean old data',
         onclick: () => shared.esgst.modules.loadDataCleaner(true)
       },
       {
         check: !shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === 'guide',
-        icons: [`fa-user`, `fa-history`],
+        icons: ['fa-user', 'fa-history'],
         position: 'afterBegin',
-        title: `View recent username changes`,
+        title: 'View recent username changes',
         onclick: event => shared.common.setSMRecentUsernameChanges()
       },
       {
         check: (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === 'guide') && gSettings.uf,
-        icons: [`fa-user`, `fa-eye-slash`],
+        icons: ['fa-user', 'fa-eye-slash'],
         position: 'afterBegin',
-        title: `See list of filtered users`,
+        title: 'See list of filtered users',
         onclick: event => shared.common.setSMManageFilteredUsers()
       },
       {
         check: (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === 'guide') && shared.esgst.sg && gSettings.gf && gSettings.gf_s,
-        icons: [`fa-gift`, `fa-eye-slash`],
+        icons: ['fa-gift', 'fa-eye-slash'],
         position: 'afterBegin',
-        title: `Manage hidden giveaways`,
+        title: 'Manage hidden giveaways',
         onclick: event => shared.common.setSMManageFilteredGiveaways()
       },
       {
         check: (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === 'guide') && shared.esgst.sg && gSettings.df && gSettings.df_s,
-        icons: [`fa-comments`, `fa-eye-slash`],
+        icons: ['fa-comments', 'fa-eye-slash'],
         position: 'afterBegin',
-        title: `Manage hidden discussions`,
+        title: 'Manage hidden discussions',
         onclick: event => shared.esgst.modules.discussionsDiscussionFilters.df_menu({}, event.currentTarget)
       },
       {
         check: (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === 'guide') && shared.esgst.st && gSettings.tf && gSettings.tf_s,
-        icons: [`fa-retweet`, `fa-eye-slash`],
+        icons: ['fa-retweet', 'fa-eye-slash'],
         position: 'afterBegin',
-        title: `Manage hidden trades`,
+        title: 'Manage hidden trades',
         onclick: event => shared.esgst.modules.tradesTradeFilters.tf_menu({}, event.currentTarget)
       },
       {
         check: (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === 'guide') && shared.esgst.sg && gSettings.dt,
-        icons: [`fa-comments`, `fa-tags`],
+        icons: ['fa-comments', 'fa-tags'],
         position: 'afterBegin',
-        title: `Manage discussion tags`,
+        title: 'Manage discussion tags',
         onclick: () => shared.common.openManageDiscussionTagsPopup()
       },
       {
         check: (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === 'guide') && shared.esgst.sg && gSettings.ut,
-        icons: [`fa-user`, `fa-tags`],
+        icons: ['fa-user', 'fa-tags'],
         position: 'afterBegin',
-        title: `Manage user tags`,
+        title: 'Manage user tags',
         onclick: () => shared.common.openManageUserTagsPopup()
       },
       {
         check: (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === 'guide') && gSettings.gt,
-        icons: [`fa-gamepad`, `fa-tags`],
+        icons: ['fa-gamepad', 'fa-tags'],
         position: 'afterBegin',
-        title: `Manage game tags`,
+        title: 'Manage game tags',
         onclick: () => shared.common.openManageGameTagsPopup()
       },
       {
         check: (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === 'guide') && gSettings.gpt,
-        icons: [`fa-users`, `fa-tags`],
+        icons: ['fa-users', 'fa-tags'],
         position: 'afterBegin',
-        title: `Manage group tags`,
+        title: 'Manage group tags',
         onclick: () => shared.common.openManageGroupTagsPopup()
       },
       {
         check: (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === 'guide') && gSettings.wbc,
-        icons: [`fa-heart`, `fa-ban`, `fa-cog`],
+        icons: ['fa-heart', 'fa-ban', 'fa-cog'],
         position: 'afterBegin',
         title: `Manage Whitelist / Blacklist Checker caches`,
         ref: button => shared.esgst.modules.usersWhitelistBlacklistChecker.wbc_addButton(false, button)
       },
       {
         check: (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === 'guide') && gSettings.namwc,
-        icons: [`fa-trophy`, `fa-cog`],
+        icons: ['fa-trophy', 'fa-cog'],
         position: 'afterBegin',
         title: `Manage Not Activated / Multiple Wins Checker caches`,
         ref: button => shared.esgst.modules.usersNotActivatedMultipleWinChecker.namwc_setPopup(button)
@@ -276,11 +276,11 @@ class Settings {
 
     input.addEventListener('input', event => this.filterSm(event));
     input.addEventListener('change', event => this.filterSm(event));
-    Context.classList.add(`esgst-menu-layer`);
+    Context.classList.add('esgst-menu-layer');
     shared.common.createElements_v2(Context, 'beforeEnd', [
-      ['div', { class: `esgst-menu-split` }, [
-        ['div', { class: `esgst-settings-menu` }],
-        ['div', { class: `esgst-settings-menu-feature ${isPopup ? `` : `esgst-menu-split-fixed`}` }, [
+      ['div', { class: 'esgst-menu-split' }, [
+        ['div', { class: 'esgst-settings-menu' }],
+        ['div', { class: `esgst-settings-menu-feature ${isPopup ? `` : 'esgst-menu-split-fixed'}` }, [
           `Click on a feature/option to manage it here.`
         ]]
       ]]
@@ -290,8 +290,8 @@ class Settings {
       color2: 'grey',
       icon1: ``,
       icon2: ``,
-      title1: `Save Changes`,
-      title2: `Saving...`,
+      title1: 'Save Changes',
+      title2: 'Saving...',
       callback1: async () => {
         await permissions.request(Array.from(this.grantedPermissions));
         await permissions.remove(Array.from(this.deniedPermissions));
@@ -305,7 +305,7 @@ class Settings {
       }
     }).set);
     Context.addEventListener('click', event => this.loadFeatureDetails(null, popup && popup.scrollable.offsetTop, event));
-    let SMMenu = Context.getElementsByClassName(`esgst-settings-menu`)[0];
+    let SMMenu = Context.getElementsByClassName('esgst-settings-menu')[0];
     let i, type;
     i = 1;
     for (type in shared.esgst.features) {
@@ -340,13 +340,13 @@ class Settings {
           if (isNew) {
             shared.common.createElements(section.firstElementChild.lastElementChild, 'afterBegin', [{
               attributes: {
-                class: `esgst-bold esgst-red esgst-new-indicator`,
+                class: 'esgst-bold esgst-red esgst-new-indicator',
                 title: `There is a new feature/option in this section`
               },
               type: 'span',
               children: [{
                 attributes: {
-                  class: `fa fa-star`
+                  class: 'fa fa-star'
                 },
                 type: 'i'
               }]
@@ -356,7 +356,7 @@ class Settings {
         }
       }
     }
-    const elementOrdering = this.createMenuSection(SMMenu, null, i, `Element Ordering`, 'element_ordering');
+    const elementOrdering = this.createMenuSection(SMMenu, null, i, 'Element Ordering', 'element_ordering');
     this.setElementOrderingSection(elementOrdering.lastElementChild);
     i += 1;
     const permissionsSection = this.createMenuSection(SMMenu, null, i, 'Permissions', 'permissions');
@@ -364,21 +364,21 @@ class Settings {
     i += 1;
     this.createMenuSection(SMMenu, [{
       attributes: {
-        class: `esgst-steam-api-key`,
+        class: 'esgst-steam-api-key',
         type: 'text'
       },
       type: 'input'
     }, {
       attributes: {
-        class: `esgst-description`
+        class: 'esgst-description'
       },
       type: 'div',
       children: [{
-        text: `This is optional for syncing owned games faster and required for syncing alt accounts. Get a Steam API Key `,
+        text: 'This is optional for syncing owned games faster and required for syncing alt accounts. Get a Steam API Key ',
         type: 'node'
       }, {
         attributes: {
-          class: `esgst-bold`,
+          class: 'esgst-bold',
           href: `https://steamcommunity.com/dev/apikey`,
           target: '_blank'
         },
@@ -388,8 +388,8 @@ class Settings {
         text: `. You can enter any domain in there, it is irrelevant, for example, "https://www.steamgifts.com".`,
         type: 'node'
       }]
-    }], i, `Steam API Key`, 'steam_api_key');
-    SMAPIKey = /** @type {HTMLInputElement} */ Context.getElementsByClassName(`esgst-steam-api-key`)[0];
+    }], i, 'Steam API Key', 'steam_api_key');
+    SMAPIKey = /** @type {HTMLInputElement} */ Context.getElementsByClassName('esgst-steam-api-key')[0];
     let key = gSettings.steamApiKey;
     if (key) {
       SMAPIKey.value = key;
@@ -405,16 +405,16 @@ class Settings {
       popup.open();
     }
 
-    newIndicators = document.querySelectorAll(`.esgst-new-indicator`);
+    newIndicators = document.querySelectorAll('.esgst-new-indicator');
     if (newIndicators.length) {
-      dismissAllButton.classList.remove(`esgst-hidden`);
+      dismissAllButton.classList.remove('esgst-hidden');
     }
   }
 
   showExtensionOnlyPopup() {
     new Popup({
       addScrollable: true,
-      icon: `fa-exclamation`,
+      icon: 'fa-exclamation',
       isTemp: true,
       title: [
         `This feature is only available in the extension version of ESGST. Please upgrade to the extension to use it. Below are the links for it:`,
@@ -445,8 +445,8 @@ class Settings {
       offset = 0;
     }
     if (!id) {
-      if (event.target.matches(`.esgst-settings-feature`)) {
-        id = event.target.getAttribute(`data-id`);
+      if (event.target.matches('.esgst-settings-feature')) {
+        id = event.target.getAttribute('data-id');
       } else {
         return;
       }
@@ -464,7 +464,7 @@ class Settings {
       check: true,
       content: [
         url,
-        ['i', { 'data-clipboard-text': url, class: `icon_to_clipboard fa fa-fw fa-copy` }]
+        ['i', { 'data-clipboard-text': url, class: 'icon_to_clipboard fa fa-fw fa-copy' }]
       ],
       name: 'Link'
     }, {
@@ -493,7 +493,7 @@ class Settings {
               sgSwitch.disable(true);
               new Popup({
                 addScrollable: true,
-                icon: `fa-exclamation`,
+                icon: 'fa-exclamation',
                 isTemp: true,
                 title: `This feature conflicts with ${shared.common.getFeatureName(null, conflictId)}. While that feature is enabled, this feature cannot be enabled.`
               }).open();
@@ -553,7 +553,7 @@ class Settings {
               stSwitch.disable(true);
               new Popup({
                 addScrollable: true,
-                icon: `fa-exclamation`,
+                icon: 'fa-exclamation',
                 isTemp: true,
                 title: `This feature conflicts with ${shared.common.getFeatureName(null, conflictId)}. While that feature is enabled, this feature cannot be enabled.`
               }).open();
@@ -613,7 +613,7 @@ class Settings {
               sgtoolsSwitch.disable(true);
               new Popup({
                 addScrollable: true,
-                icon: `fa-exclamation`,
+                icon: 'fa-exclamation',
                 isTemp: true,
                 title: `This feature conflicts with ${shared.common.getFeatureName(null, conflictId)}. While that feature is enabled, this feature cannot be enabled.`
               }).open();
@@ -674,7 +674,7 @@ class Settings {
       items.push({
         check: true,
         content: additionalOptions,
-        name: `Additional Options`
+        name: 'Additional Options'
       });
     }
     if (feature.sync) {
@@ -688,11 +688,11 @@ class Settings {
           ['br'],
           ['p', [
             `To sync these now, click `,
-            ['a', { class: `table__column__secondary-link`, href: `${shared.esgst.syncUrl}&autoSync=true&${feature.syncKeys.map(x => `${x}=1`).join(`&`)}`, target: '_blank' }, 'here'],
-            `.`
+            ['a', { class: 'table__column__secondary-link', href: `${shared.esgst.syncUrl}&autoSync=true&${feature.syncKeys.map(x => `${x}=1`).join(`&`)}`, target: '_blank' }, 'here'],
+            '.'
           ]]
         ],
-        name: `Sync Requirements`
+        name: 'Sync Requirements'
       });
     }
     if (feature.sg && (!feature.sgPaths || typeof feature.sgPaths !== 'string')) {
@@ -702,7 +702,7 @@ class Settings {
           this.openPathsPopup(feature, id, 'sg')
         ],
         // @ts-ignore
-        id: `esgst-paths-sg`,
+        id: 'esgst-paths-sg',
         name: `Where to run it on SteamGifts?`
       });
     }
@@ -713,7 +713,7 @@ class Settings {
           this.openPathsPopup(feature, id, 'st')
         ],
         // @ts-ignore
-        id: `esgst-paths-st`,
+        id: 'esgst-paths-st',
         name: `Where to run it on SteamTrades?`
       });
     }
@@ -724,13 +724,13 @@ class Settings {
           this.openPathsPopup(feature, id, 'sgtools')
         ],
         // @ts-ignore
-        id: `esgst-paths-sgtools`,
+        id: 'esgst-paths-sgtools',
         name: `Where to run it on SGTools?`
       });
     }
-    const context = document.querySelector(`.esgst-settings-menu-feature`);
-    if (!context.classList.contains(`esgst-menu-split-fixed`)) {
-      context.style.maxHeight = `${context.closest(`.esgst-menu-layer`).offsetHeight - 24}px`;
+    const context = document.querySelector('.esgst-settings-menu-feature');
+    if (!context.classList.contains('esgst-menu-split-fixed')) {
+      context.style.maxHeight = `${context.closest('.esgst-menu-layer').offsetHeight - 24}px`;
     }
     context.innerHTML = `Click on a feature/option to manage it here.`;
     shared.common.createFormRows(context, 'beforeEnd', { items });
@@ -741,7 +741,7 @@ class Settings {
       elementOrdering: true,
       outerWrap: shared.common.createElements(context, 'beforeEnd', [{
         attributes: {
-          class: `esgst-element-ordering-container`
+          class: 'esgst-element-ordering-container'
         },
         type: 'div'
       }])
@@ -750,7 +750,7 @@ class Settings {
       elementOrdering: true,
       outerWrap: shared.common.createElements(context, 'beforeEnd', [{
         attributes: {
-          class: `esgst-element-ordering-container`
+          class: 'esgst-element-ordering-container'
         },
         type: 'div'
       }])
@@ -760,36 +760,36 @@ class Settings {
       group: 'giveaways',
       id: 'gc_categories',
       key: 'gcPanel',
-      name: `Game Categories`,
+      name: 'Game Categories',
       labels: {
-        gc_ocv: `Original CV`,
-        gc_fcv: `Full CV`,
-        gc_rcv: `Reduced CV`,
-        gc_ncv: `No CV`,
+        gc_ocv: 'Original CV',
+        gc_fcv: 'Full CV',
+        gc_rcv: 'Reduced CV',
+        gc_ncv: 'No CV',
         gc_h: 'Hidden',
         gc_i: 'Ignored',
         gc_o: 'Owned',
         gc_w: 'Wishlisted',
         gc_f: 'Followed',
-        gc_pw: `Previously Won`,
+        gc_pw: 'Previously Won',
         gc_a: 'Achievements',
         gc_bd: 'Banned',
-        gc_bvg: `Barter.vg`,
+        gc_bvg: 'Barter.vg',
         gc_sp: 'Singleplayer',
         gc_mp: 'Multiplayer',
-        gc_sc: `Steam Cloud`,
-        gc_tc: `Trading Cards`,
+        gc_sc: 'Steam Cloud',
+        gc_tc: 'Trading Cards',
         gc_l: 'Linux',
         gc_m: 'Mac',
-        gc_ea: `Early Access`,
+        gc_ea: 'Early Access',
         gc_lg: 'Learning',
         gc_rm: 'Removed',
         gc_dlc: 'DLC',
         gc_p: 'Package',
-        gc_gi: `Giveaway Info`,
+        gc_gi: 'Giveaway Info',
         gc_r: 'Rating',
         gc_hltb: 'HLTB',
-        gc_rd: `Release Date`,
+        gc_rd: 'Release Date',
         gc_g: 'Genres'
       }
     }, {
@@ -797,35 +797,35 @@ class Settings {
       group: 'giveaways',
       id: 'giveawayHeading',
       key: 'heading',
-      name: `Giveaway Heading`,
+      name: 'Giveaway Heading',
       labels: {
-        gr: `Giveaway Recreator`,
-        gb: `Giveaway Bookmarks`,
-        gf: `Giveaway Filters`,
-        egh: `Entered Game Highlighter`,
-        name: `Game Name`,
+        gr: 'Giveaway Recreator',
+        gb: 'Giveaway Bookmarks',
+        gf: 'Giveaway Filters',
+        egh: 'Entered Game Highlighter',
+        name: 'Game Name',
         points: 'Points',
         copies: 'Copies',
-        steam: `Steam Link`,
-        search: `Search Link`,
-        hideGame: `Hide Game`,
-        gt: `Game Tags`
+        steam: 'Steam Link',
+        search: 'Search Link',
+        hideGame: 'Hide Game',
+        gt: 'Game Tags'
       }
     }, {
       group: 'giveaways',
       id: 'giveawayColumns',
       key: 'columns',
-      name: `Giveaway Columns`,
+      name: 'Giveaway Columns',
       labels: {
         ged: `Giveaway Encrypter/Decrypter`,
-        endTime: `End Time`,
+        endTime: 'End Time',
         winners: 'Winners',
-        startTime: `Start Time`,
+        startTime: 'Start Time',
         touhou: 'Touhou',
-        inviteOnly: `Invite Only`,
+        inviteOnly: 'Invite Only',
         whitelist: 'Whitelist',
         group: 'Group',
-        regionRestricted: `Region Restricted`,
+        regionRestricted: 'Region Restricted',
         level: 'Level'
       }
     }, {
@@ -833,29 +833,29 @@ class Settings {
       group: 'giveaways_gv',
       id: 'giveawayColumns_gv',
       key: 'gvIcons',
-      name: `Giveaway Columns`,
+      name: 'Giveaway Columns',
       labels: {
         sgTools: 'SGTools',
         ged: `Giveaway Encrypter/Decrypter`,
         time: `End/Start Time`,
         touhou: 'Touhou',
-        inviteOnly: `Invite Only`,
+        inviteOnly: 'Invite Only',
         whitelist: 'Whitelist',
         group: 'Group',
-        regionRestricted: `Region Restricted`,
+        regionRestricted: 'Region Restricted',
         level: 'Level'
       }
     }, {
       group: 'giveaways',
       id: 'giveawayPanel',
       key: 'panel',
-      name: `Giveaway Panel`,
+      name: 'Giveaway Panel',
       labels: {
-        ttec: `Time To Enter Calculator`,
-        gwc: `Giveaway Winning Chance`,
-        gwr: `Giveaway Winning Ratio`,
-        gptw: `Giveaway Points To Win`,
-        gp: `Giveaway Popup`,
+        ttec: 'Time To Enter Calculator',
+        gwc: 'Giveaway Winning Chance',
+        gwr: 'Giveaway Winning Ratio',
+        gptw: 'Giveaway Points To Win',
+        gp: 'Giveaway Popup',
         elgb: `Enter/Leave Giveaway Button`,
         sgTools: 'SGTools'
       }
@@ -864,13 +864,13 @@ class Settings {
       group: 'giveaways_gv',
       id: 'giveawayPanel_gv',
       key: 'panel',
-      name: `Giveaway Panel`,
+      name: 'Giveaway Panel',
       labels: {
-        ttec: `Time To Enter Calculator`,
-        gwc: `Giveaway Winning Chance`,
-        gwr: `Giveaway Winning Ratio`,
-        gptw: `Giveaway Points To Win`,
-        gp: `Giveaway Popup`,
+        ttec: 'Time To Enter Calculator',
+        gwc: 'Giveaway Winning Chance',
+        gwr: 'Giveaway Winning Ratio',
+        gptw: 'Giveaway Points To Win',
+        gp: 'Giveaway Popup',
         elgb: `Enter/Leave Giveaway Button`
       }
     }, {
@@ -878,10 +878,10 @@ class Settings {
       group: 'giveaways',
       id: 'giveawayLinks',
       key: 'links',
-      name: `Giveaway Links`,
+      name: 'Giveaway Links',
       labels: {
         entries: 'Entries',
-        winners_count: `Winners Count`,
+        winners_count: 'Winners Count',
         comments: 'Comments'
       }
     }, {
@@ -889,61 +889,61 @@ class Settings {
       group: 'giveaways',
       id: 'giveawayExtraPanel',
       key: 'extraPanel',
-      name: `Giveaway Extra Panel`,
+      name: 'Giveaway Extra Panel',
       labels: {
-        ggl: `Giveaway Groups Loader`
+        ggl: 'Giveaway Groups Loader'
       }
     }, {
       group: 'mainPageHeading',
       id: 'leftButtonIds',
       key: 'leftButtons',
       name: `Left Main Page Heading Buttons (Hidden)`,
-      tooltip: `Moving an element to this group will hide it from the main page heading. It will be accessible by clicking on the button with the vertical ellipsis located at the left side of the heading.`,
+      tooltip: 'Moving an element to this group will hide it from the main page heading. It will be accessible by clicking on the button with the vertical ellipsis located at the left side of the heading.',
       labels: {}
     }, {
       group: 'mainPageHeading',
       id: 'rightButtonIds',
       key: 'rightButtons',
       name: `Right Main Page Heading Buttons (Hidden)`,
-      tooltip: `Moving an element to this group will hide it from the main page heading. It will be accessible by clicking on the button with the vertical ellipsis located at the  right side of the heading.`,
+      tooltip: 'Moving an element to this group will hide it from the main page heading. It will be accessible by clicking on the button with the vertical ellipsis located at the  right side of the heading.',
       labels: {}
     }, {
       group: 'mainPageHeading',
       id: 'leftMainPageHeadingIds',
       key: 'leftMainPageHeadingButtons',
-      name: `Left Main Page Heading Buttons`,
+      name: 'Left Main Page Heading Buttons',
       labels: {
-        aic: `Attached Images Carousel`,
-        as: `Archive Searcher`,
+        aic: 'Attached Images Carousel',
+        as: 'Archive Searcher',
         cec: `Comment/Entry Checker`,
-        cf: `Comment Filters`,
-        cs: `Comment Searcher`,
+        cf: 'Comment Filters',
+        cs: 'Comment Searcher',
         ctGo: `Comment Tracker (Go To Unread)`,
         ctRead: `Comment Tracker (Mark As Read)`,
         ctUnread: `Comment Tracker (Mark As Unread)`,
-        df: `Discussion Filters`,
+        df: 'Discussion Filters',
         df_s_s: `Discussion Filters (Single Filters Switch)`,
-        tf: `Trade Filters`,
+        tf: 'Trade Filters',
         tf_s_s: `Trade Filters (Single Filters Switch)`,
-        gpf: `Group Filters`,
-        ds: `Discussion Sorter`,
-        gas: `Giveaway Sorter`,
-        ge: `Giveaway Extractor`,
-        gf: `Giveaway Filters`,
+        gpf: 'Group Filters',
+        ds: 'Discussion Sorter',
+        gas: 'Giveaway Sorter',
+        ge: 'Giveaway Extractor',
+        gf: 'Giveaway Filters',
         gf_s_s: `Giveaway Filters (Single Filters Switch)`,
         glwc: `Group Library/Wishlist Checker`,
-        gts: `Giveaway Templates`,
-        gv: `Grid View`,
-        hgm: `Hidden Games Manager`,
-        mpp: `Main Post Popup`,
+        gts: 'Giveaway Templates',
+        gv: 'Grid View',
+        hgm: 'Hidden Games Manager',
+        mpp: 'Main Post Popup',
         namwc: `Not Activated/Multiple Wins Checker`,
-        rbp: `Reply Box Popup`,
-        sks: `Sent Keys Searcher`,
-        tb: `Trade Bumper`,
+        rbp: 'Reply Box Popup',
+        sks: 'Sent Keys Searcher',
+        tb: 'Trade Bumper',
         uf_s_s: `User Filters (Single Filters Switch)`,
-        ugs: `Unsent Gifts Sender`,
-        usc: `User Suspension Checker`,
-        ust: `User Suspension Tracker`,
+        ugs: 'Unsent Gifts Sender',
+        usc: 'User Suspension Checker',
+        ust: 'User Suspension Tracker',
         wbc: `Whitelist/Blacklist Checker`,
         wbm: `Whitelist/Blacklist Manager`,
         wbsAsc: `Whitelist/Blacklist Sorter (Ascending)`,
@@ -953,7 +953,7 @@ class Settings {
       group: 'mainPageHeading',
       id: 'rightMainPageHeadingIds',
       key: 'rightMainPageHeadingButtons',
-      name: `Right Main Page Heading Buttons`,
+      name: 'Right Main Page Heading Buttons',
       labels: {
         esContinuous: `Endless Scrolling (Continuously Load)`,
         esNext: `Endless Scrolling (Load Next),`,
@@ -961,9 +961,9 @@ class Settings {
         esPause: `Endless Scrolling (Pause)`,
         esRefresh: `Endless Scrolling (Refresh)`,
         esRefreshAll: `Endless Scrolling (Refresh All)`,
-        mm: `Multi-Manager`,
-        stbb: `Scroll To Bottom Button`,
-        sttb: `Scroll To Top Button`
+        mm: 'Multi-Manager',
+        stbb: 'Scroll To Bottom Button',
+        sttb: 'Scroll To Top Button'
       }
     }];
     for (const item of items) {
@@ -974,8 +974,8 @@ class Settings {
         }
         children.push({
           attributes: {
-            [`data-draggable-id`]: id,
-            [`data-draggable-group`]: item.group
+            ['data-draggable-id']: id,
+            ['data-draggable-group']: item.group
           },
           text: item.labels[id],
           type: 'div'
@@ -986,13 +986,13 @@ class Settings {
         type: 'strong'
       }, item.tooltip ? {
         attributes: {
-          class: `fa fa-question-circle`,
+          class: 'fa fa-question-circle',
           title: item.tooltip
         },
         type: 'i'
       } : null, {
         attributes: {
-          class: `esgst-element-ordering-box`
+          class: 'esgst-element-ordering-box'
         },
         type: 'div',
         children
@@ -1000,8 +1000,8 @@ class Settings {
       (item.isGridView ? obj_gv : obj).outerWrap.insertBefore(new ButtonSet({
         color1: 'grey',
         color2: 'grey',
-        icon1: `fa-undo`,
-        icon2: `fa-circle-o-notch fa-spin`,
+        icon1: 'fa-undo',
+        icon2: 'fa-circle-o-notch fa-spin',
         title1: 'Reset',
         title2: 'Resetting',
         callback1: this.resetElementOrdering.bind(this, item.id, obj, obj_gv)
@@ -1033,8 +1033,8 @@ class Settings {
           }
           children_gv.push({
             attributes: {
-              [`data-draggable-id`]: id,
-              [`data-draggable-group`]: `${item.group}_gv`
+              ['data-draggable-id']: id,
+              ['data-draggable-group']: `${item.group}_gv`
             },
             text: item.labels[id],
             type: 'div'
@@ -1045,7 +1045,7 @@ class Settings {
           type: 'strong'
         }, {
           attributes: {
-            class: `esgst-element-ordering-box`
+            class: 'esgst-element-ordering-box'
           },
           type: 'div',
           children: children_gv
@@ -1053,8 +1053,8 @@ class Settings {
         obj_gv.outerWrap.insertBefore(new ButtonSet({
           color1: 'grey',
           color2: 'grey',
-          icon1: `fa-undo`,
-          icon2: `fa-circle-o-notch fa-spin`,
+          icon1: 'fa-undo',
+          icon2: 'fa-circle-o-notch fa-spin',
           title1: 'Reset',
           title2: 'Resetting',
           callback1: this.resetElementOrdering.bind(this, `${item.id}_gv`, obj, obj_gv)
@@ -1141,34 +1141,34 @@ class Settings {
       name: name
     };
     const context = shared.common.createElements_v2([
-      ['div', { class: `esgst-bold` }, [
+      ['div', { class: 'esgst-bold' }, [
         `Run it here: `,
-        ['i', { class: `fa fa-question-circle`, title: `Select the places where you want the feature to run. If you cannot find the place you want, select "Custom" and enter the place manually (you have to use regular expressions).` }]
+        ['i', { class: 'fa fa-question-circle', title: `Select the places where you want the feature to run. If you cannot find the place you want, select "Custom" and enter the place manually (you have to use regular expressions).` }]
       ]],
       ['div', obj.include],
-      ['div', { class: `esgst-button-group` }, [
+      ['div', { class: 'esgst-button-group' }, [
         new ButtonSet({
           color1: 'grey',
           color2: ``,
-          icon1: `fa-plus-circle`,
+          icon1: 'fa-plus-circle',
           icon2: ``,
-          title1: `Add New`,
+          title1: 'Add New',
           title2: ``,
           callback1: () => obj.include.extend(feature, 'include', obj, { enabled: 1, pattern: `` }, true)
         }).set
       ]],
-      ['div', { class: `esgst-bold` }, [
+      ['div', { class: 'esgst-bold' }, [
         `Do NOT run it here: `,
-        ['i', { class: `fa fa-question-circle`, title: `Select the places where you don't want the feature to run. If you cannot find the place you want, select "Custom" and enter the place manually (you have to use regular expressions).` }]
+        ['i', { class: 'fa fa-question-circle', title: `Select the places where you don't want the feature to run. If you cannot find the place you want, select "Custom" and enter the place manually (you have to use regular expressions).` }]
       ]],
       ['div', obj.exclude],
-      ['div', { class: `esgst-button-group` }, [
+      ['div', { class: 'esgst-button-group' }, [
         new ButtonSet({
           color1: 'grey',
           color2: ``,
-          icon1: `fa-plus-circle`,
+          icon1: 'fa-plus-circle',
           icon2: ``,
-          title1: `Add New`,
+          title1: 'Add New',
           title2: ``,
           callback1: () => obj.exclude.extend(feature, 'exclude', obj, { enabled: 1, pattern: `` }, true)
         }).set
@@ -1191,7 +1191,7 @@ class Settings {
       this.savePaths(feature.id, obj);
     };
     item.select = shared.common.createElements_v2(item.container, 'beforeEnd', [
-      ['select', { class: `esgst-switch-input esgst-switch-input-large` }, [
+      ['select', { class: 'esgst-switch-input esgst-switch-input-large' }, [
         ...(shared.esgst.paths[obj.name].filter(x => !feature[`${obj.name}Paths`] || x.name === 'Everywhere' || x.name.match(feature[`${obj.name}Paths`])).map(x =>
           ['option', Object.assign({ value: x.pattern }, x.pattern === path.pattern && (found = true) ? { selected: true } : null), x.name]
         )),
@@ -1199,7 +1199,7 @@ class Settings {
       ]]
     ]);
     item.input = shared.common.createElements_v2(item.container, 'beforeEnd', [
-      ['input', Object.assign({ class: `esgst-switch-input esgst-switch-input-large`, type: 'text' }, item.select.value === 'custom' ? null : { disabled: true })]
+      ['input', Object.assign({ class: 'esgst-switch-input esgst-switch-input-large', type: 'text' }, item.select.value === 'custom' ? null : { disabled: true })]
     ]);
     item.select.addEventListener('change', () => {
       if (item.select.value === 'custom') {
@@ -1218,15 +1218,15 @@ class Settings {
     });
     shared.common.createElements(item.container, 'beforeEnd', [{
       attributes: {
-        class: `fa fa-times-circle esgst-clickable`,
+        class: 'fa fa-times-circle esgst-clickable',
         title: 'Remove'
       },
       type: 'i'
     }]).addEventListener('click', () => this.removePath(feature, item, key, obj));
     item.invalid = shared.common.createElements(item.container, 'beforeEnd', [{
       attributes: {
-        class: `fa fa-exclamation esgst-hidden esgst-red`,
-        title: `Invalid Regular Expression`
+        class: 'fa fa-exclamation esgst-hidden esgst-red',
+        title: 'Invalid Regular Expression'
       },
       type: 'i'
     }]);
@@ -1235,7 +1235,7 @@ class Settings {
       item.options = [];
       const optionsContainer = shared.common.createElements(item.container, 'beforeEnd', [{
         attributes: {
-          class: `esgst-form-row-indent`
+          class: 'esgst-form-row-indent'
         },
         type: 'div'
       }]);
@@ -1268,12 +1268,12 @@ class Settings {
   }
 
   validatePathRegex(item) {
-    item.invalid.classList.add(`esgst-hidden`);
+    item.invalid.classList.add('esgst-hidden');
     try {
       new RegExp(item.input.value);
     } catch (error) {
       logger.warning(error.stack);
-      item.invalid.classList.remove(`esgst-hidden`);
+      item.invalid.classList.remove('esgst-hidden');
     }
   }
 
@@ -1317,7 +1317,7 @@ class Settings {
     menu.id = `esgst_${id}`;
     shared.common.createElements(menu, 'beforeEnd', [{
       attributes: {
-        class: `esgst-sm-small-number esgst-form-heading-number`
+        class: 'esgst-sm-small-number esgst-form-heading-number'
       },
       text: `${number}.`,
       type: 'div'
@@ -1327,7 +1327,7 @@ class Settings {
       feature.isNew = true;
       shared.common.createElements(menu.firstElementChild, 'afterEnd', [{
         attributes: {
-          class: `esgst-bold esgst-red esgst-clickable esgst-new-indicator`,
+          class: 'esgst-bold esgst-red esgst-clickable esgst-new-indicator',
           title: `This is a new feature/option. Click to dismiss.`
         },
         text: `[NEW]`,
@@ -1358,7 +1358,7 @@ class Settings {
               sgSwitch.disable(true);
               new Popup({
                 addScrollable: true,
-                icon: `fa-exclamation`,
+                icon: 'fa-exclamation',
                 isTemp: true,
                 title: `This feature conflicts with ${shared.common.getFeatureName(null, conflictId)}. While that feature is enabled, this feature cannot be enabled.`
               }).open();
@@ -1375,7 +1375,7 @@ class Settings {
         } else {
           this.preSave(`${id}_sg`, true);
         }
-        if (subMenu.classList.contains(`esgst-hidden`)) {
+        if (subMenu.classList.contains('esgst-hidden')) {
           this.expandSection(collapseButton, id, subMenu);
           isExpanded = true;
         }
@@ -1424,7 +1424,7 @@ class Settings {
               stSwitch.disable(true);
               new Popup({
                 addScrollable: true,
-                icon: `fa-exclamation`,
+                icon: 'fa-exclamation',
                 isTemp: true,
                 title: `This feature conflicts with ${shared.common.getFeatureName(null, conflictId)}. While that feature is enabled, this feature cannot be enabled.`
               }).open();
@@ -1441,7 +1441,7 @@ class Settings {
         } else {
           this.preSave(`${id}_st`, true);
         }
-        if (subMenu.classList.contains(`esgst-hidden`)) {
+        if (subMenu.classList.contains('esgst-hidden')) {
           this.expandSection(collapseButton, id, subMenu);
           isExpanded = true;
         }
@@ -1490,7 +1490,7 @@ class Settings {
               sgtoolsSwitch.disable(true);
               new Popup({
                 addScrollable: true,
-                icon: `fa-exclamation`,
+                icon: 'fa-exclamation',
                 isTemp: true,
                 title: `This feature conflicts with ${shared.common.getFeatureName(null, conflictId)}. While that feature is enabled, this feature cannot be enabled.`
               }).open();
@@ -1507,7 +1507,7 @@ class Settings {
         } else {
           this.preSave(`${id}_sgtools`, true);
         }
-        if (subMenu.classList.contains(`esgst-hidden`)) {
+        if (subMenu.classList.contains('esgst-hidden')) {
           this.expandSection(collapseButton, id, subMenu);
           isExpanded = true;
         }
@@ -1540,11 +1540,11 @@ class Settings {
         sgContext && sgContext.firstElementChild,
         stContext && stContext.firstElementChild,
         sgtoolsContext && sgtoolsContext.firstElementChild,
-        ['a', { class: `esgst-settings-feature table__column__secondary-link esgst-clickable `, 'data-id': id }, [
+        ['a', { class: 'esgst-settings-feature table__column__secondary-link esgst-clickable ', 'data-id': id }, [
           ...(Array.isArray(feature.name) ? feature.name : [feature.name])
         ]]
       ]],
-      ['div', { class: `esgst-form-row-indent SMFeatures ${isHidden ? `esgst-hidden` : ``}` }]
+      ['div', { class: `esgst-form-row-indent SMFeatures ${isHidden ? 'esgst-hidden' : ``}` }]
     ]);
     subMenu = menu.lastElementChild;
     if (feature.features) {
@@ -1571,13 +1571,13 @@ class Settings {
       if (isNew) {
         shared.common.createElements(menu.firstElementChild, 'afterEnd', [{
           attributes: {
-            class: `esgst-bold esgst-red esgst-new-indicator`,
+            class: 'esgst-bold esgst-red esgst-new-indicator',
             title: `There is a new feature/option in this section`
           },
           type: 'span',
           children: [{
             attributes: {
-              class: `fa fa-star`
+              class: 'fa fa-star'
             },
             type: 'i'
           }]
@@ -1586,7 +1586,7 @@ class Settings {
       if (gSettings.makeSectionsCollapsible) {
         collapseButton = shared.common.createElements(menu, 'afterBegin', [{
           attributes: {
-            class: `esgst-clickable`,
+            class: 'esgst-clickable',
             style: `margin-right: 5px;`
           },
           type: 'span',
@@ -1599,7 +1599,7 @@ class Settings {
           }]
         }]);
         if (gSettings[`collapse_${id}`]) {
-          subMenu.classList.add(`esgst-hidden`);
+          subMenu.classList.add('esgst-hidden');
           isExpanded = false;
         } else {
           isExpanded = true;
@@ -1636,7 +1636,7 @@ class Settings {
     } else if (ID === 'gwr') {
       items.push(this.addGwcrMenuPanel('gwr_colors', 'ratio'));
     } else if (ID === 'gptw') {
-      items.push(this.addGwcrMenuPanel('gptw_colors', `points to win`));
+      items.push(this.addGwcrMenuPanel('gptw_colors', 'points to win'));
     } else if (ID === 'geth') {
       items.push(this.addGwcrMenuPanel('geth_colors', 'hours'));
     } else if (ID === 'gc_r') {
@@ -1662,18 +1662,18 @@ class Settings {
           ['br'],
           ['input', { 'data-color-id': id, type: 'color', value: color.hex }],
           ` Opacity: `,
-          ['input', { max: `1.0`, min: `0.0`, step: `0.1`, type: 'number', value: color.alpha }],
-          ` `,
-          ['div', { class: `form__saving-button esgst-sm-colors-default` }, 'Reset'],
+          ['input', { max: '1.0', min: '0.0', step: '0.1', type: 'number', value: color.alpha }],
+          ' ',
+          ['div', { class: 'form__saving-button esgst-sm-colors-default' }, 'Reset'],
           ['br']
         );
       }
       const context = shared.common.createElements_v2([
-        ['div', { class: `esgst-sm-colors` }, children]
+        ['div', { class: 'esgst-sm-colors' }, children]
       ]).firstElementChild;
       const elements = context.querySelectorAll(`[data-color-id]`);
       for (const hexInput of elements) {
-        const colorId = hexInput.getAttribute(`data-color-id`);
+        const colorId = hexInput.getAttribute('data-color-id');
         const alphaInput = hexInput.nextElementSibling;
         this.addColorObserver(hexInput, alphaInput, ID, colorId);
         alphaInput.nextElementSibling.addEventListener('click', this.resetColor.bind(this, hexInput, alphaInput, ID, colorId));
@@ -1681,10 +1681,10 @@ class Settings {
       items.push(context);
       if (ID === 'gc_g') {
         const input = shared.common.createElements_v2([
-          ['div', { class: `esgst-sm-colors` }, [
+          ['div', { class: 'esgst-sm-colors' }, [
             `Only show the following genres: `,
             ['input', { type: 'text', value: gSettings.gc_g_filters }],
-            ['i', { class: `fa fa-question-circle`, title: `If you enter genres here, a genre category will only appear if the game has the listed genre. Separate genres with a comma, for example: Genre1, Genre2` }]
+            ['i', { class: 'fa fa-question-circle', title: `If you enter genres here, a genre category will only appear if the game has the listed genre. Separate genres with a comma, for example: Genre1, Genre2` }]
           ]]
         ]).firstElementChild;
         shared.common.observeChange(input.firstElementChild, 'gc_g_filters', this.toSave);
@@ -1693,10 +1693,10 @@ class Settings {
       }
       if (Feature.input) {
         const input = shared.common.createElements_v2([
-          ['div', { class: `esgst-sm-colors` }, [
+          ['div', { class: 'esgst-sm-colors' }, [
             `Icon: `,
             ['input', { type: 'text', value: gSettings[`${ID}Icon`] }],
-            ['i', { class: `esgst-clickable fa fa-question-circle` }],
+            ['i', { class: 'esgst-clickable fa fa-question-circle' }],
             ['br'],
             `Label: `,
             ['input', { type: 'text', value: gSettings[`${ID}Label`] }]
@@ -1710,7 +1710,7 @@ class Settings {
         if (ID === 'gc_rd') {
           shared.common.createElements(input, 'beforeEnd', [{
             attributes: {
-              class: `fa fa-question-circle`,
+              class: 'fa fa-question-circle',
               title: `Enter the date format here, using the following keywords:\n\nDD - Day\nMM - Month in numbers (i.e. 1)\nMon - Month in short name (i.e. Jan)\nMonth - Month in full name (i.e. January)\nYYYY - Year`
             },
             type: 'i'
@@ -1720,7 +1720,7 @@ class Settings {
       }
     } else if (Feature.inputItems) {
       let containerr = shared.common.createElements_v2([
-        ['div', { class: `esgst-sm-colors` }]
+        ['div', { class: 'esgst-sm-colors' }]
       ]).firstElementChild;
       if (ID.match(/^(chfl|sk_)/)) {
         Feature.inputItems = [
@@ -1750,12 +1750,12 @@ class Settings {
             type: 'input'
           }, {
               attributes: {
-                class: `fa fa-play-circle esgst-clickable`
+                class: 'fa fa-play-circle esgst-clickable'
               },
               type: 'i'
             });
         } else {
-          attributes.class = `esgst-switch-input esgst-switch-input-large`;
+          attributes.class = 'esgst-switch-input esgst-switch-input-large';
           attributes.type = attributes.type || 'text';
           attributes.value = gSettings[item.id];
           children.push({
@@ -1771,7 +1771,7 @@ class Settings {
           if (item.tooltip) {
             children.push({
               attributes: {
-                class: `fa fa-question-circle`,
+                class: 'fa fa-question-circle',
                 title: item.tooltip
               },
               type: 'i'
@@ -1792,7 +1792,7 @@ class Settings {
           Feature.isNew = true;
           shared.common.createElements(context, 'afterBegin', [{
             attributes: {
-              class: `esgst-bold esgst-red esgst-clickable esgst-new-indicator`,
+              class: 'esgst-bold esgst-red esgst-clickable esgst-new-indicator',
               title: `This is a new feature/option. Click to dismiss.`
             },
             text: `[NEW]`,
@@ -1837,11 +1837,11 @@ class Settings {
       items.push(containerr);
     } else if (Feature.theme) {
       const children = [
-        `Enabled from `,
+        'Enabled from ',
         ['input', { type: 'text', value: gSettings[`${ID}_startTime`] }],
-        ` to `,
+        ' to ',
         ['input', { type: 'text', value: gSettings[`${ID}_endTime`] }],
-        ['i', { class: `fa fa-question-circle`, title: `You can specify here what time of the day you want the theme to be enabled. Use the HH:MM format.` }],
+        ['i', { class: 'fa fa-question-circle', title: `You can specify here what time of the day you want the theme to be enabled. Use the HH:MM format.` }],
         ['br']
       ];
       if (ID === 'customTheme') {
@@ -1851,12 +1851,12 @@ class Settings {
       } else {
         children.push(
           // @ts-ignore
-          ['div', { class: `form__saving-button esgst-sm-colors-default`, id: ID }, 'Update'],
+          ['div', { class: 'form__saving-button esgst-sm-colors-default', id: ID }, 'Update'],
           ['span']
         );
       }
       let containerr = shared.common.createElements_v2([
-        ['div', { class: `esgst-sm-colors` }, children]
+        ['div', { class: 'esgst-sm-colors' }, children]
       ]).firstElementChild;
       let startTime = containerr.firstElementChild;
       let endTime = startTime.nextElementSibling;
@@ -1886,11 +1886,11 @@ class Settings {
           let url = await this.getThemeUrl(ID, Feature.theme);
           shared.common.createElements(button, 'inner', [{
             attributes: {
-              class: `fa fa-circle-o-notch fa-spin`
+              class: 'fa fa-circle-o-notch fa-spin'
             },
             type: 'i'
           }, {
-            text: ` Updating...`,
+            text: ' Updating...',
             type: 'node'
           }]);
           let theme = JSON.stringify((await shared.common.request({ method: 'GET', url })).responseText);
@@ -1919,7 +1919,7 @@ class Settings {
           );
         }
         const select = shared.common.createElements_v2([
-          ['div', { class: `esgst-sm-colors` }, [
+          ['div', { class: 'esgst-sm-colors' }, [
             option.title,
             ['select', children]
           ]]
@@ -1933,7 +1933,7 @@ class Settings {
   }
 
   readHrAudioFile(id, event) {
-    let popup = new Popup({ addScrollable: true, icon: `fa-circle-o-notch fa-spin`, title: `Uploading...` });
+    let popup = new Popup({ addScrollable: true, icon: 'fa-circle-o-notch fa-spin', title: 'Uploading...' });
     popup.open();
     try {
       let reader = new FileReader();
@@ -1941,10 +1941,10 @@ class Settings {
       reader.readAsArrayBuffer(event.currentTarget.files[0]);
     } catch (e) {
       logger.warning(e.stack);
-      popup.icon.classList.remove(`fa-circle-o-notch`);
-      popup.icon.classList.remove(`fa-spin`);
-      popup.icon.classList.add(`fa-times`);
-      popup.title.textContent = `An error happened.`;
+      popup.icon.classList.remove('fa-circle-o-notch');
+      popup.icon.classList.remove('fa-spin');
+      popup.icon.classList.add('fa-times');
+      popup.title.textContent = 'An error happened.';
     }
   }
 
@@ -1962,20 +1962,20 @@ class Settings {
       popup.close();
     } catch (e) {
       logger.warning(e.stack);
-      popup.icon.classList.remove(`fa-circle-o-notch`);
-      popup.icon.classList.remove(`fa-spin`);
-      popup.icon.classList.add(`fa-times`);
-      popup.title.textContent = `An error happened.`;
+      popup.icon.classList.remove('fa-circle-o-notch');
+      popup.icon.classList.remove('fa-spin');
+      popup.icon.classList.add('fa-times');
+      popup.title.textContent = 'An error happened.';
     }
   }
 
   addGwcrMenuPanel(id, key, background, upper = '100') {
     const panel = shared.common.createElements_v2([
-      ['div', { class: `esgst-sm-colors` }, [
-        ['div', { class: `form__saving-button esgst-sm-colors-default` }, [
-          ['span', `Add Color Setting`]
+      ['div', { class: 'esgst-sm-colors' }, [
+        ['div', { class: 'form__saving-button esgst-sm-colors-default' }, [
+          ['span', 'Add Color Setting']
         ]],
-        ['i', { class: `fa fa-question-circle`, title: `Allows you to set different colors for different ${key} ranges.` }]
+        ['i', { class: 'fa fa-question-circle', title: `Allows you to set different colors for different ${key} ranges.` }]
       ]]
     ]).firstElementChild;
     const button = panel.firstElementChild;
@@ -2008,17 +2008,17 @@ class Settings {
         type: 'node'
       }, {
         attributes: {
-          step: `0.01`,
+          step: '0.01',
           type: 'number',
           value: colors.lower
         },
         type: 'input'
       }, {
-        text: ` to `,
+        text: ' to ',
         type: 'node'
       }, {
         attributes: {
-          step: `0.01`,
+          step: '0.01',
           type: 'number',
           value: colors.upper
         },
@@ -2033,7 +2033,7 @@ class Settings {
         },
         type: 'input'
       }, ...(background ? [{
-        text: ` with the background `,
+        text: ' with the background ',
         type: 'node'
       }, {
         attributes: {
@@ -2043,8 +2043,8 @@ class Settings {
         type: 'input'
       }] : []), {
         attributes: {
-          class: `esgst-clickable fa fa-times`,
-          title: `Delete this setting`
+          class: 'esgst-clickable fa fa-times',
+          title: 'Delete this setting'
         },
         type: 'i'
       }]
@@ -2092,19 +2092,19 @@ class Settings {
 
   addUlMenuPanel(id) {
     const panel = shared.common.createElements_v2([
-      ['div', { class: `esgst-sm-colors` }, [
+      ['div', { class: 'esgst-sm-colors' }, [
         ['div'],
-        ['div', { class: `form__saving-button esgst-sm-colors-default`, onclick: () => this.addUlMenuItem(id, panel) }, [
-          ['span', `Add Link`]
+        ['div', { class: 'form__saving-button esgst-sm-colors-default', onclick: () => this.addUlMenuItem(id, panel) }, [
+          ['span', 'Add Link']
         ]],
-        ['div', { class: `form__saving-button esgst-sm-colors-default`, onclick: () => { this.preSave(id, shared.esgst.defaultValues[id]); panel.firstElementChild.innerHTML = ``; this.addUlMenuItems(id, panel); } }, [
+        ['div', { class: 'form__saving-button esgst-sm-colors-default', onclick: () => { this.preSave(id, shared.esgst.defaultValues[id]); panel.firstElementChild.innerHTML = ``; this.addUlMenuItems(id, panel); } }, [
           ['span', 'Reset']
         ]],
-        ['div', { class: `form__saving-button esgst-sm-colors-default`, title: `This will merge your list with the default list, meaning that any new items in the default list will be added to your list. Also, if you previously deleted an item from the default list, it will come back.`, onclick: () => this.mergeValues(id, panel, this.addUlMenuItems.bind(this)) }, [
+        ['div', { class: 'form__saving-button esgst-sm-colors-default', title: `This will merge your list with the default list, meaning that any new items in the default list will be added to your list. Also, if you previously deleted an item from the default list, it will come back.`, onclick: () => this.mergeValues(id, panel, this.addUlMenuItems.bind(this)) }, [
           ['span', 'Merge']
         ]],
-        ['div', { class: `form__input-description` }, [
-          `The default links should give you an idea of how the format works.`,
+        ['div', { class: 'form__input-description' }, [
+          'The default links should give you an idea of how the format works.',
           ['br'],
           ['br'],
           `As label, you can use FontAwesome icons (for example, "fa-icon"), image URLs (for example, "https://www.example.com/image.jpg") and plain text (for example, "Text"). You can also combine them (for example, "fa-icon https://www.example.com/image.jpg Text"). Images will be resized to 16x16.`,
@@ -2165,9 +2165,9 @@ class Settings {
     const setting = shared.common.createElements_v2(panel.firstElementChild, 'beforeEnd', [
       ['div', { 'data-draggable-id': i, 'data-draggable-obj': JSON.stringify(link) }, [
         `Label: `,
-        ['input', { onchange: event => { link.label = event.currentTarget.value; this.preSave(id, gSettings[id]); setting.setAttribute(`data-draggable-obj`, JSON.stringify(link)); }, type: 'text', value: link.label }],
+        ['input', { onchange: event => { link.label = event.currentTarget.value; this.preSave(id, gSettings[id]); setting.setAttribute('data-draggable-obj', JSON.stringify(link)); }, type: 'text', value: link.label }],
         `URL: `,
-        ['input', { onchange: event => { link.url = event.currentTarget.value; this.preSave(id, gSettings[id]); setting.setAttribute(`data-draggable-obj`, JSON.stringify(link)); }, type: 'text', value: link.url }]
+        ['input', { onchange: event => { link.url = event.currentTarget.value; this.preSave(id, gSettings[id]); setting.setAttribute('data-draggable-obj', JSON.stringify(link)); }, type: 'text', value: link.url }]
       ]]
     ]);
     shared.common.draggable_set({
@@ -2185,11 +2185,11 @@ class Settings {
 
   addGcRatingPanel() {
     const panel = shared.common.createElements_v2([
-      ['div', { class: `esgst-sm-colors` }, [
-        ['div', { class: `form__saving-button esgst-sm-colors-default` }, [
-          ['span', `Add Rating Setting`]
+      ['div', { class: 'esgst-sm-colors' }, [
+        ['div', { class: 'form__saving-button esgst-sm-colors-default' }, [
+          ['span', 'Add Rating Setting']
         ]],
-        ['i', { class: `fa fa-question-circle`, title: `Allows you to set different colors/icons for different rating ranges.` }]
+        ['i', { class: 'fa fa-question-circle', title: `Allows you to set different colors/icons for different rating ranges.` }]
       ]]
     ]).firstElementChild;
     let button = panel.firstElementChild;
@@ -2243,7 +2243,7 @@ class Settings {
         },
         type: 'input'
       }, {
-        text: ` with the background `,
+        text: ' with the background ',
         type: 'node'
       }, {
         attributes: {
@@ -2252,7 +2252,7 @@ class Settings {
         },
         type: 'input'
       }, {
-        text: ` and the icon `,
+        text: ' and the icon ',
         type: 'node'
       }, {
         attributes: {
@@ -2262,16 +2262,16 @@ class Settings {
         type: 'input'
       }, {
         attributes: {
-          class: `fa fa-question-circle`
+          class: 'fa fa-question-circle'
         },
         type: 'i'
       }, {
-        text: `.`,
+        text: '.',
         type: 'node'
       }, {
         attributes: {
-          class: `esgst-clickable fa fa-times`,
-          title: `Delete this setting`
+          class: 'esgst-clickable fa fa-times',
+          title: 'Delete this setting'
         },
         type: 'i'
       }]
@@ -2322,11 +2322,11 @@ class Settings {
   addGcMenuPanel() {
     let button, colorSetting, i, n;
     const panel = shared.common.createElements_v2([
-      ['div', { class: `esgst-sm-colors` }, [
-        ['div', { class: `form__saving-button esgst-sm-colors-default` }, [
-          ['span', `Add Custom Genre Setting`]
+      ['div', { class: 'esgst-sm-colors' }, [
+        ['div', { class: 'form__saving-button esgst-sm-colors-default' }, [
+          ['span', 'Add Custom Genre Setting']
         ]],
-        ['i', { class: `fa fa-question-circle`, title: `Allows you to color genres (colored genres will appear at the beginning of the list).` }]
+        ['i', { class: 'fa fa-question-circle', title: `Allows you to color genres (colored genres will appear at the beginning of the list).` }]
       ]]
     ]).firstElementChild;
     button = panel.firstElementChild;
@@ -2352,7 +2352,7 @@ class Settings {
     setting = shared.common.createElements(panel, 'beforeEnd', [{
       type: 'div',
       children: [{
-        text: `For genre `,
+        text: 'For genre ',
         type: 'node'
       }, {
         attributes: {
@@ -2370,7 +2370,7 @@ class Settings {
         },
         type: 'input'
       }, {
-        text: ` with the background `,
+        text: ' with the background ',
         type: 'node'
       }, {
         attributes: {
@@ -2379,12 +2379,12 @@ class Settings {
         },
         type: 'input'
       }, {
-        text: `.`,
+        text: '.',
         type: 'node'
       }, {
         attributes: {
-          class: `esgst-clickable fa fa-times`,
-          title: `Delete this setting`
+          class: 'esgst-clickable fa fa-times',
+          title: 'Delete this setting'
         },
         type: 'i'
       }]
@@ -2423,16 +2423,16 @@ class Settings {
   addGcAltMenuPanel() {
     let altSetting, button, i, n;
     const panel = shared.common.createElements_v2([
-      ['div', { class: `esgst-sm-colors` }, [
-        ['div', { class: `form__saving-button esgst-sm-colors-default` }, [
-          ['span', `Add Alt Account`]
+      ['div', { class: 'esgst-sm-colors' }, [
+        ['div', { class: 'form__saving-button esgst-sm-colors-default' }, [
+          ['span', 'Add Alt Account']
         ]]
       ]]
     ]).firstElementChild;
     button = panel.firstElementChild;
     shared.common.createTooltip(shared.common.createElements(panel, 'beforeEnd', [{
       attributes: {
-        class: `fa fa-question-circle`
+        class: 'fa fa-question-circle'
       },
       type: 'i'
     }]), `
@@ -2471,7 +2471,7 @@ class Settings {
     setting = shared.common.createElements(panel, 'beforeEnd', [{
       type: 'div',
       children: [{
-        text: `For account with Steam ID `,
+        text: 'For account with Steam ID ',
         type: 'node'
       }, {
         attributes: {
@@ -2496,7 +2496,7 @@ class Settings {
       }, {
         type: 'br'
       }, {
-        text: `color it as `,
+        text: 'color it as ',
         type: 'node'
       }, {
         attributes: {
@@ -2505,7 +2505,7 @@ class Settings {
         },
         type: 'input'
       }, {
-        text: ` with the background `,
+        text: ' with the background ',
         type: 'node'
       }, {
         attributes: {
@@ -2524,22 +2524,22 @@ class Settings {
         },
         type: 'input'
       }, {
-        text: ` and label `,
+        text: ' and label ',
         type: 'node'
       }, {
         attributes: {
-          placeholder: `Owned by alt1`,
+          placeholder: 'Owned by alt1',
           type: 'text',
           value: altSetting.label
         },
         type: 'input'
       }, {
-        text: `.`,
+        text: '.',
         type: 'node'
       }, {
         attributes: {
-          class: `esgst-clickable fa fa-times`,
-          title: `Delete this setting`
+          class: 'esgst-clickable fa fa-times',
+          title: 'Delete this setting'
         },
         type: 'i'
       }]
@@ -2613,15 +2613,15 @@ class Settings {
       sgv2Dark: [
         {
           default: 0,
-          id: `ik-page width`,
-          name: `Page width`,
+          id: 'ik-page width',
+          name: 'Page width',
           options: [
             {
-              id: `ik-def page width`,
+              id: 'ik-def page width',
               name: `100%`
             },
             {
-              id: `ik-fixed sg page width`,
+              id: 'ik-fixed sg page width',
               name: `Fixed (1440px)`
             }
           ]
@@ -2630,129 +2630,129 @@ class Settings {
       steamGifties: [
         {
           default: 1,
-          id: `ik-spoilertags`,
-          name: `Remove spoiler tags`
+          id: 'ik-spoilertags',
+          name: 'Remove spoiler tags'
         },
         {
           default: 1,
-          id: `ik-hiddenlinks`,
-          name: `Reveal hidden links`
+          id: 'ik-hiddenlinks',
+          name: 'Reveal hidden links'
         },
         {
           default: 0,
-          id: `ik-sgppsupport`,
+          id: 'ik-sgppsupport',
           name: `SG++ support`
         },
         {
           default: 0,
-          id: `ik-whiteblacklist`,
+          id: 'ik-whiteblacklist',
           name: `Blacklist/Whitelist Indicator support`
         },
         {
           default: 0,
-          id: `ik-easysteamgifts`,
-          name: `Easy SteamGifts support`
+          id: 'ik-easysteamgifts',
+          name: 'Easy SteamGifts support'
         },
         {
           default: 0,
-          id: `ik-visited-link`,
-          name: `Highlight visited links`,
+          id: 'ik-visited-link',
+          name: 'Highlight visited links',
           options: [
             {
-              id: `ik-1`,
-              name: `Mark visited links`
+              id: 'ik-1',
+              name: 'Mark visited links'
             },
             {
-              id: `ik-3`,
+              id: 'ik-3',
               name: `Mark visited links + threads in forum`
             },
             {
-              id: `ik-2`,
+              id: 'ik-2',
               name: 'No'
             }
           ]
         },
         {
           default: 0,
-          id: `ik-touhou-style`,
-          name: `TouHou Giveaways Helper support`
+          id: 'ik-touhou-style',
+          name: 'TouHou Giveaways Helper support'
         },
         {
           default: 0,
-          id: `ik-sg2os`,
-          name: `SG2O support`
+          id: 'ik-sg2os',
+          name: 'SG2O support'
         },
         {
           default: 0,
-          id: `ik-avatarsize`,
-          name: `Avatar size`,
+          id: 'ik-avatarsize',
+          name: 'Avatar size',
           options: [
             {
-              id: `ik-1`,
+              id: 'ik-1',
               name: `Big (52px)`
             },
             {
-              id: `ik-2`,
+              id: 'ik-2',
               name: 'Normal'
             }
           ]
         },
         {
           default: 0,
-          id: `ik-extendedsg`,
-          name: `Extended SteamGifts support`
+          id: 'ik-extendedsg',
+          name: 'Extended SteamGifts support'
         },
         {
           default: 0,
-          id: `ik-navbarbutton`,
-          name: `Navigation bar button color`,
+          id: 'ik-navbarbutton',
+          name: 'Navigation bar button color',
           options: [
             {
-              id: `ik-1`,
+              id: 'ik-1',
               name: 'Default'
             },
             {
-              id: `ik-2`,
+              id: 'ik-2',
               name: 'White'
             }
           ]
         },
         {
           default: 0,
-          id: `ik-ESGST`,
-          name: `ESGST support`
+          id: 'ik-ESGST',
+          name: 'ESGST support'
         },
         {
           default: 1,
-          id: `ik-featurega`,
-          name: `Featured giveaway`,
+          id: 'ik-featurega',
+          name: 'Featured giveaway',
           options: [
             {
-              id: `ik-1`,
+              id: 'ik-1',
               name: 'No'
             },
             {
-              id: `ik-2`,
-              name: `Smaller banner`
+              id: 'ik-2',
+              name: 'Smaller banner'
             },
             {
-              id: `ik-2`,
-              name: `Hide banner`
+              id: 'ik-2',
+              name: 'Hide banner'
             }
           ]
         },
         {
           default: 0,
-          id: `ik-removepoll`,
-          name: `Homepage poll`,
+          id: 'ik-removepoll',
+          name: 'Homepage poll',
           options: [
             {
-              id: `ik-1`,
+              id: 'ik-1',
               name: 'Default'
             },
             {
-              id: `ik-2`,
-              name: `Remove poll`
+              id: 'ik-2',
+              name: 'Remove poll'
             }
           ]
         }
@@ -2760,15 +2760,15 @@ class Settings {
       steamTradies: [
         {
           default: 0,
-          id: `ik-color-sc`,
+          id: 'ik-color-sc',
           name: 'Color',
           options: [
             {
-              id: `ik-1`,
-              name: `Dark blue`
+              id: 'ik-1',
+              name: 'Dark blue'
             },
             {
-              id: `ik-2`,
+              id: 'ik-2',
               name: 'Black'
             }
           ]
@@ -2777,11 +2777,11 @@ class Settings {
     };
     let binaryOptions = [
       {
-        id: `ik-1`,
+        id: 'ik-1',
         name: 'Yes'
       },
       {
-        id: `ik-2`,
+        id: 'ik-2',
         name: 'No'
       }
     ];
@@ -2791,13 +2791,13 @@ class Settings {
       return;
     }
     obj.popup = new Popup({
-      icon: `fa-gear`,
+      icon: 'fa-gear',
       title: `Select the options that you want:`,
       buttons: [
         {
           color1: 'green', color2: 'grey',
-          icon1: `fa-gear`, icon2: `fa-circle-o-notch fa-spin`,
-          title1: 'Generate', title2: `Generating...`,
+          icon1: 'fa-gear', icon2: 'fa-circle-o-notch fa-spin',
+          title1: 'Generate', title2: 'Generating...',
           callback1: () => this.generateThemeUrl(obj, key)
         }
       ],
@@ -2805,7 +2805,7 @@ class Settings {
     });
     obj.popup.onClose = resolve.bind(shared.common, url);
     let context = obj.popup.getScrollable([
-      ['div', { class: `esgst-sm-colors` }]
+      ['div', { class: 'esgst-sm-colors' }]
     ]).firstElementChild;
     obj.options[key].forEach(option => {
       option.select = shared.common.createElements(context, 'beforeEnd', [{
@@ -2845,31 +2845,31 @@ class Settings {
   createMenuSection(context, html, number, title, type) {
     let section = shared.common.createElements(context, 'beforeEnd', [{
       attributes: {
-        class: `esgst-form-row`,
+        class: 'esgst-form-row',
         id: `esgst_${type}`,
         'data-id': type
       },
       type: 'div',
       children: [{
         attributes: {
-          class: `esgst-form-heading`
+          class: 'esgst-form-heading'
         },
         type: 'div',
         children: [{
           attributes: {
-            class: `esgst-form-heading-number`
+            class: 'esgst-form-heading-number'
           },
           text: `${number}.`,
           type: 'div'
         }, {
           attributes: {
-            class: `icon_to_clipboard fa fa-fw fa-copy`,
+            class: 'icon_to_clipboard fa fa-fw fa-copy',
             'data-clipboard-text': `https://www.steamgifts.com/account/settings/profile?esgst=settings&id=${type}`
           },
           type: 'i'
         }, {
           attributes: {
-            class: `esgst-form-heading-text`
+            class: 'esgst-form-heading-text'
           },
           type: 'div',
           children: [{
@@ -2879,7 +2879,7 @@ class Settings {
         }]
       }, {
         attributes: {
-          class: `esgst-form-row-indent`
+          class: 'esgst-form-row-indent'
         },
         type: 'div',
         children: html
@@ -2889,7 +2889,7 @@ class Settings {
       let button, containerr, isExpanded;
       button = shared.common.createElements(section.firstElementChild, 'afterBegin', [{
         attributes: {
-          class: `esgst-clickable`,
+          class: 'esgst-clickable',
           style: `margin-right: 5px;`
         },
         type: 'span',
@@ -2903,7 +2903,7 @@ class Settings {
       }]);
       containerr = section.lastElementChild;
       if (gSettings[`collapse_${type}`]) {
-        containerr.classList.add(`esgst-hidden`);
+        containerr.classList.add('esgst-hidden');
         isExpanded = false;
       } else {
         isExpanded = true;
@@ -2924,14 +2924,14 @@ class Settings {
   }
 
   collapseSection(collapseButton, id, subMenu) {
-    subMenu.classList.add(`esgst-hidden`);
+    subMenu.classList.add('esgst-hidden');
     if (!collapseButton) {
       return;
     }
     shared.common.createElements(collapseButton, 'inner', [{
       attributes: {
-        class: `fa fa-plus-square`,
-        title: `Expand section`
+        class: 'fa fa-plus-square',
+        title: 'Expand section'
       },
       type: 'i'
     }]);
@@ -2939,14 +2939,14 @@ class Settings {
   }
 
   expandSection(collapseButton, id, subMenu) {
-    subMenu.classList.remove(`esgst-hidden`);
+    subMenu.classList.remove('esgst-hidden');
     if (!collapseButton) {
       return;
     }
     shared.common.createElements(collapseButton, 'inner', [{
       attributes: {
-        class: `fa fa-minus-square`,
-        title: `Collapse section`
+        class: 'fa fa-minus-square',
+        title: 'Collapse section'
       },
       type: 'i'
     }]);
@@ -2973,17 +2973,17 @@ class Settings {
         element = document.getElementById(`esgst_${type}`);
         if (element) {
           if (typeFound) {
-            element.classList.remove(`esgst-hidden`);
+            element.classList.remove('esgst-hidden');
           } else {
-            element.classList.add(`esgst-hidden`);
+            element.classList.add('esgst-hidden');
           }
           if (value) {
-            expand = element.getElementsByClassName(`fa-plus-square`)[0];
+            expand = element.getElementsByClassName('fa-plus-square')[0];
             if (expand) {
               expand.click();
             }
           } else {
-            collapse = element.getElementsByClassName(`fa-minus-square`)[0];
+            collapse = element.getElementsByClassName('fa-minus-square')[0];
             if (collapse) {
               collapse.click();
             }
@@ -2995,17 +2995,17 @@ class Settings {
       element = document.getElementById(`esgst_${type}`);
       if (element) {
         if (element.textContent.toLowerCase().trim().match(value)) {
-          element.classList.remove(`esgst-hidden`);
+          element.classList.remove('esgst-hidden');
         } else {
-          element.classList.add(`esgst-hidden`);
+          element.classList.add('esgst-hidden');
         }
         if (value) {
-          expand = element.getElementsByClassName(`fa-plus-square`)[0];
+          expand = element.getElementsByClassName('fa-plus-square')[0];
           if (expand) {
             expand.click();
           }
         } else {
-          collapse = element.getElementsByClassName(`fa-minus-square`)[0];
+          collapse = element.getElementsByClassName('fa-minus-square')[0];
           if (collapse) {
             collapse.click();
           }
@@ -3017,7 +3017,7 @@ class Settings {
   unfadeSmFeatures(feature, id) {
     let element = document.getElementById(`esgst_${id}`);
     if (element) {
-      element.classList.remove(`esgst-sm-faded`);
+      element.classList.remove('esgst-sm-faded');
     }
     if (feature.features) {
       for (id in feature.features) {
@@ -3046,14 +3046,14 @@ class Settings {
     let element = document.getElementById(`esgst_${id}`);
     if (element) {
       if (found) {
-        element.classList.remove(`esgst-hidden`);
+        element.classList.remove('esgst-hidden');
       } else {
-        element.classList.add(`esgst-hidden`);
+        element.classList.add('esgst-hidden');
       }
       if (exactFound) {
-        element.classList.remove(`esgst-sm-faded`);
+        element.classList.remove('esgst-sm-faded');
       } else {
-        element.classList.add(`esgst-sm-faded`);
+        element.classList.add('esgst-sm-faded');
       }
     }
     return found;
@@ -3062,7 +3062,7 @@ class Settings {
   unhideSmFeature(feature, id) {
     let element = document.getElementById(`esgst_${id}`);
     if (element) {
-      element.classList.remove(`esgst-hidden`);
+      element.classList.remove('esgst-hidden');
     }
     if (feature.features) {
       for (id in feature.features) {

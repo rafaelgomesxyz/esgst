@@ -10,7 +10,7 @@ class UsersSteamFriendsIndicator extends Module {
         ['ul', [
           ['li', [
             `Adds an icon (`,
-            ['i', { class: `fa fa-user` }],
+            ['i', { class: 'fa fa-user' }],
             `) next to the a user's username (in any page) to indicate that they are on your Steam friends list.`
           ]],
           ['li', `If you hover over the icon, it shows the date when you became friends.`]
@@ -23,10 +23,10 @@ class UsersSteamFriendsIndicator extends Module {
           prefix: `Icon: `
         }
       ],
-      name: `Steam Friends Indicator`,
+      name: 'Steam Friends Indicator',
       sg: true,
       st: true,
-      sync: `Steam Friends`,
+      sync: 'Steam Friends',
       syncKeys: ['SteamFriends'],
       type: 'users',
       featureMap: {
@@ -37,9 +37,9 @@ class UsersSteamFriendsIndicator extends Module {
 
   addIcons(users) {
     for (const user of users) {
-      if (user.saved && user.saved.steamFriend && !user.context.parentElement.querySelector(`.esgst-sfi-icon`)) {
+      if (user.saved && user.saved.steamFriend && !user.context.parentElement.querySelector('.esgst-sfi-icon')) {
         shared.common.createElements_v2(user.context, 'afterEnd', [
-          ['span', { class: `esgst-sfi-icon esgst-user-icon`, title: shared.common.getFeatureTooltip('sfi', `You have been friends with ${user.username} on Steam since ${shared.common.getTimestamp(user.saved.steamFriend * 1e3)}`) }, [
+          ['span', { class: 'esgst-sfi-icon esgst-user-icon', title: shared.common.getFeatureTooltip('sfi', `You have been friends with ${user.username} on Steam since ${shared.common.getTimestamp(user.saved.steamFriend * 1e3)}`) }, [
             ['i', { class: `fa fa-${gSettings.sfi_icon}` }]
           ]]
         ]);

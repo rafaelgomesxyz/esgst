@@ -8,14 +8,14 @@ class CommentsCommentReverser extends Module {
       description: [
         ['ul', [
           ['li', [
-            `Reverses the comments of any `,
+            'Reverses the comments of any ',
             ['a', { href: `https://www.steamgifts.com/discussion/e9zDo/` }, 'discussion'],
-            ` page so that they are ordered from newest to oldest.`
+            ' page so that they are ordered from newest to oldest.'
           ]]
         ]]
       ],
       id: 'cr',
-      name: `Comment Reverser`,
+      name: 'Comment Reverser',
       sg: true,
       st: true,
       type: 'comments'

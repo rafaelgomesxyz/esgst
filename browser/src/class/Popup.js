@@ -11,23 +11,23 @@ class Popup {
     this.textArea = undefined;
     this.temp = details.isTemp;
     this.layer = shared.common.createElements_v2(document.body, 'beforeEnd', [
-      ['div', { class: `esgst-hidden esgst-popup-layer` }, [
+      ['div', { class: 'esgst-hidden esgst-popup-layer' }, [
         ...(details.popup ? [
           details.popup
         ]  : [
-          ['div', { class: `esgst-popup` }, [
-            ['div', { class: `esgst-popup-heading` }, [
-              ['i', { class: `fa ${details.icon} esgst-popup-icon${details.icon ? `` : ` esgst-hidden`}` }],
-              ['div', { class: `esgst-popup-title${details.title ? `` : ` esgst-hidden`}` }, details.title]
+          ['div', { class: 'esgst-popup' }, [
+            ['div', { class: 'esgst-popup-heading' }, [
+              ['i', { class: `fa ${details.icon} esgst-popup-icon${details.icon ? `` : ' esgst-hidden'}` }],
+              ['div', { class: `esgst-popup-title${details.title ? `` : ' esgst-hidden'}` }, details.title]
             ]],
-            ['div', { class: `esgst-popup-description` }],
-            ['div', { class: `esgst-popup-scrollable ${details.addScrollable === 'left' ? `esgst-text-left` : ``}` }, details.scrollableContent],
-            ['div', { class: `esgst-popup-actions` }, [
-              ['a', { class: `esgst-hidden`, href: shared.esgst.settingsUrl }, 'Settings'],
-              ['a', { class: `esgst-popup-close` }, 'Close']
+            ['div', { class: 'esgst-popup-description' }],
+            ['div', { class: `esgst-popup-scrollable ${details.addScrollable === 'left' ? 'esgst-text-left' : ``}` }, details.scrollableContent],
+            ['div', { class: 'esgst-popup-actions' }, [
+              ['a', { class: 'esgst-hidden', href: shared.esgst.settingsUrl }, 'Settings'],
+              ['a', { class: 'esgst-popup-close' }, 'Close']
             ]]
           ]],
-          ['div', { class: `esgst-popup-modal`, title: `Click to close the modal` }]
+          ['div', { class: 'esgst-popup-modal', title: 'Click to close the modal' }]
         ])
       ]]
     ]);
@@ -36,7 +36,7 @@ class Popup {
     this.popup = this.layer.firstElementChild;
     this.modal = this.layer.lastElementChild;
     if (details.popup) {
-      this.popup.classList.add(`esgst-popup`);
+      this.popup.classList.add('esgst-popup');
       this.popup.style.display = 'block';
       this.popup.style.maxHeight = `calc(100% - 150px)`;
       this.popup.style.maxWidth = `calc(100% - 150px)`;
@@ -50,7 +50,7 @@ class Popup {
       this.actions = this.scrollable.nextElementSibling;
       let settings = this.actions.firstElementChild;
       if (!details.settings) {
-        settings.classList.remove(`esgst-hidden`);
+        settings.classList.remove('esgst-hidden');
         settings.addEventListener('click', event => {
           if (!gSettings.openSettingsInTab) {
             event.preventDefault();
@@ -133,7 +133,7 @@ class Popup {
     }
     shared.esgst.openPopups += 1;
     shared.esgst.popups.push(this);
-    this.layer.classList.remove(`esgst-hidden`);
+    this.layer.classList.remove('esgst-hidden');
     this.layer.style.zIndex = n;
     if (this.textInputs) {
       this.textInputs[0].focus();
@@ -149,7 +149,7 @@ class Popup {
       shared.common.removeScope(this.id);
       this.layer.remove();
     } else {
-      this.layer.classList.add(`esgst-hidden`);
+      this.layer.classList.add('esgst-hidden');
       if (gSettings.minimizePanel) {
         shared.common.minimizePanel_addItem(this);
       }
@@ -199,7 +199,7 @@ class Popup {
   setError(message) {
     shared.common.createElements(this.progress, 'inner', [{
       attributes: {
-        class: `fa fa-times-circle`
+        class: 'fa fa-times-circle'
       },
       type: 'i'
     }, {
@@ -214,7 +214,7 @@ class Popup {
     } else {
       shared.common.createElements(this.progress, 'inner', [{
         attributes: {
-          class: `fa fa-circle-o-notch fa-spin`
+          class: 'fa fa-circle-o-notch fa-spin'
         },
         type: 'i'
       }, {

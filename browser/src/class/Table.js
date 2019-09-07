@@ -6,7 +6,7 @@ class Table {
    */
   constructor(values) {
     this.table = document.createElement('div');
-    this.table.className = `table esgst-ugd-table`;
+    this.table.className = 'table esgst-ugd-table';
     shared.common.createElements_v2(this.table, 'inner', [
       ['div', { class: 'table__heading' }],
       ['div', { class: 'table__rows' }]
@@ -35,11 +35,11 @@ class Table {
 
   addRow(columns, name, isCollapsibleGroup, isCollapsible, collapseMessage, expandMessage) {
     const row = shared.common.createElements_v2(this.rows, 'beforeEnd', [
-      ['div', { class: `table__row-outer-wrap ${name && isCollapsible ? `esgst-hidden` : ``}` }, [
-        ['div', { class: `table__row-inner-wrap` },
+      ['div', { class: `table__row-outer-wrap ${name && isCollapsible ? 'esgst-hidden' : ``}` }, [
+        ['div', { class: 'table__row-inner-wrap' },
           name && isCollapsible
           ? [
-              ['i', { class: `fa fa-chevron-right` }]
+              ['i', { class: 'fa fa-chevron-right' }]
             ]
           : null
         ]
@@ -55,8 +55,8 @@ class Table {
           row: row
         };
         const expand = shared.common.createElements_v2(row, 'afterBegin', [
-          ['i', { class: `fa fa-plus-square esgst-clickable`, title: expandMessage }],
-          ['i', { class: `fa fa-minus-square esgst-clickable esgst-hidden`, title: collapseMessage }]
+          ['i', { class: 'fa fa-plus-square esgst-clickable', title: expandMessage }],
+          ['i', { class: 'fa fa-minus-square esgst-clickable esgst-hidden', title: collapseMessage }]
         ]);
         const collapse = expand.nextElementSibling;
         collapse.addEventListener('click', this.collapseRows.bind(this, collapse, expand, name));
@@ -80,19 +80,19 @@ class Table {
         cell = cell.value;
       }
       if (this.hiddenColumns.indexOf(i) > -1) {
-        additionalClasses.push(`esgst-hidden`);
+        additionalClasses.push('esgst-hidden');
       }
       if (i === 0 && cell && cell === 'Total') {
         isBold = true;
       }
       if (!cell || cell === `0 (0%)`) {
-        additionalClasses.push(`is-faded`);
+        additionalClasses.push('is-faded');
       }
       if (isBold) {
-        additionalClasses.push(`esgst-bold`);
+        additionalClasses.push('esgst-bold');
       }
       const attributes = {
-        class: `table__column--width-${size} text-${alignment} ${additionalClasses.join(` `)}`
+        class: `table__column--width-${size} text-${alignment} ${additionalClasses.join(' ')}`
       };
       if (additionalAttributes) {
         for (const attribute of additionalAttributes) {
@@ -124,7 +124,7 @@ class Table {
     const alignment = column.alignment || 'center';
     const size = column.size || 'small';
     const attributes = {
-      class: `table__column--width-${size} text-${alignment} ${additionalClasses.join(` `)}`
+      class: `table__column--width-${size} text-${alignment} ${additionalClasses.join(' ')}`
     };
     if (column.attributes) {
       for (const attribute of column.attributes) {
@@ -136,7 +136,7 @@ class Table {
       ['div', attributes, cell]
     ]);
     if (cell === 'Total') {
-      attributes.class += ` esgst-bold`;
+      attributes.class += ' esgst-bold';
     }
     for (let i = 0; i < this.numRows; i++) {
       const row = this.rows.children[i];
@@ -150,9 +150,9 @@ class Table {
   hideColumns() {
     for (const column of arguments) {
       this.hiddenColumns.push(column - 1);
-      this.heading.children[column - 1].classList.add(`esgst-hidden`);
+      this.heading.children[column - 1].classList.add('esgst-hidden');
       for (let i = this.numRows - 1; i > -1; i--) {
-        this.rows.children[i].firstElementChild.children[column - 1].classList.add(`esgst-hidden`);
+        this.rows.children[i].firstElementChild.children[column - 1].classList.add('esgst-hidden');
       }
     }
   }
@@ -162,18 +162,18 @@ class Table {
   }
 
   collapseRows(collapse, expand, name) {
-    collapse.classList.add(`esgst-hidden`);
-    expand.classList.remove(`esgst-hidden`);
+    collapse.classList.add('esgst-hidden');
+    expand.classList.remove('esgst-hidden');
     for (const row of this.rowGroups[name].collapsibles) {
-      row.parentElement.classList.add(`esgst-hidden`);
+      row.parentElement.classList.add('esgst-hidden');
     }
   }
 
   expandRows(collapse, expand, name) {
-    expand.classList.add(`esgst-hidden`);
-    collapse.classList.remove(`esgst-hidden`);
+    expand.classList.add('esgst-hidden');
+    collapse.classList.remove('esgst-hidden');
     for (const row of this.rowGroups[name].collapsibles) {
-      row.parentElement.classList.remove(`esgst-hidden`);
+      row.parentElement.classList.remove('esgst-hidden');
     }
   }
 }

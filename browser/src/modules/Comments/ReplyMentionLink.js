@@ -12,7 +12,7 @@ class CommentsReplyMentionLink extends Module {
         ]]
       ],
       id: 'rml',
-      name: `Reply Mention Link`,
+      name: 'Reply Mention Link',
       sg: true,
       st: true,
       type: 'comments',
@@ -23,7 +23,7 @@ class CommentsReplyMentionLink extends Module {
   }
 
   rml_addLinks(context, main, source, endless) {
-    const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .comment__children, .esgst-es-page-${endless}.comment__children` : `.comment__children`}, ${endless ? `.esgst-es-page-${endless} .comment_children, .esgst-es-page-${endless}.comment_children` : `.comment_children`}`);
+    const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .comment__children, .esgst-es-page-${endless}.comment__children` : '.comment__children'}, ${endless ? `.esgst-es-page-${endless} .comment_children, .esgst-es-page-${endless}.comment_children` : '.comment_children'}`);
     for (let i = 0, n = elements.length; i < n; ++i) {
       const children = elements[i].children;
       if (children.length) {
@@ -38,13 +38,13 @@ class CommentsReplyMentionLink extends Module {
     ID = Context.id;
     for (I = 0, N = Matches.length; I < N; ++I) {
       Context = Matches[I].getElementsByClassName(shared.esgst.sg ? 'comment__actions' : 'action_list')[0];
-      RMLLink = Context.getElementsByClassName(`esgst-rml-link`)[0];
+      RMLLink = Context.getElementsByClassName('esgst-rml-link')[0];
       if (RMLLink) {
         RMLLink.textContent = `@${Username}`;
       } else {
         shared.common.createElements(Context, 'beforeEnd', [{
           attributes: {
-            class: `comment__actions__button esgst-rml-link`,
+            class: 'comment__actions__button esgst-rml-link',
             href: `#${ID}`
           },
           text: `@${Username}`,

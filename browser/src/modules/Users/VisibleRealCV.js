@@ -9,14 +9,14 @@ class UsersVisibleRealCV extends Module {
           ['li', [
             `Displays the real sent/won CV next to the raw value in a user's `,
             ['a', { href: `https://www.steamgifts.com/user/cg` }, 'profile'],
-            ` page.`
+            ' page.'
           ]],
           ['li', `This also extends to [id=swr], if you have that feature enabled.`],
           ['li', `With this feature disabled, you can still view the real CV, as provided by SteamGifts, by hovering over the raw value.`]
         ]]
       ],
       id: 'vrcv',
-      name: `Visible Real CV`,
+      name: 'Visible Real CV',
       sg: true,
       type: 'users',
       featureMap: {

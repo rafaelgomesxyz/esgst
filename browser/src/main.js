@@ -1,4 +1,4 @@
-`use strict`;
+'use strict';
 
 // that will append styles to page in runtime
 // jQuery QueryBuilder want global interact object
@@ -39,14 +39,14 @@ window.interact = interact;
   const theme = common.getLocalValue('theme');
   if (theme) {
     const style = document.createElement('style');
-    style.id = `esgst-theme`;
+    style.id = 'esgst-theme';
     style.textContent = theme;
     document.documentElement.appendChild(style);
   }
   const customTheme = common.getLocalValue('customTheme');
   if (customTheme) {
     const style = document.createElement('style');
-    style.id = `esgst-custom-theme`;
+    style.id = 'esgst-custom-theme';
     style.textContent = customTheme;
     document.documentElement.appendChild(style);
   }
@@ -468,12 +468,12 @@ window.interact = interact;
 
     if (esgst.sg) {
       try {
-        let avatar = document.getElementsByClassName(`nav__avatar-inner-wrap`)[0].style.backgroundImage.match(/\("(.+)"\)/)[1];
+        let avatar = document.getElementsByClassName('nav__avatar-inner-wrap')[0].style.backgroundImage.match(/\("(.+)"\)/)[1];
         if (esgst.settings.avatar !== avatar) {
           esgst.settings.avatar = avatar;
           esgst.settingsChanged = true;
         }
-        let username = document.getElementsByClassName(`nav__avatar-outer-wrap`)[0].href.match(/\/user\/(.+)/)[1];
+        let username = document.getElementsByClassName('nav__avatar-outer-wrap')[0].href.match(/\/user\/(.+)/)[1];
         if (esgst.settings.username_sg !== username) {
           esgst.settings.username_sg = username;
           esgst.settingsChanged = true;
@@ -487,7 +487,7 @@ window.interact = interact;
           for (let i = 0, n = elements.length; i < n; i++) {
             let element = elements[i];
             if (element.textContent === 'Registered') {
-              esgst.settings.registrationDate_sg = parseInt(element.nextElementSibling.firstElementChild.getAttribute(`data-timestamp`));
+              esgst.settings.registrationDate_sg = parseInt(element.nextElementSibling.firstElementChild.getAttribute('data-timestamp'));
               break;
             }
           }
@@ -577,7 +577,7 @@ window.interact = interact;
       common.checkBackup();
     }
     if (esgst.profilePath && gSettings.autoSync) {
-      const el = document.getElementsByClassName(`form__sync-default`)[0];
+      const el = document.getElementsByClassName('form__sync-default')[0];
       if (el) {
         el.addEventListener('click', () => runSilentSync(`Games=1&Groups=1`));
       }

@@ -11,7 +11,7 @@ class GiveawaysGiveawayEndTimeHighlighter extends Module {
         ]]
       ],
       id: 'geth',
-      name: `Giveaway End Time Highlighter`,
+      name: 'Giveaway End Time Highlighter',
       sg: true,
       type: 'giveaways',
       featureMap: {

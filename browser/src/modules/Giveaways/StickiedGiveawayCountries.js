@@ -15,17 +15,17 @@ class GiveawaysStickiedGiveawayCountries extends Module {
         ['ul', [
           ['li', [
             `Adds a button (`,
-            ['i', { class: `fa fa-thumb-stack` }],
-            ` if the country is stickied and `,
-            ['i', { class: `fa fa-thumb-stack esgst-faded` }],
+            ['i', { class: 'fa fa-thumb-stack' }],
+            ' if the country is stickied and ',
+            ['i', { class: 'fa fa-thumb-stack esgst-faded' }],
             ` if it is not) next to each country in the `,
-            ['a', { href: `https://www.steamgifts.com/giveaways/new` }, `new giveaway`],
-            ` page that allows you to sticky the country so that it appears at the top of the country list when creating a giveaway for quick use.`
+            ['a', { href: `https://www.steamgifts.com/giveaways/new` }, 'new giveaway'],
+            ' page that allows you to sticky the country so that it appears at the top of the country list when creating a giveaway for quick use.'
           ]]
         ]]
       ],
       id: 'sgac',
-      name: `Stickied Giveaway Countries`,
+      name: 'Stickied Giveaway Countries',
       sg: true,
       type: 'giveaways'
     };
@@ -44,7 +44,7 @@ class GiveawaysStickiedGiveawayCountries extends Module {
     };
     for (i = 0, n = elements.length; i < n; ++i) {
       context = elements[i];
-      id = context.getAttribute(`data-item-id`);
+      id = context.getAttribute('data-item-id');
       if (stickiedCountries.indexOf(id) >= 0) {
         if (context === obj.separator) {
           obj.separator = obj.separator.nextElementSibling;
@@ -53,11 +53,11 @@ class GiveawaysStickiedGiveawayCountries extends Module {
       }
       new Button(context, 'afterBegin', {
         callbacks: [this.sgac_stickyCountry.bind(this, obj, container, context, id), null, this.sgac_unstickyCountry.bind(this, obj, container, context, id), null],
-        className: `esgst-sgac-button`,
-        icons: [`fa-thumb-tack esgst-clickable esgst-faded`, `fa-circle-o-notch fa-spin`, `fa-thumb-tack esgst-clickable`, `fa-circle-o-notch fa-spin`],
+        className: 'esgst-sgac-button',
+        icons: ['fa-thumb-tack esgst-clickable esgst-faded', 'fa-circle-o-notch fa-spin', 'fa-thumb-tack esgst-clickable', 'fa-circle-o-notch fa-spin'],
         id: 'sgac',
         index: stickiedCountries.indexOf(id) >= 0 ? 2 : 0,
-        titles: [`Sticky country`, `Stickying...`, `Unsticky country`, `Unstickying...`]
+        titles: ['Sticky country', 'Stickying...', 'Unsticky country', 'Unstickying...']
       });
     }
   }

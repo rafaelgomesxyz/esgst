@@ -10,11 +10,11 @@ class GroupsGroupFilters extends Filters {
       description: [
         ['ul', [
           ['li', [
-            `Allows you to filter groups.`
+            'Allows you to filter groups.'
           ]],
           ['li', [
             `Adds a toggle switch with a button (`,
-            ['i', { class: `fa fa-sliders` }],
+            ['i', { class: 'fa fa-sliders' }],
             `) to the main page heading of the `,
             ['a', { href: `https://www.steamgifts.com/account/steam/groups` }, 'groups'],
             ` page. The switch allows you to turn the filters on/off and the button allows you to manage your presets.`
@@ -26,17 +26,17 @@ class GroupsGroupFilters extends Filters {
             ['ul', [
               ['li', [
                 `"Show all" (`,
-                ['i', { class: `fa fa-check-square` }],
+                ['i', { class: 'fa fa-check-square' }],
                 `) does not hide any groups that apply to the filter (this is the default state).`
               ]],
               ['li', [
                 `"Show only" (`,
-                ['i', { class: `fa fa-square` }],
+                ['i', { class: 'fa fa-square' }],
                 `) hides any groups that do not apply to the filter.`
               ]],
               ['li', [
                 `"Hide all" (`,
-                ['i', { class: `fa fa-square-o` }],
+                ['i', { class: 'fa fa-square-o' }],
                 `) hides any groups that apply to the filter.`
               ]]
             ]]
@@ -44,64 +44,64 @@ class GroupsGroupFilters extends Filters {
           ['li', `A preset contains all of your rules and can be saved to be reused later. You can save as many presets as you want. Each preset contains 3 types of rules:`],
           ['ul', [
             ['li', `Basic rules are the ones that you can change directly in the filter panel, using the sliders/checkboxes as explained in the previous item.`],
-            ['li', `Exception rules are the ones that you can change by clicking on the icon `],
-            ['i', { class: `fa fa-gear` }],
+            ['li', 'Exception rules are the ones that you can change by clicking on the icon '],
+            ['i', { class: 'fa fa-gear' }],
             ` in the filter panel. They are exceptions to the basic rules. For example, if you set the basic rule of the "Created" filter to "hide all" and you add an exception rule for the "Comments" filter to the 0-50 range, none of your created groups that have 0-50 comments will be hidden, because they apply to the exception.`
           ]],
           ['li', [
             `Override rules are the ones that you can change by clicking on the icon (`,
-            ['i', { class: `fa fa-exclamation esgst-faded` }],
-            ` if set to overridable and `,
-            ['i', { class: `fa fa-exclamation` }],
+            ['i', { class: 'fa fa-exclamation esgst-faded' }],
+            ' if set to overridable and ',
+            ['i', { class: 'fa fa-exclamation' }],
             ` if set to non-overridable) next to each filter. They are enforcements of the basic rules. Continuing the previous example, if you set the override rule of the "Created" filter to "non-overridable", then all of your created groups will be hidden, because even if they apply to the exception, the basic rule is being enforced by the override rule, so the exception cannot override it.`
           ]],
-          ['li', `Adds a text in parenthesis to the pagination of the page showing how many groups in the page are being filtered by the filters.`]
+          ['li', 'Adds a text in parenthesis to the pagination of the page showing how many groups in the page are being filtered by the filters.']
         ]]
       ],
       features: {
         gpf_m_b: {
-          name: `Hide basic filters.`,
+          name: 'Hide basic filters.',
           sg: true
         },
         gpf_m_a: {
-          name: `Hide advanced filters.`,
+          name: 'Hide advanced filters.',
           sg: true
         },
         gpf_firstGiveaway: {
           dependencies: ['gs', 'gs_firstGiveaway'],
           description: [
             ['ul', [
-              ['li', `Allows you to filter groups by the date of the first giveaway made.`]
+              ['li', 'Allows you to filter groups by the date of the first giveaway made.']
             ]]
           ],
-          name: `First Giveaway`,
+          name: 'First Giveaway',
           sg: true
         },
         gpf_lastGiveaway: {
           dependencies: ['gs', 'gs_lastGiveaway'],
           description: [
             ['ul', [
-              ['li', `Allows you to filter groups by the date of the last giveaway made.`]
+              ['li', 'Allows you to filter groups by the date of the last giveaway made.']
             ]]
           ],
-          name: `Last Giveaway`,
+          name: 'Last Giveaway',
           sg: true
         },
         gpf_averageEntries: {
           dependencies: ['gs', 'gs_averageEntries'],
           description: [
             ['ul', [
-              ['li', `Allows you to filter groups by the number of average entries per giveaway.`]
+              ['li', 'Allows you to filter groups by the number of average entries per giveaway.']
             ]]
           ],
-          name: `Average Entries`,
+          name: 'Average Entries',
           sg: true
         },
         gpf_contributors: {
           dependencies: ['gs', 'gs_contributors'],
           description: [
             ['ul', [
-              ['li', `Allows you to filter groups by the number of members that have contributed.`]
+              ['li', 'Allows you to filter groups by the number of members that have contributed.']
             ]]
           ],
           name: 'Contributors',
@@ -111,7 +111,7 @@ class GroupsGroupFilters extends Filters {
           dependencies: ['gs', 'gs_winners'],
           description: [
             ['ul', [
-              ['li', `Allows you to filter groups by the number of members that have won.`]
+              ['li', 'Allows you to filter groups by the number of members that have won.']
             ]]
           ],
           name: 'Winners',
@@ -121,7 +121,7 @@ class GroupsGroupFilters extends Filters {
           dependencies: ['gs', 'gs_giveaways'],
           description: [
             ['ul', [
-              ['li', `Allows you to filter groups by the number of giveaways that have been made.`]
+              ['li', 'Allows you to filter groups by the number of giveaways that have been made.']
             ]]
           ],
           name: 'Giveaways',
@@ -131,7 +131,7 @@ class GroupsGroupFilters extends Filters {
           dependencies: ['gs', 'gs_users'],
           description: [
             ['ul', [
-              ['li', `Allows you to filter groups by the number of users that are members.`]
+              ['li', 'Allows you to filter groups by the number of users that are members.']
             ]]
           ],
           name: 'Users',
@@ -141,27 +141,27 @@ class GroupsGroupFilters extends Filters {
           dependencies: ['gs', 'gs_creationDate'],
           description: [
             ['ul', [
-              ['li', `Allows you to filter groups by their creation date.`]
+              ['li', 'Allows you to filter groups by their creation date.']
             ]]
           ],
-          name: `Creation Date`,
+          name: 'Creation Date',
           sg: true
         },
         gpf_officialGameGroup: {
           dependencies: ['gs', 'gs_type'],
           description: [
             ['ul', [
-              ['li', `Allows you to filter groups that are official game groups.`]
+              ['li', 'Allows you to filter groups that are official game groups.']
             ]]
           ],
-          name: `Official Game Group`,
+          name: 'Official Game Group',
           sg: true
         },
         gpf_open: {
           dependencies: ['gs', 'gs_type'],
           description: [
             ['ul', [
-              ['li', `Allows you to filter groups that are open to join.`]
+              ['li', 'Allows you to filter groups that are open to join.']
             ]]
           ],
           name: 'Open',
@@ -171,7 +171,7 @@ class GroupsGroupFilters extends Filters {
           dependencies: ['gs', 'gs_type'],
           description: [
             ['ul', [
-              ['li', `Allows you to filter groups that are restricted to join.`]
+              ['li', 'Allows you to filter groups that are restricted to join.']
             ]]
           ],
           name: 'Restricted',
@@ -181,7 +181,7 @@ class GroupsGroupFilters extends Filters {
           dependencies: ['gs', 'gs_type'],
           description: [
             ['ul', [
-              ['li', `Allows you to filter groups that are closed to join.`]
+              ['li', 'Allows you to filter groups that are closed to join.']
             ]]
           ],
           name: 'Closed',
@@ -189,14 +189,14 @@ class GroupsGroupFilters extends Filters {
         }
       },
       id: 'gpf',
-      name: `Group Filters`,
+      name: 'Group Filters',
       sg: true,
       type: 'groups'
     };
   }
 
   async init() {
-    if (!shared.common.isCurrentPath(`Steam - Groups`)) {
+    if (!shared.common.isCurrentPath('Steam - Groups')) {
       return;
     }
     shared.esgst.style.insertAdjacentText("beforeend", `
@@ -225,18 +225,18 @@ class GroupsGroupFilters extends Filters {
       firstGiveaway: {
         check: gSettings.gs && gSettings.gs_firstGiveaway,
         date: true,
-        name: `First Giveaway`,
+        name: 'First Giveaway',
         type: 'number'
       },
       lastGiveaway: {
         check: gSettings.gs && gSettings.gs_lastGiveaway,
         date: true,
-        name: `Last Giveaway`,
+        name: 'Last Giveaway',
         type: 'number'
       },
       averageEntries: {
         check: gSettings.gs && gSettings.gs_averageEntries,
-        name: `Average Entries`,
+        name: 'Average Entries',
         type: 'number'
       },
       contributors: {
@@ -252,12 +252,12 @@ class GroupsGroupFilters extends Filters {
       creationDate: {
         check: gSettings.gs && gSettings.gs_creationDate,
         date: true,
-        name: `Creation Date`,
+        name: 'Creation Date',
         type: 'number'
       },
       officialGameGroup: {
         check: gSettings.gs && gSettings.gs_type,
-        name: `Official Game Group`,
+        name: 'Official Game Group',
         type: 'boolean'
       },
       open: {

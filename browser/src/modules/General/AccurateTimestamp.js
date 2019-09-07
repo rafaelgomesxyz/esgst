@@ -35,7 +35,7 @@ class GeneralAccurateTimestamp extends Module {
         }
       },
       id: 'at',
-      name: `Accurate Timestamp`,
+      name: 'Accurate Timestamp',
       inputItems: [
         {
           id: 'at_format',
@@ -97,18 +97,18 @@ class GeneralAccurateTimestamp extends Module {
     timestamps = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} [data-timestamp], .esgst-es-page-${endless}[data-timestamp]` : `[data-timestamp]`}`);
     for (i = 0, n = timestamps.length; i < n; ++i) {
       timestamp = timestamps[i];
-      if (((this.esgst.activeDiscussions && ((this.esgst.activeDiscussions.contains(timestamp) && gSettings.adots_index === 0) || !this.esgst.activeDiscussions.contains(timestamp))) || !this.esgst.activeDiscussions) && !timestamp.classList.contains(`esgst-at`)) {
+      if (((this.esgst.activeDiscussions && ((this.esgst.activeDiscussions.contains(timestamp) && gSettings.adots_index === 0) || !this.esgst.activeDiscussions.contains(timestamp))) || !this.esgst.activeDiscussions) && !timestamp.classList.contains('esgst-at')) {
         text = timestamp.textContent;
         edited = text.match(/\*/);
-        seconds = parseInt(timestamp.getAttribute(`data-timestamp`)) * 1e3;
+        seconds = parseInt(timestamp.getAttribute('data-timestamp')) * 1e3;
         accurateTimestamp = this.at_formatTimestamp(seconds);
-        timestamp.setAttribute(`data-esgst-timestamp`, accurateTimestamp);
+        timestamp.setAttribute('data-esgst-timestamp', accurateTimestamp);
         if (edited) {
           text = ` (Edited ${accurateTimestamp})`;
         } else {
           text = `${accurateTimestamp} - ${text}`;
         }
-        timestamp.classList.add(`esgst-at`);
+        timestamp.classList.add('esgst-at');
         timestamp.textContent = text;
       }
     }

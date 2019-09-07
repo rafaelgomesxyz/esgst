@@ -16,9 +16,9 @@ class UsersWhitelistBlacklistHighlighter extends Module {
         ['ul', [
           ['li', [
             `Adds an icon (`,
-            ['i', { class: `fa fa-heart esgst-whitelist` }],
-            ` if the user is whitelisted and `,
-            ['i', { class: `fa fa-ban esgst-blacklist` }],
+            ['i', { class: 'fa fa-heart esgst-whitelist' }],
+            ' if the user is whitelisted and ',
+            ['i', { class: 'fa fa-ban esgst-blacklist' }],
             ` if they are blacklisted) next to the a user's username (in any page) to indicate that they are on your whitelist/blacklist.`
           ]],
           ['li', `If you hover over the icon, it shows the date when you added the user to your whitelist/blacklist.`]
@@ -33,7 +33,7 @@ class UsersWhitelistBlacklistHighlighter extends Module {
               ['li', `If you hover over the username, it shows the date when you added the user to your whitelist/blacklist.`]
             ]]
           ],
-          name: `Use background colors for blacklisted users instead of icons.`,
+          name: 'Use background colors for blacklisted users instead of icons.',
           sg: true,
           st: true
         },
@@ -45,7 +45,7 @@ class UsersWhitelistBlacklistHighlighter extends Module {
               ['li', `If you hover over the username, it shows the date when you added the user to your whitelist/blacklist.`]
             ]]
           ],
-          name: `Use background colors for whitelisted users instead of icons.`,
+          name: 'Use background colors for whitelisted users instead of icons.',
           sg: true,
           st: true
         }
@@ -69,15 +69,15 @@ class UsersWhitelistBlacklistHighlighter extends Module {
   wbh_getUsers(users) {
     for (const user of users) {
       if (user.saved && (user.saved.whitelisted || user.saved.blacklisted) && !user.context.parentElement.querySelector(`.esgst-wbh-highlight, .esgst-wbh-icon`)) {
-        let [icon, status] = user.saved.whitelisted ? [`fa-heart sidebar__shortcut__whitelist`, 'whitelisted'] : [`fa-ban sidebar__shortcut__blacklist`, 'blacklisted'];
+        let [icon, status] = user.saved.whitelisted ? ['fa-heart sidebar__shortcut__whitelist', 'whitelisted'] : ['fa-ban sidebar__shortcut__blacklist', 'blacklisted'];
         let title = `You ${status} ${user.username} on ${getTimestamp(user.saved[`${status}Date`])}`;
         if ((gSettings.wbh_w && user.saved.whitelisted) || (gSettings.wbh_b && user.saved.blacklisted)) {
-          user.element.classList.add(`esgst-wbh-highlight`, `esgst-wbh-highlight-${status}`);
+          user.element.classList.add('esgst-wbh-highlight', `esgst-wbh-highlight-${status}`);
           user.element.title = getFeatureTooltip('wbh', title);
         } else {
           createElements(user.context, 'beforeBegin', [{
             attributes: {
-              class: `esgst-wbh-icon esgst-user-icon`,
+              class: 'esgst-wbh-icon esgst-user-icon',
               title: getFeatureTooltip('wbh', title)
             },
             type: 'span',

@@ -6,11 +6,11 @@ class GeneralSameTabOpener extends Module {
     this.info = {
       description: [
         ['ul', [
-          ['li', `Opens any link in the page in the same tab.`]
+          ['li', 'Opens any link in the page in the same tab.']
         ]]
       ],
       id: 'sto',
-      name: `Same Tab Opener`,
+      name: 'Same Tab Opener',
       sg: true,
       st: true,
       type: 'general',

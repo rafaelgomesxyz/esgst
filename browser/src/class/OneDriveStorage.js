@@ -7,7 +7,7 @@ import { FetchRequest } from './FetchRequest';
  * @see https://docs.microsoft.com/en-us/onedrive/developer/rest-api/?view=odsp-graph-online
  */
 class OneDriveStorage extends ICloudStorage {
-  static get CLIENT_ID() { return `1781429b-289b-4e6e-877a-e50015c0af21`; }
+  static get CLIENT_ID() { return '1781429b-289b-4e6e-877a-e50015c0af21'; }
   static get AUTH_URL() { return `https://login.microsoftonline.com/common/oauth2/v2.0/authorize`; }
   static get API_BASE_URL() { return `https://graph.microsoft.com/v1.0`; }
   static get UPLOAD_URL() { return `${OneDriveStorage.API_BASE_URL}/me/drive/special/approot:/%fileName%:/content`; }
@@ -28,7 +28,7 @@ class OneDriveStorage extends ICloudStorage {
       client_id: OneDriveStorage.CLIENT_ID,
       redirect_uri: OneDriveStorage.REDIRECT_URL,
       response_type: 'token',
-      scope: `files.readwrite`,
+      scope: 'files.readwrite',
       state: 'onedrive'
     };
     if (gSettings.usePreferredMicrosoft) {

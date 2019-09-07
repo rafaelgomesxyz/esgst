@@ -12,9 +12,9 @@ class GroupsGroupStats extends Module {
       description: [
         ['ul', [
           ['li', [
-            `Adds some columns to your `,
+            'Adds some columns to your ',
             ['a', { href: `https://www.steamgifts.com/account/steam/groups` }, 'groups'],
-            ` page that show some stats about each group.`
+            ' page that show some stats about each group.'
           ]]
         ]]
       ],
@@ -28,23 +28,23 @@ class GroupsGroupStats extends Module {
           sg: true
         },
         gs_giftDifference: {
-          name: `Gift Difference`,
+          name: 'Gift Difference',
           sg: true
         },
         gs_valueDifference: {
-          name: `Value Difference`,
+          name: 'Value Difference',
           sg: true
         },
         gs_firstGiveaway: {
-          name: `First Giveaway`,
+          name: 'First Giveaway',
           sg: true
         },
         gs_lastGiveaway: {
-          name: `Last Giveaway`,
+          name: 'Last Giveaway',
           sg: true
         },
         gs_averageEntries: {
-          name: `Average Entries`,
+          name: 'Average Entries',
           sg: true
         },
         gs_contributors: {
@@ -56,7 +56,7 @@ class GroupsGroupStats extends Module {
           sg: true
         },
         gs_giftsSent: {
-          name: `Gifts Sent`,
+          name: 'Gifts Sent',
           sg: true
         },
         gs_giveaways: {
@@ -77,14 +77,14 @@ class GroupsGroupStats extends Module {
         }
       },
       id: 'gs',
-      name: `Group Stats`,
+      name: 'Group Stats',
       sg: true,
       type: 'groups'
     };
   }
 
   async init() {
-    if (!shared.common.isCurrentPath(`Steam - Groups`)) {
+    if (!shared.common.isCurrentPath('Steam - Groups')) {
       return;
     }
 
@@ -93,20 +93,20 @@ class GroupsGroupStats extends Module {
     }
 
     shared.common.createElements_v2(document.getElementsByClassName('table__heading')[0], 'beforeEnd', [
-      gSettings.gs_sent ? ['div', { class: `table__column--width-small text-center` }, 'Sent'] : null,
-      gSettings.gs_received ? ['div', { class: `table__column--width-small text-center` }, 'Received'] : null,
-      gSettings.gs_giftDifference ? ['div', { class: `table__column--width-small text-center` }, `Gift Difference`] : null,
-      gSettings.gs_valueDifference ? ['div', { class: `table__column--width-small text-center` }, `Value Difference`] : null,
-      gSettings.gs_firstGiveaway ? ['div', { class: `table__column--width-small text-center` }, `First Giveaway`] : null,
-      gSettings.gs_lastGiveaway ? ['div', { class: `table__column--width-small text-center` }, `Last Giveaway`] : null,
-      gSettings.gs_averageEntries ? ['div', { class: `table__column--width-small text-center` }, `Average Entries`] : null,
-      gSettings.gs_contributors ? ['div', { class: `table__column--width-small text-center` }, 'Contributors'] : null,
-      gSettings.gs_winners ? ['div', { class: `table__column--width-small text-center` }, 'Winners'] : null,
-      gSettings.gs_giftsSent ? ['div', { class: `table__column--width-small text-center` }, `Gifts Sent`] : null,
-      gSettings.gs_giveaways ? ['div', { class: `table__column--width-small text-center` }, 'Giveaways'] : null,
-      gSettings.gs_users ? ['div', { class: `table__column--width-small text-center` }, 'Users'] : null,
-      gSettings.gs_creationDate ? ['div', { class: `table__column--width-small text-center` }, `Creation Date`] : null,
-      gSettings.gs_type ? ['div', { class: `table__column--width-small text-center` }, 'Type'] : null
+      gSettings.gs_sent ? ['div', { class: 'table__column--width-small text-center' }, 'Sent'] : null,
+      gSettings.gs_received ? ['div', { class: 'table__column--width-small text-center' }, 'Received'] : null,
+      gSettings.gs_giftDifference ? ['div', { class: 'table__column--width-small text-center' }, 'Gift Difference'] : null,
+      gSettings.gs_valueDifference ? ['div', { class: 'table__column--width-small text-center' }, 'Value Difference'] : null,
+      gSettings.gs_firstGiveaway ? ['div', { class: 'table__column--width-small text-center' }, 'First Giveaway'] : null,
+      gSettings.gs_lastGiveaway ? ['div', { class: 'table__column--width-small text-center' }, 'Last Giveaway'] : null,
+      gSettings.gs_averageEntries ? ['div', { class: 'table__column--width-small text-center' }, 'Average Entries'] : null,
+      gSettings.gs_contributors ? ['div', { class: 'table__column--width-small text-center' }, 'Contributors'] : null,
+      gSettings.gs_winners ? ['div', { class: 'table__column--width-small text-center' }, 'Winners'] : null,
+      gSettings.gs_giftsSent ? ['div', { class: 'table__column--width-small text-center' }, 'Gifts Sent'] : null,
+      gSettings.gs_giveaways ? ['div', { class: 'table__column--width-small text-center' }, 'Giveaways'] : null,
+      gSettings.gs_users ? ['div', { class: 'table__column--width-small text-center' }, 'Users'] : null,
+      gSettings.gs_creationDate ? ['div', { class: 'table__column--width-small text-center' }, 'Creation Date'] : null,
+      gSettings.gs_type ? ['div', { class: 'table__column--width-small text-center' }, 'Type'] : null
     ]);
     this.notification = new elementBuilder.sg.notification();
     this.numGroups = 0;
@@ -116,8 +116,8 @@ class GroupsGroupStats extends Module {
 
   gs_getGroups(groups, main) {
     this.notification.setType('warning');
-    this.notification.setIcons([`fa-circle-o-notch`, `fa-spin`]);
-    this.notification.setMessage(`Loading stats for groups...`);
+    this.notification.setIcons(['fa-circle-o-notch', 'fa-spin']);
+    this.notification.setMessage('Loading stats for groups...');
     this.numGroups += groups.length;
     const promises = [];
     for (const group of groups) {
@@ -128,8 +128,8 @@ class GroupsGroupStats extends Module {
     Promise.all(promises).then(() => {
       if (this.numGroups === 0) {
         this.notification.setType('success');
-        this.notification.setIcons([`fa-check-circle`]);
-        this.notification.setMessage(`Stats for groups loaded.`);
+        this.notification.setIcons(['fa-check-circle']);
+        this.notification.setMessage('Stats for groups loaded.');
       }
     });
   }
@@ -137,8 +137,8 @@ class GroupsGroupStats extends Module {
   async gs_addStatus(group, main) {
     const response = await FetchRequest.get(`${group.url}/users/search?q=${gSettings.username}`);
 
-    const userContext = response.html.querySelector(`.table__row-inner-wrap`);
-    if (!userContext || userContext.querySelector(`.table__column__heading`).textContent !== gSettings.username) {
+    const userContext = response.html.querySelector('.table__row-inner-wrap');
+    if (!userContext || userContext.querySelector('.table__column__heading').textContent !== gSettings.username) {
       return;
     }
 
@@ -152,7 +152,7 @@ class GroupsGroupStats extends Module {
     group.giveaways = 0;
     group.users = 0;
 
-    const tableColumns = userContext.querySelectorAll(`.table__column--width-small`);
+    const tableColumns = userContext.querySelectorAll('.table__column--width-small');
     for (const [index, column] of  tableColumns.entries()) {
       let append = false;
       if (index === 0 && gSettings.gs_sent) {
@@ -169,24 +169,24 @@ class GroupsGroupStats extends Module {
       }
     }
 
-    const tableRows = response.html.querySelectorAll(`.featured__table__row__left`);
+    const tableRows = response.html.querySelectorAll('.featured__table__row__left');
     for (const row of tableRows) {
       const text = row.textContent.trim();
       const element = row.nextElementSibling;
       let append = false;
-      if (text === `First Giveaway` && gSettings.gs_firstGiveaway) {
+      if (text === 'First Giveaway' && gSettings.gs_firstGiveaway) {
         const timestampElement = element.querySelector(`[data-timestamp]`);
         if (timestampElement) {
-          group.firstGiveaway = parseInt(timestampElement.getAttribute(`data-timestamp`)) * 1e3;
+          group.firstGiveaway = parseInt(timestampElement.getAttribute('data-timestamp')) * 1e3;
         }
         append = true;
-      } else if (text === `Last Giveaway` && gSettings.gs_lastGiveaway) {
+      } else if (text === 'Last Giveaway' && gSettings.gs_lastGiveaway) {
         const timestampElement = element.querySelector(`[data-timestamp]`);
         if (timestampElement) {
-          group.lastGiveaway = parseInt(timestampElement.getAttribute(`data-timestamp`)) * 1e3;
+          group.lastGiveaway = parseInt(timestampElement.getAttribute('data-timestamp')) * 1e3;
         }
         append = true;
-      } else if (text === `Average Entries` && gSettings.gs_averageEntries) {
+      } else if (text === 'Average Entries' && gSettings.gs_averageEntries) {
         group.averageEntries = parseInt(element.textContent.replace(/,/g, ``));
         append = true;
       } else if (text === 'Contributors' && gSettings.gs_contributors) {
@@ -195,17 +195,17 @@ class GroupsGroupStats extends Module {
       } else if (text === 'Winners' && gSettings.gs_winners) {
         group.averageEntries = parseInt(element.textContent.replace(/,/g, ``));
         append = true;
-      } else if (text === `Gifts Sent` && gSettings.gs_giftsSent) {
+      } else if (text === 'Gifts Sent' && gSettings.gs_giftsSent) {
         append = true;
       }
       if (append) {
         element.classList.remove('featured__table__row__right');
-        element.classList.add(`table__column--width-small`, `text-center`);
+        element.classList.add('table__column--width-small', 'text-center');
         items.push(element);
       }
     }
 
-    const sidebarItems = response.html.querySelectorAll(`.sidebar__navigation__item__name`);
+    const sidebarItems = response.html.querySelectorAll('.sidebar__navigation__item__name');
     for (const item of sidebarItems) {
       const text = item.textContent.trim();
       const element = item.nextElementSibling.nextElementSibling;
@@ -219,7 +219,7 @@ class GroupsGroupStats extends Module {
       }
       if (append) {
         element.classList.remove('sidebar__navigation__item__count');
-        element.classList.add(`table__column--width-small`, `text-center`);
+        element.classList.add('table__column--width-small', 'text-center');
         items.push(element);
       }
     }
@@ -229,14 +229,14 @@ class GroupsGroupStats extends Module {
     group.steamId = steamIdElement.getAttribute('href').match(/\/gid\/(\d+)/)[1];
 
     group.creationDate = 0;
-    group.type = `-`;
+    group.type = '-';
 
     if (gSettings.gs_creationDate || gSettings.gs_type) {
       const response = await FetchRequest.get(`https://steamcommunity.com/gid/${group.steamId}?cc=us&l=english`, { anon: true });
 
       if (gSettings.gs_creationDate) {
         const groupStatLabels = response.html.querySelectorAll(`.groupstat > .label`);
-        let date = `-`;
+        let date = '-';
         for (const label of groupStatLabels) {
           if (label.textContent.match(/founded/i)) {
             date = label.nextElementSibling.textContent.trim();
@@ -244,17 +244,17 @@ class GroupsGroupStats extends Module {
             break;
           }
         }          
-        items.push(['div', { class: `table__column--width-small text-center` }, [
+        items.push(['div', { class: 'table__column--width-small text-center' }, [
           ['span', { 'data-timestamp': group.creationDate / 1e3 }, date]
         ]]);
       }
 
       if (gSettings.gs_type) {
         if (response.url.match(/steamcommunity\.com\/games\//)) {
-          group.type = `Official Game Group`;
+          group.type = 'Official Game Group';
           group.officialGameGroup = true;
         } else {
-          const text = response.html.querySelector(`.grouppage_join_area`).textContent.trim();
+          const text = response.html.querySelector('.grouppage_join_area').textContent.trim();
           if (text.match(/join\sgroup/i)) {
             group.type = 'Open';
             group.open = true;
@@ -266,7 +266,7 @@ class GroupsGroupStats extends Module {
             group.closed = true;
           }
         }
-        items.push(['div', { class: `table__column--width-small text-center` }, group.type]);
+        items.push(['div', { class: 'table__column--width-small text-center' }, group.type]);
       }
     }
 

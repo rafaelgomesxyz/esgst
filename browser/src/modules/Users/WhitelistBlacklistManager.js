@@ -27,11 +27,11 @@ class UsersWhitelistBlacklistManager extends Module {
         ['ul', [
           ['li', [
             `Adds a button (`,
-            ['i', { class: `fa fa-arrow-up` }],
-            ` `,
-            ['i', { class: `fa fa-arrow-down` }],
-            ` `,
-            ['i', { class: `fa fa-trash` }],
+            ['i', { class: 'fa fa-arrow-up' }],
+            ' ',
+            ['i', { class: 'fa fa-arrow-down' }],
+            ' ',
+            ['i', { class: 'fa fa-trash' }],
             `) to the main page heading of your `,
             ['a', { href: `https://www.steamgifts.com/account/manage/whitelist` }, 'whitelist'],
             `/`,
@@ -59,7 +59,7 @@ class UsersWhitelistBlacklistManager extends Module {
     }
     wbm.button = createHeadingButton({
       id: 'wbm',
-      icons: [`fa-arrow-up`, `fa-arrow-down`, `fa-trash`],
+      icons: ['fa-arrow-up', 'fa-arrow-down', 'fa-trash'],
       title: `Manage ${wbm.key}`
     });
     wbm.button.addEventListener('click', this.wbm_openPopup.bind(this, wbm));
@@ -67,12 +67,12 @@ class UsersWhitelistBlacklistManager extends Module {
 
   wbm_openPopup(wbm) {
     if (!wbm.popup) {
-      wbm.popup = new Popup({ addScrollable: true, icon: `fa-gear`, title: `Manage ${wbm.name}:` });
-      new ToggleSwitch(wbm.popup.description, 'wbm_useCache', false, `Use cache.`, false, false, `Uses the cache created the last time you synced your whitelist/blacklist. This speeds up the process, but could lead to incomplete results if your cache isn't up-to-date.`, gSettings.wbm_useCache);
+      wbm.popup = new Popup({ addScrollable: true, icon: 'fa-gear', title: `Manage ${wbm.name}:` });
+      new ToggleSwitch(wbm.popup.description, 'wbm_useCache', false, 'Use cache.', false, false, `Uses the cache created the last time you synced your whitelist/blacklist. This speeds up the process, but could lead to incomplete results if your cache isn't up-to-date.`, gSettings.wbm_useCache);
       new ToggleSwitch(wbm.popup.description, 'wbm_clearTags', false, [
         `Only clear users who are tagged with these specific tags (separate with comma): `,
-        ['input', { class: `esgst-switch-input esgst-switch-input-large`, type: 'text', value: gSettings.wbm_tags.join(`, `) }]
-      ], false, false, `Uses the User Tags database to remove only users with the specified tags.`, gSettings.wbm_clearTags).name.firstElementChild.addEventListener('change', event => {
+        ['input', { class: 'esgst-switch-input esgst-switch-input-large', type: 'text', value: gSettings.wbm_tags.join(`, `) }]
+      ], false, false, 'Uses the User Tags database to remove only users with the specified tags.', gSettings.wbm_clearTags).name.firstElementChild.addEventListener('change', event => {
         const element = event.currentTarget;
         let tags = element.value.replace(/(,\s*)+/g, formatTags).split(`, `);
         setSetting('wbm_tags', tags);
@@ -85,21 +85,21 @@ class UsersWhitelistBlacklistManager extends Module {
       }]);
       wbm.message = createElements(wbm.popup.description, 'beforeEnd', [{
         attributes: {
-          class: `esgst-description`
+          class: 'esgst-description'
         },
         type: 'div'
       }]);
       wbm.warning = createElements(wbm.popup.description, 'beforeEnd', [{
         attributes: {
-          class: `esgst-description esgst-warning`
+          class: 'esgst-description esgst-warning'
         },
         type: 'div'
       }]);
       wbm.popup.description.appendChild(new ButtonSet({
         color1: 'green',
         color2: 'grey',
-        icon1: `fa-arrow-up`,
-        icon2: `fa-times`,
+        icon1: 'fa-arrow-up',
+        icon2: 'fa-times',
         title1: 'Import',
         title2: 'Cancel',
         callback1: () => {
@@ -110,8 +110,8 @@ class UsersWhitelistBlacklistManager extends Module {
       wbm.popup.description.appendChild(new ButtonSet({
         color1: 'green',
         color2: 'grey',
-        icon1: `fa-arrow-down`,
-        icon2: `fa-times`,
+        icon1: 'fa-arrow-down',
+        icon2: 'fa-times',
         title1: 'Export',
         title2: 'Cancel',
         callback1: () => {
@@ -122,8 +122,8 @@ class UsersWhitelistBlacklistManager extends Module {
       wbm.popup.description.appendChild(new ButtonSet({
         color1: 'green',
         color2: 'grey',
-        icon1: `fa-trash`,
-        icon2: `fa-times`,
+        icon1: 'fa-trash',
+        icon2: 'fa-times',
         title1: 'Clear',
         title2: 'Cancel',
         callback1: () => {
@@ -141,7 +141,7 @@ class UsersWhitelistBlacklistManager extends Module {
   wbm_start(wbm, callback, mainCallback) {
     createConfirmation(`Are you sure you want to do this?`, () => {
       wbm.isCanceled = false;
-      wbm.button.classList.add(`esgst-busy`);
+      wbm.button.classList.add('esgst-busy');
       wbm.usernames = [];
       wbm.results.innerHTML = ``;
       callback(this.wbm_complete.bind(this, wbm, mainCallback));
@@ -149,13 +149,13 @@ class UsersWhitelistBlacklistManager extends Module {
   }
 
   wbm_complete(wbm, callback) {
-    wbm.button.classList.remove(`esgst-busy`);
+    wbm.button.classList.remove('esgst-busy');
     callback();
   }
 
   wbm_cancel(wbm) {
     wbm.isCanceled = true;
-    wbm.button.classList.remove(`esgst-busy`);
+    wbm.button.classList.remove('esgst-busy');
   }
 
   wbm_importList(wbm, callback) {
@@ -184,7 +184,7 @@ class UsersWhitelistBlacklistManager extends Module {
     if (wbm.isCanceled) return;
     createElements(wbm.message, 'inner', [{
       attributes: {
-        class: `fa fa-circle-o-notch fa-spin`
+        class: 'fa fa-circle-o-notch fa-spin'
       },
       type: 'i'
     }, {
@@ -221,7 +221,7 @@ class UsersWhitelistBlacklistManager extends Module {
     } else {
       createElements(wbm.message, 'inner', [{
         attributes: {
-          class: `fa fa-circle-o-notch fa-spin`
+          class: 'fa fa-circle-o-notch fa-spin'
         },
         type: 'i'
       }, {
@@ -238,7 +238,7 @@ class UsersWhitelistBlacklistManager extends Module {
         list.push(elements[i].value);
       }
       pagination = responseHtml.getElementsByClassName('pagination__navigation')[0];
-      if (pagination && !pagination.lastElementChild.classList.contains(`is-selected`)) {
+      if (pagination && !pagination.lastElementChild.classList.contains('is-selected')) {
         window.setTimeout(() => this.wbm_exportList(wbm, list, ++nextPage, callback), 0);
       } else {
         downloadFile(JSON.stringify(list), `esgst_${wbm.key}_${new Date().toISOString()}.json`);
@@ -277,7 +277,7 @@ class UsersWhitelistBlacklistManager extends Module {
     } else {
       createElements(wbm.message, 'inner', [{
         attributes: {
-          class: `fa fa-circle-o-notch fa-spin`
+          class: 'fa fa-circle-o-notch fa-spin'
         },
         type: 'i'
       }, {
@@ -294,7 +294,7 @@ class UsersWhitelistBlacklistManager extends Module {
         element = elements[i];
         if (gSettings.wbm_clearTags) {
           let steamId, username;
-          username = element.closest(`.table__row-inner-wrap`).getElementsByClassName('table__column__heading')[0].textContent;
+          username = element.closest('.table__row-inner-wrap').getElementsByClassName('table__column__heading')[0].textContent;
           steamId = shared.esgst.users.steamIds[username];
           if (steamId) {
             let user = shared.esgst.users.users[steamId];
@@ -313,7 +313,7 @@ class UsersWhitelistBlacklistManager extends Module {
         }
       }
       pagination = responseHtml.getElementsByClassName('pagination__navigation')[0];
-      if (pagination && !pagination.lastElementChild.classList.contains(`is-selected`)) {
+      if (pagination && !pagination.lastElementChild.classList.contains('is-selected')) {
         window.setTimeout(() => this.wbm_clearList(wbm, list, ++nextPage, callback), 0);
       } else {
         // noinspection JSIgnoredPromiseFromCall
@@ -326,7 +326,7 @@ class UsersWhitelistBlacklistManager extends Module {
     if (wbm.isCanceled) return;
     createElements(wbm.message, 'inner', [{
       attributes: {
-        class: `fa fa-circle-o-notch fa-spin`
+        class: 'fa fa-circle-o-notch fa-spin'
       },
       type: 'i'
     }, {
@@ -344,13 +344,13 @@ class UsersWhitelistBlacklistManager extends Module {
       createFadeMessage(wbm.message, `List cleared with success!`);
       createElements(wbm.results, 'inner', [{
         attributes: {
-          class: `esgst-bold`
+          class: 'esgst-bold'
         },
         text: `Users cleared (${wbm.usernames.length}):`,
         type: 'span'
       }, {
         attributes: {
-          class: `esgst-popup-actions`
+          class: 'esgst-popup-actions'
         },
         type: 'span'
       }]);

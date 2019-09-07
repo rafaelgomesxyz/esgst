@@ -17,13 +17,13 @@ class DiscussionsPuzzleMarker extends Module {
         ['ul', [
           ['li', [
             `Adds a checkbox in front of a discussion categorized as "Puzzles" (in any page) that changes states (`,
-            ['i', { class: `fa fa-circle-o esgst-grey` }],
+            ['i', { class: 'fa fa-circle-o esgst-grey' }],
             `  by default, `,
-            ['i', { class: `fa fa-times-circle esgst-red` }],
+            ['i', { class: 'fa fa-times-circle esgst-red' }],
             `  for "unsolved", `,
-            ['i', { class: `fa fa-exclamation-circle esgst-orange` }],
+            ['i', { class: 'fa fa-exclamation-circle esgst-orange' }],
             `  for "in progress" and `,
-            ['i', { class: `fa fa-check-circle esgst-green` }],
+            ['i', { class: 'fa fa-check-circle esgst-green' }],
             `for "solved") and allows you to mark the puzzle as unsolved/in progress / solved.`
           ]]
         ]]
@@ -35,7 +35,7 @@ class DiscussionsPuzzleMarker extends Module {
         }
       },
       id: 'pm',
-      name: `Puzzle Marker`,
+      name: 'Puzzle Marker',
       sg: true,
       type: 'discussions',
       featureMap: {
@@ -48,15 +48,15 @@ class DiscussionsPuzzleMarker extends Module {
     for (const discussion of discussions) {
       if (gSettings.pm_a || discussion.category === 'Puzzles') {
         let context = main && this.esgst.discussionPath ? discussion.headingContainer : discussion.outerWrap;
-        if (!context.getElementsByClassName(`esgst-pm-button`)[0]) {
-          context.classList.add(`esgst-relative`);
+        if (!context.getElementsByClassName('esgst-pm-button')[0]) {
+          context.classList.add('esgst-relative');
           new Button(context, 'afterBegin', {
-            callbacks: [this.pm_change.bind(this, discussion.code, 'unsolved'), null, this.pm_change.bind(this, discussion.code, `in progress`), null, this.pm_change.bind(this, discussion.code, 'solved'), null, this.pm_change.bind(this, discussion.code, 'off'), null],
-            className: `esgst-pm-button`,
-            icons: [`fa-circle-o esgst-clickable esgst-grey`, `fa-circle-o-notch fa-spin`, `fa-times-circle esgst-clickable esgst-red`, `fa-circle-o-notch fa-spin`, `fa-exclamation-circle esgst-clickable esgst-orange`, `fa-circle-o-notch fa-spin`, `fa-check-circle esgst-clickable esgst-green`, `fa-circle-o-notch fa-spin`],
+            callbacks: [this.pm_change.bind(this, discussion.code, 'unsolved'), null, this.pm_change.bind(this, discussion.code, 'in progress'), null, this.pm_change.bind(this, discussion.code, 'solved'), null, this.pm_change.bind(this, discussion.code, 'off'), null],
+            className: 'esgst-pm-button',
+            icons: ['fa-circle-o esgst-clickable esgst-grey', 'fa-circle-o-notch fa-spin', 'fa-times-circle esgst-clickable esgst-red', 'fa-circle-o-notch fa-spin', 'fa-exclamation-circle esgst-clickable esgst-orange', 'fa-circle-o-notch fa-spin', 'fa-check-circle esgst-clickable esgst-green', 'fa-circle-o-notch fa-spin'],
             id: 'pm',
-            index: ['off', ``, 'unsolved', ``, `in progress`, ``, 'solved'].indexOf((discussion.saved && discussion.saved.status) || 'off'),
-            titles: [`Current status is 'off', click to change to 'unsolved'`, `Changing status...`, `Current status is 'unsolved', click to change to 'in progress'`, `Changing status...`, `Current status is 'in progress', click to change to 'solved'`, `Changing status...`, `Current status is 'solved', click to change to 'off'`, `Changing status...`]
+            index: ['off', ``, 'unsolved', ``, 'in progress', ``, 'solved'].indexOf((discussion.saved && discussion.saved.status) || 'off'),
+            titles: [`Current status is 'off', click to change to 'unsolved'`, 'Changing status...', `Current status is 'unsolved', click to change to 'in progress'`, 'Changing status...', `Current status is 'in progress', click to change to 'solved'`, 'Changing status...', `Current status is 'solved', click to change to 'off'`, 'Changing status...']
           });
         }
       }

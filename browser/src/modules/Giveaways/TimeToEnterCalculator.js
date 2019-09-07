@@ -15,15 +15,15 @@ class GiveawaysTimeToEnterCalculator extends Module {
         ['ul', [
           ['li', [
             `Adds an element (`,
-            ['i', { class: `fa fa-clock-o` }],
+            ['i', { class: 'fa fa-clock-o' }],
             ` [Time]) below the start time of a giveaway that you do not have enough points to enter(in any page) that shows how much time you have to wait until you have enough points to enter the giveaway.`
           ]],
           ['li', `The time is calculated by rounding up the result (which is in milliseconds) of the following formula: next_refresh_in_milliseconds + (15 * ⌊(number_of_points_to_enter - number_of_points_you_have) / 6⌋), where next_refresh_in_milliseconds = the time that the next point refresh will happen (you get 6 points every 15 minutes of the hour on SteamGifts, so if it is currently 12:10pm, the next refresh will be at 12:15pm)`],
-          ['li', `You can move the element around by dragging and dropping it.`]
+          ['li', 'You can move the element around by dragging and dropping it.']
         ]]
       ],
       id: 'ttec',
-      name: `Time To Enter Calculator`,
+      name: 'Time To Enter Calculator',
       sg: true,
       type: 'giveaways',
       featureMap: {
@@ -45,16 +45,16 @@ class GiveawaysTimeToEnterCalculator extends Module {
             giveaway.ttec = createElements(giveaway.panel, (gSettings.gv && ((main && this.esgst.giveawaysPath) || (source === 'gb' && gSettings.gv_gb) || (source === 'ged' && gSettings.gv_ged) || (source === 'ge' && gSettings.gv_ge))) ? 'beforeEnd' : 'afterBegin', [{
               attributes: {
                 class: `${this.esgst.giveawayPath ? 'featured__column' : ``} esgst-ttec`,
-                [`data-draggable-id`]: 'ttec',
-                title: getFeatureTooltip('ttec', `Time to wait until you have enough points to enter this giveaway`)
+                ['data-draggable-id']: 'ttec',
+                title: getFeatureTooltip('ttec', 'Time to wait until you have enough points to enter this giveaway')
               },
               type: 'div'
             }]);
           }
-          giveaway.ttec.classList.remove(`esgst-hidden`);
+          giveaway.ttec.classList.remove('esgst-hidden');
           createElements(giveaway.ttec, 'inner', [{
             attributes: {
-              class: `fa fa-clock-o`
+              class: 'fa fa-clock-o'
             },
             type: 'i'
           }, {
@@ -62,7 +62,7 @@ class GiveawaysTimeToEnterCalculator extends Module {
             type: 'node'
           }]);
         } else if (giveaway.ttec) {
-          giveaway.ttec.classList.add(`esgst-hidden`);
+          giveaway.ttec.classList.add('esgst-hidden');
         }
       });
     }

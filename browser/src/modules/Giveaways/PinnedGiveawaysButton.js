@@ -11,30 +11,30 @@ class GiveawaysPinnedGiveawaysButton extends Module {
     this.info = {
       description: [
         ['ul', [
-          ['li', `Modifies the arrow button in the pinned giveaways box of the main page so that you are able to collapse the box again after expanding it.`]
+          ['li', 'Modifies the arrow button in the pinned giveaways box of the main page so that you are able to collapse the box again after expanding it.']
         ]]
       ],
       id: 'pgb',
-      name: `Pinned Giveaways Button`,
+      name: 'Pinned Giveaways Button',
       sg: true,
       type: 'giveaways'
     };
   }
 
   init() {
-    let button = document.getElementsByClassName(`pinned-giveaways__button`)[0];
+    let button = document.getElementsByClassName('pinned-giveaways__button')[0];
     if (!button) return;
     const container = button.previousElementSibling;
-    container.classList.add(`esgst-pgb-container`);
+    container.classList.add('esgst-pgb-container');
     button.remove();
     button = createElements(container, 'afterEnd', [{
       attributes: {
-        class: `esgst-pgb-button`
+        class: 'esgst-pgb-button'
       },
       type: 'div',
       children: [{
         attributes: {
-          class: `esgst-pgb-icon fa fa-angle-down`
+          class: 'esgst-pgb-icon fa fa-angle-down'
         },
         type: 'i'
       }]
@@ -44,9 +44,9 @@ class GiveawaysPinnedGiveawaysButton extends Module {
   }
 
   pgb_toggle(container, icon) {
-    container.classList.toggle(`pinned-giveaways__inner-wrap--minimized`);
-    icon.classList.toggle(`fa-angle-down`);
-    icon.classList.toggle(`fa-angle-up`);
+    container.classList.toggle('pinned-giveaways__inner-wrap--minimized');
+    icon.classList.toggle('fa-angle-down');
+    icon.classList.toggle('fa-angle-up');
   }
 }
 

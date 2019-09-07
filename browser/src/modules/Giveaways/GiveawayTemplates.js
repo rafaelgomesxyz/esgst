@@ -25,19 +25,19 @@ class GiveawaysGiveawayTemplates extends Module {
       description: [
         ['ul', [
           ['li', [
-            `Adds a section 9 to the `,
-            ['a', { href: `https://www.steamgifts.com/giveaways/new` }, `new giveaway`],
+            'Adds a section 9 to the ',
+            ['a', { href: `https://www.steamgifts.com/giveaways/new` }, 'new giveaway'],
             ` page that allows you to save the details that you have filled (except for the name of the game and the number of copies/keys) as a template so that you can reuse it later. For example, if you often make public level 5 giveaways that last 2 days, you can save a template with those details so that when you create a new giveaway all of the fields in the page are automatically filled and all you have to do is select the game and set the number of copies/keys.`
           ]],
           ['li', [
             `Also adds a button (`,
-            ['i', { class: `fa fa-file` }],
+            ['i', { class: 'fa fa-file' }],
             `) to the main page heading of the same page that allows you manage all of the templates that have been saved and select the template that you want to use.`
           ]]
         ]]
       ],
       id: 'gts',
-      name: `Giveaway Templates`,
+      name: 'Giveaway Templates',
       sg: true,
       type: 'giveaways'
     };
@@ -49,7 +49,7 @@ class GiveawaysGiveawayTemplates extends Module {
     if (!rows) return;
     this.gts_addButtonSection(createHeadingButton({
       id: 'gts',
-      icons: [`fa-file`],
+      icons: ['fa-file'],
       title: `View/apply templates`
     }), rows);
   }
@@ -65,10 +65,10 @@ class GiveawaysGiveawayTemplates extends Module {
     createGiveawayButton = new ButtonSet({
       color1: 'green',
       color2: 'grey',
-      icon1: `fa-plus-circle`,
-      icon2: `fa-circle-o-notch fa-spin`,
-      title1: `Create Giveaway`,
-      title2: `Creating...`,
+      icon1: 'fa-plus-circle',
+      icon2: 'fa-circle-o-notch fa-spin',
+      title1: 'Create Giveaway',
+      title2: 'Creating...',
       callback1: async () => {
         const textArea = document.querySelector(`[name="description"]`);
         if (gSettings.ngdc && (await shared.esgst.modules.giveawaysNewGiveawayDescriptionChecker.check(textArea.value))) {
@@ -113,40 +113,40 @@ class GiveawaysGiveawayTemplates extends Module {
     button.addEventListener('click', this.gts_openPopup.bind(this, gts));
     section = createElements(reviewButton, 'beforeBegin', [{
       attributes: {
-        class: `esgst-form-row`
+        class: 'esgst-form-row'
       },
       type: 'div',
       children: [{
         attributes: {
-          class: `esgst-form-heading`
+          class: 'esgst-form-heading'
         },
         type: 'div',
         children: [{
           attributes: {
-            class: `esgst-form-heading-number`
+            class: 'esgst-form-heading-number'
           },
-          text: `9.`,
+          text: '9.',
           type: 'div'
         }, {
           attributes: {
-            class: `esgst-form-heading-text`
+            class: 'esgst-form-heading-text'
           },
           text: 'Template',
           type: 'div'
         }]
       }, {
         attributes: {
-          class: `esgst-gts-section esgst-form-row-indent`
+          class: 'esgst-gts-section esgst-form-row-indent'
         },
         type: 'div',
         children: [{
           type: 'div',
           children: [{
-            text: `Use precise start time.`,
+            text: 'Use precise start time.',
             type: 'span'
           }, {
             attributes: {
-              class: `fa fa-question-circle`,
+              class: 'fa fa-question-circle',
               title: `For example, if you picked 12:00 pm for the start date in section 4, when you apply the template the start date will be set to the next 12:00 pm hour, so if you apply the template on January 1 11:00 pm, the start date will be set to January 1 12:00 pm, and if you apply the template on January 1 13:00 pm, the start date will be set to January 2 12:00 pm. The end date will then be set based on the time range that you picked.`
             },
             type: 'i'
@@ -154,11 +154,11 @@ class GiveawaysGiveawayTemplates extends Module {
         }, {
           type: 'div',
           children: [{
-            text: `Use precise end time.`,
+            text: 'Use precise end time.',
             type: 'span'
           }, {
             attributes: {
-              class: `fa fa-question-circle`,
+              class: 'fa fa-question-circle',
               title: `For example, if you picked 12:00 pm for the end date and a time range of 2 days in section 4, when you apply the template the end date will be set to the next 12:00 pm hour after 2 days, so if you apply the template on January 1 11:00 pm, the end date will be set to January 3 12:00 pm, and if you apply the template on January 1 13:00 pm, the end date will be set to January 4 12:00 pm. The start date will then be set based on the time range that you picked.`
             },
             type: 'i'
@@ -166,11 +166,11 @@ class GiveawaysGiveawayTemplates extends Module {
         }, {
           type: 'div',
           children: [{
-            text: `Use precise start date.`,
+            text: 'Use precise start date.',
             type: 'span'
           }, {
             attributes: {
-              class: `fa fa-question-circle`,
+              class: 'fa fa-question-circle',
               title: `With this option enabled, the template will use the exact start date that you picked in section 4. This is only useful if you are creating multiple giveaways and want all of them to begin at a specific later date, because the template is not reusable after the date has passed.`
             },
             type: 'i'
@@ -178,52 +178,52 @@ class GiveawaysGiveawayTemplates extends Module {
         }, {
           type: 'div',
           children: [{
-            text: `Use precise end date.`,
+            text: 'Use precise end date.',
             type: 'span'
           }, {
             attributes: {
-              class: `fa fa-question-circle`,
+              class: 'fa fa-question-circle',
               title: `With this option enabled, the template will use the exact end date that you picked in section 4. This is only useful if you are creating multiple giveaways and want all of them to end at a specific later date, because the template is not reusable after the date has passed.`
             },
             type: 'i'
           }]
         }, {
           attributes: {
-            class: `esgst-description`
+            class: 'esgst-description'
           },
           text: `By not selecting one of the options above, the template will use the time range that you picked in section 4. For example, if the time range that you picked was 2 days, when you apply the template the start date will be set to your current date and the end date will be set to 2 days later.`,
           type: 'div'
         }, {
           attributes: {
-            class: `form__input-small`,
+            class: 'form__input-small',
             type: 'text'
           },
           type: 'input'
         }, {
           attributes: {
-            class: `esgst-description esgst-hidden`
+            class: 'esgst-description esgst-hidden'
           },
           text: `Saved!`,
           type: 'span'
         }, {
           attributes: {
-            class: `esgst-hidden form__row__error`
+            class: 'esgst-hidden form__row__error'
           },
           type: 'div',
           children: [{
             attributes: {
-              class: `fa fa-exclamation-circle`
+              class: 'fa fa-exclamation-circle'
             },
             type: 'i'
           }, {
-            text: ` Please enter a name for the template.`,
+            text: ' Please enter a name for the template.',
             type: 'node'
           }]
         }, {
           attributes: {
-            class: `esgst-description`
+            class: 'esgst-description'
           },
-          text: `The name of the template.`,
+          text: 'The name of the template.',
           type: 'div'
         }]
       }]
@@ -254,14 +254,14 @@ class GiveawaysGiveawayTemplates extends Module {
     set = new ButtonSet({
       color1: 'green',
       color2: 'grey',
-      icon1: `fa-check`,
-      icon2: `fa-circle-o-notch fa-spin`,
-      title1: `Save Template`,
-      title2: `Saving...`,
+      icon1: 'fa-check',
+      icon2: 'fa-circle-o-notch fa-spin',
+      title1: 'Save Template',
+      title2: 'Saving...',
       callback1: async () => {
         let i, n, template, savedTemplates, startDate, endDate;
         if (gts.input.value) {
-          warning.classList.add(`esgst-hidden`);
+          warning.classList.add('esgst-hidden');
           startDate = new Date(document.querySelector(`[name="start_time"]`).value);
           startTime = startDate.getTime();
           endDate = new Date(document.querySelector(`[name="end_time"]`).value);
@@ -316,37 +316,37 @@ class GiveawaysGiveawayTemplates extends Module {
           if (i < n) {
             if (gts.edit) {
               savedTemplates[i] = template;
-              message.classList.remove(`esgst-hidden`);
+              message.classList.remove('esgst-hidden');
               window.setTimeout(() => {
-                message.classList.add(`esgst-hidden`);
+                message.classList.add('esgst-hidden');
               }, 2000);
             } else if (window.confirm(`There already exists a template with this name. Do you want to overwrite it?`)) {
               savedTemplates[i] = template;
-              message.classList.remove(`esgst-hidden`);
+              message.classList.remove('esgst-hidden');
               window.setTimeout(() => {
-                message.classList.add(`esgst-hidden`);
+                message.classList.add('esgst-hidden');
               }, 2000);
             }
           } else {
             savedTemplates.push(template);
-            message.classList.remove(`esgst-hidden`);
+            message.classList.remove('esgst-hidden');
             window.setTimeout(() => {
-              message.classList.add(`esgst-hidden`);
+              message.classList.add('esgst-hidden');
             }, 2000);
           }
           await setValue('templates', JSON.stringify(savedTemplates));
           deleteLock();
         } else {
-          warning.classList.remove(`esgst-hidden`);
+          warning.classList.remove('esgst-hidden');
         }
       }
     });
     section.appendChild(set.set);
     rows.insertBefore(createGiveawayButton.set, rows.firstElementChild);
     rows.insertBefore(reviewButton, rows.firstElementChild);
-    createGiveawayButton.set.style.display = `inline-block`;
-    createGiveawayButton.set.style.margin = `20px 5px`;
-    reviewButton.style.margin = `20px 0`;
+    createGiveawayButton.set.style.display = 'inline-block';
+    createGiveawayButton.set.style.margin = '20px 5px';
+    reviewButton.style.margin = '20px 0';
     let first, last;
     first = true;
     last = false;
@@ -355,8 +355,8 @@ class GiveawaysGiveawayTemplates extends Module {
         if (!first) {
           rows.insertBefore(createGiveawayButton.set, rows.firstElementChild);
           rows.insertBefore(reviewButton, rows.firstElementChild);
-          createGiveawayButton.set.style.margin = `20px 5px`;
-          reviewButton.style.margin = `20px 0`;
+          createGiveawayButton.set.style.margin = '20px 5px';
+          reviewButton.style.margin = '20px 0';
           first = true;
           last = false;
         }
@@ -364,7 +364,7 @@ class GiveawaysGiveawayTemplates extends Module {
         rows.appendChild(reviewButton);
         rows.appendChild(createGiveawayButton.set);
         reviewButton.style.margin = ``;
-        createGiveawayButton.set.style.margin = `0 5px`;
+        createGiveawayButton.set.style.margin = '0 5px';
         last = true;
         first = false;
       }
@@ -372,33 +372,33 @@ class GiveawaysGiveawayTemplates extends Module {
   }
 
   async gts_openPopup(gts) {
-    let popup = new Popup({ addScrollable: true, icon: `fa-file`, isTemp: true, title: `View/apply templates:` });
+    let popup = new Popup({ addScrollable: true, icon: 'fa-file', isTemp: true, title: `View/apply templates:` });
     createElements(popup.description, 'afterBegin', [{
       attributes: {
-        class: `esgst-description`
+        class: 'esgst-description'
       },
-      text: `Drag and drop templates to move them.`,
+      text: 'Drag and drop templates to move them.',
       type: 'div'
     }]);
     gts.undo = createElements(popup.description, 'beforeEnd', [{
       attributes: {
-        class: `esgst-clickable esgst-hidden`
+        class: 'esgst-clickable esgst-hidden'
       },
       type: 'div',
       children: [{
         attributes: {
-          class: `fa fa-rotate-left`,
+          class: 'fa fa-rotate-left',
         },
         type: 'i'
       }, {
-        text: `Undo Delete`,
+        text: 'Undo Delete',
         type: 'span'
       }]
     }]);
     gts.undo.addEventListener('click', this.gts_undoDelete.bind(this, gts));
     let templates = createElements(popup.scrollable, 'beforeEnd', [{
       attributes: {
-        class: `esgst-text-left popup__keys__list`
+        class: 'esgst-text-left popup__keys__list'
       },
       type: 'div'
     }]);
@@ -451,17 +451,17 @@ class GiveawaysGiveawayTemplates extends Module {
         if (days > 6) {
           let weeks = Math.floor(days / 7);
           if (weeks === 1) {
-            details += `1 week`;
+            details += '1 week';
           } else {
             details += `${weeks} weeks`;
           }
         } else if (days === 1) {
-          details += `1 day`;
+          details += '1 day';
         } else {
           details += `${days} days`;
         }
       } else if (hours === 1) {
-        details += `1 hour`;
+        details += '1 hour';
       } else {
         details += `${hours} hours`;
       }
@@ -488,27 +488,27 @@ class GiveawaysGiveawayTemplates extends Module {
         type: 'div',
         children: [{
           attributes: {
-            class: `esgst-clickable`,
+            class: 'esgst-clickable',
             style: `float: left;`
           },
           type: 'div',
           children: [{
             attributes: {
-              class: `esgst-bold`
+              class: 'esgst-bold'
             },
             text: savedTemplate.name,
             type: 'span'
           }]
         }, {
           attributes: {
-            class: `esgst-clickable`,
+            class: 'esgst-clickable',
             style: `float: right;`
           },
           type: 'div',
           children: [{
             attributes: {
-              class: `fa fa-trash`,
-              title: `Delete template`
+              class: 'fa fa-trash',
+              title: 'Delete template'
             },
             type: 'i'
           }]
@@ -519,7 +519,7 @@ class GiveawaysGiveawayTemplates extends Module {
           type: 'div'
         }, {
           attributes: {
-            class: `esgst-description`
+            class: 'esgst-description'
           },
           text: details,
           type: 'div'
@@ -545,7 +545,7 @@ class GiveawaysGiveawayTemplates extends Module {
     deleteButton.addEventListener('click', async () => {
       createElements(deleteButton, 'inner', [{
         attributes: {
-          class: `fa fa-circle-o-notch fa-spin`
+          class: 'fa fa-circle-o-notch fa-spin'
         },
         type: 'i'
       }]);
@@ -559,29 +559,29 @@ class GiveawaysGiveawayTemplates extends Module {
       deleteLock();
       createElements(deleteButton, 'inner', [{
         attributes: {
-          class: `fa fa-trash`
+          class: 'fa fa-trash'
         },
         type: 'i'
       }]);
-      template.classList.add(`esgst-hidden`);
+      template.classList.add('esgst-hidden');
       gts.deletedTemplates.push({
         template: template,
         savedTemplate: savedTemplate
       });
-      gts.undo.classList.remove(`esgst-hidden`);
+      gts.undo.classList.remove('esgst-hidden');
       gts.edit = false;
     });
   }
 
   async gts_undoDelete(gts) {
     let deletedTemplate = gts.deletedTemplates.pop();
-    deletedTemplate.template.classList.remove(`esgst-hidden`);
+    deletedTemplate.template.classList.remove('esgst-hidden');
     deletedTemplate.template.parentElement.appendChild(deletedTemplate.template);
     let savedTemplates = JSON.parse(getValue('templates', `[]`));
     savedTemplates.push(deletedTemplate.savedTemplate);
     await setValue('templates', JSON.stringify(savedTemplates));
     if (gts.deletedTemplates.length === 0) {
-      gts.undo.classList.add(`esgst-hidden`);
+      gts.undo.classList.add('esgst-hidden');
     }
   }
 
@@ -666,8 +666,8 @@ class GiveawaysGiveawayTemplates extends Module {
       countries = savedTemplate.countries.trim().split(/\s/);
       for (i = matches.length - 1; i > 0; --i) {
         context = matches[i];
-        id = context.getAttribute(`data-item-id`);
-        selected = context.classList.contains(`is-selected`);
+        id = context.getAttribute('data-item-id');
+        selected = context.classList.contains('is-selected');
         j = countries.indexOf(id);
         if ((selected && j < 0) || (!selected && j >= 0)) {
           context.click();
@@ -676,7 +676,7 @@ class GiveawaysGiveawayTemplates extends Module {
     }
     this.clickCheckbox(savedTemplate.whoCanEnter);
     if (savedTemplate.gameName) {
-      document.getElementsByClassName(`js__autocomplete-name`)[0].value = savedTemplate.gameName;
+      document.getElementsByClassName('js__autocomplete-name')[0].value = savedTemplate.gameName;
     }
     if (savedTemplate.gameId) {
       document.querySelector(`[name="game_id"]`).value = savedTemplate.gameId;
@@ -689,15 +689,15 @@ class GiveawaysGiveawayTemplates extends Module {
     if (savedTemplate.whoCanEnter === 'groups') {
       matches = document.querySelector(`.form_list[data-input="group_item_string"]`).children;
       context = matches[0];
-      if ((savedTemplate.whitelist === '1' && !context.classList.contains(`is-selected`)) || (savedTemplate.whitelist !== '1' && context.classList.contains(`is-selected`))) {
+      if ((savedTemplate.whitelist === '1' && !context.classList.contains('is-selected')) || (savedTemplate.whitelist !== '1' && context.classList.contains('is-selected'))) {
         context.click();
       }
       if (savedTemplate.groups) {
         groups = savedTemplate.groups.trim().split(/\s/);
         for (i = matches.length - 1; i > 0; --i) {
           context = matches[i];
-          id = context.getAttribute(`data-item-id`);
-          selected = context.classList.contains(`is-selected`);
+          id = context.getAttribute('data-item-id');
+          selected = context.classList.contains('is-selected');
           j = groups.indexOf(id);
           if ((selected && j < 0) || (!selected && j >= 0)) {
             context.click();
@@ -706,23 +706,23 @@ class GiveawaysGiveawayTemplates extends Module {
       } else {
         for (i = matches.length - 1; i > 0; --i) {
           context = matches[i];
-          if (context.classList.contains(`is-selected`)) {
+          if (context.classList.contains('is-selected')) {
             context.click();
           }
         }
       }
     }
     if (savedTemplate.level > 0) {
-      document.getElementsByClassName(`ui-slider-range`)[0].style.width = `${savedTemplate.level * 10}%`;
+      document.getElementsByClassName('ui-slider-range')[0].style.width = `${savedTemplate.level * 10}%`;
       document.getElementsByClassName('form__level')[0].textContent = `level ${savedTemplate.level}`;
-      document.getElementsByClassName(`form__input-description--no-level`)[0].classList.add(`is-hidden`);
-      document.getElementsByClassName(`form__input-description--level`)[0].classList.remove(`is-hidden`);
+      document.getElementsByClassName('form__input-description--no-level')[0].classList.add('is-hidden');
+      document.getElementsByClassName('form__input-description--level')[0].classList.remove('is-hidden');
     } else {
-      document.getElementsByClassName(`ui-slider-range`)[0].style.width = `0%`;
-      document.getElementsByClassName(`form__input-description--level`)[0].classList.add(`is-hidden`);
-      document.getElementsByClassName(`form__input-description--no-level`)[0].classList.remove(`is-hidden`);
+      document.getElementsByClassName('ui-slider-range')[0].style.width = `0%`;
+      document.getElementsByClassName('form__input-description--level')[0].classList.add('is-hidden');
+      document.getElementsByClassName('form__input-description--no-level')[0].classList.remove('is-hidden');
     }
-    document.getElementsByClassName(`ui-slider-handle`)[0].style.left = `${savedTemplate.level * 10}%`;
+    document.getElementsByClassName('ui-slider-handle')[0].style.left = `${savedTemplate.level * 10}%`;
     document.querySelector(`[name="contributor_level"]`).value = savedTemplate.level;
     document.querySelector(`[name="description"]`).value = savedTemplate.description;
     if (this.esgst.mgc_createTrainSwitch) {

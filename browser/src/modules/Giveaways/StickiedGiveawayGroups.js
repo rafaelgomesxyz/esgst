@@ -16,29 +16,29 @@ class GiveawaysStickiedGiveawayGroups extends Module {
         ['ul', [
           ['li', [
             `Adds a button (`,
-            ['i', { class: `fa fa-thumb-stack` }],
-            ` if the group is stickied and `,
-            ['i', { class: `fa fa-thumb-stack esgst-faded` }],
+            ['i', { class: 'fa fa-thumb-stack' }],
+            ' if the group is stickied and ',
+            ['i', { class: 'fa fa-thumb-stack esgst-faded' }],
             ` if it is not) next to each group in the `,
-            ['a', { href: `https://www.steamgifts.com/giveaways/new` }, `new giveaway`],
+            ['a', { href: `https://www.steamgifts.com/giveaways/new` }, 'new giveaway'],
             `/`,
             ['a', { href: `https://www.steamgifts.com/account/steam/groups` }, 'groups'],
-            ` pages that allows you to sticky the group so that it appears at the top of the group list for quick use.`
+            ' pages that allows you to sticky the group so that it appears at the top of the group list for quick use.'
           ]]
         ]]
       ],
       id: 'sgg',
-      name: `Stickied Giveaway Groups`,
+      name: 'Stickied Giveaway Groups',
       sg: true,
       type: 'giveaways'
     };
   }
 
   init() {
-    if (this.esgst.newGiveawayPath && !document.getElementsByClassName(`table--summary`)[0]) {
+    if (this.esgst.newGiveawayPath && !document.getElementsByClassName('table--summary')[0]) {
       this.sgg_setGiveawayGroups();
     }
-    if (shared.common.isCurrentPath(`Steam - Groups`)) {
+    if (shared.common.isCurrentPath('Steam - Groups')) {
       this.esgst.endlessFeatures.push(this.sgg_setGroups.bind(this));
     }
   }
@@ -53,7 +53,7 @@ class GiveawaysStickiedGiveawayGroups extends Module {
     };
     for (i = 1, n = elements.length; i < n; ++i) {
       context = elements[i];
-      id = context.getAttribute(`data-item-id`);
+      id = context.getAttribute('data-item-id');
       const avatarContext = context.firstElementChild;
       avatar = avatarContext.style.backgroundImage;
       code = null;
@@ -76,18 +76,18 @@ class GiveawaysStickiedGiveawayGroups extends Module {
         }
         new Button(context, 'afterBegin', {
           callbacks: [this.sgg_stickyGroup.bind(this, obj, code, container, context, id), null, this.sgg_unstickyGroup.bind(this, obj, code, container, context, id), null],
-          className: `esgst-sgg-button`,
-          icons: [`fa-thumb-tack esgst-clickable esgst-faded`, `fa-circle-o-notch fa-spin`, `fa-thumb-tack esgst-clickable`, `fa-circle-o-notch fa-spin`],
+          className: 'esgst-sgg-button',
+          icons: ['fa-thumb-tack esgst-clickable esgst-faded', 'fa-circle-o-notch fa-spin', 'fa-thumb-tack esgst-clickable', 'fa-circle-o-notch fa-spin'],
           id: 'sgg',
           index: stickied ? 2 : 0,
-          titles: [`Sticky group`, `Stickying...`, `Unsticky group`, `Unstickying...`]
+          titles: ['Sticky group', 'Stickying...', 'Unsticky group', 'Unstickying...']
         });
       }
     }
   }
 
   async sgg_setGroups(context, main, source, endless) {
-    const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .table__row-inner-wrap, .esgst-es-page-${endless}.table__row-inner-wrap` : `.table__row-inner-wrap`}`);
+    const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .table__row-inner-wrap, .esgst-es-page-${endless}.table__row-inner-wrap` : '.table__row-inner-wrap'}`);
     if (!elements.length) return;
     const savedGroups = JSON.parse(getValue('groups', `[]`));
     for (let i = 0, n = elements.length; i < n; i++) {
@@ -110,11 +110,11 @@ class GiveawaysStickiedGiveawayGroups extends Module {
       }
       new Button(element, 'afterBegin', {
         callbacks: [this.sgg_stickyGroup.bind(this, {}, code, null, element, null), null, this.sgg_unstickyGroup.bind(this, {}, code, null, element, null), null],
-        className: `esgst-sgg-button`,
-        icons: [`fa-thumb-tack esgst-clickable esgst-faded`, `fa-circle-o-notch fa-spin`, `fa-thumb-tack esgst-clickable`, `fa-circle-o-notch fa-spin`],
+        className: 'esgst-sgg-button',
+        icons: ['fa-thumb-tack esgst-clickable esgst-faded', 'fa-circle-o-notch fa-spin', 'fa-thumb-tack esgst-clickable', 'fa-circle-o-notch fa-spin'],
         id: 'sgg',
         index: stickied ? 2 : 0,
-        titles: [`Sticky group`, `Stickying...`, `Unsticky group`, `Unstickying...`]
+        titles: ['Sticky group', 'Stickying...', 'Unsticky group', 'Unstickying...']
       });
     }
   }

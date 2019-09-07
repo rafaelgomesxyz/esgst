@@ -28,9 +28,9 @@ class GiveawaysGiveawayExtractor extends Module {
         ['ul', [
           ['li', [
             `Adds a button (`,
-            ['i', { class: `fa fa-gift` }],
-            ` `,
-            ['i', { class: `fa fa-search` }],
+            ['i', { class: 'fa fa-gift' }],
+            ' ',
+            ['i', { class: 'fa fa-search' }],
             `) to the main page heading of any giveaway/discussion page that allows you to extract all of the giveaways that are linked in the page.`
           ]],
           ['li', `The giveaways are extracted recursively. For example, if giveaway A has links to giveaways B and C, the feature will extract giveaway B and all of the giveaways linked in it before moving on to giveaway C, and so on.`],
@@ -44,7 +44,7 @@ class GiveawaysGiveawayExtractor extends Module {
           description: [
             ['li', `With this option enabled, a second button is added that allows you to specify certain parameters before beginning the extraction.`]
           ],
-          name: `Add button to specify parameters.`,
+          name: 'Add button to specify parameters.',
           sg: true
         },
         ge_j: {
@@ -63,11 +63,11 @@ class GiveawaysGiveawayExtractor extends Module {
                   prefix: `Limit: `
                 }
               ],
-              name: `Limit how many links are opened.`,
+              name: 'Limit how many links are opened.',
               sg: true
             }
           },
-          name: `Automatically open any SGTools links found in new tabs.`,
+          name: 'Automatically open any SGTools links found in new tabs.',
           sg: true
         },
         ge_sgtga: {
@@ -76,15 +76,15 @@ class GiveawaysGiveawayExtractor extends Module {
           ],
           features: {
             ge_sgtga_u: {
-              name: `Automatically unlock SGTools giveaways that have not yet been unlocked.`,
+              name: 'Automatically unlock SGTools giveaways that have not yet been unlocked.',
               sg: true
             }
           },
-          name: `Automatically retrieve the giveaway link from SGTools giveaways that have already been unlocked.`,
+          name: 'Automatically retrieve the giveaway link from SGTools giveaways that have already been unlocked.',
           sg: true
         },
         ge_t: {
-          name: `Open the extractor in a new tab.`,
+          name: 'Open the extractor in a new tab.',
           sg: true
         }
       },
@@ -95,20 +95,20 @@ class GiveawaysGiveawayExtractor extends Module {
         }
       ],
       id: 'ge',
-      name: `Giveaway Extractor`,
+      name: 'Giveaway Extractor',
       sg: true,
       type: 'giveaways'
     };
   }
 
   async init() {
-    if (((this.esgst.giveawayCommentsPath && !document.getElementsByClassName(`table--summary`)[0]) || this.esgst.discussionPath) && this.checkGiveaways()) {
+    if (((this.esgst.giveawayCommentsPath && !document.getElementsByClassName('table--summary')[0]) || this.esgst.discussionPath) && this.checkGiveaways()) {
       this.nextRegex = new RegExp(gSettings.npth_nextRegex);
 
       // noinspection JSIgnoredPromiseFromCall
-      this.ge_addButton(`Extract all giveaways`);
+      this.ge_addButton('Extract all giveaways');
       if (gSettings.ge_p) {
-        this.ge_addButton(`Extract all giveaways (specify parameters)`, [`fa-gear`], true);
+        this.ge_addButton(`Extract all giveaways (specify parameters)`, ['fa-gear'], true);
       }
     } else if (shared.common.isCurrentPath('Account') && this.esgst.parameters.esgst === 'ge') {
       this.nextRegex = new RegExp(gSettings.npth_nextRegex);
@@ -132,7 +132,7 @@ class GiveawaysGiveawayExtractor extends Module {
 
   ge_addButton(title, extraIcons = [], specifyParams) {
     let ge = {
-      button: createHeadingButton({ id: 'ge', icons: [`fa-gift`, `fa-search`].concat(extraIcons), title })
+      button: createHeadingButton({ id: 'ge', icons: ['fa-gift', 'fa-search'].concat(extraIcons), title })
     };
     if (specifyParams) {
       ge.button.addEventListener('click', () => {
@@ -142,17 +142,17 @@ class GiveawaysGiveawayExtractor extends Module {
         ge.ignoreDiscussionComments = gSettings.ge_ignoreDiscussionComments;
         ge.ignoreGiveawayComments = gSettings.ge_ignoreGiveawayComments;
         const popup = new Popup({
-          icon: `fa-gear`,
+          icon: 'fa-gear',
           title: `Specify extractor parameters:`,
           addScrollable: true,
           buttons: [
             {
               color1: 'green',
               color2: 'grey',
-              icon1: `fa-arrow-circle-right`,
-              icon2: `fa-circle-o-notch fa-spin`,
-              title1: `Open Extractor`,
-              title2: `Opening...`,
+              icon1: 'fa-arrow-circle-right',
+              icon2: 'fa-circle-o-notch fa-spin',
+              title1: 'Open Extractor',
+              title2: 'Opening...',
               callback1: () => {
                 popup.close();
                 ge.extractOnward = gSettings.ge_extractOnward;
@@ -184,16 +184,16 @@ class GiveawaysGiveawayExtractor extends Module {
   }
 
   ge_showOptions(ge, context, reExtract) {
-    new ToggleSwitch(context, 'ge_extractOnward', null, `Only extract from the current giveaway onward.`, false, false, `With this option enabled, if you are in the 6th giveaway of a train that has links to the previous giveaways, the extractor will not go back and extract giveaways 1-5. This method is not 100% accurate, because the feature looks for a link with any variation of "next" in the description of the giveaway to make sure that it is going forward, so if it does not find such a link, the extraction will stop.`, ge.extractOnward);
+    new ToggleSwitch(context, 'ge_extractOnward', null, 'Only extract from the current giveaway onward.', false, false, `With this option enabled, if you are in the 6th giveaway of a train that has links to the previous giveaways, the extractor will not go back and extract giveaways 1-5. This method is not 100% accurate, because the feature looks for a link with any variation of "next" in the description of the giveaway to make sure that it is going forward, so if it does not find such a link, the extraction will stop.`, ge.extractOnward);
     if (!reExtract) {
       common.observeNumChange(new ToggleSwitch(context, 'ge_flushCache', null, [
-        `Flush the cache if it is older than `,
-        ['input', { class: `esgst-switch-input`, step: `0.1`, type: 'number', value: ge.flushCacheHours }],
-        ` hours.`
+        'Flush the cache if it is older than ',
+        ['input', { class: 'esgst-switch-input', step: '0.1', type: 'number', value: ge.flushCacheHours }],
+        ' hours.'
       ], false, false, null, ge.flushCache).name.firstElementChild, 'ge_flushCacheHours', true);
     }
-    new ToggleSwitch(context, 'ge_ignoreDiscussionComments', null, `Ignore discussion comments when extracting giveaways.`, false, false, null, ge.ignoreDiscussionComments);
-    new ToggleSwitch(context, 'ge_ignoreGiveawayComments', null, `Ignore giveaway comments when extracting giveaways.`, false, false, null, ge.ignoreGiveawayComments);
+    new ToggleSwitch(context, 'ge_ignoreDiscussionComments', null, 'Ignore discussion comments when extracting giveaways.', false, false, null, ge.ignoreDiscussionComments);
+    new ToggleSwitch(context, 'ge_ignoreGiveawayComments', null, 'Ignore giveaway comments when extracting giveaways.', false, false, null, ge.ignoreGiveawayComments);
   }
 
   async ge_openPopup(ge) {
@@ -227,7 +227,7 @@ class GiveawaysGiveawayExtractor extends Module {
       if (gSettings.removeSidebarInFeaturePages) {
         this.esgst.sidebar.remove();
       }
-      context.setAttribute(`data-esgst-popup`, 'true');
+      context.setAttribute('data-esgst-popup', 'true');
       context.innerHTML = ``;
       new elementBuilder[shared.esgst.name].pageHeading({
         context: context,
@@ -238,7 +238,7 @@ class GiveawaysGiveawayExtractor extends Module {
             url: this.esgst.settingsUrl
           },
           {
-            name: `Giveaway Extractor`,
+            name: 'Giveaway Extractor',
             url: `https://www.steamgifts.com/account/settings/profile?esgst=ge`
           }
         ]
@@ -254,11 +254,11 @@ class GiveawaysGiveawayExtractor extends Module {
         }
       };
     } else {
-      ge.popup = new Popup({ addScrollable: true, icon: `fa-gift`, title: `Extracted giveaways:` });
+      ge.popup = new Popup({ addScrollable: true, icon: 'fa-gift', title: `Extracted giveaways:` });
     }
     ge.results = createElements(ge.popup.scrollable, 'beforeEnd', [{
       attributes: {
-        class: `esgst-text-left`
+        class: 'esgst-text-left'
       },
       type: 'div'
     }]);
@@ -283,8 +283,8 @@ class GiveawaysGiveawayExtractor extends Module {
     ge.set = new ButtonSet({
       color1: 'green',
       color2: 'grey',
-      icon1: `fa-search`,
-      icon2: `fa-times`,
+      icon1: 'fa-search',
+      icon2: 'fa-times',
       title1: 'Extract',
       title2: 'Cancel',
       callback1: (hasScrolled) => {
@@ -330,18 +330,18 @@ class GiveawaysGiveawayExtractor extends Module {
           } else {
             ge.isCanceled = false;
             if (ge.button) {
-              ge.button.classList.add(`esgst-busy`);
+              ge.button.classList.add('esgst-busy');
             }
             this.esgst.modules.common.createElements(ge.progress, 'inner', [{
               attributes: {
-                class: `fa fa-circle-o-notch fa-spin`
+                class: 'fa fa-circle-o-notch fa-spin'
               },
               type: 'i'
             }, {
               text: ge.total,
               type: 'span'
             }, {
-              text: ` giveaways extracted.`,
+              text: ' giveaways extracted.',
               type: 'node'
             }]);
             let giveaways = this.ge_getGiveaways(ge, shared.common.isCurrentPath('Account') && this.esgst.parameters.esgst === 'ge' ? ge.context : this.esgst.pageOuterWrap);
@@ -402,13 +402,13 @@ class GiveawaysGiveawayExtractor extends Module {
         text: total,
         type: 'span'
       }, {
-        text: ` giveaways extracted.`,
+        text: ' giveaways extracted.',
         type: 'node'
       }]);
       await endless_load(ge.results, false, 'ge', ge.endless);
       const items = [{
         attributes: {
-          class: `markdown esgst-text-center`
+          class: 'markdown esgst-text-center'
         },
         type: 'div',
         children: []
@@ -489,13 +489,13 @@ class GiveawaysGiveawayExtractor extends Module {
         ge.mainCallback = null;
         ge.count = 0;
         await endless_load(ge.results, false, 'ge', ge.endless);
-        ge.set.set.firstElementChild.lastElementChild.textContent = `Extract More`;
+        ge.set.set.firstElementChild.lastElementChild.textContent = 'Extract More';
         ge.progress.firstElementChild.remove();
         ge.callback = this.ge_extractGiveaway.bind(this, ge, code, callback);
         filtered = false;
         children = ge.results.querySelectorAll(`:scope > .esgst-es-page-${ge.endless}`);
         for (i = children.length - 1; i > -1 && !filtered; --i) {
-          if (children[i].firstElementChild.classList.contains(`esgst-hidden`)) {
+          if (children[i].firstElementChild.classList.contains('esgst-hidden')) {
             filtered = true;
           }
         }
@@ -561,14 +561,14 @@ class GiveawaysGiveawayExtractor extends Module {
             ge.total += 1;
             createElements(ge.progress, 'inner', [{
               attributes: {
-                class: `fa fa-circle-o-notch fa-spin`
+                class: 'fa fa-circle-o-notch fa-spin'
               },
               type: 'i'
             }, {
               text: ge.total,
               type: 'span'
             }, {
-              text: ` giveaways extracted.`,
+              text: ' giveaways extracted.',
               type: 'node'
             }]);
             ge.extracted.push(code);
@@ -608,14 +608,14 @@ class GiveawaysGiveawayExtractor extends Module {
               ge.total += 1;
               createElements(ge.progress, 'inner', [{
                 attributes: {
-                  class: `fa fa-circle-o-notch fa-spin`
+                  class: 'fa fa-circle-o-notch fa-spin'
                 },
                 type: 'i'
               }, {
                 text: ge.total,
                 type: 'span'
               }, {
-                text: ` giveaways extracted.`,
+                text: ' giveaways extracted.',
                 type: 'node'
               }]);
               ge.extracted.push(code);
@@ -647,8 +647,8 @@ class GiveawaysGiveawayExtractor extends Module {
   }
 
   ge_getGiveaways(ge, context) {
-    const description = context.querySelector(`.page__description`);
-    const op = context.querySelector(`.markdown`);
+    const description = context.querySelector('.page__description');
+    const op = context.querySelector('.markdown');
     const giveawaySelectors = [
       `img[title]`,
       `[href*="/giveaway/"]`,
@@ -770,7 +770,7 @@ class GiveawaysGiveawayExtractor extends Module {
 
   async ge_completeExtraction(ge) {
     if (ge.button) {
-      ge.button.classList.remove(`esgst-busy`);
+      ge.button.classList.remove('esgst-busy');
     }
     ge.progress.firstElementChild.remove();
     if (ge.mainCallback) {
@@ -780,7 +780,7 @@ class GiveawaysGiveawayExtractor extends Module {
     await endless_load(ge.results, false, 'ge', ge.endless);
     const items = [{
       attributes: {
-        class: `markdown esgst-text-center`
+        class: 'markdown esgst-text-center'
       },
       type: 'div',
       children: []
@@ -814,7 +814,7 @@ class GiveawaysGiveawayExtractor extends Module {
     }
     createElements(ge.results, 'afterBegin', items);
     createElements(ge.results, 'beforeEnd', items);
-    ge.set.set.firstElementChild.lastElementChild.textContent = `Re-Extract`;
+    ge.set.set.firstElementChild.lastElementChild.textContent = 'Re-Extract';
     ge.reExtract = true;
     ge.isComplete = true;
     if (!ge.optionsAdded) {

@@ -1,6 +1,6 @@
 console.log(CONVERT([{
   attributes: {
-    class: `esgst-bold`
+    class: 'esgst-bold'
   },
   text: 'Interface',
   type: 'div'
@@ -17,16 +17,16 @@ console.log(CONVERT([{
       type: 'li',
       children: [{
         attributes: {
-          class: `esgst-bold`
+          class: 'esgst-bold'
         },
         type: 'span',
         children: [{
           attributes: {
-            class: `fa fa-square-o`
+            class: 'fa fa-square-o'
           },
           type: 'i'
         }, {
-          text: ` NOT`,
+          text: ' NOT',
           type: 'node'
         }]
       }, {
@@ -37,7 +37,7 @@ console.log(CONVERT([{
       type: 'li',
       children: [{
         attributes: {
-          class: `esgst-bold`
+          class: 'esgst-bold'
         },
         text: 'AND',
         type: 'span'
@@ -49,7 +49,7 @@ console.log(CONVERT([{
       type: 'li',
       children: [{
         attributes: {
-          class: `esgst-bold`
+          class: 'esgst-bold'
         },
         text: 'OR',
         type: 'span'
@@ -61,12 +61,12 @@ console.log(CONVERT([{
       type: 'li',
       children: [{
         attributes: {
-          class: `esgst-bold`
+          class: 'esgst-bold'
         },
         type: 'span',
         children: [{
           attributes: {
-            class: `fa fa-arrows`
+            class: 'fa fa-arrows'
           },
           type: 'i'
         }]
@@ -78,16 +78,16 @@ console.log(CONVERT([{
       type: 'li',
       children: [{
         attributes: {
-          class: `esgst-bold`
+          class: 'esgst-bold'
         },
         type: 'span',
         children: [{
           attributes: {
-            class: `fa fa-pause`
+            class: 'fa fa-pause'
           },
           type: 'i'
         }, {
-          text: ` Pause`,
+          text: ' Pause',
           type: 'node'
         }]
       }, {
@@ -95,7 +95,7 @@ console.log(CONVERT([{
         type: 'node'
       }]
     }, {
-      text: `The other buttons in the interface should be self-explanatory.`,
+      text: 'The other buttons in the interface should be self-explanatory.',
       type: 'li'
     }]
   }]
@@ -103,9 +103,9 @@ console.log(CONVERT([{
   type: 'br'
 }, {
   attributes: {
-    class: `esgst-bold`
+    class: 'esgst-bold'
   },
-  text: `Types of Filters`,
+  text: 'Types of Filters',
   type: 'div'
 }, {
   type: 'br'
@@ -120,7 +120,7 @@ console.log(CONVERT([{
       type: 'li',
       children: [{
         attributes: {
-          class: `esgst-bold`
+          class: 'esgst-bold'
         },
         text: 'Boolean',
         type: 'span'
@@ -132,7 +132,7 @@ console.log(CONVERT([{
       type: 'li',
       children: [{
         attributes: {
-          class: `esgst-bold`
+          class: 'esgst-bold'
         },
         text: 'Number',
         type: 'span'
@@ -144,7 +144,7 @@ console.log(CONVERT([{
       type: 'li',
       children: [{
         attributes: {
-          class: `esgst-bold`
+          class: 'esgst-bold'
         },
         text: 'Text',
         type: 'span'
@@ -158,9 +158,9 @@ console.log(CONVERT([{
   type: 'br'
 }, {
   attributes: {
-    class: `esgst-bold`
+    class: 'esgst-bold'
   },
-  text: `Building the Filters`,
+  text: 'Building the Filters',
   type: 'div'
 }, {
   type: 'br'

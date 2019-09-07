@@ -22,7 +22,7 @@ class GiveawaysRealCVCalculator extends Module {
         ]]
       ],
       id: 'rcvc',
-      name: `Real CV Calculator`,
+      name: 'Real CV Calculator',
       sg: true,
       sync: `Giveaways, No CV Games, Reduced CV Games`,
       syncKeys: ['Giveaways', 'NoCvGames', 'ReducedCvGames'],
@@ -36,7 +36,7 @@ class GiveawaysRealCVCalculator extends Module {
         return;
       }
 
-      let table = document.getElementsByClassName(`table--summary`)[0], button;
+      let table = document.getElementsByClassName('table--summary')[0], button;
       if (table) {
         let game = getValue('rcvcGame');
         if (game) {
@@ -119,29 +119,29 @@ class GiveawaysRealCVCalculator extends Module {
             cv = Math.round(cv * 100) / 100;
             createElements(table, 'beforeEnd', [{
               attributes: {
-                class: `table__row-outer-wrap`
+                class: 'table__row-outer-wrap'
               },
               type: 'div',
               children: [{
                 attributes: {
-                  class: `table__row-inner-wrap`
+                  class: 'table__row-inner-wrap'
                 },
                 type: 'div',
                 children: [{
                   attributes: {
-                    class: `table__column--width-medium table__column--align-top`
+                    class: 'table__column--width-medium table__column--align-top'
                   },
                   type: 'div',
                   children: [{
                     attributes: {
-                      class: `esgst-bold`
+                      class: 'esgst-bold'
                     },
-                    text: `Real CV`,
+                    text: 'Real CV',
                     type: 'span'
                   }]
                 }, {
                   attributes: {
-                    class: `table__column--width-fill`
+                    class: 'table__column--width-fill'
                   },
                   text: `You should get ~$${cv} real CV for this giveaway.`,
                   type: 'div'
@@ -151,7 +151,7 @@ class GiveawaysRealCVCalculator extends Module {
           } catch (e) {
             logger.warning(e.stack);
           }
-          button = document.getElementsByClassName(`js__submit-form`)[0];
+          button = document.getElementsByClassName('js__submit-form')[0];
           button.addEventListener('click', () => {
             delValue('rcvcGame');
           });

@@ -1,8 +1,8 @@
-const fetch = require(`node-fetch`)
+const fetch = require('node-fetch')
 const fs = require('fs');
 const path = require('path');
 
-const ROOT_PATH = path.resolve(__dirname, `..`);
+const ROOT_PATH = path.resolve(__dirname, '..');
 const SRC_PATH = `${ROOT_PATH}/src`;
 
 updateEmojis();

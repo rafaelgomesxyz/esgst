@@ -11,7 +11,7 @@ const REQUIRED_HEADERS = {
 };
 
 (async () => {
-  REQUIRED_HEADERS[`Esgst-Version`] = (await browser.runtime.getManifest()).version;
+  REQUIRED_HEADERS['Esgst-Version'] = (await browser.runtime.getManifest()).version;
 })();
 
 class FetchRequest {

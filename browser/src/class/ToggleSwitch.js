@@ -25,13 +25,13 @@ class ToggleSwitch {
     this.value = value;
     this.container = shared.common.createElements_v2(context, 'beforeEnd', [
       ['div', { class: `esgst-toggle-switch-container ${inline ? 'inline' : ``}` }, [
-        ['label', { class: `esgst-toggle-switch` }, [
+        ['label', { class: 'esgst-toggle-switch' }, [
           ['input', { type: 'checkbox' }],
-          ['div', { class: `esgst-toggle-switch-slider` }]
+          ['div', { class: 'esgst-toggle-switch-slider' }]
         ]],
         ['span', name],
         tooltip 
-          ? ['i', { class: `fa fa-question-circle`, title: tooltip }]
+          ? ['i', { class: 'fa fa-question-circle', title: tooltip }]
           : null
       ]]
     ]);
@@ -64,22 +64,22 @@ class ToggleSwitch {
       if (!settings) {
         let message = shared.common.createElements(this.container, 'beforeEnd', [{
           attributes: {
-            class: `esgst-description esgst-bold`
+            class: 'esgst-description esgst-bold'
           },
           type: 'div',
           children: [{
             attributes: {
-              class: `fa fa-circle-o-notch fa-spin`,
-              title: `Saving...`
+              class: 'fa fa-circle-o-notch fa-spin',
+              title: 'Saving...'
             },
             type: 'i'
           }]
         }]);
         await shared.common.setSetting(key, setting);
-        message.classList.add(`esgst-green`);
+        message.classList.add('esgst-green');
         shared.common.createElements(message, 'inner', [{
           attributes: {
-            class: `fa fa-check`,
+            class: 'fa fa-check',
             title: `Saved!`
           },
           type: 'i'
@@ -88,14 +88,14 @@ class ToggleSwitch {
       }
     }
     if (this.value) {
-      this.dependencies.forEach(dependency => dependency.classList.remove(`esgst-hidden`));
-      this.exclusions.forEach(exclusion => exclusion.classList.add(`esgst-hidden`));
+      this.dependencies.forEach(dependency => dependency.classList.remove('esgst-hidden'));
+      this.exclusions.forEach(exclusion => exclusion.classList.add('esgst-hidden'));
       if (!settings && this.onEnabled) {
         this.onEnabled();
       }
     } else {
-      this.dependencies.forEach(dependency => dependency.classList.add(`esgst-hidden`));
-      this.exclusions.forEach(exclusion => exclusion.classList.remove(`esgst-hidden`));
+      this.dependencies.forEach(dependency => dependency.classList.add('esgst-hidden'));
+      this.exclusions.forEach(exclusion => exclusion.classList.remove('esgst-hidden'));
       if (!settings && this.onDisabled) {
         this.onDisabled();
       }

@@ -16,21 +16,21 @@ class CommentsCommentFormattingHelper extends Module {
         ['ul', [
           ['li', [
             `When you click on any text area (in any page) to start writing a comment, a panel is added above it that helps you use SteamGifts' `,
-            ['a', { href: `https://www.steamgifts.com/about/comment-formatting` }, `comment formatting`],
-            `.`
+            ['a', { href: `https://www.steamgifts.com/about/comment-formatting` }, 'comment formatting'],
+            '.'
           ]],
           ['li', [
             `There is a button (`,
-            ['i', { class: `fa fa-paste` }],
-            ` if enabled and `,
-            ['i', { class: `fa fa-paste esgst-faded` }],
+            ['i', { class: 'fa fa-paste' }],
+            ' if enabled and ',
+            ['i', { class: 'fa fa-paste esgst-faded' }],
             ` if disabled) in the panel that allows the feature to automatically format links/images pasted into the text area.`
           ]],
           ['li', [
             `There are also buttons (`,
-            ['i', { class: `fa fa-rotate-right` }],
-            ` to redo and `,
-            ['i', { class: `fa fa-rotate-left` }],
+            ['i', { class: 'fa fa-rotate-right' }],
+            ' to redo and ',
+            ['i', { class: 'fa fa-rotate-left' }],
             ` to undo) in the panel that allow you to redo/undo any formatting added.`
           ]],
         ]]
@@ -41,7 +41,7 @@ class CommentsCommentFormattingHelper extends Module {
             ['ul', [
               ['li', [
                 `Adds a button (`,
-                ['i', { class: `fa fa-quote-left` }],
+                ['i', { class: 'fa fa-quote-left' }],
                 ` ) to the panel that allows you to write text like shown below.`
               ]]
             ]],
@@ -67,9 +67,9 @@ class CommentsCommentFormattingHelper extends Module {
             ['ul', [
               ['li', `Adds a button (H¹) to the panel that allows you to write text like shown below.`]
             ]],
-            ['h1', `Heading 1`]
+            ['h1', 'Heading 1']
           ],
-          name: `Heading 1`,
+          name: 'Heading 1',
           sg: true,
           st: true
         },
@@ -78,9 +78,9 @@ class CommentsCommentFormattingHelper extends Module {
             ['ul', [
               ['li', `Adds a button (H²) to the panel that allows you to write text like shown below.`]
             ]],
-            ['h2', `Heading 2`]
+            ['h2', 'Heading 2']
           ],
-          name: `Heading 2`,
+          name: 'Heading 2',
           sg: true,
           st: true
         },
@@ -89,9 +89,9 @@ class CommentsCommentFormattingHelper extends Module {
             ['ul', [
               ['li', `Adds a button (H³) to the panel that allows you to write text like shown below.`]
             ]],
-            ['h3', `Heading 3`]
+            ['h3', 'Heading 3']
           ],
-          name: `Heading 3`,
+          name: 'Heading 3',
           sg: true,
           st: true
         },
@@ -100,16 +100,16 @@ class CommentsCommentFormattingHelper extends Module {
             ['ul', [
               ['li', [
                 `Adds a button (`,
-                ['i', { class: `fa fa-code` }],
+                ['i', { class: 'fa fa-code' }],
                 ` ) to the panel that allows you to write text like shown below.`
               ]]
             ]],
             ['p', [
-              `Inline `,
+              'Inline ',
               ['code', 'Code']
             ]]
           ],
-          name: `Inline Code`,
+          name: 'Inline Code',
           sg: true,
           st: true
         },
@@ -129,7 +129,7 @@ class CommentsCommentFormattingHelper extends Module {
             ['ul', [
               ['li', [
                 `Adds a button (`,
-                ['i', { class: `fa fa-minus` }],
+                ['i', { class: 'fa fa-minus' }],
                 `) to the panel that allows you to write text like shown below.`
               ]]
             ]],
@@ -137,7 +137,7 @@ class CommentsCommentFormattingHelper extends Module {
             ['hr'],
             ['p', 'Break']
           ],
-          name: `Line Break`,
+          name: 'Line Break',
           sg: true,
           st: true
         },
@@ -146,14 +146,14 @@ class CommentsCommentFormattingHelper extends Module {
             ['ul', [
               ['li', [
                 `Adds a button (`,
-                ['i', { class: `fa fa-code` }],
-                ['i', { class: `fa fa-indent` }],
+                ['i', { class: 'fa fa-code' }],
+                ['i', { class: 'fa fa-indent' }],
                 `) to the panel that allows you to write text like shown below.`
               ]]
             ]],
-            ['code', `Line Code`]
+            ['code', 'Line Code']
           ],
-          name: `Line Code`,
+          name: 'Line Code',
           sg: true,
           st: true
         },
@@ -162,7 +162,7 @@ class CommentsCommentFormattingHelper extends Module {
             ['ul', [
               ['li', [
                 `Adds a button (`,
-                ['i', { class: `fa fa-list-ol` }],
+                ['i', { class: 'fa fa-list-ol' }],
                 `) to the panel that allows you to write text like shown below.`
               ]]
             ]],
@@ -171,7 +171,7 @@ class CommentsCommentFormattingHelper extends Module {
               ['li', 'List']
             ]]
           ],
-          name: `Ordered List`,
+          name: 'Ordered List',
           sg: true,
           st: true
         },
@@ -180,16 +180,16 @@ class CommentsCommentFormattingHelper extends Module {
             ['ul', [
               ['li', [
                 `Adds a button (`,
-                ['i', { class: `fa fa-code` }],
-                ['i', { class: `fa fa-paragraph` }],
+                ['i', { class: 'fa fa-code' }],
+                ['i', { class: 'fa fa-paragraph' }],
                 `) to the panel that allows you to write text like shown below.`
               ]]
             ]],
             ['pre', [
-              ['code', `Paragraph Code`]
+              ['code', 'Paragraph Code']
             ]]
           ],
-          name: `Paragraph Code`,
+          name: 'Paragraph Code',
           sg: true,
           st: true
         },
@@ -198,7 +198,7 @@ class CommentsCommentFormattingHelper extends Module {
             ['ul', [
               ['li', [
                 `Adds a button (`,
-                ['i', { class: `fa fa-eye-slash` }],
+                ['i', { class: 'fa fa-eye-slash' }],
                 `) to the panel that allows you to write text like shown below.`
               ]]
             ]],
@@ -213,7 +213,7 @@ class CommentsCommentFormattingHelper extends Module {
             ['ul', [
               ['li', [
                 `Adds a button (`,
-                ['i', { class: `fa fa- strikethrough` }],
+                ['i', { class: 'fa fa- strikethrough' }],
                 `) to the panel that allows you to write text like shown below.`
               ]]
             ]],
@@ -228,7 +228,7 @@ class CommentsCommentFormattingHelper extends Module {
             ['ul', [
               ['li', [
                 `Adds a button (`,
-                ['i', { class: `fa fa-list-ul` }],
+                ['i', { class: 'fa fa-list-ul' }],
                 `) to the panel that allows you to write text like shown below.`
               ]]
             ]],
@@ -237,7 +237,7 @@ class CommentsCommentFormattingHelper extends Module {
               ['li', 'LIst']
             ]]
           ],
-          name: `Unordered List`,
+          name: 'Unordered List',
           sg: true,
           st: true
         },
@@ -246,13 +246,13 @@ class CommentsCommentFormattingHelper extends Module {
             ['ul', [
               ['li', [
                 `Adds a button(`,
-                ['i', { class: `fa fa-image` }],
+                ['i', { class: 'fa fa-image' }],
                 `) to the panel that allows you to add images to your comments with an interface where you can enter the title and the URL of the image and let ESGST format it.`
               ]],
               ['li', [
-                `You can also upload images from your computer instead of using a URL. The images will be uploaded to `,
+                'You can also upload images from your computer instead of using a URL. The images will be uploaded to ',
                 ['a', { href: `https://imgur.com` }, 'Imgur'],
-                `.`
+                '.'
               ]]
             ]]
           ],
@@ -265,7 +265,7 @@ class CommentsCommentFormattingHelper extends Module {
             ['ul', [
               ['li', [
                 `Adds a button(`,
-                ['i', { class: `fa fa-globe` }],
+                ['i', { class: 'fa fa-globe' }],
                 `) to the panel that allows you to add links to your comments with an interface where you can enter the title and the URL of the link and let ESGST format it.`
               ]]
             ]]
@@ -279,7 +279,7 @@ class CommentsCommentFormattingHelper extends Module {
             ['ul', [
               ['li', [
                 `Adds a button(`,
-                ['i', { class: `fa fa-table` }],
+                ['i', { class: 'fa fa-table' }],
                 `) to the panel that allows you to add tables to your comments with an interface where you can dynamically add as many rows / columns as you want, align each column however you want, enter the value for each cell and let ESGST format it.`
               ]]
             ]]
@@ -293,7 +293,7 @@ class CommentsCommentFormattingHelper extends Module {
             ['ul', [
               ['li', [
                 `Adds a button(`,
-                ['i', { class: `fa fa-smile-o` }],
+                ['i', { class: 'fa fa-smile-o' }],
                 `) to the panel that allows you to add emojis to your comments by selecting them out of a huge list of emojis.`
               ]]
             ]]
@@ -307,12 +307,12 @@ class CommentsCommentFormattingHelper extends Module {
             ['ul', [
               ['li', [
                 `Adds a button(`,
-                ['i', { class: `fa fa-star` }],
+                ['i', { class: 'fa fa-star' }],
                 `) to the panel that allows you to add encrypted giveaways(see[id=ged] for more details about them) to your comments.`
               ]]
             ]]
           ],
-          name: `Giveaway Encrypter`,
+          name: 'Giveaway Encrypter',
           sg: true,
           st: true
         },
@@ -321,14 +321,14 @@ class CommentsCommentFormattingHelper extends Module {
             ['ul', [
               ['li', [
                 `Adds a button(`,
-                ['i', { class: `fa fa-eye` }],
+                ['i', { class: 'fa fa-eye' }],
                 `) to the panel that allows you to preview your comment before submitting it.`
               ]]
             ]]
           ],
           features: {
             cfh_p_a: {
-              name: `Automatically preview while typing.`,
+              name: 'Automatically preview while typing.',
               sg: true,
               st: true
             }
@@ -342,17 +342,17 @@ class CommentsCommentFormattingHelper extends Module {
             ['ul', [
               ['li', [
                 `Adds a button(`,
-                ['i', { class: `fa fa-floppy-o` }],
+                ['i', { class: 'fa fa-floppy-o' }],
                 ` ) to the panel that allows you to save replies that you frequently use so that you can reuse them later.`
               ]]
             ]]
           ],
-          name: `Saved Replies`,
+          name: 'Saved Replies',
           sg: true,
           st: true,
           features: {
             cfh_sr_s: {
-              name: `Use separate storage on SteamTrades.`,
+              name: 'Use separate storage on SteamTrades.',
               st: true
             }
           }
@@ -362,14 +362,14 @@ class CommentsCommentFormattingHelper extends Module {
             ['ul', [
               ['li', [
                 `Adds a button(`,
-                ['i', { class: `fa fa-question-circle` }],
+                ['i', { class: 'fa fa-question-circle' }],
                 ` ) to the panel that links to SteamGifts' `,
-                ['a', { href: `https://www.steamgifts.com/about/comment-formatting` }, `comment formatting page`],
-                `.`
+                ['a', { href: `https://www.steamgifts.com/about/comment-formatting` }, 'comment formatting page'],
+                '.'
               ]]
             ]]
           ],
-          name: `Comment Formatting`,
+          name: 'Comment Formatting',
           sg: true,
           st: true
         },
@@ -378,20 +378,20 @@ class CommentsCommentFormattingHelper extends Module {
             ['ul', [
               ['li', [
                 `Adds a button (`,
-                ['i', { class: `fa fa-github` }],
+                ['i', { class: 'fa fa-github' }],
                 ` ) to the panel that allows you to easily generate links for `,
-                ['a', { href: `https://www.steamgifts.com/discussion/fVwFM/github-wiki-steamgifts-integration` }, `GitHub Wiki SteamGifts Integration`],
-                `.`
+                ['a', { href: `https://www.steamgifts.com/discussion/fVwFM/github-wiki-steamgifts-integration` }, 'GitHub Wiki SteamGifts Integration'],
+                '.'
               ]]
             ]]
           ],
-          name: `GitHub Wiki SteamGifts Integration`,
+          name: 'GitHub Wiki SteamGifts Integration',
           sg: true,
           st: true
         }
       },
       id: 'cfh',
-      name: `Comment Formatting Helper`,
+      name: 'Comment Formatting Helper',
       sg: true,
       st: true,
       type: 'comments'
@@ -407,106 +407,106 @@ class CommentsCommentFormattingHelper extends Module {
       panel: document.createElement('div'),
       preview: document.createElement('div')
     };
-    this.esgst.cfh.panel.className = `esgst-cfh-panel`;
+    this.esgst.cfh.panel.className = 'esgst-cfh-panel';
     let items = [
       {
         id: 'cfh_i',
-        icons: [`fa-italic`],
+        icons: ['fa-italic'],
         name: 'Italic',
         prefix: `*`,
         suffix: `*`
       },
       {
         id: 'cfh_b',
-        icons: [`fa-bold`],
+        icons: ['fa-bold'],
         name: 'Bold',
         prefix: `**`,
         suffix: `**`
       },
       {
         id: 'cfh_s',
-        icons: [`fa-eye-slash`],
+        icons: ['fa-eye-slash'],
         name: 'Spoiler',
         prefix: `~`,
         suffix: `~`
       },
       {
         id: 'cfh_st',
-        icons: [`fa-strikethrough`],
+        icons: ['fa-strikethrough'],
         name: 'Strikethrough',
         prefix: `~~`,
         suffix: `~~`
       },
       {
         id: 'cfh_h1',
-        icons: [`fa-header`],
-        name: `Heading 1`,
+        icons: ['fa-header'],
+        name: 'Heading 1',
         prefix: `# `,
         text: '1'
       },
       {
         id: 'cfh_h2',
-        icons: [`fa-header`],
-        name: `Heading 2`,
+        icons: ['fa-header'],
+        name: 'Heading 2',
         prefix: `## `,
         text: '2'
       },
       {
         id: 'cfh_h3',
-        icons: [`fa-header`],
-        name: `Heading 3`,
+        icons: ['fa-header'],
+        name: 'Heading 3',
         prefix: `### `,
         text: '3'
       },
       {
         id: 'cfh_bq',
-        icons: [`fa-quote-left`],
+        icons: ['fa-quote-left'],
         name: 'Blockquote',
         prefix: `> `
       },
       {
         id: 'cfh_lb',
-        icons: [`fa-minus`],
-        name: `Line Break`,
-        prefix: `---`
+        icons: ['fa-minus'],
+        name: 'Line Break',
+        prefix: '---'
       },
       {
         id: 'cfh_ol',
-        icons: [`fa-list-ol`],
+        icons: ['fa-list-ol'],
         multiline: true,
-        name: `Ordered List`,
+        name: 'Ordered List',
         prefix: `[n]. `
       },
       {
         id: 'cfh_ul',
-        icons: [`fa-list-ul`],
+        icons: ['fa-list-ul'],
         multiline: true,
-        name: `Unordered List`,
+        name: 'Unordered List',
         prefix: `* `
       },
       {
         id: 'cfh_ic',
-        icons: [`fa-code`],
-        name: `Inline Code`,
+        icons: ['fa-code'],
+        name: 'Inline Code',
         prefix: `\``,
         suffix: `\``
       },
       {
         id: 'cfh_lc',
-        icons: [`fa-code`, `fa-indent`],
-        name: `Line Code`,
-        prefix: `    `
+        icons: ['fa-code', 'fa-indent'],
+        name: 'Line Code',
+        prefix: '    '
       },
       {
         id: 'cfh_pc',
-        icons: [`fa-code`, `fa-paragraph`],
-        name: `Paragraph Code`,
+        icons: ['fa-code', 'fa-paragraph'],
+        name: 'Paragraph Code',
         prefix: `\`\`\`\n`,
         suffix: `\n\`\`\``
       },
       {
         id: 'cfh_l',
-        icons: [`fa-globe`],
+        icons: ['fa-globe'],
         name: 'Link',
         setPopout: popout => {
           let title, url;
@@ -536,7 +536,7 @@ class CommentsCommentFormattingHelper extends Module {
             }]
           }, {
             attributes: {
-              class: `form__saving-button btn_action white`
+              class: 'form__saving-button btn_action white'
             },
             text: 'Add',
             type: 'div'
@@ -566,7 +566,7 @@ class CommentsCommentFormattingHelper extends Module {
       },
       {
         id: 'cfh_img',
-        icons: [`fa-image`],
+        icons: ['fa-image'],
         name: 'Image',
         setPopout: popout => {
           let title, url;
@@ -583,8 +583,8 @@ class CommentsCommentFormattingHelper extends Module {
               type: 'input'
             }, {
               attributes: {
-                class: `fa fa-upload esgst-clickable`,
-                title: `Upload image to Imgur and use it`
+                class: 'fa fa-upload esgst-clickable',
+                title: 'Upload image to Imgur and use it'
               }
             }]
           }, {
@@ -601,7 +601,7 @@ class CommentsCommentFormattingHelper extends Module {
             }]
           }, {
             attributes: {
-              class: `form__saving-button btn_action white`
+              class: 'form__saving-button btn_action white'
             },
             text: 'Add',
             type: 'div'
@@ -614,7 +614,7 @@ class CommentsCommentFormattingHelper extends Module {
               return;
             }
 
-            shared.common.multiChoice('grey', `fa-user-secret`, 'Anonymously', 'grey', `fa-user`, `Through Account`, `How would you like to upload?`, this.cfh_uploadImage.bind(this, `Client-ID e25283ef48ab9aa`, popout, url), async () => {
+            shared.common.multiChoice('grey', 'fa-user-secret', 'Anonymously', 'grey', 'fa-user', 'Through Account', `How would you like to upload?`, this.cfh_uploadImage.bind(this, 'Client-ID e25283ef48ab9aa', popout, url), async () => {
               await shared.common.delValue('imgurToken');
               shared.common.openSmallWindow(`https://api.imgur.com/oauth2/authorize?client_id=e25283ef48ab9aa&response_type=token&state=imgur`);
               // noinspection JSIgnoredPromiseFromCall
@@ -644,7 +644,7 @@ class CommentsCommentFormattingHelper extends Module {
       },
       {
         id: 'cfh_t',
-        icons: [`fa-table`],
+        icons: ['fa-table'],
         name: 'Table',
         setPopup: popup => {
           let context, insertColumn, insertRow, table;
@@ -653,19 +653,19 @@ class CommentsCommentFormattingHelper extends Module {
             type: 'table'
           }, {
             attributes: {
-              class: `form__saving-button btn_action white`
+              class: 'form__saving-button btn_action white'
             },
-            text: `Insert Row`,
+            text: 'Insert Row',
             type: 'div'
           }, {
             attributes: {
-              class: `form__saving-button btn_action white`
+              class: 'form__saving-button btn_action white'
             },
-            text: `Insert Column`,
+            text: 'Insert Column',
             type: 'div'
           }, {
             attributes: {
-              class: `form__saving-button btn_action white`
+              class: 'form__saving-button btn_action white'
             },
             text: 'Add',
             type: 'div'
@@ -713,27 +713,27 @@ class CommentsCommentFormattingHelper extends Module {
       },
       {
         id: 'cfh_e',
-        icons: [`fa-smile-o`],
+        icons: ['fa-smile-o'],
         name: 'Emojis',
         setPopout: async popout => {
           let emojis, popup;
           shared.common.createElements(popout.popout, 'inner', [{
             attributes: {
-              class: `esgst-cfh-emojis`
+              class: 'esgst-cfh-emojis'
             },
             type: 'div',
             children: await this.cfh_getEmojis()
           }, {
             attributes: {
-              class: `form__saving-button btn_action white`
+              class: 'form__saving-button btn_action white'
             },
-            text: `Add Custom Emoji`,
+            text: 'Add Custom Emoji',
             type: 'div'
           }, {
             attributes: {
-              class: `form__saving-button btn_action white`
+              class: 'form__saving-button btn_action white'
             },
-            text: `Select Emojis`,
+            text: 'Select Emojis',
             type: 'div'
           }]);
           emojis = popout.popout.firstElementChild;
@@ -763,7 +763,7 @@ class CommentsCommentFormattingHelper extends Module {
               });
               const emojiArray = [];
               for (const element of emojis.children) {
-                emojiArray.push(element.getAttribute(`data-draggable-id`));
+                emojiArray.push(element.getAttribute('data-draggable-id'));
               }
               await shared.common.setValue('emojis', JSON.stringify(emojiArray));
             } catch (error) {
@@ -774,16 +774,16 @@ class CommentsCommentFormattingHelper extends Module {
           emojis.nextElementSibling.nextElementSibling.addEventListener('click', async () => {
             if (popup) {
               popup.open(() => {
-                popout.popout.classList.add(`esgst-hidden`)
+                popout.popout.classList.add('esgst-hidden')
               });
             } else {
               let emoji, emojis, filter, i;
-              popup = new Popup({ icon: `fa-smile-o`, title: `Select emojis:`, addScrollable: true });
+              popup = new Popup({ icon: 'fa-smile-o', title: `Select emojis:`, addScrollable: true });
               filter = popup.getScrollable([
-                ['input', { placeholder: `Filter emojis...`, type: 'text' }],
-                ['div', { class: `esgst-cfh-emojis` }],
-                ['div', { class: `esgst-description` }, `Simply click on an emoji above to add it to your selection. You can re-order emojis in your selection by dragging and dropping them. To remove an emoji from your selection, start dragging it and a trash area will appear, then drop it there.`],
-                ['div', { class: `global__image-outer-wrap page_heading_btn esgst-cfh-emojis` }]
+                ['input', { placeholder: 'Filter emojis...', type: 'text' }],
+                ['div', { class: 'esgst-cfh-emojis' }],
+                ['div', { class: 'esgst-description' }, `Simply click on an emoji above to add it to your selection. You can re-order emojis in your selection by dragging and dropping them. To remove an emoji from your selection, start dragging it and a trash area will appear, then drop it there.`],
+                ['div', { class: 'global__image-outer-wrap page_heading_btn esgst-cfh-emojis' }]
               ]).firstElementChild;
               emojis = filter.nextElementSibling;
               const savedEmojis = emojis.nextElementSibling.nextElementSibling;
@@ -798,7 +798,7 @@ class CommentsCommentFormattingHelper extends Module {
               for (const emojiData of EMOJIS) {
                 shared.common.createElements(emojis, 'beforeEnd', [{
                   attributes: {
-                    [`data-draggable-id`]: emojiData.emoji,
+                    ['data-draggable-id']: emojiData.emoji,
                     title: emojiData.name
                   },
                   text: emojiData.emoji,
@@ -807,7 +807,7 @@ class CommentsCommentFormattingHelper extends Module {
                 emojis.lastElementChild.addEventListener('click', () => {
                   shared.common.createElements(savedEmojis, 'beforeEnd', [{
                     attributes: {
-                      [`data-draggable-id`]: emojiData.emoji,
+                      ['data-draggable-id']: emojiData.emoji,
                       title: emojiData.name
                     },
                     text: emojiData.emoji,
@@ -819,7 +819,7 @@ class CommentsCommentFormattingHelper extends Module {
               popup.onClose = () => {
                 const emojiArray = [];
                 for (const element of savedEmojis.children) {
-                  emojiArray.push(element.getAttribute(`data-draggable-id`));
+                  emojiArray.push(element.getAttribute('data-draggable-id'));
                 }
                 shared.common.setValue('emojis', JSON.stringify(emojiArray));
               };
@@ -828,19 +828,19 @@ class CommentsCommentFormattingHelper extends Module {
                   for (i = emojis.children.length - 1; i > -1; --i) {
                     emoji = emojis.children[i];
                     if (emoji.getAttribute('title').toLowerCase().match(filter.value)) {
-                      emoji.classList.remove(`esgst-hidden`);
+                      emoji.classList.remove('esgst-hidden');
                     } else {
-                      emoji.classList.add(`esgst-hidden`);
+                      emoji.classList.add('esgst-hidden');
                     }
                   }
                 } else {
                   for (i = emojis.children.length - 1; i > -1; --i) {
-                    emojis.children[i].classList.remove(`esgst-hidden`);
+                    emojis.children[i].classList.remove('esgst-hidden');
                   }
                 }
               });
               popup.open(() => {
-                popout.popout.classList.add(`esgst-hidden`)
+                popout.popout.classList.add('esgst-hidden')
               });
             }
           });
@@ -859,8 +859,8 @@ class CommentsCommentFormattingHelper extends Module {
       },
       {
         id: 'cfh_g',
-        icons: [`fa-star`],
-        name: `Giveaway Encrypter`,
+        icons: ['fa-star'],
+        name: 'Giveaway Encrypter',
         setPopout: popout => {
           shared.common.createElements(popout.popout, 'inner', [{
             text: `Giveaway Code: `,
@@ -873,7 +873,7 @@ class CommentsCommentFormattingHelper extends Module {
             type: 'input'
           }, {
             attributes: {
-              class: `form__saving-button btn_action white`
+              class: 'form__saving-button btn_action white'
             },
             text: 'Add',
             type: 'div'
@@ -886,7 +886,7 @@ class CommentsCommentFormattingHelper extends Module {
               code.value = ``;
               popout.close();
             } else {
-              window.alert(`Wrong format. The right format is XXXXX.`);
+              window.alert('Wrong format. The right format is XXXXX.');
             }
           });
         },
@@ -898,8 +898,8 @@ class CommentsCommentFormattingHelper extends Module {
       },
       {
         id: 'cfh_sr',
-        icons: [`fa-floppy-o`],
-        name: `Saved Replies`,
+        icons: ['fa-floppy-o'],
+        name: 'Saved Replies',
         setPopout: async popout => {
           let addButton, filter, i, n, replies, saveButton, savedReplies;
           this.esgst.cfh.deletedReplies = [];
@@ -908,40 +908,40 @@ class CommentsCommentFormattingHelper extends Module {
             type: 'div',
             children: [{
               attributes: {
-                placeholder: `Filter replies...`,
+                placeholder: 'Filter replies...',
                 type: 'text'
               },
               type: 'input'
             }]
           }, {
             attributes: {
-              class: `esgst-cfh-sr-container`
+              class: 'esgst-cfh-sr-container'
             },
             type: 'div'
           }, {
             attributes: {
-              class: `form__saving-button btn_action white`
+              class: 'form__saving-button btn_action white'
             },
-            text: `Add New Reply`,
+            text: 'Add New Reply',
             type: 'div'
           }, {
             attributes: {
-              class: `form__saving-button btn_action white`
+              class: 'form__saving-button btn_action white'
             },
-            text: `Save Reply`,
+            text: 'Save Reply',
             type: 'div'
           }, {
             attributes: {
-              class: `esgst-clickable esgst-hidden`
+              class: 'esgst-clickable esgst-hidden'
             },
             type: 'div',
             children: [{
               attributes: {
-                class: `fa fa-rotate-left`
+                class: 'fa fa-rotate-left'
               },
               type: 'i'
             }, {
-              text: `Undo Delete`,
+              text: 'Undo Delete',
               type: 'span'
             }]
           }]);
@@ -963,8 +963,8 @@ class CommentsCommentFormattingHelper extends Module {
         },
       }, {
         id: 'cfh_ghwsgi',
-        icons: [`fa-github`],
-        name: `GitHub Wiki SteamGifts Integration`,
+        icons: ['fa-github'],
+        name: 'GitHub Wiki SteamGifts Integration',
         setPopout: popout => {
           let url;
           shared.common.createElements(popout.popout, 'inner', [{
@@ -981,7 +981,7 @@ class CommentsCommentFormattingHelper extends Module {
             }]
           }, {
             attributes: {
-              class: `form__saving-button btn_action white`
+              class: 'form__saving-button btn_action white'
             },
             text: 'Add',
             type: 'div'
@@ -1001,7 +1001,7 @@ class CommentsCommentFormattingHelper extends Module {
         }
       }, {
         addSpan: true,
-        icons: [`fa-paste`],
+        icons: ['fa-paste'],
         name: `Automatic Links / Images Paste Formatting: OFF`,
         callback: context => {
           this.esgst.cfh.alipf = context;
@@ -1009,11 +1009,11 @@ class CommentsCommentFormattingHelper extends Module {
         },
         onClick: () => this.cfh_setAlipf()
       }, {
-        icons: [`fa-rotate-left`],
-        name: `Undo Formatting`,
+        icons: ['fa-rotate-left'],
+        name: 'Undo Formatting',
         callback: context => {
           this.esgst.cfh.undo = context.firstElementChild;
-          this.esgst.cfh.undo.classList.add(`esgst-faded`);
+          this.esgst.cfh.undo.classList.add('esgst-faded');
         },
         onClick: () => {
           let end, value;
@@ -1024,17 +1024,17 @@ class CommentsCommentFormattingHelper extends Module {
             this.esgst.cfh.textArea.value = value;
             this.esgst.cfh.textArea.setSelectionRange(end, end);
             if (!this.esgst.cfh.history.length) {
-              this.esgst.cfh.undo.classList.add(`esgst-faded`);
+              this.esgst.cfh.undo.classList.add('esgst-faded');
             }
             this.esgst.cfh.textArea.focus();
           }
         }
       }, {
-        icons: [`fa-rotate-right`],
-        name: `Redo Formatting`,
+        icons: ['fa-rotate-right'],
+        name: 'Redo Formatting',
         callback: context => {
           this.esgst.cfh.redo = context.firstElementChild;
-          this.esgst.cfh.redo.classList.add(`esgst-faded`);
+          this.esgst.cfh.redo.classList.add('esgst-faded');
         },
         onClick: () => {
           let end, value;
@@ -1045,7 +1045,7 @@ class CommentsCommentFormattingHelper extends Module {
             this.esgst.cfh.textArea.value = value;
             this.esgst.cfh.textArea.setSelectionRange(end, end);
             if (!this.esgst.cfh.backup.length) {
-              this.esgst.cfh.redo.classList.add(`esgst-faded`);
+              this.esgst.cfh.redo.classList.add('esgst-faded');
             }
             this.esgst.cfh.textArea.focus();
           }
@@ -1076,14 +1076,14 @@ class CommentsCommentFormattingHelper extends Module {
           button.insertAdjacentText("beforeend", item.text);
         }
         if (item.setPopout) {
-          await item.setPopout(new Popout(`esgst-cfh-popout`, button, 0, true, null, item.callback));
+          await item.setPopout(new Popout('esgst-cfh-popout', button, 0, true, null, item.callback));
         } else if (item.setPopup) {
           let popup;
           button.addEventListener('click', () => {
             if (popup) {
               popup.open();
             } else {
-              popup = new Popup({ addScrollable: true, icon: `fa-table`, title: `Add a table:` });
+              popup = new Popup({ addScrollable: true, icon: 'fa-table', title: `Add a table:` });
               item.setPopup(popup);
               popup.open();
             }
@@ -1106,12 +1106,12 @@ class CommentsCommentFormattingHelper extends Module {
       shared.common.createElements(this.esgst.cfh.panel, 'beforeEnd', [{
         attributes: {
           href: `/about/comment-formatting`,
-          title: shared.common.getFeatureTooltip('cfh_cf', `Comment Formatting`)
+          title: shared.common.getFeatureTooltip('cfh_cf', 'Comment Formatting')
         },
         type: 'a',
         children: [{
           attributes: {
-            class: `fa fa-question-circle`
+            class: 'fa fa-question-circle'
           },
           type: 'i'
         }]
@@ -1125,7 +1125,7 @@ class CommentsCommentFormattingHelper extends Module {
         type: 'div',
         children: [{
           attributes: {
-            class: `fa fa-eye`
+            class: 'fa fa-eye'
           }
         }]
       }]).addEventListener('click', async () => {
@@ -1133,7 +1133,7 @@ class CommentsCommentFormattingHelper extends Module {
         this.cfh_formatImages(this.esgst.cfh.preview);
       });
     }
-    this.esgst.cfh.preview.className = `esgst-cfh-preview markdown`;
+    this.esgst.cfh.preview.className = 'esgst-cfh-preview markdown';
   }
 
   async cfh_getEmojis() {
@@ -1144,7 +1144,7 @@ class CommentsCommentFormattingHelper extends Module {
         emoji = emojiData ? emojiData.emoji : emoji;
         return {
           attributes: {
-            [`data-draggable-id`]: emoji,
+            ['data-draggable-id']: emoji,
             title: emojiData ? emojiData.name : ``
           },
           text: emoji,
@@ -1163,9 +1163,9 @@ class CommentsCommentFormattingHelper extends Module {
         hasAdded = true;
       }
     }
-    const descriptionEdit = context.querySelector(`.page__description__edit`);
+    const descriptionEdit = context.querySelector('.page__description__edit');
     if (descriptionEdit) {
-      descriptionEdit.addEventListener('click', this.cfh_addPanel.bind(this, descriptionEdit.closest(`.page__description`).querySelector('textarea')));
+      descriptionEdit.addEventListener('click', this.cfh_addPanel.bind(this, descriptionEdit.closest('.page__description').querySelector('textarea')));
     }
   }
 
@@ -1226,12 +1226,12 @@ class CommentsCommentFormattingHelper extends Module {
 
   cfh_undo(textArea, value) {
     this.esgst.cfh.history.push(value);
-    this.esgst.cfh.undo.classList.remove(`esgst-faded`);
+    this.esgst.cfh.undo.classList.remove('esgst-faded');
   }
 
   cfh_redo(textArea, value) {
     this.esgst.cfh.backup.push(value);
-    this.esgst.cfh.redo.classList.remove(`esgst-faded`);
+    this.esgst.cfh.redo.classList.remove('esgst-faded');
   }
 
   async cfh_formatItem(prefix = ``, suffix = ``, multiline) {
@@ -1300,7 +1300,7 @@ class CommentsCommentFormattingHelper extends Module {
 
   cfh_uploadImage(authorization, popout, url) {
     let input, popup, warning;
-    popup = new Popup({ addScrollable: true, icon: `fa-upload`, isTemp: true, title: `Upload Image` });
+    popup = new Popup({ addScrollable: true, icon: 'fa-upload', isTemp: true, title: 'Upload Image' });
     input = shared.common.createElements(popup.description, 'beforeEnd', [{
       attributes: {
         type: 'file'
@@ -1309,17 +1309,17 @@ class CommentsCommentFormattingHelper extends Module {
     }]);
     warning = shared.common.createElements(popup.description, 'beforeEnd', [{
       attributes: {
-        class: `esgst-description esgst-warning`
+        class: 'esgst-description esgst-warning'
       },
       type: 'div'
     }]);
     popup.description.appendChild(new ButtonSet({
       color1: 'green',
       color2: 'grey',
-      icon1: `fa-upload`,
-      icon2: `fa-circle-o-notch fa-spin`,
+      icon1: 'fa-upload',
+      icon2: 'fa-circle-o-notch fa-spin',
       title1: 'Upload',
-      title2: `Uploading...`,
+      title2: 'Uploading...',
       callback1: () => {
         return new Promise(resolve => {
           let file = input.files[0];
@@ -1348,10 +1348,10 @@ class CommentsCommentFormattingHelper extends Module {
       popup.description.appendChild(new ButtonSet({
         color1: 'grey',
         color2: 'grey',
-        icon1: `fa-rotate-left`,
-        icon2: `fa-circle-o-notch fa-spin`,
+        icon1: 'fa-rotate-left',
+        icon2: 'fa-circle-o-notch fa-spin',
         title1: 'Reset',
-        title2: `Resetting...`,
+        title2: 'Resetting...',
         callback1: async () => {
           await shared.common.setSetting('cfh_img_remember', false);
           popup.close();
@@ -1399,8 +1399,8 @@ class CommentsCommentFormattingHelper extends Module {
           type: 'a',
           children: [{
             attributes: {
-              class: `fa fa-times-circle`,
-              title: `Delete row`
+              class: 'fa fa-times-circle',
+              title: 'Delete row'
             },
             type: 'i'
           }]
@@ -1410,7 +1410,7 @@ class CommentsCommentFormattingHelper extends Module {
             deleteRow.remove();
             row.remove();
           } else {
-            window.alert(`A table must have a least one row and two columns.`);
+            window.alert('A table must have a least one row and two columns.');
           }
         });
       }
@@ -1467,8 +1467,8 @@ class CommentsCommentFormattingHelper extends Module {
         type: 'a',
         children: [{
           attributes: {
-            class: `fa fa-times-circle`,
-            title: `Delete column`
+            class: 'fa fa-times-circle',
+            title: 'Delete column'
           },
           type: 'i'
         }]
@@ -1484,7 +1484,7 @@ class CommentsCommentFormattingHelper extends Module {
             rows[i].deleteCell(n);
           }
         } else {
-          window.alert(`A table must have at least one row and two columns.`);
+          window.alert('A table must have at least one row and two columns.');
         }
       });
       --columns;
@@ -1507,55 +1507,55 @@ class CommentsCommentFormattingHelper extends Module {
     let editButton, description, name, replaceButton, reply, summary;
     reply = shared.common.createElements(replies, 'beforeEnd', [{
       attributes: {
-        class: `esgst-cfh-sr-box`,
+        class: 'esgst-cfh-sr-box',
         draggable: true
       },
       type: 'div',
       children: [{
         attributes: {
-          class: `esgst-cfh-sr-summary`
+          class: 'esgst-cfh-sr-summary'
         },
         type: 'div',
         children: [{
           attributes: {
-            class: `esgst-cfh-sr-name`
+            class: 'esgst-cfh-sr-name'
           },
           text: savedReply.name,
           type: 'div'
         }, {
           attributes: {
-            class: `esgst-cfh-sr-description`
+            class: 'esgst-cfh-sr-description'
           },
           text: savedReply.description,
           type: 'div'
         }]
       }, {
         attributes: {
-          class: `esgst-cfh-sr-controls`
+          class: 'esgst-cfh-sr-controls'
         },
         type: 'div',
         children: [{
           attributes: {
-            class: `esgst-clickable fa fa-retweet`,
-            title: `Replace description with current reply`
+            class: 'esgst-clickable fa fa-retweet',
+            title: 'Replace description with current reply'
           },
           type: 'i'
         }, {
           attributes: {
-            class: `esgst-clickable fa fa-edit`,
-            title: `Edit reply`
+            class: 'esgst-clickable fa fa-edit',
+            title: 'Edit reply'
           },
           type: 'i'
         }, {
           attributes: {
-            class: `esgst-clickable fa fa-trash`,
-            title: `Delete reply`
+            class: 'esgst-clickable fa fa-trash',
+            title: 'Delete reply'
           },
           type: 'i'
         }, {
           attributes: {
-            class: `fa fa-question-circle`,
-            title: `Drag the reply to move it`
+            class: 'fa fa-question-circle',
+            title: 'Drag the reply to move it'
           },
           type: 'i'
         }]
@@ -1595,12 +1595,12 @@ class CommentsCommentFormattingHelper extends Module {
       if (i > -1) {
         savedReplies.splice(i, 1);
         shared.common.setValue(this.savedRepliesId, JSON.stringify(savedReplies));
-        reply.classList.add(`esgst-hidden`);
+        reply.classList.add('esgst-hidden');
         this.esgst.cfh.deletedReplies.push({
           reply: reply,
           savedReply: savedReply
         });
-        this.esgst.cfh.undoDelete.classList.remove(`esgst-hidden`);
+        this.esgst.cfh.undoDelete.classList.remove('esgst-hidden');
       }
     });
   }
@@ -1644,13 +1644,13 @@ class CommentsCommentFormattingHelper extends Module {
     let descriptionArea, nameArea, panel, popup;
     popup = new Popup({
       addScrollable: true,
-      icon: `fa-floppy-o`,
+      icon: 'fa-floppy-o',
       isTemp: true,
       title: summary ? `Edit reply:` : `Save new reply:`
     });
     shared.common.createElements(popup.scrollable, 'beforeEnd', [{
       attributes: {
-        class: `esgst-description`
+        class: 'esgst-description'
       },
       type: 'div',
       children: [{
@@ -1658,7 +1658,7 @@ class CommentsCommentFormattingHelper extends Module {
         type: 'node'
       }, {
         attributes: {
-          class: `esgst-bold`
+          class: 'esgst-bold'
         },
         text: `[ESGST-R][/ESGST-R]`,
         type: 'span'
@@ -1726,10 +1726,10 @@ class CommentsCommentFormattingHelper extends Module {
     popup.description.appendChild(new ButtonSet({
       color1: 'green',
       color2: 'grey',
-      icon1: `fa-check`,
-      icon2: `fa-circle-o-notch fa-spin`,
+      icon1: 'fa-check',
+      icon2: 'fa-circle-o-notch fa-spin',
       title1: 'Save',
-      title2: `Saving...`,
+      title2: 'Saving...',
       callback1: this.cfh_saveReply.bind(this, description, descriptionArea, name, nameArea, popup, replies, summary)
     }).set);
     popup.open();
@@ -1761,7 +1761,7 @@ class CommentsCommentFormattingHelper extends Module {
         popup.close();
       }
     } else if (popup) {
-      shared.common.createAlert(`Both fields are required.`);
+      shared.common.createAlert('Both fields are required.');
     }
   }
 
@@ -1771,9 +1771,9 @@ class CommentsCommentFormattingHelper extends Module {
     for (i = replies.children.length - 1; i > -1; --i) {
       reply = replies.children[i];
       if (reply.textContent.toLowerCase().match(value.toLowerCase())) {
-        reply.classList.remove(`esgst-hidden`);
+        reply.classList.remove('esgst-hidden');
       } else {
-        reply.classList.add(`esgst-hidden`);
+        reply.classList.add('esgst-hidden');
       }
     }
   }
@@ -1781,13 +1781,13 @@ class CommentsCommentFormattingHelper extends Module {
   async cfh_undoDelete() {
     let deleted, saved;
     deleted = this.esgst.cfh.deletedReplies.pop();
-    deleted.reply.classList.remove(`esgst-hidden`);
+    deleted.reply.classList.remove('esgst-hidden');
     deleted.reply.parentElement.appendChild(deleted.reply);
     saved = JSON.parse(shared.common.getValue(this.savedRepliesId, `[]`));
     saved.push(deleted.savedReply);
     shared.common.setValue(this.savedRepliesId, JSON.stringify(saved));
     if (this.esgst.cfh.deletedReplies.length === 0) {
-      this.esgst.cfh.undoDelete.classList.add(`esgst-hidden`);
+      this.esgst.cfh.undoDelete.classList.add('esgst-hidden');
     }
   }
 
@@ -1800,11 +1800,11 @@ class CommentsCommentFormattingHelper extends Module {
     }
     if (value) {
       this.esgst.cfh.alipf.title = shared.common.getFeatureTooltip('cfh', `Automatic Links / Images Paste Formatting: ON`);
-      this.esgst.cfh.alipf.classList.remove(`esgst-faded`);
+      this.esgst.cfh.alipf.classList.remove('esgst-faded');
       this.esgst.cfh.alipf.lastElementChild.textContent = 'ON';
     } else {
       this.esgst.cfh.alipf.title = shared.common.getFeatureTooltip('cfh', `Automatic Links / Images Paste Formatting: OFF`);
-      this.esgst.cfh.alipf.classList.add(`esgst-faded`);
+      this.esgst.cfh.alipf.classList.add('esgst-faded');
       this.esgst.cfh.alipf.lastElementChild.textContent = 'OFF';
     }
     if (this.esgst.cfh.textArea) {
@@ -1818,19 +1818,19 @@ class CommentsCommentFormattingHelper extends Module {
     for (i = 0, n = images.length; i < n; ++i) {
       const image = images[0];
       context.appendChild(image);
-      image.classList.add(`is-hidden`, 'is_hidden');
+      image.classList.add('is-hidden', 'is_hidden');
       shared.common.createElements(image, 'outer', [{
         type: 'div',
         children: [{
           attributes: {
-            class: `${this.esgst.sg ? `comment__toggle-attached` : 'view_attached'}`
+            class: `${this.esgst.sg ? 'comment__toggle-attached' : 'view_attached'}`
           },
-          text: `View attached image.`,
+          text: 'View attached image.',
           type: 'div'
         }, {
           attributes: {
             href: image.getAttribute('src'),
-            rel: `nofollow noreferrer`,
+            rel: 'nofollow noreferrer',
             target: '_blank'
           },
           type: 'a',

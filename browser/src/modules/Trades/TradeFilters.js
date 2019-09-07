@@ -22,7 +22,7 @@ class TradesTradeFilters extends Filters {
     this.info = {
       description: [
         ['ul', [
-          ['li', `Allows you to filter trades.`]
+          ['li', 'Allows you to filter trades.']
         ]]
       ],
       features: {
@@ -31,21 +31,21 @@ class TradesTradeFilters extends Filters {
             ['ul', [
               ['li', [
                 `Adds a button (`,
-                ['i', { class: `fa fa-eye` }],
-                ` if the trade is hidden and `,
-                ['i', { class: `fa fa-eye-slash` }],
+                ['i', { class: 'fa fa-eye' }],
+                ' if the trade is hidden and ',
+                ['i', { class: 'fa fa-eye-slash' }],
                 ` if it is not) next to a trade's title (in any page) that allows you to hide the trade.`
               ]],
               ['li', [
                 `Adds a button (`,
-                ['i', { class: `fa fa-comments` }],
-                ` `,
-                ['i', { class: `fa fa-eye-slash` }],
+                ['i', { class: 'fa fa-comments' }],
+                ' ',
+                ['i', { class: 'fa fa-eye-slash' }],
                 `) to the page heading of this menu that allows you to view all of the trades that have been hidden.`
               ]],
             ]]
           ],
-          name: `Single Filters`,
+          name: 'Single Filters',
           st: true,
           features: {
             tf_s_s: {
@@ -57,10 +57,10 @@ class TradesTradeFilters extends Filters {
         tf_m: {
           description: [
             ['ul', [
-              ['li', `Allows you to hide multiple trades in a page using many different filters.`],
+              ['li', 'Allows you to hide multiple trades in a page using many different filters.'],
               ['li', [
                 `Adds a toggle switch with a button (`,
-                ['i', { class: `fa fa-sliders` }],
+                ['i', { class: 'fa fa-sliders' }],
                 `) to the main page heading of any `,
                 ['a', { href: `https://www.steamtrades.com/trades` }, 'trades'],
                 ` page. The switch allows you to turn the filters on/off and the button allows you to manage your presets.`
@@ -72,17 +72,17 @@ class TradesTradeFilters extends Filters {
                 ['ul', [
                   ['li', [
                     `"Show all" (`,
-                    ['i', { class: `fa fa-check-square` }],
+                    ['i', { class: 'fa fa-check-square' }],
                     `) does not hide any trades that apply to the filter (this is the default state).`
                   ]],
                   ['li', [
                     `"Show only" (`,
-                    ['i', { class: `fa fa-square` }],
+                    ['i', { class: 'fa fa-square' }],
                     `) hides any trades that do not apply to the filter.`
                   ]],
                   ['li', [
                     `"Hide all" (`,
-                    ['i', { class: `fa fa-square-o` }],
+                    ['i', { class: 'fa fa-square-o' }],
                     `) hides any trades that apply to the filter.`
                   ]]
                 ]]
@@ -90,32 +90,32 @@ class TradesTradeFilters extends Filters {
               ['li', `A preset contains all of your rules and can be saved to be reused later. You can save as many presets as you want. Each preset contains 3 types of rules:`],
               ['ul', [
                 ['li', `Basic rules are the ones that you can change directly in the filter panel, using the sliders/checkboxes as explained in the previous item.`],
-                ['li', `Exception rules are the ones that you can change by clicking on the icon `],
-                ['i', { class: `fa fa-gear` }],
+                ['li', 'Exception rules are the ones that you can change by clicking on the icon '],
+                ['i', { class: 'fa fa-gear' }],
                 ` in the filter panel. They are exceptions to the basic rules. For example, if you set the basic rule of the "Created" filter to "hide all" and you add an exception rule for the "Comments" filter to the 0-50 range, none of your created trades that have 0-50 comments will be hidden, because they apply to the exception.`
               ]],
               ['li', [
                 `Override rules are the ones that you can change by clicking on the icon (`,
-                ['i', { class: `fa fa-exclamation esgst-faded` }],
-                ` if set to overridable and `,
-                ['i', { class: `fa fa-exclamation` }],
+                ['i', { class: 'fa fa-exclamation esgst-faded' }],
+                ' if set to overridable and ',
+                ['i', { class: 'fa fa-exclamation' }],
                 ` if set to non-overridable) next to each filter. They are enforcements of the basic rules. Continuing the previous example, if you set the override rule of the "Created" filter to "non-overridable", then all of your created trades will be hidden, because even if they apply to the exception, the basic rule is being enforced by the override rule, so the exception cannot override it.`
               ]]
             ]]
           ],
           features: {
             tf_m_b: {
-              name: `Hide basic filters.`,
+              name: 'Hide basic filters.',
               st: true
             },
             tf_m_a: {
-              name: `Hide advanced filters.`,
+              name: 'Hide advanced filters.',
               st: true
             },
             tf_comments: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter trades by number of comments.`]
+                  ['li', 'Allows you to filter trades by number of comments.']
                 ]]
               ],
               name: 'Comments',
@@ -124,7 +124,7 @@ class TradesTradeFilters extends Filters {
             tf_created: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter trades created by yourself.`]
+                  ['li', 'Allows you to filter trades created by yourself.']
                 ]]
               ],
               name: 'Created',
@@ -134,7 +134,7 @@ class TradesTradeFilters extends Filters {
               dependencies: ['gdttt'],
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter trades that you have visited.`]
+                  ['li', 'Allows you to filter trades that you have visited.']
                 ]]
               ],
               name: 'Visited',
@@ -154,7 +154,7 @@ class TradesTradeFilters extends Filters {
               dependencies: ['ct'],
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter trades that you have read.`]
+                  ['li', 'Allows you to filter trades that you have read.']
                 ]]
               ],
               name: 'Unread',
@@ -163,7 +163,7 @@ class TradesTradeFilters extends Filters {
             tf_authors: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter trades by author.`]
+                  ['li', 'Allows you to filter trades by author.']
                 ]]
               ],
               name: 'Authors',
@@ -172,28 +172,28 @@ class TradesTradeFilters extends Filters {
             tf_positiveReputation: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter trades by the positive reputation of the author.`]
+                  ['li', 'Allows you to filter trades by the positive reputation of the author.']
                 ]]
               ],
-              name: `Positive Reputation`,
+              name: 'Positive Reputation',
               st: true
             },
             tf_negativeReputation: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter trades by the negative reputation of the author.`]
+                  ['li', 'Allows you to filter trades by the negative reputation of the author.']
                 ]]
               ],
-              name: `Negative Reputation`,
+              name: 'Negative Reputation',
               st: true
             }
           },
-          name: `Multiple Filters`,
+          name: 'Multiple Filters',
           st: true
         }
       },
       id: 'tf',
-      name: `Trade Filters`,
+      name: 'Trade Filters',
       st: true,
       type: 'trades'
     };
@@ -202,7 +202,7 @@ class TradesTradeFilters extends Filters {
   async init() {
     if (gSettings.tf_s) {
       if (gSettings.tf_s_s) {
-        this.addSingleButton(`fa-comments`);
+        this.addSingleButton('fa-comments');
       }
       this.esgst.tradeFeatures.push(this.tf_addButtons.bind(this));
     }
@@ -223,8 +223,8 @@ class TradesTradeFilters extends Filters {
     obj.process = new Process({
       button,
       popup: {
-        icon: `fa-comments`,
-        title: `Hidden Trades`,
+        icon: 'fa-comments',
+        title: 'Hidden Trades',
         addProgress: true,
         addScrollable: 'left'
       },
@@ -240,10 +240,10 @@ class TradesTradeFilters extends Filters {
 
   async tf_initUrls(obj) {
     obj.trades = obj.popup.getScrollable([
-      ['div', { class: `table esgst-text-left` }, [
+      ['div', { class: 'table esgst-text-left' }, [
         ['div', { class: 'header' }, [
           ['div', { class: 'column_flex' }, 'Summary'],
-          ['div', { class: `column_small text_center` }, 'Comments']
+          ['div', { class: 'column_small text_center' }, 'Comments']
         ]],
         ['div', { class: 'table__rows' }]
       ]]
@@ -314,7 +314,7 @@ class TradesTradeFilters extends Filters {
               children: [{
                 context: responseHtml.querySelector(`.comment_outer [data-timestamp]`)
               }, {
-                text: ` by `,
+                text: ' by ',
                 type: 'node'
               }, {
                 attributes: {
@@ -324,7 +324,7 @@ class TradesTradeFilters extends Filters {
                 text: usernameLink.textContent,
                 type: 'a'
               }, {
-                text: ` `,
+                text: ' ',
                 type: 'node'
               }, {
                 context: reputation
@@ -332,7 +332,7 @@ class TradesTradeFilters extends Filters {
             }]
           }, {
             attributes: {
-              class: `column_small text_center`
+              class: 'column_small text_center'
             },
             type: 'div',
             children: [{
@@ -361,14 +361,14 @@ class TradesTradeFilters extends Filters {
 
   tf_addButtons(trades, main) {
     for (const trade of trades) {
-      if (!trade.heading.parentElement.getElementsByClassName(`esgst-df-button`)[0]) {
+      if (!trade.heading.parentElement.getElementsByClassName('esgst-df-button')[0]) {
         new Button(trade.headingContainer.firstElementChild, 'beforeBegin', {
           callbacks: [this.tf_hideTrade.bind(this, trade, main), null, this.tf_unhideTrade.bind(this, trade, main), null],
-          className: `esgst-df-button`,
-          icons: [`fa-eye-slash esgst-clickable`, `fa-circle-o-notch fa-spin`, `fa-eye esgst-clickable`, `fa-circle-o-notch fa-spin`],
+          className: 'esgst-df-button',
+          icons: ['fa-eye-slash esgst-clickable', 'fa-circle-o-notch fa-spin', 'fa-eye esgst-clickable', 'fa-circle-o-notch fa-spin'],
           id: 'tf_s',
           index: trade.saved && trade.saved.hidden ? 2 : 0,
-          titles: [`Hide trade`, `Hiding trade...`, `Unhide trade`, `Unhiding trade...`]
+          titles: ['Hide trade', 'Hiding trade...', 'Unhide trade', 'Unhiding trade...']
         });
       }
     }
@@ -441,13 +441,13 @@ class TradesTradeFilters extends Filters {
       positiveReputation: {
         check: true,
         minValue: 0,
-        name: `Positive Reputation`,
+        name: 'Positive Reputation',
         type: 'number'
       },
       negativeReputation: {
         check: true,
         minValue: 0,
-        name: `Negative Reputation`,
+        name: 'Negative Reputation',
         type: 'number'
       }
     };

@@ -26,7 +26,7 @@ class Users extends Module {
     const users = [];
     for (let i = elements.length - 1; i > -1; i--) {
       let element = elements[i];
-      const sg = (this.esgst.sg && !element.getAttribute(`data-st`)) || element.getAttribute(`data-sg`);
+      const sg = (this.esgst.sg && !element.getAttribute('data-st')) || element.getAttribute('data-sg');
       let isSteamLink = false;
       let match = element.getAttribute('href').match(/\/user\/(.+)/);
       if (!match) {
@@ -40,7 +40,7 @@ class Users extends Module {
       if (!id) {
         continue;
       }
-      if (((!sg || element.textContent !== id) && (sg || !element.textContent || element.children.length)) || element.closest(`.markdown`)) {
+      if (((!sg || element.textContent !== id) && (sg || !element.textContent || element.children.length)) || element.closest('.markdown')) {
         continue;
       }
       if (!this.esgst.currentUsers[id]) {
@@ -76,7 +76,7 @@ class Users extends Module {
       };
 
       if (shared.esgst.groupPath) {
-        const userRow = userObj.outerWrap.closest(`.table__column--width-fill`);
+        const userRow = userObj.outerWrap.closest('.table__column--width-fill');
         if (userRow) {
           const sentRow = userRow.nextElementSibling;
           const receivedRow = sentRow.nextElementSibling;
@@ -121,12 +121,12 @@ class Users extends Module {
     }
     if (found) {
       if (this.esgst.wbcButton && mainContext === document && !this.esgst.aboutPath) {
-        this.esgst.wbcButton.classList.remove(`esgst-hidden`);
-        this.esgst.wbcButton.parentElement.classList.remove(`esgst-hidden`);
+        this.esgst.wbcButton.classList.remove('esgst-hidden');
+        this.esgst.wbcButton.parentElement.classList.remove('esgst-hidden');
       }
       if (this.esgst.uscButton && mainContext === document && !this.esgst.aboutPath) {
-        this.esgst.uscButton.classList.remove(`esgst-hidden`);
-        this.esgst.uscButton.parentElement.classList.remove(`esgst-hidden`);
+        this.esgst.uscButton.classList.remove('esgst-hidden');
+        this.esgst.uscButton.parentElement.classList.remove('esgst-hidden');
       }
       if (gSettings.mm_enableUsers && this.esgst.mm_enable) {
         this.esgst.mm_enable(this.esgst.currentScope.users, 'Users');

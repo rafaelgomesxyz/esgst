@@ -15,8 +15,8 @@ class GiveawaysOneClickHideGiveawayButton extends Module {
       description: [
         ['ul', [
           ['li', [
-            `When you click on the icon `,
-            ['i', { class: `fa fa-eye-slash` }],
+            'When you click on the icon ',
+            ['i', { class: 'fa fa-eye-slash' }],
             `  next to a giveaway's game name, the game will be hidden immediately, without any confirmation popup being shown.`
           ]],
         ]]
@@ -28,12 +28,12 @@ class GiveawaysOneClickHideGiveawayButton extends Module {
               ['li', `With this option enabled, when you hide a game, instead of all of the giveaways for the game being removed from the page, they are simply faded out.`]
             ]]
           ],
-          name: `Fade hidden giveaways instead of removing them.`,
+          name: 'Fade hidden giveaways instead of removing them.',
           sg: true
         }
       },
       id: 'ochgb',
-      name: `One-Click Hide Giveaway Button`,
+      name: 'One-Click Hide Giveaway Button',
       sg: true,
       type: 'giveaways',
       featureMap: {
@@ -46,7 +46,7 @@ class GiveawaysOneClickHideGiveawayButton extends Module {
     giveaways.forEach(giveaway => {
       let button = giveaway.innerWrap.querySelector(`.giveaway__hide, .featured__giveaway__hide`);
       if (!button) return;
-      let unhide = button.classList.contains(`fa-eye`);
+      let unhide = button.classList.contains('fa-eye');
       if (this.esgst.giveawayPath && main) {
         button = button.parentElement;
       }
@@ -55,25 +55,25 @@ class GiveawaysOneClickHideGiveawayButton extends Module {
       giveaway.ochgbButton = new Button(button, 'afterEnd', {
         callbacks: [this.ochgb_hideGiveaway.bind(this, giveaway, main), null, this.ochgb_unhideGiveaway.bind(this, giveaway, main), null],
         className: `esgst-ochgb ${this.esgst.giveawayPath && main ? `` : 'giveaway__icon'}`,
-        icons: [`fa-eye-slash esgst-clickable`, `fa-circle-o-notch fa-spin`, `fa-eye esgst-clickable`, `fa-circle-o-notch fa-spin`],
+        icons: ['fa-eye-slash esgst-clickable', 'fa-circle-o-notch fa-spin', 'fa-eye esgst-clickable', 'fa-circle-o-notch fa-spin'],
         id: 'ochgb',
         index: unhide ? 2 : 0,
-        titles: [`Hide all giveaways for this game`, `Hiding giveaways...`, `Unhide all giveaways for this game`, `Unhiding giveaways...`]
+        titles: ['Hide all giveaways for this game', 'Hiding giveaways...', 'Unhide all giveaways for this game', 'Unhiding giveaways...']
       });
-      giveaway.ochgbButton.button.setAttribute(`data-draggable-id`, 'hideGame');
+      giveaway.ochgbButton.button.setAttribute('data-draggable-id', 'hideGame');
       button.remove();
     });
   }
 
   ochgb_fadeGiveaway(giveaway, main) {
     if ((this.esgst.giveawayPath && !main) || !this.esgst.giveawayPath) {
-      giveaway.innerWrap.classList.add(`esgst-faded`);
+      giveaway.innerWrap.classList.add('esgst-faded');
     }
   }
 
   ochgb_unfadeGiveaway(giveaway, main) {
     if ((this.esgst.giveawayPath && !main) || !this.esgst.giveawayPath) {
-      giveaway.innerWrap.classList.remove(`esgst-faded`);
+      giveaway.innerWrap.classList.remove('esgst-faded');
     }
   }
 

@@ -42,7 +42,7 @@ class Logger {
   }
 
   getMessage(args) {
-    return `[ESGST] ${Array.from(args).map(x => typeof x === 'string' ? x : JSON.stringify(x)).join(` `)}`;
+    return `[ESGST] ${Array.from(args).map(x => typeof x === 'string' ? x : JSON.stringify(x)).join(' ')}`;
   }
 
   addButton(level) {
@@ -55,8 +55,8 @@ class Logger {
       return;
     }
 
-    this.button = shared.common.addHeaderButton(`fa-bug`, 'active', shared.common.getFeatureTooltip('notifyLogs', `View logs`));
-    this.button.button.classList.add(`esgst-logs`, `esgst-logs-${level}`);
+    this.button = shared.common.addHeaderButton('fa-bug', 'active', shared.common.getFeatureTooltip('notifyLogs', 'View logs'));
+    this.button.button.classList.add('esgst-logs', `esgst-logs-${level}`);
     this.button.button.addEventListener('click', this.showPopup.bind(this));
     this.currentMaxLevel = level;
   }
@@ -64,7 +64,7 @@ class Logger {
   showPopup() {
     const popup = new Popup({
       addScrollable: 'left',
-      icon: `fa-bug`,
+      icon: 'fa-bug',
       isTemp: true,
       title: 'Logs'
     });

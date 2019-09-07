@@ -31,7 +31,7 @@ class Button {
         this.change();
       } else {
         shared.common.createElements_v2(this.button, 'inner', [
-          ['i', { class: `fa fa-times esgst-red`, title: `Unable to perform action` }]
+          ['i', { class: 'fa fa-times esgst-red', title: 'Unable to perform action' }]
         ]);
       }
     } else if (this.callbacks[index]) {

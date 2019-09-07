@@ -11,7 +11,7 @@ class CommentsCommentTracker extends Module {
       description: [
         ['ul', [
           ['li', `Keeps track of any comments (in any page) and fades out comments that you have marked as read so that you can easily see which comments you have read/unread in the page.`],
-          ['li', `Comments made by yourself are automatically marked as read.`],
+          ['li', 'Comments made by yourself are automatically marked as read.'],
           ['li', `The comments are tracked by saving the date when they were made. If a comment is edited then the date when it was last edited is saved instead, so if you had previously marked a comment as read and that comment was edited, it will now appear as unread.`],
           ['li', [
             `Adds a panel to the "Comments" column of any `,
@@ -23,20 +23,20 @@ class CommentsCommentTracker extends Module {
             ` pages and to the main page heading of any page containing:`
           ]],
           ['ul', [
-            ['li', `A red number in parenthesis indicating how many unread comments there are in the thread.`],
+            ['li', 'A red number in parenthesis indicating how many unread comments there are in the thread.'],
             ['li', [
               `A button (`,
-              ['i', { class: `fa fa-comments` }],
+              ['i', { class: 'fa fa-comments' }],
               `) that allows you to go to the first unread comment of the thread/page.`
             ]],
             ['li', [
               `A button (`,
-              ['i', { class: `fa fa-eye` }],
+              ['i', { class: 'fa fa-eye' }],
               `) that allows you to mark every comment in the thread/page as read.`
             ]],
             ['li', [
               `A button (`,
-              ['i', { class: `fa fa-eye-slash` }],
+              ['i', { class: 'fa fa-eye-slash' }],
               `) that allows you to mark every comment in the thread/page as unread.`
             ]]
           ]],
@@ -44,33 +44,33 @@ class CommentsCommentTracker extends Module {
           ['ul', [
             ['li', [
               `A button (`,
-              ['i', { class: `fa fa-eye` }],
+              ['i', { class: 'fa fa-eye' }],
               `) that allows you to mark the comment as read.`
             ]],
             ['li', [
               `A button (`,
-              ['i', { class: `fa fa-eye-slash` }],
+              ['i', { class: 'fa fa-eye-slash' }],
               `) that allows you to mark the comment as unread.`
             ]],
             ['li', [
               `A button (`,
-              ['i', { class: `fa fa-eye` }],
-              ` `,
-              ['i', { class: `fa fa-angle-double-right` }],
+              ['i', { class: 'fa fa-eye' }],
+              ' ',
+              ['i', { class: 'fa fa-angle-double-right' }],
               `) that allows you to mark the comment as read and go to the next unread comment.`
             ]],
             ['li', [
               `A button (`,
-              ['i', { class: `fa fa-eye` }],
-              ` `,
-              ['i', { class: `fa fa-angle-up` }],
+              ['i', { class: 'fa fa-eye' }],
+              ' ',
+              ['i', { class: 'fa fa-angle-up' }],
               `) that allows you to mark every comment from the comment upward as read.`
             ]],
             ['li', [
               `A button (`,
-              ['i', { class: `fa fa-eye-slash` }],
-              ` `,
-              ['i', { class: `fa fa-angle-up` }],
+              ['i', { class: 'fa fa-eye-slash' }],
+              ' ',
+              ['i', { class: 'fa fa-angle-up' }],
               `) that allows you to mark every comment from the comment upward as unread.`
             ]]
           ]]
@@ -83,12 +83,12 @@ class CommentsCommentTracker extends Module {
           st: true
         },
         ct_o: {
-          name: `Automatically mark your own comments as read.`,
+          name: 'Automatically mark your own comments as read.',
           sg: true,
           st: true
         },
         ct_c: {
-          name: `Enable tracking controls for your own comments.`,
+          name: 'Enable tracking controls for your own comments.',
           sg: true,
           st: true
         },
@@ -103,20 +103,20 @@ class CommentsCommentTracker extends Module {
             ct_s_h: {
               description: [
                 ['ul', [
-                  ['li', `Only shows the red number for a thread after you have visited it.`]
+                  ['li', 'Only shows the red number for a thread after you have visited it.']
                 ]]
               ],
-              name: `Hide the counter if you have not visited the thread yet.`,
+              name: 'Hide the counter if you have not visited the thread yet.',
               sg: true,
               st: true
             }
           },
-          name: `Enable the simplified version.`,
+          name: 'Enable the simplified version.',
           sg: true,
           st: true
         },
         ct_f: {
-          name: `Fade out read comments.`,
+          name: 'Fade out read comments.',
           sg: true,
           st: true
         },
@@ -126,13 +126,13 @@ class CommentsCommentTracker extends Module {
               ['li', `Searches pages for an unread comment from the bottom to the top if [id=cr] is disabled or from the top to the bottom if it is enabled.`]
             ]]
           ],
-          name: `Search for the first unread comment in reverse order.`,
+          name: 'Search for the first unread comment in reverse order.',
           sg: true,
           st: true
         }
       },
       id: 'ct',
-      name: `Comment Tracker`,
+      name: 'Comment Tracker',
       sg: true,
       st: true,
       type: 'comments'
@@ -140,25 +140,25 @@ class CommentsCommentTracker extends Module {
   }
 
   async init() {
-    if (((this.esgst.commentsPath && (!this.esgst.giveawayPath || !document.getElementsByClassName(`table--summary`)[0])) || shared.common.isCurrentPath('Messages')) && !gSettings.ct_s) {
+    if (((this.esgst.commentsPath && (!this.esgst.giveawayPath || !document.getElementsByClassName('table--summary')[0])) || shared.common.isCurrentPath('Messages')) && !gSettings.ct_s) {
       if (!gSettings.ct_s) {
         let button3 = shared.common.createHeadingButton({
           featureId: 'ct',
           id: 'ctUnread',
-          icons: [`fa-eye-slash`],
-          title: `Mark all comments in this page as unread`
+          icons: ['fa-eye-slash'],
+          title: 'Mark all comments in this page as unread'
         });
         let button2 = shared.common.createHeadingButton({
           featureId: 'ct',
           id: 'ctRead',
-          icons: [`fa-eye`],
-          title: `Mark all comments in this page as read`
+          icons: ['fa-eye'],
+          title: 'Mark all comments in this page as read'
         });
         let button1 = shared.common.createHeadingButton({
           featureId: 'ct',
           id: 'ctGo',
-          icons: [`fa-comments-o`],
-          title: `Go to the first unread comment of this page`
+          icons: ['fa-comments-o'],
+          title: 'Go to the first unread comment of this page'
         });
         this.ct_addCommentPanel(button1, button2, button3);
       }
@@ -192,8 +192,8 @@ class CommentsCommentTracker extends Module {
         }
         shared.common.createElements(element, 'beforeEnd', [{
           attributes: {
-            class: `esgst-ct-count`,
-            title: shared.common.getFeatureTooltip('ct', `Unread comments`)
+            class: 'esgst-ct-count',
+            title: shared.common.getFeatureTooltip('ct', 'Unread comments')
           },
           text: ` (+${diff})`,
           type: 'span'
@@ -211,7 +211,7 @@ class CommentsCommentTracker extends Module {
    */
   async ct_addDiscussionPanels(context, main, source, endless) {
     let code, comments, count, countLink, diff, heading, i, id, j, match, matches, n, name, read, url, key;
-    matches = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .table__row-outer-wrap, .esgst-es-page-${endless}.table__row-outer-wrap` : `.table__row-outer-wrap`}, ${endless ? `.esgst-es-page-${endless} .row_outer_wrap, .esgst-es-page-${endless}.row_outer_wrap` : `.row_outer_wrap`}`);
+    matches = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .table__row-outer-wrap, .esgst-es-page-${endless}.table__row-outer-wrap` : '.table__row-outer-wrap'}, ${endless ? `.esgst-es-page-${endless} .row_outer_wrap, .esgst-es-page-${endless}.row_outer_wrap` : '.row_outer_wrap'}`);
     if (!matches.length) return;
     if (this.esgst.discussionsPath) {
       key = 'discussions';
@@ -235,7 +235,7 @@ class CommentsCommentTracker extends Module {
           code = url.match(new RegExp(`/${key.slice(0, -1)}/(.+?)(/.*)?$`));
           if (code) {
             code = code[1];
-            if (gSettings.ust && key === 'tickets' && (!comments[code] || !comments[code].sent) && match.getElementsByClassName(`table__column__secondary-link`)[0].textContent.trim().match(/Request\sNew\sWinner|User\sReport/)) {
+            if (gSettings.ust && key === 'tickets' && (!comments[code] || !comments[code].sent) && match.getElementsByClassName('table__column__secondary-link')[0].textContent.trim().match(/Request\sNew\sWinner|User\sReport/)) {
               this.esgst.modules.usersUserSuspensionTracker.ust_addCheckbox(code, match);
             }
             if (gSettings.gdttt || gSettings.ct) {
@@ -278,9 +278,9 @@ class CommentsCommentTracker extends Module {
     }
     if (this.esgst.ustButton) {
       if (this.esgst.modules.usersUserSuspensionTracker.numTickets > 0) {
-        this.esgst.ustButton.classList.remove(`esgst-hidden`);
+        this.esgst.ustButton.classList.remove('esgst-hidden');
       } else {
-        this.esgst.ustButton.classList.add(`esgst-hidden`);
+        this.esgst.ustButton.classList.add('esgst-hidden');
       }
     }
   }
@@ -368,7 +368,7 @@ class CommentsCommentTracker extends Module {
           }
           saved[comment.type][comment.code].lastUsed = Date.now();
           if (!gSettings.ct_s) {
-            let buttons = comment.comment.getElementsByClassName(`esgst-ct-comment-button`);
+            let buttons = comment.comment.getElementsByClassName('esgst-ct-comment-button');
             if (comment.author === gSettings.username) {
               if (gSettings.ct_c) {
                 if (!saved[comment.type][comment.code].readComments[comment.id] || comment.timestamp !== saved[comment.type][comment.code].readComments[comment.id]) {
@@ -518,29 +518,29 @@ class CommentsCommentTracker extends Module {
       let deleteLock = await shared.common.createLock('commentLock', 300);
       comments = JSON.parse(shared.common.getValue(comment.type));
       if (comment.id && !comments[comment.code].readComments[comment.id] && this.esgst.commentsPath) {
-        count = document.getElementsByClassName(`esgst-ct-count`)[0];
+        count = document.getElementsByClassName('esgst-ct-count')[0];
         count.textContent = ` (+${parseInt(count.textContent.match(/\d+/)[0]) - 1})`;
       }
       comments[comment.code].readComments[comment.id] = comment.timestamp;
       await shared.common.setValue(comment.type, JSON.stringify(comments));
       deleteLock();
       if (gSettings.ct_f) {
-        comment.comment.classList.add(`esgst-ct-comment-read`);
-        comment.comment.style.opacity = `0.5`;
-        shared.common.setHoverOpacity(comment.comment, '1', `0.5`);
+        comment.comment.classList.add('esgst-ct-comment-read');
+        comment.comment.style.opacity = '0.5';
+        shared.common.setHoverOpacity(comment.comment, '1', '0.5');
       }
     } else {
       if (comments) {
         if (comment.id && !comments[comment.type][comment.code].readComments[comment.id] && this.esgst.commentsPath) {
-          count = document.getElementsByClassName(`esgst-ct-count`)[0];
+          count = document.getElementsByClassName('esgst-ct-count')[0];
           count.textContent = ` (+${parseInt(count.textContent.match(/\d+/)[0]) - 1})`;
         }
         comments[comment.type][comment.code].readComments[comment.id] = comment.timestamp;
       }
       if (gSettings.ct_f) {
-        comment.comment.classList.add(`esgst-ct-comment-read`);
-        comment.comment.style.opacity = `0.5`;
-        shared.common.setHoverOpacity(comment.comment, '1', `0.5`);
+        comment.comment.classList.add('esgst-ct-comment-read');
+        comment.comment.style.opacity = '0.5';
+        shared.common.setHoverOpacity(comment.comment, '1', '0.5');
       }
     }
   }
@@ -553,27 +553,27 @@ class CommentsCommentTracker extends Module {
       if (comments[comment.code].readComments[comment.id]) {
         delete comments[comment.code].readComments[comment.id];
         if (comment.id && this.esgst.commentsPath) {
-          count = document.getElementsByClassName(`esgst-ct-count`)[0];
+          count = document.getElementsByClassName('esgst-ct-count')[0];
           count.textContent = ` (+${parseInt(count.textContent.match(/\d+/)[0]) + 1})`;
         }
       }
       await shared.common.setValue(comment.type, JSON.stringify(comments));
       deleteLock();
       if (gSettings.ct_f) {
-        comment.comment.classList.remove(`esgst-ct-comment-read`);
+        comment.comment.classList.remove('esgst-ct-comment-read');
         comment.comment.style.opacity = '1';
         shared.common.setHoverOpacity(comment.comment, '1', '1');
       }
     } else {
       if (comments && comments[comment.type][comment.code].readComments[comment.id]) {
         if (comment.id && this.esgst.commentsPath) {
-          count = document.getElementsByClassName(`esgst-ct-count`)[0];
+          count = document.getElementsByClassName('esgst-ct-count')[0];
           count.textContent = ` (+${parseInt(count.textContent.match(/\d+/)[0]) + 1})`;
         }
         delete comments[comment.type][comment.code].readComments[comment.id];
       }
       if (gSettings.ct_f) {
-        comment.comment.classList.remove(`esgst-ct-comment-read`);
+        comment.comment.classList.remove('esgst-ct-comment-read');
         comment.comment.style.opacity = '1';
         shared.common.setHoverOpacity(comment.comment, '1', '1');
       }
@@ -584,8 +584,8 @@ class CommentsCommentTracker extends Module {
     if (!button) {
       button = shared.common.createElements(comment.actions, 'beforeEnd', [{
         attributes: {
-          class: `esgst-ct-comment-button`,
-          title: `${shared.common.getFeatureTooltip('ct', `Mark all comments from this comment upwards as read`)}`
+          class: 'esgst-ct-comment-button',
+          title: `${shared.common.getFeatureTooltip('ct', 'Mark all comments from this comment upwards as read')}`
         },
         type: 'div'
       }]);
@@ -594,12 +594,12 @@ class CommentsCommentTracker extends Module {
       type: 'span',
       children: [{
         attributes: {
-          class: `fa fa-eye`
+          class: 'fa fa-eye'
         },
         type: 'i'
       }, {
         attributes: {
-          class: `fa fa-angle-up`
+          class: 'fa fa-angle-up'
         },
         type: 'i'
       }]
@@ -610,7 +610,7 @@ class CommentsCommentTracker extends Module {
   async ct_readUntilHere(button, comment) {
     shared.common.createElements(button, 'inner', [{
       attributes: {
-        class: `fa fa-circle-o-notch fa-spin`
+        class: 'fa fa-circle-o-notch fa-spin'
       },
       type: 'i'
     }]);
@@ -622,8 +622,8 @@ class CommentsCommentTracker extends Module {
     if (!button) {
       button = shared.common.createElements(comment.actions, 'beforeEnd', [{
         attributes: {
-          class: `esgst-ct-comment-button`,
-          title: `${shared.common.getFeatureTooltip('ct', `Mark all comments from this comment upwards as unread`)}`
+          class: 'esgst-ct-comment-button',
+          title: `${shared.common.getFeatureTooltip('ct', 'Mark all comments from this comment upwards as unread')}`
         },
         type: 'div'
       }]);
@@ -632,12 +632,12 @@ class CommentsCommentTracker extends Module {
       type: 'span',
       children: [{
         attributes: {
-          class: `fa fa-eye-slash`
+          class: 'fa fa-eye-slash'
         },
         type: 'i'
       }, {
         attributes: {
-          class: `fa fa-angle-up`
+          class: 'fa fa-angle-up'
         },
         type: 'i'
       }]
@@ -648,7 +648,7 @@ class CommentsCommentTracker extends Module {
   async ct_unreadUntilHere(button, comment) {
     shared.common.createElements(button, 'inner', [{
       attributes: {
-        class: `fa fa-circle-o-notch fa-spin`
+        class: 'fa fa-circle-o-notch fa-spin'
       },
       type: 'i'
     }]);
@@ -660,30 +660,30 @@ class CommentsCommentTracker extends Module {
     if (!button) {
       button = shared.common.createElements(comment.actions, 'beforeEnd', [{
         attributes: {
-          class: `esgst-ct-comment-button`
+          class: 'esgst-ct-comment-button'
         },
         type: 'div'
       }]);
     }
     shared.common.createElements(button, 'inner', [{
       attributes: {
-        class: `fa fa-eye`,
-        title: shared.common.getFeatureTooltip('ct', `Mark this comment as read`)
+        class: 'fa fa-eye',
+        title: shared.common.getFeatureTooltip('ct', 'Mark this comment as read')
       },
       type: 'i'
     }, {
       attributes: {
-        title: shared.common.getFeatureTooltip('ct', `Mark this comment as read and go to the next unread comment`)
+        title: shared.common.getFeatureTooltip('ct', 'Mark this comment as read and go to the next unread comment')
       },
       type: 'span',
       children: [{
         attributes: {
-          class: `fa fa-eye`
+          class: 'fa fa-eye'
         },
         type: 'i'
       }, {
         attributes: {
-          class: `fa fa-angle-double-right`
+          class: 'fa fa-angle-double-right'
         },
         type: 'i'
       }]
@@ -695,7 +695,7 @@ class CommentsCommentTracker extends Module {
   async ct_readComment(button, comment) {
     shared.common.createElements(button, 'inner', [{
       attributes: {
-        class: `fa fa-circle-o-notch fa-spin`
+        class: 'fa fa-circle-o-notch fa-spin'
       },
       type: 'i'
     }]);
@@ -707,7 +707,7 @@ class CommentsCommentTracker extends Module {
   async ct_readCommentAndGo(button, comment) {
     shared.common.createElements(button, 'inner', [{
       attributes: {
-        class: `fa fa-circle-o-notch fa-spin`
+        class: 'fa fa-circle-o-notch fa-spin'
       },
       type: 'i'
     }]);
@@ -722,15 +722,15 @@ class CommentsCommentTracker extends Module {
     if (!button) {
       button = shared.common.createElements(comment.actions, 'beforeEnd', [{
         attributes: {
-          class: `esgst-ct-comment-button`
+          class: 'esgst-ct-comment-button'
         },
         type: 'div'
       }]);
     }
     shared.common.createElements(button, 'inner', [{
       attributes: {
-        class: `fa fa-eye-slash`,
-        title: `${shared.common.getFeatureTooltip('ct', `Mark comment as unread`)}`
+        class: 'fa fa-eye-slash',
+        title: `${shared.common.getFeatureTooltip('ct', 'Mark comment as unread')}`
       },
       type: 'i'
     }]);
@@ -740,7 +740,7 @@ class CommentsCommentTracker extends Module {
   async ct_unreadComment(button, comment) {
     shared.common.createElements(button, 'inner', [{
       attributes: {
-        class: `fa fa-circle-o-notch fa-spin`
+        class: 'fa fa-circle-o-notch fa-spin'
       },
       type: 'i'
     }]);
@@ -760,16 +760,16 @@ class CommentsCommentTracker extends Module {
         if (this.esgst.sg) {
           newButton = shared.common.createElements(button, 'afterEnd', [{
             attributes: {
-              class: `sidebar__action-button`
+              class: 'sidebar__action-button'
             },
             type: 'div',
             children: [{
               attributes: {
-                class: `fa fa-check-circle`
+                class: 'fa fa-check-circle'
               },
               type: 'i'
             }, {
-              text: ` Mark as Read`,
+              text: ' Mark as Read',
               type: 'node'
             }]
           }]);
@@ -778,16 +778,16 @@ class CommentsCommentTracker extends Module {
         } else {
           newButton = shared.common.createElements(button, 'afterEnd', [{
             attributes: {
-              class: `page_heading_btn green`
+              class: 'page_heading_btn green'
             },
             type: 'a',
             children: [{
               attributes: {
-                class: `fa fa-check-square-o`
+                class: 'fa fa-check-square-o'
               },
               type: 'i'
             }, {
-              text: `Mark as Read`,
+              text: 'Mark as Read',
               type: 'span'
             }]
           }]);
@@ -818,33 +818,33 @@ class CommentsCommentTracker extends Module {
   async ct_goToUnread(goToUnread) {
     shared.common.createElements(goToUnread, 'inner', [{
       attributes: {
-        class: `fa fa-circle-o-notch fa-spin`
+        class: 'fa fa-circle-o-notch fa-spin'
       },
       type: 'i'
     }]);
     const found = await this.ct_getComments(0, this.esgst.scopes.main.comments, null, true, false, false);
     shared.common.createElements(goToUnread, 'inner', [{
       attributes: {
-        class: `fa fa-comments-o`
+        class: 'fa fa-comments-o'
       },
       type: 'i'
     }]);
     if (!found) {
-      shared.common.createAlert(`No unread comments were found.`);
+      shared.common.createAlert('No unread comments were found.');
     }
   }
 
   async ct_markCommentsRead(markRead) {
     shared.common.createElements(markRead, 'inner', [{
       attributes: {
-        class: `fa fa-circle-o-notch fa-spin`
+        class: 'fa fa-circle-o-notch fa-spin'
       },
       type: 'i'
     }]);
     await this.ct_getComments(0, this.esgst.scopes.main.comments, null, false, true, false);
     shared.common.createElements(markRead, 'inner', [{
       attributes: {
-        class: `fa fa-eye`
+        class: 'fa fa-eye'
       },
       type: 'i'
     }]);
@@ -853,14 +853,14 @@ class CommentsCommentTracker extends Module {
   async ct_markCommentsUnread(markUnread) {
     shared.common.createElements(markUnread, 'inner', [{
       attributes: {
-        class: `fa fa-circle-o-notch fa-spin`
+        class: 'fa fa-circle-o-notch fa-spin'
       },
       type: 'i'
     }]);
     await this.ct_getComments(0, this.esgst.scopes.main.comments, null, false, false, true);
     shared.common.createElements(markUnread, 'inner', [{
       attributes: {
-        class: `fa fa-eye-slash`
+        class: 'fa fa-eye-slash'
       },
       type: 'i'
     }]);
@@ -875,62 +875,62 @@ class CommentsCommentTracker extends Module {
         type: 'span',
         children: [{
           attributes: {
-            class: `esgst-ct-count esgst-hidden`,
+            class: 'esgst-ct-count esgst-hidden',
             title: shared.common.getFeatureTooltip('ct')
           },
           text: `(+${diff})`,
           type: 'span'
         }, {
           attributes: {
-            class: `esgst-heading-button esgst-hidden`,
-            title: shared.common.getFeatureTooltip('ct', `Go to first unread comment of this discussion`)
+            class: 'esgst-heading-button esgst-hidden',
+            title: shared.common.getFeatureTooltip('ct', 'Go to first unread comment of this discussion')
           },
           type: 'div',
           children: [{
             attributes: {
-              class: `fa fa-comments-o`
+              class: 'fa fa-comments-o'
             },
             type: 'i'
           }]
         }, {
           attributes: {
-            class: `esgst-heading-button esgst-hidden`,
-            title: shared.common.getFeatureTooltip('ct', `Mark all comments in this discussion as read`)
+            class: 'esgst-heading-button esgst-hidden',
+            title: shared.common.getFeatureTooltip('ct', 'Mark all comments in this discussion as read')
           },
           type: 'div',
           children: [{
             attributes: {
-              class: `fa fa-eye`
+              class: 'fa fa-eye'
             },
             type: 'i'
           }]
         }, {
           attributes: {
-            class: `esgst-heading-button esgst-hidden`,
-            title: shared.common.getFeatureTooltip('ct', `Mark all comments in this discussion as unread`)
+            class: 'esgst-heading-button esgst-hidden',
+            title: shared.common.getFeatureTooltip('ct', 'Mark all comments in this discussion as unread')
           },
           type: 'div',
           children: [{
             attributes: {
-              class: `fa fa-eye-slash`
+              class: 'fa fa-eye-slash'
             },
             type: 'i'
           }]
         }, {
           attributes: {
-            class: `esgst-heading-button esgst-hidden`,
+            class: 'esgst-heading-button esgst-hidden',
             title: shared.common.getFeatureTooltip('ct', `Clean discussion (remove deleted comments from the database)`)
           },
           type: 'div',
           children: [{
             attributes: {
-              class: `fa fa-paint-brush`
+              class: 'fa fa-paint-brush'
             },
             type: 'i'
           }]
         }, {
           attributes: {
-            class: `fa fa-circle-o-notch fa-spin esgst-hidden`
+            class: 'fa fa-circle-o-notch fa-spin esgst-hidden'
           },
           type: 'i'
         }]
@@ -946,11 +946,11 @@ class CommentsCommentTracker extends Module {
     if (gSettings.gdttt) {
       const button = new Button(obj.panel, 'beforeEnd', {
         callbacks: [this.esgst.modules.generalGiveawayDiscussionTicketTradeTracker.gdttt_markVisited.bind(this.esgst.modules.generalGiveawayDiscussionTicketTradeTracker, code, container, count, obj.diffContainer, type), null, this.esgst.modules.generalGiveawayDiscussionTicketTradeTracker.gdttt_markUnvisited.bind(this.esgst.modules.generalGiveawayDiscussionTicketTradeTracker, code, container, count, obj.diffContainer, type), null],
-        className: `esgst-gdttt-button`,
-        icons: [`fa-check esgst-clickable`, `fa-circle-o-notch fa-spin`, `fa-times esgst-clickable`, `fa-circle-o-notch fa-spin`],
+        className: 'esgst-gdttt-button',
+        icons: ['fa-check esgst-clickable', 'fa-circle-o-notch fa-spin', 'fa-times esgst-clickable', 'fa-circle-o-notch fa-spin'],
         id: 'gdttt',
         index: !comments[code] || !comments[code].visited ? 0 : 2,
-        titles: [`Mark discussion as visited`, `Marking...`, `Mark discussion as unvisited`, `Marking...`]
+        titles: ['Mark discussion as visited', 'Marking...', 'Mark discussion as unvisited', 'Marking...']
       });
       if (discussion) {
         discussion.gdtttButton = button;
@@ -970,20 +970,20 @@ class CommentsCommentTracker extends Module {
     if (gSettings.ct && (this.esgst.giveawaysPath || this.esgst.discussionsPath)) {
       if (gSettings.ct_s) {
         if (diff > 0) {
-          obj.diffContainer.classList.remove(`esgst-hidden`);
+          obj.diffContainer.classList.remove('esgst-hidden');
         }
       } else {
         if (diff > 0) {
-          obj.diffContainer.classList.remove(`esgst-hidden`);
-          obj.goToUnread.classList.remove(`esgst-hidden`);
-          obj.markRead.classList.remove(`esgst-hidden`);
+          obj.diffContainer.classList.remove('esgst-hidden');
+          obj.goToUnread.classList.remove('esgst-hidden');
+          obj.markRead.classList.remove('esgst-hidden');
           if (diff !== count) {
-            obj.markUnread.classList.remove(`esgst-hidden`);
+            obj.markUnread.classList.remove('esgst-hidden');
           }
         } else {
-          obj.markUnread.classList.remove(`esgst-hidden`);
+          obj.markUnread.classList.remove('esgst-hidden');
         }
-        obj.clean.classList.remove(`esgst-hidden`);
+        obj.clean.classList.remove('esgst-hidden');
       }
     }
     obj.goToUnread.addEventListener('mousedown', this.ct_goToUnreadPanel.bind(this, obj));
@@ -993,18 +993,18 @@ class CommentsCommentTracker extends Module {
   }
 
   async ct_clean(obj) {
-    obj.clean.classList.add(`esgst-hidden`);
-    obj.goToUnread.classList.add(`esgst-hidden`);
-    obj.markRead.classList.add(`esgst-hidden`);
-    obj.markUnread.classList.add(`esgst-hidden`);
-    obj.loadingIcon.classList.remove(`esgst-hidden`);
+    obj.clean.classList.add('esgst-hidden');
+    obj.goToUnread.classList.add('esgst-hidden');
+    obj.markRead.classList.add('esgst-hidden');
+    obj.markUnread.classList.add('esgst-hidden');
+    obj.loadingIcon.classList.remove('esgst-hidden');
     await this.ct_markCommentsReadUnread(false, false, false, obj.code, `${obj.url}/search?page=`);
-    obj.loadingIcon.classList.add(`esgst-hidden`);
-    obj.goToUnread.classList.remove(`esgst-hidden`);
-    obj.markRead.classList.remove(`esgst-hidden`);
-    obj.clean.classList.remove(`esgst-hidden`);
+    obj.loadingIcon.classList.add('esgst-hidden');
+    obj.goToUnread.classList.remove('esgst-hidden');
+    obj.markRead.classList.remove('esgst-hidden');
+    obj.clean.classList.remove('esgst-hidden');
     if (obj.diff !== obj.count) {
-      obj.markUnread.classList.remove(`esgst-hidden`);
+      obj.markUnread.classList.remove('esgst-hidden');
     }
   }
 
@@ -1016,41 +1016,41 @@ class CommentsCommentTracker extends Module {
     } else if (event.button === 2) {
       return;
     }
-    obj.clean.classList.add(`esgst-hidden`);
-    obj.goToUnread.classList.add(`esgst-hidden`);
-    obj.markRead.classList.add(`esgst-hidden`);
-    obj.markUnread.classList.add(`esgst-hidden`);
-    obj.loadingIcon.classList.remove(`esgst-hidden`);
+    obj.clean.classList.add('esgst-hidden');
+    obj.goToUnread.classList.add('esgst-hidden');
+    obj.markRead.classList.add('esgst-hidden');
+    obj.markUnread.classList.add('esgst-hidden');
+    obj.loadingIcon.classList.remove('esgst-hidden');
     this.ctUnreadFound = false;
     await this.ct_markCommentsReadUnread(true, false, false, null, `${obj.url}/search?page=`);
-    obj.loadingIcon.classList.add(`esgst-hidden`);
-    obj.goToUnread.classList.remove(`esgst-hidden`);
-    obj.markRead.classList.remove(`esgst-hidden`);
-    obj.clean.classList.remove(`esgst-hidden`);
+    obj.loadingIcon.classList.add('esgst-hidden');
+    obj.goToUnread.classList.remove('esgst-hidden');
+    obj.markRead.classList.remove('esgst-hidden');
+    obj.clean.classList.remove('esgst-hidden');
     if (obj.diff !== obj.count) {
-      obj.markUnread.classList.remove(`esgst-hidden`);
+      obj.markUnread.classList.remove('esgst-hidden');
     }
   }
 
   async ct_markReadPanel(obj) {
-    obj.clean.classList.add(`esgst-hidden`);
-    obj.goToUnread.classList.add(`esgst-hidden`);
-    obj.markRead.classList.add(`esgst-hidden`);
-    obj.markUnread.classList.add(`esgst-hidden`);
-    obj.loadingIcon.classList.remove(`esgst-hidden`);
+    obj.clean.classList.add('esgst-hidden');
+    obj.goToUnread.classList.add('esgst-hidden');
+    obj.markRead.classList.add('esgst-hidden');
+    obj.markUnread.classList.add('esgst-hidden');
+    obj.loadingIcon.classList.remove('esgst-hidden');
     await this.ct_markCommentsReadUnread(false, true, false, null, `${obj.url}/search?page=`);
-    obj.loadingIcon.classList.add(`esgst-hidden`);
-    obj.diffContainer.classList.add(`esgst-hidden`);
-    obj.markUnread.classList.remove(`esgst-hidden`);
-    obj.clean.classList.remove(`esgst-hidden`);
+    obj.loadingIcon.classList.add('esgst-hidden');
+    obj.diffContainer.classList.add('esgst-hidden');
+    obj.markUnread.classList.remove('esgst-hidden');
+    obj.clean.classList.remove('esgst-hidden');
   }
 
   async ct_markUnreadPanel(obj) {
-    obj.clean.classList.add(`esgst-hidden`);
-    obj.goToUnread.classList.add(`esgst-hidden`);
-    obj.markRead.classList.add(`esgst-hidden`);
-    obj.markUnread.classList.add(`esgst-hidden`);
-    obj.loadingIcon.classList.remove(`esgst-hidden`);
+    obj.clean.classList.add('esgst-hidden');
+    obj.goToUnread.classList.add('esgst-hidden');
+    obj.markRead.classList.add('esgst-hidden');
+    obj.markUnread.classList.add('esgst-hidden');
+    obj.loadingIcon.classList.remove('esgst-hidden');
     const deleteLock = await shared.common.createLock('commentLock', 300);
     const comments = JSON.parse(shared.common.getValue('discussions'));
     for (const key in comments[obj.code].readComments) {
@@ -1061,12 +1061,12 @@ class CommentsCommentTracker extends Module {
     comments[obj.code].lastUsed = Date.now();
     await shared.common.setValue('discussions', JSON.stringify(comments));
     deleteLock();
-    obj.loadingIcon.classList.add(`esgst-hidden`);
-    obj.diffContainer.classList.remove(`esgst-hidden`);
+    obj.loadingIcon.classList.add('esgst-hidden');
+    obj.diffContainer.classList.remove('esgst-hidden');
     obj.diffContainer.textContent = `(+${obj.count})`;
-    obj.goToUnread.classList.remove(`esgst-hidden`);
-    obj.markRead.classList.remove(`esgst-hidden`);
-    obj.clean.classList.remove(`esgst-hidden`);
+    obj.goToUnread.classList.remove('esgst-hidden');
+    obj.markRead.classList.remove('esgst-hidden');
+    obj.clean.classList.remove('esgst-hidden');
   }
 
   async ct_markCommentsReadUnread(goToUnread, markRead, markUnread, code, url) {
@@ -1102,7 +1102,7 @@ class CommentsCommentTracker extends Module {
       nextPage += 1;
       const pagination = context.getElementsByClassName('pagination__navigation')[0];
 
-      if (!pagination || ((!goToUnread || ((!gSettings.ct_r || nextPage <= 1) && (gSettings.ct_r || pagination.lastElementChild.classList.contains(`is-selected`)))) && (goToUnread || pagination.lastElementChild.classList.contains(`is-selected`)))) break;
+      if (!pagination || ((!goToUnread || ((!gSettings.ct_r || nextPage <= 1) && (gSettings.ct_r || pagination.lastElementChild.classList.contains('is-selected')))) && (goToUnread || pagination.lastElementChild.classList.contains('is-selected')))) break;
 
       if (!goToUnread || !gSettings.ct_r) continue;
 
@@ -1110,14 +1110,14 @@ class CommentsCommentTracker extends Module {
         firstRun = !firstRun;
         const lastLink = pagination.lastElementChild;
         if (lastLink.textContent.match(/Last/)) {
-          nextPage = parseInt(lastLink.getAttribute(`data-page-number`));
+          nextPage = parseInt(lastLink.getAttribute('data-page-number'));
         } else {
           nextPage = 999999999;
           lastPageMissing = true;
         }
       } else {
         if (lastPageMissing) {
-          nextPage = parseInt(pagination.lastElementChild.getAttribute(`data-page-number`)) - 1;
+          nextPage = parseInt(pagination.lastElementChild.getAttribute('data-page-number')) - 1;
         } else {
           nextPage -= 2;
         }

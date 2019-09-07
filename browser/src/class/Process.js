@@ -50,8 +50,8 @@ class Process {
       {
         color1: 'green',
         color2: 'red',
-        icon1: `fa-arrow-circle-right`,
-        icon2: `fa-times-circle`,
+        icon1: 'fa-arrow-circle-right',
+        icon2: 'fa-times-circle',
         title1: 'Start',
         title2: 'Stop',
         callback1: this.start.bind(this),
@@ -62,7 +62,7 @@ class Process {
     if (this.urls && this.urls.id && !this.urls.lockPerLoad) {
       shared.common.createElements_v2(this.popup.description, 'afterBegin', [
         `Items per load: `,
-        ['input', { class: `esgst-switch-input`, type: 'number', value: gSettings[`${this.urls.id}_perLoad`], ref: ref => shared.common.observeNumChange(ref, `${this.urls.id}_perLoad`, true) }]
+        ['input', { class: 'esgst-switch-input', type: 'number', value: gSettings[`${this.urls.id}_perLoad`], ref: ref => shared.common.observeNumChange(ref, `${this.urls.id}_perLoad`, true) }]
       ]);
     }
     this.popup.open();
@@ -87,7 +87,7 @@ class Process {
 
   async start() {
     if (this.button) {
-      this.button.classList.add(`esgst-busy`);
+      this.button.classList.add('esgst-busy');
     }
     this.isCanceled = false;
 
@@ -97,7 +97,7 @@ class Process {
 
     if (this.init && (await this.init(this))) {
       if (this.button) {
-        this.button.classList.remove(`esgst-busy`);
+        this.button.classList.remove('esgst-busy');
       }
       return;
     }
@@ -119,7 +119,7 @@ class Process {
     }
 
     if (this.button) {
-      this.button.classList.remove(`esgst-busy`);
+      this.button.classList.remove('esgst-busy');
     }
     if (this.popup) {
       this.popup.clearProgress();
@@ -135,7 +135,7 @@ class Process {
       this.popup.removeButton(0);
       return;
     }
-    this.popup.setProgress(`Loading more...`);
+    this.popup.setProgress('Loading more...');
     this.popup.setOverallProgress(`${this.index} of ${this.total} loaded.`);
     this.context = this.mainContext ? shared.common.createElements_v2(this.mainContext, 'beforeEnd', this.contextHtml) : this.popup.getScrollable(this.contextHtml);
     let i = 0;

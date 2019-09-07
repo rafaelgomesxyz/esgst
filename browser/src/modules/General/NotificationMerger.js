@@ -19,14 +19,14 @@ class GeneralNotificationMerger extends Module {
         ['ul', [
           ['li', [
             `Adds a second inbox icon colored as red (`,
-            ['i', { class: `fa fa-envelope esgst-red` }],
+            ['i', { class: 'fa fa-envelope esgst-red' }],
             `) to the header of any page that allows you to be notified about messages from SteamTrades on SteamGifts and vice-versa.`
           ]],
           ['li', `This feature is compatible with [id=hr_b].`]
         ]]
       ],
       id: 'nm',
-      name: `Notification Merger`,
+      name: 'Notification Merger',
       sg: true,
       st: true,
       type: 'general'
@@ -48,31 +48,31 @@ class GeneralNotificationMerger extends Module {
       if (!notification) {
         if (this.altInboxButton) {
           // hide the button, since there are no notifications
-          this.altInboxButton.classList.add(`esgst-hidden`);
+          this.altInboxButton.classList.add('esgst-hidden');
         }
         return;
       }
       if (this.altInboxButton) {
         // the button already exists, so simply unhide it and change the message count
-        this.altInboxButton.classList.remove(`esgst-hidden`);
+        this.altInboxButton.classList.remove('esgst-hidden');
         this.altMessageCount.textContent = notification.textContent;
       } else {
         // the button does not exist yet, so add it and save it in a global variable
         this.altInboxButton = createElements(this.esgst.inboxButton, 'afterEnd', [{
           attributes: {
-            class: `nav__button-container nav__button-container--notification nav__button-container--active`
+            class: 'nav__button-container nav__button-container--notification nav__button-container--active'
           },
           type: 'div',
           children: [{
             attributes: {
               class: 'nav__button',
               href: `https://www.steamtrades.com/messages`,
-              title: getFeatureTooltip('nm', `SteamTrades Messages`)
+              title: getFeatureTooltip('nm', 'SteamTrades Messages')
             },
             type: 'a',
             children: [{
               attributes: {
-                class: `fa fa-envelope esgst-nm-icon`
+                class: 'fa fa-envelope esgst-nm-icon'
               },
               type: 'i'
             }, {
@@ -94,13 +94,13 @@ class GeneralNotificationMerger extends Module {
       if (!notification) {
         if (this.altInboxButton) {
           // hide the button, since there are no notifications
-          this.altInboxButton.classList.add(`esgst-hidden`);
+          this.altInboxButton.classList.add('esgst-hidden');
         }
         return;
       }
       if (this.altInboxButton) {
         // the button already exists, so simply unhide it and change the message count
-        this.altInboxButton.classList.remove(`esgst-hidden`);
+        this.altInboxButton.classList.remove('esgst-hidden');
         this.altMessageCount.textContent = notification.textContent;
       } else {
         // the button does not exist yet, so add it and save it in a global variable
@@ -118,13 +118,13 @@ class GeneralNotificationMerger extends Module {
             type: 'a',
             children: [{
               attributes: {
-                class: `fa fa-envelope esgst-nm-icon`
+                class: 'fa fa-envelope esgst-nm-icon'
               },
               type: 'i'
             }, {
               type: 'span',
               children: [{
-                text: `Messages `,
+                text: 'Messages ',
                 type: 'node'
               }, {
                 attributes: {

@@ -19,14 +19,14 @@ class GiveawaysEntryTracker extends Module {
         ['ul', [
           ['li', [
             `Adds a button (`,
-            ['i', { class: `fa fa-ticket esgst-red` }],
+            ['i', { class: 'fa fa-ticket esgst-red' }],
             ` My Entry History) to the dropdown menu accessible by clicking on the arrow next to your avatar at the header of any page that allows you to view your giveaway entry history (the detailed log, including the name, link and date of every giveaway you have entered/left) and some other details (the average number of giveaways that you enter per day, the date when you entered the least number of giveaways, the date when you entered the most number of giveaways and a table containing how many giveaways you have entered/left per day).`
           ]],
           ['li', `An entry only appears in the history if you entered/left the giveaway after this feature was enabled.`]
         ]]
       ],
       id: 'et',
-      name: `Entry Tracker`,
+      name: 'Entry Tracker',
       sg: true,
       type: 'giveaways'
     };
@@ -39,35 +39,35 @@ class GiveawaysEntryTracker extends Module {
     if (!this.esgst.sg) return;
     createElements(this.esgst.sg ? this.esgst.accountDropdown.firstElementChild.lastElementChild : this.esgst.mainButton.parentElement.getElementsByClassName('dropdown')[0].firstElementChild.lastElementChild, 'beforeBegin', [{
       attributes: {
-        class: `esgst-header-menu-row`,
-        [`data-link-id`]: 'et',
-        [`data-link-key`]: 'account',
+        class: 'esgst-header-menu-row',
+        ['data-link-id']: 'et',
+        ['data-link-key']: 'account',
         title: getFeatureTooltip('et')
       },
       type: 'div',
       children: [{
         attributes: {
-          class: `fa fa-fw fa-ticket red`
+          class: 'fa fa-fw fa-ticket red'
         },
         type: 'i'
       }, {
         type: 'div',
         children: [{
           attributes: {
-            class: `esgst-header-menu-name`
+            class: 'esgst-header-menu-name'
           },
-          text: `My Entry History`,
+          text: 'My Entry History',
           type: 'p'
         }, {
           attributes: {
-            class: `esgst-header-menu-description`
+            class: 'esgst-header-menu-description'
           },
-          text: `View your entry history.`,
+          text: 'View your entry history.',
           type: 'p'
         }]
       }]
     }]).addEventListener('click', this.et_menu.bind(this));
-    if (this.esgst.giveawayPath && !document.getElementsByClassName(`table--summary`)[0] && this.esgst.enterGiveawayButton) {
+    if (this.esgst.giveawayPath && !document.getElementsByClassName('table--summary')[0] && this.esgst.enterGiveawayButton) {
       let code, name;
       code = window.location.pathname.match(/^\/giveaway\/(.+?)\//)[1];
       name = document.getElementsByClassName('featured__heading__medium')[0].textContent;
@@ -128,11 +128,11 @@ class GiveawaysEntryTracker extends Module {
         };
       }
     }
-    let popup = new Popup({ addScrollable: true, icon: `fa-history`, isTemp: true, title: `Entry Tracker` });
+    let popup = new Popup({ addScrollable: true, icon: 'fa-history', isTemp: true, title: 'Entry Tracker' });
     popup.scrollable.style.display = 'flex';
     let rows = createElements(popup.scrollable, 'beforeEnd', [{
       attributes: {
-        class: `esgst-text-left table`,
+        class: 'esgst-text-left table',
         style: `padding-left: 5px;`
       },
       type: 'div',
@@ -143,25 +143,25 @@ class GiveawaysEntryTracker extends Module {
         type: 'div',
         children: [{
           attributes: {
-            class: `table__column--width-small`
+            class: 'table__column--width-small'
           },
           text: 'Delete',
           type: 'div'
         }, {
           attributes: {
-            class: `table__column--width-small`
+            class: 'table__column--width-small'
           },
           text: 'Date',
           type: 'div'
         }, {
           attributes: {
-            class: `table__column--width-small`
+            class: 'table__column--width-small'
           },
           text: 'Entered',
           type: 'div'
         }, {
           attributes: {
-            class: `table__column--width-small`
+            class: 'table__column--width-small'
           },
           text: 'Left',
           type: 'div'
@@ -188,41 +188,41 @@ class GiveawaysEntryTracker extends Module {
       let key = keys[i];
       let button = createElements(rows, 'beforeEnd', [{
         attributes: {
-          class: `table__row-outer-wrap`,
+          class: 'table__row-outer-wrap',
         },
         type: 'div',
         children: [{
           attributes: {
-            class: `table__row-inner-wrap`
+            class: 'table__row-inner-wrap'
           },
           type: 'div',
           children: [{
             attributes: {
-              class: `table__column--width-small esgst-text-center`
+              class: 'table__column--width-small esgst-text-center'
             },
             type: 'div',
             children: [{
               attributes: {
-                class: `fa fa-times esgst-clickable`,
+                class: 'fa fa-times esgst-clickable',
                 title: 'Delete'
               },
               type: 'i'
             }]
           }, {
             attributes: {
-              class: `table__column--width-small`
+              class: 'table__column--width-small'
             },
             text: dates[key].date,
             type: 'div'
           }, {
             attributes: {
-              class: `table__column--width-small`
+              class: 'table__column--width-small'
             },
             text: dates[key].entered,
             type: 'div'
           }, {
             attributes: {
-              class: `table__column--width-small`
+              class: 'table__column--width-small'
             },
             text: dates[key].left,
             type: 'div'
@@ -244,70 +244,70 @@ class GiveawaysEntryTracker extends Module {
     createElements(popup.description, 'afterBegin', [{
       type: 'div',
       children: [{
-        text: `You enter on average `,
+        text: 'You enter on average ',
         type: 'node'
       }, {
         attributes: {
-          class: `esgst-bold`
+          class: 'esgst-bold'
         },
         text: average,
         type: 'span'
       }, {
-        text: ` giveaways per day.`,
+        text: ' giveaways per day.',
         type: 'node'
       }]
     }, {
       type: 'div',
       children: [{
-        text: `Your highest entry count was on `,
+        text: 'Your highest entry count was on ',
         type: 'node'
       }, {
         attributes: {
-          class: `esgst-italic`
+          class: 'esgst-italic'
         },
         text: highest.date,
         type: 'span'
       }, {
-        text: ` with `,
+        text: ' with ',
         type: 'node'
       }, {
         attributes: {
-          class: `esgst-bold`
+          class: 'esgst-bold'
         },
         text: highest.count,
         type: 'span'
       }, {
-        text: ` entries.`,
+        text: ' entries.',
         type: 'node'
       }]
     }, {
       type: 'div',
       children: [{
-        text: `Your lowest entry count was on `,
+        text: 'Your lowest entry count was on ',
         type: 'node'
       }, {
         attributes: {
-          class: `esgst-italic`
+          class: 'esgst-italic'
         },
         text: lowest.date,
         type: 'span'
       }, {
-        text: ` with `,
+        text: ' with ',
         type: 'node'
       }, {
         attributes: {
-          class: `esgst-bold`
+          class: 'esgst-bold'
         },
         text: lowest.count,
         type: 'span'
       }, {
-        text: ` entries.`,
+        text: ' entries.',
         type: 'node'
       }]
     }]);
     createElements(popup.scrollable, 'afterBegin', [{
       attributes: {
-        class: `esgst-text-left markdown`,
+        class: 'esgst-text-left markdown',
         style: `border-right: 1px solid #ccc; padding-right: 5px;`
       },
       type: 'div',
@@ -323,7 +323,7 @@ class GiveawaysEntryTracker extends Module {
     if (!window.confirm(`Are you sure you want to delete entries for ${date}? Your entire history for that day will be deleted.`)) return;
     createElements(button, 'inner', [{
       attributes: {
-        class: `fa fa-circle-o-notch fa-spin`
+        class: 'fa fa-circle-o-notch fa-spin'
       },
       type: 'i'
     }]);
@@ -348,7 +348,7 @@ class GiveawaysEntryTracker extends Module {
 
   et_setObserver(element) {
     let code, container, heading, name;
-    container = element.closest(`.table__row-inner-wrap`);
+    container = element.closest('.table__row-inner-wrap');
     heading = container.getElementsByClassName('table__column__heading')[0];
     code = heading.getAttribute('href').match(/\/giveaway\/(.+?)\//)[1];
     name = heading.firstChild.textContent.trim().match(/(.+?)(\s\(.+\sCopies\))?$/)[1];

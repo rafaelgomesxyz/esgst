@@ -33,11 +33,11 @@ class UsersWhitelistBlacklistChecker extends Module {
         ['ul', [
           ['li', [
             `Adds a button (`,
-            ['i', { class: `fa fa-heart` }],
-            ` `,
-            ['i', { class: `fa fa-ban` }],
-            ` `,
-            ['i', { class: `fa fa-question-circle` }],
+            ['i', { class: 'fa fa-heart' }],
+            ' ',
+            ['i', { class: 'fa fa-ban' }],
+            ' ',
+            ['i', { class: 'fa fa-question-circle' }],
             `) to the main page heading of any page that allows you to check which users in the page have whitelisted/blacklisted you.`
           ]],
           ['li', [
@@ -49,11 +49,11 @@ class UsersWhitelistBlacklistChecker extends Module {
           ['li', `There are also options to return whitelists/blacklists, which means that if a user that has whitelisted/blacklisted you is found, they will be whitelisted/blacklisted back.`],
           ['li', [
             `Adds a button (`,
-            ['i', { class: `fa fa-heart` }],
-            ` `,
-            ['i', { class: `fa fa-ban` }],
-            ` `,
-            ['i', { class: `fa fa-gear` }],
+            ['i', { class: 'fa fa-heart' }],
+            ' ',
+            ['i', { class: 'fa fa-ban' }],
+            ' ',
+            ['i', { class: 'fa fa-gear' }],
             `) to the page heading of this menu that allows you to view/update all of the users that have been checked.`
           ]],
           ['li', `Results are cached for 24 hours, so if you check the same user again within that timeframe, their status will not change, unless you check them with the option to clear the cache enabled.`]
@@ -65,15 +65,15 @@ class UsersWhitelistBlacklistChecker extends Module {
             ['ul', [
               ['li', [
                 `Adds an icon (`,
-                ['i', { class: `fa fa-check esgst-whitelist` }],
-                ` if the user has whitelisted you and `,
-                ['i', { class: `fa fa-times esgst-blacklist` }],
+                ['i', { class: 'fa fa-check esgst-whitelist' }],
+                ' if the user has whitelisted you and ',
+                ['i', { class: 'fa fa-times esgst-blacklist' }],
                 ` if they have blacklisted you) next to a checked user's username (in any page).`
               ]],
               ['li', `If you hover over the icon, it shows the date when they were checked for the last time.`]
             ]]
           ],
-          name: `Highlight checked users.`,
+          name: 'Highlight checked users.',
           sg: true,
           st: true
         },
@@ -92,14 +92,14 @@ class UsersWhitelistBlacklistChecker extends Module {
               ['li', `With this option enabled, the feature will not tell you if a user has blacklisted you (in fact, the name of the feature will change to Whitelist Checker for you). If the feature finds a user that has blacklisted you, it will tell you that it could not determine their status.`]
             ]]
           ],
-          name: `Hide blacklist information.`,
+          name: 'Hide blacklist information.',
           sg: true
         }
       },
       id: 'wbc',
       name: `Whitelist/Blacklist Checker`,
       sg: true,
-      sync: `Steam Groups`,
+      sync: 'Steam Groups',
       syncKeys: ['Groups'],
       type: 'users'
     };
@@ -110,25 +110,25 @@ class UsersWhitelistBlacklistChecker extends Module {
       shared.esgst.userFeatures.push(this.wbc_users.bind(this));
     }
     if (!shared.esgst.mainPageHeading) return;
-    let [icons, title] = !gSettings.wbc_hb ? [[`fa-heart`, `fa-ban`, `fa-question-circle`], `Check for whitelists/blacklists`] : [[`fa-heart`, `fa-question-circle`], `Check for whitelists`];
+    let [icons, title] = !gSettings.wbc_hb ? [['fa-heart', 'fa-ban', 'fa-question-circle'], `Check for whitelists/blacklists`] : [['fa-heart', 'fa-question-circle'], 'Check for whitelists'];
     shared.esgst.wbcButton = createHeadingButton({ id: 'wbc', icons, title });
     this.wbc_addButton(true, shared.esgst.wbcButton);
   }
 
   wbc_users(users) {
     for (const user of users) {
-      if (user.saved && user.saved.wbc && !user.context.parentElement.getElementsByClassName(`esgst-wbc-icon`)[0]) {
+      if (user.saved && user.saved.wbc && !user.context.parentElement.getElementsByClassName('esgst-wbc-icon')[0]) {
         let result = user.saved.wbc.result;
         if ((result === 'whitelisted') || ((result === 'blacklisted') && !gSettings.wbc_hb)) {
           createElements(user.context, 'beforeBegin', [{
             attributes: {
-              class: `esgst-wbc-icon esgst-user-icon`,
+              class: 'esgst-wbc-icon esgst-user-icon',
               title: getFeatureTooltip('wbc', `${user.username} has ${result} you (last checked ${getTimestamp(user.saved.wbc.lastCheck)})`)
             },
             type: 'span',
             children: [{
               attributes: {
-                class: `fa ${(result === 'whitelisted') ? `fa-check esgst-whitelist` : `fa-times esgst-blacklist`}`
+                class: `fa ${(result === 'whitelisted') ? 'fa-check esgst-whitelist' : 'fa-times esgst-blacklist'}`
               },
               type: 'i'
             }]
@@ -147,7 +147,7 @@ class UsersWhitelistBlacklistChecker extends Module {
     WBC.Username = gSettings.username;
     popup = new Popup({
       addScrollable: true,
-      icon: WBC.Update ? `fa-cog` : `fa-question`,
+      icon: WBC.Update ? 'fa-cog' : 'fa-question',
       title: WBC.Update ? `Manage Whitelist/Blacklist Checker caches:` : `Check for whitelists${WBC.B ? `/blacklists` : ``}:`
     });
     if (window.location.pathname.match(new RegExp(`^/user/(?!${WBC.Username})`))) {
@@ -159,25 +159,25 @@ class UsersWhitelistBlacklistChecker extends Module {
     }
     popup.Options = createElements(popup.description, 'beforeEnd', [{ type: 'div' }]);
     if (WBC.User) {
-      checkSingleSwitch = new ToggleSwitch(popup.Options, 'wbc_checkSingle', false, `Only check ${WBC.User ? WBC.User.Username : `current user`}.`, false, false, `If disabled, all users in the current page will be checked.`, gSettings.wbc_checkSingle);
+      checkSingleSwitch = new ToggleSwitch(popup.Options, 'wbc_checkSingle', false, `Only check ${WBC.User ? WBC.User.Username : 'current user'}.`, false, false, `If disabled, all users in the current page will be checked.`, gSettings.wbc_checkSingle);
     }
     let feat = getFeatureNumber('mm');
-    let checkSelectedSwitch = new ToggleSwitch(popup.Options, 'wbc_checkSelected', false, `Only check selected.`, false, false, `Use ${feat.number} ${feat.name} to select the users that you want to check. Then click the button 'Check WL/BL' in the Multi-Manager popout and you will be redirected here.`, gSettings.wbc_checkSelected);
+    let checkSelectedSwitch = new ToggleSwitch(popup.Options, 'wbc_checkSelected', false, 'Only check selected.', false, false, `Use ${feat.number} ${feat.name} to select the users that you want to check. Then click the button 'Check WL/BL' in the Multi-Manager popout and you will be redirected here.`, gSettings.wbc_checkSelected);
     let checkFromListSwitch = new ToggleSwitch(popup.Options, 'wbc_checkFromList', false, [
       'Only check these users: ',
       ['input', { class: 'esgst-switch-input esgst-switch-input-large', placeholder: 'user1, user2, user3, ...', type: 'text', value: gSettings.wbc_userList.join(', '), onchange: event => { gSettings.wbc_userList = Array.from(new Set(event.target.value.split(/,\s*/))); shared.common.setSetting('wbc_userList', gSettings.wbc_userList); } }]
     ], false, false, 'Enter the usernames of the users that you want to check, separated by a comma.', gSettings.wbc_checkFromList);
     if (WBC.B) {
-      new ToggleSwitch(popup.Options, 'wbc_checkBlacklist', false, `Only check blacklist.`, false, false, `If enabled, a blacklist-only check will be performed (faster).`, gSettings.wbc_checkBlacklist);
+      new ToggleSwitch(popup.Options, 'wbc_checkBlacklist', false, 'Only check blacklist.', false, false, `If enabled, a blacklist-only check will be performed (faster).`, gSettings.wbc_checkBlacklist);
     }
     if (!WBC.Update && !window.location.pathname.match(/^\/(discussions|users|archive)/)) {
-      checkAllSwitch = new ToggleSwitch(popup.Options, 'wbc_checkAll', false, `Check all pages.`, false, false, `If disabled, only the current page will be checked.`, gSettings.wbc_checkAll);
+      checkAllSwitch = new ToggleSwitch(popup.Options, 'wbc_checkAll', false, 'Check all pages.', false, false, `If disabled, only the current page will be checked.`, gSettings.wbc_checkAll);
       checkPagesSwitch = new ToggleSwitch(popup.Options, 'wbc_checkPages', false, [
-        `Check only pages from `,
-        ['input', { class: `esgst-switch-input`, min: '1', type: 'number', value: gSettings.wbc_minPage }],
-        ` to `,
-        ['input', { class: `esgst-switch-input`, min: '1', type: 'number', value: gSettings.wbc_maxPage }],
-        `.`
+        'Check only pages from ',
+        ['input', { class: 'esgst-switch-input', min: '1', type: 'number', value: gSettings.wbc_minPage }],
+        ' to ',
+        ['input', { class: 'esgst-switch-input', min: '1', type: 'number', value: gSettings.wbc_maxPage }],
+        '.'
       ], false, false, null, gSettings.wbc_checkPages);
       let minPage = checkPagesSwitch.name.firstElementChild;
       let maxPage = minPage.nextElementSibling;
@@ -188,17 +188,17 @@ class UsersWhitelistBlacklistChecker extends Module {
       observeNumChange(minPage, 'wbc_minPage', true);
       observeNumChange(maxPage, 'wbc_maxPage', true);
     }
-    new ToggleSwitch(popup.Options, 'wbc_returnWhitelists', false, `Return whitelists.`, false, false, `If enabled, everyone who has whitelisted you will be whitelisted back.`, gSettings.wbc_returnWhitelists);
+    new ToggleSwitch(popup.Options, 'wbc_returnWhitelists', false, 'Return whitelists.', false, false, `If enabled, everyone who has whitelisted you will be whitelisted back.`, gSettings.wbc_returnWhitelists);
     if (WBC.B) {
-      new ToggleSwitch(popup.Options, 'wbc_returnBlacklists', false, `Return blacklists.`, false, false, `If enabled, everyone who has blacklisted you will be blacklisted back.`, gSettings.wbc_returnBlacklists);
+      new ToggleSwitch(popup.Options, 'wbc_returnBlacklists', false, 'Return blacklists.', false, false, `If enabled, everyone who has blacklisted you will be blacklisted back.`, gSettings.wbc_returnBlacklists);
     }
     new ToggleSwitch(popup.Options, 'wbc_checkNew', false, `Only check users who have not whitelisted ${WBC.B ? `/blacklisted` : ``} you.`, false, false, `If enabled, everyone who has whitelisted ${WBC.B ? `/blacklisted` : ``} you will be ignored (might lead to outdated data if someone who had whitelisted ${WBC.B ? `/blacklisted` : ``} you in the past removed you from those lists).`, gSettings.wbc_checkNew);
     observeNumChange(new ToggleSwitch(popup.Options, 'wbc_skipUsers', false, [
-      `Skip users after `,
-      ['input', { class: `esgst-ugs-difference`, type: 'number', value: gSettings.wbc_pages }],
-      ` pages.`
+      'Skip users after ',
+      ['input', { class: 'esgst-ugs-difference', type: 'number', value: gSettings.wbc_pages }],
+      ' pages.'
     ], false, false, `If enabled, when a user check passes the number of pages specified, the user will be skipped.`, gSettings.wbc_skipUsers).name.firstElementChild, 'wbc_pages', true);
-    new ToggleSwitch(popup.Options, 'wbc_clearCache', false, `Clear caches.`, false, false, `If enabled, the caches of all checked users will be cleared (slower).`, gSettings.wbc_clearCache);
+    new ToggleSwitch(popup.Options, 'wbc_clearCache', false, 'Clear caches.', false, false, `If enabled, the caches of all checked users will be cleared (slower).`, gSettings.wbc_clearCache);
     if (checkSingleSwitch || checkAllSwitch || checkPagesSwitch) {
       if (checkSingleSwitch) {
         if (checkAllSwitch) {
@@ -213,15 +213,15 @@ class UsersWhitelistBlacklistChecker extends Module {
         checkFromListSwitch.exclusions.push(checkSingleSwitch.container);
         if (gSettings.wbc_checkSingle) {
           if (checkAllSwitch) {
-            checkAllSwitch.container.classList.add(`esgst-hidden`);
+            checkAllSwitch.container.classList.add('esgst-hidden');
           }
           if (checkPagesSwitch) {
-            checkPagesSwitch.container.classList.add(`esgst-hidden`);
+            checkPagesSwitch.container.classList.add('esgst-hidden');
           }
-          checkSelectedSwitch.container.classList.add(`esgst-hidden`);
-          checkFromListSwitch.container.classList.add(`esgst-hidden`);
+          checkSelectedSwitch.container.classList.add('esgst-hidden');
+          checkFromListSwitch.container.classList.add('esgst-hidden');
         } else if (gSettings.wbc_checkSelected || gSettings.wbc_checkFromList) {
-          checkSingleSwitch.container.classList.add(`esgst-hidden`);
+          checkSingleSwitch.container.classList.add('esgst-hidden');
         }
       }
       if (checkAllSwitch) {
@@ -237,15 +237,15 @@ class UsersWhitelistBlacklistChecker extends Module {
         checkAllSwitch.exclusions.push(checkFromListSwitch.container);
         if (gSettings.wbc_checkAll) {
           if (checkSingleSwitch) {
-            checkSingleSwitch.container.classList.add(`esgst-hidden`);
+            checkSingleSwitch.container.classList.add('esgst-hidden');
           }
           if (checkPagesSwitch) {
-            checkPagesSwitch.container.classList.add(`esgst-hidden`);
+            checkPagesSwitch.container.classList.add('esgst-hidden');
           }
-          checkSelectedSwitch.container.classList.add(`esgst-hidden`);
-          checkFromListSwitch.container.classList.add(`esgst-hidden`);
+          checkSelectedSwitch.container.classList.add('esgst-hidden');
+          checkFromListSwitch.container.classList.add('esgst-hidden');
         } else if (gSettings.wbc_checkSelected || gSettings.wbc_checkFromList) {
-          checkAllSwitch.container.classList.add(`esgst-hidden`);
+          checkAllSwitch.container.classList.add('esgst-hidden');
         }
       }
       if (checkPagesSwitch) {
@@ -261,15 +261,15 @@ class UsersWhitelistBlacklistChecker extends Module {
         checkPagesSwitch.exclusions.push(checkFromListSwitch.container);
         if (gSettings.wbc_checkPages) {
           if (checkSingleSwitch) {
-            checkSingleSwitch.container.classList.add(`esgst-hidden`);
+            checkSingleSwitch.container.classList.add('esgst-hidden');
           }
           if (checkAllSwitch) {
-            checkAllSwitch.container.classList.add(`esgst-hidden`);
+            checkAllSwitch.container.classList.add('esgst-hidden');
           }
-          checkSelectedSwitch.container.classList.add(`esgst-hidden`);
-          checkFromListSwitch.container.classList.add(`esgst-hidden`);
+          checkSelectedSwitch.container.classList.add('esgst-hidden');
+          checkFromListSwitch.container.classList.add('esgst-hidden');
         } else if (gSettings.wbc_checkSelected || gSettings.wbc_checkFromList) {
-          checkPagesSwitch.container.classList.add(`esgst-hidden`);
+          checkPagesSwitch.container.classList.add('esgst-hidden');
         }
       }
     }
@@ -277,7 +277,7 @@ class UsersWhitelistBlacklistChecker extends Module {
     checkFromListSwitch.exclusions.push(checkSelectedSwitch.container);
     createElements(popup.Options, 'afterEnd', [{
       attributes: {
-        class: `esgst-description`
+        class: 'esgst-description'
       },
       text: `If an user is highlighted, that means they have been either checked for the first time or updated.`,
       type: 'div'
@@ -285,18 +285,18 @@ class UsersWhitelistBlacklistChecker extends Module {
     popup.description.appendChild(new ButtonSet({
       color1: 'green',
       color2: 'grey',
-      icon1: WBC.Update ? `fa-refresh` : `fa-question-circle`,
-      icon2: `fa-times-circle`,
+      icon1: WBC.Update ? 'fa-refresh' : 'fa-question-circle',
+      icon2: 'fa-times-circle',
       title1: WBC.Update ? 'Update' : 'Check',
       title2: 'Cancel',
       callback1: () => {
         return new Promise(resolve => {
           WBC.ShowResults = false;
-          WBCButton.classList.add(`esgst-busy`);
+          WBCButton.classList.add('esgst-busy');
           // noinspection JSIgnoredPromiseFromCall
           this.wbc_setCheck(WBC, skip, () => {
             skip.innerHTML = ``;
-            WBCButton.classList.remove(`esgst-busy`);
+            WBCButton.classList.remove('esgst-busy');
             resolve();
             WBC.popup.setDone();
           });
@@ -310,7 +310,7 @@ class UsersWhitelistBlacklistChecker extends Module {
         window.setTimeout(() => {
           WBC.Progress.innerHTML = ``;
         }, 500);
-        WBCButton.classList.remove(`esgst-busy`);
+        WBCButton.classList.remove('esgst-busy');
       }
     }).set);
     skip = createElements(popup.description, 'beforeEnd', [{ type: 'div' }]);
@@ -318,24 +318,24 @@ class UsersWhitelistBlacklistChecker extends Module {
     WBC.OverallProgress = createElements(popup.description, 'beforeEnd', [{ type: 'div' }]);
     popup.Results = createElements(popup.scrollable, 'beforeEnd', [{ type: 'div' }]);
     createResults(popup.Results, WBC, [{
-      Icon: `fa fa-heart esgst-whitelist`,
-      Description: `You are whitelisted by`,
+      Icon: 'fa fa-heart esgst-whitelist',
+      Description: 'You are whitelisted by',
       Key: 'whitelisted'
     }, {
-      Icon: `fa fa-ban esgst-blacklist`,
-      Description: `You are blacklisted by`,
+      Icon: 'fa fa-ban esgst-blacklist',
+      Description: 'You are blacklisted by',
       Key: 'blacklisted'
     }, {
-      Icon: `fa fa-check-circle`,
-      Description: WBC.B ? "You are neither whitelisted nor blacklisted by" : `You are not whitelisted by`,
+      Icon: 'fa fa-check-circle',
+      Description: WBC.B ? "You are neither whitelisted nor blacklisted by" : 'You are not whitelisted by',
       Key: 'none'
     }, {
-      Icon: `fa fa-question-circle`,
-      Description: `You are not blacklisted and there is not enough information to know if you are whitelisted by`,
+      Icon: 'fa fa-question-circle',
+      Description: 'You are not blacklisted and there is not enough information to know if you are whitelisted by',
       Key: 'notBlacklisted'
     }, {
-      Icon: `fa fa-question-circle`,
-      Description: `There is not enough information to know if you are whitelisted${WBC.B ? ` or blacklisted` : ``} by`,
+      Icon: 'fa fa-question-circle',
+      Description: `There is not enough information to know if you are whitelisted${WBC.B ? ' or blacklisted' : ``} by`,
       Key: 'unknown'
     }, {
       Icon: 'fa fa-times-circle',
@@ -343,12 +343,12 @@ class UsersWhitelistBlacklistChecker extends Module {
       Key: 'nonexistent'
     }]);
     WBCButton.addEventListener('click', () => {
-      if (WBCButton.getAttribute(`data-mm`)) {
+      if (WBCButton.getAttribute('data-mm')) {
         if (!gSettings.wbc_checkSelected) {
           if (gSettings.wbc_checkSingle && checkSingleSwitch) {
             let element = createElements(checkSingleSwitch.container, 'afterBegin', [{
               attributes: {
-                class: `esgst-bold esgst-red`
+                class: 'esgst-bold esgst-red'
               },
               text: `Disable this -->`,
               type: 'span'
@@ -357,7 +357,7 @@ class UsersWhitelistBlacklistChecker extends Module {
           } else if (gSettings.wbc_checkAll) {
             let element = createElements(checkAllSwitch.container, 'afterBegin', [{
               attributes: {
-                class: `esgst-bold esgst-red`
+                class: 'esgst-bold esgst-red'
               },
               text: `Disable this -->`,
               type: 'span'
@@ -366,7 +366,7 @@ class UsersWhitelistBlacklistChecker extends Module {
           } else if (gSettings.wbc_checkPages) {
             let element = createElements(checkPagesSwitch.container, 'afterBegin', [{
               attributes: {
-                class: `esgst-bold esgst-red`
+                class: 'esgst-bold esgst-red'
               },
               text: `Disable this -->`,
               type: 'span'
@@ -375,14 +375,14 @@ class UsersWhitelistBlacklistChecker extends Module {
           }
           let element = createElements(checkSelectedSwitch.container, 'afterBegin', [{
             attributes: {
-              class: `esgst-bold esgst-red`
+              class: 'esgst-bold esgst-red'
             },
             text: `Enable this -->`,
             type: 'span'
           }]);
           window.setTimeout(() => element.remove(), 5000);
         }
-        WBCButton.removeAttribute(`data-mm`);
+        WBCButton.removeAttribute('data-mm');
       }
       WBC.popup = popup;
       popup.open(() => {
@@ -405,12 +405,12 @@ class UsersWhitelistBlacklistChecker extends Module {
     let SavedUsers, I, N;
     WBC.Progress.innerHTML = ``;
     WBC.OverallProgress.innerHTML = ``;
-    WBC.whitelisted.classList.add(`esgst-hidden`);
-    WBC.blacklisted.classList.add(`esgst-hidden`);
-    WBC.none.classList.add(`esgst-hidden`);
-    WBC.notBlacklisted.classList.add(`esgst-hidden`);
-    WBC.unknown.classList.add(`esgst-hidden`);
-    WBC.nonexistent.classList.add(`esgst-hidden`);
+    WBC.whitelisted.classList.add('esgst-hidden');
+    WBC.blacklisted.classList.add('esgst-hidden');
+    WBC.none.classList.add('esgst-hidden');
+    WBC.notBlacklisted.classList.add('esgst-hidden');
+    WBC.unknown.classList.add('esgst-hidden');
+    WBC.nonexistent.classList.add('esgst-hidden');
     WBC.whitelistedCount.textContent = WBC.blacklistedCount.textContent = WBC.noneCount.textContent = WBC.notBlacklistedCount.textContent = WBC.unknownCount.textContent = WBC.nonexistentCount.textContent = '0';
     WBC.whitelistedUsers.innerHTML = ``;
     WBC.blacklistedUsers.innerHTML = ``;
@@ -450,9 +450,9 @@ class UsersWhitelistBlacklistChecker extends Module {
         skip.appendChild(new ButtonSet({
           color1: 'green',
           color2: ``,
-          icon1: `fa-forward`,
+          icon1: 'fa-forward',
           icon2: ``,
-          title1: `Skip User`,
+          title1: 'Skip User',
           title2: ``,
           callback1: () => {
             WBC.manualSkip = true;
@@ -476,7 +476,7 @@ class UsersWhitelistBlacklistChecker extends Module {
           let match = element.getAttribute('href').match(/\/user\/(.+)/);
           if (!match) continue;
           let username = match[1];
-          if (WBC.Users.indexOf(username) > -1 || username === gSettings.username || username !== element.textContent || element.closest(`.markdown`)) continue;
+          if (WBC.Users.indexOf(username) > -1 || username === gSettings.username || username !== element.textContent || element.closest('.markdown')) continue;
           WBC.Users.push(username);
         }
       }
@@ -487,9 +487,9 @@ class UsersWhitelistBlacklistChecker extends Module {
           skip.appendChild(new ButtonSet({
             color1: 'green',
             color2: ``,
-            icon1: `fa-forward`,
+            icon1: 'fa-forward',
             icon2: ``,
-            title1: `Skip User`,
+            title1: 'Skip User',
             title2: ``,
             callback1: () => {
               WBC.manualSkip = true;
@@ -506,9 +506,9 @@ class UsersWhitelistBlacklistChecker extends Module {
         skip.appendChild(new ButtonSet({
           color1: 'green',
           color2: ``,
-          icon1: `fa-forward`,
+          icon1: 'fa-forward',
           icon2: ``,
-          title1: `Skip User`,
+          title1: 'Skip User',
           title2: ``,
           callback1: () => {
             WBC.manualSkip = true;
@@ -576,12 +576,12 @@ class UsersWhitelistBlacklistChecker extends Module {
     WBC.autoSkip = false;
     if (!WBC.Canceled) {
       Key = ((wbc.result === 'blacklisted' || wbc.result === 'notBlacklisted') && !WBC.B) ? 'unknown' : wbc.result;
-      WBC[Key].classList.remove(`esgst-hidden`);
+      WBC[Key].classList.remove('esgst-hidden');
       const attributes = {
         href: `/user/${user.username}`
       };
       if (New) {
-        attributes.class = `esgst-bold esgst-italic`;
+        attributes.class = 'esgst-bold esgst-italic';
       }
       let items = null;
       if (isSkipped && (wbc.result === 'unknown' || wbc.result === 'notBlacklisted')) {
@@ -593,7 +593,7 @@ class UsersWhitelistBlacklistChecker extends Module {
             type: 'a'
           }, {
             attributes: {
-              class: `fa fa-forward`,
+              class: 'fa fa-forward',
               title: `This user was skipped, so there may actually be enough information available.`
             },
             type: 'i'
@@ -607,7 +607,7 @@ class UsersWhitelistBlacklistChecker extends Module {
             text: user.username,
             type: 'a'
           }, ...(wbc.wl_ga || wbc.g_wl_ga || wbc.ga ? [{
-            text: ` `,
+            text: ' ',
             type: 'node'
           }, {
             attributes: {
@@ -617,7 +617,7 @@ class UsersWhitelistBlacklistChecker extends Module {
             type: 'a',
             children: [{
               attributes: {
-                class: `fa fa-external-link`,
+                class: 'fa fa-external-link',
                 title: 'Confirm'
               },
               type: 'i'
@@ -693,7 +693,7 @@ class UsersWhitelistBlacklistChecker extends Module {
       Type = Key.match(/(.+)ed/)[1];
       createElements(WBC.Progress, 'inner', [{
         attributes: {
-          class: `fa fa-circle-o-notch fa-spin`
+          class: 'fa fa-circle-o-notch fa-spin'
         },
         type: 'i'
       }, {
@@ -802,7 +802,7 @@ class UsersWhitelistBlacklistChecker extends Module {
       queue: true,
       url: `/giveaway/${data.wl_ga || data.g_wl_ga || data.ga}/`
     })).responseText);
-    let errorMessage = responseHtml.getElementsByClassName(`table--summary`)[0];
+    let errorMessage = responseHtml.getElementsByClassName('table--summary')[0];
     let stop;
     if (errorMessage) {
       errorMessage = errorMessage.textContent;
@@ -889,7 +889,7 @@ class UsersWhitelistBlacklistChecker extends Module {
       }
       createElements(obj.Progress, 'inner', [{
         attributes: {
-          class: `fa fa-circle-o-notch fa-spin`
+          class: 'fa fa-circle-o-notch fa-spin'
         },
         type: 'i'
       }, {
@@ -902,7 +902,7 @@ class UsersWhitelistBlacklistChecker extends Module {
       }
       const giveaway = context.getElementsByClassName('giveaway__summary')[0];
       if (giveaway && obj.Timestamp === 0) {
-        obj.Timestamp = parseInt(giveaway.querySelector(`.giveaway__columns span[data-timestamp]`).getAttribute(`data-timestamp`)) * 1e3;
+        obj.Timestamp = parseInt(giveaway.querySelector(`.giveaway__columns span[data-timestamp]`).getAttribute('data-timestamp')) * 1e3;
         if (obj.Timestamp >= Date.now()) {
           obj.Timestamp = 0;
         }
@@ -915,14 +915,14 @@ class UsersWhitelistBlacklistChecker extends Module {
         }
       }
       let groupGiveaways = [];
-      const elements = context.getElementsByClassName(`giveaway__column--whitelist`);
+      const elements = context.getElementsByClassName('giveaway__column--whitelist');
       doStop = false;
       for (const element of elements) {
-        const groupElement = element.parentElement.getElementsByClassName(`giveaway__column--group`)[0];
+        const groupElement = element.parentElement.getElementsByClassName('giveaway__column--group')[0];
         if (groupElement) {
           groupGiveaways.push(groupElement.getAttribute('href').match(/\/giveaway\/(.+?)\//)[1]);
         } else {
-          data.wl_ga = element.closest(`.giveaway__summary`).getElementsByClassName('giveaway__heading__name')[0].getAttribute('href').match(/\/giveaway\/(.+?)\//)[1];
+          data.wl_ga = element.closest('.giveaway__summary').getElementsByClassName('giveaway__heading__name')[0].getAttribute('href').match(/\/giveaway\/(.+?)\//)[1];
         }
         if (data.wl_ga) {
           await this.wbc_checkGiveaway(data, obj, username);
@@ -964,7 +964,7 @@ class UsersWhitelistBlacklistChecker extends Module {
       nextPage += 1;
       pagination = context.getElementsByClassName('pagination__navigation')[0];
       obj.autoSkip = gSettings.wbc_skipUsers && nextPage > gSettings.wbc_pages;
-    } while (!obj.Canceled && !obj.manualSkip && !obj.autoSkip && (obj.Timestamp >= data.timestamp || obj.Timestamp === 0) && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
+    } while (!obj.Canceled && !obj.manualSkip && !obj.autoSkip && (obj.Timestamp >= data.timestamp || obj.Timestamp === 0) && pagination && !pagination.lastElementChild.classList.contains('is-selected'));
 
     if (isStopped || (!data.ga && !data.wl_ga && !data.g_wl_ga)) {
       data.lastCheck = Date.now();
@@ -979,7 +979,7 @@ class UsersWhitelistBlacklistChecker extends Module {
       const groupGiveaway = groupGiveaways[i];
       createElements(obj.Progress, 'inner', [{
         attributes: {
-          class: `fa fa-circle-o-notch`
+          class: 'fa fa-circle-o-notch'
         },
         type: 'i'
       }, {
@@ -1029,7 +1029,7 @@ class UsersWhitelistBlacklistChecker extends Module {
         }
       }
       const pagination = context.getElementsByClassName('pagination__navigation')[0];
-      if (pagination && !pagination.lastElementChild.classList.contains(`is-selected`)) {
+      if (pagination && !pagination.lastElementChild.classList.contains('is-selected')) {
         url = `${response.finalUrl}/search?page=`;
       } else {
         return false;
@@ -1048,7 +1048,7 @@ class UsersWhitelistBlacklistChecker extends Module {
       }
       createElements(WBC.Progress, 'inner', [{
         attributes: {
-          class: `fa fa-circle-o-notch fa-spin`
+          class: 'fa fa-circle-o-notch fa-spin'
         },
         type: 'i'
       }, {
@@ -1060,13 +1060,13 @@ class UsersWhitelistBlacklistChecker extends Module {
         Match = Matches[I].getAttribute('href').match(/\/user\/(.+)/);
         if (Match) {
           Username = Match[1];
-          if ((WBC.Users.indexOf(Username) < 0) && (Username !== WBC.Username) && (Username === Matches[I].textContent) && !Matches[I].closest(`.markdown`)) {
+          if ((WBC.Users.indexOf(Username) < 0) && (Username !== WBC.Username) && (Username === Matches[I].textContent) && !Matches[I].closest('.markdown')) {
             WBC.Users.push(Username);
           }
         }
       }
       Pagination = Context.getElementsByClassName('pagination__navigation')[0];
-      if (Pagination && !Pagination.lastElementChild.classList.contains(`is-selected`)) {
+      if (Pagination && !Pagination.lastElementChild.classList.contains('is-selected')) {
         window.setTimeout(() => this.wbc_getUsers(WBC, NextPage, CurrentPage, URL, Callback), 0);
       } else {
         Callback();

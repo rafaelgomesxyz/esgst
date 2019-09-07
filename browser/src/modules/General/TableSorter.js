@@ -16,17 +16,17 @@ class GeneralTableSorter extends Module {
         ['ul', [
           ['li', [
             `Adds a button (`,
-            ['i', { class: `fa fa-sort` }],
+            ['i', { class: 'fa fa-sort' }],
             ` if the table is sorted by the default order, `,
-            ['i', { class: `fa fa-sort-asc` }],
-            ` if it is sorted by ascending order and `,
-            ['i', { class: `fa fa-sort-desc` }],
+            ['i', { class: 'fa fa-sort-asc' }],
+            ' if it is sorted by ascending order and ',
+            ['i', { class: 'fa fa-sort-desc' }],
             ` if it is sorted by descending order) to the heading of each table's column (in any page) that allows you to sort the table by the values of the column.`
           ]]
         ]]
       ],
       id: 'ts',
-      name: `Table Sorter`,
+      name: 'Table Sorter',
       sg: true,
       st: true,
       type: 'general',
@@ -37,7 +37,7 @@ class GeneralTableSorter extends Module {
   }
 
   ts_getTables(context, main, source, endless) {
-    const tables = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .table, .esgst-es-page-${endless}.table` : `.table`}, ${endless ? `.esgst-es-page-${endless} table, .esgst-es-page-${endless}table` : 'table'}`);
+    const tables = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .table, .esgst-es-page-${endless}.table` : '.table'}, ${endless ? `.esgst-es-page-${endless} table, .esgst-es-page-${endless}table` : 'table'}`);
     for (let i = 0, n = tables.length; i < n; ++i) {
       this.ts_setTable(tables[i]);
     }
@@ -72,10 +72,10 @@ class GeneralTableSorter extends Module {
     for (let i = 0, n = columns.length; i < n; ++i) {
       let column = columns[i];
       columnName = column.textContent.trim();
-      if (!columnName.match(/^(Keys|Key|Not\sReceived|Remove)$/) && (!this.esgst.wonPath || !columnName.match(/^Received$/)) && !column.getElementsByClassName(`esgst-ts-button`)[0]) {
+      if (!columnName.match(/^(Keys|Key|Not\sReceived|Remove)$/) && (!this.esgst.wonPath || !columnName.match(/^Received$/)) && !column.getElementsByClassName('esgst-ts-button')[0]) {
         button = createElements(column, 'beforeEnd', [{
           attributes: {
-            class: `esgst-ts-button esgst-clickable`
+            class: 'esgst-ts-button esgst-clickable'
           },
           type: 'span'
         }]);
@@ -87,8 +87,8 @@ class GeneralTableSorter extends Module {
   ts_addAscButton(button, columnName, i, table, tsTable) {
     createElements(button, 'inner', [{
       attributes: {
-        class: `fa fa-sort-desc`,
-        title: `${getFeatureTooltip('ts', `Currently sorted descending. Click to sort ascending.`)}`
+        class: 'fa fa-sort-desc',
+        title: `${getFeatureTooltip('ts', 'Currently sorted descending. Click to sort ascending.')}`
       },
       type: 'i'
     }]);
@@ -98,8 +98,8 @@ class GeneralTableSorter extends Module {
   ts_addDescButton(button, columnName, i, table, tsTable) {
     createElements(button, 'inner', [{
       attributes: {
-        class: `fa fa-sort`,
-        title: `${getFeatureTooltip('ts', `Currently sorted by default. Click to sort descending.`)}`
+        class: 'fa fa-sort',
+        title: `${getFeatureTooltip('ts', 'Currently sorted by default. Click to sort descending.')}`
       },
       type: 'i'
     }]);
@@ -109,8 +109,8 @@ class GeneralTableSorter extends Module {
   ts_addDefButton(button, columnName, i, table, tsTable) {
     createElements(button, 'inner', [{
       attributes: {
-        class: `fa fa-sort-asc`,
-        title: `${getFeatureTooltip('ts', `Currently sorted ascending. Click to sort by default.`)}`
+        class: 'fa fa-sort-asc',
+        title: `${getFeatureTooltip('ts', 'Currently sorted ascending. Click to sort by default.')}`
       },
       type: 'i'
     }]);
@@ -148,30 +148,30 @@ class GeneralTableSorter extends Module {
         sortIndex: 0,
         value: undefined
       };
-      if (row.hasAttribute(`data-sort-index`)) {
-        element.sortIndex = parseInt(row.getAttribute(`data-sort-index`));
+      if (row.hasAttribute('data-sort-index')) {
+        element.sortIndex = parseInt(row.getAttribute('data-sort-index'));
       } else {
         element.sortIndex = j;
-        row.setAttribute(`data-sort-index`, j);
+        row.setAttribute('data-sort-index', j);
       }
       if ((value && value.length > 0) || columnName === 'Trending') {
-        if (column.hasAttribute(`data-sort-value`)) {
-          element.value = parseFloat(column.getAttribute(`data-sort-value`));
+        if (column.hasAttribute('data-sort-value')) {
+          element.value = parseFloat(column.getAttribute('data-sort-value'));
         } else {
           switch (columnName) {
             case 'Trending':
-              element.value = column.getElementsByClassName(`fa-caret-up`).length - column.getElementsByClassName(`fa-caret-down`).length;
+              element.value = column.getElementsByClassName('fa-caret-up').length - column.getElementsByClassName('fa-caret-down').length;
               break;
             case 'Added':
-            case `Creation Date`:
-            case `Date Entered`:
-            case `First Giveaway`:
-            case `Last Giveaway`:
-            case `Last Online`:
-            case `Last Post`:
-            case `Last Update`:
+            case 'Creation Date':
+            case 'Date Entered':
+            case 'First Giveaway':
+            case 'Last Giveaway':
+            case 'Last Online':
+            case 'Last Post':
+            case 'Last Update':
               try {
-                element.value = value.match(/Online|Open/) ? Date.now() : parseInt(column.querySelector(`[data-timestamp]`).getAttribute(`data-timestamp`)) * 1e3;
+                element.value = value.match(/Online|Open/) ? Date.now() : parseInt(column.querySelector(`[data-timestamp]`).getAttribute('data-timestamp')) * 1e3;
               } catch (e) {
                 element.value = 0;
               }

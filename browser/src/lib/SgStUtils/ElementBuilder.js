@@ -140,7 +140,7 @@ class SgNotification extends ElementBuilder {
     this.createElements(options.context, options.position, [
       ['div', { ref: ref => this.notification = ref }, [
         ['i', { ref: ref => this.icon = ref }],
-        ` `,
+        ' ',
         ['span', { ref: ref => this.message = ref }]
       ]]
     ]);
@@ -154,7 +154,7 @@ class SgNotification extends ElementBuilder {
   }
 
   setIcons(icons) {
-    this.icon.className = `fa fa-fw ${icons.join(` `)}`;
+    this.icon.className = `fa fa-fw ${icons.join(' ')}`;
   }
 
   setMessage(text) {
@@ -194,7 +194,7 @@ class PageHeading extends ElementBuilder {
         typeof breadcrumb === 'string' || Array.isArray(breadcrumb)
           ? ['span', breadcrumb]
           : ['a', { href: breadcrumb.url }, breadcrumb.name],
-        ['i', { class: `fa fa-angle-right` }]
+        ['i', { class: 'fa fa-angle-right' }]
       );
     }
     this.createElements(this.breadcrumbs, 'inner', items.slice(0, -1));
@@ -211,7 +211,7 @@ class PageHeading extends ElementBuilder {
     for (const icon of options.icons) {
       icons.push(
         ['i', { class: `fa ${icon}`, style: `margin: 0` }],
-        ` `
+        ' '
       );
     }
     return this.createElements(this.pageHeading, options.position, [

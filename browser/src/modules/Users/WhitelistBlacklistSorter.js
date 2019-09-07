@@ -24,9 +24,9 @@ class UsersWhitelistBlacklistSorter extends Module {
         ['ul', [
           ['li', [
             `Adds 2 buttons (`,
-            ['i', { class: `fa fa-sort-amount-asc` }],
-            ` to sort in ascending order and `,
-            ['i', { class: `fa fa-sort-amount-desc` }],
+            ['i', { class: 'fa fa-sort-amount-asc' }],
+            ' to sort in ascending order and ',
+            ['i', { class: 'fa fa-sort-amount-desc' }],
             ` to sort in descending order) to the main page heading of your `,
             ['a', { href: `https://www.steamgifts.com/account/manage/whitelist` }, 'whitelist'],
             `/`,
@@ -52,7 +52,7 @@ class UsersWhitelistBlacklistSorter extends Module {
     // add ascending button
     let object = {
       dateKey,
-      icon: `fa-sort-amount-asc`,
+      icon: 'fa-sort-amount-asc',
       key: mainKey,
       saveKey,
       title: `Oldest to newest ${saveKey} users:`
@@ -60,14 +60,14 @@ class UsersWhitelistBlacklistSorter extends Module {
     createHeadingButton({
       featureId: 'wbs',
       id: 'wbsAsc',
-      icons: [`fa-sort-amount-asc`],
-      title: `Sort by added date from oldest to newest`
+      icons: ['fa-sort-amount-asc'],
+      title: 'Sort by added date from oldest to newest'
     }).addEventListener('click', this.wbs_sort.bind(this, object));
 
     // add descending button
     object = {
       dateKey,
-      icon: `fa-sort-amount-desc`,
+      icon: 'fa-sort-amount-desc',
       isDescending: true,
       key: mainKey,
       saveKey,
@@ -76,8 +76,8 @@ class UsersWhitelistBlacklistSorter extends Module {
     createHeadingButton({
       featureId: 'wbs',
       id: 'wbsDesc',
-      icons: [`fa-sort-amount-desc`],
-      title: `Sort by added date from newest to oldest`
+      icons: ['fa-sort-amount-desc'],
+      title: 'Sort by added date from newest to oldest'
     }).addEventListener('click', this.wbs_sort.bind(this, object));
   }
 
@@ -95,10 +95,10 @@ class UsersWhitelistBlacklistSorter extends Module {
     users = sortArray(users, obj.isDescending, obj.dateKey);
 
     let popup = new Popup({ addScrollable: true, icon: obj.icon, isTemp: true, title: obj.title });
-    popup.popup.classList.add(`esgst-wbs-popup`);
+    popup.popup.classList.add('esgst-wbs-popup');
     let table = createElements(popup.scrollable, 'beforeEnd', [{
       attributes: {
-        class: `esgst-text-left table`
+        class: 'esgst-text-left table'
       },
       type: 'div',
       children: [{
@@ -108,19 +108,19 @@ class UsersWhitelistBlacklistSorter extends Module {
         type: 'div',
         children: [{
           attributes: {
-            class: `table__column--width-fill`
+            class: 'table__column--width-fill'
           },
           text: 'User',
           type: 'div'
         }, {
           attributes: {
-            class: `table__column--width-small text-center`
+            class: 'table__column--width-small text-center'
           },
           text: 'Added',
           type: 'div'
         }, {
           attributes: {
-            class: `table__column--width-small text-center`
+            class: 'table__column--width-small text-center'
           },
           text: 'Remove',
           type: 'div'
@@ -136,17 +136,17 @@ class UsersWhitelistBlacklistSorter extends Module {
     users.forEach(user => {
       let row = createElements(rows, 'beforeEnd', [{
         attributes: {
-          class: `table__row-outer-wrap`
+          class: 'table__row-outer-wrap'
         },
         type: 'div',
         children: [{
           attributes: {
-            class: `table__row-inner-wrap`
+            class: 'table__row-inner-wrap'
           },
           type: 'div',
           children: [{
             attributes: {
-              class: `table__column--width-fill`
+              class: 'table__column--width-fill'
             },
             type: 'div',
             children: [{
@@ -159,58 +159,58 @@ class UsersWhitelistBlacklistSorter extends Module {
             }]
           }, {
             attributes: {
-              class: `table__column--width-small text-center`
+              class: 'table__column--width-small text-center'
             },
             text: getTimestamp(user[obj.dateKey]),
             type: 'div'
           }, {
             attributes: {
-              class: `table__column--width-small text-center`
+              class: 'table__column--width-small text-center'
             },
             type: 'div',
             children: [{
               attributes: {
-                class: `table__remove-default esgst-clickable`
+                class: 'table__remove-default esgst-clickable'
               },
               type: 'div',
               children: [{
                 attributes: {
-                  class: `icon-red fa fa-times-circle`
+                  class: 'icon-red fa fa-times-circle'
                 },
                 type: 'i'
               }, {
                 attributes: {
-                  class: `table__column__secondary-link`
+                  class: 'table__column__secondary-link'
                 },
                 text: 'Remove',
                 type: 'span'
               }]
             }, {
               attributes: {
-                class: `table__remove-loading esgst-hidden`
+                class: 'table__remove-loading esgst-hidden'
               },
               type: 'div',
               children: [{
                 attributes: {
-                  class: `fa fa-refresh fa-spin`
+                  class: 'fa fa-refresh fa-spin'
                 },
                 type: 'i'
               }, {
-                text: ` Removing`,
+                text: ' Removing',
                 type: 'node'
               }]
             }, {
               attributes: {
-                class: `table__remove-complete esgst-hidden`
+                class: 'table__remove-complete esgst-hidden'
               },
               type: 'div',
               children: [{
                 attributes: {
-                  class: `fa fa-times-circle`
+                  class: 'fa fa-times-circle'
                 },
                 type: 'i'
               }, {
-                text: ` Removed`,
+                text: ' Removed',
                 type: 'node'
               }]
             }]
@@ -233,8 +233,8 @@ class UsersWhitelistBlacklistSorter extends Module {
   }
 
   async wbs_removeMember(obj) {
-    obj.removeButton.classList.add(`esgst-hidden`);
-    obj.removingButton.classList.remove(`esgst-hidden`);
+    obj.removeButton.classList.add('esgst-hidden');
+    obj.removingButton.classList.remove('esgst-hidden');
     await request({
       data: `xsrf_token=${shared.esgst.xsrfToken}&do=${obj.key}&action=delete&child_user_id=${obj.user.id}`,
       method: 'POST',
@@ -246,8 +246,8 @@ class UsersWhitelistBlacklistSorter extends Module {
     delete savedUsers.users[obj.user.steamId][obj.saveKey];
     await setValue('users', JSON.stringify(savedUsers));
     deleteLock();
-    obj.removingButton.classList.add(`esgst-hidden`);
-    obj.removedButton.classList.remove(`esgst-hidden`);
+    obj.removingButton.classList.add('esgst-hidden');
+    obj.removedButton.classList.remove('esgst-hidden');
   }
 }
 

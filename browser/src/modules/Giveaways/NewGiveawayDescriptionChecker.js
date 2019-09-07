@@ -12,7 +12,7 @@ class GiveawaysNewGiveawayDescriptionChecker extends Module {
         ]]
       ],
       id: 'ngdc',
-      name: `New Giveaway Description Checker`,
+      name: 'New Giveaway Description Checker',
       sg: true,
       type: 'giveaways'
     };
@@ -23,19 +23,19 @@ class GiveawaysNewGiveawayDescriptionChecker extends Module {
       return;
     }
 
-    const reviewButton = document.querySelector(`.js__submit-form`);
+    const reviewButton = document.querySelector('.js__submit-form');
     const textArea = document.querySelector(`[name=description]`);
 
     if (!reviewButton || !textArea) {
       return;
     }
 
-    reviewButton.classList.remove(`js__submit-form`);
+    reviewButton.classList.remove('js__submit-form');
 
     const newReviewButton = reviewButton.cloneNode(true);
     reviewButton.parentElement.insertBefore(newReviewButton, reviewButton);
     reviewButton.remove();
-    newReviewButton.setAttribute(`data-esgst`, 'reviewButton');
+    newReviewButton.setAttribute('data-esgst', 'reviewButton');
 
     newReviewButton.addEventListener('click', async () => {
       if (await this.check(textArea.value)) {
@@ -43,7 +43,7 @@ class GiveawaysNewGiveawayDescriptionChecker extends Module {
       }
 
       const form = newReviewButton.closest('form');
-      if (newReviewButton.classList.contains(`js__edit-giveaway`)) {
+      if (newReviewButton.classList.contains('js__edit-giveaway')) {
         form.querySelector(`[name=next_step]`).value = 1;
       }
       form.submit();
@@ -55,9 +55,9 @@ class GiveawaysNewGiveawayDescriptionChecker extends Module {
       let message;
 
       if (value.match(/[\d\w]{5}(-[\d\w]{5}){2,}/)) {
-        message = `There appears to be a Steam key in the description of the giveaway.`;
+        message = 'There appears to be a Steam key in the description of the giveaway.';
       } else if (value.match(/https?:\/\/(www\.)?humblebundle\.com\/gift/)) {
-        message = `There appears to be a Humble Bundle gift link in the description of the giveaway.`;
+        message = 'There appears to be a Humble Bundle gift link in the description of the giveaway.';
       }
 
       if (message) {

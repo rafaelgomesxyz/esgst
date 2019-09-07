@@ -15,7 +15,7 @@ class UsersProfileLinks extends Module {
       description: [
         ['ul', [
           ['li', [
-            `Allows you to add links to your `,
+            'Allows you to add links to your ',
             ['a', { href: `https://www.steamgifts.com/account/manage/whitelist` }, 'whitelist'],
             `/`,
             ['a', { href: `https://www.steamgifts.com/account/manage/blacklist` }, 'blacklist'],
@@ -25,37 +25,37 @@ class UsersProfileLinks extends Module {
             ['a', { href: `https://www.steamgifts.com/account/steam/groups` }, 'groups'],
             `/`,
             ['a', { href: `https://www.steamgifts.com/account/steam/wishlist` }, 'wishlist'],
-            ` pages to the sidebar of your `,
+            ' pages to the sidebar of your ',
             ['a', { href: `https://www.steamgifts.com/user/your-username` }, 'profile'],
-            ` page.`
+            ' page.'
           ]],
           ['li', `The count for each link might be off if you do not have your whitelist/blacklist/owned games/groups/wishlisted games synced through ESGST (first button in the page heading of this menu). The count for games might be always off, since the method ESGST uses to sync your owned games includes DLCs.`]
         ]]
       ],
       features: {
         pl_w: {
-          name: `Show whitelist link.`,
+          name: 'Show whitelist link.',
           sg: true
         },
         pl_b: {
-          name: `Show blacklist link.`,
+          name: 'Show blacklist link.',
           sg: true
         },
         pl_g: {
-          name: `Show games link.`,
+          name: 'Show games link.',
           sg: true
         },
         pl_gs: {
-          name: `Show groups link.`,
+          name: 'Show groups link.',
           sg: true
         },
         pl_wl: {
-          name: `Show wishlist link.`,
+          name: 'Show wishlist link.',
           sg: true
         }
       },
       id: 'pl',
-      name: `Profile Links`,
+      name: 'Profile Links',
       sg: true,
       type: 'users'
     };

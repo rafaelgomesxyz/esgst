@@ -12,8 +12,8 @@ class GeneralCakeDayReminder extends Module {
     this.info = {
       description: [
         ['ul', [
-          ['li', `Shows a popup reminding you of your cake day on SteamGifts.`],
-          ['li', `You can set it to remind you a specified number of days before your cake day.`]
+          ['li', 'Shows a popup reminding you of your cake day on SteamGifts.'],
+          ['li', 'You can set it to remind you a specified number of days before your cake day.']
         ]]
       ],
       features: {
@@ -24,11 +24,11 @@ class GeneralCakeDayReminder extends Module {
               prefix: `Days: `
             }
           ],
-          name: `Remind you a specified number of days before your cake day.`,
+          name: 'Remind you a specified number of days before your cake day.',
           sg: true
         },
         cdr_d: {
-          name: `Remind you on your cake day.`,
+          name: 'Remind you on your cake day.',
           sg: true
         },
         cdr_a: {
@@ -38,12 +38,12 @@ class GeneralCakeDayReminder extends Module {
               prefix: `Days: `
             }
           ],
-          name: `Remind you a specified number of days after your cake day.`,
+          name: 'Remind you a specified number of days after your cake day.',
           sg: true
         },
       },
       id: 'cdr',
-      name: `Cake Day Reminder`,
+      name: 'Cake Day Reminder',
       sg: true,
       type: 'general'
     };
@@ -88,7 +88,7 @@ class GeneralCakeDayReminder extends Module {
 
       const popup = new Popup({
         addScrollable: true,
-        icon: `fa-birthday-cake`,
+        icon: 'fa-birthday-cake',
         isTemp: true,
         title: `ESGST reminder about cake days:`
       });
@@ -103,7 +103,7 @@ class GeneralCakeDayReminder extends Module {
       return;
     }
 
-    const className = steamId === gSettings.steamId ? `esgst-cdr-highlight` : ``;
+    const className = steamId === gSettings.steamId ? 'esgst-cdr-highlight' : ``;
 
     const registrationDate = new Date(user.registrationDate * 1e3);
     registrationDate.setFullYear(cdrObj.currentYear);
@@ -123,7 +123,7 @@ class GeneralCakeDayReminder extends Module {
         { size: 'fill', value: [
           className
             ? ['span', { class: className }, 'YOU']
-            : ['a', { class: `table__column__secondary-link`, href: `/user/${user.username}` }, user.username]
+            : ['a', { class: 'table__column__secondary-link', href: `/user/${user.username}` }, user.username]
         ]},
         { size: 'fill', value: [
           ['span', { class: className }, `In ${Math.floor((registrationTime - cdrObj.currentTime) / 86400000)} days`]
@@ -139,7 +139,7 @@ class GeneralCakeDayReminder extends Module {
         { size: 'fill', value: [
           className
             ? ['span', { class: className }, 'YOU']
-            : ['a', { class: `table__column__secondary-link`, href: `/user/${user.username}` }, user.username]
+            : ['a', { class: 'table__column__secondary-link', href: `/user/${user.username}` }, user.username]
         ]},
         { size: 'fill', value: [
           ['span', { class: className }, `Today! Happy cake day!`]
@@ -155,7 +155,7 @@ class GeneralCakeDayReminder extends Module {
         { size: 'fill', value: [
           className
             ? ['span', { class: className }, 'YOU']
-            : ['a', { class: `table__column__secondary-link`, href: `/user/${user.username}` }, user.username]
+            : ['a', { class: 'table__column__secondary-link', href: `/user/${user.username}` }, user.username]
         ]},
         { size: 'fill', value: [
           ['span', { class: className }, `${Math.floor((cdrObj.currentTime - registrationTime) / 86400000)} days ago`]
@@ -171,14 +171,14 @@ class GeneralCakeDayReminder extends Module {
 
     const button = shared.common.createElements_v2(profile.heading, 'beforeEnd', [
       ['a', { title: shared.common.getFeatureTooltip('cdr', `Get notified about ${profile.username}'s cake day`) }, [
-        ['i', { class: `fa fa-gift` }]
+        ['i', { class: 'fa fa-gift' }]
       ]]
     ]);
 
     button.addEventListener('click', async () => {
       const popup = new Popup({
         addScrollable: true,
-        icon: `fa-gift`,
+        icon: 'fa-gift',
         isTemp: true,
         title: `Get notified about ${profile.username}'s cake day:`
       });
@@ -203,15 +203,15 @@ class GeneralCakeDayReminder extends Module {
       }
 
       const bSwitch = new ToggleSwitch(null, null, false, [
-        `Notify `,
-        ['input', { class: `esgst-switch-input`, onchange: event => user.values.cdr.bDays = parseFloat(event.currentTarget.value), type: 'number', value: user.values.cdr.bDays }],
-        ` days before their cake day.`
+        'Notify ',
+        ['input', { class: 'esgst-switch-input', onchange: event => user.values.cdr.bDays = parseFloat(event.currentTarget.value), type: 'number', value: user.values.cdr.bDays }],
+        ' days before their cake day.'
       ], false, false, null, user.values.cdr.b);
-      const dSwitch = new ToggleSwitch(null, null, false, `Notify on their cake day.`, false, false, null, user.values.cdr_d);
+      const dSwitch = new ToggleSwitch(null, null, false, 'Notify on their cake day.', false, false, null, user.values.cdr_d);
       const aSwitch = new ToggleSwitch(null, null, false, [
-        `Notify `,
-        ['input', { class: `esgst-switch-input`, onchange: event => user.values.cdr.aDays = parseFloat(event.currentTarget.value), type: 'number', value: user.values.cdr.aDays }],
-        ` days after their cake day.`
+        'Notify ',
+        ['input', { class: 'esgst-switch-input', onchange: event => user.values.cdr.aDays = parseFloat(event.currentTarget.value), type: 'number', value: user.values.cdr.aDays }],
+        ' days after their cake day.'
       ], false, false, null, user.values.cdr.b);
 
       bSwitch.onChange = value => user.values.cdr.b = value;
@@ -225,10 +225,10 @@ class GeneralCakeDayReminder extends Module {
       popup.description.appendChild(new ButtonSet({
         color1: 'green',
         color2: 'grey',
-        icon1: `fa-check`,
-        icon2: `fa-circle-o-notch fa-spin`,
+        icon1: 'fa-check',
+        icon2: 'fa-circle-o-notch fa-spin',
         title1: 'Save',
-        title2: `Saving...`,
+        title2: 'Saving...',
         callback1: async () => {
           if (user.values.cdr.b || user.values.cdr.d || user.values.cdr.a) {
             user.values.registrationDate = profile.registrationDate;

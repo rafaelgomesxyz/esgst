@@ -6,11 +6,11 @@ class GeneralFixedHeader extends Module {
     this.info = {
       description: [
         ['ul', [
-          ['li', `Keeps the header of any page at the top of the window while you scroll down the page.`]
+          ['li', 'Keeps the header of any page at the top of the window while you scroll down the page.']
         ]]
       ],
       id: 'fh',
-      name: `Fixed Header`,
+      name: 'Fixed Header',
       sg: true,
       st: true,
       type: 'general'
@@ -22,7 +22,7 @@ class GeneralFixedHeader extends Module {
       return;
     }
 
-    this.esgst.header.classList.add(`esgst-fh`);
+    this.esgst.header.classList.add('esgst-fh');
   }
 }
 

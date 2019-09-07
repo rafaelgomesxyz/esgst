@@ -20,14 +20,14 @@ function getDataMenu(option, switches, type) {
   switches[option.key] = toggleSwitch = new ToggleSwitch(menu, `${type}_${option.key}`, false, option.name, false, false, null, gSettings[`${type}_${option.key}`]);
   switches[option.key].size = shared.common.createElements(switches[option.key].name, 'beforeEnd', [{
     attributes: {
-      class: `esgst-bold`
+      class: 'esgst-bold'
     },
     type: 'span'
   }]);
   if (option.name === 'Main') {
     shared.common.createElements(switches[option.key].name, 'beforeEnd', [{
       attributes: {
-        class: `fa fa-question-circle`,
+        class: 'fa fa-question-circle',
         title: `Main data is the data that is needed by other sub-options. Because of that dependency, when deleting main data not all data may be deleted, but if you delete another sub-option first and then delete main data, all data that was required exclusively by that sub-option will be deleted.`
       },
       type: 'i'
@@ -36,7 +36,7 @@ function getDataMenu(option, switches, type) {
   if (option.options) {
     options = shared.common.createElements(menu, 'beforeEnd', [{
       attributes: {
-        class: `esgst-form-row-indent SMFeatures esgst-hidden`
+        class: 'esgst-form-row-indent SMFeatures esgst-hidden'
       },
       type: 'div'
     }]);
@@ -44,7 +44,7 @@ function getDataMenu(option, switches, type) {
     if (option.options.length > 1) {
       const group = shared.common.createElements(options, 'beforeEnd', [{
         attributes: {
-          class: `esgst-button-group`
+          class: 'esgst-button-group'
         },
         type: 'div',
         children: [{
@@ -55,8 +55,8 @@ function getDataMenu(option, switches, type) {
       group.appendChild(new ButtonSet({
         color1: 'grey',
         color2: 'grey',
-        icon1: `fa-square`,
-        icon2: `fa-circle-o-notch fa-spin`,
+        icon1: 'fa-square',
+        icon2: 'fa-circle-o-notch fa-spin',
         title1: 'All',
         title2: ``,
         callback1: shared.common.selectSwitches.bind(shared.common, optionSwitches, 'enable', group)
@@ -64,8 +64,8 @@ function getDataMenu(option, switches, type) {
       group.appendChild(new ButtonSet({
         color1: 'grey',
         color2: 'grey',
-        icon1: `fa-square-o`,
-        icon2: `fa-circle-o-notch fa-spin`,
+        icon1: 'fa-square-o',
+        icon2: 'fa-circle-o-notch fa-spin',
         title1: 'None',
         title2: ``,
         callback1: shared.common.selectSwitches.bind(shared.common, optionSwitches, 'disable', group)
@@ -73,8 +73,8 @@ function getDataMenu(option, switches, type) {
       group.appendChild(new ButtonSet({
         color1: 'grey',
         color2: 'grey',
-        icon1: `fa-plus-square-o`,
-        icon2: `fa-circle-o-notch fa-spin`,
+        icon1: 'fa-plus-square-o',
+        icon2: 'fa-circle-o-notch fa-spin',
         title1: 'Inverse',
         title2: ``,
         callback1: shared.common.selectSwitches.bind(shared.common, optionSwitches, 'toggle', group)
@@ -87,17 +87,17 @@ function getDataMenu(option, switches, type) {
       toggleSwitch.dependencies.push(m);
     }
     if (gSettings[`${type}_${option.key}`]) {
-      options.classList.remove(`esgst-hidden`);
+      options.classList.remove('esgst-hidden');
     }
   }
   toggleSwitch.onEnabled = () => {
     if (options) {
-      options.classList.remove(`esgst-hidden`);
+      options.classList.remove('esgst-hidden');
     }
   };
   toggleSwitch.onDisabled = () => {
     if (options) {
-      options.classList.add(`esgst-hidden`);
+      options.classList.add('esgst-hidden');
     }
   };
   return menu;
@@ -106,8 +106,8 @@ function getDataMenu(option, switches, type) {
 function getDataSizes(dm) {
   let spacePopup = new Popup({
     addScrollable: true,
-    icon: `fa-circle-o-notch fa-spin`,
-    title: `Calculating data sizes...`
+    icon: 'fa-circle-o-notch fa-spin',
+    title: 'Calculating data sizes...'
   });
   spacePopup.open(manageData.bind(null, dm, false, false, false, spacePopup));
 }
@@ -176,8 +176,8 @@ function loadDataManagement(type, isPopup, callback) {
       onClick = manageData.bind(null);
       prep = 'to';
       title1 = 'Backup';
-      title2 = `Backing up`;
-      dm.pastTense = `backed up`;
+      title2 = 'Backing up';
+      dm.pastTense = 'backed up';
       break;
     case 'delete':
       onClick = confirmDataDeletion.bind(null);
@@ -199,10 +199,10 @@ function loadDataManagement(type, isPopup, callback) {
       context = popup.scrollable;
     } else {
       context = containerr = shared.esgst.sidebar.nextElementSibling;
-      context.setAttribute(`data-esgst-popup`, 'true');
+      context.setAttribute('data-esgst-popup', 'true');
       context.innerHTML = ``;
     }
-    containerr.classList.add(`esgst-text-left`);
+    containerr.classList.add('esgst-text-left');
     const heading = new elementBuilder[shared.esgst.name].pageHeading({
       context: containerr,
       position: 'afterBegin',
@@ -227,12 +227,12 @@ function loadDataManagement(type, isPopup, callback) {
         type: 'node'
       }, {
         attributes: {
-          class: `esgst-bold`
+          class: 'esgst-bold'
         },
         type: 'span'
       }, {
         attributes: {
-          class: `esgst-clickable fa fa-refresh`,
+          class: 'esgst-clickable fa fa-refresh',
           title: `Calculate/refresh data sizes`
         },
         type: 'i'
@@ -247,7 +247,7 @@ function loadDataManagement(type, isPopup, callback) {
     {
       check: true,
       key: 'decryptedGiveaways',
-      name: `Decrypted Giveaways`
+      name: 'Decrypted Giveaways'
     },
     {
       check: true,
@@ -260,19 +260,19 @@ function loadDataManagement(type, isPopup, callback) {
         },
         {
           key: 'discussions_ct',
-          name: `Comment Tracker`
+          name: 'Comment Tracker'
         },
         {
           key: 'discussions_df',
-          name: `Discussion Filters`
+          name: 'Discussion Filters'
         },
         {
           key: 'discussions_dh',
-          name: `Discussion Highlighter`
+          name: 'Discussion Highlighter'
         },
         {
           key: 'discussions_dt',
-          name: `Discussion Tags`
+          name: 'Discussion Tags'
         },
         {
           key: 'discussions_gdttt',
@@ -280,11 +280,11 @@ function loadDataManagement(type, isPopup, callback) {
         },
         {
           key: 'discussions_tds',
-          name: `Thread Subscription`
+          name: 'Thread Subscription'
         },
         {
           key: 'discussions_pm',
-          name: `Puzzle Marker`
+          name: 'Puzzle Marker'
         }
       ]
     },
@@ -309,15 +309,15 @@ function loadDataManagement(type, isPopup, callback) {
         },
         {
           key: 'games_egh',
-          name: `Entered Game Highlighter`
+          name: 'Entered Game Highlighter'
         },
         {
           key: 'games_gt',
-          name: `Game Tags`
+          name: 'Game Tags'
         },
         {
           key: 'games_itadi',
-          name: `IsThereAnyDeal Info`
+          name: 'IsThereAnyDeal Info'
         }
       ]
     },
@@ -332,11 +332,11 @@ function loadDataManagement(type, isPopup, callback) {
         },
         {
           key: 'giveaways_ct',
-          name: `Comment Tracker`
+          name: 'Comment Tracker'
         },
         {
           key: 'giveaways_gb',
-          name: `Giveaway Bookmarks`
+          name: 'Giveaway Bookmarks'
         },
         {
           key: 'giveaways_gdttt',
@@ -344,11 +344,11 @@ function loadDataManagement(type, isPopup, callback) {
         },
         {
           key: 'giveaways_gf',
-          name: `Giveaway Filters`
+          name: 'Giveaway Filters'
         },
         {
           key: 'giveaways_ggl',
-          name: `Giveaway Group Loader`
+          name: 'Giveaway Group Loader'
         }
       ]
     },
@@ -363,11 +363,11 @@ function loadDataManagement(type, isPopup, callback) {
         },
         {
           key: 'groups_gpt',
-          name: `Group Tags`
+          name: 'Group Tags'
         },
         {
           key: 'groups_sgg',
-          name: `Stickied Giveaway Groups`
+          name: 'Stickied Giveaway Groups'
         }
       ]
     },
@@ -379,7 +379,7 @@ function loadDataManagement(type, isPopup, callback) {
     {
       check: true,
       key: 'savedReplies',
-      name: `Saved Replies`
+      name: 'Saved Replies'
     },
     {
       check: true,
@@ -394,12 +394,12 @@ function loadDataManagement(type, isPopup, callback) {
     {
       check: true,
       key: 'sgCommentHistory',
-      name: `SG Comment History`
+      name: 'SG Comment History'
     },
     {
       check: true,
       key: 'stickiedCountries',
-      name: `Stickied Giveaway Countries`
+      name: 'Stickied Giveaway Countries'
     },
     {
       check: true,
@@ -422,7 +422,7 @@ function loadDataManagement(type, isPopup, callback) {
         },
         {
           key: 'tickets_ct',
-          name: `Comment Tracker`
+          name: 'Comment Tracker'
         },
         {
           key: 'tickets_gdttt',
@@ -430,7 +430,7 @@ function loadDataManagement(type, isPopup, callback) {
         },
         {
           key: 'tickets_ust',
-          name: `User Suspension Tracker`
+          name: 'User Suspension Tracker'
         }
       ]
     },
@@ -445,11 +445,11 @@ function loadDataManagement(type, isPopup, callback) {
         },
         {
           key: 'trades_ct',
-          name: `Comment Tracker`
+          name: 'Comment Tracker'
         },
         {
           key: 'trades_tf',
-          name: `Trade Filters`
+          name: 'Trade Filters'
         },
         {
           key: 'trades_gdttt',
@@ -457,7 +457,7 @@ function loadDataManagement(type, isPopup, callback) {
         },
         {
           key: 'trades_tds',
-          name: `Thread Subscription`
+          name: 'Thread Subscription'
         }
       ]
     },
@@ -472,7 +472,7 @@ function loadDataManagement(type, isPopup, callback) {
         },
         {
           key: 'users_cdr',
-          name: `Cake Day Reminder`
+          name: 'Cake Day Reminder'
         },
         {
           key: 'users_namwc',
@@ -480,23 +480,23 @@ function loadDataManagement(type, isPopup, callback) {
         },
         {
           key: 'users_nrf',
-          name: `Not Received Finder`
+          name: 'Not Received Finder'
         },
         {
           key: 'users_uf',
-          name: `User Filters`
+          name: 'User Filters'
         },
         {
           key: 'users_giveaways',
-          name: `Giveaways Data`
+          name: 'Giveaways Data'
         },
         {
           key: 'users_notes',
-          name: `User Notes`
+          name: 'User Notes'
         },
         {
           key: 'users_tags',
-          name: `User Tags`
+          name: 'User Tags'
         },
         {
           key: 'users_wbc',
@@ -546,17 +546,17 @@ function loadDataManagement(type, isPopup, callback) {
           },
           type: 'input'
         }]);
-        new ToggleSwitch(containerr, 'importAndMerge', false, 'Merge', false, false, `Merges the current data with the backup instead of replacing it.`, gSettings.importAndMerge);
+        new ToggleSwitch(containerr, 'importAndMerge', false, 'Merge', false, false, 'Merges the current data with the backup instead of replacing it.', gSettings.importAndMerge);
       }
       let select = new ToggleSwitch(containerr, 'exportBackup', false, [
-        `Backup to `,
+        'Backup to ',
         ['select', [
           ['option', 'Computer'],
           ['option', 'Dropbox'],
-          ['option', `Google Drive`],
+          ['option', 'Google Drive'],
           ['option', 'OneDrive']
         ]]
-      ], false, false, `Backs up the current data to one of the selected places before restoring another backup.`, gSettings.exportBackup).name.firstElementChild;
+      ], false, false, 'Backs up the current data to one of the selected places before restoring another backup.', gSettings.exportBackup).name.firstElementChild;
       select.selectedIndex = gSettings.exportBackupIndex;
       select.addEventListener('change', () => {
         // noinspection JSIgnoredPromiseFromCall
@@ -565,39 +565,39 @@ function loadDataManagement(type, isPopup, callback) {
     }
     if (type === 'export') {
       const input = new ToggleSwitch(containerr, 'deleteOldBackups', false, [
-        `Delete backups older than `,
-        ['input', { class: `esgst-switch-input`, type: 'number', value: gSettings.deleteOldBackups_days }],
-        ` days when backing up to the cloud.`
+        'Delete backups older than ',
+        ['input', { class: 'esgst-switch-input', type: 'number', value: gSettings.deleteOldBackups_days }],
+        ' days when backing up to the cloud.'
       ], false, false, ``, gSettings.deleteOldBackups).name.firstElementChild;
       shared.common.observeNumChange(input, 'deleteOldBackups_days', true);
     }
     if (type === 'import' || type === 'export') {
       shared.common.observeChange(new ToggleSwitch(containerr, 'usePreferredGoogle', false, [
         `Use preferred Google account: `,
-        ['input', { class: `esgst-switch-input esgst-switch-input-large`, placeholder: `example@gmail.com`, type: 'text' }],
-        ['span', { class: `esgst-bold esgst-clickable`, onclick: () => window.alert(gSettings.preferredGoogle || `No email address defined`) }, 'Reveal']
+        ['input', { class: 'esgst-switch-input esgst-switch-input-large', placeholder: `example@gmail.com`, type: 'text' }],
+        ['span', { class: 'esgst-bold esgst-clickable', onclick: () => window.alert(gSettings.preferredGoogle || 'No email address defined') }, 'Reveal']
       ], false, false, `With this option enabled, you will not be prompted to select an account when restoring/backing up to Google Drive. The account associated with the email address entered here will be automatically selected if you're already logged in. For security purposes, the email address will not be visible if you re-open the menu. After that, you have to click on "Reveal" to see it.`, gSettings.usePreferredGoogle).name.firstElementChild, 'preferredGoogle', true);
       shared.common.observeChange(new ToggleSwitch(containerr, 'usePreferredMicrosoft', false, [
         `Use preferred Microsoft account: `,
-        ['input', { class: `esgst-switch-input esgst-switch-input-large`, placeholder: `example@outlook.com`, type: 'text' }],
-        ['span', { class: `esgst-bold esgst-clickable`, onclick: () => window.alert(gSettings.preferredMicrosoft || `No email address defined`) }, 'Reveal']
+        ['input', { class: 'esgst-switch-input esgst-switch-input-large', placeholder: `example@outlook.com`, type: 'text' }],
+        ['span', { class: 'esgst-bold esgst-clickable', onclick: () => window.alert(gSettings.preferredMicrosoft || 'No email address defined') }, 'Reveal']
       ], false, false, `With this option enabled, you will not be prompted to select an account when restoring/backing up to OneDrive. The account associated with the email address entered here will be automatically selected if you're already logged in. For security purposes, the email address will not be visible if you re-open the menu. After that, you have to click on "Reveal" to see it.`, gSettings.usePreferredMicrosoft).name.firstElementChild, 'preferredMicrosoft', true);
     }
     dm.message = shared.common.createElements(containerr, 'beforeEnd', [{
       attributes: {
-        class: `esgst-description`
+        class: 'esgst-description'
       },
       type: 'div'
     }]);
     dm.warning = shared.common.createElements(containerr, 'beforeEnd', [{
       attributes: {
-        class: `esgst-description esgst-warning`
+        class: 'esgst-description esgst-warning'
       },
       type: 'div'
     }]);
     group1 = shared.common.createElements(containerr, 'beforeEnd', [{
       attributes: {
-        class: `esgst-button-group`
+        class: 'esgst-button-group'
       },
       type: 'div',
       children: [{
@@ -608,8 +608,8 @@ function loadDataManagement(type, isPopup, callback) {
     group1.appendChild(new ButtonSet({
       color1: 'grey',
       color2: 'grey',
-      icon1: `fa-square`,
-      icon2: `fa-circle-o-notch fa-spin`,
+      icon1: 'fa-square',
+      icon2: 'fa-circle-o-notch fa-spin',
       title1: 'All',
       title2: ``,
       callback1: shared.common.selectSwitches.bind(shared.common, dm.switches, 'enable', group1)
@@ -617,8 +617,8 @@ function loadDataManagement(type, isPopup, callback) {
     group1.appendChild(new ButtonSet({
       color1: 'grey',
       color2: 'grey',
-      icon1: `fa-square-o`,
-      icon2: `fa-circle-o-notch fa-spin`,
+      icon1: 'fa-square-o',
+      icon2: 'fa-circle-o-notch fa-spin',
       title1: 'None',
       title2: ``,
       callback1: shared.common.selectSwitches.bind(shared.common, dm.switches, 'disable', group1)
@@ -626,15 +626,15 @@ function loadDataManagement(type, isPopup, callback) {
     group1.appendChild(new ButtonSet({
       color1: 'grey',
       color2: 'grey',
-      icon1: `fa-plus-square-o`,
-      icon2: `fa-circle-o-notch fa-spin`,
+      icon1: 'fa-plus-square-o',
+      icon2: 'fa-circle-o-notch fa-spin',
       title1: 'Inverse',
       title2: ``,
       callback1: shared.common.selectSwitches.bind(shared.common, dm.switches, 'toggle', group1)
     }).set);
     group2 = shared.common.createElements(containerr, 'beforeEnd', [{
       attributes: {
-        class: `esgst-button-group`
+        class: 'esgst-button-group'
       },
       type: 'div',
       children: [{
@@ -645,8 +645,8 @@ function loadDataManagement(type, isPopup, callback) {
     const computerButton = new ButtonSet({
       color1: 'green',
       color2: 'grey',
-      icon1: `fa-desktop`,
-      icon2: `fa-circle-o-notch fa-spin`,
+      icon1: 'fa-desktop',
+      icon2: 'fa-circle-o-notch fa-spin',
       title1: 'Computer',
       title2: title2,
       callback1: () => {
@@ -689,8 +689,8 @@ function loadDataManagement(type, isPopup, callback) {
       dropboxButton = new ButtonSet({
         color1: 'green',
         color2: 'grey',
-        icon1: `fa-dropbox`,
-        icon2: `fa-circle-o-notch fa-spin`,
+        icon1: 'fa-dropbox',
+        icon2: 'fa-circle-o-notch fa-spin',
         title1: 'Dropbox',
         title2: title2,
         callback1: () => {
@@ -711,9 +711,9 @@ function loadDataManagement(type, isPopup, callback) {
       googleDriveButton = new ButtonSet({
         color1: 'green',
         color2: 'grey',
-        icon1: `fa-google`,
-        icon2: `fa-circle-o-notch fa-spin`,
-        title1: `Google Drive`,
+        icon1: 'fa-google',
+        icon2: 'fa-circle-o-notch fa-spin',
+        title1: 'Google Drive',
         title2: title2,
         callback1: () => {
           return new Promise(async resolve => {
@@ -733,8 +733,8 @@ function loadDataManagement(type, isPopup, callback) {
       oneDriveButton = new ButtonSet({
         color1: 'green',
         color2: 'grey',
-        icon1: `fa-windows`,
-        icon2: `fa-circle-o-notch fa-spin`,
+        icon1: 'fa-windows',
+        icon2: 'fa-circle-o-notch fa-spin',
         title1: 'OneDrive',
         title2: title2,
         callback1: () => {
@@ -797,7 +797,7 @@ function loadDataCleaner(isPopup) {
     containerr = shared.esgst.sidebar.nextElementSibling;
     containerr.innerHTML = ``;
     context = containerr;
-    context.setAttribute(`data-esgst-popup`, 'true');
+    context.setAttribute('data-esgst-popup', 'true');
   }
   const heading = new elementBuilder[shared.esgst.name].pageHeading({
     context: containerr,
@@ -815,56 +815,56 @@ function loadDataCleaner(isPopup) {
   }
   shared.common.createElements(context, 'beforeEnd', [{
     attributes: {
-      class: `esgst-bold esgst-description esgst-red`
+      class: 'esgst-bold esgst-description esgst-red'
     },
-    text: `Make sure to backup your data before using the cleaner.`,
+    text: 'Make sure to backup your data before using the cleaner.',
     type: 'div'
   }]);
   shared.common.observeNumChange(new ToggleSwitch(context, 'cleanDiscussions', false, [
-    `Discussions data older than `,
-    ['input', { class: `esgst-switch-input`, type: 'text', value: gSettings.cleanDiscussions_days }],
-    ` days.`
+    'Discussions data older than ',
+    ['input', { class: 'esgst-switch-input', type: 'text', value: gSettings.cleanDiscussions_days }],
+    ' days.'
   ], false, false, `Discussions data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, gSettings.cleanDiscussions).name.firstElementChild, 'cleanDiscussions_days', true);
   shared.common.observeNumChange(new ToggleSwitch(context, 'cleanEntries', false, [
-    `Entries data older than `,
-    ['input', { class: `esgst-switch-input`, type: 'text', value: gSettings.cleanEntries_days }],
-    ` days.`
+    'Entries data older than ',
+    ['input', { class: 'esgst-switch-input', type: 'text', value: gSettings.cleanEntries_days }],
+    ' days.'
   ], false, false, ``, gSettings.cleanEntries).name.firstElementChild, 'cleanEntries_days', true);
   shared.common.observeNumChange(new ToggleSwitch(context, 'cleanGiveaways', false, [
-    `Giveaways data older than `,
-    ['input', { class: `esgst-switch-input`, type: 'text', value: gSettings.cleanGiveaways_days }],
-    ` days.`
+    'Giveaways data older than ',
+    ['input', { class: 'esgst-switch-input', type: 'text', value: gSettings.cleanGiveaways_days }],
+    ' days.'
   ], false, false, `Some giveaways data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, gSettings.cleanGiveaways).name.firstElementChild, 'cleanGiveaways_days', true);
   shared.common.observeNumChange(new ToggleSwitch(context, 'cleanSgCommentHistory', false, [
-    `SteamGifts comment history data older than `,
-    ['input', { class: `esgst-switch-input`, type: 'text', value: gSettings.cleanSgCommentHistory_days }],
-    ` days.`
+    'SteamGifts comment history data older than ',
+    ['input', { class: 'esgst-switch-input', type: 'text', value: gSettings.cleanSgCommentHistory_days }],
+    ' days.'
   ], false, false, ``, gSettings.cleanSgCommentHistory).name.firstElementChild, 'cleanSgCommentHistory_days', true);
   shared.common.observeNumChange(new ToggleSwitch(context, 'cleanTickets', false, [
-    `Tickets data older than `,
-    ['input', { class: `esgst-switch-input`, type: 'text', value: gSettings.cleanTickets_days }],
-    ` days.`
+    'Tickets data older than ',
+    ['input', { class: 'esgst-switch-input', type: 'text', value: gSettings.cleanTickets_days }],
+    ' days.'
   ], false, false, `Tickets data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, gSettings.cleanTickets).name.firstElementChild, 'cleanTickets_days', true);
   shared.common.observeNumChange(new ToggleSwitch(context, 'cleanTrades', false, [
-    `Trades data older than `,
-    ['input', { class: `esgst-switch-input`, type: 'text', value: gSettings.cleanTrades_days }],
-    ` days.`
+    'Trades data older than ',
+    ['input', { class: 'esgst-switch-input', type: 'text', value: gSettings.cleanTrades_days }],
+    ' days.'
   ], false, false, `Trades data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, gSettings.cleanTrades).name.firstElementChild, 'cleanTrades_days' , true);
-  new ToggleSwitch(context, 'cleanDuplicates', false, `Duplicate data.`, false, false, `Cleans up any duplicate data it finds.`, gSettings.cleanDuplicates);
+  new ToggleSwitch(context, 'cleanDuplicates', false, 'Duplicate data.', false, false, 'Cleans up any duplicate data it finds.', gSettings.cleanDuplicates);
   context.appendChild(new ButtonSet({
     color1: 'green',
     color2: 'grey',
-    icon1: `fa-check`,
-    icon2: `fa-circle-o-notch fa-spin`,
+    icon1: 'fa-check',
+    icon2: 'fa-circle-o-notch fa-spin',
     title1: 'Clean',
-    title2: `Cleaning...`,
+    title2: 'Cleaning...',
     callback1: async () => {
       const dm = {};
       dm.options = [
         {
           check: true,
           key: 'decryptedGiveaways',
-          name: `Decrypted Giveaways`
+          name: 'Decrypted Giveaways'
         },
         {
           check: true,
@@ -877,19 +877,19 @@ function loadDataCleaner(isPopup) {
             },
             {
               key: 'discussions_ct',
-              name: `Comment Tracker`
+              name: 'Comment Tracker'
             },
             {
               key: 'discussions_df',
-              name: `Discussion Filters`
+              name: 'Discussion Filters'
             },
             {
               key: 'discussions_dh',
-              name: `Discussion Highlighter`
+              name: 'Discussion Highlighter'
             },
             {
               key: 'discussions_dt',
-              name: `Discussion Tags`
+              name: 'Discussion Tags'
             },
             {
               key: 'discussions_gdttt',
@@ -897,11 +897,11 @@ function loadDataCleaner(isPopup) {
             },
             {
               key: 'discussions_tds',
-              name: `Thread Subscription`
+              name: 'Thread Subscription'
             },
             {
               key: 'discussions_pm',
-              name: `Puzzle Marker`
+              name: 'Puzzle Marker'
             }
           ]
         },
@@ -926,15 +926,15 @@ function loadDataCleaner(isPopup) {
             },
             {
               key: 'games_egh',
-              name: `Entered Game Highlighter`
+              name: 'Entered Game Highlighter'
             },
             {
               key: 'games_gt',
-              name: `Game Tags`
+              name: 'Game Tags'
             },
             {
               key: 'games_itadi',
-              name: `IsThereAnyDeal Info`
+              name: 'IsThereAnyDeal Info'
             }
           ]
         },
@@ -949,11 +949,11 @@ function loadDataCleaner(isPopup) {
             },
             {
               key: 'giveaways_ct',
-              name: `Comment Tracker`
+              name: 'Comment Tracker'
             },
             {
               key: 'giveaways_gb',
-              name: `Giveaway Bookmarks`
+              name: 'Giveaway Bookmarks'
             },
             {
               key: 'giveaways_gdttt',
@@ -961,11 +961,11 @@ function loadDataCleaner(isPopup) {
             },
             {
               key: 'giveaways_gf',
-              name: `Giveaway Filters`
+              name: 'Giveaway Filters'
             },
             {
               key: 'giveaways_ggl',
-              name: `Giveaway Group Loader`
+              name: 'Giveaway Group Loader'
             }
           ]
         },
@@ -980,11 +980,11 @@ function loadDataCleaner(isPopup) {
             },
             {
               key: 'groups_gpt',
-              name: `Group Tags`
+              name: 'Group Tags'
             },
             {
               key: 'groups_sgg',
-              name: `Stickied Giveaway Groups`
+              name: 'Stickied Giveaway Groups'
             }
           ]
         },
@@ -996,7 +996,7 @@ function loadDataCleaner(isPopup) {
         {
           check: true,
           key: 'savedReplies',
-          name: `Saved Replies`
+          name: 'Saved Replies'
         },
         {
           check: true,
@@ -1011,12 +1011,12 @@ function loadDataCleaner(isPopup) {
         {
           check: true,
           key: 'sgCommentHistory',
-          name: `SG Comment History`
+          name: 'SG Comment History'
         },
         {
           check: true,
           key: 'stickiedCountries',
-          name: `Stickied Giveaway Countries`
+          name: 'Stickied Giveaway Countries'
         },
         {
           check: true,
@@ -1034,7 +1034,7 @@ function loadDataCleaner(isPopup) {
             },
             {
               key: 'tickets_ct',
-              name: `Comment Tracker`
+              name: 'Comment Tracker'
             },
             {
               key: 'tickets_gdttt',
@@ -1042,7 +1042,7 @@ function loadDataCleaner(isPopup) {
             },
             {
               key: 'tickets_ust',
-              name: `User Suspension Tracker`
+              name: 'User Suspension Tracker'
             }
           ]
         },
@@ -1057,11 +1057,11 @@ function loadDataCleaner(isPopup) {
             },
             {
               key: 'trades_ct',
-              name: `Comment Tracker`
+              name: 'Comment Tracker'
             },
             {
               key: 'trades_tf',
-              name: `Trade Filters`
+              name: 'Trade Filters'
             },
             {
               key: 'trades_gdttt',
@@ -1069,7 +1069,7 @@ function loadDataCleaner(isPopup) {
             },
             {
               key: 'trades_tds',
-              name: `Thread Subscription`
+              name: 'Thread Subscription'
             }
           ]
         },
@@ -1084,7 +1084,7 @@ function loadDataCleaner(isPopup) {
             },
             {
               key: 'users_cdr',
-              name: `Cake Day Reminder`
+              name: 'Cake Day Reminder'
             },
             {
               key: 'users_namwc',
@@ -1092,23 +1092,23 @@ function loadDataCleaner(isPopup) {
             },
             {
               key: 'users_nrf',
-              name: `Not Received Finder`
+              name: 'Not Received Finder'
             },
             {
               key: 'users_uf',
-              name: `User Filters`
+              name: 'User Filters'
             },
             {
               key: 'users_giveaways',
-              name: `Giveaways Data`
+              name: 'Giveaways Data'
             },
             {
               key: 'users_notes',
-              name: `User Notes`
+              name: 'User Notes'
             },
             {
               key: 'users_tags',
-              name: `User Tags`
+              name: 'User Tags'
             },
             {
               key: 'users_wbc',
@@ -1220,16 +1220,16 @@ function loadDataCleaner(isPopup) {
       await shared.common.setValues(toSave);
       const newSize = await manageData(dm, false, false, false, true);
       const successPopup = new Popup({
-        icon: `fa-check`,
+        icon: 'fa-check',
         title: [
           `Success! The selected data was cleaned.`,
           ['br'],
           ['br'],
           `Size before cleaning: `,
-          ['span', { class: `esgst-bold` }, shared.common.convertBytes(oldSize)],
+          ['span', { class: 'esgst-bold' }, shared.common.convertBytes(oldSize)],
           ['br'],
           `Size after cleaning: `,
-          ['span', { class: `esgst-bold` }, shared.common.convertBytes(newSize)],
+          ['span', { class: 'esgst-bold' }, shared.common.convertBytes(newSize)],
           ['br'],
           ['br'],
           `${Math.round((100 - (newSize / oldSize * 100)) * 100) / 100}% reduction`

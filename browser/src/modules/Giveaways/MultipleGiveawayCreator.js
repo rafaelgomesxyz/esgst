@@ -38,14 +38,14 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       description: [
         ['ul', [
           ['li', [
-            `Adds a section 0 to the `,
-            ['a', { href: `https://www.steamgifts.com/giveaways/new` }, `new giveaway`],
-            ` page that allows you to create multiple giveaways at once.`
+            'Adds a section 0 to the ',
+            ['a', { href: `https://www.steamgifts.com/giveaways/new` }, 'new giveaway'],
+            ' page that allows you to create multiple giveaways at once.'
           ]],
           ['li', `There is also a special tool to create a train (multiple giveaways linked to each other), which has the option to automatically create a discussion for the train.`],
           ['li', [
-            `The icon `,
-            ['i', { class: `fa fa-question-circle` }],
+            'The icon ',
+            ['i', { class: 'fa fa-question-circle' }],
             `  next to "Create Multiple Giveaways" in the section contains all of the steps that you have to follow to use the feature correctly.`
           ]],
           ['li', `When you add a giveaway to the queue, a small numbered box appears at the panel below the buttons to represent that giveaway. If you hover over the box it shows the details of the giveaway.`],
@@ -54,7 +54,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
         ]]
       ],
       id: 'mgc',
-      name: `Multiple Giveaway Creator`,
+      name: 'Multiple Giveaway Creator',
       sg: true,
       type: 'giveaways'
     };
@@ -99,7 +99,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
         delLocalValue('mgcAttach_step6');
         new Popup({
           addScrollable: true,
-          icon: `fa-check`,
+          icon: 'fa-check',
           isTemp: true,
           title: `Train created with success! You can close this now.`
         }).open();
@@ -141,49 +141,49 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       let elements = document.querySelector(`[data-input="country_item_string"]`).querySelectorAll(`[data-item-id]`);
       for (let i = 0, n = elements.length; i < n; i++) {
         let element = elements[i];
-        mgc.countryNames[element.getAttribute(`data-item-id`)] = element.getAttribute(`data-name`);
+        mgc.countryNames[element.getAttribute('data-item-id')] = element.getAttribute('data-name');
       }
       elements = document.querySelector(`[data-input="group_item_string"]`).querySelectorAll(`[data-item-id]`);
       for (let i = 0, n = elements.length; i < n; i++) {
         let element = elements[i];
-        mgc.groupNames[element.getAttribute(`data-item-id`)] = element.getAttribute(`data-name`);
+        mgc.groupNames[element.getAttribute('data-item-id')] = element.getAttribute('data-name');
       }
       mgc.gameName = mgc.gameId.nextElementSibling;
       let context = createElements(rows, 'afterBegin', [{
         attributes: {
-          class: `esgst-form-row`,
+          class: 'esgst-form-row',
           title: getFeatureTooltip('mgc')
         },
         type: 'div',
         children: [{
           attributes: {
-            class: `esgst-form-heading`
+            class: 'esgst-form-heading'
           },
           type: 'div',
           children: [{
             attributes: {
-              class: `esgst-form-heading-number`
+              class: 'esgst-form-heading-number'
             },
-            text: `0.`,
+            text: '0.',
             type: 'div'
           }, {
             attributes: {
-              class: `esgst-form-heading-text`
+              class: 'esgst-form-heading-text'
             },
             type: 'div',
             children: [{
-              text: `Create Multiple Giveaways `,
+              text: 'Create Multiple Giveaways ',
               type: 'node'
             }, {
               attributes: {
-                class: `fa fa-question-circle esgst-clickable`
+                class: 'fa fa-question-circle esgst-clickable'
               },
               type: 'i'
             }]
           }]
         }, {
           attributes: {
-            class: `esgst-gm-section esgst-form-row-indent`
+            class: 'esgst-gm-section esgst-form-row-indent'
           },
           type: 'div',
           children: [{
@@ -192,7 +192,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
               type: 'div'
             }, {
               attributes: {
-                class: `esgst-hidden`
+                class: 'esgst-hidden'
               },
               type: 'div',
               children: [{
@@ -227,109 +227,109 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       createTrainOption = section.firstElementChild;
       createTrainDescription = createTrainOption.lastElementChild;
       if (gSettings.mgc_createTrain) {
-        createTrainDescription.classList.remove(`esgst-hidden`);
+        createTrainDescription.classList.remove('esgst-hidden');
       }
-      this.esgst.mgc_createTrainSwitch = new ToggleSwitch(createTrainOption.firstElementChild, 'mgc_createTrain', false, `Create train.`, false, false, null, gSettings.mgc_createTrain);
+      this.esgst.mgc_createTrainSwitch = new ToggleSwitch(createTrainOption.firstElementChild, 'mgc_createTrain', false, 'Create train.', false, false, null, gSettings.mgc_createTrain);
       this.esgst.mgc_createTrainSwitch.dependencies.push(createTrainDescription);
-      this.esgst.mgc_removeLinksSwitch = new ToggleSwitch(createTrainDescription.firstElementChild, 'mgc_removeLinks', false, `Remove previous/next links from the first/last wagons.`, false, false, `Disabling this keeps the links as plain text.`, gSettings.mgc_removeLinks);
+      this.esgst.mgc_removeLinksSwitch = new ToggleSwitch(createTrainDescription.firstElementChild, 'mgc_removeLinks', false, `Remove previous/next links from the first/last wagons.`, false, false, 'Disabling this keeps the links as plain text.', gSettings.mgc_removeLinks);
       let generateButton = new ButtonSet({
         color1: 'green',
         color2: 'grey',
-        icon1: `fa-gear`,
-        icon2: `fa-circle-o-notch fa-spin`,
+        icon1: 'fa-gear',
+        icon2: 'fa-circle-o-notch fa-spin',
         title1: 'Generate',
-        title2: `Generating...`,
+        title2: 'Generating...',
         callback1: this.mgc_generateFormat
       });
       mgc.editButton = new ButtonSet({
         color1: 'green',
         color2: 'grey',
-        icon1: `fa-edit`,
-        icon2: `fa-circle-o-notch fa-spin`,
+        icon1: 'fa-edit',
+        icon2: 'fa-circle-o-notch fa-spin',
         title1: 'Edit',
-        title2: `Editing...`,
+        title2: 'Editing...',
         callback1: this.mgc_getValues.bind(this, true, mgc)
       });
-      mgc.editButton.set.classList.add(`esgst-hidden`);
+      mgc.editButton.set.classList.add('esgst-hidden');
       addButton = new ButtonSet({
         color1: 'green',
         color2: 'grey',
-        icon1: `fa-plus-circle`,
-        icon2: `fa-circle-o-notch fa-spin`,
+        icon1: 'fa-plus-circle',
+        icon2: 'fa-circle-o-notch fa-spin',
         title1: 'Add',
-        title2: `Adding...`,
+        title2: 'Adding...',
         callback1: this.mgc_getValues.bind(this, false, mgc)
       });
       importButton = new ButtonSet({
         color1: 'green',
         color2: 'grey',
-        icon1: `fa-arrow-circle-up`,
-        icon2: `fa-circle-o-notch fa-spin`,
+        icon1: 'fa-arrow-circle-up',
+        icon2: 'fa-circle-o-notch fa-spin',
         title1: 'Import',
-        title2: `Importing...`,
+        title2: 'Importing...',
         callback1: this.mgc_importGiveaways.bind(this, mgc)
       });
       exportButton = new ButtonSet({
         color1: 'green',
         color2: 'grey',
-        icon1: `fa-arrow-circle-down`,
-        icon2: `fa-circle-o-notch fa-spin`,
+        icon1: 'fa-arrow-circle-down',
+        icon2: 'fa-circle-o-notch fa-spin',
         title1: 'Export',
-        title2: `Exporting...`,
+        title2: 'Exporting...',
         callback1: this.mgc_exportGiveaways.bind(this, mgc)
       });
       shuffleButton = new ButtonSet({
         color1: 'green',
         color2: 'grey',
-        icon1: `fa-random`,
-        icon2: `fa-circle-o-notch fa-spin`,
+        icon1: 'fa-random',
+        icon2: 'fa-circle-o-notch fa-spin',
         title1: 'Shuffle',
-        title2: `Shuffling...`,
+        title2: 'Shuffling...',
         callback1: this.mgc_shuffleGiveaways.bind(this, mgc)
       });
       emptyButton = new ButtonSet({
         color1: 'green',
         color2: 'grey',
-        icon1: `fa-trash`,
-        icon2: `fa-circle-o-notch fa-spin`,
+        icon1: 'fa-trash',
+        icon2: 'fa-circle-o-notch fa-spin',
         title1: 'Empty',
-        title2: `Emptying...`,
+        title2: 'Emptying...',
         callback1: this.mgc_emptyGiveaways.bind(this, mgc)
       });
       attachButton = new ButtonSet({
         color1: 'green',
         color2: 'grey',
-        icon1: `fa-paperclip`,
-        icon2: `fa-circle-o-notch fa-spin`,
+        icon1: 'fa-paperclip',
+        icon2: 'fa-circle-o-notch fa-spin',
         title1: 'Attach',
-        title2: `Attaching...`,
+        title2: 'Attaching...',
         callback1: this.mgc_attachDiscussion.bind(this, mgc)
       });
       this.esgst.mgc_createTrainSwitch.dependencies.push(attachButton.set);
       if (!gSettings.mgc_createTrain) {
-        attachButton.set.classList.add(`esgst-hidden`);
+        attachButton.set.classList.add('esgst-hidden');
       }
       viewButton = new ButtonSet({
         color1: 'green',
         color2: 'grey',
-        icon1: `fa-eye`,
-        icon2: `fa-circle-o-notch fa-spin`,
-        title1: `View Results`,
-        title2: `Opening...`,
+        icon1: 'fa-eye',
+        icon2: 'fa-circle-o-notch fa-spin',
+        title1: 'View Results',
+        title2: 'Opening...',
         callback1: this.mgc_viewResults.bind(this, mgc)
       });
       createButton = new ButtonSet({
         color1: 'green',
         color2: 'grey',
-        icon1: `fa-arrow-circle-right`,
-        icon2: `fa-circle-o-notch fa-spin`,
+        icon1: 'fa-arrow-circle-right',
+        icon2: 'fa-circle-o-notch fa-spin',
         title1: 'Create',
-        title2: `Creating...`,
+        title2: 'Creating...',
         callback1: () => {
           return new Promise(resolve => this.mgc_createGiveaways(mgc, viewButton, resolve));
         }
       });
-      viewButton.set.classList.add(`esgst-hidden`);
+      viewButton.set.classList.add('esgst-hidden');
       section.appendChild(generateButton.set);
       section.appendChild(mgc.editButton.set);
       section.appendChild(addButton.set);
@@ -342,12 +342,12 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       section.appendChild(viewButton.set);
       mgc.discussionPanel = createElements(section, 'beforeEnd', [{
         attributes: {
-          class: `esgst-hidden`
+          class: 'esgst-hidden'
         },
         type: 'div',
         children: [{
           attributes: {
-            class: `esgst-bold`
+            class: 'esgst-bold'
           },
           text: `Discussion Attached:`,
           type: 'span'
@@ -355,8 +355,8 @@ class GiveawaysMultipleGiveawayCreator extends Module {
           type: 'a'
         }, {
           attributes: {
-            class: `esgst-clickable fa fa-times`,
-            title: `Detach discussion`
+            class: 'esgst-clickable fa fa-times',
+            title: 'Detach discussion'
           },
           type: 'i'
         }]
@@ -364,32 +364,32 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       detach = mgc.discussionPanel.lastElementChild;
       detach.addEventListener('click', this.mgc_detachDiscussion.bind(this, mgc));
       mgc.discussionLink = detach.previousElementSibling;
-      new ToggleSwitch(mgc.discussionPanel, 'mgc_bumpLast', false, `Only insert the bump link in the last wagon.`, false, false, `If disabled, the bump link will appear on all wagons.`, gSettings.mgc_bumpLast);
+      new ToggleSwitch(mgc.discussionPanel, 'mgc_bumpLast', false, 'Only insert the bump link in the last wagon.', false, false, `If disabled, the bump link will appear on all wagons.`, gSettings.mgc_bumpLast);
       mgc.giveaways = createElements(section, 'beforeEnd', [{
         attributes: {
-          class: `pinned-giveaways__outer-wrap`
+          class: 'pinned-giveaways__outer-wrap'
         },
         type: 'div',
         children: [{
           attributes: {
-            class: `pinned-giveaways__inner-wrap`
+            class: 'pinned-giveaways__inner-wrap'
           },
           type: 'div'
         }, {
           attributes: {
-            class: `fa fa-trash`,
-            title: `Drag a giveaway here to remove it`
+            class: 'fa fa-trash',
+            title: 'Drag a giveaway here to remove it'
           },
           type: 'i'
         }, {
           attributes: {
-            class: `esgst-description`
+            class: 'esgst-description'
           },
           text: `To edit a giveaway, click on it and a "Edit" button will appear. Then make your alterations and click "Edit".`,
           type: 'div'
         }, {
           attributes: {
-            class: `esgst-description`
+            class: 'esgst-description'
           },
           text: `Giveaways successfully created will turn green, giveaways successfully connected will be strikethrough (for train creations) and giveaways that were not successfully created will turn red.`,
           type: 'div'
@@ -404,10 +404,10 @@ class GiveawaysMultipleGiveawayCreator extends Module {
   }
 
   mgc_generateFormat() {
-    let popup = new Popup({ addScrollable: true, icon: `fa-gear`, title: `Generate formats:` });
+    let popup = new Popup({ addScrollable: true, icon: 'fa-gear', title: `Generate formats:` });
     createElements(popup.description, 'afterBegin', [{
       attributes: {
-        class: `esgst-description`
+        class: 'esgst-description'
       },
       type: 'div',
       children: [{
@@ -428,14 +428,14 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     let inputs = {};
     createElements(popup.scrollable, 'beforeEnd', [{
       attributes: {
-        class: `esgst-bold`
+        class: 'esgst-bold'
       },
       text: `Next/previous links`,
       type: 'div'
     }]);
     inputs.previousPrefix = createElements(popup.scrollable, 'beforeEnd', [{
       attributes: {
-        class: `esgst-mgc-input`,
+        class: 'esgst-mgc-input',
         placeholder: `← `,
         type: 'text'
       },
@@ -443,7 +443,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     }]);
     inputs.previous = createElements(popup.scrollable, 'beforeEnd', [{
       attributes: {
-        class: `esgst-mgc-input`,
+        class: 'esgst-mgc-input',
         placeholder: 'Previous',
         type: 'text'
       },
@@ -451,7 +451,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     }]);
     inputs.previousSuffix = createElements(popup.scrollable, 'beforeEnd', [{
       attributes: {
-        class: `esgst-mgc-input`,
+        class: 'esgst-mgc-input',
         placeholder: ` ←`,
         type: 'text'
       },
@@ -459,7 +459,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     }]);
     inputs.separator = createElements(popup.scrollable, 'beforeEnd', [{
       attributes: {
-        class: `esgst-mgc-input`,
+        class: 'esgst-mgc-input',
         placeholder: ` | `,
         type: 'text'
       },
@@ -467,7 +467,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     }]);
     inputs.nextPrefix = createElements(popup.scrollable, 'beforeEnd', [{
       attributes: {
-        class: `esgst-mgc-input`,
+        class: 'esgst-mgc-input',
         placeholder: `→ `,
         type: 'text'
       },
@@ -475,7 +475,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     }]);
     inputs.next = createElements(popup.scrollable, 'beforeEnd', [{
       attributes: {
-        class: `esgst-mgc-input`,
+        class: 'esgst-mgc-input',
         placeholder: 'Next',
         type: 'text'
       },
@@ -483,7 +483,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     }]);
     inputs.nextSuffix = createElements(popup.scrollable, 'beforeEnd', [{
       attributes: {
-        class: `esgst-mgc-input`,
+        class: 'esgst-mgc-input',
         placeholder: ` →`,
         type: 'text'
       },
@@ -491,7 +491,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     }]);
     let output = createElements(popup.scrollable, 'beforeEnd', [{
       attributes: {
-        class: `esgst-mgc-preview esgst-text-left markdown`
+        class: 'esgst-mgc-preview esgst-text-left markdown'
       },
       type: 'div',
       children: [{
@@ -531,7 +531,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
         }]
       }, {
         attributes: {
-          class: `esgst-clickable fa fa-copy`
+          class: 'esgst-clickable fa fa-copy'
         },
         type: 'i'
       }]
@@ -544,28 +544,28 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     });
     createElements(popup.scrollable, 'beforeEnd', [{
       attributes: {
-        class: `esgst-bold`
+        class: 'esgst-bold'
       },
       text: 'Counter',
       type: 'div'
     }]);
     inputs.counter = createElements(popup.scrollable, 'beforeEnd', [{
       attributes: {
-        class: `esgst-mgc-input`,
-        placeholder: ` of `,
+        class: 'esgst-mgc-input',
+        placeholder: ' of ',
         type: 'text'
       },
       type: 'input'
     }]);
     let counterOutput = createElements(popup.scrollable, 'beforeEnd', [{
       attributes: {
-        class: `esgst-mgc-preview esgst-text-left markdown`
+        class: 'esgst-mgc-preview esgst-text-left markdown'
       },
       type: 'div',
       children: [{
         type: 'div',
         children: [{
-          text: `1 of 10`,
+          text: '1 of 10',
           type: 'p'
         }]
       }, {
@@ -578,7 +578,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
         }]
       }, {
         attributes: {
-          class: `esgst-clickable fa fa-copy`
+          class: 'esgst-clickable fa fa-copy'
         },
         type: 'i'
       }]
@@ -591,14 +591,14 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     });
     createElements(popup.scrollable, 'beforeEnd', [{
       attributes: {
-        class: `esgst-bold`
+        class: 'esgst-bold'
       },
       text: `Bump link (for attached discussions)`,
       type: 'div'
     }]);
     inputs.bump = createElements(popup.scrollable, 'beforeEnd', [{
       attributes: {
-        class: `esgst-mgc-input`,
+        class: 'esgst-mgc-input',
         placeholder: 'Bump',
         type: 'text'
       },
@@ -606,7 +606,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     }]);
     let bumpOutput = createElements(popup.scrollable, 'beforeEnd', [{
       attributes: {
-        class: `esgst-mgc-preview esgst-text-left markdown`
+        class: 'esgst-mgc-preview esgst-text-left markdown'
       },
       type: 'div',
       children: [{
@@ -631,7 +631,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
         }]
       }, {
         attributes: {
-          class: `esgst-clickable fa fa-copy`
+          class: 'esgst-clickable fa fa-copy'
         },
         type: 'i'
       }]
@@ -641,14 +641,14 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     let bumpOutputCode = bumpOutputCopy.previousElementSibling.firstElementChild;
     createElements(popup.scrollable, 'beforeEnd', [{
       attributes: {
-        class: `esgst-bold`
+        class: 'esgst-bold'
       },
       text: `First train wagon link (for attached discussions)`,
       type: 'div'
     }]);
     inputs.train = createElements(popup.scrollable, 'beforeEnd', [{
       attributes: {
-        class: `esgst-mgc-input`,
+        class: 'esgst-mgc-input',
         placeholder: `Choo choo!`,
         type: 'text'
       },
@@ -656,7 +656,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     }]);
     let trainOutput = createElements(popup.scrollable, 'beforeEnd', [{
       attributes: {
-        class: `esgst-mgc-preview esgst-text-left markdown`
+        class: 'esgst-mgc-preview esgst-text-left markdown'
       },
       type: 'div',
       children: [{
@@ -681,7 +681,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
         }]
       }, {
         attributes: {
-          class: `esgst-clickable fa fa-copy`
+          class: 'esgst-clickable fa fa-copy'
         },
         type: 'i'
       }]
@@ -772,13 +772,13 @@ class GiveawaysMultipleGiveawayCreator extends Module {
           mgc.copies.value = '1';
           mgc.keys.value = ``;
         } else {
-          createAlert(`The bump link format is missing from the description.`);
+          createAlert('The bump link format is missing from the description.');
         }
       } else {
         createAlert(`The next/previous links format is missing from the description.`);
       }
     } else {
-      createAlert(`You must first fill the details of the giveaway.`);
+      createAlert('You must first fill the details of the giveaway.');
     }
   }
 
@@ -818,13 +818,13 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       mgc.datas[mgc.editPos] = data;
       mgc.values[mgc.editPos] = values;
       mgc.giveaways.children[mgc.editPos].title = details;
-      mgc.editButton.set.classList.add(`esgst-hidden`);
+      mgc.editButton.set.classList.add('esgst-hidden');
     } else {
       mgc.datas.push(data);
       mgc.values.push(values);
       this.mgc_setGiveaway(createElements(mgc.giveaways, 'beforeEnd', [{
         attributes: {
-          class: `esgst-gm-giveaway`,
+          class: 'esgst-gm-giveaway',
           draggable: true,
           title: details
         },
@@ -861,7 +861,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     values.edit = true;
     this.esgst.modules.giveawaysGiveawayTemplates.gts_applyTemplate(values);
     mgc.editPos = pos;
-    mgc.editButton.set.classList.remove(`esgst-hidden`);
+    mgc.editButton.set.classList.remove('esgst-hidden');
   }
 
   mgc_setSource(giveaway, mgc, event) {
@@ -886,19 +886,19 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 
   mgc_importGiveaways(mgc) {
     let counter, popup, progress, progressPanel, textArea;
-    popup = new Popup({ addScrollable: true, icon: `fa-arrow-up`, isTemp: true, title: `Import Giveaways` });
-    popup.popup.classList.add(`esgst-popup-large`);
+    popup = new Popup({ addScrollable: true, icon: 'fa-arrow-up', isTemp: true, title: 'Import Giveaways' });
+    popup.popup.classList.add('esgst-popup-large');
     createElements(popup.description, 'afterBegin', [{
       attributes: {
-        class: `esgst-description`
+        class: 'esgst-description'
       },
       type: 'div',
       children: [{
-        text: `Insert the keys below. `,
+        text: 'Insert the keys below. ',
         type: 'node'
       }, {
         attributes: {
-          class: `fa fa-question-circle`
+          class: 'fa fa-question-circle'
         },
         type: 'i'
       }]
@@ -982,14 +982,14 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       <div>Imported giveaways will not be automatically created, you still have to review them by clicking on the 'Create' button.</div>
       <br>
     `);
-    let groupKeys = new ToggleSwitch(popup.description, 'mgc_groupKeys', false, `Group adjacent keys for the same game.`, false, false, ``, gSettings.mgc_groupKeys);
-    let groupAllKeys = new ToggleSwitch(popup.description, 'mgc_groupAllKeys', false, `Group all keys for the same game.`, false, false, ``, gSettings.mgc_groupAllKeys);
+    let groupKeys = new ToggleSwitch(popup.description, 'mgc_groupKeys', false, 'Group adjacent keys for the same game.', false, false, ``, gSettings.mgc_groupKeys);
+    let groupAllKeys = new ToggleSwitch(popup.description, 'mgc_groupAllKeys', false, 'Group all keys for the same game.', false, false, ``, gSettings.mgc_groupAllKeys);
     groupKeys.exclusions.push(groupAllKeys.container);
     groupAllKeys.exclusions.push(groupKeys.container);
     if (gSettings.mgc_groupKeys) {
-      groupAllKeys.container.classList.add(`esgst-hidden`);
+      groupAllKeys.container.classList.add('esgst-hidden');
     } else if (gSettings.mgc_groupAllKeys) {
-      groupKeys.container.classList.add(`esgst-hidden`);
+      groupKeys.container.classList.add('esgst-hidden');
     }
     textArea = createElements(popup.scrollable, 'beforeEnd', [{
       type: 'textarea'
@@ -998,7 +998,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       type: 'div',
       children: [{
         attributes: {
-          class: `esgst-progress-bar`
+          class: 'esgst-progress-bar'
         },
         type: 'div'
       }, {
@@ -1007,13 +1007,13 @@ class GiveawaysMultipleGiveawayCreator extends Module {
           text: '0',
           type: 'span'
         }, {
-          text: ` of `,
+          text: ' of ',
           type: 'node'
         }, {
           text: '0',
           type: 'span'
         }, {
-          text: ` giveaways imported.`,
+          text: ' giveaways imported.',
           type: 'node'
         }]
       }]
@@ -1029,10 +1029,10 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     popup.description.appendChild(new ButtonSet({
       color1: 'green',
       color2: 'grey',
-      icon1: `fa-arrow-circle-up`,
-      icon2: `fa-circle-o-notch fa-spin`,
+      icon1: 'fa-arrow-circle-up',
+      icon2: 'fa-circle-o-notch fa-spin',
       title1: 'Import',
-      title2: `Importing...`,
+      title2: 'Importing...',
       callback1: () => {
         return new Promise(resolve => this.mgc_getGiveaways(mgc, popup, progress, textArea, resolve));
       }
@@ -1107,7 +1107,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
         return;
       }
       if (mgc.discussion && !((description && description[1]) || mgc.description.value || ``).match(/\[ESGST-B]/)) {
-        createAlert(`The bump link format is missing from the description.`);
+        createAlert('The bump link format is missing from the description.');
         callback();
         return;
       }
@@ -1120,7 +1120,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
           ids.forEach(id => {
             let element = document.querySelector(`[data-input="country_item_string"]`).querySelector(`[data-name$="${id}"]`);
             if (element) {
-              countries += `${element.getAttribute(`data-item-id`)} `;
+              countries += `${element.getAttribute('data-item-id')} `;
             }
           });
         }
@@ -1130,13 +1130,13 @@ class GiveawaysMultipleGiveawayCreator extends Module {
         let ids = groups[1].split(/,\s/);
         groups = ``;
         ids.forEach(id => {
-          if (id === `My Whitelist`) {
+          if (id === 'My Whitelist') {
             whitelist = '1';
             return;
           }
           let element = document.querySelector(`[data-input="group_item_string"]`).querySelector(`[data-name$="${id}"]`);
           if (element) {
-            groups += `${element.getAttribute(`data-item-id`)} `;
+            groups += `${element.getAttribute('data-item-id')} `;
           }
         });
       }
@@ -1255,12 +1255,12 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 
   async mgc_getGiveaway(giveaways, i, toRemove, mgc, n, name, popup, progress, steamInfo, textArea, values, mainCallback, callback, response) {
     let button, conflictPopup, context, element, elements, exactMatch, info, k, matches, numElements, value;
-    elements = parseHtml(JSON.parse(response.responseText).html).getElementsByClassName(`table__row-outer-wrap`);
+    elements = parseHtml(JSON.parse(response.responseText).html).getElementsByClassName('table__row-outer-wrap');
     exactMatch = null;
     matches = [];
     for (k = 0, numElements = elements.length; k < numElements; k++) {
       element = elements[k];
-      if (element.getAttribute(`data-autocomplete-name`).toLowerCase() === name) {
+      if (element.getAttribute('data-autocomplete-name').toLowerCase() === name) {
         if (steamInfo) {
           info = await this.esgst.modules.games.games_getInfo(element);
           if (steamInfo.type === info.type && steamInfo.id === info.id) {
@@ -1282,8 +1282,8 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       exactMatch = matches[0];
     }
     if (exactMatch) {
-      values.gameName = exactMatch.getAttribute(`data-autocomplete-name`);
-      values.gameId = exactMatch.getAttribute(`data-autocomplete-id`);
+      values.gameName = exactMatch.getAttribute('data-autocomplete-name');
+      values.gameId = exactMatch.getAttribute('data-autocomplete-id');
       values.steam = await this.esgst.modules.games.games_getInfo(exactMatch);
       this.mgc_addGiveaway(false, mgc, values);
       value = window.$(progress.bar).progressbar('option', 'value') + toRemove.length;
@@ -1295,7 +1295,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       window.setTimeout(() => this.mgc_importGiveaway(giveaways, i, mgc, n, popup, progress, textArea, mainCallback, callback), 0);
     } else if (matches.length > 0) {
       conflictPopup = new Popup({
-        icon: `fa-exclamation`,
+        icon: 'fa-exclamation',
         isTemp: true,
         title: `There are ${matches.length} matches for ${name}. Please select the correct match.`,
         addScrollable: 'left'
@@ -1305,18 +1305,18 @@ class GiveawaysMultipleGiveawayCreator extends Module {
         let element = createElements(context, 'beforeEnd', [{
           context: match.cloneNode(true)
         }]);
-        element.classList.remove(`is-clickable`);
+        element.classList.remove('is-clickable');
         button = new ButtonSet({
           color1: 'green',
           color2: ``,
-          icon1: `fa-arrow-circle-right`,
+          icon1: 'fa-arrow-circle-right',
           icon2: ``,
           title1: 'Select',
           title2: ``,
           callback1: async () => {
             conflictPopup.close();
-            values.gameName = element.getAttribute(`data-autocomplete-name`);
-            values.gameId = element.getAttribute(`data-autocomplete-id`);
+            values.gameName = element.getAttribute('data-autocomplete-name');
+            values.gameId = element.getAttribute('data-autocomplete-id');
             values.steam = await this.esgst.modules.games.games_getInfo(element);
             this.mgc_addGiveaway(false, mgc, values);
             value = window.$(progress.bar).progressbar('option', 'value') + toRemove.length;
@@ -1346,12 +1346,12 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 
   mgc_exportGiveaways(mgc) {
     let file, i, j, n, popup, values;
-    popup = new Popup({ addScrollable: true, icon: `fa-arrow-down`, title: 'Export' });
+    popup = new Popup({ addScrollable: true, icon: 'fa-arrow-down', title: 'Export' });
     new ToggleSwitch(popup.description, 'mgc_reversePosition', false, `Export keys in reverse position (before the name of the game).`, false, false, ``, gSettings.mgc_reversePosition);
     popup.description.appendChild(new ButtonSet({
       color1: 'green',
       color2: ``,
-      icon1: `fa-arrow-down`,
+      icon1: 'fa-arrow-down',
       icon2: ``,
       title1: 'Export',
       title2: ``,
@@ -1375,7 +1375,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
             }
           }
         }
-        downloadFile(file, `giveaways.txt`);
+        downloadFile(file, 'giveaways.txt');
       }
     }).set);
     popup.open();
@@ -1402,12 +1402,12 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     }
     let popup = new Popup({
       addScrollable: true,
-      icon: `fa-arrow-circle-right`,
+      icon: 'fa-arrow-circle-right',
       title: `ESGST will create the giveaways below. Are you sure you want to continue?`
     });
     let rows = createElements(popup.scrollable, 'beforeEnd', [{
       attributes: {
-        class: `table esgst-mgc-table`
+        class: 'table esgst-mgc-table'
       },
       type: 'div',
       children: [{
@@ -1417,55 +1417,55 @@ class GiveawaysMultipleGiveawayCreator extends Module {
         type: 'div',
         children: [{
           attributes: {
-            class: `table__column--width-small`
+            class: 'table__column--width-small'
           },
-          text: `No.`,
+          text: 'No.',
           type: 'div'
         }, {
           attributes: {
-            class: `table__column--width-fill`
+            class: 'table__column--width-fill'
           },
           text: 'Game',
           type: 'div'
         }, {
           attributes: {
-            class: `table__column--width-small`
+            class: 'table__column--width-small'
           },
           text: `Copies/Keys`,
           type: 'div'
         }, {
           attributes: {
-            class: `table__column--width-small`
+            class: 'table__column--width-small'
           },
-          text: `Start Time`,
+          text: 'Start Time',
           type: 'div'
         }, {
           attributes: {
-            class: `table__column--width-small`
+            class: 'table__column--width-small'
           },
-          text: `End Time`,
+          text: 'End Time',
           type: 'div'
         }, {
           attributes: {
-            class: `table__column--width-small`
+            class: 'table__column--width-small'
           },
-          text: `Region Restricted`,
+          text: 'Region Restricted',
           type: 'div'
         }, {
           attributes: {
-            class: `table__column--width-small`
+            class: 'table__column--width-small'
           },
-          text: `Who Can Enter`,
+          text: 'Who Can Enter',
           type: 'div'
         }, {
           attributes: {
-            class: `table__column--width-small`
+            class: 'table__column--width-small'
           },
           text: 'Level',
           type: 'div'
         }, {
           attributes: {
-            class: `table__column--width-small`
+            class: 'table__column--width-small'
           },
           text: 'Description',
           type: 'div'
@@ -1490,7 +1490,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       }
       let whoCanEnter = 'Everyone';
       if (values.whoCanEnter === 'invite_only') {
-        whoCanEnter = `Invite Only`;
+        whoCanEnter = 'Invite Only';
       } else if (values.whoCanEnter === 'groups') {
         whoCanEnter = `Groups (`;
         if (values.whitelist === '1') {
@@ -1519,28 +1519,28 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       }
       createElements(rows, 'beforeEnd', [{
         attributes: {
-          class: `table__row-outer-wrap`
+          class: 'table__row-outer-wrap'
         },
         type: 'div',
         children: [{
           attributes: {
-            class: `table__row-inner-wrap`
+            class: 'table__row-inner-wrap'
           },
           type: 'div',
           children: [{
             attributes: {
-              class: `table__column--width-small`
+              class: 'table__column--width-small'
             },
             text: i + 1,
             type: 'div'
           }, {
             attributes: {
-              class: `table__column--width-fill`
+              class: 'table__column--width-fill'
             },
             type: 'div',
             children: [values.steam ? {
               attributes: {
-                class: `table__column__secondary-link`,
+                class: 'table__column__secondary-link',
                 href: `https://store.steampowered.com/${values.steam.type.slice(0, -1)}/${values.steam.id}`
               },
               text: values.gameName,
@@ -1551,44 +1551,44 @@ class GiveawaysMultipleGiveawayCreator extends Module {
               }]
           }, {
             attributes: {
-              class: `table__column--width-small`
+              class: 'table__column--width-small'
             },
             text: keys.length ? null : `${values.copies} Copies`,
             type: 'div',
             children: keys.length ? keys : null
           }, {
             attributes: {
-              class: `table__column--width-small`
+              class: 'table__column--width-small'
             },
             text: values.startTime,
             type: 'div'
           }, {
             attributes: {
-              class: `table__column--width-small`
+              class: 'table__column--width-small'
             },
             text: values.endTime,
             type: 'div'
           }, {
             attributes: {
-              class: `table__column--width-small`
+              class: 'table__column--width-small'
             },
             text: regionRestricted,
             type: 'div'
           }, {
             attributes: {
-              class: `table__column--width-small`
+              class: 'table__column--width-small'
             },
             text: whoCanEnter,
             type: 'div'
           }, {
             attributes: {
-              class: `table__column--width-small`
+              class: 'table__column--width-small'
             },
             text: values.level,
             type: 'div'
           }, {
             attributes: {
-              class: `table__column--width-small`,
+              class: 'table__column--width-small',
               title: values.description.replace(/"/g, `&quot;`)
             },
             text: values.description.length > 100 ? `${values.description.slice(0, 100)}...` : values.description,
@@ -1600,7 +1600,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     popup.description.appendChild(new ButtonSet({
       color1: 'green',
       color2: ``,
-      icon1: `fa-check`,
+      icon1: 'fa-check',
       icon2: ``,
       title1: 'Yes',
       title2: ``,
@@ -1609,7 +1609,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     popup.description.appendChild(new ButtonSet({
       color1: 'red',
       color2: ``,
-      icon1: `fa-times`,
+      icon1: 'fa-times',
       icon2: ``,
       title1: 'No',
       title2: ``,
@@ -1628,7 +1628,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     popup.close();
     mgc.copies.value = '1';
     mgc.keys.value = ``;
-    viewButton.set.classList.add(`esgst-hidden`);
+    viewButton.set.classList.add('esgst-hidden');
     mgc.saveGiveaways = {};
     // noinspection JSIgnoredPromiseFromCall
     this.mgc_createGiveaway(0, mgc, mgc.giveaways.children.length, gSettings.cewgd || (gSettings.gc && gSettings.gc_gi) || gSettings.lpv || gSettings.rcvc ? this.mgc_saveGiveaways.bind(this, mgc, this.mgc_completeCreation.bind(this, mgc, viewButton, callback)) : this.mgc_completeCreation.bind(this, mgc, viewButton, callback));
@@ -1670,8 +1670,8 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     if (response.finalUrl.match(/\/giveaways\/new/)) {
       if (response.responseText.match(/Error\.\sYou\salready\sposted\san\sidentical\sgiveaway\swithin\sthe\spast\s2\sminutes\.\sTo\sprevent\sdouble\sposts,\sit's\sbeen\sblocked\./)) {
         const popup = new Popup({
-          addScrollable: true, icon: `fa-circle-o-notch fa-spin`, title: [
-            `Waiting `,
+          addScrollable: true, icon: 'fa-circle-o-notch fa-spin', title: [
+            'Waiting ',
             ['span'],
             ` minutes to create another identical giveaway... Please do not close this popup. If you do not want this waiting period, create a single multiple-copy giveaway for the game.`
           ]
@@ -1931,13 +1931,13 @@ class GiveawaysMultipleGiveawayCreator extends Module {
         delLocalValue('mgcCache');
         setLocalValue('mgcAttach_step4', mgc.firstWagon);
         window.open(`/discussion/${mgc.discussion}/`);
-        viewButton.set.classList.remove(`esgst-hidden`);
+        viewButton.set.classList.remove('esgst-hidden');
       }
       callback();
     } else {
       if (mgc.created.length) {
         delLocalValue('mgcCache');
-        viewButton.set.classList.remove(`esgst-hidden`);
+        viewButton.set.classList.remove('esgst-hidden');
       }
       callback();
     }
@@ -1966,10 +1966,10 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 
   mgc_attachDiscussion(mgc) {
     let input, popup;
-    popup = new Popup({ addScrollable: true, icon: `fa-comments`, title: `Attach discussion:` });
+    popup = new Popup({ addScrollable: true, icon: 'fa-comments', title: `Attach discussion:` });
     createElements(popup.description, 'afterBegin', [{
       attributes: {
-        class: `esgst-description`
+        class: 'esgst-description'
       },
       type: 'div',
       children: [{
@@ -2004,19 +2004,19 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     popup.description.appendChild(new ButtonSet({
       color1: 'green',
       color2: 'grey',
-      icon1: `fa-paperclip`,
-      icon2: `fa-circle-o-notch fa-spin`,
-      title1: `Attach Existing`,
-      title2: `Attaching...`,
+      icon1: 'fa-paperclip',
+      icon2: 'fa-circle-o-notch fa-spin',
+      title1: 'Attach Existing',
+      title2: 'Attaching...',
       callback1: this.mgc_attachExistingDiscussion.bind(this, input, mgc, popup)
     }).set);
     popup.description.appendChild(new ButtonSet({
       color1: 'green',
       color2: 'grey',
-      icon1: `fa-paperclip`,
-      icon2: `fa-circle-o-notch fa-spin`,
-      title1: `Attach New`,
-      title2: `Attaching...`,
+      icon1: 'fa-paperclip',
+      icon2: 'fa-circle-o-notch fa-spin',
+      title1: 'Attach New',
+      title2: 'Attaching...',
       callback1: () => {
         return new Promise(resolve => this.mgc_attachNewDiscussion(mgc, popup, resolve));
       }
@@ -2026,7 +2026,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 
   mgc_attachExistingDiscussion(input, mgc, popup) {
     mgc.discussion = input.value;
-    mgc.discussionPanel.classList.remove(`esgst-hidden`);
+    mgc.discussionPanel.classList.remove('esgst-hidden');
     mgc.discussionLink.href = `/discussion/${mgc.discussion}/`;
     mgc.discussionLink.textContent = mgc.discussion;
     popup.close();
@@ -2043,7 +2043,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     if (win.closed) {
       mgc.discussion = getLocalValue('mgcAttach_step3');
       delLocalValue('mgcAttach_step3');
-      mgc.discussionPanel.classList.remove(`esgst-hidden`);
+      mgc.discussionPanel.classList.remove('esgst-hidden');
       mgc.discussionLink.href = `/discussion/${mgc.discussion}/`;
       mgc.discussionLink.textContent = mgc.discussion;
       callback();
@@ -2059,8 +2059,8 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     rows.appendChild(new ButtonSet({
       color1: 'green',
       color2: 'grey',
-      icon1: `fa-check`,
-      icon2: `fa-circle-o-notch fa-spin`,
+      icon1: 'fa-check',
+      icon2: 'fa-circle-o-notch fa-spin',
       title1: `Create & Attach`,
       title2: `Creating & attaching...`,
       callback1: this.mgc_createAndAttachDiscussion.bind(this, rows)
@@ -2077,16 +2077,16 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     description.value = description.value.replace(/\[ESGST-T(.+?)\[\/ESGST-T/g, `[$1](${getLocalValue('mgcAttach_step4')})`);
     delLocalValue('mgcAttach_step4');
     setLocalValue('mgcAttach_step5', true);
-    document.getElementsByClassName(`js__submit-form`)[0].click();
+    document.getElementsByClassName('js__submit-form')[0].click();
   }
 
   mgc_detachDiscussion(mgc) {
     mgc.discussion = null;
-    mgc.discussionPanel.classList.add(`esgst-hidden`);
+    mgc.discussionPanel.classList.add('esgst-hidden');
   }
 
   async mgc_viewResults(mgc) {
-    const popup = new Popup({ addScrollable: true, icon: `fa-eye`, title: 'Results' });
+    const popup = new Popup({ addScrollable: true, icon: 'fa-eye', title: 'Results' });
     const items = [];
     for (const item of mgc.created) {
       items.push(...item.html);
@@ -2102,7 +2102,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     if (gSettings.mm) {
       const heading = createElements(popup.scrollable, 'afterBegin', [{
         attributes: {
-          class: `esgst-page-heading`
+          class: 'esgst-page-heading'
         },
         type: 'div'
       }]);

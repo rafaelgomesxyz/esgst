@@ -5,16 +5,16 @@ class ButtonSet {
     this.busy = false;
     this.dependencies = [];
     let classes = {
-      green: `form__submit-button`,
-      grey: `form__saving-button`,
+      green: 'form__submit-button',
+      grey: 'form__saving-button',
       red: 'sidebar__error',
-      yellow: `sidebar__entry-delete`
+      yellow: 'sidebar__entry-delete'
     };
     if (details.set) {
       this.set = details.set;
     } else {
       this.set = document.createElement('div');
-      this.set.className = `esgst-button-set`;
+      this.set.className = 'esgst-button-set';
     }
     if (details.tooltip) {
       this.set.title = details.tooltip;
@@ -56,7 +56,7 @@ class ButtonSet {
       this.button1.addEventListener('click', this.triggerButton1.bind(this));
     }
     if (this.callback2) {
-      this.button2.classList.remove(`is-disabled`, 'is_disabled');
+      this.button2.classList.remove('is-disabled', 'is_disabled');
       this.button2.addEventListener('click', this.triggerButton2.bind(this));
     }
     if (details.input) {
@@ -69,10 +69,10 @@ class ButtonSet {
   }
 
   toggle() {
-    this.dependencies.forEach(dependency => dependency.classList.toggle(`esgst-hidden`));
+    this.dependencies.forEach(dependency => dependency.classList.toggle('esgst-hidden'));
     this.busy = !this.busy;
-    this.button1.classList.toggle(`esgst-hidden`);
-    this.button2.classList.toggle(`esgst-hidden`);
+    this.button1.classList.toggle('esgst-hidden');
+    this.button2.classList.toggle('esgst-hidden');
   }
 
   trigger() {

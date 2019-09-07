@@ -10,7 +10,7 @@ class GeneralURLRedirector extends Module {
         ]]
       ],
       id: 'urlr',
-      name: `URL Redirector`,
+      name: 'URL Redirector',
       sg: true,
       st: true,
       type: 'general'

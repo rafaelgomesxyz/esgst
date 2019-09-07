@@ -30,7 +30,7 @@ class Filters extends Module {
 
   addSingleButton(icon) {
     this.singleButton = shared.common.createHeadingButton({ id: `${this.id}_s_s`, icons: [icon], title: `Hide / unhide items filtered by single filters temporarily` });
-    this.singleButton.classList.add(`esgst-hidden`);
+    this.singleButton.classList.add('esgst-hidden');
     shared.common.createElements_v2(this.singleButton, 'afterBegin', [['span']]);
     this.singleSwitch = new ToggleSwitch(this.singleButton.firstElementChild, null, true, ``, false, false, null, true);
     this.singleSwitch.onChange = () => this.toggleFilteredItems();
@@ -41,11 +41,11 @@ class Filters extends Module {
     const elements = document.querySelectorAll(`[data-esgst-not-filterable="${this.id}"]`);
     if (this.singleSwitch.value) {
       for (const element of elements) {
-        element.classList.add(`esgst-hidden`);
+        element.classList.add('esgst-hidden');
       }
     } else {
       for (const element of elements) {
-        element.classList.remove(`esgst-hidden`);
+        element.classList.remove('esgst-hidden');
       }
     }
   }
@@ -54,7 +54,7 @@ class Filters extends Module {
     const newCount = parseInt(this.singleCounter.textContent) + count;
     this.singleCounter.textContent = newCount;
     if (newCount > 0) {      
-      this.singleButton.classList.remove(`esgst-hidden`);
+      this.singleButton.classList.remove('esgst-hidden');
     }
   }
 
@@ -80,18 +80,18 @@ class Filters extends Module {
     }
 
     const headingButton = document.createElement('div');
-    headingButton.className = `esgst-heading-button esgst-gf-heading-button`;
+    headingButton.className = 'esgst-heading-button esgst-gf-heading-button';
     headingButton.id = `esgst-${obj.id}`;
-    headingButton.setAttribute(`data-draggable-id`, obj.id);
+    headingButton.setAttribute('data-draggable-id', obj.id);
     createElements(headingButton, 'inner', [{
       attributes: {
-        class: `esgst-gf-toggle-switch`
+        class: 'esgst-gf-toggle-switch'
       },
       type: 'span'
     }, {
       attributes: {
-        class: `fa fa-sliders`,
-        title: getFeatureTooltip(obj.id, `Manage presets`)
+        class: 'fa fa-sliders',
+        title: getFeatureTooltip(obj.id, 'Manage presets')
       },
       type: 'i'
     }]);
@@ -112,97 +112,97 @@ class Filters extends Module {
 
     obj.container = createElements(heading, 'afterEnd', [{
       attributes: {
-        class: `esgst-gf-container`
+        class: 'esgst-gf-container'
       },
       type: 'div',
       children: [{
         attributes: {
-          class: `esgst-gf-box`
+          class: 'esgst-gf-box'
         },
         type: 'div',
         children: [{
           attributes: {
-            class: `esgst-gf-filters esgst-hidden`
+            class: 'esgst-gf-filters esgst-hidden'
           },
           type: 'div',
           children: [{
             attributes: {
-              class: `esgst-gf-left-panel`
+              class: 'esgst-gf-left-panel'
             },
             type: 'div',
             children: [{
               attributes: {
-                class: `esgst-gf-box warning esgst-hidden`
+                class: 'esgst-gf-box warning esgst-hidden'
               },
               type: 'div'
             }, {
               attributes: {
-                class: `esgst-gf-basic-filters`
+                class: 'esgst-gf-basic-filters'
               },
               type: 'div',
               children: [{
                 attributes: {
-                  class: `esgst-gf-number-filters`
+                  class: 'esgst-gf-number-filters'
                 },
                 type: 'div'
               }, {
                 attributes: {
-                  class: `esgst-gf-boolean-filters`
+                  class: 'esgst-gf-boolean-filters'
                 },
                 type: 'div'
               }, {
                 attributes: {
-                  class: `esgst-gf-string-filters`
+                  class: 'esgst-gf-string-filters'
                 },
                 type: 'div'
               }]
             }, {
               type: 'div',
               children: [{
-                text: `Advanced `,
+                text: 'Advanced ',
                 type: 'node'
               }, {
                 attributes: {
-                  class: `fa fa-question-circle`,
+                  class: 'fa fa-question-circle',
                   title: `Advanced filters offer more options and flexibility, but may be more complex to understand and use. When you change settings in the basic filters, they will also be changed in the advanced ones, and vice-versa. But the two types are not compatible backwards: basic -> advanced conversion works fine, but advanced -> basic conversion does not, and will result in the loss of any settings that are exclusive to the advanced filter. Bear this in mind when saving a preset, since the last applied preset will be saved.`
                 },
                 type: 'i'
               }]
             }, {
               attributes: {
-                class: `esgst-clickable`
+                class: 'esgst-clickable'
               },
               type: 'div',
               children: [{
-                text: `Manual `,
+                text: 'Manual ',
                 type: 'node'
               }, {
                 attributes: {
-                  class: `fa fa-book`
+                  class: 'fa fa-book'
                 },
                 type: 'i'
               }]
             }, {
               attributes: {
-                class: `esgst-gf-advanced-filters`
+                class: 'esgst-gf-advanced-filters'
               },
               type: 'div'
             }]
           }, {
             attributes: {
-              class: `esgst-gf-right-panel`
+              class: 'esgst-gf-right-panel'
             },
             type: 'div',
             children: [{
               attributes: {
-                class: `esgst-gf-steamgifts-filters`
+                class: 'esgst-gf-steamgifts-filters'
               },
               type: 'div',
               children: [{
                 type: 'div',
                 children: [{
                   attributes: {
-                    class: `esgst-bold`
+                    class: 'esgst-bold'
                   },
                   text: `SteamGifts Filters:`,
                   type: 'span'
@@ -212,54 +212,54 @@ class Filters extends Module {
               type: 'br'
             }, {
               attributes: {
-                class: `esgst-gf-preset-panel`
+                class: 'esgst-gf-preset-panel'
               },
               type: 'div',
               children: [{
                 type: 'div',
                 children: [{
                   attributes: {
-                    class: `esgst-bold`
+                    class: 'esgst-bold'
                   },
                   text: `Preset:`,
                   type: 'span'
                 }, {
                   attributes: {
-                    class: `fa fa-question-circle`,
+                    class: 'fa fa-question-circle',
                     title: `If you have both the basic and the advanced filters enabled, the last applied preset will be saved. For example, if the last setting you altered was in the basic filters, it will save the basic preset, and if the last setting you altered was in the advanced filters, it will save the advanced preset. The two presets are not compatible, so they will overwrite each other. Be careful with this, as you might lose some settings.`
                   },
                   type: 'i'
                 }]
               }, {
                 attributes: {
-                  class: `form__input-small`,
+                  class: 'form__input-small',
                   type: 'text'
                 },
                 type: 'input'
               }, {
                 attributes: {
-                  class: `esgst-description esgst-bold`
+                  class: 'esgst-description esgst-bold'
                 },
                 type: 'div'
               }, {
                 attributes: {
-                  class: `form__row__error esgst-hidden`
+                  class: 'form__row__error esgst-hidden'
                 },
                 type: 'div',
                 children: [{
                   attributes: {
-                    class: `fa fa-exclamation-circle`
+                    class: 'fa fa-exclamation-circle'
                   },
                   type: 'i'
                 }, {
-                  text: ` Please enter a name for the preset.`,
+                  text: ' Please enter a name for the preset.',
                   type: 'node'
                 }]
               }, {
                 attributes: {
-                  class: `esgst-description`
+                  class: 'esgst-description'
                 },
-                text: `The name of the preset.`,
+                text: 'The name of the preset.',
                 type: 'div'
               }]
             }]
@@ -267,7 +267,7 @@ class Filters extends Module {
         }]
       }, {
         attributes: {
-          class: `esgst-gf-button`
+          class: 'esgst-gf-button'
         },
         type: 'div',
         children: [{
@@ -275,7 +275,7 @@ class Filters extends Module {
           type: 'span'
         }, {
           attributes: {
-            class: `esgst-hidden`
+            class: 'esgst-hidden'
           },
           text: 'Collapse',
           type: 'span'
@@ -286,19 +286,19 @@ class Filters extends Module {
           text: '0',
           type: 'span'
         }, {
-          text: ` filtered `,
+          text: ' filtered ',
           type: 'node',
         }, ...(obj.id === 'gf' ? [{
-          text: `- `,
+          text: '- ',
           type: 'node'
         }, {
           text: '0',
           type: 'span'
         }, {
-          text: `P required to enter all unfiltered `,
+          text: 'P required to enter all unfiltered ',
           type: 'node'
         }] : []), {
-          text: `- `,
+          text: '- ',
           type: 'node'
         }, {
           type: 'span'
@@ -344,10 +344,10 @@ class Filters extends Module {
     presetPanel.appendChild(new ButtonSet({
       color1: 'green',
       color2: 'grey',
-      icon1: `fa-check`,
-      icon2: `fa-circle-o-notch fa-spin`,
+      icon1: 'fa-check',
+      icon2: 'fa-circle-o-notch fa-spin',
       title1: 'Save',
-      title2: `Saving...`,
+      title2: 'Saving...',
       callback1: this.filters_savePreset.bind(this, obj)
     }).set);
 
@@ -410,7 +410,7 @@ class Filters extends Module {
             if (!gSettings[`${obj.id}_m_b`]) {
               const attributes = {};
               if (!gSettings[`${obj.id}_${key}`] || !filter.check) {
-                attributes.class = `esgst-hidden`;
+                attributes.class = 'esgst-hidden';
               }
               context = createElements(booleanFilters, 'beforeEnd', [{
                 attributes,
@@ -419,8 +419,8 @@ class Filters extends Module {
                   type: 'span'
                 }, {
                   attributes: {
-                    class: `esgst-gf-filter-count`,
-                    title: `Number of items this rule is hiding`
+                    class: 'esgst-gf-filter-count',
+                    title: 'Number of items this rule is hiding'
                   },
                   type: 'span'
                 }, {
@@ -464,15 +464,15 @@ class Filters extends Module {
               if (!gSettings[`${obj.id}_m_b`]) {
                 const attributes = {};
                 if (!gSettings[`${obj.id}_${key}`] || !filter.check) {
-                  attributes.class = `esgst-hidden`;
+                  attributes.class = 'esgst-hidden';
                 }
                 context = createElements(numberFilters, 'beforeEnd', [{
                   attributes,
                   type: 'div',
                   children: [{
                     attributes: {
-                      class: `esgst-gf-filter-count`,
-                      title: `Number of items this rule is hiding`
+                      class: 'esgst-gf-filter-count',
+                      title: 'Number of items this rule is hiding'
                     },
                     type: 'span'
                   }, {
@@ -486,7 +486,7 @@ class Filters extends Module {
                       },
                       type: 'input'
                     }, {
-                      text: `-`,
+                      text: '-',
                       type: 'node'
                     }, {
                       attributes: {
@@ -513,15 +513,15 @@ class Filters extends Module {
               if (!gSettings[`${obj.id}_m_b`]) {
                 const attributes = {};
                 if (!gSettings[`${obj.id}_${key}`] || !filter.check) {
-                  attributes.class = `esgst-hidden`;
+                  attributes.class = 'esgst-hidden';
                 }
                 context = createElements(numberFilters, 'beforeEnd', [{
                   attributes,
                   type: 'div',
                   children: [{
                     attributes: {
-                      class: `esgst-gf-filter-count`,
-                      title: `Number of items this rule is hiding`
+                      class: 'esgst-gf-filter-count',
+                      title: 'Number of items this rule is hiding'
                     },
                     type: 'span'
                   }, {
@@ -535,7 +535,7 @@ class Filters extends Module {
                       },
                       type: 'input'
                     }, {
-                      text: `-`,
+                      text: '-',
                       type: 'node'
                     }, {
                       attributes: {
@@ -575,7 +575,7 @@ class Filters extends Module {
             if (!gSettings[`${obj.id}_m_b`]) {
               const attributes = {};
               if (!gSettings[`${obj.id}_${key}`] || !filter.check) {
-                attributes.class = `esgst-hidden`;
+                attributes.class = 'esgst-hidden';
               }
               context = createElements(stringFilters, 'beforeEnd', [{
                 attributes,
@@ -590,8 +590,8 @@ class Filters extends Module {
                   }]
                 }, {
                   attributes: {
-                    class: `esgst-gf-filter-count`,
-                    title: `Number of items this rule is hiding`
+                    class: 'esgst-gf-filter-count',
+                    title: 'Number of items this rule is hiding'
                   },
                   type: 'span'
                 }, {
@@ -631,12 +631,12 @@ class Filters extends Module {
     if (!gSettings[`${obj.id}_m_b`]) {
       createElements(stringFilters, 'beforeEnd', [{
         attributes: {
-          class: `esgst-gf-legend-panel`
+          class: 'esgst-gf-legend-panel'
         },
         type: 'div',
         children: [{
           attributes: {
-            class: `esgst-bold`
+            class: 'esgst-bold'
           },
           text: `Legend:`,
           type: 'div'
@@ -644,33 +644,33 @@ class Filters extends Module {
           type: 'div',
           children: [{
             attributes: {
-              class: `fa fa-check-square`
+              class: 'fa fa-check-square'
             },
             type: 'i'
           }, {
-            text: ` - Show All`,
+            text: ' - Show All',
             type: 'node'
           }]
         }, {
           type: 'div',
           children: [{
             attributes: {
-              class: `fa fa-square-o`
+              class: 'fa fa-square-o'
             },
             type: 'i'
           }, {
-            text: ` - Hide All`,
+            text: ' - Hide All',
             type: 'node'
           }]
         }, {
           type: 'div',
           children: [{
             attributes: {
-              class: `fa fa-square`
+              class: 'fa fa-square'
             },
             type: 'i'
           }, {
-            text: ` - Show Only`,
+            text: ' - Show Only',
             type: 'node'
           }]
         }]
@@ -773,26 +773,26 @@ class Filters extends Module {
       const options = {
         filters: filters,
         icons: {
-          add_group: `fa fa-plus`,
-          add_rule: `fa fa-plus`,
-          pause_group: `fa fa-pause`,
-          pause_rule: `fa fa-pause`,
-          remove_group: `fa fa-times`,
-          remove_rule: `fa fa-times`,
-          resume_group: `fa fa-play`,
-          resume_rule: `fa fa-play`,
-          error: `fa fa-exclamation`
+          add_group: 'fa fa-plus',
+          add_rule: 'fa fa-plus',
+          pause_group: 'fa fa-pause',
+          pause_rule: 'fa fa-pause',
+          remove_group: 'fa fa-times',
+          remove_rule: 'fa fa-times',
+          resume_group: 'fa fa-play',
+          resume_rule: 'fa fa-play',
+          error: 'fa fa-exclamation'
         },
         plugins: {
-          [`bt-checkbox`]: {
+          ['bt-checkbox']: {
             font: 'fontawesome'
           },
-          [`not-group`]: {
-            icon_checked: `fa fa-check-square-o`,
-            icon_unchecked: `fa fa-square-o`
+          ['not-group']: {
+            icon_checked: 'fa fa-check-square-o',
+            icon_unchecked: 'fa fa-square-o'
           },
           ['sortable']: {
-            icon: `fa fa-arrows`
+            icon: 'fa fa-arrows'
           }
         },
         sort_filters: true,
@@ -811,42 +811,42 @@ class Filters extends Module {
       obj.builder = window.$(advancedFilters)[0].queryBuilder;
       [obj.rules, obj.rules_save] = this.filters_changeRules(obj);
 
-      obj.builder.$el.on(`click.queryBuilder`, `[data-pause=group]`, event => {
-        const group = event.currentTarget.closest(`.rules-group-container`);
-        group.setAttribute(`data-esgst-paused`, true);
+      obj.builder.$el.on('click.queryBuilder', `[data-pause=group]`, event => {
+        const group = event.currentTarget.closest('.rules-group-container');
+        group.setAttribute('data-esgst-paused', true);
         this.onRulesChanged(obj, {});
       });
-      obj.builder.$el.on(`click.queryBuilder`, `[data-resume=group]`, event => {
-        const group = event.currentTarget.closest(`.rules-group-container`);
-        group.removeAttribute(`data-esgst-paused`);
+      obj.builder.$el.on('click.queryBuilder', `[data-resume=group]`, event => {
+        const group = event.currentTarget.closest('.rules-group-container');
+        group.removeAttribute('data-esgst-paused');
         this.onRulesChanged(obj, {});
       });
-      obj.builder.$el.on(`click.queryBuilder`, `[data-pause=rule]`, event => {
-        const rule = event.currentTarget.closest(`.rule-container`);
-        rule.setAttribute(`data-esgst-paused`, true);
+      obj.builder.$el.on('click.queryBuilder', `[data-pause=rule]`, event => {
+        const rule = event.currentTarget.closest('.rule-container');
+        rule.setAttribute('data-esgst-paused', true);
         this.onRulesChanged(obj, {});
       });
-      obj.builder.$el.on(`click.queryBuilder`, `[data-resume=rule]`, event => {
-        const rule = event.currentTarget.closest(`.rule-container`);
-        rule.removeAttribute(`data-esgst-paused`);
+      obj.builder.$el.on('click.queryBuilder', `[data-resume=rule]`, event => {
+        const rule = event.currentTarget.closest('.rule-container');
+        rule.removeAttribute('data-esgst-paused');
         this.onRulesChanged(obj, {});
       });
 
-      obj.builder.on(`rulesChanged.queryBuilder`, () => {
+      obj.builder.on('rulesChanged.queryBuilder', () => {
         if (!this.isProgrammaticChange) {
           this.onRulesChanged(obj, {});
         }
       });
-      obj.builder.on(`getRules.queryBuilder.filter`, this.filters_changeRules.bind(this, obj));
+      obj.builder.on('getRules.queryBuilder.filter', this.filters_changeRules.bind(this, obj));
     }
 
     if (gSettings[`${obj.id}_m_b`]) {
-      basicFilters.classList.add(`esgst-hidden`);
-      basicFilters.nextElementSibling.classList.add(`esgst-hidden`);
+      basicFilters.classList.add('esgst-hidden');
+      basicFilters.nextElementSibling.classList.add('esgst-hidden');
     }
     if (gSettings[`${obj.id}_m_a`]) {
-      advancedFilters.classList.add(`esgst-hidden`);
-      basicFilters.nextElementSibling.classList.add(`esgst-hidden`);
+      advancedFilters.classList.add('esgst-hidden');
+      basicFilters.nextElementSibling.classList.add('esgst-hidden');
     }
 
     if (obj.id === 'gf') {
@@ -859,22 +859,22 @@ class Filters extends Module {
         {
           id: 'filter_giveaways_exist_in_account',
           key: 'alreadyOwned',
-          name: `Already Owned`
+          name: 'Already Owned'
         },
         {
           id: 'filter_giveaways_missing_base_game',
           key: 'dlcMissingBase',
-          name: `DLC Missing Base`
+          name: 'DLC Missing Base'
         },
         {
           id: 'filter_giveaways_level',
           key: 'aboveLevel',
-          name: `Above Level`
+          name: 'Above Level'
         },
         {
           id: 'filter_giveaways_additional_games',
           key: 'manuallyFiltered',
-          name: `Manually Filtered`
+          name: 'Manually Filtered'
         }
       ].forEach(filter => {
         if (!gSettings[`${obj.id}_${filter.key}`]) return;
@@ -916,7 +916,7 @@ class Filters extends Module {
         }
         const sgFilter = createElements(sgFilters, 'beforeEnd', [{
           attributes: {
-            class: `esgst-gf-category-filter`
+            class: 'esgst-gf-category-filter'
           },
           type: 'div',
           children: [{
@@ -924,12 +924,12 @@ class Filters extends Module {
             children
           }, {
             attributes: {
-              class: `fa fa-circle-o-notch fa-spin esgst-hidden`
+              class: 'fa fa-circle-o-notch fa-spin esgst-hidden'
             },
             type: 'i'
           }, {
             attributes: {
-              class: `fa fa-check esgst-green esgst-hidden`
+              class: 'fa fa-check esgst-green esgst-hidden'
             },
             type: 'i'
           }]
@@ -940,36 +940,36 @@ class Filters extends Module {
           const select = sgFilter.firstElementChild.firstElementChild;
           select.value = gSettings[filter.id];
           select.addEventListener('change', async () => {
-            check.classList.add(`esgst-hidden`);
-            spinning.classList.remove(`esgst-hidden`);
+            check.classList.add('esgst-hidden');
+            spinning.classList.remove('esgst-hidden');
             await setSetting(filter.id, select.value);
             await request({
               data: `filter_os=${gSettings.filter_os}&filter_giveaways_exist_in_account=${gSettings.filter_giveaways_exist_in_account}&filter_giveaways_missing_base_game=${gSettings.filter_giveaways_missing_base_game}&filter_giveaways_level=${gSettings.filter_giveaways_level}&filter_giveaways_additional_games=${gSettings.filter_giveaways_additional_games}&xsrf_token=${this.esgst.xsrfToken}`,
               method: 'POST',
               url: `/account/settings/giveaways`
             });
-            spinning.classList.add(`esgst-hidden`);
-            check.classList.remove(`esgst-hidden`);
+            spinning.classList.add('esgst-hidden');
+            check.classList.remove('esgst-hidden');
           });
         } else {
           const checkbox = new Checkbox(sgFilter, !!gSettings[filter.id]);
           checkbox.onChange = async () => {
-            check.classList.add(`esgst-hidden`);
-            spinning.classList.remove(`esgst-hidden`);
+            check.classList.add('esgst-hidden');
+            spinning.classList.remove('esgst-hidden');
             await setSetting(filter.id, checkbox.value ? 1 : 0);
             await request({
               data: `filter_os=${gSettings.filter_os}&filter_giveaways_exist_in_account=${gSettings.filter_giveaways_exist_in_account}&filter_giveaways_missing_base_game=${gSettings.filter_giveaways_missing_base_game}&filter_giveaways_level=${gSettings.filter_giveaways_level}&filter_giveaways_additional_games=${gSettings.filter_giveaways_additional_games}&xsrf_token=${this.esgst.xsrfToken}`,
               method: 'POST',
               url: `/account/settings/giveaways`
             });
-            spinning.classList.add(`esgst-hidden`);
-            check.classList.remove(`esgst-hidden`);
+            spinning.classList.add('esgst-hidden');
+            check.classList.remove('esgst-hidden');
           };
         }
       });
     }
     if (sgFilters.children.length === 1) {
-      sgFilters.classList.add(`esgst-hidden`);
+      sgFilters.classList.add('esgst-hidden');
     }
 
     let warnings = [];
@@ -1032,67 +1032,67 @@ class Filters extends Module {
       return;
     }
     obj.manualPopup = new Popup({
-      icon: `fa-book`,
-      title: `Advanced Filters Manual`,
+      icon: 'fa-book',
+      title: 'Advanced Filters Manual',
       addScrollable: 'left'
     });
     obj.manualPopup.getScrollable([
-      ['div', { class: `esgst-bold` }, 'Interface'],
+      ['div', { class: 'esgst-bold' }, 'Interface'],
       ['br'],
       ['div', { class: 'markdown' }, [
         ['ul', [
           ['li', [
-            ['span', { class: `esgst-bold` }, [
-              ['i', { class: `fa fa-square-o` }],
-              ` NOT`
+            ['span', { class: 'esgst-bold' }, [
+              ['i', { class: 'fa fa-square-o' }],
+              ' NOT'
             ]],
             ` - If checked, only items that do not apply to the group will be shown.`
           ]],
           ['li', [
-            ['span', { class: `esgst-bold` }, 'AND'],
+            ['span', { class: 'esgst-bold' }, 'AND'],
             ` - Turns the group into an AND group, which means that only items that apply to every single rule of the group will be shown.`
           ]],
           ['li', [
-            ['span', { class: `esgst-bold` }, 'OR'],
+            ['span', { class: 'esgst-bold' }, 'OR'],
             ` - Turns the group into an OR group, which means that only items that apply to at least one rule of the group will be shown.`
           ]],
           ['li', [
-            ['span', { class: `esgst-bold` }, [
-              ['i', { class: `fa fa-arrows` }]
+            ['span', { class: 'esgst-bold' }, [
+              ['i', { class: 'fa fa-arrows' }]
             ]],
             ` - Allows you reorder/move rules/groups. The order of the rules does not alter the result.`
           ]],
           ['li', [
-            ['span', { class: `esgst-bold` }, [
-              ['i', { class: `fa fa-pause` }],
-              ` Pause`
+            ['span', { class: 'esgst-bold' }, [
+              ['i', { class: 'fa fa-pause' }],
+              ' Pause'
             ]],
             ` - Allows you to pause the rule/group, so that it does not filter anything until you resume it or refresh the page.`
           ]],
-          ['li', `The other buttons in the interface should be self-explanatory.`]
+          ['li', 'The other buttons in the interface should be self-explanatory.']
         ]]
       ]],
       ['br'],
-      ['div', { class: `esgst-bold` }, `Types of Filters`],
+      ['div', { class: 'esgst-bold' }, 'Types of Filters'],
       ['br'],
       ['div', { class: 'markdown' }, [
         ['ul', [
           ['li', [
-            ['span', { class: `esgst-bold` }, 'Boolean'],
+            ['span', { class: 'esgst-bold' }, 'Boolean'],
             ` - Presents a choice between true and false. Set to true if you only want to see items that apply to the filter, and to false otherwise. For example, if you only want to see giveaways that are on your wishlist, set wishlisted to "true"; if you only want to see giveaways that you have not entered, set entered to "false".`
           ]],
           ['li', [
-            ['span', { class: `esgst-bold` }, 'Number'],
+            ['span', { class: 'esgst-bold' }, 'Number'],
             ` - Presents a text field and a choice between equal, not equal, less, less or equal, greater, greater or equal, is null and is not null. Enter the value that you want in the text field and choose the option that you want. For example, if you only want to see giveaways above level 5, you can either set level to "greater than 4" or to "greater or equal to 5". The is null and is not null options regard the presence of the filter. For example, some giveaways do not have a rating. If you still want to see those giveaways when filtering by rating, add an additional rule and set rating to "is null".`
           ]],
           ['li', [
-            ['span', { class: `esgst-bold` }, 'Text'],
+            ['span', { class: 'esgst-bold' }, 'Text'],
             ` - Presents a text field and a choice between contains and doesn't contain. Enter the values that you want in the text field, separated by a comma followed by a space, and choose the option that you want. For example, if you only want to see giveaways that have the adventure or the action genres, set genres to "contains Adventure, Action". But if you only want to see giveaways that have both the adventure and the action genres, add 2 rules, set one to "contains Adventure" and the other to "contains Action", and turn the group into an AND group.`
           ]]
         ]]
       ]],
       ['br'],
-      ['div', { class: `esgst-bold` }, `Building the Filters`],
+      ['div', { class: 'esgst-bold' }, 'Building the Filters'],
       ['br'],
       ['div', { class: 'markdown' }, [
         ['div', `The process of building the filters might seem intimidating at first, but it is actually quite simple. Just think of it like this:`],
@@ -1380,7 +1380,7 @@ class Filters extends Module {
       const groupData = {
         condition: group.condition,
         data: {
-          count: group.$el[0].getElementsByClassName(`esgst-gf-filter-count`)[0]
+          count: group.$el[0].getElementsByClassName('esgst-gf-filter-count')[0]
         },
         rules: []
       };
@@ -1391,9 +1391,9 @@ class Filters extends Module {
       group.each(function (rule) {
         if (!event) {
           if (rule.data && rule.data.paused) {
-            rule.$el[0].setAttribute(`data-esgst-paused`, true);
+            rule.$el[0].setAttribute('data-esgst-paused', true);
           } else {
-            rule.$el[0].removeAttribute(`data-esgst-paused`);
+            rule.$el[0].removeAttribute('data-esgst-paused');
           }
         }
 
@@ -1414,10 +1414,10 @@ class Filters extends Module {
           if (!ruleData.data) {
             ruleData.data = {};
           }
-          ruleData.data.count = rule.$el[0].getElementsByClassName(`esgst-gf-filter-count`)[0];
-          ruleData.data.count.classList.remove(`esgst-hidden`);
+          ruleData.data.count = rule.$el[0].getElementsByClassName('esgst-gf-filter-count')[0];
+          ruleData.data.count.classList.remove('esgst-hidden');
         } else {
-          rule.$el[0].getElementsByClassName(`esgst-gf-filter-count`)[0].classList.add(`esgst-hidden`);
+          rule.$el[0].getElementsByClassName('esgst-gf-filter-count')[0].classList.add('esgst-hidden');
         }
         const ruleData_save = {
           id: rule.filter ? rule.filter.id : null,
@@ -1427,7 +1427,7 @@ class Filters extends Module {
           operator: rule.operator ? rule.operator.type : null,
           value: value
         };
-        if (rule.$el[0].getAttribute(`data-esgst-paused`)) {
+        if (rule.$el[0].getAttribute('data-esgst-paused')) {
           if (!ruleData.data) {
             ruleData.data = {};
           }
@@ -1443,15 +1443,15 @@ class Filters extends Module {
       }, function (model) {
         if (!event) {
           if (model.data && model.data.paused) {
-            model.$el[0].setAttribute(`data-esgst-paused`, true);
+            model.$el[0].setAttribute('data-esgst-paused', true);
           } else {
-            model.$el[0].removeAttribute(`data-esgst-paused`);
+            model.$el[0].removeAttribute('data-esgst-paused');
           }
         }
 
         const [data, data_save] = parse(model);
         if (data.rules.length !== 0) {
-          if (model.$el[0].getAttribute(`data-esgst-paused`)) {
+          if (model.$el[0].getAttribute('data-esgst-paused')) {
             data_save.data = {
               paused: true
             };
@@ -1627,11 +1627,11 @@ class Filters extends Module {
     const name = obj.presetInput.value;
 
     if (!name) {
-      obj.presetWarning.classList.remove(`esgst-hidden`);
+      obj.presetWarning.classList.remove('esgst-hidden');
       return;
     }
 
-    obj.presetWarning.classList.add(`esgst-hidden`);
+    obj.presetWarning.classList.add('esgst-hidden');
     const preset = {
       name,
       rules: obj.rules_save
@@ -1659,10 +1659,10 @@ class Filters extends Module {
   }
 
   async filters_openPresetPopup(obj) {
-    const popup = new Popup({addScrollable: true, icon: `fa-sliders`, isTemp: true, title: `Manage presets:`});
+    const popup = new Popup({addScrollable: true, icon: 'fa-sliders', isTemp: true, title: `Manage presets:`});
     createElements(popup.description, 'afterBegin', [{
       attributes: {
-        class: `esgst-description`
+        class: 'esgst-description'
       },
       text: `To edit a preset, apply it and save it with the same name. To rename a preset, click the edit icon, enter the new name and hit "Enter". Drag and drop presets to move them.`,
       type: 'div'
@@ -1670,23 +1670,23 @@ class Filters extends Module {
     let deleted = [];
     const undoButton = createElements(popup.description, 'beforeEnd', [{
       attributes: {
-        class: `esgst-clickable esgst-hidden`
+        class: 'esgst-clickable esgst-hidden'
       },
       type: 'div',
       children: [{
         attributes: {
-          class: `fa fa-rotate-left`,
+          class: 'fa fa-rotate-left',
         },
         type: 'i'
       }, {
-        text: `Undo Delete`,
+        text: 'Undo Delete',
         type: 'span'
       }]
     }]);
     undoButton.addEventListener('click', this.filters_undoDeletePreset.bind(this, obj, deleted, undoButton));
     const table = createElements(popup.scrollable, 'beforeEnd', [{
       attributes: {
-        class: `esgst-text-left popup__keys__list`
+        class: 'esgst-text-left popup__keys__list'
       },
       type: 'div'
     }]);
@@ -1695,56 +1695,56 @@ class Filters extends Module {
         draggable: true
       };
       if (obj.presetInput.value === preset.name) {
-        attributes.class = `esgst-green-highlight`;
+        attributes.class = 'esgst-green-highlight';
       }
       const row = createElements(table, 'beforeEnd', [{
         attributes,
         type: 'div',
         children: [{
           attributes: {
-            class: `esgst-float-left`
+            class: 'esgst-float-left'
           },
           type: 'div',
           children: [{
             attributes: {
-              class: `esgst-hidden`,
+              class: 'esgst-hidden',
               type: 'text',
               value: preset.name
             },
             type: 'input'
           }, {
             attributes: {
-              class: `esgst-clickable`
+              class: 'esgst-clickable'
             },
             text: preset.name,
             type: 'strong'
           }]
         }, {
           attributes: {
-            class: `esgst-clickable esgst-float-right`
+            class: 'esgst-clickable esgst-float-right'
           },
           type: 'div',
           children: [{
             attributes: {
-              class: `fa fa-edit`,
-              title: `Rename preset`
+              class: 'fa fa-edit',
+              title: 'Rename preset'
             },
             type: 'i'
           }, {
             attributes: {
-              title: `Delete preset`
+              title: 'Delete preset'
             },
             type: 'span',
             children: [{
               attributes: {
-                class: `fa fa-trash`
+                class: 'fa fa-trash'
               },
               type: 'i'
             }]
           }]
         }, {
           attributes: {
-            class: `esgst-clear`
+            class: 'esgst-clear'
           },
           type: 'div'
         }]
@@ -1825,8 +1825,8 @@ class Filters extends Module {
   }
 
   filters_showRenameInput(heading, renameInput) {
-    heading.classList.add(`esgst-hidden`);
-    renameInput.classList.remove(`esgst-hidden`);
+    heading.classList.add('esgst-hidden');
+    renameInput.classList.remove('esgst-hidden');
     const value = renameInput.value;
     renameInput.value = ``;
     renameInput.focus();
@@ -1860,8 +1860,8 @@ class Filters extends Module {
         });
       }
     }
-    event.currentTarget.classList.add(`esgst-hidden`);
-    heading.classList.remove(`esgst-hidden`);
+    event.currentTarget.classList.add('esgst-hidden');
+    heading.classList.remove('esgst-hidden');
     await setSetting(values);
   }
 
@@ -1869,7 +1869,7 @@ class Filters extends Module {
     const deleteButton = event.currentTarget;
     createElements(deleteButton, 'inner', [{
       attributes: {
-        class: `fa fa-circle-o-notch fa-spin`
+        class: 'fa fa-circle-o-notch fa-spin'
       },
       type: 'i'
     }]);
@@ -1881,37 +1881,37 @@ class Filters extends Module {
     await setSetting(obj.key, presets);
     createElements(deleteButton, 'inner', [{
       attributes: {
-        class: `fa fa-trash`
+        class: 'fa fa-trash'
       },
       type: 'i'
     }]);
-    row.classList.add(`esgst-hidden`);
+    row.classList.add('esgst-hidden');
     deleted.push({
       details: preset,
       row: row
     });
-    undoButton.classList.remove(`esgst-hidden`);
+    undoButton.classList.remove('esgst-hidden');
   }
 
   async filters_undoDeletePreset(obj, deleted, undoButton) {
     const preset = deleted.pop();
-    preset.row.classList.remove(`esgst-hidden`);
+    preset.row.classList.remove('esgst-hidden');
     preset.row.parentElement.appendChild(preset.row);
     const presets = gSettings[obj.key];
     presets.push(preset.details);
     await setSetting(obj.key, presets);
     if (deleted.length === 0) {
-      undoButton.classList.add(`esgst-hidden`);
+      undoButton.classList.add('esgst-hidden');
     }
   }
 
   filters_toggleFilters(obj) {
-    obj.collapseButton.classList.toggle(`esgst-hidden`);
-    obj.expandButton.classList.toggle(`esgst-hidden`);
+    obj.collapseButton.classList.toggle('esgst-hidden');
+    obj.expandButton.classList.toggle('esgst-hidden');
     if (obj.warningsPanel.firstElementChild) {
-      obj.warningsPanel.classList.toggle(`esgst-hidden`);
+      obj.warningsPanel.classList.toggle('esgst-hidden');
     }
-    obj.filtersPanel.classList.toggle(`esgst-hidden`);
+    obj.filtersPanel.classList.toggle('esgst-hidden');
 
   }
 
@@ -1930,7 +1930,7 @@ class Filters extends Module {
     } else {
       items = this.esgst.currentScope.comments;
     }
-    const counters = document.getElementsByClassName(`esgst-gf-filter-count`);
+    const counters = document.getElementsByClassName('esgst-gf-filter-count');
     for (const counter of counters) {
       counter.textContent = '0';
     }
@@ -1938,28 +1938,28 @@ class Filters extends Module {
     let pointsCount = 0;
     for (const item of items) {
       if (unfilter) {
-        if (item.outerWrap.classList.contains(`esgst-hidden`) && !item.outerWrap.getAttribute(`data-esgst-not-filterable`)) {
-          item.outerWrap.classList.remove(`esgst-hidden`);
+        if (item.outerWrap.classList.contains('esgst-hidden') && !item.outerWrap.getAttribute('data-esgst-not-filterable')) {
+          item.outerWrap.classList.remove('esgst-hidden');
         }
-        if (obj.id === 'cf' && item.outerWrap.parentElement.classList.contains(`esgst-hidden`) && !item.outerWrap.parentElement.getAttribute(`data-esgst-not-filterable`)) {
-          item.outerWrap.parentElement.classList.remove(`esgst-hidden`);
+        if (obj.id === 'cf' && item.outerWrap.parentElement.classList.contains('esgst-hidden') && !item.outerWrap.parentElement.getAttribute('data-esgst-not-filterable')) {
+          item.outerWrap.parentElement.classList.remove('esgst-hidden');
         }
       } else if (this.filters_filterItem(obj.filters, item, obj.rules)) {
-        if (item.outerWrap.classList.contains(`esgst-hidden`) && !item.outerWrap.getAttribute(`data-esgst-not-filterable`)) {
-          item.outerWrap.classList.remove(`esgst-hidden`);
+        if (item.outerWrap.classList.contains('esgst-hidden') && !item.outerWrap.getAttribute('data-esgst-not-filterable')) {
+          item.outerWrap.classList.remove('esgst-hidden');
         }
-        if (obj.id === 'cf' && item.outerWrap.parentElement.classList.contains(`esgst-hidden`) && !item.outerWrap.parentElement.getAttribute(`data-esgst-not-filterable`)) {
-          item.outerWrap.parentElement.classList.remove(`esgst-hidden`);
+        if (obj.id === 'cf' && item.outerWrap.parentElement.classList.contains('esgst-hidden') && !item.outerWrap.parentElement.getAttribute('data-esgst-not-filterable')) {
+          item.outerWrap.parentElement.classList.remove('esgst-hidden');
         }
         if (item.points && !item.entered) {
           pointsCount += item.points;
         }
       } else {
-        if (!item.outerWrap.classList.contains(`esgst-hidden`) && !item.outerWrap.getAttribute(`data-esgst-not-filterable`)) {
-          item.outerWrap.classList.add(`esgst-hidden`);
+        if (!item.outerWrap.classList.contains('esgst-hidden') && !item.outerWrap.getAttribute('data-esgst-not-filterable')) {
+          item.outerWrap.classList.add('esgst-hidden');
         }
-        if (obj.id === 'cf' && !item.outerWrap.parentElement.classList.contains(`esgst-hidden`) && !item.outerWrap.parentElement.getAttribute(`data-esgst-not-filterable`)) {
-          item.outerWrap.parentElement.classList.add(`esgst-hidden`);
+        if (obj.id === 'cf' && !item.outerWrap.parentElement.classList.contains('esgst-hidden') && !item.outerWrap.parentElement.getAttribute('data-esgst-not-filterable')) {
+          item.outerWrap.parentElement.classList.add('esgst-hidden');
         }
         filteredCount += 1;
       }

@@ -8,11 +8,11 @@ class CommentsCommentVariables extends Module {
     this.info = {
       description: [
         ['ul', [
-          ['li', `Replaces certain variables with values when submitting a comment.`]
+          ['li', 'Replaces certain variables with values when submitting a comment.']
         ]]
       ],
       id: 'cv',
-      name: `Comment Variables`,
+      name: 'Comment Variables',
       sg: true,
       st: true,
       type: 'comments',

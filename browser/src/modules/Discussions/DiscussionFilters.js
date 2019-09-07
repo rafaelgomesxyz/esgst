@@ -22,7 +22,7 @@ class DiscussionsDiscussionFilters extends Filters {
     this.info = {
       description: [
         ['ul', [
-          ['li', `Allows you to filter discussions.`]
+          ['li', 'Allows you to filter discussions.']
         ]]
       ],
       features: {
@@ -31,21 +31,21 @@ class DiscussionsDiscussionFilters extends Filters {
             ['ul', [
               ['li', [
                 `Adds a button (`,
-                ['i', { class: `fa fa-eye` }],
-                ` if the discussion is hidden and `,
-                ['i', { class: `fa fa-eye-slash` }],
+                ['i', { class: 'fa fa-eye' }],
+                ' if the discussion is hidden and ',
+                ['i', { class: 'fa fa-eye-slash' }],
                 ` if it is not) next to a discussion's title (in any page) that allows you to hide the discussion.`
               ]],
               ['li', [
                 `Adds a button (`,
-                ['i', { class: `fa fa-comments` }],
-                ` `,
-                ['i', { class: `fa fa-eye-slash` }],
+                ['i', { class: 'fa fa-comments' }],
+                ' ',
+                ['i', { class: 'fa fa-eye-slash' }],
                 `) to the page heading of this menu that allows you to view all of the discussions that have been hidden.`
               ]],
             ]]
           ],
-          name: `Single Filters`,
+          name: 'Single Filters',
           sg: true,
           features: {
             df_s_s: {
@@ -57,10 +57,10 @@ class DiscussionsDiscussionFilters extends Filters {
         df_m: {
           description: [
             ['ul', [
-              ['li', `Allows you to hide multiple discussions in a page using many different filters.`],
+              ['li', 'Allows you to hide multiple discussions in a page using many different filters.'],
               ['li', [
                 `Adds a toggle switch with a button (`,
-                ['i', { class: `fa fa-sliders` }],
+                ['i', { class: 'fa fa-sliders' }],
                 `) to the main page heading of any `,
                 ['a', { href: `https://www.steamgifts.com/discussions` }, 'discussions'],
                 ` page. The switch allows you to turn the filters on/off and the button allows you to manage your presets.`
@@ -72,17 +72,17 @@ class DiscussionsDiscussionFilters extends Filters {
                 ['ul', [
                   ['li', [
                     `"Show all" (`,
-                    ['i', { class: `fa fa-check-square` }],
+                    ['i', { class: 'fa fa-check-square' }],
                     `) does not hide any discussions that apply to the filter (this is the default state).`
                   ]],
                   ['li', [
                     `"Show only" (`,
-                    ['i', { class: `fa fa-square` }],
+                    ['i', { class: 'fa fa-square' }],
                     `) hides any discussions that do not apply to the filter.`
                   ]],
                   ['li', [
                     `"Hide all" (`,
-                    ['i', { class: `fa fa-square-o` }],
+                    ['i', { class: 'fa fa-square-o' }],
                     `) hides any discussions that apply to the filter.`
                   ]]
                 ]]
@@ -90,32 +90,32 @@ class DiscussionsDiscussionFilters extends Filters {
               ['li', `A preset contains all of your rules and can be saved to be reused later. You can save as many presets as you want. Each preset contains 3 types of rules:`],
               ['ul', [
                 ['li', `Basic rules are the ones that you can change directly in the filter panel, using the sliders/checkboxes as explained in the previous item.`],
-                ['li', `Exception rules are the ones that you can change by clicking on the icon `],
-                ['i', { class: `fa fa-gear` }],
+                ['li', 'Exception rules are the ones that you can change by clicking on the icon '],
+                ['i', { class: 'fa fa-gear' }],
                 ` in the filter panel. They are exceptions to the basic rules. For example, if you set the basic rule of the "Created" filter to "hide all" and you add an exception rule for the "Comments" filter to the 0-50 range, none of your created discussions that have 0-50 comments will be hidden, because they apply to the exception.`
               ]],
               ['li', [
                 `Override rules are the ones that you can change by clicking on the icon (`,
-                ['i', { class: `fa fa-exclamation esgst-faded` }],
-                ` if set to overridable and `,
-                ['i', { class: `fa fa-exclamation` }],
+                ['i', { class: 'fa fa-exclamation esgst-faded' }],
+                ' if set to overridable and ',
+                ['i', { class: 'fa fa-exclamation' }],
                 ` if set to non-overridable) next to each filter. They are enforcements of the basic rules. Continuing the previous example, if you set the override rule of the "Created" filter to "non-overridable", then all of your created discussions will be hidden, because even if they apply to the exception, the basic rule is being enforced by the override rule, so the exception cannot override it.`
               ]]
             ]]
           ],
           features: {
             df_m_b: {
-              name: `Hide basic filters.`,
+              name: 'Hide basic filters.',
               sg: true
             },
             df_m_a: {
-              name: `Hide advanced filters.`,
+              name: 'Hide advanced filters.',
               sg: true
             },
             df_comments: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter discussions by number of comments.`]
+                  ['li', 'Allows you to filter discussions by number of comments.']
                 ]]
               ],
               name: 'Comments',
@@ -163,7 +163,7 @@ class DiscussionsDiscussionFilters extends Filters {
                   ['li', `Allows you to filter discussions categorized as "Group Recruitment".`]
                 ]]
               ],
-              name: `Group Recruitment`,
+              name: 'Group Recruitment',
               sg: true
             },
             df_letsPlayTogether: {
@@ -181,7 +181,7 @@ class DiscussionsDiscussionFilters extends Filters {
                   ['li', `Allows you to filter discussions categorized as "Off-Topic".`]
                 ]]
               ],
-              name: `Off-Topic`,
+              name: 'Off-Topic',
               sg: true
             },
             df_puzzles: {
@@ -205,7 +205,7 @@ class DiscussionsDiscussionFilters extends Filters {
             df_created: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter discussions created by yourself.`]
+                  ['li', 'Allows you to filter discussions created by yourself.']
                 ]]
               ],
               name: 'Created',
@@ -214,7 +214,7 @@ class DiscussionsDiscussionFilters extends Filters {
             df_poll: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter discussions that contain polls.`]
+                  ['li', 'Allows you to filter discussions that contain polls.']
                 ]]
               ],
               name: 'Poll',
@@ -223,7 +223,7 @@ class DiscussionsDiscussionFilters extends Filters {
             df_bookmarked: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter discussions that you have bookmarked.`]
+                  ['li', 'Allows you to filter discussions that you have bookmarked.']
                 ]]
               ],
               name: 'Bookmarked',
@@ -233,7 +233,7 @@ class DiscussionsDiscussionFilters extends Filters {
               dependencies: ['gdttt'],
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter discussions that you have visited.`]
+                  ['li', 'Allows you to filter discussions that you have visited.']
                 ]]
               ],
               name: 'Visited',
@@ -253,7 +253,7 @@ class DiscussionsDiscussionFilters extends Filters {
               dependencies: ['ct'],
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter discussions that you have read.`]
+                  ['li', 'Allows you to filter discussions that you have read.']
                 ]]
               ],
               name: 'Unread',
@@ -262,19 +262,19 @@ class DiscussionsDiscussionFilters extends Filters {
             df_authors: {
               description: [
                 ['ul', [
-                  ['li', `Allows you to filter discussions by author.`]
+                  ['li', 'Allows you to filter discussions by author.']
                 ]]
               ],
               name: 'Authors',
               sg: true
             }
           },
-          name: `Multiple Filters`,
+          name: 'Multiple Filters',
           sg: true
         }
       },
       id: 'df',
-      name: `Discussion Filters`,
+      name: 'Discussion Filters',
       sg: true,
       type: 'discussions'
     };
@@ -283,7 +283,7 @@ class DiscussionsDiscussionFilters extends Filters {
   async init() {
     if (gSettings.df_s) {
       if (gSettings.df_s_s) {
-        this.addSingleButton(`fa-comments`);
+        this.addSingleButton('fa-comments');
       }
       this.esgst.discussionFeatures.push(this.df_addButtons.bind(this));
     }
@@ -306,8 +306,8 @@ class DiscussionsDiscussionFilters extends Filters {
     obj.process = new Process({
       button,
       popup: {
-        icon: `fa-comments`,
-        title: `Hidden Discussions`,
+        icon: 'fa-comments',
+        title: 'Hidden Discussions',
         addProgress: true,
         addScrollable: 'left'
       },
@@ -323,10 +323,10 @@ class DiscussionsDiscussionFilters extends Filters {
 
   async df_initUrls(obj) {
     obj.discussions = obj.popup.getScrollable([
-      ['div', { class: `table esgst-text-left` }, [
+      ['div', { class: 'table esgst-text-left' }, [
         ['div', { class: 'table__heading' }, [
-          ['div', { class: `table__column--width-fill` }, 'Summary'],
-          ['div', { class: `table__column--width-small text-center` }, 'Comments']
+          ['div', { class: 'table__column--width-fill' }, 'Summary'],
+          ['div', { class: 'table__column--width-small text-center' }, 'Comments']
         ]],
         ['div', { class: 'table__rows' }]
       ]]
@@ -360,22 +360,22 @@ class DiscussionsDiscussionFilters extends Filters {
       type: 'div',
       children: [{
         attributes: {
-          class: `table__row-outer-wrap`
+          class: 'table__row-outer-wrap'
         },
         type: 'div',
         children: [{
           attributes: {
-            class: `table__row-inner-wrap`
+            class: 'table__row-inner-wrap'
           },
           type: 'div',
           children: [{
             type: 'div',
             children: [{
-              context: responseHtml.getElementsByClassName(`global__image-outer-wrap`)[0]
+              context: responseHtml.getElementsByClassName('global__image-outer-wrap')[0]
             }]
           }, {
             attributes: {
-              class: `table__column--width-fill`
+              class: 'table__column--width-fill'
             },
             type: 'div',
             children: [{
@@ -392,22 +392,22 @@ class DiscussionsDiscussionFilters extends Filters {
               type: 'p',
               children: [{
                 attributes: {
-                  class: `table__column__secondary-link`,
+                  class: 'table__column__secondary-link',
                   href: categoryLink.getAttribute('href')
                 },
                 text: categoryLink.textContent,
                 type: 'a'
               }, {
-                text: ` - `,
+                text: ' - ',
                 type: 'node'
               }, {
                 context: responseHtml.querySelector(`.comment [data-timestamp]`)
               }, {
-                text: ` by `,
+                text: ' by ',
                 type: 'node'
               }, {
                 attributes: {
-                  class: `table__column__secondary-link`,
+                  class: 'table__column__secondary-link',
                   href: usernameLink.getAttribute('href')
                 },
                 text: usernameLink.textContent,
@@ -416,12 +416,12 @@ class DiscussionsDiscussionFilters extends Filters {
             }]
           }, {
             attributes: {
-              class: `table__column--width-small text-center`
+              class: 'table__column--width-small text-center'
             },
             type: 'div',
             children: [{
               attributes: {
-                class: `table__column__secondary-link`,
+                class: 'table__column__secondary-link',
                 href: `/discussion/${obj.ids[obj.index]}/`
               },
               text: `${breadcrumbs[1].textContent.match(/(.+) Comments?/)[1]}`,
@@ -445,14 +445,14 @@ class DiscussionsDiscussionFilters extends Filters {
 
   df_addButtons(discussions, main) {
     for (const discussion of discussions) {
-      if (!discussion.heading.parentElement.getElementsByClassName(`esgst-df-button`)[0]) {
+      if (!discussion.heading.parentElement.getElementsByClassName('esgst-df-button')[0]) {
         new Button(discussion.headingContainer.firstElementChild, 'beforeBegin', {
           callbacks: [this.df_hideDiscussion.bind(this, discussion, main), null, this.df_unhideDiscussion.bind(this, discussion, main), null],
-          className: `esgst-df-button`,
-          icons: [`fa-eye-slash esgst-clickable`, `fa-circle-o-notch fa-spin`, `fa-eye esgst-clickable`, `fa-circle-o-notch fa-spin`],
+          className: 'esgst-df-button',
+          icons: ['fa-eye-slash esgst-clickable', 'fa-circle-o-notch fa-spin', 'fa-eye esgst-clickable', 'fa-circle-o-notch fa-spin'],
           id: 'df_s',
           index: discussion.saved && discussion.saved.hidden ? 2 : 0,
-          titles: [`Hide discussion`, `Hiding discussion...`, `Unhide discussion`, `Unhiding discussion...`]
+          titles: ['Hide discussion', 'Hiding discussion...', 'Unhide discussion', 'Unhiding discussion...']
         });
       }
     }
@@ -518,7 +518,7 @@ class DiscussionsDiscussionFilters extends Filters {
       },
       groupRecruitment: {
         check: true,
-        name: `Group Recruitment`,
+        name: 'Group Recruitment',
         type: 'boolean'
       },
       letsPlayTogether: {
@@ -528,7 +528,7 @@ class DiscussionsDiscussionFilters extends Filters {
       },
       offTopic: {
         check: true,
-        name: `Off-Topic`,
+        name: 'Off-Topic',
         type: 'boolean'
       },
       puzzles: {

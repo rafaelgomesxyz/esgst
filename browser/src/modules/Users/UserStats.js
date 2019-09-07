@@ -25,7 +25,7 @@ class UsersUserStats extends Module {
         ]]
       ],
       id: 'us',
-      name: `User Stats`,
+      name: 'User Stats',
       sg: true,
       type: 'users'
     };
@@ -37,44 +37,44 @@ class UsersUserStats extends Module {
   }
 
   async us_get(context, main, source, endless) {
-    if (!main && !context.closest(`.esgst-wbs-popup`)) {
+    if (!main && !context.closest('.esgst-wbs-popup')) {
       return;
     }
     if (context === document || !main) {
       createElements(context.getElementsByClassName('table__heading')[0].firstElementChild, 'afterEnd', [{
         attributes: {
-          class: `table__column--width-small text-center`
+          class: 'table__column--width-small text-center'
         },
-        text: `Last Online`,
+        text: 'Last Online',
         type: 'div'
       }, {
         attributes: {
-          class: `table__column--width-small text-center`
+          class: 'table__column--width-small text-center'
         },
-        text: `Gifts Won`,
+        text: 'Gifts Won',
         type: 'div'
       }, {
         attributes: {
-          class: `table__column--width-small text-center`
+          class: 'table__column--width-small text-center'
         },
-        text: `Gifts Sent`,
+        text: 'Gifts Sent',
         type: 'div'
       }, {
         attributes: {
-          class: `table__column--width-small text-center`
+          class: 'table__column--width-small text-center'
         },
         text: 'Ratio',
         type: 'div'
       }, {
         attributes: {
-          class: `table__column--width-small text-center`
+          class: 'table__column--width-small text-center'
         },
-        text: `Contributor Level`,
+        text: 'Contributor Level',
         type: 'div'
       }]);
     }
     let users = {};
-    let elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .table__row-inner-wrap, .esgst-es-page-${endless}.table__row-inner-wrap` : `.table__row-inner-wrap`}`);
+    let elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .table__row-inner-wrap, .esgst-es-page-${endless}.table__row-inner-wrap` : '.table__row-inner-wrap'}`);
     for (let i = 0, n = elements.length; i < n; ++i) {
       let element = elements[i];
       users[element.getElementsByClassName('table__column__heading')[0].textContent] = (main && element.firstElementChild.nextElementSibling) || element.firstElementChild;
@@ -98,10 +98,10 @@ class UsersUserStats extends Module {
     for (i = 0, n = elements.length; i < n; ++i) {
       element = elements[i];
       switch (element.textContent) {
-        case `Last Online`:
+        case 'Last Online':
           html.push({
             attributes: {
-              class: `table__column--width-small text-center`
+              class: 'table__column--width-small text-center'
             },
             type: 'div',
             children: Array.from(element.nextElementSibling.childNodes).map(x => {
@@ -111,23 +111,23 @@ class UsersUserStats extends Module {
             })
           });
           break;
-        case `Gifts Won`:
+        case 'Gifts Won':
           profile.wonRow = element.parentElement;
           profile.wonRowLeft = element;
           profile.wonRowRight = element.nextElementSibling;
-          rows = JSON.parse(profile.wonRowRight.firstElementChild.firstElementChild.getAttribute(`data-ui-tooltip`)).rows;
+          rows = JSON.parse(profile.wonRowRight.firstElementChild.firstElementChild.getAttribute('data-ui-tooltip')).rows;
           profile.wonCount = parseInt(rows[0].columns[1].name.replace(/,/g, ``));
           profile.wonFull = parseInt(rows[1].columns[1].name.replace(/,/g, ``));
           profile.wonReduced = parseInt(rows[2].columns[1].name.replace(/,/g, ``));
           profile.wonZero = parseInt(rows[3].columns[1].name.replace(/,/g, ``));
           cvrow = profile.wonRowRight.firstElementChild.lastElementChild;
-          rows = JSON.parse(cvrow.getAttribute(`data-ui-tooltip`)).rows;
+          rows = JSON.parse(cvrow.getAttribute('data-ui-tooltip')).rows;
           profile.wonCV = parseFloat(cvrow.textContent.replace(/[$,]/g, ``));
           profile.realWonCV = parseFloat(rows[0].columns[1].name.replace(/[$,]/g, ``));
           element.nextElementSibling.firstElementChild.firstElementChild.firstElementChild.removeAttribute('style');
           html.push({
             attributes: {
-              class: `table__column--width-small text-center`
+              class: 'table__column--width-small text-center'
             },
             type: 'div',
             children: Array.from(element.nextElementSibling.childNodes).map(x => {
@@ -137,24 +137,24 @@ class UsersUserStats extends Module {
             })
           });
           break;
-        case `Gifts Sent`:
+        case 'Gifts Sent':
           profile.sentRow = element.parentElement;
           profile.sentRowLeft = element;
           profile.sentRowRight = element.nextElementSibling;
-          rows = JSON.parse(profile.sentRowRight.firstElementChild.firstElementChild.getAttribute(`data-ui-tooltip`)).rows;
+          rows = JSON.parse(profile.sentRowRight.firstElementChild.firstElementChild.getAttribute('data-ui-tooltip')).rows;
           profile.sentCount = parseInt(rows[0].columns[1].name.replace(/,/g, ``));
           profile.sentFull = parseInt(rows[1].columns[1].name.replace(/,/g, ``));
           profile.sentReduced = parseInt(rows[2].columns[1].name.replace(/,/g, ``));
           profile.sentZero = parseInt(rows[3].columns[1].name.replace(/,/g, ``));
           profile.notSent = parseInt(rows[5].columns[1].name.replace(/,/g, ``));
           cvrow = profile.sentRowRight.firstElementChild.lastElementChild;
-          rows = JSON.parse(cvrow.getAttribute(`data-ui-tooltip`)).rows;
+          rows = JSON.parse(cvrow.getAttribute('data-ui-tooltip')).rows;
           profile.sentCV = parseFloat(cvrow.textContent.replace(/[$,]/g, ``));
           profile.realSentCV = parseFloat(rows[0].columns[1].name.replace(/[$,]/g, ``));
           element.nextElementSibling.firstElementChild.firstElementChild.firstElementChild.removeAttribute('style');
           html.push({
             attributes: {
-              class: `table__column--width-small text-center`
+              class: 'table__column--width-small text-center'
             },
             type: 'div',
             children: Array.from(element.nextElementSibling.childNodes).map(x => {
@@ -164,11 +164,11 @@ class UsersUserStats extends Module {
             })
           });
           break;
-        case `Contributor Level`:
+        case 'Contributor Level':
         shared.esgst.modules.usersSentWonRatio.swr_add(profile);
           html.push({
             attributes: {
-              class: `table__column--width-small text-center`
+              class: 'table__column--width-small text-center'
             },
             type: 'div',
             children: Array.from(profile.sentRow.nextElementSibling.lastElementChild.childNodes).map(x => {
@@ -178,9 +178,9 @@ class UsersUserStats extends Module {
             })
           }, {
               attributes: {
-                class: `table__column--width-small text-center`
+                class: 'table__column--width-small text-center'
               },
-              text: parseFloat(JSON.parse(element.nextElementSibling.firstElementChild.getAttribute(`data-ui-tooltip`)).rows[0].columns[1].name),
+              text: parseFloat(JSON.parse(element.nextElementSibling.firstElementChild.getAttribute('data-ui-tooltip')).rows[0].columns[1].name),
               type: 'div'
             });
           break;

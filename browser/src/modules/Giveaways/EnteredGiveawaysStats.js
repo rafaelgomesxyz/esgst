@@ -8,20 +8,20 @@ class GiveawaysEnteredGiveawaysStats extends Module {
     this.info = {
       description: [
         ['ul', [
-          ['li', `Allows you to see stats for your entered giveaways in the sidebar of the entered page.`]
+          ['li', 'Allows you to see stats for your entered giveaways in the sidebar of the entered page.']
         ]]
       ],
       features: {
         egs_e: {
-          name: `Include ended giveaways in the stats.`,
-          sgPaths: `My Giveaways - Entered`,
+          name: 'Include ended giveaways in the stats.',
+          sgPaths: 'My Giveaways - Entered',
           sg: true
         }
       },
       id: 'egs',
-      name: `Entered Giveaways Stats`,
+      name: 'Entered Giveaways Stats',
       sg: true,
-      sgPaths: `My Giveaways - Entered`,
+      sgPaths: 'My Giveaways - Entered',
       type: 'giveaways'
     };
   }
@@ -31,31 +31,31 @@ class GiveawaysEnteredGiveawaysStats extends Module {
       return;
     }
     common.createSidebarNavigation(this.esgst.sidebar, 'beforeEnd', {
-      name: `Entered Giveaways Stats`,
+      name: 'Entered Giveaways Stats',
       items: [
         {
           id: 'egs_chance',
-          name: `Average Chance`,
+          name: 'Average Chance',
           count: 0
         },
         {
           id: 'egs_level',
-          name: `Average Level`,
+          name: 'Average Level',
           count: 0
         },
         {
           id: 'egs_entries',
-          name: `Average Entries`,
+          name: 'Average Entries',
           count: 0
         },
         {
           id: 'egs_points',
-          name: `Average Points Spent`,
+          name: 'Average Points Spent',
           count: 0
         },
         {
           id: 'egs_simple_points',
-          name: `Total Points Spent`,
+          name: 'Total Points Spent',
           count: 0
         }
       ]
@@ -74,10 +74,10 @@ class GiveawaysEnteredGiveawaysStats extends Module {
       total: 0
     };
     for (const key in obj.counters) {
-      obj.elements[key] = document.querySelector(`#egs_${key}`).querySelector(`.sidebar__navigation__item__count`);
+      obj.elements[key] = document.querySelector(`#egs_${key}`).querySelector('.sidebar__navigation__item__count');
     }
     for (const key in obj.simpleCounters) {
-      obj.elements[`simple_${key}`] = document.querySelector(`#egs_simple_${key}`).querySelector(`.sidebar__navigation__item__count`);
+      obj.elements[`simple_${key}`] = document.querySelector(`#egs_simple_${key}`).querySelector('.sidebar__navigation__item__count');
     }
     this.esgst.giveawayFeatures.push((giveaways, main) => this.addStats(obj, giveaways, main));
   }

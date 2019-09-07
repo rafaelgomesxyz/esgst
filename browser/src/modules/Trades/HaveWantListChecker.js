@@ -26,7 +26,7 @@ class TradesHaveWantListChecker extends Module {
         ['ul', [
           ['li', [
             `Adds a button (`,
-            ['i', { class: `fa fa-list` }],
+            ['i', { class: 'fa fa-list' }],
             `) to the right side of the first page heading of any trade that allows you to check the have/want list against your wishlisted/owned games, along with some filtering options.`
           ]]
         ]]
@@ -46,7 +46,7 @@ class TradesHaveWantListChecker extends Module {
       button: createHeadingButton({
         context: document.getElementsByClassName('page_heading')[0],
         id: 'hwlc',
-        icons: [`fa-list`]
+        icons: ['fa-list']
       })
     };
     obj.button.addEventListener('click', this.hwlc_openPopup.bind(this, obj));
@@ -62,7 +62,7 @@ class TradesHaveWantListChecker extends Module {
       return;
     }
     obj.popup = new Popup({
-      icon: `fa-list`,
+      icon: 'fa-list',
       title: `Have/Want List Checker`,
       addScrollable: 'left'
     });
@@ -80,7 +80,7 @@ class TradesHaveWantListChecker extends Module {
 
   hwlc_addPanel(obj) {
     obj.panel = obj.popup.getScrollable();
-    obj.panel.classList.add(`esgst-hwlc-panel`, 'markdown');
+    obj.panel.classList.add('esgst-hwlc-panel', 'markdown');
     obj.sections = {};
     this.hwlc_addSection(obj, 'have', 'want');
     this.hwlc_addSection(obj, 'want', 'have');
@@ -90,7 +90,7 @@ class TradesHaveWantListChecker extends Module {
     obj[key] = document.querySelector(`.${key}`);
     createElements(obj.panel, 'beforeEnd', [{
       attributes: {
-        class: `esgst-hwlc-section`
+        class: 'esgst-hwlc-section'
       },
       type: 'div',
       children: [{
@@ -117,7 +117,7 @@ class TradesHaveWantListChecker extends Module {
         type: 'ul',
         children: [{
           attributes: {
-            class: `fa fa-circle-o-notch fa-spin`
+            class: 'fa fa-circle-o-notch fa-spin'
           },
           type: 'i'
         }]
@@ -133,7 +133,7 @@ class TradesHaveWantListChecker extends Module {
         type: 'ul',
         children: [{
           attributes: {
-            class: `fa fa-circle-o-notch fa-spin`
+            class: 'fa fa-circle-o-notch fa-spin'
           },
           type: 'i'
         }]
@@ -146,8 +146,8 @@ class TradesHaveWantListChecker extends Module {
           type: 'node'
         }, {
           attributes: {
-            class: `fa fa-question-circle`,
-            title: `You can report unidentified games in the ESGST thread so that exceptions can be added for them`
+            class: 'fa fa-question-circle',
+            title: 'You can report unidentified games in the ESGST thread so that exceptions can be added for them'
           },
           type: 'i'
         }]
@@ -158,7 +158,7 @@ class TradesHaveWantListChecker extends Module {
         type: 'ul',
         children: [{
           attributes: {
-            class: `fa fa-circle-o-notch fa-spin`
+            class: 'fa fa-circle-o-notch fa-spin'
           },
           type: 'i'
         }]
@@ -200,7 +200,7 @@ class TradesHaveWantListChecker extends Module {
     } catch (error) {
       console.log(error);
 
-      window.alert(`Could not retrieve list of Steam games. Games will not be identified by name.`);
+      window.alert('Could not retrieve list of Steam games. Games will not be identified by name.');
     }
   }
 
@@ -259,7 +259,7 @@ class TradesHaveWantListChecker extends Module {
     }
     if (key === 'want') {
       try {
-        const steamId = document.querySelector(`.author_name`).getAttribute('href').match(/\d+/)[0];
+        const steamId = document.querySelector('.author_name').getAttribute('href').match(/\d+/)[0];
         const response = await request({
           method: 'GET',
           url: `http://store.steampowered.com/wishlist/profiles/${steamId}`
@@ -305,8 +305,8 @@ class TradesHaveWantListChecker extends Module {
           type: 'li',
           children: [{
             attributes: {
-              class: `fa fa-star`,
-              title: `On their wishlist`
+              class: 'fa fa-star',
+              title: 'On their wishlist'
             },
             type: 'i'
           }, {
@@ -326,8 +326,8 @@ class TradesHaveWantListChecker extends Module {
             type: 'li',
             children: [{
               attributes: {
-                class: `fa fa-folder`,
-                title: `On your library`
+                class: 'fa fa-folder',
+                title: 'On your library'
               },
               type: 'i'
             }, {
@@ -345,8 +345,8 @@ class TradesHaveWantListChecker extends Module {
             type: 'li',
             children: [{
               attributes: {
-                class: `fa fa-star`,
-                title: `On your wishlist`
+                class: 'fa fa-star',
+                title: 'On your wishlist'
               },
               type: 'i'
             }, {
@@ -384,7 +384,7 @@ class TradesHaveWantListChecker extends Module {
         type: 'li',
         children: [{
           attributes: {
-            class: `fa fa-suitcase`,
+            class: 'fa fa-suitcase',
             title: `This is a package (packages are not checked for wishlisted/owned status)`
           },
           type: 'i'
@@ -412,7 +412,7 @@ class TradesHaveWantListChecker extends Module {
           continue;
         }
         createElements(obj.sections[key][section], 'inner', [{
-          text: `None.`,
+          text: 'None.',
           type: 'node'
         }]);
       }
@@ -467,13 +467,13 @@ class TradesHaveWantListChecker extends Module {
         type: 'li',
         children: [key === 'have' && game.owned ? {
           attributes: {
-            class: `fa fa-folder`,
-            title: `On your library`
+            class: 'fa fa-folder',
+            title: 'On your library'
           },
           type: 'i'
         } : null, game.wishlisted ? {
           attributes: {
-            class: `fa fa-star`,
+            class: 'fa fa-star',
             title: `On ${key === 'want' ? 'their' : 'your'} wishlist`
           },
           type: 'i'
@@ -489,7 +489,7 @@ class TradesHaveWantListChecker extends Module {
     createElements(obj.sections[key].matches, 'beforeEnd', items);
     if (!obj.sections[key].matches.innerHTML) {
       createElements(obj.sections[key].matches, 'inner', [{
-        text: `None.`,
+        text: 'None.',
         type: 'node'
       }]);
     }

@@ -19,7 +19,7 @@ class GeneralQuickInboxView extends Module {
         ['ul', [
           ['li', [
             `If you hover over the inbox icon (`,
-            ['i', { class: `fa fa-envelope` }],
+            ['i', { class: 'fa fa-envelope' }],
             `) at the header, it shows a popout with your messages so that you do not need to access your inbox page to read them.`
           ]],
           ['li', `You can also mark the messages as read from the popout and reply to them if [id=rfi] is enabled.`]
@@ -32,13 +32,13 @@ class GeneralQuickInboxView extends Module {
               ['li', `Preloads the first page so that you do not have to wait for it to load after hovering over the inbox icon (this can slow down the page load though).`]
             ]]
           ],
-          name: `Preload the first page.`,
+          name: 'Preload the first page.',
           sg: true,
           st: true
         }
       },
       id: 'qiv',
-      name: `Quick Inbox View`,
+      name: 'Quick Inbox View',
       sg: true,
       st: true,
       type: 'general'
@@ -59,14 +59,14 @@ class GeneralQuickInboxView extends Module {
     }
 
     if (first && gSettings.qiv_p) {
-      this.esgst.qiv.popout = new Popout(`esgst-qiv-popout`, null, 1000);
+      this.esgst.qiv.popout = new Popout('esgst-qiv-popout', null, 1000);
       this.esgst.qiv.popout.onClose = this.qiv_removeNew.bind(this);
       if (this.esgst.messageCount > 0) {
         this.qiv_addMarkReadButton();
       }
       this.esgst.qiv.comments = createElements(this.esgst.qiv.popout.popout, 'beforeEnd', [{
         attributes: {
-          class: `esgst-qiv-comments`
+          class: 'esgst-qiv-comments'
         },
         type: 'div'
       }]);
@@ -93,14 +93,14 @@ class GeneralQuickInboxView extends Module {
       if (this.esgst.qiv.popout) {
         this.esgst.qiv.popout.open(this.esgst.inboxButton);
       } else {
-        this.esgst.qiv.popout = new Popout(`esgst-qiv-popout`, null, 1000);
+        this.esgst.qiv.popout = new Popout('esgst-qiv-popout', null, 1000);
         this.esgst.qiv.popout.onClose = this.qiv_removeNew.bind(this);
         if (this.esgst.messageCount > 0) {
           this.qiv_addMarkReadButton();
         }
         this.esgst.qiv.comments = createElements(this.esgst.qiv.popout.popout, 'beforeEnd', [{
           attributes: {
-            class: `esgst-qiv-comments`
+            class: 'esgst-qiv-comments'
           },
           type: 'div'
         }]);
@@ -119,7 +119,7 @@ class GeneralQuickInboxView extends Module {
   }
 
   qiv_removeNew() {
-    const elements = this.esgst.qiv.popout.popout.getElementsByClassName(`esgst-qiv-new`);
+    const elements = this.esgst.qiv.popout.popout.getElementsByClassName('esgst-qiv-new');
     for (let i = elements.length - 1; i > -1; i--) {
       elements[i].remove();
     }
@@ -137,11 +137,11 @@ class GeneralQuickInboxView extends Module {
             type: 'span',
             children: [{
               attributes: {
-                class: `fa fa-circle-o-notch fa-spin`
+                class: 'fa fa-circle-o-notch fa-spin'
               },
               type: 'i'
             }, {
-              text: ` Loading...`,
+              text: ' Loading...',
               type: 'node'
             }]
           }]
@@ -177,7 +177,7 @@ class GeneralQuickInboxView extends Module {
             for (const element of comments) {
               createElements(element, 'afterBegin', [{
                 attributes: {
-                  class: `esgst-qiv-new esgst-warning`
+                  class: 'esgst-qiv-new esgst-warning'
                 },
                 text: `[NEW]`,
                 type: 'div'
@@ -208,7 +208,7 @@ class GeneralQuickInboxView extends Module {
           }
         }
         if (context.children.length) {
-          context.setAttribute(`data-esgst-qiv`, 'true');
+          context.setAttribute('data-esgst-qiv', 'true');
           await endless_load(context);
         }
         if (this.esgst.qiv.popout.isOpen) {
@@ -226,16 +226,16 @@ class GeneralQuickInboxView extends Module {
     if (this.esgst.sg) {
       this.esgst.qiv.markReadButton = createElements(this.esgst.qiv.popout.popout, 'afterBegin', [{
         attributes: {
-          class: `sidebar__action-button`
+          class: 'sidebar__action-button'
         },
         type: 'div',
         children: [{
           attributes: {
-            class: `fa fa-check-circle`
+            class: 'fa fa-check-circle'
           },
           type: 'i'
         }, {
-          text: ` Mark as Read`,
+          text: ' Mark as Read',
           type: 'node'
         }]
       }]);
@@ -244,16 +244,16 @@ class GeneralQuickInboxView extends Module {
     } else {
       this.esgst.qiv.markReadButton = createElements(this.esgst.qiv.popout.popout, 'afterBegin', [{
         attributes: {
-          class: `page_heading_btn green`
+          class: 'page_heading_btn green'
         },
         type: 'a',
         children: [{
           attributes: {
-            class: `fa fa-check-square-o`
+            class: 'fa fa-check-square-o'
           },
           type: 'i'
         }, {
-          text: `Mark as Read`,
+          text: 'Mark as Read',
           type: 'span'
         }]
       }]);
@@ -264,11 +264,11 @@ class GeneralQuickInboxView extends Module {
       await request({ data: `xsrf_token=${this.esgst.xsrfToken}&do=${key}`, method: 'POST', url });
       this.esgst.qiv.markReadButton.remove();
       this.esgst.qiv.markReadButton = null;
-      let elements = this.esgst.qiv.comments.querySelectorAll(`.comment__envelope`);
+      let elements = this.esgst.qiv.comments.querySelectorAll('.comment__envelope');
       for (let i = elements.length - 1; i > -1; i--) {
         elements[i].remove();
       }
-      this.esgst.inboxButton.classList.remove(`nav__button-container--active`);
+      this.esgst.inboxButton.classList.remove('nav__button-container--active');
       this.esgst.messageCountContainer.remove();
       this.esgst.messageCount = 0;
       if (gSettings.hr) {

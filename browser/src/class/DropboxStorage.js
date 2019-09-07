@@ -106,11 +106,11 @@ class DropboxStorage extends ICloudStorage {
     if (!response.json) {
       throw new Error(response.text);
     }
-    if (response.json[`.tag`] !== 'complete') {
+    if (response.json['.tag'] !== 'complete') {
       response.json = await DropboxStorage.waitDeleteBatch(token, response.json.async_job_id);
     }
     for (const file of response.json.entries) {
-      if (file[`.tag`] === 'success') {
+      if (file['.tag'] === 'success') {
         output.success.push(file.metadata.name);
       } else {
         output.error.push(file.metadata.name);
@@ -133,7 +133,7 @@ class DropboxStorage extends ICloudStorage {
       })
     };
     const response = await FetchRequest.post(DropboxStorage.DELETE_BATCH_CHECK_URL, requestOptions);
-    if (response.json && response.json[`.tag`] === 'complete') {
+    if (response.json && response.json['.tag'] === 'complete') {
       resolve(response.json);
     } else {
       window.setTimeout(DropboxStorage.checkDeleteBatch, 1000, token, jobId, resolve);

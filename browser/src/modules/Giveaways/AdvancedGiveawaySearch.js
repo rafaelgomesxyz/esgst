@@ -20,13 +20,13 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
         ['ul', [
           ['li', [
             `Adds a panel below the search field of the main page that allows you to easily search for giveaways using SteamGifts' `,
-            ['a', { href: `https://www.steamgifts.com/discussion/8SzdT/` }, `search parameters`],
-            `.`
+            ['a', { href: `https://www.steamgifts.com/discussion/8SzdT/` }, 'search parameters'],
+            '.'
           ]]
         ]]
       ],
       id: 'ags',
-      name: `Advanced Giveaway Search`,
+      name: 'Advanced Giveaway Search',
       sg: true,
       type: 'giveaways'
     };
@@ -48,22 +48,22 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
   }
 
   ags_addPanel(context) {
-    const qgs = context.classList.contains(`esgst-qgs-container`);
+    const qgs = context.classList.contains('esgst-qgs-container');
     let obj = {
       qgs
     };
     context.firstElementChild.remove();
     obj.input = createElements(context, 'afterBegin', [{
       attributes: {
-        class: `${qgs ? `esgst-qgs-input` : `sidebar__search-input`}`,
-        placeholder: `Search...`,
+        class: `${qgs ? 'esgst-qgs-input' : 'sidebar__search-input'}`,
+        placeholder: 'Search...',
         type: 'text'
       },
       type: 'input'
     }]);
     let icon = obj.input.nextElementSibling;
-    icon.classList.add(`esgst-clickable`);
-    icon.title = getFeatureTooltip('ags', `Use advanced search`);
+    icon.classList.add('esgst-clickable');
+    icon.title = getFeatureTooltip('ags', 'Use advanced search');
     if (!qgs) {
       let match = window.location.search.match(/q=(.*?)(&.*?)?$/);
       if (match) {
@@ -73,12 +73,12 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
     if (!qgs && ((gSettings.adots && gSettings.adots_index === 0) || !gSettings.adots)) {
       obj.panel = createElements(context, 'afterEnd', [{
         attributes: {
-          class: `esgst-ags-panel`
+          class: 'esgst-ags-panel'
         },
         type: 'div'
       }]);
     } else {
-      obj.panel = new Popout(`esgst-ags-panel`, context, 100).popout;
+      obj.panel = new Popout('esgst-ags-panel', context, 100).popout;
     }
     let filterDetails = [
       {
@@ -114,7 +114,7 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
         minKey: 'ags_minDate',
         maxParameter: 'release_date_max',
         minParameter: 'release_date_min',
-        name: `Release Date`,
+        name: 'Release Date',
         type: 'input'
       },
       {
@@ -159,7 +159,7 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
       },
       {
         key: 'ags_regionRestricted',
-        name: `Region Restricted`,
+        name: 'Region Restricted',
         parameter: 'region_restricted',
         type: 'checkbox'
       },
@@ -199,7 +199,7 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
     if (details.type === 'checkbox') {
       let element = createElements(obj.panel, 'beforeEnd', [{
         attributes: {
-          class: `esgst-ags-checkbox-filter`
+          class: 'esgst-ags-checkbox-filter'
         },
         type: 'div',
         children: [{
@@ -241,7 +241,7 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
           type: 'node'
         }, {
           attributes: {
-            class: `esgst-ags-filter`
+            class: 'esgst-ags-filter'
           },
           type: 'class',
           children: html
@@ -292,13 +292,13 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
           type: 'node'
         }, {
           attributes: {
-            class: `esgst-ags-filter`
+            class: 'esgst-ags-filter'
           },
           type: 'div',
           children: items
         }, {
           attributes: {
-            class: `esgst-ags-filter`
+            class: 'esgst-ags-filter'
           },
           type: 'div',
           children: items

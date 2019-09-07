@@ -8,7 +8,7 @@ let customThemeElement = null;
 const theme = getLocalValue('theme');
 if (theme) {
   const style = document.createElement('style');
-  style.id = `esgst-theme`;
+  style.id = 'esgst-theme';
   style.textContent = theme;
   themeElement = style;
   document.documentElement.appendChild(style);
@@ -16,7 +16,7 @@ if (theme) {
 const customTheme = getLocalValue('customTheme');
 if (customTheme) {
   const style = document.createElement('style');
-  style.id = `esgst-custom-theme`;
+  style.id = 'esgst-custom-theme';
   style.textContent = customTheme;
   customThemeElement = style;
   document.documentElement.appendChild(style);
@@ -48,7 +48,7 @@ async function setTheme(settings) {
       if (!theme) continue;
       const css = getThemeCss(JSON.parse(theme));
       themeElement = createElements(document.head, 'beforeEnd', [
-        ['style', { id: `esgst-theme` }, css]
+        ['style', { id: 'esgst-theme' }, css]
       ]);
       const revisedCss = css.replace(/!important;/g, `;`).replace(/;/g, `!important;`);
       if (revisedCss !== getLocalValue('theme')) {
@@ -62,7 +62,7 @@ async function setTheme(settings) {
     if (!customTheme) return;
     const css = JSON.parse(customTheme);
     customThemeElement = createElements(document.head, 'beforeEnd', [
-      ['style', { id: `esgst-custom-theme` }, css]
+      ['style', { id: 'esgst-custom-theme' }, css]
     ]);
     const revisedCss = css.replace(/!important;/g, `;`).replace(/;/g, `!important;`);
     if (revisedCss !== getLocalValue('customTheme')) {

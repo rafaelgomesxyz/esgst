@@ -7,7 +7,7 @@ import { FetchRequest } from './FetchRequest';
  * @see https://developers.google.com/drive/api/v3/reference/
  */
 class GoogleDriveStorage extends ICloudStorage {
-  static get CLIENT_ID() { return `102804278399-95kit5e09mdskdta7eq97ra7tuj20qps.apps.googleusercontent.com`; }
+  static get CLIENT_ID() { return '102804278399-95kit5e09mdskdta7eq97ra7tuj20qps.apps.googleusercontent.com'; }
   static get AUTH_URL() { return `https://accounts.google.com/o/oauth2/v2/auth`; }
   static get BASE_URL() { return `https://www.googleapis.com`; }
   static get API_BASE_URL() { return `${GoogleDriveStorage.BASE_URL}/drive/v3`; }
@@ -31,7 +31,7 @@ class GoogleDriveStorage extends ICloudStorage {
       redirect_uri: GoogleDriveStorage.REDIRECT_URL,
       response_type: 'token',
       scope: `https://www.googleapis.com/auth/drive.appdata`,
-      state: `google-drive`
+      state: 'google-drive'
     };
     if (gSettings.usePreferredGoogle) {
       params['login_hint'] = gSettings.preferredGoogle;
@@ -123,7 +123,7 @@ class GoogleDriveStorage extends ICloudStorage {
       const formData = [];
       for (const fileId of chunk) {
         formData.push(
-          `--ESGST`,
+          '--ESGST',
           `Content-Type: application/http`,
           ``,
           `DELETE ${FetchRequest.addPathParams(GoogleDriveStorage.DELETE_URL, { fileId })}`,
@@ -132,7 +132,7 @@ class GoogleDriveStorage extends ICloudStorage {
         );
       }
       const data = formData.join(`\n`);
-      formData.push(`--ESGST--`);
+      formData.push('--ESGST--');
       const requestOptions = {
         data,
         isFormData: true,

@@ -17,16 +17,16 @@ class GeneralScrollToBottomButton extends Module {
         ['ul', [
           ['li', [
             `Adds a button (`,
-            ['i', { class: `fa fa-chevron-down` }],
+            ['i', { class: 'fa fa-chevron-down' }],
             `) either to the bottom right corner, the main page heading or the footer (you can decide where) of any page that takes you to the bottom of the page.`
           ]]
         ]]
       ],
       id: 'stbb',
-      name: `Scroll To Bottom Button`,
+      name: 'Scroll To Bottom Button',
       options: {
         title: `Show in:`,
-        values: [`Bottom Right Corner`, `Main Page Heading`, 'Footer']
+        values: ['Bottom Right Corner', 'Main Page Heading', 'Footer']
       },
       sg: true,
       st: true,
@@ -40,39 +40,39 @@ class GeneralScrollToBottomButton extends Module {
       case 0:
         button = createElements(document.body, 'beforeEnd', [{
           attributes: {
-            class: `esgst-stbb-button esgst-stbb-button-fixed`,
-            title: `${getFeatureTooltip('stbb', `Scroll to bottom`)}`
+            class: 'esgst-stbb-button esgst-stbb-button-fixed',
+            title: `${getFeatureTooltip('stbb', 'Scroll to bottom')}`
           },
           type: 'div',
           children: [{
             attributes: {
-              class: `fa fa-chevron-down`
+              class: 'fa fa-chevron-down'
             },
             type: 'i'
           }]
         }]);
         window.addEventListener('scroll', () => {
           if (document.documentElement.offsetHeight - window.innerHeight >= window.scrollY + 100) {
-            button.classList.remove(`esgst-hidden`);
+            button.classList.remove('esgst-hidden');
           } else {
-            button.classList.add(`esgst-hidden`);
+            button.classList.add('esgst-hidden');
           }
         });
         break;
       case 1:
-        button = createHeadingButton({ id: 'stbb', icons: [`fa-chevron-down`], title: `Scroll to bottom` });
-        button.classList.add(`esgst-stbb-button`);
+        button = createHeadingButton({ id: 'stbb', icons: ['fa-chevron-down'], title: 'Scroll to bottom' });
+        button.classList.add('esgst-stbb-button');
         break;
       case 2:
         button = createElements(this.esgst.footer.firstElementChild.lastElementChild, 'beforeEnd', [{
           attributes: {
-            class: `esgst-stbb-button`,
-            title: getFeatureTooltip('stbb', `Scroll to bottom`)
+            class: 'esgst-stbb-button',
+            title: getFeatureTooltip('stbb', 'Scroll to bottom')
           },
           type: this.esgst.sg ? 'div' : 'li',
           children: [{
             attributes: {
-              class: `fa fa-chevron-down`
+              class: 'fa fa-chevron-down'
             },
             type: 'i'
           }]

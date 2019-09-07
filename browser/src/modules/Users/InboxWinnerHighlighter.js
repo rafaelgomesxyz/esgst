@@ -17,16 +17,16 @@ class UsersInboxWinnerHighlighter extends Module {
         ['ul', [
           ['li', [
             `Adds an icon (`,
-            ['i', { class: `fa fa-trophy` }],
+            ['i', { class: 'fa fa-trophy' }],
             `) next to the username of a giveaway comment made by the giveaway's winner(s) (in the `,
             ['a', { href: `https://www.steamgifts.com/messages` }, 'inbox'],
             ` page).`
           ]],
-          ['li', `A winner is only highlighted if you sent the gift to them after this feature was enabled.`]
+          ['li', 'A winner is only highlighted if you sent the gift to them after this feature was enabled.']
         ]]
       ],
       id: 'iwh',
-      name: `Inbox Winner Highlighter`,
+      name: 'Inbox Winner Highlighter',
       sg: true,
       type: 'users',
       featureMap: {
@@ -36,8 +36,8 @@ class UsersInboxWinnerHighlighter extends Module {
   }
 
   async iwh_getUsers(context, main, source, endless) {
-    if (!shared.esgst.winnersPath && !shared.common.isCurrentPath('Messages') && (!context.getAttribute || !context.getAttribute(`data-esgst-qiv`))) return;
-    const [callback, query] = shared.esgst.winnersPath ? [this.iwh_setObserver, `${endless ? `.esgst-es-page-${endless} .table__gift-not-sent, .esgst-es-page-${endless}.table__gift-not-sent` : `.table__gift-not-sent`}`] : [this.iwh_highlightWinner, `${endless ? `.esgst-es-page-${endless} .comments__entity, .esgst-es-page-${endless}.comments__entity` : `.comments__entity`}`],
+    if (!shared.esgst.winnersPath && !shared.common.isCurrentPath('Messages') && (!context.getAttribute || !context.getAttribute('data-esgst-qiv'))) return;
+    const [callback, query] = shared.esgst.winnersPath ? [this.iwh_setObserver, `${endless ? `.esgst-es-page-${endless} .table__gift-not-sent, .esgst-es-page-${endless}.table__gift-not-sent` : '.table__gift-not-sent'}`] : [this.iwh_highlightWinner, `${endless ? `.esgst-es-page-${endless} .comments__entity, .esgst-es-page-${endless}.comments__entity` : '.comments__entity'}`],
       elements = context.querySelectorAll(query);
     if (!elements.length) return;
     const winners = JSON.parse(getValue('winners', `{}`));
@@ -49,7 +49,7 @@ class UsersInboxWinnerHighlighter extends Module {
   iwh_setObserver(Context, winners) {
     let Key, Username;
     Key = window.location.pathname.match(/\/giveaway\/(.+?)\//)[1];
-    Username = Context.closest(`.table__row-inner-wrap`).getElementsByClassName('table__column__heading')[0].querySelector(`a[href*="/user/"]`).textContent;
+    Username = Context.closest('.table__row-inner-wrap').getElementsByClassName('table__column__heading')[0].querySelector(`a[href*="/user/"]`).textContent;
     Context.addEventListener('click', async () => {
       let Winners;
       Winners = JSON.parse(getValue('winners', `{}`));
@@ -76,8 +76,8 @@ class UsersInboxWinnerHighlighter extends Module {
           if (Winners[Key].indexOf(Username) >= 0) {
             createElements(Context, 'afterEnd', [{
               attributes: {
-                class: `fa fa-trophy esgst-iwh-icon`,
-                title: getFeatureTooltip('iwh', `This is the winner or one of the winners of this giveaway`)
+                class: 'fa fa-trophy esgst-iwh-icon',
+                title: getFeatureTooltip('iwh', 'This is the winner or one of the winners of this giveaway')
               },
               type: 'i'
             }]);

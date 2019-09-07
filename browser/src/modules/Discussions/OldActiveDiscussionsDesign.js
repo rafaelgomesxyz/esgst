@@ -19,7 +19,7 @@ class DiscussionsOldActiveDiscussionsDesign extends Module {
           ['li', `Brings back the SteamGifts' old active discussions design, while keeping the new "Deals" section.`],
           ['li', [
             `Only one section ("Discussions" or "Deals") can be shown at a time. There is a button (`,
-            ['i', { class: `fa fa-retweet` }],
+            ['i', { class: 'fa fa-retweet' }],
             `) in the page heading of the active discussions that allows you to switch sections.`
           ]]
         ]]
@@ -36,7 +36,7 @@ class DiscussionsOldActiveDiscussionsDesign extends Module {
         }
       },
       id: 'oadd',
-      name: `Old Active Discussions Design`,
+      name: 'Old Active Discussions Design',
       sg: true,
       type: 'discussions'
     };
@@ -52,7 +52,7 @@ class DiscussionsOldActiveDiscussionsDesign extends Module {
       response2Html, revisedElements;
     response1Html = parseHtml((await request({ method: 'GET', url: `/discussions` })).responseText);
     response2Html = parseHtml((await request({ method: 'GET', url: `/discussions/deals` })).responseText);
-    this.esgst.activeDiscussions.classList.add(`esgst-oadd`);
+    this.esgst.activeDiscussions.classList.add('esgst-oadd');
     createElements(this.esgst.activeDiscussions, 'inner', [{
       type: 'div',
       children: [{
@@ -62,13 +62,13 @@ class DiscussionsOldActiveDiscussionsDesign extends Module {
         type: 'div',
         children: [{
           attributes: {
-            class: `esgst-heading-button`,
-            title: `Switch to Deals`
+            class: 'esgst-heading-button',
+            title: 'Switch to Deals'
           },
           type: 'div',
           children: [{
             attributes: {
-              class: `fa fa-retweet`
+              class: 'fa fa-retweet'
             },
             type: 'i'
           }]
@@ -81,12 +81,12 @@ class DiscussionsOldActiveDiscussionsDesign extends Module {
             attributes: {
               href: `/discussions`
             },
-            text: `Active Discussions`,
+            text: 'Active Discussions',
             type: 'a'
           }]
         }, {
           attributes: {
-            class: `page__heading__button page__heading__button--green`,
+            class: 'page__heading__button page__heading__button--green',
             href: `/discussions`
           },
           type: 'a',
@@ -95,7 +95,7 @@ class DiscussionsOldActiveDiscussionsDesign extends Module {
             type: 'node'
           }, {
             attributes: {
-              class: `fa fa-angle-right`
+              class: 'fa fa-angle-right'
             },
             type: 'i'
           }]
@@ -112,21 +112,21 @@ class DiscussionsOldActiveDiscussionsDesign extends Module {
           type: 'div',
           children: [{
             attributes: {
-              class: `table__column--width-fill`
+              class: 'table__column--width-fill'
             },
             text: 'Summary',
             type: 'div'
           }, {
             attributes: {
-              class: `table__column--width-small text-center`
+              class: 'table__column--width-small text-center'
             },
             text: 'Comments',
             type: 'div'
           }, {
             attributes: {
-              class: `table__column--width-medium text-right`
+              class: 'table__column--width-medium text-right'
             },
-            text: `Last Post`,
+            text: 'Last Post',
             type: 'div'
           }]
         }, {
@@ -138,7 +138,7 @@ class DiscussionsOldActiveDiscussionsDesign extends Module {
       }]
     }, {
       attributes: {
-        class: `esgst-hidden`
+        class: 'esgst-hidden'
       },
       type: 'div',
       children: [{
@@ -148,13 +148,13 @@ class DiscussionsOldActiveDiscussionsDesign extends Module {
         type: 'div',
         children: [{
           attributes: {
-            class: `esgst-heading-button`,
-            title: `Switch to Discussions`
+            class: 'esgst-heading-button',
+            title: 'Switch to Discussions'
           },
           type: 'div',
           children: [{
             attributes: {
-              class: `fa fa-retweet`
+              class: 'fa fa-retweet'
             },
             type: 'i'
           }]
@@ -167,12 +167,12 @@ class DiscussionsOldActiveDiscussionsDesign extends Module {
             attributes: {
               href: `/discussions/deals`
             },
-            text: `Active Deals`,
+            text: 'Active Deals',
             type: 'a'
           }]
         }, {
           attributes: {
-            class: `page__heading__button page__heading__button--green`,
+            class: 'page__heading__button page__heading__button--green',
             href: `/discussions/deals`
           },
           type: 'a',
@@ -181,7 +181,7 @@ class DiscussionsOldActiveDiscussionsDesign extends Module {
             type: 'node'
           }, {
             attributes: {
-              class: `fa fa-angle-right`
+              class: 'fa fa-angle-right'
             },
             type: 'i'
           }]
@@ -198,21 +198,21 @@ class DiscussionsOldActiveDiscussionsDesign extends Module {
           type: 'div',
           children: [{
             attributes: {
-              class: `table__column--width-fill`
+              class: 'table__column--width-fill'
             },
             text: 'Summary',
             type: 'div'
           }, {
             attributes: {
-              class: `table__column--width-small text-center`
+              class: 'table__column--width-small text-center'
             },
             text: 'Comments',
             type: 'div'
           }, {
             attributes: {
-              class: `table__column--width-medium text-right`
+              class: 'table__column--width-medium text-right'
             },
-            text: `Last Post`,
+            text: 'Last Post',
             type: 'div'
           }]
         }, {
@@ -269,12 +269,12 @@ class DiscussionsOldActiveDiscussionsDesign extends Module {
       }
     }
     discussionsSwitch.addEventListener('click', () => {
-      discussions.classList.add(`esgst-hidden`);
-      deals.classList.remove(`esgst-hidden`);
+      discussions.classList.add('esgst-hidden');
+      deals.classList.remove('esgst-hidden');
     });
     dealsSwitch.addEventListener('click', () => {
-      discussions.classList.remove(`esgst-hidden`);
-      deals.classList.add(`esgst-hidden`);
+      discussions.classList.remove('esgst-hidden');
+      deals.classList.add('esgst-hidden');
     });
     if (gSettings.adots) {
       this.esgst.modules.discussionsActiveDiscussionsOnTopSidebar.adots_load(refresh);

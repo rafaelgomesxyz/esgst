@@ -7,7 +7,7 @@ class GeneralElementFilters extends Module {
     this.info = {
       description: [
         ['ul', [
-          ['li', `Allows you to hide elements in any page using CSS selectors.`],
+          ['li', 'Allows you to hide elements in any page using CSS selectors.'],
           ['li', `If you do not know how to use CSS selectors or you are having trouble hiding an element, leave a comment in the ESGST thread with a description/image of the element that you want to hide and I will give you the selector that you have to use.`],
           ['li', `Here are some quick examples:`],
           ['ul', [
@@ -15,7 +15,7 @@ class GeneralElementFilters extends Module {
               `To hide the "Redeem" button in your `,
               ['a', { href: `https://www.steamgifts.com/giveaways/won` }, 'won'],
               ` page, use: `,
-              ['code', `.table__column__key__redeem`]
+              ['code', '.table__column__key__redeem']
             ]],
             ['li', [
               `To hide the featured giveaway container (the big giveaway) in the main page, use: `,
@@ -36,7 +36,7 @@ class GeneralElementFilters extends Module {
         }
       ],
       id: 'ef',
-      name: `Element Filters`,
+      name: 'Element Filters',
       sg: true,
       st: true,
       type: 'general'
@@ -62,7 +62,7 @@ class GeneralElementFilters extends Module {
         }
         const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} ${filter}, .esgst-es-page-${endless}${filter}` : `${filter}`}`);
         for (let i = elements.length - 1; i > -1; i--) {
-          elements[i].classList.add(`esgst-hidden`);
+          elements[i].classList.add('esgst-hidden');
         }
       } catch (e) { /**/
       }

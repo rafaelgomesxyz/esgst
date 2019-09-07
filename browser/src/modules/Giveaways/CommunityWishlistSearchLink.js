@@ -13,13 +13,13 @@ class GiveawaysCommunityWishlistSearchLink extends Module {
         ['ul', [
           ['li', [
             `Turns the numbers in the "Giveaways" column of any `,
-            ['a', { href: `https://www.steamgifts.com/giveaways/wishlist` }, `community wishlist`],
+            ['a', { href: `https://www.steamgifts.com/giveaways/wishlist` }, 'community wishlist'],
             ` page into links that allow you to search for all of the active giveaways for the game (that are visible to you).<`
           ]]
         ]]
       ],
       id: 'cwsl',
-      name: `Community Wishlist Search Link`,
+      name: 'Community Wishlist Search Link',
       sg: true,
       type: 'giveaways'
     };
@@ -39,7 +39,7 @@ class GiveawaysCommunityWishlistSearchLink extends Module {
       let giveawayCount = game.heading.parentElement.nextElementSibling.nextElementSibling;
       createElements(giveawayCount, 'inner', [{
         attributes: {
-          class: `table__column__secondary-link`,
+          class: 'table__column__secondary-link',
           href: `/giveaways/search?${game.type.slice(0, -1)}=${game.id}`
         },
         type: 'a',

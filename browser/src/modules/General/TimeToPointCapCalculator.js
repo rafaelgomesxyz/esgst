@@ -13,12 +13,12 @@ class GeneralTimeToPointCapCalculator extends Module {
       ],
       features: {
         ttpcc_a: {
-          name: `Show time alongside points.`,
+          name: 'Show time alongside points.',
           sg: true
         }
       },
       id: 'ttpcc',
-      name: `Time To Point Cap Calculator`,
+      name: 'Time To Point Cap Calculator',
       sg: true,
       type: 'general'
     };

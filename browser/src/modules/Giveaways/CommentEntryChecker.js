@@ -21,11 +21,11 @@ class GiveawaysCommentEntryChecker extends Module {
         ['ul', [
           ['li', [
             `Adds a button (`,
-            ['i', { class: `fa fa-comments` }],
-            ` `,
-            ['i', { class: `fa fa-ticket` }],
-            ` `,
-            ['i', { class: `fa fa-question-circle` }],
+            ['i', { class: 'fa fa-comments' }],
+            ' ',
+            ['i', { class: 'fa fa-ticket' }],
+            ' ',
+            ['i', { class: 'fa fa-question-circle' }],
             ` ) to the main page heading of any `,
             ['a', { href: `https://www.steamgifts.com/giveaway/aeqw7/` }, 'giveaway'],
             ` page that allows you to view the list (including the number and percentage) of users that commented without entering, users that entered without commenting and users that commented & entered.`
@@ -35,7 +35,7 @@ class GiveawaysCommentEntryChecker extends Module {
       ],
       features: {
         cec_t: {
-          name: `Open results in a new tab.`,
+          name: 'Open results in a new tab.',
           sg: true
         }
       },
@@ -53,12 +53,12 @@ class GiveawaysCommentEntryChecker extends Module {
       load: async () => await this.cec_openPopup({})
     };
 
-    if (!this.esgst.giveawayPath || document.getElementsByClassName(`table--summary`)[0] ||  !this.esgst.mainPageHeading) return;
+    if (!this.esgst.giveawayPath || document.getElementsByClassName('table--summary')[0] ||  !this.esgst.mainPageHeading) return;
 
     common.createElements_v2(this.esgst.sidebarGroups[0].navigation, 'beforeEnd', [
       ['li', { class: 'sidebar__navigation__item', id: 'cec' }, [
         ['a', { class: 'sidebar__navigation__item__link', href: `${this.esgst.path.replace(/\/entries/, ``)}/entries?esgst=cec`, onclick: event => !gSettings.cec_t && !event.preventDefault() && this.cec_openPopup(true) }, [
-          ['div', { class: 'sidebar__navigation__item__name' }, `Comments vs Entries`],
+          ['div', { class: 'sidebar__navigation__item__name' }, 'Comments vs Entries'],
           ['div', { class: 'sidebar__navigation__item__underline' }]
         ]]
       ]]
@@ -78,7 +78,7 @@ class GiveawaysCommentEntryChecker extends Module {
       popup.open();
     } else {
       container = context = this.esgst.sidebar.nextElementSibling;
-      context.setAttribute(`data-esgst-popup`, 'true');
+      context.setAttribute('data-esgst-popup', 'true');
       context.innerHTML = ``;
     }
     if (!isPopup) {
@@ -117,7 +117,7 @@ class GiveawaysCommentEntryChecker extends Module {
       let pagination = null;
       let url = urls[i];
       do {
-        obj.progress.innerHTML = `Retrieving ${i > 0 ? `bumps ` : `comments `} (page ${nextPage})...`;
+        obj.progress.innerHTML = `Retrieving ${i > 0 ? 'bumps ' : 'comments '} (page ${nextPage})...`;
         let response = await request({ method: 'GET', queue: true, url: `${url}${nextPage}` });
         let responseHtml = parseHtml(response.responseText);
         let elements = responseHtml.querySelectorAll(`.comment:not(.comment--submit) .comment__username:not(.comment__username--op):not(.comment__username--deleted)`);
@@ -137,7 +137,7 @@ class GiveawaysCommentEntryChecker extends Module {
             urls.push(elements[j].getAttribute('href').match(/\/discussion\/.+?\//)[0]);
           }
         }
-      } while (!obj.isCanceled && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
+      } while (!obj.isCanceled && pagination && !pagination.lastElementChild.classList.contains('is-selected'));
     }
 
     if (obj.isCanceled) return;
@@ -160,7 +160,7 @@ class GiveawaysCommentEntryChecker extends Module {
       }
       nextPage += 1;
       pagination = responseHtml.getElementsByClassName('pagination__navigation')[0];
-    } while (!obj.isCanceled && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
+    } while (!obj.isCanceled && pagination && !pagination.lastElementChild.classList.contains('is-selected'));
 
     if (obj.isCanceled) return;
 
@@ -184,8 +184,8 @@ class GiveawaysCommentEntryChecker extends Module {
               ]
             },
             'Yes',
-            `-`,
-            `-`
+            '-',
+            '-'
           ]
         );
         both += 1;
@@ -198,9 +198,9 @@ class GiveawaysCommentEntryChecker extends Module {
                 ['a', { class: 'table__column__heading', href: `/user/${user}` }, user]
               ]
             },
-            `-`,
+            '-',
             'Yes',
-            `-`
+            '-'
           ]
         );
         commented += 1;
@@ -217,8 +217,8 @@ class GiveawaysCommentEntryChecker extends Module {
                 ['a', { class: 'table__column__heading', href: `/user/${user}` }, user]
               ]
             },
-            `-`,
-            `-`,
+            '-',
+            '-',
             'Yes'
           ]
         );

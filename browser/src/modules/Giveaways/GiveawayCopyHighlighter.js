@@ -14,7 +14,7 @@ class GiveawaysGiveawayCopyHighlighter extends Module {
         giveaway: this.highlight.bind(this)
       },
       id: 'gch',
-      name: `Giveaway Copy Highlighter`,
+      name: 'Giveaway Copy Highlighter',
       sg: true,
       type: 'giveaways'
     };
@@ -26,16 +26,16 @@ class GiveawaysGiveawayCopyHighlighter extends Module {
         continue;
       }
       const { color, bgColor } = gSettings.gch_colors.filter(colors => giveaway.copies >= parseInt(colors.lower) && giveaway.copies <= parseInt(colors.upper))[0] || { color: undefined, bgColor: undefined };
-      giveaway.copiesContainer.classList.add(`esgst-bold`);
+      giveaway.copiesContainer.classList.add('esgst-bold');
       if (!color) {
-        giveaway.copiesContainer.classList.add(`esgst-red`);
+        giveaway.copiesContainer.classList.add('esgst-red');
         continue;
       }
       giveaway.copiesContainer.style.color = color;
       if (!bgColor) {
         continue;
       }
-      giveaway.copiesContainer.classList.add(`esgst-gch-highlight`);
+      giveaway.copiesContainer.classList.add('esgst-gch-highlight');
       giveaway.copiesContainer.style.backgroundColor = bgColor;
     }
   }

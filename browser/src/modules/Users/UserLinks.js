@@ -14,7 +14,7 @@ class UsersUserLinks extends Module {
         ]]
       ],
       id: 'ul',
-      name: `User Links`,
+      name: 'User Links',
       sg: true,
       type: 'users',
       featureMap: {

@@ -21,10 +21,10 @@ class TradesTradeBumper extends Module {
         ['ul', [
           ['li', [
             `Adds a button (`,
-            ['i', { class: `fa fa-chevron-circle-up` }],
+            ['i', { class: 'fa fa-chevron-circle-up' }],
             `) to the main page heading of your `,
-            ['a', { href: `https://www.steamtrades.com/trades/search?user=your-steam-id` }, `created trades`],
-            ` page that allows you to bump all of your open trades at once.`
+            ['a', { href: `https://www.steamtrades.com/trades/search?user=your-steam-id` }, 'created trades'],
+            ' page that allows you to bump all of your open trades at once.'
           ]]
         ]]
       ],
@@ -32,17 +32,17 @@ class TradesTradeBumper extends Module {
         tb_a: {
           description: [
             ['ul', [
-              ['li', `Automatically bumps all of your trades every hour.`],
+              ['li', 'Automatically bumps all of your trades every hour.'],
               ['li', `Requires either SteamGifts or SteamTrades to be open, depending on where you have this option enabled.`]
             ]]
           ],
-          name: `Auto bump every hour.`,
+          name: 'Auto bump every hour.',
           sg: true,
           st: true
         }
       },
       id: 'tb',
-      name: `Trade Bumper`,
+      name: 'Trade Bumper',
       sg: true,
       st: true,
       type: 'trades'
@@ -53,8 +53,8 @@ class TradesTradeBumper extends Module {
     if (shared.esgst.locationHref.match(new RegExp(`\\/trades\\/search\\?user=${gSettings.steamId}`))) {
       const button = createHeadingButton({
         id: 'tb',
-        icons: [`fa-chevron-circle-up`],
-        title: `Bump trades`
+        icons: ['fa-chevron-circle-up'],
+        title: 'Bump trades'
       });
       button.addEventListener('click', this.tb_getTrades.bind(this, button, document));
       if (gSettings.tb_a) {
@@ -71,7 +71,7 @@ class TradesTradeBumper extends Module {
     if (button) {
       createElements(button, 'inner', [{
         attributes: {
-          class: `fa fa-circle-o-notch fa-spin`
+          class: 'fa fa-circle-o-notch fa-spin'
         },
         type: 'i'
       }]);

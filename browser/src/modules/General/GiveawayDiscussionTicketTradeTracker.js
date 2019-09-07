@@ -22,7 +22,7 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
         ['ul', [
           ['li', [
             `Adds a button (`,
-            ['i', { class: `fa fa-check` }],
+            ['i', { class: 'fa fa-check' }],
             ` if the thread is not marked as visited and <i class="fa fa-times"></i> if it is) to the "Comments" column of any `,
             ['a', { href: `https://www.steamgifts.com/discussions` }, 'discussions'],
             `/`,
@@ -36,23 +36,23 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
       ],
       features: {
         gdttt_g: {
-          name: `Fade visited giveaways.`,
+          name: 'Fade visited giveaways.',
           sg: true
         },
         gdttt_vd: {
-          name: `Mark discussions as visited when visiting them.`,
+          name: 'Mark discussions as visited when visiting them.',
           sg: true
         },
         gdttt_vg: {
-          name: `Mark giveaways as visited when visiting them.`,
+          name: 'Mark giveaways as visited when visiting them.',
           sg: true
         },
         gdttt_vt: {
-          name: `Mark tickets as visited when visiting them.`,
+          name: 'Mark tickets as visited when visiting them.',
           sg: true
         },
         gdttt_vts: {
-          name: `Mark trades as visited when visiting them.`,
+          name: 'Mark trades as visited when visiting them.',
           st: true
         }
       },
@@ -123,9 +123,9 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
       await setValue(type, JSON.stringify(comments));
       deleteLock();
     }
-    container.classList.add(`esgst-ct-visited`);
-    container.style.opacity = `0.5`;
-    setHoverOpacity(container, '1', `0.5`);
+    container.classList.add('esgst-ct-visited');
+    container.style.opacity = '0.5';
+    setHoverOpacity(container, '1', '0.5');
     return true;
   }
 
@@ -142,7 +142,7 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
       await setValue(type, JSON.stringify(comments));
       deleteLock();
     }
-    container.classList.remove(`esgst-ct-visited`);
+    container.classList.remove('esgst-ct-visited');
     container.style.opacity = '1';
     setHoverOpacity(container, '1', '1');
     return true;
@@ -156,7 +156,7 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
    * @returns {Promise<void>}
    */
   async gdttt_checkVisited(context, main, src, endless) {
-    let matches = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .homepage_table_column_heading, .esgst-es-page-${endless}.homepage_table_column_heading` : `.homepage_table_column_heading`}, ${endless ? `.esgst-es-page-${endless} .table__column__heading, .esgst-es-page-${endless}.table__column__heading` : `.table__column__heading`}, ${endless ? `.esgst-es-page-${endless} .giveaway__heading__name, .esgst-es-page-${endless}.giveaway__heading__name` : `.giveaway__heading__name`}, ${endless ? `.esgst-es-page-${endless} .column_flex h3 a, .esgst-es-page-${endless}.column_flex h3 a` : `.column_flex h3 a`}`);
+    let matches = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .homepage_table_column_heading, .esgst-es-page-${endless}.homepage_table_column_heading` : '.homepage_table_column_heading'}, ${endless ? `.esgst-es-page-${endless} .table__column__heading, .esgst-es-page-${endless}.table__column__heading` : '.table__column__heading'}, ${endless ? `.esgst-es-page-${endless} .giveaway__heading__name, .esgst-es-page-${endless}.giveaway__heading__name` : '.giveaway__heading__name'}, ${endless ? `.esgst-es-page-${endless} .column_flex h3 a, .esgst-es-page-${endless}.column_flex h3 a` : '.column_flex h3 a'}`);
     if (!matches.length) return;
     let values = getValues({
       giveaways: `{}`,
@@ -181,9 +181,9 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
           let comment = values[type][code];
           if (comment && comment.visited && container) {
             if ((type === 'giveaways' && gSettings.gdttt_g) || type !== 'giveaways') {
-              container.classList.add(`esgst-ct-visited`);
-              container.style.opacity = `0.5`;
-              setHoverOpacity(container, '1', `0.5`);
+              container.classList.add('esgst-ct-visited');
+              container.style.opacity = '0.5';
+              setHoverOpacity(container, '1', '0.5');
             }
           }
         }
@@ -197,15 +197,15 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
     if (!button) {
       button = createElements(context, 'afterBegin', [{
         attributes: {
-          class: `esgst-gdttt-button page_heading_btn`
+          class: 'esgst-gdttt-button page_heading_btn'
         },
         type: 'div'
       }]);
     }
     createElements(button, 'inner', [{
       attributes: {
-        class: `fa fa-check`,
-        title: `${getFeatureTooltip('gdttt', `Mark as visited`)}`
+        class: 'fa fa-check',
+        title: `${getFeatureTooltip('gdttt', 'Mark as visited')}`
       },
       type: 'i'
     }]);
@@ -214,7 +214,7 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
         busy = true;
         createElements(button, 'inner', [{
           attributes: {
-            class: `fa fa-circle-o-notch fa-spin`
+            class: 'fa fa-circle-o-notch fa-spin'
           },
           type: 'i'
         }]);
@@ -243,15 +243,15 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
     if (!button) {
       button = createElements(context, 'afterBegin', [{
         attributes: {
-          class: `esgst-gdttt-button page_heading_btn`
+          class: 'esgst-gdttt-button page_heading_btn'
         },
         type: 'div'
       }]);
     }
     createElements(button, 'inner', [{
       attributes: {
-        class: `fa fa-times`,
-        title: `${getFeatureTooltip('gdttt', `Mark as unvisited`)}`
+        class: 'fa fa-times',
+        title: `${getFeatureTooltip('gdttt', 'Mark as unvisited')}`
       },
       type: 'i'
     }]);
@@ -260,7 +260,7 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
         busy = true;
         createElements(button, 'inner', [{
           attributes: {
-            class: `fa fa-circle-o-notch fa-spin`
+            class: 'fa fa-circle-o-notch fa-spin'
           },
           type: 'i'
         }]);

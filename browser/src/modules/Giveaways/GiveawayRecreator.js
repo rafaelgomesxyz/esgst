@@ -19,25 +19,25 @@ class GiveawaysGiveawayRecreator extends Module {
         ['ul', [
           ['li', [
             `Adds an icon (`,
-            ['i', { class: `fa fa-rotate-left` }],
+            ['i', { class: 'fa fa-rotate-left' }],
             `) next to the game name of a giveaway created by yourself that ended with 0 entries (in any page) that opens the `,
-            ['a', { href: `https://www.steamgifts.com/giveaways/new` }, `new giveaway`],
-            ` page with all of the details of the giveaway prefilled so that you can quickly recreate the giveaway.`
+            ['a', { href: `https://www.steamgifts.com/giveaways/new` }, 'new giveaway'],
+            ' page with all of the details of the giveaway prefilled so that you can quickly recreate the giveaway.'
           ]]
         ]]
       ],
       features: {
         gr_a: {
-          name: `Show the icon for all created giveaways.`,
+          name: 'Show the icon for all created giveaways.',
           sg: true
         },
         gr_r: {
-          name: `Remove the button for giveaways that have been recreated.`,
+          name: 'Remove the button for giveaways that have been recreated.',
           sg: true
         }
       },
       id: 'gr',
-      name: `Giveaway Recreator`,
+      name: 'Giveaway Recreator',
       sg: true,
       type: 'giveaways'
     };
@@ -58,7 +58,7 @@ class GiveawaysGiveawayRecreator extends Module {
     event.stopPropagation();
     createElements(button, 'inner', [{
       attributes: {
-        class: `fa fa-circle-o-notch fa-spin`
+        class: 'fa fa-circle-o-notch fa-spin'
       },
       type: 'i'
     }]);
@@ -97,11 +97,11 @@ class GiveawaysGiveawayRecreator extends Module {
       data: `do=autocomplete_giveaway_game&page_number=1&search_query=${encodeURIComponent(giveaway.name)}`,
       method: 'POST',
       url: `/ajax.php`
-    })).responseText).html).getElementsByClassName(`table__row-outer-wrap`);
-    for (i = 0, n = elements.length; i < n && elements[i].getAttribute(`data-autocomplete-name`) !== giveaway.name; ++i) {
+    })).responseText).html).getElementsByClassName('table__row-outer-wrap');
+    for (i = 0, n = elements.length; i < n && elements[i].getAttribute('data-autocomplete-name') !== giveaway.name; ++i) {
     }
     if (i < n) {
-      template.gameId = elements[i].getAttribute(`data-autocomplete-id`);
+      template.gameId = elements[i].getAttribute('data-autocomplete-id');
     }
     keys = [];
     if (giveaway.entries === 0 || giveaway.entries < giveaway.copies) {

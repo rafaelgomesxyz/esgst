@@ -17,16 +17,16 @@ class PersistentStorage {
 
     if (version < 2) {
       if (utils.isSet(settings.chfl_discussions_sg)) {
-        settings.chfl_discussions_sg = settings.chfl_discussions_sg.filter(x => ((typeof x === 'string' && x) || x.id) !== `categorize-discussions`);
+        settings.chfl_discussions_sg = settings.chfl_discussions_sg.filter(x => ((typeof x === 'string' && x) || x.id) !== 'categorize-discussions');
       }
       if (utils.isSet(settings.chfl_footer_sg)) {
-        const privacyPolicyIndex = settings.chfl_footer_sg.map((x, i) => ((typeof x === 'string' && x) || x.id) === `privacy-policy` ? i : null).filter(x => utils.isSet(x))[0];
+        const privacyPolicyIndex = settings.chfl_footer_sg.map((x, i) => ((typeof x === 'string' && x) || x.id) === 'privacy-policy' ? i : null).filter(x => utils.isSet(x))[0];
         if (utils.isSet(privacyPolicyIndex)) {
-          settings.chfl_footer_sg.splice(privacyPolicyIndex + 1, 0, `cookie-policy`);
+          settings.chfl_footer_sg.splice(privacyPolicyIndex + 1, 0, 'cookie-policy');
         } else {
-          settings.chfl_footer_sg.push(`cookie-policy`);
+          settings.chfl_footer_sg.push('cookie-policy');
         }
-        const termsOfServiceIndex = settings.chfl_footer_sg.map((x, i) => ((typeof x === 'string' && x) || x.id) === `terms-of-service` ? i : null).filter(x => utils.isSet(x))[0];
+        const termsOfServiceIndex = settings.chfl_footer_sg.map((x, i) => ((typeof x === 'string' && x) || x.id) === 'terms-of-service' ? i : null).filter(x => utils.isSet(x))[0];
         if (utils.isSet(termsOfServiceIndex)) {
           settings.chfl_footer_sg.splice(termsOfServiceIndex + 1, 0, 'advertising');
         } else {

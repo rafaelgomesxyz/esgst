@@ -4,7 +4,7 @@ import JSZip from 'jszip';
 Cu.importGlobalProperties(["fetch", "FileReader"]);
 
 // @ts-ignore
-const file = FileUtils.getFile('ProfD', [`esgst.sqlite`]);
+const file = FileUtils.getFile('ProfD', ['esgst.sqlite']);
 
 const TYPE_SET = 0;
 const TYPE_GET = 1;
@@ -76,7 +76,7 @@ function handle_storage(operation, values) {
           while (i < n) {
             conditions.push(`key = :key${i++}`);
           }
-          const select_stmt = dbConn.createStatement(`SELECT * FROM esgst WHERE ${conditions.join(` OR `)}`);
+          const select_stmt = dbConn.createStatement(`SELECT * FROM esgst WHERE ${conditions.join(' OR ')}`);
           i = 0;
           for (const key in values) {
             select_stmt.params[`key${i}`] = key;
@@ -95,7 +95,7 @@ function handle_storage(operation, values) {
         while (i < n) {
           conditions.push(`key = :key${i++}`);
         }
-        const stmt = dbConn.createStatement(`DELETE FROM esgst WHERE ${conditions.join(` OR `)}`);
+        const stmt = dbConn.createStatement(`DELETE FROM esgst WHERE ${conditions.join(' OR ')}`);
         i = 0;
         for (const key of values) {
           stmt.params[`key${i}`] = key;
@@ -311,7 +311,7 @@ let tdsData = [];
 PageMod({
   include: [`*.steamgifts.com`, `*.steamtrades.com`],
   // @ts-ignore
-  contentScriptFile: data.url(`esgst.js`),
+  contentScriptFile: data.url('esgst.js'),
   contentScriptWhen: 'start',
   onAttach: worker => {
     let keys, parameters, values;
@@ -422,7 +422,7 @@ PageMod({
 PageMod({
   include: [`*.sgtools.info`],
   // @ts-ignore
-  contentScriptFile: data.url(`esgst_sgtools.js`),
+  contentScriptFile: data.url('esgst_sgtools.js'),
   contentScriptWhen: 'start',
   onAttach: worker => {
     worker.port.on('getStorage', async request => {

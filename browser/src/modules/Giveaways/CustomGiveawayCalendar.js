@@ -9,10 +9,10 @@ class GiveawaysCustomGiveawayCalendar extends Module {
         ['ul', [
           ['li', [
             `Allows you to customize the calendar for selecting the start/end times of giveaways in the `,
-            ['a', { href: `https://www.steamgifts.com/giveaways/new` }, `new giveaway`],
-            ` page.`
+            ['a', { href: `https://www.steamgifts.com/giveaways/new` }, 'new giveaway'],
+            ' page.'
           ]],
-          ['li', `Make sure to test if SteamGifts accepts the format you entered by reviewing a test giveaway.`]
+          ['li', 'Make sure to test if SteamGifts accepts the format you entered by reviewing a test giveaway.']
         ]]
       ],
       inputItems: [
@@ -34,7 +34,7 @@ class GiveawaysCustomGiveawayCalendar extends Module {
         }
       ],
       id: 'cgc',
-      name: `Custom Giveaway Calendar`,
+      name: 'Custom Giveaway Calendar',
       sg: true,
       type: 'giveaways'
     };
