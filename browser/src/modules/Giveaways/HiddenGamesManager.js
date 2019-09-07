@@ -100,7 +100,7 @@ class GiveawaysHiddenGamesManager extends Module {
       icon2: `fa-times`,
       title1: `Remove`,
       title2: `Cancel`,
-      callback1: this.startRemoving.bind(this, obj),
+      callback1: this.startRemoving.bind(this, obj, false),
       callback2: this.stop.bind(this, obj)
     }).set);
     obj.popup.description.appendChild(new ButtonSet({
