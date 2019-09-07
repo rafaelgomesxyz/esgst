@@ -38,6 +38,10 @@ class CommentsCommentVariables extends Module {
   }
 
   init() {
+    if (shared.esgst.replyBox) {
+      shared.common.addReplyButton(shared.esgst.replyBox);
+    }
+
     shared.esgst.triggerFunctions.onBeforeCommentSubmit.push(this.replaceVariables.bind(this));
   }
 
