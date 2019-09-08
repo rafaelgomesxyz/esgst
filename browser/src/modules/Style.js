@@ -192,6 +192,16 @@ function addStyle() {
   `;
   }
   style += `
+  .esgst-tds-sidebar-item {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .esgst-tds-sidebar-item .sidebar__navigation__item__link {
+    flex: 1;
+  }
+
   .ui-datepicker:not([style]) {
     display: none;
   }
