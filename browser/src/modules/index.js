@@ -49,6 +49,7 @@ import { discussionsDiscussionFilters } from './Discussions/DiscussionFilters';
 import { tradesTradeFilters } from './Trades/TradeFilters';
 import { groupsGroupFilters } from './Groups/GroupFilters';
 import { giveawaysGiveawayFilters } from './Giveaways/GiveawayFilters';
+import { gamesGameFilters } from './Games/GameFilters';
 import { groupsGroupLibraryWishlistChecker } from './Groups/GroupLibraryWishlistChecker';
 import { giveawaysGiveawayRecreator } from './Giveaways/GiveawayRecreator';
 import { groupsGroupStats } from './Groups/GroupStats';
@@ -212,6 +213,7 @@ const modules = {
   tradesTradeFilters,
   groupsGroupFilters,
   giveawaysGiveawayFilters,
+  gamesGameFilters,
   groupsGroupLibraryWishlistChecker,
   giveawaysGiveawayRecreator,
   groupsGroupStats,

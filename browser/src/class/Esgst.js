@@ -7,6 +7,7 @@ class Esgst {
     this.CURRENT_STORAGE_VERSION = 3;
     this.CURRENT_GIVEAWAY_VERSION = 2;
 
+    this.gmf = undefined;
     this.es_loadNext = undefined;
     this.es_refresh = undefined;
     this.es_refreshAll = undefined;
@@ -413,6 +414,7 @@ class Esgst {
       gf_presets: [],
       df_presets: [],
       tf_presets: [],
+      gmf_presets: [],
       gpf_presets: [],
       cf_presets: [],
       chfl_key: 'ctrlKey + e',
@@ -686,6 +688,8 @@ class Esgst {
       tf_enableCreated: false,
       tf_preset: null,
       tf_presetCreated: null,
+      gmf_enable: true,
+      gmf_preset: null,
       gpf_enable: true,
       gpf_preset: null,
       ds_auto: false,
@@ -1356,6 +1360,8 @@ class Esgst {
     this.whitelistPath = window.location.pathname.match(/^\/account\/manage\/whitelist/);
     this.blacklistPath = window.location.pathname.match(/^\/account\/manage\/blacklist/);
     this.appList = undefined;
+    this.pageHeadings = undefined;
+    this.hasAddedFilterContainer = undefined;
   }
 
   async triggerFunction(key, ...args) {

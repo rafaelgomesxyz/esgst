@@ -104,11 +104,13 @@ class CommentsCommentFilters extends Filters {
 
   async init() {
     if (gSettings.cf_m && (shared.esgst.commentsPath || shared.common.isCurrentPath('Messages'))) {
-      shared.esgst.style.insertAdjacentText("beforeend", `
-        .esgst-gf-container {
-          top: ${shared.esgst.commentsTop - 5}px;
-        }
-      `);
+      if (!shared.esgst.hasAddedFilterContainer) {
+        shared.esgst.style.insertAdjacentText("beforeend", `
+          .esgst-gf-container {
+            top: ${shared.esgst.commentsTop - 5}px;
+          }
+        `);
+      }
       shared.common.createHeadingButton({
         element: this.filters_addContainer(shared.esgst.mainPageHeading),
         id: 'cf'

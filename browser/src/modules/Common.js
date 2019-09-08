@@ -1149,7 +1149,12 @@ class Common extends Module {
     let context = details.context;
     const id = details.orderId || details.id;
     if (!context) {
-      if (gSettings.leftButtonIds.indexOf(id) > -1) {
+      if (id === 'gmf' && shared.esgst.discussionPath) {
+        context = document.querySelector('.page__heading__breadcrumbs');
+        context.parentElement.insertBefore(details.element, context);
+
+        return context.previousElementSibling;
+      } else if (gSettings.leftButtonIds.indexOf(id) > -1) {
         context = this.esgst.leftButtons;
       } else if (gSettings.rightButtonIds.indexOf(id) > -1) {
         context = this.esgst.rightButtons;
@@ -5511,32 +5516,30 @@ class Common extends Module {
         subsToFetch.push(subId);
       }
     }
-    if (!isUsingRevadike) {
-      for (let i = appsToFetch.length - 1; i > -1 && !obj.canceled; i--) {
-        obj.update && obj.update(`Retrieving app ids from SteamGifts (${i} left)...`);
+    for (let i = appsToFetch.length - 1; i > -1 && !obj.canceled; i--) {
+      obj.update && obj.update(`Retrieving app ids from SteamGifts (${i} left)...`);
 
-        const appId = appsToFetch[i];
-        const id = await this.getGameSgId(appId, 'apps');
-        if (id) {
-          ids.push(id);
-          games.apps[appId] = { hidden: unhide ? null : true, sgId: id };
-        } else {
-          api.cache.appids[appId] = 0;
-          appsNotFound.push(id);
-        }
+      const appId = appsToFetch[i];
+      const id = await this.getGameSgId(appId, 'apps');
+      if (id) {
+        ids.push(id);
+        games.apps[appId] = { hidden: unhide ? null : true, sgId: id };
+      } else {
+        api.cache.appids[appId] = 0;
+        appsNotFound.push(id);
       }
-      for (let i = subsToFetch.length - 1; i > -1 && !obj.canceled; i--) {
-        obj.update && obj.update(`Retrieving sub ids from SteamGifts (${i} left)...`);
+    }
+    for (let i = subsToFetch.length - 1; i > -1 && !obj.canceled; i--) {
+      obj.update && obj.update(`Retrieving sub ids from SteamGifts (${i} left)...`);
 
-        const subId = subsToFetch[i];
-        const id = await this.getGameSgId(subId, 'subs');
-        if (id) {
-          ids.push(id);
-          games.subs[subId] = { hidden: unhide ? null : true, sgId: id };
-        } else {
-          api.cache.subids[subId] = 0;
-          subsNotFound.push(id);
-        }
+      const subId = subsToFetch[i];
+      const id = await this.getGameSgId(subId, 'subs');
+      if (id) {
+        ids.push(id);
+        games.subs[subId] = { hidden: unhide ? null : true, sgId: id };
+      } else {
+        api.cache.subids[subId] = 0;
+        subsNotFound.push(id);
       }
     }
 
@@ -5623,8 +5626,18 @@ class Common extends Module {
     return url.replace(/^https?:\/\/.+?\//, '/');
   }
 
-  isCurrentPath(name) {
-    return shared.esgst.currentPaths.indexOf(name) > -1;
+  isCurrentPath(nameOrNames) {
+    if (Array.isArray(nameOrNames)) {
+      for (const name of nameOrNames) {
+        if (shared.esgst.currentPaths.indexOf(name) > -1) {
+          return true;
+        }
+      }
+
+      return false;
+    }
+
+    return shared.esgst.currentPaths.indexOf(nameOrNames) > -1;
   }
 
   getBrowserInfo() {

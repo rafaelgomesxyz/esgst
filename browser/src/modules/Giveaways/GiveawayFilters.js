@@ -793,11 +793,13 @@ class GiveawaysGiveawayFilters extends Filters {
       this.esgst.giveawayFeatures.push(this.gf_getGiveaways.bind(this));
     }
     if (gSettings.gf_m && (this.esgst.giveawaysPath || this.esgst.createdPath || this.esgst.enteredPath || this.esgst.wonPath || this.esgst.groupPath || this.esgst.userPath)) {
-      this.esgst.style.insertAdjacentText("beforeend", `
-        .esgst-gf-container {
-          top: ${this.esgst.commentsTop - 5}px;
-        }
-      `);
+      if (!shared.esgst.hasAddedFilterContainer) {
+        shared.esgst.style.insertAdjacentText("beforeend", `
+          .esgst-gf-container {
+            top: ${shared.esgst.commentsTop - 5}px;
+          }
+        `);
+      }
       createHeadingButton({
         element: this.filters_addContainer(this.esgst.mainPageHeading),
         id: 'gf'
@@ -986,28 +988,6 @@ class GiveawaysGiveawayFilters extends Filters {
         name: 'Points To Win',
         type: 'number'
       },
-      rating: {
-        category: 'gc_r',
-        check: true,
-        maxValue: 100,
-        minValue: 0,
-        name: 'Rating',
-        type: 'number'
-      },
-      reviews: {
-        category: 'gc_r',
-        check: true,
-        minValue: 0,
-        name: 'Reviews',
-        type: 'number'
-      },
-      releaseDate: {
-        category: 'gc_rd',
-        check: !this.esgst.parameters.release_date_min && !this.esgst.parameters.release_date_max,
-        date: true,
-        name: 'Release Date',
-        type: 'number'
-      },
       pinned: {
         check: this.esgst.giveawaysPath,
         name: 'Pinned',
@@ -1088,65 +1068,6 @@ class GiveawaysGiveawayFilters extends Filters {
         name: 'Deleted',
         type: 'boolean'
       },
-      owned: {
-        check: true,
-        name: 'Owned',
-        sync: ['Games'],
-        type: 'boolean'
-      },
-      wishlisted: {
-        check: true,
-        name: 'Wishlisted',
-        sync: ['Games'],
-        type: 'boolean'
-      },
-      followed: {
-        check: true,
-        name: 'Followed',
-        sync: ['FollowedGames'],
-        type: 'boolean'
-      },
-      hidden: {
-        check: true,
-        name: 'Hidden',
-        sync: ['HiddenGames'],
-        type: 'boolean'
-      },
-      ignored: {
-        check: true,
-        name: 'Ignored',
-        sync: ['Games'],
-        type: 'boolean'
-      },
-      previouslyEntered: {
-        check: true,
-        name: 'Previously Entered',
-        type: 'boolean'
-      },
-      previouslyWon: {
-        check: true,
-        name: 'Previously Won',
-        sync: ['WonGames'],
-        type: 'boolean'
-      },
-      fullCV: {
-        check: true,
-        name: 'Full CV',
-        sync: ['ReducedCvGames', 'NoCvGames'],
-        type: 'boolean'
-      },
-      reducedCV: {
-        check: true,
-        name: 'Reduced CV',
-        sync: ['ReducedCvGames'],
-        type: 'boolean'
-      },
-      noCV: {
-        check: true,
-        name: 'No CV',
-        sync: ['NoCvGames'],
-        type: 'boolean'
-      },
       sgTools: {
         check: gSettings.ge,
         name: 'SGTools',
@@ -1170,115 +1091,7 @@ class GiveawaysGiveawayFilters extends Filters {
         name: 'Winners',
         type: 'string'
       },
-      learning: {
-        category: 'gc_lg',
-        check: true,
-        name: 'Learning',
-        type: 'boolean'
-      },
-      removed: {
-        check: true,
-        name: 'Removed',
-        sync: ['DelistedGames'],
-        type: 'boolean'
-      },
-      banned: {
-        check: true,
-        name: 'Banned',
-        sync: ['DelistedGames'],
-        type: 'boolean'
-      },
-      tradingCards: {
-        category: 'gc_tc',
-        check: true,
-        name: 'Trading Cards',
-        type: 'boolean'
-      },
-      achievements: {
-        category: 'gc_a',
-        check: true,
-        name: 'Achievements',
-        type: 'boolean'
-      },
-      singleplayer: {
-        category: 'gc_sp',
-        check: true,
-        name: 'Singleplayer',
-        type: 'boolean'
-      },
-      multiplayer: {
-        category: 'gc_mp',
-        check: true,
-        name: 'Multiplayer',
-        type: 'boolean'
-      },
-      steamCloud: {
-        category: 'gc_sc',
-        check: true,
-        name: 'Steam Cloud',
-        type: 'boolean'
-      },
-      linux: {
-        category: 'gc_l',
-        check: true,
-        name: 'Linux',
-        type: 'boolean'
-      },
-      mac: {
-        category: 'gc_m',
-        check: true,
-        name: 'Mac',
-        type: 'boolean'
-      },
-      dlc: {
-        category: 'gc_dlc',
-        check: true,
-        name: 'DLC',
-        type: 'boolean'
-      },
-      dlcOwned: {
-        category: 'gc_dlc_o',
-        check: true,
-        name: `DLC (Owned Base)`,
-        type: 'boolean'
-      },
-      dlcFree: {
-        category: 'gc_dlc_b',
-        check: true,
-        name: `DLC (Free Base)`,
-        type: 'boolean'
-      },
-      dlcNonFree: {
-        category: 'gc_dlc_b',
-        check: true,
-        name: `DLC (Non-Free Base)`,
-        type: 'boolean'
-      },
-      package: {
-        category: 'gc_p',
-        check: true,
-        name: 'Package',
-        type: 'boolean'
-      },
-      earlyAccess: {
-        category: 'gc_ea',
-        check: true,
-        name: 'Early Access',
-        type: 'boolean'
-      },
-      genres: {
-        category: 'gc_g',
-        check: true,
-        list: true,
-        name: 'Genres',
-        type: 'string'
-      },
-      tags: {
-        check: true,
-        list: true,
-        name: 'Game Tags',
-        type: 'string'
-      }
+      ...shared.esgst.modules.gamesGameFilters.getFilters()
     };
   }
 }

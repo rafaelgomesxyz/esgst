@@ -925,6 +925,7 @@ class Settings {
         df_s_s: `Discussion Filters (Single Filters Switch)`,
         tf: 'Trade Filters',
         tf_s_s: `Trade Filters (Single Filters Switch)`,
+        gmf: 'Game Filters',
         gpf: 'Group Filters',
         ds: 'Discussion Sorter',
         gas: 'Giveaway Sorter',

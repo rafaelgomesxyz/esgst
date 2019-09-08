@@ -60,6 +60,9 @@ class Games extends Module {
         games.subs[id].forEach(game => this.esgst.modules.giveaways.giveaways_reorder(game));
       }
     }
+    if (main && this.esgst.gmf && this.esgst.gmf.filteredCount && gSettings[`gmf_enable${this.esgst.gmf.type}`]) {
+      this.esgst.modules.gamesGameFilters.filters_filter(this.esgst.gmf, false, endless);
+    }
   }
 
   async games_get(context, main, savedGames, endless) {
@@ -81,12 +84,16 @@ class Games extends Module {
       game = this.esgst.scopes.main.giveaways.filter(x => x.outerWrap === matches[i])[0];
       if (!game) {
         game = {
+          isGame: true,
           outerWrap: matches[i]
         };
       }
       game.container = game.outerWrap;
       game.columns = game.container.querySelector(`.giveaway__columns, .featured__columns`);
       game.table = !!game.container.closest('table');
+      if (game.table) {
+        game.outerWrap = game.container.closest('tr');
+      }
       game.grid = game.container.closest('.esgst-gv-view');
       if (game.grid) {
         game.gvIcons = game.container.getElementsByClassName('esgst-gv-icons')[0];
@@ -126,6 +133,18 @@ class Games extends Module {
           type = info.type;
           game.id = id;
           game.type = type;
+          if (shared.esgst.games && shared.esgst.games[game.type][game.id]) {
+            const keys = ['owned', 'wishlisted', 'followed', 'hidden', 'ignored', 'previouslyEntered', 'previouslyWon', 'reducedCV', 'noCV', 'banned', 'removed'];
+            for (const key of keys) {
+              if (key === 'banned' && shared.esgst.delistedGames.banned.indexOf(parseInt(game.id)) > -1) {
+                game[key] = true;
+              } else if (key === 'removed' && (shared.esgst.delistedGames.removed.indexOf(parseInt(game.id)) > -1 || shared.esgst.games[game.type][game.id].removed)) {
+                game[key] = true;
+              } else if (shared.esgst.games[game.type][game.id][key === 'previouslyEntered' ? 'entered' : (key === 'previouslyWon' ? 'won' : key)]) {
+                game[key] = true;
+              }
+            }
+          }
           if (gSettings.updateHiddenGames && window.location.pathname.match(/^\/account\/settings\/giveaways\/filters/) && main) {
             const removeButton = game.container.getElementsByClassName('table__remove-default')[0];
             if (removeButton) {

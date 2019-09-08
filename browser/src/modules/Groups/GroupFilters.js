@@ -199,11 +199,13 @@ class GroupsGroupFilters extends Filters {
     if (!shared.common.isCurrentPath('Steam - Groups')) {
       return;
     }
-    shared.esgst.style.insertAdjacentText("beforeend", `
-      .esgst-gf-container {
-        top: ${shared.esgst.commentsTop - 5}px;
-      }
-    `);
+    if (!shared.esgst.hasAddedFilterContainer) {
+      shared.esgst.style.insertAdjacentText("beforeend", `
+        .esgst-gf-container {
+          top: ${shared.esgst.commentsTop - 5}px;
+        }
+      `);
+    }
     common.createHeadingButton({
       element: this.filters_addContainer(shared.esgst.mainPageHeading),
       id: 'gpf'

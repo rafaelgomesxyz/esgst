@@ -207,11 +207,13 @@ class TradesTradeFilters extends Filters {
       this.esgst.tradeFeatures.push(this.tf_addButtons.bind(this));
     }
     if (gSettings.tf_m && shared.esgst.tradesPath && !shared.esgst.editTradePath) {
-      shared.esgst.style.insertAdjacentText("beforeend", `
-        .esgst-gf-container {
-          top: ${shared.esgst.commentsTop - 5}px;
-        }
-      `);
+      if (!shared.esgst.hasAddedFilterContainer) {
+        shared.esgst.style.insertAdjacentText("beforeend", `
+          .esgst-gf-container {
+            top: ${shared.esgst.commentsTop - 5}px;
+          }
+        `);
+      }
       createHeadingButton({
         element: this.filters_addContainer(shared.esgst.mainPageHeading),
         id: 'tf'

@@ -309,7 +309,9 @@ class Filters extends Module {
       }]
     }]);
 
-    if (!obj.popup) {
+    if (!obj.popup && !shared.esgst.hasAddedFilterContainer) {
+      shared.esgst.hasAddedFilterContainer = true;
+
       this.esgst.commentsTop += 23;
     }
 
@@ -1925,6 +1927,8 @@ class Filters extends Module {
       items = this.esgst.currentScope.discussions;
     } else if (obj.id === 'tf') {
       items = this.esgst.currentScope.trades;
+    } else if (obj.id === 'gmf') {
+      items = this.esgst.currentScope.games.map(game => game.game);
     } else if (obj.id === 'gpf') {
       items = this.esgst.currentScope.groups;
     } else {
@@ -1970,7 +1974,7 @@ class Filters extends Module {
     if (obj.id === 'gf' && obj.pointsCount) {
       obj.pointsCount.textContent = pointsCount;
     }
-    if (obj.id === 'gf' && this.esgst.gcToFetch) {
+    if ((obj.id === 'gf' || obj.id === 'gmf') && this.esgst.gcToFetch) {
       const games = {apps: {}, subs: {}};
       for (const id in this.esgst.gcToFetch.apps) {
         if (this.esgst.gcToFetch.apps.hasOwnProperty(id)) {

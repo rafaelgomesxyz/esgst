@@ -4,6 +4,7 @@ import { Process } from '../../class/Process';
 import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { gSettings } from '../../class/Globals';
+import { shared } from '../../class/Shared';
 
 const
   sortArray = utils.sortArray.bind(utils),
@@ -288,11 +289,13 @@ class DiscussionsDiscussionFilters extends Filters {
       this.esgst.discussionFeatures.push(this.df_addButtons.bind(this));
     }
     if (gSettings.df_m && this.esgst.discussionsPath && !this.esgst.editDiscussionPath) {
-      this.esgst.style.insertAdjacentText("beforeend", `
-        .esgst-gf-container {
-          top: ${this.esgst.commentsTop - 5}px;
-        }
-      `);
+      if (!shared.esgst.hasAddedFilterContainer) {
+        shared.esgst.style.insertAdjacentText("beforeend", `
+          .esgst-gf-container {
+            top: ${shared.esgst.commentsTop - 5}px;
+          }
+        `);
+      }
       createHeadingButton({
         element: this.filters_addContainer(this.esgst.mainPageHeading),
         id: 'df'

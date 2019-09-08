@@ -1381,44 +1381,47 @@ class GamesGameCategories extends Module {
     let categories = ['achievements', 'dlc', 'dlcOwned', 'dlcFree', 'dlcNonFree', 'genres', 'hltb', 'linux', 'mac', 'singleplayer', 'multiplayer', 'package', 'rating', 'reviews', 'learning', 'removed', 'banned', 'steamCloud', 'tradingCards', 'earlyAccess', 'releaseDate'];
     for (const scopeKey in shared.esgst.scopes) {
       const scope = shared.esgst.scopes[scopeKey];
-      for (const giveaway of scope.giveaways) {
-        const loading = giveaway.outerWrap.querySelector(`.esgst-gc-loading:not([data-esgst-to-fetch])`);
+      const items = scope.giveaways.concat(scope.games.map(game => game.game));
+      for (const item of items) {
+        const loading = item.outerWrap.querySelector(`.esgst-gc-loading:not([data-esgst-to-fetch])`);
         if (loading) {
           loading.remove();
         }
-        if (giveaway.gcReady || !giveaway.outerWrap.querySelector(`[data-gcReady]`) || giveaway.outerWrap.classList.contains('esgst-hidden')) {
+        if (item.gcReady || !item.outerWrap.querySelector(`[data-gcReady]`) || item.outerWrap.classList.contains('esgst-hidden')) {
           continue;
         }
         for (let j = 0, numCategories = categories.length; j < numCategories; ++j) {
           let id = categories[j];
-          let category = giveaway.outerWrap.getElementsByClassName(`esgst-gc-${id === 'reviews' ? 'rating' : id}`)[0];
+          let category = item.outerWrap.getElementsByClassName(`esgst-gc-${id === 'reviews' ? 'rating' : id}`)[0];
           if (category) {
             if (id === 'releaseDate') {
-              giveaway.releaseDate = category.getAttribute('data-timestamp');
-              if (giveaway.releaseDate === '?') {
-                giveaway.releaseDate = -1;
+              item.releaseDate = category.getAttribute('data-timestamp');
+              if (item.releaseDate === '?') {
+                item.releaseDate = -1;
               } else {
-                giveaway.releaseDate = parseInt(giveaway.releaseDate) * 1e3;
+                item.releaseDate = parseInt(item.releaseDate) * 1e3;
               }
             } else if (id === 'genres') {
-              giveaway.genres = category.textContent.toLowerCase().trim().replace(/\s{2,}/g, `, `).split(/,\s/);
+              item.genres = category.textContent.toLowerCase().trim().replace(/\s{2,}/g, `, `).split(/,\s/);
             } else if (id === 'rating') {
-              giveaway.rating = parseInt(category.title.match(/(\d+)%/)[1]);
+              item.rating = parseInt(category.title.match(/(\d+)%/)[1]);
             } else if (id === 'reviews') {
-              giveaway.reviews = parseInt(category.title.match(/\((.+?)\)/)[1].replace(/[^\d]/g, ''));
+              item.reviews = parseInt(category.title.match(/\((.+?)\)/)[1].replace(/[^\d]/g, ''));
             } else {
-              giveaway[id] = true;
+              item[id] = true;
             }
           } else if (id === 'rating') {
-            giveaway.rating = -1;
+            item.rating = -1;
           } else if (id === 'releaseDate') {
-            giveaway.releaseDate = -1;
+            item.releaseDate = -1;
           } else if (id === 'reviews') {
-            giveaway.reviews = -1;
+            item.reviews = -1;
           }
         }
-        this.gc_addBorders(giveaway);
-        giveaway.gcReady = true;
+        if (!item.isGame) {
+          this.gc_addBorders(item);
+        }
+        item.gcReady = true;
       }
     }
     if (!filtersChanged) {
@@ -1427,6 +1430,9 @@ class GamesGameCategories extends Module {
       }
       if (!main && shared.esgst.gfPopup && shared.esgst.gfPopup.filteredCount && gSettings[`gf_enable${shared.esgst.gfPopup.type}`]) {
         shared.esgst.modules.giveawaysGiveawayFilters.filters_filter(shared.esgst.gfPopup);
+      }
+      if (main && shared.esgst.gmf && shared.esgst.gmf.filteredCount && gSettings[`gmf_enable${shared.esgst.gmf.type}`]) {
+        shared.esgst.modules.gamesGameFilters.filters_filter(shared.esgst.gmf, false, endless);
       }
     }
   }
