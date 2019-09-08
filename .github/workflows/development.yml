@@ -15,6 +15,6 @@ jobs:
     - name: 'Install dependencies'
       run: cd ./browser && npm install
     - name: 'Run dev build'
-      run: cd ./browser && npm run build-dev
+      run: cd ./browser && npm run build
     - name: 'Generate pre-release'
       run: cd ./browser && npm run generate-release dev token=${{ secrets.GITHUB_ACCESS_TOKEN }}
