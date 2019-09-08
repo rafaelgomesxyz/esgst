@@ -14,7 +14,7 @@ class Popup {
       ['div', { class: 'esgst-hidden esgst-popup-layer' }, [
         ...(details.popup ? [
           details.popup
-        ]  : [
+        ] : [
           ['div', { class: 'esgst-popup' }, [
             ['div', { class: 'esgst-popup-heading' }, [
               ['i', { class: `fa ${details.icon} esgst-popup-icon${details.icon ? '' : ' esgst-hidden'}` }],
@@ -26,9 +26,9 @@ class Popup {
               ['a', { class: 'esgst-hidden', href: shared.esgst.settingsUrl }, 'Settings'],
               ['a', { class: 'esgst-popup-close' }, 'Close']
             ]]
-          ]],
-          ['div', { class: 'esgst-popup-modal', title: 'Click to close the modal' }]
-        ])
+          ]]
+        ]),
+        ['div', { class: 'esgst-popup-modal', title: 'Click to close the modal' }]
       ]]
     ]);
     this.onCloseByUser = details.onCloseByUser;
