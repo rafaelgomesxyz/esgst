@@ -13,7 +13,7 @@ class CloudStorage {
   static get ONEDRIVE() { return 2; }
 
   static async manage(service, data, dm, callback) {
-    if (dm.type === `export` || (data && gSettings.exportBackup)) {
+    if (dm.type === 'export' || (data && gSettings.exportBackup)) {
       await CloudStorage.backup(service, data, dm, callback);
     } else {
       await CloudStorage.restore(service, dm, callback);
@@ -21,7 +21,7 @@ class CloudStorage {
   }
 
   static async backup(service, data, dm, callback) {
-    const defaultFileName = `esgst_data_${new Date().toISOString().replace(/:/g, `_`)}`;
+    const defaultFileName = `esgst_data_${new Date().toISOString().replace(/:/g, '_')}`;
     const fileName = gSettings.askFileName ? window.prompt(`Enter the name of the file:`, defaultFileName) : defaultFileName;
 
     if (fileName === null) {
@@ -142,15 +142,15 @@ class CloudStorage {
 
     switch (service) {
       case CloudStorage.DROPBOX:
-        icon = `dropbox`;
+        icon = 'dropbox';
         token = await DropboxStorage.authenticate();
         break;
       case CloudStorage.GOOGLEDRIVE:
-        icon = `google`;
+        icon = 'google';
         token = await GoogleDriveStorage.authenticate();
         break;
       case CloudStorage.ONEDRIVE:
-        icon = `windows`;
+        icon = 'windows';
         token = await OneDriveStorage.authenticate();
         break;
     }
@@ -170,8 +170,8 @@ class CloudStorage {
     };
     popup.open();
 
-    const filesContainer = shared.common.createElements_v2(popup.scrollable, `beforeEnd`, [
-      [`div`, { class: `popup__keys__list` }]
+    const filesContainer = shared.common.createElements_v2(popup.scrollable, 'beforeEnd', [
+      ['div', { class: 'popup__keys__list' }]
     ]);
 
     let files = null;
@@ -199,18 +199,18 @@ class CloudStorage {
     let selectedFiles = {};
 
     for (const file of files) {
-      const item = shared.common.createElements_v2(filesContainer, `beforeEnd`, [
-        [`div`, { class: `esgst-clickable esgst-restore-entry` }, [
-          [`span`],
-          [`span`, `${file.name} - ${shared.common.convertBytes(file.size)}`],
-          [`i`, { class: `fa fa-times-circle`, title: `Delete file` }]
+      const item = shared.common.createElements_v2(filesContainer, 'beforeEnd', [
+        ['div', { class: 'esgst-clickable esgst-restore-entry' }, [
+          ['span'],
+          ['span', `${file.name} - ${shared.common.convertBytes(file.size)}`],
+          ['i', { class: 'fa fa-times-circle', title: 'Delete file' }]
         ]]
       ]);
       const checkbox = new Checkbox(item.firstElementChild);
       checkbox.onEnabled = () => selectedFiles[file.id] = { item };
       checkbox.onDisabled = () => delete selectedFiles[file.id];
-      item.firstElementChild.nextElementSibling.addEventListener(`click`, () => {
-        shared.common.createConfirmation(`Are you sure you want to restore the selected data?`, async () => {
+      item.firstElementChild.nextElementSibling.addEventListener('click', () => {
+        shared.common.createConfirmation('Are you sure you want to restore the selected data?', async () => {
           isCanceled = false;
 
           popup.close();
@@ -240,12 +240,12 @@ class CloudStorage {
           shared.esgst.modules.manageData(dm, false, false, false, false, callback);
         });
       });
-      item.lastElementChild.addEventListener(`click`, () => {
+      item.lastElementChild.addEventListener('click', () => {
         shared.common.createConfirmation(`WARNING: Are you sure you want to delete this file?`, async () => {
           const tempPopup = new Popup({
-            icon: `fa-circle-o-notch fa-spin`,
+            icon: 'fa-circle-o-notch fa-spin',
             isTemp: true,
-            title: `Deleting file...`
+            title: 'Deleting file...'
           });
           tempPopup.open();
 
@@ -262,10 +262,10 @@ class CloudStorage {
                 break;
             }
 
-            tempPopup.setIcon(`fa-check`);
-            tempPopup.setTitle(`File deleted with success!`);
+            tempPopup.setIcon('fa-check');
+            tempPopup.setTitle('File deleted with success!');
           } catch (error) {
-            tempPopup.setIcon(`fa-times`);
+            tempPopup.setIcon('fa-times');
             tempPopup.setTitle(`An error occurred when deleting the file.\n\n${error.message}`);
           }
         });
@@ -273,12 +273,12 @@ class CloudStorage {
     }
 
     popup.popup.insertBefore(new ButtonSet({
-      color1: `green`,
-      color2: `grey`,
-      icon1: `fa-trash`,
-      icon2: `fa-circle-o-notch fa-spin`,
-      title1: `Delete selected files`,
-      title2: `Deleting...`,
+      color1: 'green',
+      color2: 'grey',
+      icon1: 'fa-trash',
+      icon2: 'fa-circle-o-notch fa-spin',
+      title1: 'Delete selected files',
+      title2: 'Deleting...',
       callback1: () => {
         return new Promise(resolve => {
           const fileIds = Object.keys(selectedFiles);
@@ -291,7 +291,7 @@ class CloudStorage {
 
           shared.common.createConfirmation(`WARNING: Are you sure you want to delete the selected files?`, async () => {
             const tempPopup = new Popup({
-              icon: `fa-circle-o-notch fa-spin`,
+              icon: 'fa-circle-o-notch fa-spin',
               isTemp: true,
               title: `Deleting ${numFiles} files...`
             });
@@ -321,14 +321,14 @@ class CloudStorage {
 
               const numError = result.error.length;
               if (numError > 0) {
-                tempPopup.setIcon(`fa-times`);
+                tempPopup.setIcon('fa-times');
                 tempPopup.setTitle(`An error occurred when deleting ${numError} of the ${numFiles} files.`);
               } else {
-                tempPopup.setIcon(`fa-check`);
+                tempPopup.setIcon('fa-check');
                 tempPopup.setTitle(`${numFiles} files deleted with success!`);
               }
             } catch (error) {
-              tempPopup.setIcon(`fa-times`);
+              tempPopup.setIcon('fa-times');
               tempPopup.setTitle(`An error occurred when deleting the ${numFiles} files.\n\n${error.message}`);
             }
 

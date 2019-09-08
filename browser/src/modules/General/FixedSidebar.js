@@ -6,14 +6,14 @@ class GeneralFixedSidebar extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, `Keeps the sidebar of any page at the left side of the window while you scroll down the page.`]
+        ['ul', [
+          ['li', 'Keeps the sidebar of any page at the left side of the window while you scroll down the page.']
         ]]
       ],
-      id: `fs`,
-      name: `Fixed Sidebar`,
+      id: 'fs',
+      name: 'Fixed Sidebar',
       sg: true,
-      type: `general`
+      type: 'general'
     };
   }
 
@@ -30,7 +30,7 @@ class GeneralFixedSidebar extends Module {
       }
     `);
 
-    this.esgst.sidebar.classList.add(`esgst-fs`);
+    this.esgst.sidebar.classList.add('esgst-fs');
   }
 }
 

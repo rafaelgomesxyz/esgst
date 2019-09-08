@@ -12,13 +12,13 @@ class UsersRealWonSentCVLink extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, [
-            `Turns "Gifts Won" and "Gifts Sent" in a user's `,
-            [`a`, { href: `https://www.steamgifts.com/user/cg` }, `profile`],
-            ` page into links that take you to their real won/sent CV pages on `,
-            [`a`, { href: `https://www.sgtools.info/` }, `SGTools`],
-            `.`
+        ['ul', [
+          ['li', [
+            'Turns "Gifts Won" and "Gifts Sent" in a user\'s ',
+            ['a', { href: `https://www.steamgifts.com/user/cg` }, 'profile'],
+            ' page into links that take you to their real won/sent CV pages on ',
+            ['a', { href: `https://www.sgtools.info/` }, 'SGTools'],
+            '.'
           ]]
         ]]
       ],
@@ -28,10 +28,10 @@ class UsersRealWonSentCVLink extends Module {
           sg: true
         }
       },
-      id: `rwscvl`,
-      name: `Real Won/Sent CV Link`,
+      id: 'rwscvl',
+      name: 'Real Won/Sent CV Link',
       sg: true,
-      type: `users`,
+      type: 'users',
       featureMap: {
         profile: this.rwscvl_add.bind(this)
       }
@@ -43,28 +43,28 @@ class UsersRealWonSentCVLink extends Module {
     wonUrl = `http://www.sgtools.info/won/${profile.username}`;
     sentUrl = `http://www.sgtools.info/sent/${profile.username}`;
     if (gSettings.rwscvl_r) {
-      wonUrl += `/newestfirst`;
-      sentUrl += `/newestfirst`;
+      wonUrl += '/newestfirst';
+      sentUrl += '/newestfirst';
     }
-    createElements(profile.wonRowLeft, `inner`, [{
+    createElements(profile.wonRowLeft, 'inner', [{
       attributes: {
-        class: `esgst-rwscvl-link`,
+        class: 'esgst-rwscvl-link',
         href: wonUrl,
-        target: `_blank`,
-        title: getFeatureTooltip(`rwscvl`)
+        target: '_blank',
+        title: getFeatureTooltip('rwscvl')
       },
-      text: `Gifts Won`,
-      type: `a`
+      text: 'Gifts Won',
+      type: 'a'
     }]);
-    createElements(profile.sentRowLeft, `inner`, [{
+    createElements(profile.sentRowLeft, 'inner', [{
       attributes: {
-        class: `esgst-rwscvl-link`,
+        class: 'esgst-rwscvl-link',
         href: sentUrl,
-        target: `_blank`,
-        title: getFeatureTooltip(`rwscvl`)
+        target: '_blank',
+        title: getFeatureTooltip('rwscvl')
       },
-      text: `Gifts Sent`,
-      type: `a`
+      text: 'Gifts Sent',
+      type: 'a'
     }]);
   }
 }

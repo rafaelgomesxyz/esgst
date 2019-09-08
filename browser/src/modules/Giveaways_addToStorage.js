@@ -11,7 +11,7 @@ class Giveaways_addToStorage extends Module {
     super();
     this.info = {
       endless: true,
-      id: `giveaways_addToStorage`
+      id: 'giveaways_addToStorage'
     };
   }
 

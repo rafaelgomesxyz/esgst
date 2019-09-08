@@ -3,14 +3,14 @@ import { logger } from '../../class/Logger';
 
 const CLASS_NAMES = {
   sg: {
-    pageHeading: `page__heading`,
-    pageHeadingBreadcrumbs: `page__heading__breadcrumbs`,
-    pageHeadingButton: `page__heading__button`
+    pageHeading: 'page__heading',
+    pageHeadingBreadcrumbs: 'page__heading__breadcrumbs',
+    pageHeadingButton: 'page__heading__button'
   },
   st: {
-    pageHeading: `page_heading`,
-    pageHeadingBreadcrumbs: `page_heading_breadcrumbs`,
-    pageHeadingButton: `page_heading_btn`
+    pageHeading: 'page_heading',
+    pageHeadingBreadcrumbs: 'page_heading_breadcrumbs',
+    pageHeadingButton: 'page_heading_btn'
   }
 };
 
@@ -23,8 +23,8 @@ class ElementBuilder {
         items = context;
         context = null;
       }
-      if (position && position === `inner`) {
-        context.innerHTML = ``;
+      if (position && position === 'inner') {
+        context.innerHTML = '';
       }
       if (!items || !items.length) {
         return;
@@ -36,27 +36,27 @@ class ElementBuilder {
         return fragment;
       }
       switch (position) {
-        case `beforeBegin`:
+        case 'beforeBegin':
           context.parentElement.insertBefore(fragment, context);
           element = context.previousElementSibling;
           break;
-        case `afterBegin`:
+        case 'afterBegin':
           context.insertBefore(fragment, context.firstElementChild);
           element = context.firstElementChild;
           break;
-        case `beforeEnd`:
+        case 'beforeEnd':
           context.appendChild(fragment);
           element = context.lastElementChild;
           break;
-        case `afterEnd`:
+        case 'afterEnd':
           context.parentElement.insertBefore(fragment, context.nextElementSibling);
           element = context.nextElementSibling;
           break;
-        case `inner`:
+        case 'inner':
           context.appendChild(fragment);
           element = context.firstElementChild;
           break;
-        case `outer`:
+        case 'outer':
           context.parentElement.insertBefore(fragment, context);
           element = context.previousElementSibling;
           context.remove();
@@ -73,7 +73,7 @@ class ElementBuilder {
       if (!item) {
         continue;
       }
-      if (typeof item === `string`) {
+      if (typeof item === 'string') {
         const node = document.createTextNode(item);
         context.appendChild(node);
         continue;
@@ -85,18 +85,18 @@ class ElementBuilder {
       if (utils.isSet(item[1])) {
         if (Array.isArray(item[1])) {
           this.buildElements(element, item[1]);
-        } else if (typeof item[1] === `object`) {
+        } else if (typeof item[1] === 'object') {
           for (const key in item[1]) {
             if (item[1].hasOwnProperty(key)) {
-              if (key === `ref`) {
+              if (key === 'ref') {
                 if (utils.isSet(item[1].ref)) {
                   item[1].ref(element);
                 }
-              } else if (key === `extend`) {
+              } else if (key === 'extend') {
                 item[1].extend = item[1].extend.bind(null, element);
               } else if (key.match(/^on/)) {
                 if (utils.isSet(item[1][key])) {
-                  element.addEventListener(key.replace(/^on/, ``), item[1][key]);
+                  element.addEventListener(key.replace(/^on/, ''), item[1][key]);
                 }
               } else {
                 element.setAttribute(key, item[1][key]);
@@ -133,15 +133,15 @@ class SgNotification extends ElementBuilder {
     options = Object.assign({
       context: null,
       position: null,
-      type: `warning`,
+      type: 'warning',
       icons: [],
-      message: ``
+      message: ''
     }, options);
     this.createElements(options.context, options.position, [
-      [`div`, { ref: ref => this.notification = ref }, [
-        [`i`, { ref: ref => this.icon = ref }],
-        ` `,
-        [`span`, { ref: ref => this.message = ref }]
+      ['div', { ref: ref => this.notification = ref }, [
+        ['i', { ref: ref => this.icon = ref }],
+        ' ',
+        ['span', { ref: ref => this.message = ref }]
       ]]
     ]);
     this.setType(options.type);
@@ -154,7 +154,7 @@ class SgNotification extends ElementBuilder {
   }
 
   setIcons(icons) {
-    this.icon.className = `fa fa-fw ${icons.join(` `)}`;
+    this.icon.className = `fa fa-fw ${icons.join(' ')}`;
   }
 
   setMessage(text) {
@@ -175,8 +175,8 @@ class PageHeading extends ElementBuilder {
       position: null
     }, options);
     this.createElements(options.context, options.position, [
-      [`div`, { class: CLASS_NAMES[this.namespace].pageHeading, ref: ref => this.pageHeading = ref }, [
-        [`div`, { class: CLASS_NAMES[this.namespace].pageHeadingBreadcrumbs, ref: ref => this.breadcrumbs = ref }]
+      ['div', { class: CLASS_NAMES[this.namespace].pageHeading, ref: ref => this.pageHeading = ref }, [
+        ['div', { class: CLASS_NAMES[this.namespace].pageHeadingBreadcrumbs, ref: ref => this.breadcrumbs = ref }]
       ]]
     ]);
     if (options.breadcrumbs) {
@@ -191,13 +191,13 @@ class PageHeading extends ElementBuilder {
     const items = [];
     for (const breadcrumb of breadcrumbs) {      
       items.push(
-        typeof breadcrumb === `string` || Array.isArray(breadcrumb)
-          ? [`span`, breadcrumb]
-          : [`a`, { href: breadcrumb.url }, breadcrumb.name],
-        [`i`, { class: `fa fa-angle-right` }]
+        typeof breadcrumb === 'string' || Array.isArray(breadcrumb)
+          ? ['span', breadcrumb]
+          : ['a', { href: breadcrumb.url }, breadcrumb.name],
+        ['i', { class: 'fa fa-angle-right' }]
       );
     }
-    this.createElements(this.breadcrumbs, `inner`, items.slice(0, -1));
+    this.createElements(this.breadcrumbs, 'inner', items.slice(0, -1));
   }
 
   addButtons(buttons) {
@@ -210,27 +210,27 @@ class PageHeading extends ElementBuilder {
     let icons = [];
     for (const icon of options.icons) {
       icons.push(
-        [`i`, { class: `fa ${icon}`, style: `margin: 0` }],
-        ` `
+        ['i', { class: `fa ${icon}`, style: `margin: 0` }],
+        ' '
       );
     }
     return this.createElements(this.pageHeading, options.position, [
-      [`a`, { class: `${CLASS_NAMES[this.namespace].pageHeadingButton} is-clickable`, title: options.title, onclick: options.onclick, ref: options.ref, style: `display: inline-block;` }, icons.slice(0, -1)]
+      ['a', { class: `${CLASS_NAMES[this.namespace].pageHeadingButton} is-clickable`, title: options.title, onclick: options.onclick, ref: options.ref, style: `display: inline-block;` }, icons.slice(0, -1)]
     ]);
   }
 }
 
 class SgPageHeading extends PageHeading {
   constructor(options) {
-    super(options, `sg`);
+    super(options, 'sg');
   }
-};
+}
 
 class StPageHeading extends PageHeading {
   constructor(options) {
-    super(options, `st`);
+    super(options, 'st');
   }
-};
+}
 
 const elementBuilder = {
   sg: {

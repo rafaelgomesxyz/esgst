@@ -8,26 +8,26 @@ class GeneralPageLoadTimestamp extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, `Adds a timestamp indicating when the page was loaded to any page, in the preferred location.`]
+        ['ul', [
+          ['li', `Adds a timestamp indicating when the page was loaded to any page, in the preferred location.`]
         ]]
       ],
-      id: `plt`,
-      name: `Page Load Timestamp`,
+      id: 'plt',
+      name: 'Page Load Timestamp',
       inputItems: [
         {
-          id: `plt_format`,
+          id: 'plt_format',
           prefix: `Timestamp format: `,
           tooltip: `ESGST uses date-fns v2.0.0-alpha.25, so check the accepted tokens here: https://date-fns.org/v2.0.0-alpha.25/docs/Getting-Started.`
         }
       ],
       options: {
         title: `Position:`,
-        values: [`Sidebar`, `Footer`]
+        values: ['Sidebar', 'Footer']
       },
       sg: true,
       st: true,
-      type: `general`
+      type: 'general'
     };
   }
 
@@ -36,10 +36,10 @@ class GeneralPageLoadTimestamp extends Module {
     switch (gSettings.plt_index) {
       case 0:
         if (this.esgst.sidebar) {
-          common.createElements_v2(this.esgst.sidebar, `afterBegin`, [
-            [`span`, { class: `esgst-plt` }, [
-              [`h3`, { class: `sidebar__heading` }, `Page Load Timestamp`],
-              [`div`, { class: `sidebar__navigation` }, timestamp]
+          common.createElements_v2(this.esgst.sidebar, 'afterBegin', [
+            ['span', { class: 'esgst-plt' }, [
+              ['h3', { class: 'sidebar__heading' }, 'Page Load Timestamp'],
+              ['div', { class: 'sidebar__navigation' }, timestamp]
             ]]
           ]);
           break;
@@ -48,10 +48,10 @@ class GeneralPageLoadTimestamp extends Module {
         if (!this.esgst.footer) {
           return;
         }
-        common.createElements_v2(this.esgst.footer.firstElementChild.firstElementChild, `beforeEnd`, [
-          [`span`, { class: `esgst-plt` }, [
-            [`span`, { class: `esgst-bold` }, `Page Load Timestamp: `],
-            [`span`, timestamp]
+        common.createElements_v2(this.esgst.footer.firstElementChild.firstElementChild, 'beforeEnd', [
+          ['span', { class: 'esgst-plt' }, [
+            ['span', { class: 'esgst-bold' }, `Page Load Timestamp: `],
+            ['span', timestamp]
           ]]
         ]);
         break;

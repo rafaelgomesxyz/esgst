@@ -2,9 +2,9 @@ import { gSettings } from './Globals';
 import { Popup } from './Popup';
 import { shared } from './Shared';
 
-const INFO = `info`;
-const WARNING = `warning`;
-const ERROR = `error`;
+const INFO = 'info';
+const WARNING = 'warning';
+const ERROR = 'error';
 const PRIORITY = [ERROR, WARNING, INFO];
 
 class Logger {
@@ -42,7 +42,7 @@ class Logger {
   }
 
   getMessage(args) {
-    return `[ESGST] ${Array.from(args).map(x => typeof x === `string` ? x : JSON.stringify(x)).join(` `)}`;
+    return `[ESGST] ${Array.from(args).map(x => typeof x === 'string' ? x : JSON.stringify(x)).join(' ')}`;
   }
 
   addButton(level) {
@@ -55,21 +55,21 @@ class Logger {
       return;
     }
 
-    this.button = shared.common.addHeaderButton(`fa-bug`, `active`, shared.common.getFeatureTooltip(`notifyLogs`, `View logs`));
-    this.button.button.classList.add(`esgst-logs`, `esgst-logs-${level}`);
-    this.button.button.addEventListener(`click`, this.showPopup.bind(this));
+    this.button = shared.common.addHeaderButton('fa-bug', 'active', shared.common.getFeatureTooltip('notifyLogs', 'View logs'));
+    this.button.button.classList.add('esgst-logs', `esgst-logs-${level}`);
+    this.button.button.addEventListener('click', this.showPopup.bind(this));
     this.currentMaxLevel = level;
   }
 
   showPopup() {
     const popup = new Popup({
-      addScrollable: `left`,
-      icon: `fa-bug`,
+      addScrollable: 'left',
+      icon: 'fa-bug',
       isTemp: true,
-      title: `Logs`
+      title: 'Logs'
     });
-    shared.common.createElements_v2(popup.scrollable, `beforeEnd`, [
-      [`div`, { class: `popup__keys__list` }, this.logs.map(x => [`div`, { class: `esgst-log esgst-log-${x.level}` }, x.message])]
+    shared.common.createElements_v2(popup.scrollable, 'beforeEnd', [
+      ['div', { class: 'popup__keys__list' }, this.logs.map(x => ['div', { class: `esgst-log esgst-log-${x.level}` }, x.message])]
     ]);
     popup.open();
   }

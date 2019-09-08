@@ -18,32 +18,32 @@ class GiveawaysCommentEntryChecker extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, [
+        ['ul', [
+          ['li', [
             `Adds a button (`,
-            [`i`, { class: `fa fa-comments` }],
-            ` `,
-            [`i`, { class: `fa fa-ticket` }],
-            ` `,
-            [`i`, { class: `fa fa-question-circle` }],
+            ['i', { class: 'fa fa-comments' }],
+            ' ',
+            ['i', { class: 'fa fa-ticket' }],
+            ' ',
+            ['i', { class: 'fa fa-question-circle' }],
             ` ) to the main page heading of any `,
-            [`a`, { href: `https://www.steamgifts.com/giveaway/aeqw7/` }, `giveaway`],
+            ['a', { href: `https://www.steamgifts.com/giveaway/aeqw7/` }, 'giveaway'],
             ` page that allows you to view the list (including the number and percentage) of users that commented without entering, users that entered without commenting and users that commented & entered.`
           ]],
-          [`li`, `If the giveaway has a link to a discussion, the feature will also check for comments in the discussion.`]
+          ['li', `If the giveaway has a link to a discussion, the feature will also check for comments in the discussion.`]
         ]]
       ],
       features: {
         cec_t: {
-          name: `Open results in a new tab.`,
+          name: 'Open results in a new tab.',
           sg: true
         }
       },
-      id: `cec`,
-      name: `Comment/Entry Checker`,
+      id: 'cec',
+      name: 'Comment/Entry Checker',
       sg: true,
       sgPaths: /^Giveaway($|\s-\s.+?)$/,
-      type: `giveaways`
+      type: 'giveaways'
     };
   }
 
@@ -53,13 +53,13 @@ class GiveawaysCommentEntryChecker extends Module {
       load: async () => await this.cec_openPopup({})
     };
 
-    if (!this.esgst.giveawayPath || document.getElementsByClassName(`table--summary`)[0] ||  !this.esgst.mainPageHeading) return;
+    if (!this.esgst.giveawayPath || document.getElementsByClassName('table--summary')[0] ||  !this.esgst.mainPageHeading) return;
 
-    common.createElements_v2(this.esgst.sidebarGroups[0].navigation, `beforeEnd`, [
-      [`li`, { class: `sidebar__navigation__item`, id: `cec` }, [
-        [`a`, { class: `sidebar__navigation__item__link`, href: `${this.esgst.path.replace(/\/entries/, ``)}/entries?esgst=cec`, onclick: event => !gSettings.cec_t && !event.preventDefault() && this.cec_openPopup(true) }, [
-          [`div`, { class: `sidebar__navigation__item__name` }, `Comments vs Entries`],
-          [`div`, { class: `sidebar__navigation__item__underline` }]
+    common.createElements_v2(this.esgst.sidebarGroups[0].navigation, 'beforeEnd', [
+      ['li', { class: 'sidebar__navigation__item', id: 'cec' }, [
+        ['a', { class: 'sidebar__navigation__item__link', href: `${this.esgst.path.replace(/\/entries/, '')}/entries?esgst=cec`, onclick: event => !gSettings.cec_t && !event.preventDefault() && this.cec_openPopup(true) }, [
+          ['div', { class: 'sidebar__navigation__item__name' }, 'Comments vs Entries'],
+          ['div', { class: 'sidebar__navigation__item__underline' }]
         ]]
       ]]
     ]);
@@ -70,7 +70,7 @@ class GiveawaysCommentEntryChecker extends Module {
     let context = null;
     if (isPopup) {
       const popup = new Popup({
-        addScrollable: `left`,
+        addScrollable: 'left',
         isTemp: true
       });
       container = popup.description;
@@ -78,22 +78,22 @@ class GiveawaysCommentEntryChecker extends Module {
       popup.open();
     } else {
       container = context = this.esgst.sidebar.nextElementSibling;
-      context.setAttribute(`data-esgst-popup`, `true`);
-      context.innerHTML = ``;
+      context.setAttribute('data-esgst-popup', 'true');
+      context.innerHTML = '';
     }
     if (!isPopup) {
-      common.setSidebarActive(`cec`);
+      common.setSidebarActive('cec');
     }
     const heading = new elementBuilder[shared.esgst.name].pageHeading({
       context: container,
-      position: `afterBegin`,
+      position: 'afterBegin',
       breadcrumbs: [
         {
-          name: `ESGST`,
+          name: 'ESGST',
           url: this.esgst.settingsUrl
         },
         {
-          name: `Comment / Entry Checker`,
+          name: 'Comment / Entry Checker',
           url: `?esgst=cec`
         }
       ]
@@ -102,7 +102,7 @@ class GiveawaysCommentEntryChecker extends Module {
       this.esgst.mainPageHeading = heading;
     }
     const obj = { context };
-    obj.progress = common.createElements_v2(context, `beforeEnd`, [[`div`]]);
+    obj.progress = common.createElements_v2(context, 'beforeEnd', [['div']]);
     this.cec_start(obj);
   }
 
@@ -117,8 +117,8 @@ class GiveawaysCommentEntryChecker extends Module {
       let pagination = null;
       let url = urls[i];
       do {
-        obj.progress.innerHTML = `Retrieving ${i > 0 ? `bumps ` : `comments `} (page ${nextPage})...`;
-        let response = await request({ method: `GET`, queue: true, url: `${url}${nextPage}` });
+        obj.progress.innerHTML = `Retrieving ${i > 0 ? 'bumps ' : 'comments '} (page ${nextPage})...`;
+        let response = await request({ method: 'GET', queue: true, url: `${url}${nextPage}` });
         let responseHtml = parseHtml(response.responseText);
         let elements = responseHtml.querySelectorAll(`.comment:not(.comment--submit) .comment__username:not(.comment__username--op):not(.comment__username--deleted)`);
         for (let j = elements.length - 1; j > -1; j--) {
@@ -128,16 +128,16 @@ class GiveawaysCommentEntryChecker extends Module {
           url = urls[i] = `${response.finalUrl}/search?page=`;
         }
         nextPage += 1;
-        pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
+        pagination = responseHtml.getElementsByClassName('pagination__navigation')[0];
 
         if (i === 0) {
           // get discussion links to check for bump comments
           let elements = responseHtml.querySelectorAll(`.page__description [href*="/discussion/"]`);
           for (let j = elements.length - 1; j > -1; j--) {
-            urls.push(elements[j].getAttribute(`href`).match(/\/discussion\/.+?\//)[0]);
+            urls.push(elements[j].getAttribute('href').match(/\/discussion\/.+?\//)[0]);
           }
         }
-      } while (!obj.isCanceled && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
+      } while (!obj.isCanceled && pagination && !pagination.lastElementChild.classList.contains('is-selected'));
     }
 
     if (obj.isCanceled) return;
@@ -150,21 +150,21 @@ class GiveawaysCommentEntryChecker extends Module {
     do {
       obj.progress.innerHTML = `Retrieving entries (page ${nextPage})...`;
       let responseHtml = parseHtml((await request({
-        method: `GET`,
+        method: 'GET',
         queue: true,
         url: `${url}${nextPage}`
       })).responseText);
-      let elements = responseHtml.getElementsByClassName(`table__column__heading`);
+      let elements = responseHtml.getElementsByClassName('table__column__heading');
       for (let i = elements.length - 1; i > -1; i--) {
         entries.push(elements[i].textContent.trim());
       }
       nextPage += 1;
-      pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
-    } while (!obj.isCanceled && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
+      pagination = responseHtml.getElementsByClassName('pagination__navigation')[0];
+    } while (!obj.isCanceled && pagination && !pagination.lastElementChild.classList.contains('is-selected'));
 
     if (obj.isCanceled) return;
 
-    obj.progress.innerHTML = ``;
+    obj.progress.innerHTML = '';
 
     // calculate data
     comments = sortArray(Array.from(/** @type {ArrayLike} */ new Set(comments)));
@@ -179,13 +179,13 @@ class GiveawaysCommentEntryChecker extends Module {
         rows.push(
           [
             {
-              alignment: `left`, size: `fill`, value: [
-                [`a`, { class: `table__column__heading`, href: `/user/${user}` }, user]
+              alignment: 'left', size: 'fill', value: [
+                ['a', { class: 'table__column__heading', href: `/user/${user}` }, user]
               ]
             },
-            `Yes`,
-            `-`,
-            `-`
+            'Yes',
+            '-',
+            '-'
           ]
         );
         both += 1;
@@ -194,13 +194,13 @@ class GiveawaysCommentEntryChecker extends Module {
         rows.push(
           [
             {
-              alignment: `left`, size: `fill`, value: [
-                [`a`, { class: `table__column__heading`, href: `/user/${user}` }, user]
+              alignment: 'left', size: 'fill', value: [
+                ['a', { class: 'table__column__heading', href: `/user/${user}` }, user]
               ]
             },
-            `-`,
-            `Yes`,
-            `-`
+            '-',
+            'Yes',
+            '-'
           ]
         );
         commented += 1;
@@ -213,13 +213,13 @@ class GiveawaysCommentEntryChecker extends Module {
         rows.push(
           [
             {
-              alignment: `left`, size: `fill`, value: [
-                [`a`, { class: `table__column__heading`, href: `/user/${user}` }, user]
+              alignment: 'left', size: 'fill', value: [
+                ['a', { class: 'table__column__heading', href: `/user/${user}` }, user]
               ]
             },
-            `-`,
-            `-`,
-            `Yes`
+            '-',
+            '-',
+            'Yes'
           ]
         );
         entered += 1;
@@ -228,7 +228,7 @@ class GiveawaysCommentEntryChecker extends Module {
     }
     const table = new Table([
       [
-        { alignment: `left`, size: `fill`, value: `User` },
+        { alignment: 'left', size: 'fill', value: 'User' },
         `Commented and Entered (${both} - ${Math.round(both / total * 10000) / 100}%)`,
         `Commented but did not Enter (${commented} - ${Math.round(commented / total * 10000) / 100}%)`,
         `Entered but did not Comment (${entered} - ${Math.round(entered / total * 10000) / 100}%)`
@@ -240,7 +240,7 @@ class GiveawaysCommentEntryChecker extends Module {
   }
 
   cec_stop(obj) {
-    obj.progress.innerHTML = ``
+    obj.progress.innerHTML = ''
     obj.isCanceled = true;
   }
 }

@@ -7,7 +7,7 @@ import { FetchRequest } from './FetchRequest';
  * @see https://www.dropbox.com/developers/documentation/http/documentation
  */
 class DropboxStorage extends ICloudStorage {
-  static get CLIENT_ID() { return `nix7kvchwa8wdvj`; }
+  static get CLIENT_ID() { return 'nix7kvchwa8wdvj'; }
   static get AUTH_URL() { return `https://www.dropbox.com/oauth2/authorize`; }
   static get API_BASE_URL() { return `https://api.dropboxapi.com/2`; }
   static get CONTENT_BASE_URL() { return `https://content.dropboxapi.com/2`; }
@@ -25,12 +25,12 @@ class DropboxStorage extends ICloudStorage {
   }
 
   static async authenticate() {
-    const key = `dropboxToken`;
+    const key = 'dropboxToken';
     const params = {
       client_id: DropboxStorage.CLIENT_ID,
       redirect_uri: DropboxStorage.REDIRECT_URL,
-      response_type: `token`,
-      state: `dropbox`
+      response_type: 'token',
+      state: 'dropbox'
     };
     const url = FetchRequest.addQueryParams(DropboxStorage.AUTH_URL, params);
     await shared.common.delValue(key);
@@ -47,7 +47,7 @@ class DropboxStorage extends ICloudStorage {
       fileName: gSettings.backupZip ? `${fileName}.json` : null,
       headers: Object.assign(DropboxStorage.getDefaultHeaders(token), {
         'Dropbox-API-Arg': gSettings.backupZip ? `{"path": "/${fileName}.zip"}` : `{"path": "/${fileName}.json"}`,
-        'Content-Type': `application/octet-stream`
+        'Content-Type': 'application/octet-stream'
       })
     };
     const response = await FetchRequest.post(DropboxStorage.UPLOAD_URL, requestOptions);
@@ -64,7 +64,7 @@ class DropboxStorage extends ICloudStorage {
       blob: fileInfo.name.match(/\.zip$/),
       headers: Object.assign(DropboxStorage.getDefaultHeaders(token), {
         'Dropbox-API-Arg': `{"path": "/${fileInfo.name}"}`,
-        'Content-Type': `text/plain`
+        'Content-Type': 'text/plain'
       })
     };
     const response = await FetchRequest.get(DropboxStorage.DOWNLOAD_URL, requestOptions);
@@ -78,7 +78,7 @@ class DropboxStorage extends ICloudStorage {
     const requestOptions = {
       data: `{ "path": "/${fileInfo.name}" }`,
       headers: Object.assign(DropboxStorage.getDefaultHeaders(token), {
-        'Content-Type': `application/json`
+        'Content-Type': 'application/json'
       })
     };
     const response = await FetchRequest.post(DropboxStorage.DELETE_URL, requestOptions);
@@ -99,18 +99,18 @@ class DropboxStorage extends ICloudStorage {
     const requestOptions = {
       data: `{ "entries": ${batchRequests} }`,
       headers: Object.assign(DropboxStorage.getDefaultHeaders(token), {
-        'Content-Type': `application/json`
+        'Content-Type': 'application/json'
       })
     };
     const response = await FetchRequest.post(DropboxStorage.DELETE_BATCH_URL, requestOptions);
     if (!response.json) {
       throw new Error(response.text);
     }
-    if (response.json[`.tag`] !== `complete`) {
+    if (response.json['.tag'] !== 'complete') {
       response.json = await DropboxStorage.waitDeleteBatch(token, response.json.async_job_id);
     }
     for (const file of response.json.entries) {
-      if (file[`.tag`] === `success`) {
+      if (file['.tag'] === 'success') {
         output.success.push(file.metadata.name);
       } else {
         output.error.push(file.metadata.name);
@@ -129,11 +129,11 @@ class DropboxStorage extends ICloudStorage {
     const requestOptions = {
       data: `{ "async_job_id": ${JSON.stringify(jobId)} }`,
       headers: Object.assign(DropboxStorage.getDefaultHeaders(token), {
-        'Content-Type': `application/json`
+        'Content-Type': 'application/json'
       })
     };
     const response = await FetchRequest.post(DropboxStorage.DELETE_BATCH_CHECK_URL, requestOptions);
-    if (response.json && response.json[`.tag`] === `complete`) {
+    if (response.json && response.json['.tag'] === 'complete') {
       resolve(response.json);
     } else {
       window.setTimeout(DropboxStorage.checkDeleteBatch, 1000, token, jobId, resolve);
@@ -147,7 +147,7 @@ class DropboxStorage extends ICloudStorage {
     const requestOptions = {
       data: `{ "path": "" }`,
       headers: Object.assign(DropboxStorage.getDefaultHeaders(token), {
-        'Content-Type': `application/json`
+        'Content-Type': 'application/json'
       }),
     };
     const response = await FetchRequest.post(DropboxStorage.LIST_URL, requestOptions);

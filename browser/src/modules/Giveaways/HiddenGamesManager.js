@@ -21,26 +21,26 @@ class GiveawaysHiddenGamesManager extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, [
+        ['ul', [
+          ['li', [
             `Adds a button (`,
-            [`i`, { class: `fa fa-eye-slash` }],
-            ` `,
-            [`i`, { class: `fa fa-plus-circle` }],
-            ` `,
-            [`i`, { class: `fa fa-times-circle` }],
+            ['i', { class: 'fa fa-eye-slash' }],
+            ' ',
+            ['i', { class: 'fa fa-plus-circle' }],
+            ' ',
+            ['i', { class: 'fa fa-times-circle' }],
             `) to your `,
-            [`a`, { href: `https://www.steamgifts.com/account/settings/giveaways/filters` }, `giveaway filters`],
-            ` page that allows you to add / remove games to / from your hidden list.`
+            ['a', { href: `https://www.steamgifts.com/account/settings/giveaways/filters` }, 'giveaway filters'],
+            ' page that allows you to add / remove games to / from your hidden list.'
           ]],
-          [`li`, `You can add all your owned / ignored games with a single click.`],
-          [`li`, `You can remove all your owned / wishlisted games with a single click.`]
+          ['li', 'You can add all your owned / ignored games with a single click.'],
+          ['li', 'You can remove all your owned / wishlisted games with a single click.']
         ]]
       ],
-      id: `hgm`,
-      name: `Hidden Games Manager`,
+      id: 'hgm',
+      name: 'Hidden Games Manager',
       sg: true,
-      type: `giveaways`,
+      type: 'giveaways',
       features: {
         hgm_s: {
           name: `Automatically add / remove games from the list when syncing, based on the settings you have defined.`,
@@ -53,11 +53,11 @@ class GiveawaysHiddenGamesManager extends Module {
   init() {
     if (!window.location.pathname.match(/^\/account\/settings\/giveaways\/filters/)) return;
     let button = createHeadingButton({
-      id: `hgm`,
-      icons: [`fa-eye-slash`, `fa-plus-circle`, `fa-times-circle`],
-      title: `Add / remove games to / from the list`
+      id: 'hgm',
+      icons: ['fa-eye-slash', 'fa-plus-circle', 'fa-times-circle'],
+      title: 'Add / remove games to / from the list'
     });
-    button.addEventListener(`click`, this.openPopup.bind(this, { button }));
+    button.addEventListener('click', this.openPopup.bind(this, { button }));
   }
 
   openPopup(obj) {
@@ -65,55 +65,60 @@ class GiveawaysHiddenGamesManager extends Module {
       obj.popup.open();
       return;
     }
-    obj.popup = new Popup({ addScrollable: true, icon: `fa-plus fa-times`, title: `Add / remove hidden games:` });
-    obj.result = createElements(obj.popup.scrollable, `beforeEnd`, [{
+    obj.popup = new Popup({ addScrollable: true, icon: 'fa-plus fa-times', title: `Add / remove hidden games:` });
+    obj.result = createElements(obj.popup.scrollable, 'beforeEnd', [{
       attributes: {
-        class: `markdown`
+        class: 'markdown'
       },
-      type: `div`
+      type: 'div'
     }]);
-    obj.textArea = common.createElements_v2(obj.popup.description, `afterBegin`, [
-      [`textarea`, { placeholder: `https://store.steampowered.com/app/400\nhttps://store.steampowered.com/sub/1280`}]
+    obj.textArea = common.createElements_v2(obj.popup.description, 'afterBegin', [
+      ['textarea', { placeholder: `https://store.steampowered.com/app/400\nhttps://store.steampowered.com/sub/1280`}]
     ]);
-    new ToggleSwitch(obj.popup.description, `hgm_addOwned`, false, `Add all owned games.`, false, false, null, gSettings.hgm_addOwned);
-    new ToggleSwitch(obj.popup.description, `hgm_addIgnored`, false, `Add all ignored games.`, false, false, null, gSettings.hgm_addIgnored);
-    new ToggleSwitch(obj.popup.description, `hgm_addBanned`, false, `Add all banned games (requires syncing delisted games in the settings menu).`, false, false, null, gSettings.hgm_addBanned);
-    new ToggleSwitch(obj.popup.description, `hgm_removeTextArea`, false, `Only remove games from text area.`, false, false, null, gSettings.hgm_removeTextArea);
-    new ToggleSwitch(obj.popup.description, `hgm_removeOwned`, false, `Only remove owned games.`, false, false, null, gSettings.hgm_removeOwned);
-    new ToggleSwitch(obj.popup.description, `hgm_removeWishlisted`, false, `Only remove wishlisted games.`, false, false, null, gSettings.hgm_removeWishlisted);
-    new ToggleSwitch(obj.popup.description, `hgm_removeBanned`, false, `Only remove banned games (requires syncing delisted games in the settings menu).`, false, false, null, gSettings.hgm_removeBanned);
+    new ToggleSwitch(obj.popup.scrollable, 'hgm_addOwned', false, 'Add all owned games.', false, false, null, gSettings.hgm_addOwned);
+    new ToggleSwitch(obj.popup.scrollable, 'hgm_addIgnored', false, 'Add all ignored games.', false, false, null, gSettings.hgm_addIgnored);
+    new ToggleSwitch(obj.popup.scrollable, 'hgm_addBanned', false, `Add all banned games (requires syncing delisted games in the settings menu).`, false, false, null, gSettings.hgm_addBanned);
+    new ToggleSwitch(obj.popup.scrollable, 'hgm_removeTextArea', false, 'Only remove games from text area.', false, false, null, gSettings.hgm_removeTextArea);
+    new ToggleSwitch(obj.popup.scrollable, 'hgm_removeOwned', false, 'Only remove owned games.', false, false, null, gSettings.hgm_removeOwned);
+    new ToggleSwitch(obj.popup.scrollable, 'hgm_removeWishlisted', false, 'Only remove wishlisted games.', false, false, null, gSettings.hgm_removeWishlisted);
+    new ToggleSwitch(obj.popup.scrollable, 'hgm_removeFollowed', false, 'Only remove followed games.', false, false, null, gSettings.hgm_removeFollowed);
+    new ToggleSwitch(obj.popup.scrollable, 'hgm_removeTagged', false, [
+      'Only remove games tagged with: ',
+      ['input', { class: 'esgst-switch-input esgst-switch-input-large', placeholder: 'tag1, tag2, tag3, ...', type: 'text', value: gSettings.hgm_tags.join(', '), onchange: event => { gSettings.hgm_tags = Array.from(new Set(event.target.value.toLowerCase().split(/,\s*/))); shared.common.setSetting('hgm_tags', gSettings.hgm_tags); } }]
+    ], false, false, 'Enter the tags for the games that you want to remove, separated by a comma.', gSettings.hgm_removeTagged);
+    new ToggleSwitch(obj.popup.scrollable, 'hgm_removeBanned', false, `Only remove banned games (requires syncing delisted games in the settings menu).`, false, false, null, gSettings.hgm_removeBanned);
     obj.popup.description.appendChild(new ButtonSet({
-      color1: `green`,
-      color2: `grey`,
-      icon1: `fa-arrow-circle-right`,
-      icon2: `fa-plus`,
-      title1: `Add`,
-      title2: `Cancel`,
+      color1: 'green',
+      color2: 'grey',
+      icon1: 'fa-arrow-circle-right',
+      icon2: 'fa-plus',
+      title1: 'Add',
+      title2: 'Cancel',
       callback1: this.startAdding.bind(this, obj),
       callback2: this.stop.bind(this, obj)
     }).set);
     obj.popup.description.appendChild(new ButtonSet({
-      color1: `green`,
-      color2: `grey`,
-      icon1: `fa-arrow-circle-right`,
-      icon2: `fa-times`,
-      title1: `Remove`,
-      title2: `Cancel`,
-      callback1: this.startRemoving.bind(this, obj),
+      color1: 'green',
+      color2: 'grey',
+      icon1: 'fa-arrow-circle-right',
+      icon2: 'fa-times',
+      title1: 'Remove',
+      title2: 'Cancel',
+      callback1: this.startRemoving.bind(this, obj, false),
       callback2: this.stop.bind(this, obj)
     }).set);
     obj.popup.description.appendChild(new ButtonSet({
-      color1: `green`,
-      color2: `grey`,
-      icon1: `fa-arrow-circle-down`,
-      icon2: `fa-times`,
-      title1: `Export`,
-      title2: `Cancel`,
+      color1: 'green',
+      color2: 'grey',
+      icon1: 'fa-arrow-circle-down',
+      icon2: 'fa-times',
+      title1: 'Export',
+      title2: 'Cancel',
       callback1: this.startExporting.bind(this, obj),
       callback2: this.stop.bind(this, obj)
     }).set);
-    obj.progress = createElements(obj.popup.description, `beforeEnd`, [{
-      type: `div`
+    obj.progress = createElements(obj.popup.description, 'beforeEnd', [{
+      type: 'div'
     }]);
     obj.popup.open();
   }
@@ -123,23 +128,23 @@ class GiveawaysHiddenGamesManager extends Module {
       return;
     }
 
-    if (gSettings.permissionsDenied.indexOf(`revadike`) < 0) {
-      await permissions.requestUi([`revadike`], `hgm`, false, true);
+    if (gSettings.permissionsDenied.indexOf('revadike') < 0) {
+      await permissions.requestUi([['revadike']], 'hgm', false, true);
     }
 
     obj.running = true;
     obj.canceled = false;
-    obj.button.classList.add(`esgst-busy`);
-    createElements(obj.progress, `inner`, [{
+    obj.button.classList.add('esgst-busy');
+    createElements(obj.progress, 'inner', [{
       attributes: {
-        class: `fa fa-circle-o-notch fa-spin`
+        class: 'fa fa-circle-o-notch fa-spin'
       },
-      type: `i`
+      type: 'i'
     }, {
-      text: `Adding games...`,
-      type: `span`
+      text: 'Adding games...',
+      type: 'span'
     }]);
-    obj.result.innerHTML = ``;
+    obj.result.innerHTML = '';
     
     const appIds = [];
     const subIds = [];
@@ -153,7 +158,7 @@ class GiveawaysHiddenGamesManager extends Module {
           const type = `${match[1]}s`;
           const savedGame = this.esgst.games[type][id];
           if (!savedGame || !savedGame.hidden) {
-            (type === `apps` ? appIds : subIds).push(id);
+            (type === 'apps' ? appIds : subIds).push(id);
           }
         }
       });
@@ -171,7 +176,7 @@ class GiveawaysHiddenGamesManager extends Module {
 
     const result = await common.hideGames(obj.hideObj);
 
-    let message = ``;
+    let message = '';
     if (result.apps.length) {
       message += `The following apps were not found and therefore not hidden (they are most likely internal apps, such as demos, game editors etc): ${result.apps.join(`, `)}\n`;
     }
@@ -182,8 +187,8 @@ class GiveawaysHiddenGamesManager extends Module {
       window.alert(message);
     }
     
-    obj.button.classList.remove(`esgst-busy`);
-    obj.progress.innerHTML = ``;
+    obj.button.classList.remove('esgst-busy');
+    obj.progress.innerHTML = '';
     obj.running = false;
   }
 
@@ -197,24 +202,24 @@ class GiveawaysHiddenGamesManager extends Module {
     }
     obj.running = true;
     obj.canceled = false;
-    obj.lastPage = ``;
-    obj.button.classList.add(`esgst-busy`);
-    createElements(obj.progress, `inner`, [{
+    obj.lastPage = '';
+    obj.button.classList.add('esgst-busy');
+    createElements(obj.progress, 'inner', [{
       attributes: {
-        class: `fa fa-circle-o-notch fa-spin`
+        class: 'fa fa-circle-o-notch fa-spin'
       },
-      type: `i`
+      type: 'i'
     }, {
-      text: `${exportOnly ? `Exporting` : `Removing`} games...`,
-      type: `span`
+      text: `${exportOnly ? 'Exporting' : 'Removing'} games...`,
+      type: 'span'
     }]);
     if (!exportOnly) {
-      createElements(obj.result, `inner`, [{
+      createElements(obj.result, 'inner', [{
         attributes: {
-          class: `esgst-bold`
+          class: 'esgst-bold'
         },
         text: `Removed Games:`,
-        type: `span`
+        type: 'span'
       }]);
     }
 
@@ -226,7 +231,7 @@ class GiveawaysHiddenGamesManager extends Module {
         .map(x => {
           const match = x.match(/(app|sub)\/(\d+)/);
           if (match) {
-            (match[1] === `app` ? appIds : subIds).push(match[2]);
+            (match[1] === 'app' ? appIds : subIds).push(match[2]);
           }
         });
     }
@@ -244,78 +249,78 @@ class GiveawaysHiddenGamesManager extends Module {
         nextPage += 1;
         continue;
       } else {
-        context = parseHtml((await request({ method: `GET`, url: `${url}${nextPage}` })).responseText);
+        context = parseHtml((await request({ method: 'GET', url: `${url}${nextPage}` })).responseText);
       }
       if (!obj.lastPage) {
         obj.lastPage = this.esgst.modules.generalLastPageLink.lpl_getLastPage(context, context === document);
-        obj.lastPage = obj.lastPage === 999999999 ? `` : ` of ${obj.lastPage}`;
+        obj.lastPage = obj.lastPage === 999999999 ? '' : ` of ${obj.lastPage}`;
       }
-      createElements(obj.progress, `inner`, [{
+      createElements(obj.progress, 'inner', [{
         attributes: {
-          class: `fa fa-circle-o-notch fa-spin`
+          class: 'fa fa-circle-o-notch fa-spin'
         },
-        type: `i`
+        type: 'i'
       }, {
-        text: `${exportOnly ? `Exporting` : `Removing`} games (page ${nextPage}${obj.lastPage})...`,
-        type: `span`
+        text: `${exportOnly ? 'Exporting' : 'Removing'} games (page ${nextPage}${obj.lastPage})...`,
+        type: 'span'
       }]);
-      let elements = context.getElementsByClassName(`table__row-outer-wrap`);
+      let elements = context.getElementsByClassName('table__row-outer-wrap');
       for (let i = 0, n = elements.length; i < n; i++) {
         let element = elements[i];
         let info = await this.esgst.modules.games.games_getInfo(element);
         if (!info) continue;
         if (exportOnly) {
-          (info.type === `apps` ? appIds : subIds).push(info.id);
+          (info.type === 'apps' ? appIds : subIds).push(info.id);
           continue;
         }
         let game = this.esgst.games[info.type][info.id];
-        if ((!gSettings.hgm_removeOwned || !game || !game.owned) && (!gSettings.hgm_removeWishlisted || !game || !game.wishlisted) && (!gSettings.hgm_removeBanned || shared.esgst.delistedGames.banned.indexOf(parseInt(info.id) < 0)) && (!gSettings.hgm_removeTextArea || (info.type === `apps` ? appIds : subIds).indexOf(info.id) < 0) && (gSettings.hgm_removeOwned || gSettings.hgm_removeWishlisted || gSettings.hgm_removeBanned || gSettings.hgm_removeTextArea)) {
+        if ((!gSettings.hgm_removeOwned || !game || !game.owned) && (!gSettings.hgm_removeWishlisted || !game || !game.wishlisted) && (!gSettings.hgm_removeFollowed || !game || !game.followed) && (!gSettings.hgm_removeTagged || !game || !game.tags || !game.tags.filter(tag => gSettings.hgm_tags.includes(tag.toLowerCase())).length) && (!gSettings.hgm_removeBanned || shared.esgst.delistedGames.banned.indexOf(parseInt(info.id) < 0)) && (!gSettings.hgm_removeTextArea || (info.type === 'apps' ? appIds : subIds).indexOf(info.id) < 0) && (gSettings.hgm_removeOwned || gSettings.hgm_removeWishlisted || gSettings.hgm_removeFollowed || gSettings.hgm_removeTagged || gSettings.hgm_removeBanned || gSettings.hgm_removeTextArea)) {
           continue;
         }
         newGames[info.type][info.id] = { hidden: null };
-        let button = element.getElementsByClassName(`table__remove-default`)[0];
+        let button = element.getElementsByClassName('table__remove-default')[0];
         if (context === document) {
-          button.dispatchEvent(new Event(`click`));
+          button.dispatchEvent(new Event('click'));
         } else {
           await request({
             data: `xsrf_token=${this.esgst.xsrfToken}&do=remove_filter&game_id=${button.parentElement.querySelector(`[name="game_id"]`).value}`,
-            method: `POST`,
-            url: `/ajax.php`
+            method: 'POST',
+            url: '/ajax.php'
           });
         }
-        createElements(obj.result, `beforeEnd`, [{
+        createElements(obj.result, 'beforeEnd', [{
           attributes: {
             href: `http://store.steampowered.com/${info.type.slice(0, -1)}/${info.id}`
           },
-          text: element.getElementsByClassName(`table__column__heading`)[0].textContent,
-          type: `a`
+          text: element.getElementsByClassName('table__column__heading')[0].textContent,
+          type: 'a'
         }]);
       }
       nextPage += 1;
-      pagination = context.getElementsByClassName(`pagination__navigation`)[0];
-    } while (!obj.canceled && pagination && !pagination.lastElementChild.classList.contains(`is-selected`));
+      pagination = context.getElementsByClassName('pagination__navigation')[0];
+    } while (!obj.canceled && pagination && !pagination.lastElementChild.classList.contains('is-selected'));
 
     if (exportOnly) {
       const file = [].concat(
         ...appIds.map(id => `https://store.steampowered.com/app/${id}`),
         ...subIds.map(id => `https://store.steampowered.com/sub/${id}`)
-      ).join(`\n`);
-      common.downloadFile(file, `steamgifts-hidden-games.txt`);
+      ).join('\n');
+      common.downloadFile(file, 'steamgifts-hidden-games.txt');
     } else {
       await common.lockAndSaveGames(newGames);
 
       if (obj.result.children.length === 1) {
-        createElements(obj.result, `inner`, [{
+        createElements(obj.result, 'inner', [{
           attributes: {
-            class: `esgst-bold`
+            class: 'esgst-bold'
           },
-          text: `0 games removed.`,
-          type: `span`
+          text: '0 games removed.',
+          type: 'span'
         }]);
       }
     }
-    obj.button.classList.remove(`esgst-busy`);
-    obj.progress.innerHTML = ``;
+    obj.button.classList.remove('esgst-busy');
+    obj.progress.innerHTML = '';
     obj.running = false;
   }
 
@@ -324,8 +329,8 @@ class GiveawaysHiddenGamesManager extends Module {
     if (obj.hideObj) {
       obj.hideObj.canceled = true;
     }
-    obj.button.classList.remove(`esgst-busy`);
-    obj.progress.innerHTML = ``;
+    obj.button.classList.remove('esgst-busy');
+    obj.progress.innerHTML = '';
   }
 }
 

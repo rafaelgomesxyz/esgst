@@ -12,18 +12,18 @@ class UsersSentWonRatio extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, [
+        ['ul', [
+          ['li', [
             `Adds a "Ratio" row containing a user's sent/won ratio (which is their number of gifts sent divided by their number of gifts won) below the "Gifts Sent" row of their `,
-            [`a`, { href: `https://www.steamgifts.com/user/cg` }, `profile`],
-            ` page.`
+            ['a', { href: `https://www.steamgifts.com/user/cg` }, 'profile'],
+            ' page.'
           ]]
         ]]
       ],
-      id: `swr`,
-      name: `Sent/Won Ratio`,
+      id: 'swr',
+      name: 'Sent/Won Ratio',
       sg: true,
-      type: `users`,
+      type: 'users',
       featureMap: {
         profile: this.swr_add.bind(this)
       }
@@ -43,58 +43,58 @@ class UsersSentWonRatio extends Module {
         {
           columns: [
             {
-              name: `Ratio`
+              name: 'Ratio'
             },
             {
-              color: `#8f96a6`,
+              color: '#8f96a6',
               name: ratio
             }
           ],
           icon: [
             {
-              class: `fa-pie-chart`,
-              color: `#77899a`
+              class: 'fa-pie-chart',
+              color: '#77899a'
             }
           ]
         },
         {
           columns: [
             {
-              color: `#8f96a6`,
-              name: `Full Value`
+              color: '#8f96a6',
+              name: 'Full Value'
             },
             {
-              color: `#8f96a6`,
+              color: '#8f96a6',
               name: fullRatio
             }
           ],
-          indent: `80px`
+          indent: '80px'
         },
         {
           columns: [
             {
-              color: `#8f96a6`,
-              name: `Reduced Value`
+              color: '#8f96a6',
+              name: 'Reduced Value'
             },
             {
-              color: `#8f96a6`,
+              color: '#8f96a6',
               name: reducedRatio
             }
           ],
-          indent: `80px`
+          indent: '80px'
         },
         {
           columns: [
             {
-              color: `#8f96a6`,
-              name: `No Value`
+              color: '#8f96a6',
+              name: 'No Value'
             },
             {
-              color: `#8f96a6`,
+              color: '#8f96a6',
               name: zeroRatio
             }
           ],
-          indent: `80px;`
+          indent: '80px;'
         }
       ]
     };
@@ -103,57 +103,57 @@ class UsersSentWonRatio extends Module {
         {
           columns: [
             {
-              name: `Real Value`
+              name: 'Real Value'
             },
             {
-              color: `#8f96a6`,
+              color: '#8f96a6',
               name: `${realCVRatio}`
             }
           ],
           icon: [
             {
-              class: `fa-dollar`,
-              color: `#84cfda`
+              class: 'fa-dollar',
+              color: '#84cfda'
             }
           ]
         }
       ]
     };
-    createElements(profile.sentRow, `afterEnd`, [{
+    createElements(profile.sentRow, 'afterEnd', [{
       attributes: {
-        class: `esgst-swr-ratio featured__table__row`,
-        title: getFeatureTooltip(`swr`)
+        class: 'esgst-swr-ratio featured__table__row',
+        title: getFeatureTooltip('swr')
       },
-      type: `div`,
+      type: 'div',
       children: [{
         attributes: {
-          class: `featured__table__row__left`
+          class: 'featured__table__row__left'
         },
-        text: `Ratio`,
-        type: `div`
+        text: 'Ratio',
+        type: 'div'
       }, {
         attributes: {
-          class: `featured__table__row__right`
+          class: 'featured__table__row__right'
         },
-        type: `div`,
+        type: 'div',
         children: [{
           attributes: {
-            [`data-ui-tooltip`]: JSON.stringify(ratioTooltip)
+            ['data-ui-tooltip']: JSON.stringify(ratioTooltip)
           },
           text: ratio,
-          type: `span`
+          type: 'span'
         }, {
           text: ` (`,
-          type: `node`
+          type: 'node'
         }, {
           attributes: {
-            [`data-ui-tooltip`]: JSON.stringify(cvTooltip)
+            ['data-ui-tooltip']: JSON.stringify(cvTooltip)
           },
-          text: gSettings.vrcv ? `${cvRatio} / ${realCVRatio.toLocaleString(`en`)}` : cvRatio,
-          type: `span`
+          text: gSettings.vrcv ? `${cvRatio} / ${realCVRatio.toLocaleString('en')}` : cvRatio,
+          type: 'span'
         }, {
           text: `)`,
-          type: `node`
+          type: 'node'
         }]
       }]
     }]);

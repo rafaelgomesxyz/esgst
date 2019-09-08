@@ -5,15 +5,15 @@ class GeneralFixedFooter extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, `Keeps the footer of any page at the bottom of the window while you scroll down the page.`]
+        ['ul', [
+          ['li', 'Keeps the footer of any page at the bottom of the window while you scroll down the page.']
         ]]
       ],
-      id: `ff`,
-      name: `Fixed Footer`,
+      id: 'ff',
+      name: 'Fixed Footer',
       sg: true,
       st: true,
-      type: `general`
+      type: 'general'
     };
   }
 
@@ -22,7 +22,7 @@ class GeneralFixedFooter extends Module {
       return;
     }
 
-    this.esgst.footer.classList.add(`esgst-ff`);
+    this.esgst.footer.classList.add('esgst-ff');
   }
 }
 

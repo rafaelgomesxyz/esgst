@@ -17,23 +17,23 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, [
-            `Adds a panel below the search field of the main page that allows you to easily search for giveaways using SteamGifts' `,
-            [`a`, { href: `https://www.steamgifts.com/discussion/8SzdT/` }, `search parameters`],
-            `.`
+        ['ul', [
+          ['li', [
+            'Adds a panel below the search field of the main page that allows you to easily search for giveaways using SteamGifts\' ',
+            ['a', { href: `https://www.steamgifts.com/discussion/8SzdT/` }, 'search parameters'],
+            '.'
           ]]
         ]]
       ],
-      id: `ags`,
-      name: `Advanced Giveaway Search`,
+      id: 'ags',
+      name: 'Advanced Giveaway Search',
       sg: true,
-      type: `giveaways`
+      type: 'giveaways'
     };
   }
 
   init() {
-    let query = ``;
+    let query = '';
     if (this.esgst.giveawaysPath) {
       query += `.sidebar__search-container, `;
     }
@@ -48,22 +48,22 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
   }
 
   ags_addPanel(context) {
-    const qgs = context.classList.contains(`esgst-qgs-container`);
+    const qgs = context.classList.contains('esgst-qgs-container');
     let obj = {
       qgs
     };
     context.firstElementChild.remove();
-    obj.input = createElements(context, `afterBegin`, [{
+    obj.input = createElements(context, 'afterBegin', [{
       attributes: {
-        class: `${qgs ? `esgst-qgs-input` : `sidebar__search-input`}`,
-        placeholder: `Search...`,
-        type: `text`
+        class: `${qgs ? 'esgst-qgs-input' : 'sidebar__search-input'}`,
+        placeholder: 'Search...',
+        type: 'text'
       },
-      type: `input`
+      type: 'input'
     }]);
     let icon = obj.input.nextElementSibling;
-    icon.classList.add(`esgst-clickable`);
-    icon.title = getFeatureTooltip(`ags`, `Use advanced search`);
+    icon.classList.add('esgst-clickable');
+    icon.title = getFeatureTooltip('ags', 'Use advanced search');
     if (!qgs) {
       let match = window.location.search.match(/q=(.*?)(&.*?)?$/);
       if (match) {
@@ -71,155 +71,155 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
       }
     }
     if (!qgs && ((gSettings.adots && gSettings.adots_index === 0) || !gSettings.adots)) {
-      obj.panel = createElements(context, `afterEnd`, [{
+      obj.panel = createElements(context, 'afterEnd', [{
         attributes: {
-          class: `esgst-ags-panel`
+          class: 'esgst-ags-panel'
         },
-        type: `div`
+        type: 'div'
       }]);
     } else {
-      obj.panel = new Popout(`esgst-ags-panel`, context, 100).popout;
+      obj.panel = new Popout('esgst-ags-panel', context, 100).popout;
     }
     let filterDetails = [
       {
-        key: `ags_type`,
-        parameter: `type`,
-        name: `Type`,
+        key: 'ags_type',
+        parameter: 'type',
+        name: 'Type',
         options: [
           {
-            name: `All`,
-            value: ``
+            name: 'All',
+            value: ''
           },
           {
-            name: `Wishlist`,
-            value: `wishlist`
+            name: 'Wishlist',
+            value: 'wishlist'
           },
           {
-            name: `Recommended`,
-            value: `recommended`
+            name: 'Recommended',
+            value: 'recommended'
           },
           {
-            name: `Group`,
-            value: `group`
+            name: 'Group',
+            value: 'group'
           },
           {
-            name: `New`,
-            value: `new`
+            name: 'New',
+            value: 'new'
           }
         ],
-        type: `select`
+        type: 'select'
       },
       {
-        maxKey: `ags_maxDate`,
-        minKey: `ags_minDate`,
-        maxParameter: `release_date_max`,
-        minParameter: `release_date_min`,
-        name: `Release Date`,
-        type: `input`
+        maxKey: 'ags_maxDate',
+        minKey: 'ags_minDate',
+        maxParameter: 'release_date_max',
+        minParameter: 'release_date_min',
+        name: 'Release Date',
+        type: 'input'
       },
       {
-        maxKey: `ags_maxScore`,
-        minKey: `ags_minScore`,
-        maxParameter: `metascore_max`,
-        minParameter: `metascore_min`,
-        name: `Metascore`,
-        type: `input`
+        maxKey: 'ags_maxScore',
+        minKey: 'ags_minScore',
+        maxParameter: 'metascore_max',
+        minParameter: 'metascore_min',
+        name: 'Metascore',
+        type: 'input'
       },
       {
-        maxKey: `ags_maxLevel`,
-        minKey: `ags_minLevel`,
-        maxParameter: `level_max`,
-        minParameter: `level_min`,
-        name: `Level`,
-        type: `select`
+        maxKey: 'ags_maxLevel',
+        minKey: 'ags_minLevel',
+        maxParameter: 'level_max',
+        minParameter: 'level_min',
+        name: 'Level',
+        type: 'select'
       },
       {
-        maxKey: `ags_maxEntries`,
-        minKey: `ags_minEntries`,
-        maxParameter: `entry_max`,
-        minParameter: `entry_min`,
-        name: `Entries`,
-        type: `input`
+        maxKey: 'ags_maxEntries',
+        minKey: 'ags_minEntries',
+        maxParameter: 'entry_max',
+        minParameter: 'entry_min',
+        name: 'Entries',
+        type: 'input'
       },
       {
-        maxKey: `ags_maxCopies`,
-        minKey: `ags_minCopies`,
-        maxParameter: `copy_max`,
-        minParameter: `copy_min`,
-        name: `Copies`,
-        type: `input`
+        maxKey: 'ags_maxCopies',
+        minKey: 'ags_minCopies',
+        maxParameter: 'copy_max',
+        minParameter: 'copy_min',
+        name: 'Copies',
+        type: 'input'
       },
       {
-        maxKey: `ags_maxPoints`,
-        minKey: `ags_minPoints`,
-        maxParameter: `point_max`,
-        minParameter: `point_min`,
-        name: `Points`,
-        type: `input`
+        maxKey: 'ags_maxPoints',
+        minKey: 'ags_minPoints',
+        maxParameter: 'point_max',
+        minParameter: 'point_min',
+        name: 'Points',
+        type: 'input'
       },
       {
-        key: `ags_regionRestricted`,
-        name: `Region Restricted`,
-        parameter: `region_restricted`,
-        type: `checkbox`
+        key: 'ags_regionRestricted',
+        name: 'Region Restricted',
+        parameter: 'region_restricted',
+        type: 'checkbox'
       },
       {
-        key: `ags_dlc`,
-        name: `DLC`,
-        parameter: `dlc`,
-        type: `checkbox`
+        key: 'ags_dlc',
+        name: 'DLC',
+        parameter: 'dlc',
+        type: 'checkbox'
       },
       {
-        key: `ags_app`,
-        name: `App`,
-        parameter: `app`,
-        type: `checkbox`
+        key: 'ags_app',
+        name: 'App',
+        parameter: 'app',
+        type: 'checkbox'
       },
       {
-        key: `ags_sub`,
-        name: `Sub`,
-        parameter: `sub`,
-        type: `checkbox`
+        key: 'ags_sub',
+        name: 'Sub',
+        parameter: 'sub',
+        type: 'checkbox'
       }
     ];
     obj.filters = [];
     for (let i = 0, n = filterDetails.length; i < n; ++i) {
       this.ags_createFilter(obj, filterDetails[i]);
     }
-    obj.input.addEventListener(`keydown`,
+    obj.input.addEventListener('keydown',
       triggerOnEnter.bind(common, this.ags_searchQuery.bind(this, obj))
     );
-    icon.addEventListener(`click`, this.ags_searchQuery.bind(this, obj));
+    icon.addEventListener('click', this.ags_searchQuery.bind(this, obj));
   }
 
   ags_createFilter(obj, details) {
-    if (details.key === `ags_type` && !obj.qgs) {
+    if (details.key === 'ags_type' && !obj.qgs) {
       return;
     }
-    if (details.type === `checkbox`) {
-      let element = createElements(obj.panel, `beforeEnd`, [{
+    if (details.type === 'checkbox') {
+      let element = createElements(obj.panel, 'beforeEnd', [{
         attributes: {
-          class: `esgst-ags-checkbox-filter`
+          class: 'esgst-ags-checkbox-filter'
         },
-        type: `div`,
+        type: 'div',
         children: [{
           text: details.name,
-          type: `span`
+          type: 'span'
         }]
       }]),
         filter = new Checkbox(
           element,
           gSettings[details.key]
         ).input;
-      observeChange(filter, details.key, true, `checked`, `click`);
+      observeChange(filter, details.key, true, 'checked', 'click');
       obj.filters.push({
         filter: filter,
-        key: `checked`,
+        key: 'checked',
         parameter: details.parameter
       });
     } else if (details.options) {
       let html = [{
-        type: `select`,
+        type: 'select',
         children: []
       }];
       details.options.forEach(option => {
@@ -228,22 +228,22 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
             value: option.value
           },
           text: option.name,
-          type: `option`
+          type: 'option'
         });
       });
-      let element = createElements(obj.panel, `beforeEnd`, [{
+      let element = createElements(obj.panel, 'beforeEnd', [{
         attributes: {
           style: `display: block;`
         },
-        type: `div`,
+        type: 'div',
         children: [{
           text: `${details.name} `,
-          type: `node`
+          type: 'node'
         }, {
           attributes: {
-            class: `esgst-ags-filter`
+            class: 'esgst-ags-filter'
           },
-          type: `class`,
+          type: 'class',
           children: html
         }]
       }]),
@@ -252,55 +252,55 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
       observeNumChange(filter, details.key, true);
       obj.filters.push({
         filter: filter,
-        key: `value`,
+        key: 'value',
         parameter: details.parameter
       });
     } else {
       let items = [];
-      if (details.type === `select`) {
+      if (details.type === 'select') {
         items.push({
-          type: `select`,
+          type: 'select',
           children: [{
-            type: `option`
+            type: 'option'
           }]
         });
         for (let i = 0; i <= 10; ++i) {
           items[0].children.push({
             text: i,
-            type: `option`
+            type: 'option'
           });
         }
-      } else if (details.maxKey === `ags_maxDate`) {
+      } else if (details.maxKey === 'ags_maxDate') {
         items = [{
           attributes: {
-            type: `date`
+            type: 'date'
           },
-          type: `input`
+          type: 'input'
         }];
       } else {
         items = [{
           attributes: {
-            type: `text`
+            type: 'text'
           },
-          type: `input`
+          type: 'input'
         }];
       }
-      let element = createElements(obj.panel, `beforeEnd`, [{
-        type: `div`,
+      let element = createElements(obj.panel, 'beforeEnd', [{
+        type: 'div',
         children: [{
           text: `${details.name} `,
-          type: `node`
+          type: 'node'
         }, {
           attributes: {
-            class: `esgst-ags-filter`
+            class: 'esgst-ags-filter'
           },
-          type: `div`,
+          type: 'div',
           children: items
         }, {
           attributes: {
-            class: `esgst-ags-filter`
+            class: 'esgst-ags-filter'
           },
-          type: `div`,
+          type: 'div',
           children: items
         }]
       }]);
@@ -310,22 +310,22 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
       let minFilter = element.firstElementChild.lastElementChild;
       minFilter.value = gSettings[details.minKey];
       observeNumChange(minFilter, details.minKey, true);
-      if (details.type === `input`) {
-        maxFilter.addEventListener(`keypress`,
+      if (details.type === 'input') {
+        maxFilter.addEventListener('keypress',
           triggerOnEnter.bind(common, this.ags_searchQuery.bind(this, obj))
         );
-        minFilter.addEventListener(`keypress`,
+        minFilter.addEventListener('keypress',
           triggerOnEnter.bind(common, this.ags_searchQuery.bind(this, obj))
         );
       }
       obj.filters.push({
         filter: minFilter,
-        key: `value`,
+        key: 'value',
         parameter: details.minParameter
       });
       obj.filters.push({
         filter: maxFilter,
-        key: `value`,
+        key: 'value',
         parameter: details.maxParameter
       });
     }
@@ -348,9 +348,9 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
       let filter = obj.filters[i],
         value = filter.filter[filter.key];
       if (value) {
-        if (filter.parameter === `app`) {
+        if (filter.parameter === 'app') {
           url += `&app=${obj.input.value}`;
-        } else if (filter.parameter === `sub`) {
+        } else if (filter.parameter === 'sub') {
           url += `&sub=${obj.input.value}`;
         } else {
           url += `&${filter.parameter}=${value}`;

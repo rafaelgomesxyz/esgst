@@ -5,20 +5,20 @@ class GeneralFixedMainPageHeading extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, `Keeps the main page heading (usually the first heading of the page, for example, the heading that says "Giveaways" in the main page) of any page at the top of the window while you scroll down the page.`]
+        ['ul', [
+          ['li', `Keeps the main page heading (usually the first heading of the page, for example, the heading that says "Giveaways" in the main page) of any page at the top of the window while you scroll down the page.`]
         ]]
       ],
-      id: `fmph`,
-      name: `Fixed Main Page Heading`,
+      id: 'fmph',
+      name: 'Fixed Main Page Heading',
       sg: true,
       st: true,
-      type: `general`
+      type: 'general'
     };
   }
 
   init() {
-    if (!this.esgst.mainPageHeading) {
+    if (!this.esgst.pageHeadings.length) {
       return;
     }
 
@@ -28,7 +28,9 @@ class GeneralFixedMainPageHeading extends Module {
       }
     `);
 
-    this.esgst.mainPageHeading.classList.add(`esgst-fmph`);
+    for (const pageHeading of this.esgst.pageHeadings) {
+      pageHeading.classList.add('esgst-fmph');
+    }
   }
 }
 

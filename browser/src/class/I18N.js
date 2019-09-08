@@ -5,9 +5,9 @@ class I18N {
   getMessage(messageName, substitutions) {
     if (utils.isNumber(substitutions)) {
       if (substitutions === 1) {
-        messageName += `_one`;
+        messageName += '_one';
       } else {
-        messageName += `_other`;
+        messageName += '_other';
       }
     }
     return browser.i18n.getMessage(messageName, substitutions);

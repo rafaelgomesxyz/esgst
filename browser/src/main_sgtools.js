@@ -5,18 +5,18 @@ let storage = null;
 let themeElement = null;
 let customThemeElement = null;
 
-const theme = getLocalValue(`theme`);
+const theme = getLocalValue('theme');
 if (theme) {
-  const style = document.createElement(`style`);
-  style.id = `esgst-theme`;
+  const style = document.createElement('style');
+  style.id = 'esgst-theme';
   style.textContent = theme;
   themeElement = style;
   document.documentElement.appendChild(style);
 }
-const customTheme = getLocalValue(`customTheme`);
+const customTheme = getLocalValue('customTheme');
 if (customTheme) {
-  const style = document.createElement(`style`);
-  style.id = `esgst-custom-theme`;
+  const style = document.createElement('style');
+  style.id = 'esgst-custom-theme';
   style.textContent = customTheme;
   customThemeElement = style;
   document.documentElement.appendChild(style);
@@ -35,38 +35,38 @@ browser.storage.local.get(null).then(storage => {
   if (getSetting(settings.esgst_sgtools)) {
     setTheme(settings);
   } else {
-    delLocalValue(`theme`);
-    delLocalValue(`customTheme`);
+    delLocalValue('theme');
+    delLocalValue('customTheme');
   }
 });
 
 async function setTheme(settings) {
-  const keys = [`sgDarkGrey`, `sgv2Dark`];
+  const keys = ['sgDarkGrey', 'sgv2Dark'];
   for (const key of keys) {
     if (getSetting(settings[`${key}_sgtools`]) && checkThemeTime(key, settings)) {
       const theme = storage[key];
       if (!theme) continue;
       const css = getThemeCss(JSON.parse(theme));
-      themeElement = createElements(document.head, `beforeEnd`, [
-        [`style`, { id: `esgst-theme` }, css]
+      themeElement = createElements(document.head, 'beforeEnd', [
+        ['style', { id: 'esgst-theme' }, css]
       ]);
-      const revisedCss = css.replace(/!important;/g, `;`).replace(/;/g, `!important;`);
-      if (revisedCss !== getLocalValue(`theme`)) {
-        setLocalValue(`theme`, revisedCss);
+      const revisedCss = css.replace(/!important;/g, ';').replace(/;/g, '!important;');
+      if (revisedCss !== getLocalValue('theme')) {
+        setLocalValue('theme', revisedCss);
       }
       break;
     }
   }
-  if (getSetting(settings.customTheme_sgtools) && checkThemeTime(`customTheme`, settings)) {
+  if (getSetting(settings.customTheme_sgtools) && checkThemeTime('customTheme', settings)) {
     const customTheme = storage.customTheme;
     if (!customTheme) return;
     const css = JSON.parse(customTheme);
-    customThemeElement = createElements(document.head, `beforeEnd`, [
-      [`style`, { id: `esgst-custom-theme` }, css]
+    customThemeElement = createElements(document.head, 'beforeEnd', [
+      ['style', { id: 'esgst-custom-theme' }, css]
     ]);
-    const revisedCss = css.replace(/!important;/g, `;`).replace(/;/g, `!important;`);
-    if (revisedCss !== getLocalValue(`customTheme`)) {
-      setLocalValue(`customTheme`, revisedCss);
+    const revisedCss = css.replace(/!important;/g, ';').replace(/;/g, '!important;');
+    if (revisedCss !== getLocalValue('customTheme')) {
+      setLocalValue('customTheme', revisedCss);
     }
   }
 }
@@ -131,9 +131,9 @@ function getThemeCss(theme) {
       open = 1;
     do {
       let character = theme[index];
-      if (character === `{`) {
+      if (character === '{') {
         open++;
-      } else if (character === `}`) {
+      } else if (character === '}') {
         open--;
       }
       css.push(character);
@@ -141,7 +141,7 @@ function getThemeCss(theme) {
     } while (open > 0);
     css.pop();
   });
-  return css.join(``);
+  return css.join('');
 }
 
 function createElements(context, position, items) {
@@ -149,8 +149,8 @@ function createElements(context, position, items) {
     items = context;
     context = null;
   }
-  if (position && position === `inner`) {
-    context.innerHTML = ``;
+  if (position && position === 'inner') {
+    context.innerHTML = '';
   }
   if (!items || !items.length) {
     return;
@@ -162,27 +162,27 @@ function createElements(context, position, items) {
     return fragment;
   }
   switch (position) {
-    case `beforeBegin`:
+    case 'beforeBegin':
       context.parentElement.insertBefore(fragment, context);
       element = context.previousElementSibling;
       break;
-    case `afterBegin`:
+    case 'afterBegin':
       context.insertBefore(fragment, context.firstElementChild);
       element = context.firstElementChild;
       break;
-    case `beforeEnd`:
+    case 'beforeEnd':
       context.appendChild(fragment);
       element = context.lastElementChild;
       break;
-    case `afterEnd`:
+    case 'afterEnd':
       context.parentElement.insertBefore(fragment, context.nextElementSibling);
       element = context.nextElementSibling;
       break;
-    case `inner`:
+    case 'inner':
       context.appendChild(fragment);
       element = context.firstElementChild;
       break;
-    case `outer`:
+    case 'outer':
       context.parentElement.insertBefore(fragment, context);
       element = context.previousElementSibling;
       context.remove();
@@ -196,7 +196,7 @@ function buildElements(context, items) {
     if (!item) {
       continue;
     }
-    if (typeof item === `string`) {
+    if (typeof item === 'string') {
       const node = document.createTextNode(item);
       context.appendChild(node);
       continue;
@@ -208,15 +208,15 @@ function buildElements(context, items) {
     if (utils.isSet(item[1])) {
       if (Array.isArray(item[1])) {
         buildElements(element, item[1]);
-      } else if (typeof item[1] === `object`) {
+      } else if (typeof item[1] === 'object') {
         for (const key in item[1]) {
           if (item[1].hasOwnProperty(key)) {
-            if (key === `ref`) {
+            if (key === 'ref') {
               item[1].ref(element);
-            } if (key === `extend`) {
+            } if (key === 'extend') {
               item[1].extend = item[1].extend.bind(null, element);
             } else if (key.match(/^on/)) {
-              element.addEventListener(key.replace(/^on/, ``), item[1][key]);
+              element.addEventListener(key.replace(/^on/, ''), item[1][key]);
             } else {
               element.setAttribute(key, item[1][key]);
             }
@@ -250,5 +250,5 @@ function delLocalValue(key) {
 }
 
 function getSetting(variable) {
-  return typeof variable === `object` ? variable.enabled : variable;
+  return typeof variable === 'object' ? variable.enabled : variable;
 }

@@ -1,4 +1,4 @@
-`use strict`;
+'use strict';
 
 // that will append styles to page in runtime
 // jQuery QueryBuilder want global interact object
@@ -36,57 +36,61 @@ window.interact = interact;
     window.HTMLCollection.prototype[Symbol.iterator] = Array.prototype[Symbol.iterator];
   }
 
-  const theme = common.getLocalValue(`theme`);
+  const theme = common.getLocalValue('theme');
   if (theme) {
-    const style = document.createElement(`style`);
-    style.id = `esgst-theme`;
+    const style = document.createElement('style');
+    style.id = 'esgst-theme';
     style.textContent = theme;
     document.documentElement.appendChild(style);
   }
-  const customTheme = common.getLocalValue(`customTheme`);
+  const customTheme = common.getLocalValue('customTheme');
   if (customTheme) {
-    const style = document.createElement(`style`);
-    style.id = `esgst-custom-theme`;
+    const style = document.createElement('style');
+    style.id = 'esgst-custom-theme';
     style.textContent = customTheme;
     document.documentElement.appendChild(style);
   }
 
   // initialize esgst
   async function init() {
-    if (document.getElementById(`esgst`)) {
+    if (document.getElementById('esgst')) {
       // esgst is already running
       return;
     }
     
     esgst.markdownParser.setBreaksEnabled(true);
     esgst.markdownParser.setMarkupEscaped(true);
-    esgst.name = esgst.sg ? `sg` : `st`;
+    esgst.name = esgst.sg ? 'sg' : 'st';
 
     browser.runtime.onMessage.addListener(message => {
       message = JSON.parse(message);
       switch (message.action) {
-        case `isFirstRun`:
+        case 'notify-tds':
+          shared.esgst.modules.generalThreadSubscription.updateItems(message.values);
+
+          break;
+        case 'isFirstRun':
           if (esgst.bodyLoaded) {
             shared.common.checkNewVersion(true);
           } else {
             esgst.isFirstRun = true;
           }
           break;
-        case `isUpdate`:
+        case 'isUpdate':
           if (esgst.bodyLoaded) {
             shared.common.checkNewVersion(false, true);
           } else {
             esgst.isUpdate = true;
           }
           break;
-        case `storageChanged`:
+        case 'storageChanged':
           shared.common.getChanges(message.values.changes, message.values.areaName);
           break;
-        case `update`:
+        case 'update':
           common.createConfirmation(
             `Hi! A new version of ESGST (${message.values.version}) is available. Do you want to force an update now? If you choose to force an update, ESGST will stop working in any SteamGifts/SteamTrades tab that is open, along with any operation that you might be performing (such as syncing, checking something etc), so you will have to refresh them. If you choose not to force an update, your browser will automatically update the extension when you are not using it (for example, when you restart the browser).`,
             () => {
-              browser.runtime.sendMessage({ action: `reload` }).then(() => {})
+              browser.runtime.sendMessage({ action: 'reload' }).then(() => {})
             },
             () => {}
           );
@@ -111,7 +115,7 @@ window.interact = interact;
       for (let key in esgst.users.users) {
         if (esgst.users.users.hasOwnProperty(key)) {
           let wbc = esgst.users.users[key].wbc;
-          if (wbc && wbc.result && wbc.result !== `whitelisted` && wbc.result !== `blacklisted`) {
+          if (wbc && wbc.result && wbc.result !== 'whitelisted' && wbc.result !== 'blacklisted') {
             delete esgst.users.users[key].wbc;
             changed = true;
           }
@@ -128,102 +132,91 @@ window.interact = interact;
       toSet.users = JSON.stringify(esgst.users);
     }
     if (!utils.isSet(esgst.storage[`${esgst.name}RfiCache`])) {
-      toSet[`${esgst.name}RfiCache`] = common.getLocalValue(`replies`, `{}`);
-      common.delLocalValue(`replies`);
+      toSet[`${esgst.name}RfiCache`] = common.getLocalValue('replies', '{}');
+      common.delLocalValue('replies');
     }
     if (utils.isSet(esgst.storage.emojis)) {
       const fixed = common.fixEmojis(esgst.storage.emojis);
       if (esgst.storage.emojis !== fixed) {
         toSet.emojis = fixed;
       } else if (!esgst.storage.emojis) {
-        toSet.emojis = `[]`;
+        toSet.emojis = '[]';
       }
     } else {
-      toSet.emojis = utils.isSet(esgst.storage.Emojis) ? common.fixEmojis(esgst.storage.Emojis) : `[]`;
-      toDelete.push(`Emojis`);
+      toSet.emojis = utils.isSet(esgst.storage.Emojis) ? common.fixEmojis(esgst.storage.Emojis) : '[]';
+      toDelete.push('Emojis');
     }
     esgst.emojis = JSON.parse(toSet.emojis || esgst.storage.emojis);
     if (esgst.sg) {
       if (!utils.isSet(esgst.storage.templates)) {
-        toSet.templates = common.getLocalValue(`templates`, `[]`);
-        common.delLocalValue(`templates`);
+        toSet.templates = common.getLocalValue('templates', '[]');
+        common.delLocalValue('templates');
       }
       if (!utils.isSet(esgst.storage.stickiedCountries)) {
-        toSet.stickiedCountries = common.getLocalValue(`stickiedCountries`, `[]`);
-        common.delLocalValue(`stickiedCountries`);
+        toSet.stickiedCountries = common.getLocalValue('stickiedCountries', '[]');
+        common.delLocalValue('stickiedCountries');
       }
       if (utils.isSet(esgst.storage.giveaways)) {
         esgst.giveaways = JSON.parse(esgst.storage.giveaways);
       } else {
-        toSet.giveaways = common.getLocalValue(`giveaways`, `{}`);
+        toSet.giveaways = common.getLocalValue('giveaways', '{}');
         esgst.giveaways = JSON.parse(toSet.giveaways);
-        common.delLocalValue(`giveaways`);
+        common.delLocalValue('giveaways');
       }
       if (utils.isSet(esgst.storage.decryptedGiveaways)) {
         esgst.decryptedGiveaways = esgst.storage.decryptedGiveaways;
-        if (typeof esgst.decryptedGiveaways === `string`) {
+        if (typeof esgst.decryptedGiveaways === 'string') {
           esgst.decryptedGiveaways = JSON.parse(esgst.decryptedGiveaways);
         } else {
           toSet.decryptedGiveaways = JSON.stringify(esgst.decryptedGiveaways);
         }
       } else {
-        toSet.decryptedGiveaways = `{}`;
+        toSet.decryptedGiveaways = '{}';
         esgst.decryptedGiveaways = {};
-      }
-      if (utils.isSet(esgst.storage.discussions)) {
-        esgst.discussions = JSON.parse(esgst.storage.discussions);
-      } else {
-        toSet.discussions = common.getLocalValue(`discussions`, `{}`);
-        esgst.discussions = JSON.parse(toSet.discussions);
-        common.delLocalValue(`discussions`);
       }
       if (utils.isSet(esgst.storage.tickets)) {
         esgst.tickets = JSON.parse(esgst.storage.tickets);
       } else {
-        toSet.tickets = common.getLocalValue(`tickets`, `{}`);
+        toSet.tickets = common.getLocalValue('tickets', '{}');
         esgst.tickets = JSON.parse(toSet.tickets);
-        common.delLocalValue(`tickets`);
+        common.delLocalValue('tickets');
       }
-      common.delLocalValue(`gFix`);
-      common.delLocalValue(`dFix`);
-      common.delLocalValue(`tFix`);
+      common.delLocalValue('gFix');
+      common.delLocalValue('tFix');
       if (utils.isSet(esgst.storage.groups)) {
         esgst.groups = JSON.parse(esgst.storage.groups);
       } else {
-        toSet.groups = common.getLocalValue(`groups`, `[]`);
+        toSet.groups = common.getLocalValue('groups', '[]');
         esgst.groups = JSON.parse(toSet.groups);
-        common.delLocalValue(`groups`);
+        common.delLocalValue('groups');
       }
-      logger.info(`GROUP: `, esgst.groups.filter(group => group.steamId === `103582791454597143`)[0]);
+      logger.info(`GROUP: `, esgst.groups.filter(group => group.steamId === '103582791454597143')[0]);
       if (!utils.isSet(esgst.storage.entries)) {
-        toSet.entries = common.getLocalValue(`entries`, `[]`);
-        common.delLocalValue(`entries`);
+        toSet.entries = common.getLocalValue('entries', '[]');
+        common.delLocalValue('entries');
       }
       if (utils.isSet(esgst.storage.rerolls)) {
         esgst.rerolls = JSON.parse(esgst.storage.rerolls);
       } else {
-        toSet.rerolls = common.getLocalValue(`rerolls`, `[]`);
+        toSet.rerolls = common.getLocalValue('rerolls', '[]');
         esgst.rerolls = JSON.parse(toSet.rerolls);
-        common.delLocalValue(`rerolls`);
+        common.delLocalValue('rerolls');
       }
       if (utils.isSet(esgst.storage.winners)) {
         esgst.winners = JSON.parse(esgst.storage.winners);
       } else {
-        toSet.winners = common.getLocalValue(`winners`, `{}`);
+        toSet.winners = common.getLocalValue('winners', '{}');
         esgst.winners = JSON.parse(toSet.winners);
-        common.delLocalValue(`winners`);
+        common.delLocalValue('winners');
       }
-    } else {
-      if (utils.isSet(esgst.storage.trades)) {
-        esgst.trades = JSON.parse(esgst.storage.trades);
-      } else {
-        toSet.trades = common.getLocalValue(`trades`, `{}`);
-        esgst.trades = JSON.parse(toSet.trades);
-        common.delLocalValue(`trades`);
-      }
-      common.delLocalValue(`tFix`);
     }
-    let cache = JSON.parse(common.getLocalValue(`gdtttCache`, `{"giveaways":[],"discussions":[],"tickets":[],"trades":[]}`));
+    if (utils.isSet(esgst.storage.discussions)) {
+      esgst.discussions = JSON.parse(esgst.storage.discussions);
+    }
+    if (utils.isSet(esgst.storage.trades)) {
+      esgst.trades = JSON.parse(esgst.storage.trades);
+    }
+    let cache = JSON.parse(common.getLocalValue('gdtttCache', `{"giveaways":[],"discussions":[],"tickets":[],"trades":[]}`));
     for (let type in cache) {
       if (cache.hasOwnProperty(type)) {
         let doSet = false;
@@ -243,7 +236,7 @@ window.interact = interact;
         }
       }
     }
-    common.setLocalValue(`gdtttCache`, `{"giveaways":[],"discussions":[],"tickets":[],"trades":[]}`);
+    common.setLocalValue('gdtttCache', `{"giveaways":[],"discussions":[],"tickets":[],"trades":[]}`);
     if (utils.isSet(esgst.storage.games)) {
       esgst.games = JSON.parse(esgst.storage.games);
     } else {
@@ -267,15 +260,15 @@ window.interact = interact;
     } else {
       esgst.settings = {};
     }
-    if (esgst.settings.hasOwnProperty(`avatar_sg`)) {
+    if (esgst.settings.hasOwnProperty('avatar_sg')) {
       delete esgst.settings.avatar_sg;
       esgst.settingsChanged = true;
     }
-    if (esgst.settings.hasOwnProperty(`avatar_st`)) {
+    if (esgst.settings.hasOwnProperty('avatar_st')) {
       delete esgst.settings.avatar_st;
       esgst.settingsChanged = true;
     }
-    if (esgst.settings.hasOwnProperty(`username`)) {
+    if (esgst.settings.hasOwnProperty('username')) {
       delete esgst.settings.username;
       esgst.settingsChanged = true;
     }
@@ -294,7 +287,7 @@ window.interact = interact;
       gSettings.gf_presets = esgst.settings.gf_presets = presets;
       esgst.settingsChanged = true;
       toSet.old_gf_presets = esgst.storage.filterPresets;
-      toDelete.push(`filterPresets`);
+      toDelete.push('filterPresets');
     }
     if (utils.isSet(esgst.storage.dfPresets)) {
       const presets = gSettings.df_presets.concat(
@@ -303,24 +296,25 @@ window.interact = interact;
       gSettings.df_presets = esgst.settings.df_presets = presets;
       esgst.settingsChanged = true;
       toSet.old_df_presets = esgst.storage.dfPresets;
-      toDelete.push(`dfPresets`);
+      toDelete.push('dfPresets');
     }
 
     [
-      {id: `cec`, side: `left`},
-      {id: `esContinuous`, side: `right`},
-      {id: `esNext`, side: `right`},
-      {id: `glwc`, side: `left`},
-      {id: `mm`, side: `right`},
-      {id: `stbb`, side: `right`},
-      {id: `sttb`, side: `right`},
-      {id: `usc`, side: `left`},
-      {id: `ust`, side: `left`},
-      {id: `wbm`, side: `left`},
-      {id: `df_s_s`, side: `left`},
-      {id: `gf_s_s`, side: `left`},
-      {id: `tf_s_s`, side: `left`},
-      {id: `uf_s_s`, side: `left`}
+      {id: 'cec', side: 'left'},
+      {id: 'esContinuous', side: 'right'},
+      {id: 'esNext', side: 'right'},
+      {id: 'glwc', side: 'left'},
+      {id: 'mm', side: 'right'},
+      {id: 'stbb', side: 'right'},
+      {id: 'sttb', side: 'right'},
+      {id: 'usc', side: 'left'},
+      {id: 'ust', side: 'left'},
+      {id: 'wbm', side: 'left'},
+      {id: 'df_s_s', side: 'left'},
+      {id: 'gf_s_s', side: 'left'},
+      {id: 'tf_s_s', side: 'left'},
+      {id: 'uf_s_s', side: 'left'},
+      {id: 'gmf', side: 'left'}
     ].forEach(item => {
       if (gSettings.leftButtonIds.indexOf(item.id) < 0 && gSettings.rightButtonIds.indexOf(item.id) < 0 && gSettings.leftMainPageHeadingIds.indexOf(item.id) < 0 && gSettings.rightMainPageHeadingIds.indexOf(item.id) < 0) {
         gSettings[`${item.side}MainPageHeadingIds`].push(item.id);
@@ -344,22 +338,22 @@ window.interact = interact;
       delete esgst.settings.groups;
       esgst.settingsChanged = true;
     }
-    if (gSettings.gc_categories_ids && gSettings.gc_categories_ids.indexOf(`gc_f`) < 0) {
-      gSettings.gc_categories_ids.push(`gc_f`);
+    if (gSettings.gc_categories_ids && gSettings.gc_categories_ids.indexOf('gc_f') < 0) {
+      gSettings.gc_categories_ids.push('gc_f');
       esgst.settings.gc_categories_ids = gSettings.gc_categories_ids;
       esgst.settingsChanged = true;
     }
-    if (gSettings.gc_categories_ids && gSettings.gc_categories_ids.indexOf(`gc_bvg`) < 0) {
-      gSettings.gc_categories_ids.push(`gc_bvg`);
+    if (gSettings.gc_categories_ids && gSettings.gc_categories_ids.indexOf('gc_bvg') < 0) {
+      gSettings.gc_categories_ids.push('gc_bvg');
       esgst.settings.gc_categories_ids = gSettings.gc_categories_ids;
       esgst.settingsChanged = true;
     }
-    if (gSettings.gc_categories_ids && gSettings.gc_categories_ids.indexOf(`gc_bd`) < 0) {
-      gSettings.gc_categories_ids.push(`gc_bd`);
+    if (gSettings.gc_categories_ids && gSettings.gc_categories_ids.indexOf('gc_bd') < 0) {
+      gSettings.gc_categories_ids.push('gc_bd');
       esgst.settings.gc_categories_ids = gSettings.gc_categories_ids;
       esgst.settingsChanged = true;
     }
-    [`gc_categories`, `gc_categories_gv`, `gc_categories_ids`].forEach(key => {
+    ['gc_categories', 'gc_categories_gv', 'gc_categories_ids'].forEach(key => {
       if (!gSettings[key]) {
         return;
       }
@@ -370,7 +364,7 @@ window.interact = interact;
         esgst.settingsChanged = true;
       }
     });
-    if (gSettings.elementOrdering !== `1`) {
+    if (gSettings.elementOrdering !== '1') {
       const oldLeftButtonIds = JSON.stringify(gSettings.leftButtonIds);
       const oldRightButtonIds = JSON.stringify(gSettings.rightButtonIds);
       const oldLeftMainPageHeadingIds = JSON.stringify(gSettings.leftMainPageHeadingIds);
@@ -443,7 +437,7 @@ window.interact = interact;
       if (oldRightMainPageHeadingIds !== JSON.stringify(gSettings.rightMainHeadingIds)) {
         esgst.settings.rightMainPageHeadingIds = gSettings.rightMainHeadingIds;
       }
-      gSettings.elementOrdering = esgst.settings.elementOrdering = `1`;
+      gSettings.elementOrdering = esgst.settings.elementOrdering = '1';
       esgst.settingsChanged = true;
     }
     if (document.readyState === 'loading') {
@@ -475,37 +469,37 @@ window.interact = interact;
 
     if (esgst.sg) {
       try {
-        let avatar = document.getElementsByClassName(`nav__avatar-inner-wrap`)[0].style.backgroundImage.match(/\("(.+)"\)/)[1];
+        let avatar = document.getElementsByClassName('nav__avatar-inner-wrap')[0].style.backgroundImage.match(/\("(.+)"\)/)[1];
         if (esgst.settings.avatar !== avatar) {
           esgst.settings.avatar = avatar;
           esgst.settingsChanged = true;
         }
-        let username = document.getElementsByClassName(`nav__avatar-outer-wrap`)[0].href.match(/\/user\/(.+)/)[1];
+        let username = document.getElementsByClassName('nav__avatar-outer-wrap')[0].href.match(/\/user\/(.+)/)[1];
         if (esgst.settings.username_sg !== username) {
           esgst.settings.username_sg = username;
           esgst.settingsChanged = true;
         }
         if (!esgst.settings.registrationDate_sg || !esgst.settings.steamId) {
           let responseHtml = utils.parseHtml((await common.request({
-            method: `GET`,
+            method: 'GET',
             url: `https://www.steamgifts.com/user/${esgst.settings.username_sg}`
           })).responseText);
-          let elements = responseHtml.getElementsByClassName(`featured__table__row__left`);
+          let elements = responseHtml.getElementsByClassName('featured__table__row__left');
           for (let i = 0, n = elements.length; i < n; i++) {
             let element = elements[i];
-            if (element.textContent === `Registered`) {
-              esgst.settings.registrationDate_sg = parseInt(element.nextElementSibling.firstElementChild.getAttribute(`data-timestamp`));
+            if (element.textContent === 'Registered') {
+              esgst.settings.registrationDate_sg = parseInt(element.nextElementSibling.firstElementChild.getAttribute('data-timestamp'));
               break;
             }
           }
-          esgst.settings.steamId = responseHtml.querySelector(`a[href*="/profiles/"]`).getAttribute(`href`).match(/\d+/)[0];
+          esgst.settings.steamId = responseHtml.querySelector(`a[href*="/profiles/"]`).getAttribute('href').match(/\d+/)[0];
           esgst.settingsChanged = true;
         }
       } catch (e) { /**/
       }
     } else {
       try {
-        let avatar = document.getElementsByClassName(`nav_avatar`)[0].style.backgroundImage.match(/\("(.+)"\)/)[1];
+        let avatar = document.getElementsByClassName('nav_avatar')[0].style.backgroundImage.match(/\("(.+)"\)/)[1];
         if (esgst.settings.avatar !== avatar) {
           esgst.settings.avatar = avatar;
           esgst.settingsChanged = true;
@@ -550,18 +544,18 @@ window.interact = interact;
       }
     }
 
-    if (common.isCurrentPath(`Account`)) {
+    if (common.isCurrentPath('Account')) {
       if (window.location.href.match(/state=dropbox/)) {
-        await common.setValue(`dropboxToken`, window.location.hash.match(/access_token=(.+?)&/)[1]);
+        await common.setValue('dropboxToken', window.location.hash.match(/access_token=(.+?)&/)[1]);
         window.close();
       } else if (window.location.href.match(/state=google-drive/)) {
-        await common.setValue(`googleDriveToken`, window.location.hash.match(/access_token=(.+?)&/)[1]);
+        await common.setValue('googleDriveToken', window.location.hash.match(/access_token=(.+?)&/)[1]);
         window.close();
       } else if (window.location.href.match(/state=onedrive/)) {
-        await common.setValue(`oneDriveToken`, window.location.hash.match(/access_token=(.+?)&/)[1]);
+        await common.setValue('oneDriveToken', window.location.hash.match(/access_token=(.+?)&/)[1]);
         window.close();
       } else if (window.location.href.match(/state=imgur/)) {
-        await common.setValue(`imgurToken`, window.location.hash.match(/access_token=(.+?)&/)[1]);
+        await common.setValue('imgurToken', window.location.hash.match(/access_token=(.+?)&/)[1]);
         window.close();
       }
     }
@@ -584,9 +578,9 @@ window.interact = interact;
       common.checkBackup();
     }
     if (esgst.profilePath && gSettings.autoSync) {
-      const el = document.getElementsByClassName(`form__sync-default`)[0];
+      const el = document.getElementsByClassName('form__sync-default')[0];
       if (el) {
-        el.addEventListener(`click`, () => runSilentSync(`Games=1&Groups=1`));
+        el.addEventListener('click', () => runSilentSync(`Games=1&Groups=1`));
       }
     }
 

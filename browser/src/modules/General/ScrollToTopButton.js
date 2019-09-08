@@ -14,23 +14,23 @@ class GeneralScrollToTopButton extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, [
+        ['ul', [
+          ['li', [
             `Adds a button (`,
-            [`i`, { class: `fa fa-chevron-up` }],
+            ['i', { class: 'fa fa-chevron-up' }],
             `) either to the bottom right corner, the main page heading or the footer (you can decide where) of any page that takes you to the top of the page.`
           ]]
         ]]
       ],
-      id: `sttb`,
-      name: `Scroll To Top Button`,
+      id: 'sttb',
+      name: 'Scroll To Top Button',
       options: {
         title: `Show in:`,
-        values: [`Bottom Right Corner`, `Main Page Heading`, `Footer`]
+        values: ['Bottom Right Corner', 'Main Page Heading', 'Footer']
       },
       sg: true,
       st: true,
-      type: `general`
+      type: 'general'
     };
   }
 
@@ -38,49 +38,49 @@ class GeneralScrollToTopButton extends Module {
     let button;
     switch (gSettings.sttb_index) {
       case 0:
-        button = createElements(document.body, `beforeEnd`, [{
+        button = createElements(document.body, 'beforeEnd', [{
           attributes: {
-            class: `esgst-sttb-button esgst-sttb-button-fixed`,
-            title: `${getFeatureTooltip(`sttb`, `Scroll to top`)}`
+            class: 'esgst-sttb-button esgst-sttb-button-fixed',
+            title: `${getFeatureTooltip('sttb', 'Scroll to top')}`
           },
-          type: `div`,
+          type: 'div',
           children: [{
             attributes: {
-              class: `fa fa-chevron-up`
+              class: 'fa fa-chevron-up'
             },
-            type: `i`
+            type: 'i'
           }]
         }]);
-        button.classList.add(`esgst-hidden`);
-        window.addEventListener(`scroll`, () => {
+        button.classList.add('esgst-hidden');
+        window.addEventListener('scroll', () => {
           if (window.scrollY > 100) {
-            button.classList.remove(`esgst-hidden`);
+            button.classList.remove('esgst-hidden');
           } else {
-            button.classList.add(`esgst-hidden`);
+            button.classList.add('esgst-hidden');
           }
         });
         break;
       case 1:
-        button = createHeadingButton({ id: `sttb`, icons: [`fa-chevron-up`], title: `Scroll to top` });
-        button.classList.add(`esgst-sttb-button`);
+        button = createHeadingButton({ id: 'sttb', icons: ['fa-chevron-up'], title: 'Scroll to top' });
+        button.classList.add('esgst-sttb-button');
         break;
       case 2:
-        button = createElements(this.esgst.footer.firstElementChild.lastElementChild, `beforeEnd`, [{
+        button = createElements(this.esgst.footer.firstElementChild.lastElementChild, 'beforeEnd', [{
           attributes: {
-            class: `esgst-sttb-button`,
-            title: getFeatureTooltip(`sttb`, `Scroll to top`)
+            class: 'esgst-sttb-button',
+            title: getFeatureTooltip('sttb', 'Scroll to top')
           },
-          type: this.esgst.sg ? `div` : `li`,
+          type: this.esgst.sg ? 'div' : 'li',
           children: [{
             attributes: {
-              class: `fa fa-chevron-up`
+              class: 'fa fa-chevron-up'
             },
-            type: `i`
+            type: 'i'
           }]
         }]);
         break;
     }
-    button.addEventListener(`click`, animateScroll.bind(common, 0, () => {
+    button.addEventListener('click', animateScroll.bind(common, 0, () => {
       if (gSettings.es && this.esgst.es.paginations) {
         this.esgst.modules.generalEndlessScrolling.es_changePagination(this.esgst.es, this.esgst.es.reverseScrolling ? this.esgst.es.paginations.length : 1);
       }

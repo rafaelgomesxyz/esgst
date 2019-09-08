@@ -7,7 +7,7 @@ import { FetchRequest } from './FetchRequest';
  * @see https://developers.google.com/drive/api/v3/reference/
  */
 class GoogleDriveStorage extends ICloudStorage {
-  static get CLIENT_ID() { return `102804278399-95kit5e09mdskdta7eq97ra7tuj20qps.apps.googleusercontent.com`; }
+  static get CLIENT_ID() { return '102804278399-95kit5e09mdskdta7eq97ra7tuj20qps.apps.googleusercontent.com'; }
   static get AUTH_URL() { return `https://accounts.google.com/o/oauth2/v2/auth`; }
   static get BASE_URL() { return `https://www.googleapis.com`; }
   static get API_BASE_URL() { return `${GoogleDriveStorage.BASE_URL}/drive/v3`; }
@@ -25,16 +25,16 @@ class GoogleDriveStorage extends ICloudStorage {
   }
 
   static async authenticate() {
-    const key = `googleDriveToken`;
+    const key = 'googleDriveToken';
     const params = {
       client_id: GoogleDriveStorage.CLIENT_ID,
       redirect_uri: GoogleDriveStorage.REDIRECT_URL,
-      response_type: `token`,
+      response_type: 'token',
       scope: `https://www.googleapis.com/auth/drive.appdata`,
-      state: `google-drive`
+      state: 'google-drive'
     };
     if (gSettings.usePreferredGoogle) {
-      params[`login_hint`] = gSettings.preferredGoogle;
+      params['login_hint'] = gSettings.preferredGoogle;
     }
     const url = FetchRequest.addQueryParams(GoogleDriveStorage.AUTH_URL, params);
     await shared.common.delValue(key);
@@ -49,7 +49,7 @@ class GoogleDriveStorage extends ICloudStorage {
     const metadataRequestOptions = {
       data: gSettings.backupZip ? `{ "name": "${fileName}.zip", "parents": ["appDataFolder"]}` : `{"name": "${fileName}.json", "parents": ["appDataFolder"] }`,
       headers: Object.assign(GoogleDriveStorage.getDefaultHeaders(token), {
-        'Content-Type': `application/json`
+        'Content-Type': 'application/json'
       })
     };
     const metadataResponse = await FetchRequest.post(GoogleDriveStorage.UPLOAD_METADATA_URL, metadataRequestOptions);
@@ -60,13 +60,13 @@ class GoogleDriveStorage extends ICloudStorage {
       data,
       fileName: gSettings.backupZip ? `${fileName}.json` : null,
       headers: Object.assign(GoogleDriveStorage.getDefaultHeaders(token), {
-        'Content-Type': gSettings.backupZip ? `application/zip` : `text/plain`
+        'Content-Type': gSettings.backupZip ? 'application/zip' : 'text/plain'
       }),
       pathParams: {
         fileId: metadataResponse.json.id
       },
       queryParams: {
-        uploadType: `media`
+        uploadType: 'media'
       }
     };
     const response = await FetchRequest.patch(GoogleDriveStorage.UPLOAD_URL, requestOptions);
@@ -86,7 +86,7 @@ class GoogleDriveStorage extends ICloudStorage {
         fileId: fileInfo.id
       },
       queryParams: {
-        alt: `media`
+        alt: 'media'
       }
     };
     const response = await FetchRequest.get(GoogleDriveStorage.DOWNLOAD_URL, requestOptions);
@@ -123,16 +123,16 @@ class GoogleDriveStorage extends ICloudStorage {
       const formData = [];
       for (const fileId of chunk) {
         formData.push(
-          `--ESGST`,
+          '--ESGST',
           `Content-Type: application/http`,
-          ``,
+          '',
           `DELETE ${FetchRequest.addPathParams(GoogleDriveStorage.DELETE_URL, { fileId })}`,
-          ``,
-          ``
+          '',
+          ''
         );
       }
-      const data = formData.join(`\n`);
-      formData.push(`--ESGST--`);
+      const data = formData.join('\n');
+      formData.push('--ESGST--');
       const requestOptions = {
         data,
         isFormData: true,
@@ -145,8 +145,8 @@ class GoogleDriveStorage extends ICloudStorage {
         throw new Error(response.text);
       }
       const parts = response.text
-        .replace(/\r?\n|\r/g, `\n`)
-        .replace(/\n\n+/g, `\n\n`)
+        .replace(/\r?\n|\r/g, '\n')
+        .replace(/\n\n+/g, '\n\n')
         .split(/--batch.*\n/)
         .filter(x => x)
         .map(x => x.split(/\n\n/)[2]);
@@ -169,7 +169,7 @@ class GoogleDriveStorage extends ICloudStorage {
       headers: Object.assign(GoogleDriveStorage.getDefaultHeaders(token), {}),
       queryParams: {
         fields: `files(kind,id,name,mimeType,size,modifiedTime)`,
-        spaces: `appDataFolder`
+        spaces: 'appDataFolder'
       }
     };
     const response = await FetchRequest.get(GoogleDriveStorage.LIST_URL, requestOptions);

@@ -11,158 +11,158 @@ function addStyle() {
 `;
   colors = [
     {
-      id: `gc_h`,
-      key: `hidden`,
-      mainKey: `esgst-gc`
+      id: 'gc_h',
+      key: 'hidden',
+      mainKey: 'esgst-gc'
     },
     {
-      id: `gc_gi`,
-      key: `giveawayInfo`,
-      mainKey: `esgst-gc`
+      id: 'gc_gi',
+      key: 'giveawayInfo',
+      mainKey: 'esgst-gc'
     },
     {
-      id: `gc_ocv_fcv`,
-      key: `originalCV-fcv`,
-      mainKey: `esgst-gc`
+      id: 'gc_ocv_fcv',
+      key: 'originalCV-fcv',
+      mainKey: 'esgst-gc'
     },
     {
-      id: `gc_ocv_rcv`,
-      key: `originalCV-rcv`,
-      mainKey: `esgst-gc`
+      id: 'gc_ocv_rcv',
+      key: 'originalCV-rcv',
+      mainKey: 'esgst-gc'
     },
     {
-      id: `gc_fcv`,
-      key: `fullCV`,
-      mainKey: `esgst-gc`
+      id: 'gc_fcv',
+      key: 'fullCV',
+      mainKey: 'esgst-gc'
     },
     {
-      id: `gc_rcv`,
-      key: `reducedCV`,
-      mainKey: `esgst-gc`
+      id: 'gc_rcv',
+      key: 'reducedCV',
+      mainKey: 'esgst-gc'
     },
     {
-      id: `gc_ncv`,
-      key: `noCV`,
-      mainKey: `esgst-gc`
+      id: 'gc_ncv',
+      key: 'noCV',
+      mainKey: 'esgst-gc'
     },
     {
-      id: `gc_hltb`,
-      key: `hltb`,
-      mainKey: `esgst-gc`
+      id: 'gc_hltb',
+      key: 'hltb',
+      mainKey: 'esgst-gc'
     },
     {
-      id: `gc_w`,
-      key: `wishlisted`,
-      mainKey: `esgst-gc`
+      id: 'gc_w',
+      key: 'wishlisted',
+      mainKey: 'esgst-gc'
     },
     {
-      id: `gc_f`,
-      key: `followed`,
-      mainKey: `esgst-gc`
+      id: 'gc_f',
+      key: 'followed',
+      mainKey: 'esgst-gc'
     },
     {
-      id: `gc_o`,
-      key: `owned`,
-      mainKey: `esgst-gc`
+      id: 'gc_o',
+      key: 'owned',
+      mainKey: 'esgst-gc'
     },
     {
-      id: `gc_pw`,
-      key: `won`,
-      mainKey: `esgst-gc`
+      id: 'gc_pw',
+      key: 'won',
+      mainKey: 'esgst-gc'
     },
     {
-      id: `gc_i`,
-      key: `ignored`,
-      mainKey: `esgst-gc`
+      id: 'gc_i',
+      key: 'ignored',
+      mainKey: 'esgst-gc'
     },
     {
-      id: `gc_lg`,
-      key: `learning`,
-      mainKey: `esgst-gc`
+      id: 'gc_lg',
+      key: 'learning',
+      mainKey: 'esgst-gc'
     },
     {
-      id: `gc_rm`,
-      key: `removed`,
-      mainKey: `esgst-gc`
+      id: 'gc_rm',
+      key: 'removed',
+      mainKey: 'esgst-gc'
     },
     {
-      id: `gc_ea`,
-      key: `earlyAccess`,
-      mainKey: `esgst-gc`
+      id: 'gc_ea',
+      key: 'earlyAccess',
+      mainKey: 'esgst-gc'
     },
     {
-      id: `gc_tc`,
-      key: `tradingCards`,
-      mainKey: `esgst-gc`
+      id: 'gc_tc',
+      key: 'tradingCards',
+      mainKey: 'esgst-gc'
     },
     {
-      id: `gc_a`,
-      key: `achievements`,
-      mainKey: `esgst-gc`
+      id: 'gc_a',
+      key: 'achievements',
+      mainKey: 'esgst-gc'
     },
     {
-      id: `gc_bd`,
-      key: `banned`,
-      mainKey: `esgst-gc`
+      id: 'gc_bd',
+      key: 'banned',
+      mainKey: 'esgst-gc'
     },
     {
-      id: `gc_bvg`,
-      key: `bartervg`,
-      mainKey: `esgst-gc`
+      id: 'gc_bvg',
+      key: 'bartervg',
+      mainKey: 'esgst-gc'
     },
     {
-      id: `gc_sp`,
-      key: `singleplayer`,
-      mainKey: `esgst-gc`
+      id: 'gc_sp',
+      key: 'singleplayer',
+      mainKey: 'esgst-gc'
     },
     {
-      id: `gc_mp`,
-      key: `multiplayer`,
-      mainKey: `esgst-gc`
+      id: 'gc_mp',
+      key: 'multiplayer',
+      mainKey: 'esgst-gc'
     },
     {
-      id: `gc_sc`,
-      key: `steamCloud`,
-      mainKey: `esgst-gc`
+      id: 'gc_sc',
+      key: 'steamCloud',
+      mainKey: 'esgst-gc'
     },
     {
-      id: `gc_l`,
-      key: `linux`,
-      mainKey: `esgst-gc`
+      id: 'gc_l',
+      key: 'linux',
+      mainKey: 'esgst-gc'
     },
     {
-      id: `gc_m`,
-      key: `mac`,
-      mainKey: `esgst-gc`
+      id: 'gc_m',
+      key: 'mac',
+      mainKey: 'esgst-gc'
     },
     {
-      id: `gc_dlc`,
-      key: `dlc`,
-      mainKey: `esgst-gc`
+      id: 'gc_dlc',
+      key: 'dlc',
+      mainKey: 'esgst-gc'
     },
     {
-      id: `gc_p`,
-      key: `package`,
-      mainKey: `esgst-gc`
+      id: 'gc_p',
+      key: 'package',
+      mainKey: 'esgst-gc'
     },
     {
-      id: `gc_rd`,
-      key: `releaseDate`,
-      mainKey: `esgst-gc`
+      id: 'gc_rd',
+      key: 'releaseDate',
+      mainKey: 'esgst-gc'
     },
     {
-      id: `gc_g`,
-      key: `genres`,
-      mainKey: `esgst-gc`
+      id: 'gc_g',
+      key: 'genres',
+      mainKey: 'esgst-gc'
     }
   ];
   for (i = 0, n = colors.length; i < n; ++i) {
     color = gSettings[`${colors[i].id}_color`];
     backgroundColor = gSettings[`${colors[i].id}_bgColor`];
     style += `
-    ${colors[i].key === `genres` ? `a` : ``}.${colors[i].mainKey}-${colors[i].key}:not(.giveaway__column):not(.featured__column) {
+    ${colors[i].key === 'genres' ? 'a' : ''}.${colors[i].mainKey}-${colors[i].key}:not(.giveaway__column):not(.featured__column) {
       background-color: ${backgroundColor};
-      ${color ? `color: ${color};` : ``}
+      ${color ? `color: ${color};` : ''}
     }
     .${colors[i].mainKey}-${colors[i].key}.giveaway__column, .${colors[i].mainKey}-${colors[i].key}.featured__column {
       color: ${backgroundColor};
@@ -171,14 +171,14 @@ function addStyle() {
   }
   colors = [
     {
-      id: `wbh_w`,
-      key: `whitelisted`,
-      mainKey: `esgst-wbh-highlight`
+      id: 'wbh_w',
+      key: 'whitelisted',
+      mainKey: 'esgst-wbh-highlight'
     },
     {
-      id: `wbh_b`,
-      key: `blacklisted`,
-      mainKey: `esgst-wbh-highlight`
+      id: 'wbh_b',
+      key: 'blacklisted',
+      mainKey: 'esgst-wbh-highlight'
     }
   ];
   for (i = 0, n = colors.length; i < n; ++i) {
@@ -187,11 +187,66 @@ function addStyle() {
     style += `
     .${colors[i].mainKey}-${colors[i].key} {
       background-color: ${backgroundColor} !important;
-      ${color ? `color: ${color} !important;` : ``}
+      ${color ? `color: ${color} !important;` : ''}
     }
   `;
   }
   style += `
+  .esgst-tds-sidebar-item {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .esgst-tds-sidebar-item .sidebar__navigation__item__link {
+    flex: 1;
+  }
+
+  .ui-datepicker:not([style]) {
+    display: none;
+  }
+
+  .esgst-tds-popout {
+    max-height: 600px;
+    max-width: 300px;
+  }
+
+  .esgst-tds-item {
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2px;
+    padding: 5px;
+  }
+
+  .esgst-tds-item-active {
+    background-color: #eee;
+  }
+
+  .esgst-tds-item-name {
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  .esgst-tds-item-count {
+    opacity: 0.75;
+  }
+
+  .esgst-tds-item-active .esgst-tds-item-count {
+    font-weight: bold;
+  }
+
+  .esgst-tds-item-actions {
+    display: flex;
+  }
+
+  .esgst-tds-item-actions >* {
+    cursor: pointer;
+    margin-right: 5px;
+  }
+
   .esgst-cdr-highlight {
     color: #ff0000;
     font-weight: bold;
@@ -366,7 +421,7 @@ function addStyle() {
     color: #fff;
   }
 
-  .table__row-inner-wrap .esgst-heading-button, .table__row-inner-wrap .esgst-ct-count, .table__row-inner-wrap .esgst-gdttt-button {
+  .table__row-inner-wrap .esgst-heading-button, .table__row-inner-wrap .esgst-ct-count, .table__row-inner-wrap .esgst-gdttt-button, .table__row-inner-wrap .esgst-tds-button {
     margin-left: 3px !important;
   }
 
@@ -744,7 +799,7 @@ function addStyle() {
   }
 
   .esgst-qgs-container-expanded {
-    position: ${gSettings.qgs_index === `0` ? `absolute` : `static`};
+    position: ${gSettings.qgs_index === '0' ? 'absolute' : 'static'};
   }
 
   .esgst-qgs-container-expanded .esgst-qgs-input {
@@ -1144,8 +1199,9 @@ function addStyle() {
     background-color: rgba(119, 137, 154, 0.1) !important;
   }
 
-  .esgst-gf-hide-button, .esgst-gf-unhide-button, .esgst-gb-button, .esgst-gdttt-button {
-    cursor: pointer; display: inline-block;
+  .esgst-gf-hide-button, .esgst-gf-unhide-button, .esgst-gb-button, .esgst-gdttt-button, .esgst-tds-button {
+    cursor: pointer;
+    display: inline-block;
     margin: 0 5px 0 0;
   }
 
@@ -1636,10 +1692,10 @@ function addStyle() {
   }
 
   .esgst-popup-layer {
-    align-items: ${gSettings.static_popups ? `baseline` : `center`};
+    align-items: ${gSettings.static_popups ? 'baseline' : 'center'};
     bottom: 0;
     display: flex;
-    justify-content: ${gSettings.static_popups ? `left` : `center`};
+    justify-content: ${gSettings.static_popups ? 'left' : 'center'};
     left: 0;
     padding: 50px;
     position: fixed;
@@ -1860,7 +1916,7 @@ function addStyle() {
     display: flex;
     height: 5px;
     margin-left: 5px;
-    width: ${gSettings.ib ? `186px` : `174px`};
+    width: ${gSettings.ib ? '186px' : '174px'};
   }
 
   .esgst-gc-border >* {
@@ -2306,7 +2362,7 @@ function addStyle() {
     padding: 0;
     text-align: center;
     vertical-align: top;
-    width: ${gSettings.ib ? `196px` : `184px`};
+    width: ${gSettings.ib ? '196px' : '184px'};
   }
 
   .esgst-gv-box {
@@ -2360,11 +2416,11 @@ function addStyle() {
 
   .esgst-gv-popout {
     font-size: 11px;
-    max-width: ${gSettings.ib ? `174px` : `162px`};
+    max-width: ${gSettings.ib ? '174px' : '162px'};
     overflow-x: hidden;
     overflow-y: auto;
     position: absolute;
-    width: ${gSettings.ib ? `174px` : `162px`};
+    width: ${gSettings.ib ? '174px' : '162px'};
     z-index: 1;
   }
 
@@ -2912,15 +2968,15 @@ function addStyle() {
     }
   `;
   }
-  shared.esgst.style = shared.common.createElements(document.head, `beforeEnd`, [{
+  shared.esgst.style = shared.common.createElements(document.head, 'beforeEnd', [{
     attributes: {
-      id: `esgst-style`
+      id: 'esgst-style'
     },
     text: style,
-    type: `style`
+    type: 'style'
   }]);
-  shared.esgst.theme = document.getElementById(`esgst-theme`);
-  shared.esgst.customThemeElement = document.getElementById(`esgst-custom-theme`);
+  shared.esgst.theme = document.getElementById('esgst-theme');
+  shared.esgst.customThemeElement = document.getElementById('esgst-custom-theme');
   // noinspection JSIgnoredPromiseFromCall
   shared.common.setTheme();
 }

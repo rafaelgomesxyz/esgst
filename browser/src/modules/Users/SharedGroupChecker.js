@@ -20,20 +20,20 @@ class UsersSharedGroupChecker extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, [
+        ['ul', [
+          ['li', [
             `Adds a button (`,
-            [`i`, { class: `fa fa-users` }],
+            ['i', { class: 'fa fa-users' }],
             `) next to a user's username (in their `,
-            [`a`, { href: `https://www.steamgifts.com/user/cg` }, `profile`],
+            ['a', { href: `https://www.steamgifts.com/user/cg` }, 'profile'],
             ` page) that allows you to check which groups you are both members of.`
           ]]
         ]]
       ],
-      id: `sgc`,
-      name: `Shared Group Checker`,
+      id: 'sgc',
+      name: 'Shared Group Checker',
       sg: true,
-      type: `users`,
+      type: 'users',
       featureMap: {
         profile: this.sgc_add.bind(this)
       }
@@ -45,110 +45,110 @@ class UsersSharedGroupChecker extends Module {
       // no point in checking which groups a user shares with themselves
       return;
     }
-    profile.sgcButton = createElements(profile.heading, `beforeEnd`, [{
+    profile.sgcButton = createElements(profile.heading, 'beforeEnd', [{
       attributes: {
-        class: `esgst-sgc-button`,
-        title: getFeatureTooltip(`sgc`, `Check shared groups`)
+        class: 'esgst-sgc-button',
+        title: getFeatureTooltip('sgc', 'Check shared groups')
       },
-      type: `a`,
+      type: 'a',
       children: [{
         attributes: {
-          class: `fa fa-users`
+          class: 'fa fa-users'
         },
-        type: `i`
+        type: 'i'
       }]
     }]);
-    profile.sgcButton.addEventListener(`click`, this.sgc_open.bind(this, profile));
+    profile.sgcButton.addEventListener('click', this.sgc_open.bind(this, profile));
   }
 
   async sgc_open(profile) {
     if (profile.sgcPopup) {
       profile.sgcPopup.open();
     } else {
-      if (!(await permissions.requestUi([`steamCommunity`], `sgc`))) {
+      if (!(await permissions.requestUi([['steamCommunity']], 'sgc'))) {
         return;
       }
 
-      profile.sgcPopup = new Popup({ addScrollable: true, icon: `fa-users`, title: `Shared Groups` });
-      profile.sgcProgress = createElements(profile.sgcPopup.description, `beforeEnd`, [{
-        type: `div`,
+      profile.sgcPopup = new Popup({ addScrollable: true, icon: 'fa-users', title: 'Shared Groups' });
+      profile.sgcProgress = createElements(profile.sgcPopup.description, 'beforeEnd', [{
+        type: 'div',
         children: [{
           attributes: {
-            class: `fa fa-circle-o-notch fa-spin`
+            class: 'fa fa-circle-o-notch fa-spin'
           },
-          type: `i`
+          type: 'i'
         }, {
-          text: `Checking shared groups...`,
-          type: `span`
+          text: 'Checking shared groups...',
+          type: 'span'
         }]
       }]);
-      profile.sgcResults = createElements(profile.sgcPopup.scrollable, `beforeEnd`, [{
+      profile.sgcResults = createElements(profile.sgcPopup.scrollable, 'beforeEnd', [{
         attributes: {
-          class: `esgst-sgc-results esgst-glwc-results esgst-text-left`
+          class: 'esgst-sgc-results esgst-glwc-results esgst-text-left'
         },
-        type: `div`,
+        type: 'div',
         children: [{
-          type: `div`,
+          type: 'div',
           children: [{
             attributes: {
-              class: `esgst-glwc-heading`
+              class: 'esgst-glwc-heading'
             },
-            text: `Public`,
-            type: `div`
+            text: 'Public',
+            type: 'div'
           }, {
             attributes: {
-              class: `table esgst-hidden`
+              class: 'table esgst-hidden'
             },
-            type: `div`,
+            type: 'div',
             children: [{
               attributes: {
-                class: `table__heading`
+                class: 'table__heading'
               },
-              type: `div`,
+              type: 'div',
               children: [{
                 attributes: {
-                  class: `table__column--width-fill`
+                  class: 'table__column--width-fill'
                 },
-                text: `Group`,
-                type: `div`
+                text: 'Group',
+                type: 'div'
               }]
             }, {
               attributes: {
-                class: `table__rows`
+                class: 'table__rows'
               },
-              type: `div`
+              type: 'div'
             }]
           }]
         }, {
-          type: `div`,
+          type: 'div',
           children: [{
             attributes: {
-              class: `esgst-glwc-heading`
+              class: 'esgst-glwc-heading'
             },
-            text: `Private`,
-            type: `div`
+            text: 'Private',
+            type: 'div'
           }, {
             attributes: {
-              class: `table esgst-hidden`
+              class: 'table esgst-hidden'
             },
-            type: `div`,
+            type: 'div',
             children: [{
               attributes: {
-                class: `table__heading`
+                class: 'table__heading'
               },
-              type: `div`,
+              type: 'div',
               children: [{
                 attributes: {
-                  class: `table__column--width-fill`
+                  class: 'table__column--width-fill'
                 },
-                text: `Group`,
-                type: `div`
+                text: 'Group',
+                type: 'div'
               }]
             }, {
               attributes: {
-                class: `table__rows`
+                class: 'table__rows'
               },
-              type: `div`
+              type: 'div'
             }]
           }]
         }]
@@ -167,60 +167,60 @@ class UsersSharedGroupChecker extends Module {
     const publicGroups = [];
     const privateGroups = [];
     let response = await request({
-      method: `GET`,
+      method: 'GET',
       url: `http://steamcommunity.com/profiles/${profile.steamId}/groups/common`
     });
     let responseHtml = parseHtml(response.responseText);
     let isLoggedIn = true;
-    if (!responseHtml.getElementById(`groups_list`)) {
-      response = await request({ method: `GET`, url: `http://steamcommunity.com/profiles/${profile.steamId}/groups` });
+    if (!responseHtml.getElementById('groups_list')) {
+      response = await request({ method: 'GET', url: `http://steamcommunity.com/profiles/${profile.steamId}/groups` });
       responseHtml = parseHtml(response.responseText);
       isLoggedIn = false;
     }
-    const elements = responseHtml.getElementsByClassName(`group_block`);
+    const elements = responseHtml.getElementsByClassName('group_block');
     for (const element of elements) {
-      const name = element.getElementsByClassName(`linkTitle`)[0].textContent;
-      const avatar = element.getElementsByClassName(`avatarMedium`)[0].firstElementChild.firstElementChild.getAttribute(`src`);
-      const steamId = element.querySelector(`.steamLink`).getAttribute(`href`).match(/\d+/)[0];
+      const name = element.getElementsByClassName('linkTitle')[0].textContent;
+      const avatar = element.getElementsByClassName('avatarMedium')[0].firstElementChild.firstElementChild.getAttribute('src');
+      const steamId = element.querySelector('.steamLink').getAttribute('href').match(/\d+/)[0];
       let i;
       for (i = shared.esgst.groups.length - 1; i > -1 && shared.esgst.groups[i].steamId !== steamId; i--) {
       }
       if (!isLoggedIn && (i < 0 || !shared.esgst.groups[i].member)) {
         continue;
       }
-      (element.getElementsByClassName(`pubGroup`)[0] ? publicGroups : privateGroups).push({
+      (element.getElementsByClassName('pubGroup')[0] ? publicGroups : privateGroups).push({
         name: name,
         html: [{
           attributes: {
-            class: `table__row-outer-wrap`
+            class: 'table__row-outer-wrap'
           },
-          type: `div`,
+          type: 'div',
           children: [{
             attributes: {
-              class: `table__row-inner-wrap`
+              class: 'table__row-inner-wrap'
             },
-            type: `div`,
+            type: 'div',
             children: [{
-              type: `div`,
+              type: 'div',
               children: [{
                 attributes: {
-                  class: `table_image_avatar`,
+                  class: 'table_image_avatar',
                   href: `/go/group/${steamId}`,
                   style: `background-image:url(${avatar})`
                 },
-                type: `a`
+                type: 'a'
               }]
             }, {
               attributes: {
-                class: `table__column--width-fill`
+                class: 'table__column--width-fill'
               },
-              type: `div`,
+              type: 'div',
               children: [{
                 attributes: {
-                  class: `table__column__heading`,
+                  class: 'table__column__heading',
                   href: `/go/group/${steamId}`
                 },
-                type: `a`
+                type: 'a'
               }]
             }]
           }]
@@ -231,33 +231,33 @@ class UsersSharedGroupChecker extends Module {
     const n2 = privateGroups.length;
     if (n1 || n2) {
       if (n1 > 0) {
-        sortArray(publicGroups, false, `name`).map(x => {
-          createElements(profile.sgcPublicResults, `beforeEnd`, x.html).getElementsByClassName(`table__column__heading`)[0].textContent = x.name;
+        sortArray(publicGroups, false, 'name').map(x => {
+          createElements(profile.sgcPublicResults, 'beforeEnd', x.html).getElementsByClassName('table__column__heading')[0].textContent = x.name;
         });
-        profile.sgcPublic.classList.remove(`esgst-hidden`);
+        profile.sgcPublic.classList.remove('esgst-hidden');
       } else {
-        createElements(profile.sgcPublic, `outer`, [{
-          text: `No shared public groups found.`,
-          type: `div`
+        createElements(profile.sgcPublic, 'outer', [{
+          text: 'No shared public groups found.',
+          type: 'div'
         }]);
       }
       if (n2 > 0) {
-        sortArray(privateGroups, false, `name`).map(x => {
-          createElements(profile.sgcPrivateResults, `beforeEnd`, x.html).getElementsByClassName(`table__column__heading`)[0].textContent = x.name;
+        sortArray(privateGroups, false, 'name').map(x => {
+          createElements(profile.sgcPrivateResults, 'beforeEnd', x.html).getElementsByClassName('table__column__heading')[0].textContent = x.name;
         });
-        profile.sgcPrivate.classList.remove(`esgst-hidden`);
+        profile.sgcPrivate.classList.remove('esgst-hidden');
       } else {
-        createElements(profile.sgcPrivate, `outer`, [{
-          text: `No shared private groups found.`,
-          type: `div`
+        createElements(profile.sgcPrivate, 'outer', [{
+          text: 'No shared private groups found.',
+          type: 'div'
         }]);
       }
       profile.sgcProgress.remove();
       profile.sgcProgress = null;
     } else {
-      createElements(profile.sgcProgress, `inner`, [{
-        text: `No shared groups found.`,
-        type: `node`
+      createElements(profile.sgcProgress, 'inner', [{
+        text: 'No shared groups found.',
+        type: 'node'
       }]);
     }
     endless_load(profile.sgcResults);

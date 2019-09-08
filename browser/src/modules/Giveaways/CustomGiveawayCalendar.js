@@ -6,23 +6,23 @@ class GiveawaysCustomGiveawayCalendar extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, [
-            `Allows you to customize the calendar for selecting the start/end times of giveaways in the `,
-            [`a`, { href: `https://www.steamgifts.com/giveaways/new` }, `new giveaway`],
-            ` page.`
+        ['ul', [
+          ['li', [
+            'Allows you to customize the calendar for selecting the start/end times of giveaways in the ',
+            ['a', { href: `https://www.steamgifts.com/giveaways/new` }, 'new giveaway'],
+            ' page.'
           ]],
-          [`li`, `Make sure to test if SteamGifts accepts the format you entered by reviewing a test giveaway.`]
+          ['li', 'Make sure to test if SteamGifts accepts the format you entered by reviewing a test giveaway.']
         ]]
       ],
       inputItems: [
         {
-          id: `cgc_dateFormat`,
+          id: 'cgc_dateFormat',
           prefix: `Date format: `,
           suffix: ` (check accepted formats here: http://api.jqueryui.com/datepicker/#utility-formatDate)`
         },
         {
-          id: `cgc_timeFormat`,
+          id: 'cgc_timeFormat',
           prefix: `Time format: `,
           suffix: ` (check accepted formats here: https://trentrichardson.com/examples/timepicker/#tp-formatting)`
         }
@@ -30,37 +30,29 @@ class GiveawaysCustomGiveawayCalendar extends Module {
       options: [
         {
           title: `First day of the week: `,
-          values: [`Sunday`, `Monday`, `Tuesday`, `Wednesday`, `Thursday`, `Friday`, `Saturday`]
+          values: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
         }
       ],
-      id: `cgc`,
-      name: `Custom Giveaway Calendar`,
+      id: 'cgc',
+      name: 'Custom Giveaway Calendar',
       sg: true,
-      type: `giveaways`
+      type: 'giveaways'
     };
   }
 
   init() {
-    if (!this.esgst.newGiveawayPath || !document.getElementsByClassName(`form__rows`)[0]) {
+    if (!this.esgst.newGiveawayPath || !document.getElementsByClassName('form__rows')[0]) {
         return;
     }
 
-    const script = document.createElement(`script`);
+    const script = document.createElement('script');
     script.textContent = `
-      if (document.readyState === "complete") {
-        esgst_cgc();
-      } else {        
-        $(window).on("load", function () {
-          esgst_cgc();
-        });
-      }
-
       function esgst_cgc() {
-        const actualStartInput = document.querySelector(\`input[name=start_time]\`);
-        actualStartInput.setAttribute(\`type\`, \`hidden\`);
-        const startInput = document.createElement(\`input\`);
-        startInput.className = \`form__input-small\`;
-        startInput.setAttribute(\`type\`, \`text\`);
+        const actualStartInput = document.querySelector('input[name=start_time]');
+        actualStartInput.setAttribute('type', 'hidden');
+        const startInput = document.createElement('input');
+        startInput.className = 'form__input-small';
+        startInput.setAttribute('type', 'text');
         actualStartInput.parentElement.insertBefore(startInput, actualStartInput);
         $(actualStartInput).datetimepicker("destroy");
         $(startInput).datetimepicker({
@@ -90,11 +82,11 @@ class GiveawaysCustomGiveawayCalendar extends Module {
           $(startInput).datepicker("setDate", actualStartInput.value);
         }
 
-        const actualEndInput = document.querySelector(\`input[name=end_time]\`);
-        actualEndInput.setAttribute(\`type\`, \`hidden\`);
-        const endInput = document.createElement(\`input\`);
-        endInput.className = \`form__input-small\`;
-        endInput.setAttribute(\`type\`, \`text\`);
+        const actualEndInput = document.querySelector('input[name=end_time]');
+        actualEndInput.setAttribute('type', 'hidden');
+        const endInput = document.createElement('input');
+        endInput.className = 'form__input-small';
+        endInput.setAttribute('type', 'text');
         actualEndInput.parentElement.insertBefore(endInput, actualEndInput);
         $(actualEndInput).datetimepicker("destroy");
         $(endInput).datetimepicker({
@@ -135,6 +127,14 @@ class GiveawaysCustomGiveawayCalendar extends Module {
         function i() {
           (start_time = $("input[name=start_time]").datetimepicker("getDate")) && (end_time = $("input[name=end_time]").datetimepicker("getDate")) && (end_time = new Date(end_time.getTime() - 36e5), end_time < start_time && $("input[name=start_time]").datetimepicker("setDate", end_time))
         }
+      }
+
+      if (document.readyState === "complete") {
+        esgst_cgc();
+      } else {        
+        $(window).on("load", function () {
+          esgst_cgc();
+        });
       }
     `;
     document.body.appendChild(script);
