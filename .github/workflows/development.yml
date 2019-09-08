@@ -13,7 +13,7 @@ jobs:
     - name: 'Checkout dev'
       uses: actions/checkout@v1
     - name: 'Install dependencies'
-      run: cd ./browser && npm install
+      run: cd ./browser && npm ci
     - name: 'Run dev build'
       run: cd ./browser && npm run build-dev
     - name: 'Generate pre-release'
