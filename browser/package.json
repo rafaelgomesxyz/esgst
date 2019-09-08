@@ -1,7 +1,7 @@
 {
   "name": "esgst",
-  "version": "8.5.1",
-  "devVersion": "8.5.0-dev.27",
+  "version": "8.5.2",
+  "devVersion": "8.5.2-dev.2",
   "title": "Enhanced SteamGifts & SteamTrades (ESGST)",
   "description": "A script that adds some cool features to SteamGifts and SteamTrades.",
   "author": "rafaelgssa",
@@ -37,10 +37,10 @@
     "webextension-polyfill": "^0.4.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.5.5",
-    "@babel/plugin-transform-runtime": "^7.5.5",
-    "@babel/preset-env": "^7.5.5",
-    "@babel/runtime": "",
+    "@babel/core": "7.5.5",
+    "@babel/plugin-transform-runtime": "7.5.5",
+    "@babel/preset-env": "7.5.5",
+    "@babel/runtime": "7.5.5",
     "@octokit/rest": "^16.28.9",
     "apidoc": "^0.17.7",
     "babel-eslint": "^10.0.3",
