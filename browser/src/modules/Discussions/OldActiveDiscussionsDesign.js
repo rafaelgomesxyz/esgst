@@ -15,11 +15,11 @@ class DiscussionsOldActiveDiscussionsDesign extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, `Brings back the SteamGifts' old active discussions design, while keeping the new "Deals" section.`],
-          [`li`, [
+        ['ul', [
+          ['li', `Brings back the SteamGifts' old active discussions design, while keeping the new "Deals" section.`],
+          ['li', [
             `Only one section ("Discussions" or "Deals") can be shown at a time. There is a button (`,
-            [`i`, { class: `fa fa-retweet` }],
+            ['i', { class: 'fa fa-retweet' }],
             `) in the page heading of the active discussions that allows you to switch sections.`
           ]]
         ]]
@@ -27,18 +27,18 @@ class DiscussionsOldActiveDiscussionsDesign extends Module {
       features: {
         oadd_d: {
           description: [
-            [`ul`, [
-              [`li`, `With this option enabled, the deals are included in the "Discussions" section instead of being exclusive to the "Deals" section.`]
+            ['ul', [
+              ['li', `With this option enabled, the deals are included in the "Discussions" section instead of being exclusive to the "Deals" section.`]
             ]]
           ],
-          name: `Show deals in the "Discussions" section.`,
+          name: 'Show deals in the "Discussions" section.',
           sg: true
         }
       },
-      id: `oadd`,
-      name: `Old Active Discussions Design`,
+      id: 'oadd',
+      name: 'Old Active Discussions Design',
       sg: true,
-      type: `discussions`
+      type: 'discussions'
     };
   }
 
@@ -50,176 +50,176 @@ class DiscussionsOldActiveDiscussionsDesign extends Module {
   async oadd_load(refresh, callback) {
     let deals, dealsRows, dealsSwitch, discussions, discussionsRows, discussionsSwitch, i, j, response1Html,
       response2Html, revisedElements;
-    response1Html = parseHtml((await request({ method: `GET`, url: `/discussions` })).responseText);
-    response2Html = parseHtml((await request({ method: `GET`, url: `/discussions/deals` })).responseText);
-    this.esgst.activeDiscussions.classList.add(`esgst-oadd`);
-    createElements(this.esgst.activeDiscussions, `inner`, [{
-      type: `div`,
+    response1Html = parseHtml((await request({ method: 'GET', url: '/discussions' })).responseText);
+    response2Html = parseHtml((await request({ method: 'GET', url: '/discussions/deals' })).responseText);
+    this.esgst.activeDiscussions.classList.add('esgst-oadd');
+    createElements(this.esgst.activeDiscussions, 'inner', [{
+      type: 'div',
       children: [{
         attributes: {
-          class: `page__heading`
+          class: 'page__heading'
         },
-        type: `div`,
+        type: 'div',
         children: [{
           attributes: {
-            class: `esgst-heading-button`,
-            title: `Switch to Deals`
+            class: 'esgst-heading-button',
+            title: 'Switch to Deals'
           },
-          type: `div`,
+          type: 'div',
           children: [{
             attributes: {
-              class: `fa fa-retweet`
+              class: 'fa fa-retweet'
             },
-            type: `i`
+            type: 'i'
           }]
         }, {
           attributes: {
-            class: `page__heading__breadcrumbs`
+            class: 'page__heading__breadcrumbs'
           },
-          type: `div`,
+          type: 'div',
           children: [{
             attributes: {
-              href: `/discussions`
+              href: '/discussions'
             },
-            text: `Active Discussions`,
-            type: `a`
+            text: 'Active Discussions',
+            type: 'a'
           }]
         }, {
           attributes: {
-            class: `page__heading__button page__heading__button--green`,
-            href: `/discussions`
+            class: 'page__heading__button page__heading__button--green',
+            href: '/discussions'
           },
-          type: `a`,
+          type: 'a',
           children: [{
-            text: `More`,
-            type: `node`
+            text: 'More',
+            type: 'node'
           }, {
             attributes: {
-              class: `fa fa-angle-right`
+              class: 'fa fa-angle-right'
             },
-            type: `i`
+            type: 'i'
           }]
         }]
       }, {
         attributes: {
-          class: `table`
+          class: 'table'
         },
-        type: `div`,
+        type: 'div',
         children: [{
           attributes: {
-            class: `table__heading`
+            class: 'table__heading'
           },
-          type: `div`,
+          type: 'div',
           children: [{
             attributes: {
-              class: `table__column--width-fill`
+              class: 'table__column--width-fill'
             },
-            text: `Summary`,
-            type: `div`
+            text: 'Summary',
+            type: 'div'
           }, {
             attributes: {
-              class: `table__column--width-small text-center`
+              class: 'table__column--width-small text-center'
             },
-            text: `Comments`,
-            type: `div`
+            text: 'Comments',
+            type: 'div'
           }, {
             attributes: {
-              class: `table__column--width-medium text-right`
+              class: 'table__column--width-medium text-right'
             },
-            text: `Last Post`,
-            type: `div`
+            text: 'Last Post',
+            type: 'div'
           }]
         }, {
           attributes: {
-            class: `table__rows`
+            class: 'table__rows'
           },
-          type: `div`
+          type: 'div'
         }]
       }]
     }, {
       attributes: {
-        class: `esgst-hidden`
+        class: 'esgst-hidden'
       },
-      type: `div`,
+      type: 'div',
       children: [{
         attributes: {
-          class: `page__heading`
+          class: 'page__heading'
         },
-        type: `div`,
+        type: 'div',
         children: [{
           attributes: {
-            class: `esgst-heading-button`,
-            title: `Switch to Discussions`
+            class: 'esgst-heading-button',
+            title: 'Switch to Discussions'
           },
-          type: `div`,
+          type: 'div',
           children: [{
             attributes: {
-              class: `fa fa-retweet`
+              class: 'fa fa-retweet'
             },
-            type: `i`
+            type: 'i'
           }]
         }, {
           attributes: {
-            class: `page__heading__breadcrumbs`
+            class: 'page__heading__breadcrumbs'
           },
-          type: `div`,
+          type: 'div',
           children: [{
             attributes: {
-              href: `/discussions/deals`
+              href: '/discussions/deals'
             },
-            text: `Active Deals`,
-            type: `a`
+            text: 'Active Deals',
+            type: 'a'
           }]
         }, {
           attributes: {
-            class: `page__heading__button page__heading__button--green`,
-            href: `/discussions/deals`
+            class: 'page__heading__button page__heading__button--green',
+            href: '/discussions/deals'
           },
-          type: `a`,
+          type: 'a',
           children: [{
-            text: `More`,
-            type: `node`
+            text: 'More',
+            type: 'node'
           }, {
             attributes: {
-              class: `fa fa-angle-right`
+              class: 'fa fa-angle-right'
             },
-            type: `i`
+            type: 'i'
           }]
         }]
       }, {
         attributes: {
-          class: `table`
+          class: 'table'
         },
-        type: `div`,
+        type: 'div',
         children: [{
           attributes: {
-            class: `table__heading`
+            class: 'table__heading'
           },
-          type: `div`,
+          type: 'div',
           children: [{
             attributes: {
-              class: `table__column--width-fill`
+              class: 'table__column--width-fill'
             },
-            text: `Summary`,
-            type: `div`
+            text: 'Summary',
+            type: 'div'
           }, {
             attributes: {
-              class: `table__column--width-small text-center`
+              class: 'table__column--width-small text-center'
             },
-            text: `Comments`,
-            type: `div`
+            text: 'Comments',
+            type: 'div'
           }, {
             attributes: {
-              class: `table__column--width-medium text-right`
+              class: 'table__column--width-medium text-right'
             },
-            text: `Last Post`,
-            type: `div`
+            text: 'Last Post',
+            type: 'div'
           }]
         }, {
           attributes: {
-            class: `table__rows`
+            class: 'table__rows'
           },
-          type: `div`
+          type: 'div'
         }]
       }]
     }]);
@@ -246,7 +246,7 @@ class DiscussionsOldActiveDiscussionsDesign extends Module {
       revisedElements = [];
       elements.forEach(element => {
         // @ts-ignore
-        if (element.category !== `Deals`) {
+        if (element.category !== 'Deals') {
           revisedElements.push(element);
         }
       });
@@ -268,13 +268,13 @@ class DiscussionsOldActiveDiscussionsDesign extends Module {
         i += 1;
       }
     }
-    discussionsSwitch.addEventListener(`click`, () => {
-      discussions.classList.add(`esgst-hidden`);
-      deals.classList.remove(`esgst-hidden`);
+    discussionsSwitch.addEventListener('click', () => {
+      discussions.classList.add('esgst-hidden');
+      deals.classList.remove('esgst-hidden');
     });
-    dealsSwitch.addEventListener(`click`, () => {
-      discussions.classList.remove(`esgst-hidden`);
-      deals.classList.add(`esgst-hidden`);
+    dealsSwitch.addEventListener('click', () => {
+      discussions.classList.remove('esgst-hidden');
+      deals.classList.add('esgst-hidden');
     });
     if (gSettings.adots) {
       this.esgst.modules.discussionsActiveDiscussionsOnTopSidebar.adots_load(refresh);

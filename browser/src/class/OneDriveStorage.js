@@ -7,7 +7,7 @@ import { FetchRequest } from './FetchRequest';
  * @see https://docs.microsoft.com/en-us/onedrive/developer/rest-api/?view=odsp-graph-online
  */
 class OneDriveStorage extends ICloudStorage {
-  static get CLIENT_ID() { return `1781429b-289b-4e6e-877a-e50015c0af21`; }
+  static get CLIENT_ID() { return '1781429b-289b-4e6e-877a-e50015c0af21'; }
   static get AUTH_URL() { return `https://login.microsoftonline.com/common/oauth2/v2.0/authorize`; }
   static get API_BASE_URL() { return `https://graph.microsoft.com/v1.0`; }
   static get UPLOAD_URL() { return `${OneDriveStorage.API_BASE_URL}/me/drive/special/approot:/%fileName%:/content`; }
@@ -23,16 +23,16 @@ class OneDriveStorage extends ICloudStorage {
   }
 
   static async authenticate() {
-    const key = `oneDriveToken`;
+    const key = 'oneDriveToken';
     const params = {
       client_id: OneDriveStorage.CLIENT_ID,
       redirect_uri: OneDriveStorage.REDIRECT_URL,
-      response_type: `token`,
-      scope: `files.readwrite`,
-      state: `onedrive`
+      response_type: 'token',
+      scope: 'files.readwrite',
+      state: 'onedrive'
     };
     if (gSettings.usePreferredMicrosoft) {
-      params[`login_hint`] = gSettings.preferredMicrosoft;
+      params['login_hint'] = gSettings.preferredMicrosoft;
     }
     const url = FetchRequest.addQueryParams(OneDriveStorage.AUTH_URL, params);
     await shared.common.delValue(key);
@@ -49,10 +49,10 @@ class OneDriveStorage extends ICloudStorage {
       data,
       fileName: gSettings.backupZip ? `${fileName}.json` : null,
       headers: Object.assign(OneDriveStorage.getDefaultHeaders(token), {
-        'Content-Type': gSettings.backupZip ? `application/zip` : `text/plain`
+        'Content-Type': gSettings.backupZip ? 'application/zip' : 'text/plain'
       }),
       pathParams: {
-        fileName: `${fileName}.${gSettings.backupZip ? `zip` : `json`}`
+        fileName: `${fileName}.${gSettings.backupZip ? 'zip' : 'json'}`
       }
     };
     const response = await FetchRequest.put(OneDriveStorage.UPLOAD_URL, requestOptions);
@@ -104,14 +104,14 @@ class OneDriveStorage extends ICloudStorage {
     };
     const batchRequests = JSON.stringify(fileIds.map(x => ({
       id: x,
-      method: `DELETE`,
+      method: 'DELETE',
       url: `/me/drive/items/${x}`
     })));
     const requestOptions = {
       anon: true,
       data: `{ "requests": ${batchRequests} }`,
       headers: Object.assign(OneDriveStorage.getDefaultHeaders(token), {
-        'Content-Type': `application/json`
+        'Content-Type': 'application/json'
       })
     };
     const response = await FetchRequest.post(OneDriveStorage.DELETE_BATCH_URL, requestOptions);

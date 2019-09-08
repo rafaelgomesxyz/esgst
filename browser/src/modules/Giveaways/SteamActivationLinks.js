@@ -12,27 +12,27 @@ class GiveawaysSteamActivationLinks extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, [
+        ['ul', [
+          ['li', [
             `Adds 2 optional icons (`,
-            [`i`, { class: `fa fa-steam` }],
-            ` for the Steam client and `,
-            [`i`, { class: `fa fa-globe` }],
+            ['i', { class: 'fa fa-steam' }],
+            ' for the Steam client and ',
+            ['i', { class: 'fa fa-globe' }],
             ` for the browser) next to each key in the "Key" column of your `,
-            [`a`, { href: `https://www.steamgifts.com/giveaways/won` }, `won`],
+            ['a', { href: `https://www.steamgifts.com/giveaways/won` }, 'won'],
             ` page that allow you to quickly activate a won game on Steam, either through the client or the browser.`
           ]],
-          [`li`, `When you click on the icon, the key is automatically copied to the clipboard.`]
+          ['li', `When you click on the icon, the key is automatically copied to the clipboard.`]
         ]]
       ],
-      id: `sal`,
-      name: `Steam Activation Links`,
+      id: 'sal',
+      name: 'Steam Activation Links',
       options: {
         title: `Show links to:`,
-        values: [`Steam Client`, `Browser`, `Both`]
+        values: ['Steam Client', 'Browser', 'Both']
       },
       sg: true,
-      type: `giveaways`
+      type: 'giveaways'
     };
   }
 
@@ -42,7 +42,7 @@ class GiveawaysSteamActivationLinks extends Module {
   }
 
   sal_addObservers(context, main, source, endless) {
-    const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .view_key_btn, .esgst-es-page-${endless}.view_key_btn` : `.view_key_btn`}`);
+    const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .view_key_btn, .esgst-es-page-${endless}.view_key_btn` : '.view_key_btn'}`);
     for (const element of elements) {
       this.sal_addObserver(element);
     }
@@ -50,8 +50,8 @@ class GiveawaysSteamActivationLinks extends Module {
 
   sal_addObserver(button) {
     let interval = null;
-    const context = button.closest(`.table__row-outer-wrap`);
-    button.addEventListener(`click`, () => {
+    const context = button.closest('.table__row-outer-wrap');
+    button.addEventListener('click', () => {
       if (interval) {
         return;
       }
@@ -61,7 +61,7 @@ class GiveawaysSteamActivationLinks extends Module {
           interval = null;
           if (gSettings.sal) {
             const element = context.querySelector(`[data-clipboard-text]`);
-            const match = element.getAttribute(`data-clipboard-text`).match(/^[\d\w]{5}(-[\d\w]{5}){2,}$/);
+            const match = element.getAttribute('data-clipboard-text').match(/^[\d\w]{5}(-[\d\w]{5}){2,}$/);
             if (match) {
               this.sal_addLink(element, match[0]);
             }
@@ -77,10 +77,10 @@ class GiveawaysSteamActivationLinks extends Module {
   sal_addLinks(context, main, source, endless) {
     const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} [data-clipboard-text], .esgst-es-page-${endless}[data-clipboard-text]` : `[data-clipboard-text]`}`);
     for (const element of elements) {
-      if (element.parentElement.getElementsByClassName(`esgst-sal`)[0]) {
+      if (element.parentElement.getElementsByClassName('esgst-sal')[0]) {
         continue;
       }
-      const match = element.getAttribute(`data-clipboard-text`).match(/^[\d\w]{5}(-[\d\w]{5}){2,}$/);
+      const match = element.getAttribute('data-clipboard-text').match(/^[\d\w]{5}(-[\d\w]{5}){2,}$/);
       if (match) {
         this.sal_addLink(element, match[0]);
       }
@@ -89,86 +89,86 @@ class GiveawaysSteamActivationLinks extends Module {
 
   sal_addLink(element, match) {
     let link, textArea;
-    if ((element.nextElementSibling && !element.nextElementSibling.classList.contains(`esgst-sal`)) || !element.nextElementSibling) {
-      link = createElements(element, `afterEnd`, [{
-        type: `span`
+    if ((element.nextElementSibling && !element.nextElementSibling.classList.contains('esgst-sal')) || !element.nextElementSibling) {
+      link = createElements(element, 'afterEnd', [{
+        type: 'span'
       }]);
       switch (gSettings.sal_index) {
         case 0:
-          createElements(link, `beforeEnd`, [{
+          createElements(link, 'beforeEnd', [{
             attributes: {
-              class: `esgst-sal esgst-clickable`,
-              title: getFeatureTooltip(`sal`, `Activate on Steam (client)`)
+              class: 'esgst-sal esgst-clickable',
+              title: getFeatureTooltip('sal', `Activate on Steam (client)`)
             },
-            type: `span`,
+            type: 'span',
             children: [{
               attributes: {
-                class: `fa fa-steam`
+                class: 'fa fa-steam'
               },
-              type: `i`
+              type: 'i'
             }]
-          }]).addEventListener(`click`, () => {
-            textArea = createElements(document.body, `beforeEnd`, [{
-              type: `textarea`
+          }]).addEventListener('click', () => {
+            textArea = createElements(document.body, 'beforeEnd', [{
+              type: 'textarea'
             }]);
             textArea.value = match;
             textArea.select();
-            document.execCommand(`copy`);
+            document.execCommand('copy');
             textArea.remove();
             window.location.href = `steam://open/activateproduct`;
           });
           break;
         case 1:
-          createElements(link, `beforeEnd`, [{
+          createElements(link, 'beforeEnd', [{
             attributes: {
-              class: `esgst-sal esgst-clickable`,
+              class: 'esgst-sal esgst-clickable',
               href: `https://store.steampowered.com/account/registerkey?key=${match}`,
-              target: `_blank`,
-              title: getFeatureTooltip(`sal`, `Activate on Steam (browser)`)
+              target: '_blank',
+              title: getFeatureTooltip('sal', `Activate on Steam (browser)`)
             },
-            type: `a`,
+            type: 'a',
             children: [{
               attributes: {
-                class: `fa fa-globe`
+                class: 'fa fa-globe'
               },
-              type: `i`
+              type: 'i'
             }]
           }]);
           break;
         case 2:
-          createElements(link, `beforeEnd`, [{
+          createElements(link, 'beforeEnd', [{
             attributes: {
-              class: `esgst-sal esgst-clickable`,
-              title: getFeatureTooltip(`sal`, `Activate on Steam (client)`)
+              class: 'esgst-sal esgst-clickable',
+              title: getFeatureTooltip('sal', `Activate on Steam (client)`)
             },
-            type: `span`,
+            type: 'span',
             children: [{
               attributes: {
-                class: `fa fa-steam`
+                class: 'fa fa-steam'
               },
-              type: `i`
+              type: 'i'
             }]
           }, {
             attributes: {
-              class: `esgst-sal esgst-clickable`,
+              class: 'esgst-sal esgst-clickable',
               href: `https://store.steampowered.com/account/registerkey?key=${match}`,
-              target: `_blank`,
-              title: getFeatureTooltip(`sal`, `Activate on Steam (browser)`)
+              target: '_blank',
+              title: getFeatureTooltip('sal', `Activate on Steam (browser)`)
             },
-            type: `a`,
+            type: 'a',
             children: [{
               attributes: {
-                class: `fa fa-globe`
+                class: 'fa fa-globe'
               },
-              type: `i`
+              type: 'i'
             }]
-          }]).previousElementSibling.addEventListener(`click`, () => {
-            textArea = createElements(document.body, `beforeEnd`, [{
-              type: `textarea`
+          }]).previousElementSibling.addEventListener('click', () => {
+            textArea = createElements(document.body, 'beforeEnd', [{
+              type: 'textarea'
             }]);
             textArea.value = match;
             textArea.select();
-            document.execCommand(`copy`);
+            document.execCommand('copy');
             textArea.remove();
             window.location.href = `steam://open/activateproduct`;
           });

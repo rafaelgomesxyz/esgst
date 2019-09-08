@@ -5,14 +5,14 @@ class GiveawaysUnfadedEnteredGiveaway extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, `Removes SteamGifts' default fade for entered giveaways.`]
+        ['ul', [
+          ['li', 'Removes SteamGifts\' default fade for entered giveaways.']
         ]]
       ],
-      id: `ueg`,
-      name: `Unfaded Entered Giveaway`,
+      id: 'ueg',
+      name: 'Unfaded Entered Giveaway',
       sg: true,
-      type: `giveaways`,
+      type: 'giveaways',
       featureMap: {
         endless: this.ueg_remove.bind(this)
       }
@@ -20,9 +20,9 @@ class GiveawaysUnfadedEnteredGiveaway extends Module {
   }
 
   ueg_remove(context, main, source, endless) {
-    const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .giveaway__row-inner-wrap.is-faded, .esgst-es-page-${endless}.giveaway__row-inner-wrap.is-faded` : `.giveaway__row-inner-wrap.is-faded`}`);
+    const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .giveaway__row-inner-wrap.is-faded, .esgst-es-page-${endless}.giveaway__row-inner-wrap.is-faded` : '.giveaway__row-inner-wrap.is-faded'}`);
     for (let i = 0, n = elements.length; i < n; ++i) {
-      elements[i].classList.add(`esgst-ueg`);
+      elements[i].classList.add('esgst-ueg');
     }
   }
 }

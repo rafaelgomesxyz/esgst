@@ -91,7 +91,7 @@ async function generateRelease() {
 
   const body = args.dev ? '' : (await generateChangelog());
 
-  const name = `v${packageJson.devVersion}`;
+  const name = `v${args.dev ? packageJson.devVersion : packageJson.version}`;
   
   const release = await octokit.repos.createRelease(Object.assign({}, defaultParams, {
     body,

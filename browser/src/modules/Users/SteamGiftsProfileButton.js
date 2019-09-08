@@ -12,18 +12,18 @@ class UsersSteamGiftsProfileButton extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, [
-            `Adds a button next to the "Visit Steam Profile" button of a user's `,
-            [`a`, { href: `https://www.steamtrades.com/user/76561198020696458` }, `profile`],
-            ` page that allows you to go to their SteamGifts profile page.`
+        ['ul', [
+          ['li', [
+            'Adds a button next to the "Visit Steam Profile" button of a user\'s ',
+            ['a', { href: `https://www.steamtrades.com/user/76561198020696458` }, 'profile'],
+            ' page that allows you to go to their SteamGifts profile page.'
           ]]
         ]]
       ],
-      id: `sgpb`,
-      name: `SteamGifts Profile Button`,
+      id: 'sgpb',
+      name: 'SteamGifts Profile Button',
       st: true,
-      type: `users`
+      type: 'users'
     };
   }
 
@@ -34,34 +34,34 @@ class UsersSteamGiftsProfileButton extends Module {
 
   sgpb_add(profile) {
     let button;
-    button = createElements(profile.steamButtonContainer, `beforeEnd`, [{
+    button = createElements(profile.steamButtonContainer, 'beforeEnd', [{
       attributes: {
-        class: `esgst-sgpb-container`,
-        title: getFeatureTooltip(`sgpb`)
+        class: 'esgst-sgpb-container',
+        title: getFeatureTooltip('sgpb')
       },
-      type: `div`,
+      type: 'div',
       children: [{
         attributes: {
-          class: `esgst-sgpb-button`,
+          class: 'esgst-sgpb-button',
           href: `https://www.steamgifts.com/go/user/${profile.steamId}`,
-          rel: `nofollow`,
-          target: `_blank`
+          rel: 'nofollow',
+          target: '_blank'
         },
-        type: `a`,
+        type: 'a',
         children: [{
           attributes: {
-            class: `fa`
+            class: 'fa'
           },
-          type: `i`,
+          type: 'i',
           children: [{
             attributes: {
               src: shared.esgst.sgIcon
             },
-            type: `img`
+            type: 'img'
           }]
         }, {
-          text: `Visit SteamGifts Profile`,
-          type: `span`
+          text: 'Visit SteamGifts Profile',
+          type: 'span'
         }]
       }]
     }]);

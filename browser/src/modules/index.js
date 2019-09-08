@@ -40,6 +40,7 @@ import { giveawaysCustomGiveawayBackground } from './Giveaways/CustomGiveawayBac
 import { giveawaysCustomGiveawayCalendar } from './Giveaways/CustomGiveawayCalendar';
 import { giveawaysEnteredGiveawaysStats } from './Giveaways/EnteredGiveawaysStats';
 import { generalGiveawayDiscussionTicketTradeTracker } from './General/GiveawayDiscussionTicketTradeTracker';
+import { generalThreadSubscription } from './General/ThreadSubscription';
 import { giveawaysGiveawayExtractor } from './Giveaways/GiveawayExtractor';
 import { giveawaysGiveawayEncrypterDecrypter } from './Giveaways/GiveawayEncrypterDecrypter';
 import { giveawaysGiveawayErrorSearchLinks } from './Giveaways/GiveawayErrorSearchLinks';
@@ -48,6 +49,7 @@ import { discussionsDiscussionFilters } from './Discussions/DiscussionFilters';
 import { tradesTradeFilters } from './Trades/TradeFilters';
 import { groupsGroupFilters } from './Groups/GroupFilters';
 import { giveawaysGiveawayFilters } from './Giveaways/GiveawayFilters';
+import { gamesGameFilters } from './Games/GameFilters';
 import { groupsGroupLibraryWishlistChecker } from './Groups/GroupLibraryWishlistChecker';
 import { giveawaysGiveawayRecreator } from './Giveaways/GiveawayRecreator';
 import { groupsGroupStats } from './Groups/GroupStats';
@@ -202,6 +204,7 @@ const modules = {
   giveawaysCustomGiveawayBackground,
   giveawaysCustomGiveawayCalendar,
   generalGiveawayDiscussionTicketTradeTracker,
+  generalThreadSubscription,
   giveawaysGiveawayExtractor,
   giveawaysGiveawayEncrypterDecrypter,
   giveawaysGiveawayErrorSearchLinks,
@@ -210,6 +213,7 @@ const modules = {
   tradesTradeFilters,
   groupsGroupFilters,
   giveawaysGiveawayFilters,
+  gamesGameFilters,
   groupsGroupLibraryWishlistChecker,
   giveawaysGiveawayRecreator,
   groupsGroupStats,

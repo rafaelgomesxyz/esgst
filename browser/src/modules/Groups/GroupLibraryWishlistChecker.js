@@ -20,30 +20,41 @@ class GroupsGroupLibraryWishlistChecker extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, [
+        ['ul', [
+          ['li', [
             `Adds a button (`,
-            [`i`, { class: `fa fa-folder` }],
-            ` `,
-            [`i`, { class: `fa fa-star` }],
+            ['i', { class: 'fa fa-folder' }],
+            ' ',
+            ['i', { class: 'fa fa-star' }],
             ` ) to your `,
-            [`a`, { href: `https://www.steamgifts.com/account/manage/whitelist` }, `whitelist`],
-            `/`,
-            [`a`, { href: `https://www.steamgifts.com/account/manage/blacklist` }, `blacklist`],
-            ` pages and any `,
-            [`a`, { href: `https://www.steamgifts.com/group/SJ7Bu/` }, `group`],
-            ` page that allows you to check how many of the whitelist/blacklist/group members have a certain game in their libraries/wishlists.`
+            ['a', { href: `https://www.steamgifts.com/account/manage/whitelist` }, 'whitelist'],
+            '/',
+            ['a', { href: `https://www.steamgifts.com/account/manage/blacklist` }, 'blacklist'],
+            ' pages and any ',
+            ['a', { href: `https://www.steamgifts.com/group/SJ7Bu/` }, 'group'],
+            ' page that allows you to check how many of the whitelist/blacklist/group members have a certain game in their libraries/wishlists.'
           ]],
-          [`li`, `The results are separated in 2 sections ("Libraries" and "Wishlists"). The games in each section are ranked based on the number of members that have them in their libraries/wishlists (each game also has a percentage that represents that number).`],
-          [`li`, `Only the first 100 results are shown for each section, but you can use the search fields to find games that are outside of the top 100. If you are searching in the "Libraries" section, it is more accurate to search for games using their app id instead of their name, because the games in that section only have a name if they can also be found in the "Wishlists" section, as game names are not available in the libraries data and retrieving them would generate more requests to Steam, which is not good.`],
-          [`li`, `If you hover over the number of libraries/wishlists for a game it shows the usernames of all of the members that have the game in their libraries/wishlists.`],
-          [`li`, `A Steam API key is required to retrieve libraries data. If a key is not set in the last section of this menu, the feature will only retrieve wishlists data.`]
+          ['li', `The results are separated in 2 sections ("Libraries" and "Wishlists"). The games in each section are ranked based on the number of members that have them in their libraries/wishlists (each game also has a percentage that represents that number).`],
+          ['li', `Only the first 100 results are shown for each section, but you can use the search fields to find games that are outside of the top 100. If you are searching in the "Libraries" section, it is more accurate to search for games using their app id instead of their name, because the games in that section only have a name if they can also be found in the "Wishlists" section, as game names are not available in the libraries data and retrieving them would generate more requests to Steam, which is not good.`],
+          ['li', 'If you hover over the number of libraries/wishlists for a game it shows the usernames of all of the members that have the game in their libraries/wishlists.'],
+          ['li', `A Steam API key is required to retrieve libraries data. If a key is not set in the last section of this menu, the feature will only retrieve wishlists data.`]
         ]]
       ],
-      id: `glwc`,
-      name: `Group Library/Wishlist Checker`,
+      id: 'glwc',
+      name: 'Group Library/Wishlist Checker',
       sg: true,
-      type: `groups`
+      type: 'groups',
+      features: {
+        glwc_gn: {
+          description: [
+            ['ul', [
+              ['li', 'The new Steam wishlist page does not offer the game names in its source code, so ESGST cannot know the names of the games. However, by enabling this option, ESGST will fetch the list of all games on Steam, so that it can show you the names of the games properly. The only problem is that this list is huge, so it can slow down the feature execution a bit. This list is shared with Have / Want List Checker, if you also use that feature.']
+            ]]
+          ],
+          name: 'Display game names.',
+          sg: true
+        }
+      }
     };
   }
 
@@ -55,17 +66,17 @@ class GroupsGroupLibraryWishlistChecker extends Module {
       } else if (shared.esgst.blacklistPath) {
         parameters = `url=account/manage/blacklist`;
       } else {
-        parameters = `url=${window.location.pathname.match(/\/(group\/(.+?)\/(.+?))(\/.*)?$/)[1]}/users&id=${document.querySelector(`[href*="/gid/"]`).getAttribute(`href`).match(/\d+/)[0]}`;
+        parameters = `url=${window.location.pathname.match(/\/(group\/(.+?)\/(.+?))(\/.*)?$/)[1]}/users&id=${document.querySelector(`[href*="/gid/"]`).getAttribute('href').match(/\d+/)[0]}`;
       }
       createHeadingButton({
-        id: `glwc`,
-        icons: [`fa-folder`, `fa-star`],
-        title: `Check libraries/wishlists`
-      }).addEventListener(`click`, () => {
+        id: 'glwc',
+        icons: ['fa-folder', 'fa-star'],
+        title: 'Check libraries/wishlists'
+      }).addEventListener('click', () => {
         window.open(`https://www.steamgifts.com/account/settings/profile?esgst=glwc&${parameters}`);
       });
-    } else if (shared.common.isCurrentPath(`Account`) && shared.esgst.parameters.esgst === `glwc`) {
-      if (!(await permissions.requestUi([`steamApi`, `steamCommunity`, `steamStore`], `glwc`, true))) {
+    } else if (shared.common.isCurrentPath('Account') && shared.esgst.parameters.esgst === 'glwc') {
+      if (!(await permissions.requestUi([['steamApi', 'steamCommunity', 'steamStore']], 'glwc', true))) {
         return;
       }
 
@@ -74,30 +85,30 @@ class GroupsGroupLibraryWishlistChecker extends Module {
       if (gSettings.removeSidebarInFeaturePages) {
         shared.esgst.sidebar.remove();
       }
-      glwc.container.innerHTML = ``;
-      glwc.container.setAttribute(`data-esgst-popup`, true);
+      glwc.container.innerHTML = '';
+      glwc.container.setAttribute('data-esgst-popup', true);
       new elementBuilder[shared.esgst.name].pageHeading({
         context: glwc.container,
-        position: `beforeEnd`,
+        position: 'beforeEnd',
         breadcrumbs: [
           {
-            name: `ESGST`,
+            name: 'ESGST',
             url: shared.esgst.settingsUrl
           },
           {
-            name: `Group Library/Wishlist Checker`,
+            name: 'Group Library/Wishlist Checker',
             url: `https://www.steamgifts.com/account/settings/profile?esgst=glwc`
           }
         ]
       });
-      glwc.progress = createElements(glwc.container, `beforeEnd`, [{
-        type: `div`
+      glwc.progress = createElements(glwc.container, 'beforeEnd', [{
+        type: 'div'
       }]);
-      glwc.overallProgress = createElements(glwc.container, `beforeEnd`, [{
-        type: `div`
+      glwc.overallProgress = createElements(glwc.container, 'beforeEnd', [{
+        type: 'div'
       }]);
-      glwc.context = createElements(glwc.container, `beforeEnd`, [{
-        type: `div`
+      glwc.context = createElements(glwc.container, 'beforeEnd', [{
+        type: 'div'
       }]);
       parameters = getParameters();
       glwc.id = parameters.id;
@@ -105,20 +116,20 @@ class GroupsGroupLibraryWishlistChecker extends Module {
       glwc.users = [];
       glwc.games = {};
       if (glwc.id) {
-        glwc.overallProgress.textContent = `Preparing...`;
+        glwc.overallProgress.textContent = 'Preparing...';
         glwc.members = [];
         const members = (await request({
-          method: `GET`,
+          method: 'GET',
           url: `http://steamcommunity.com/gid/${glwc.id}/memberslistxml?xml=1`
         })).responseText.match(/<steamID64>.+?<\/steamID64>/g);
         members.forEach(member => {
           glwc.members.push(member.match(/<steamID64>(.+?)<\/steamID64>/)[1]);
         });
-        glwc.overallProgress.textContent = `Step 1 of 3`;
+        glwc.overallProgress.textContent = 'Step 1 of 3';
         // noinspection JSIgnoredPromiseFromCall
         this.glwc_getUsers(glwc, 1);
       } else {
-        glwc.overallProgress.textContent = `Step 1 of 3`;
+        glwc.overallProgress.textContent = 'Step 1 of 3';
         // noinspection JSIgnoredPromiseFromCall
         this.glwc_getUsers(glwc, 1);
       }
@@ -127,31 +138,31 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 
   async glwc_getUsers(glwc, nextPage) {
     if (glwc.isCanceled) return;
-    createElements(glwc.progress, `inner`, [{
+    createElements(glwc.progress, 'inner', [{
       attributes: {
-        class: `fa fa-circle-o-notch fa-spin`
+        class: 'fa fa-circle-o-notch fa-spin'
       },
-      type: `i`
+      type: 'i'
     }, {
       text: `Retrieving users (page ${nextPage})...`,
-      type: `span`
+      type: 'span'
     }]);
     let elements, i, n, pagination, responseHtml;
     responseHtml = parseHtml((await request({
-      method: `GET`,
+      method: 'GET',
       url: `/${glwc.url}/search?page=${nextPage}`
     })).responseText);
     elements = responseHtml.querySelectorAll(`.table__row-inner-wrap:not(.is-faded)`);
     for (i = 0, n = elements.length; i < n; ++i) {
       glwc.users.push({
-        username: elements[i].getElementsByClassName(`table__column__heading`)[0].textContent
+        username: elements[i].getElementsByClassName('table__column__heading')[0].textContent
       });
     }
-    pagination = responseHtml.getElementsByClassName(`pagination__navigation`)[0];
-    if (pagination && !pagination.lastElementChild.classList.contains(`is-selected`)) {
+    pagination = responseHtml.getElementsByClassName('pagination__navigation')[0];
+    if (pagination && !pagination.lastElementChild.classList.contains('is-selected')) {
       window.setTimeout(() => this.glwc_getUsers(glwc, ++nextPage), 0);
     } else {
-      glwc.overallProgress.textContent = `Step 2 of 3`;
+      glwc.overallProgress.textContent = 'Step 2 of 3';
       // noinspection JSIgnoredPromiseFromCall
       this.glwc_getSteamIds(glwc, 0, glwc.users.length);
     }
@@ -160,14 +171,14 @@ class GroupsGroupLibraryWishlistChecker extends Module {
   async glwc_getSteamIds(glwc, i, n) {
     if (glwc.isCanceled) return;
     if (i < n) {
-      createElements(glwc.progress, `inner`, [{
+      createElements(glwc.progress, 'inner', [{
         attributes: {
-          class: `fa fa-circle-o-notch fa-spin`
+          class: 'fa fa-circle-o-notch fa-spin'
         },
-        type: `i`
+        type: 'i'
       }, {
         text: `Retrieving Steam ids (${i + 1} of ${n})...`,
-        type: `span`
+        type: 'span'
       }]);
       let steamId = shared.esgst.users.steamIds[glwc.users[i].username];
       if (steamId) {
@@ -175,15 +186,20 @@ class GroupsGroupLibraryWishlistChecker extends Module {
         window.setTimeout(() => this.glwc_getSteamIds(glwc, ++i, n), 0);
       } else {
         glwc.users[i].steamId = parseHtml((await request({
-          method: `GET`,
+          method: 'GET',
           url: `/user/${glwc.users[i].username}`
-        })).responseText).querySelector(`[href*="/profiles/"]`).getAttribute(`href`).match(/\d+/)[0];
+        })).responseText).querySelector(`[href*="/profiles/"]`).getAttribute('href').match(/\d+/)[0];
         window.setTimeout(() => this.glwc_getSteamIds(glwc, ++i, n), 0);
       }
     } else {
       glwc.overallProgress.textContent = `Step 3 of 3 (this might take a while)`;
       glwc.memberCount = 0;
       // noinspection JSIgnoredPromiseFromCall
+
+      if (gSettings.glwc_gn) {
+        await shared.esgst.modules.tradesHaveWantListChecker.hwlc_getGames(true);
+      }
+
       this.glwc_getGames(glwc, 0, glwc.users.length);
     }
   }
@@ -191,20 +207,20 @@ class GroupsGroupLibraryWishlistChecker extends Module {
   async glwc_getGames(glwc, i, n) {
     if (glwc.isCanceled) return;
     if (i < n) {
-      createElements(glwc.progress, `inner`, [{
+      createElements(glwc.progress, 'inner', [{
         attributes: {
-          class: `fa fa-circle-o-notch fa-spin`
+          class: 'fa fa-circle-o-notch fa-spin'
         },
-        type: `i`
+        type: 'i'
       }, {
         text: `Retrieving libraries/wishlists (${i + 1} of ${n})...`,
-        type: `span`
+        type: 'span'
       }]);
       if (!glwc.id || glwc.members.indexOf(glwc.users[i].steamId) >= 0) {
         try {
           glwc.users[i].library = [];
           let elements = JSON.parse((await request({
-            method: `GET`,
+            method: 'GET',
             url: `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${gSettings.steamApiKey}&steamid=${glwc.users[i].steamId}&format=json`
           })).responseText).response.games;
           if (elements) {
@@ -214,6 +230,15 @@ class GroupsGroupLibraryWishlistChecker extends Module {
                 logo: `https://steamcdn-a.akamaihd.net/steam/apps/${element.appid}/header.jpg`,
                 name: `${element.appid}`
               };
+
+              if (shared.esgst.appList) {
+                const name = shared.esgst.appList[element.appid];
+
+                if (name) {
+                  game.name = name;
+                }
+              }
+
               if (!glwc.games[game.id]) {
                 game.libraries = [];
                 game.wishlists = [];
@@ -227,7 +252,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
         }
         glwc.users[i].wishlist = [];
         let responseText = (await request({
-          method: `GET`,
+          method: 'GET',
           url: `http://store.steampowered.com/wishlist/profiles/${glwc.users[i].steamId}`
         })).responseText;
         let wishlistData = responseText.match(/g_rgWishlistData\s=\s(\[(.+?)]);/);
@@ -242,7 +267,18 @@ class GroupsGroupLibraryWishlistChecker extends Module {
               game.name = games[id].name;
             } else {
               game.logo = `https://steamcdn-a.akamaihd.net/steam/apps/${id}/header.jpg`;
-              game.name = `${id}`;
+
+              if (shared.esgst.appList) {
+                const name = shared.esgst.appList[item.appid];
+
+                if (name) {
+                  game.name = name;
+                }
+              }
+
+              if (!game.name) {
+                game.name = `${id}`;
+              }
             }
             if (glwc.games[id]) {
               if (game.logo && game.name) {
@@ -264,8 +300,8 @@ class GroupsGroupLibraryWishlistChecker extends Module {
         window.setTimeout(() => this.glwc_getGames(glwc, ++i, n), 0);
       }
     } else {
-      glwc.progress.innerHTML = ``;
-      glwc.overallProgress.innerHTML = ``;
+      glwc.progress.innerHTML = '';
+      glwc.overallProgress.innerHTML = '';
       this.glwc_showResults(glwc);
     }
   }
@@ -273,115 +309,115 @@ class GroupsGroupLibraryWishlistChecker extends Module {
   glwc_showResults(glwc) {
     let game, i, id, j, library, libraryInput, libraryResults, librarySearch, n, user, users, wishlist, wishlistInput,
       wishlistResults, wishlistSearch;
-    glwc.context.classList.add(`esgst-glwc-results`);
-    createElements(glwc.context, `inner`, [{
-      type: `div`,
+    glwc.context.classList.add('esgst-glwc-results');
+    createElements(glwc.context, 'inner', [{
+      type: 'div',
       children: [{
         attributes: {
-          class: `esgst-glwc-heading`
+          class: 'esgst-glwc-heading'
         },
-        text: `Libraries`,
-        type: `div`
+        text: 'Libraries',
+        type: 'div'
       }, {
         attribute: {
-          placeholder: `Search by game name or app id...`,
-          type: `text`
+          placeholder: 'Search by game name or app id...',
+          type: 'text'
         },
-        type: `input`
+        type: 'input'
       }, {
         attributes: {
-          class: `table`
+          class: 'table'
         },
-        type: `div`,
+        type: 'div',
         children: [{
           attributes: {
-            class: `table__heading`
+            class: 'table__heading'
           },
-          type: `div`,
+          type: 'div',
           children: [{
             attributes: {
-              class: `table__column--width-small text-center`
+              class: 'table__column--width-small text-center'
             },
-            text: `Rank`,
-            type: `div`
+            text: 'Rank',
+            type: 'div'
           }, {
             attributes: {
-              class: `table__column--width-fill`
+              class: 'table__column--width-fill'
             },
-            text: `Game`,
-            type: `div`
+            text: 'Game',
+            type: 'div'
           }, {
             attributes: {
-              class: `table__column--width-small text-center`
+              class: 'table__column--width-small text-center'
             },
-            text: `Libraries`,
-            type: `div`
+            text: 'Libraries',
+            type: 'div'
           }]
         }, {
           attributes: {
-            class: `table__rows`
+            class: 'table__rows'
           },
-          type: `div`
+          type: 'div'
         }, {
           attributes: {
-            class: `table__rows`
+            class: 'table__rows'
           },
-          type: `div`
+          type: 'div'
         }]
       }]
     }, {
-      type: `div`,
+      type: 'div',
       children: [{
         attributes: {
-          class: `esgst-glwc-heading`
+          class: 'esgst-glwc-heading'
         },
-        text: `Wishlists`,
-        type: `div`
+        text: 'Wishlists',
+        type: 'div'
       }, {
         attribute: {
-          placeholder: `Search by game name or app id...`,
-          type: `text`
+          placeholder: 'Search by game name or app id...',
+          type: 'text'
         },
-        type: `input`
+        type: 'input'
       }, {
         attributes: {
-          class: `table`
+          class: 'table'
         },
-        type: `div`,
+        type: 'div',
         children: [{
           attributes: {
-            class: `table__heading`
+            class: 'table__heading'
           },
-          type: `div`,
+          type: 'div',
           children: [{
             attributes: {
-              class: `table__column--width-small text-center`
+              class: 'table__column--width-small text-center'
             },
-            text: `Rank`,
-            type: `div`
+            text: 'Rank',
+            type: 'div'
           }, {
             attributes: {
-              class: `table__column--width-fill`
+              class: 'table__column--width-fill'
             },
-            text: `Game`,
-            type: `div`
+            text: 'Game',
+            type: 'div'
           }, {
             attributes: {
-              class: `table__column--width-small text-center`
+              class: 'table__column--width-small text-center'
             },
-            text: `Wishlists`,
-            type: `div`
+            text: 'Wishlists',
+            type: 'div'
           }]
         }, {
           attributes: {
-            class: `table__rows`
+            class: 'table__rows'
           },
-          type: `div`
+          type: 'div'
         }, {
           attributes: {
-            class: `table__rows`
+            class: 'table__rows'
           },
-          type: `div`
+          type: 'div'
         }]
       }]
     }]);
@@ -423,72 +459,72 @@ class GroupsGroupLibraryWishlistChecker extends Module {
           user = glwc.users[k];
           users.push(`<a class="table__column__secondary-link" href="http://steamcommunity.com/profiles/${user.steamId}/games?tab=all">${user.username}</a>`);
         });
-        const popout = createTooltip(createElements(libraryResults, `beforeEnd`, [{
+        const popout = createTooltip(createElements(libraryResults, 'beforeEnd', [{
           attributes: {
-            class: `table__row-outer-wrap`
+            class: 'table__row-outer-wrap'
           },
-          type: `div`,
+          type: 'div',
           children: [{
             attributes: {
-              class: `table__row-inner-wrap`
+              class: 'table__row-inner-wrap'
             },
-            type: `div`,
+            type: 'div',
             children: [{
               attributes: {
-                class: `table__column--width-small text-center`
+                class: 'table__column--width-small text-center'
               },
-              type: `div`,
+              type: 'div',
               children: [{
                 attributes: {
-                  class: `table__column__rank`
+                  class: 'table__column__rank'
                 },
                 text: `${j}.`,
-                type: `span`
+                type: 'span'
               }]
             }, {
-              type: `div`,
+              type: 'div',
               children: [{
                 attributes: {
-                  class: `table_image_thumbnail`,
+                  class: 'table_image_thumbnail',
                   style: `background-image:url(${game.logo});`
                 },
-                type: `div`
+                type: 'div'
               }]
             }, {
               attributes: {
-                class: `table__column--width-fill`
+                class: 'table__column--width-fill'
               },
-              type: `div`,
+              type: 'div',
               children: [{
                 attributes: {
-                  class: `table__column__heading`
+                  class: 'table__column__heading'
                 },
                 text: game.name,
-                type: `p`
+                type: 'p'
               }, {
-                type: `p`,
+                type: 'p',
                 children: [{
                   attributes: {
-                    class: `table__column__secondary-link`,
+                    class: 'table__column__secondary-link',
                     href: `http://store.steampowered.com/app/${game.id}`,
-                    rel: `nofollow`,
-                    target: `_blank`
+                    rel: 'nofollow',
+                    target: '_blank'
                   },
                   text: `http://store.steampowered.com/app/${game.id}`,
-                  type: `a`
+                  type: 'a'
                 }]
               }]
             }, {
               attributes: {
-                class: `table__column--width--small text-center`
+                class: 'table__column--width--small text-center'
               },
-              type: `div`,
+              type: 'div',
               children: [{
                 attributes: {
-                  class: `table__column__secondary-link esgst-clickable`
+                  class: 'table__column__secondary-link esgst-clickable'
                 },
                 text: `${game.libraries.length} (${Math.round(game.libraries.length / glwc.memberCount * 10000) / 100}%)`,
-                type: `span`
+                type: 'span'
               }]
             }]
           }]
@@ -496,9 +532,9 @@ class GroupsGroupLibraryWishlistChecker extends Module {
         popout.onFirstOpen = () => shared.common.endless_load(popout.popout);
       }
     } else {
-      createElements(libraryResults, `inner`, [{
-        text: `To get libraries data you must have a Steam API key set in the settings menu.`,
-        type: `node`
+      createElements(libraryResults, 'inner', [{
+        text: 'To get libraries data you must have a Steam API key set in the settings menu.',
+        type: 'node'
       }]);
     }
     wishlist = wishlist.sort((a, b) => {
@@ -520,79 +556,79 @@ class GroupsGroupLibraryWishlistChecker extends Module {
         user = glwc.users[k];
         users.push(`<a class="table__column__secondary-link" href="http://store.steampowered.com/wishlist/profiles/${user.steamId}">${user.username}</a>`);
       });
-      const popout = createTooltip(createElements(wishlistResults, `beforeEnd`, [{
+      const popout = createTooltip(createElements(wishlistResults, 'beforeEnd', [{
         attributes: {
-          class: `table__row-outer-wrap`
+          class: 'table__row-outer-wrap'
         },
-        type: `div`,
+        type: 'div',
         children: [{
           attributes: {
-            class: `table__row-inner-wrap`
+            class: 'table__row-inner-wrap'
           },
-          type: `div`,
+          type: 'div',
           children: [{
             attributes: {
-              class: `table__column--width-small text-center`
+              class: 'table__column--width-small text-center'
             },
-            type: `div`,
+            type: 'div',
             children: [{
               attributes: {
-                class: `table__column__rank`
+                class: 'table__column__rank'
               },
               text: `${j}.`,
-              type: `span`
+              type: 'span'
             }]
           }, {
-            type: `div`,
+            type: 'div',
             children: [{
               attributes: {
-                class: `table_image_thumbnail`,
+                class: 'table_image_thumbnail',
                 style: `background-image:url(${game.logo});`
               },
-              type: `div`
+              type: 'div'
             }]
           }, {
             attributes: {
-              class: `table__column--width-fill`
+              class: 'table__column--width-fill'
             },
-            type: `div`,
+            type: 'div',
             children: [{
               attributes: {
-                class: `table__column__heading`
+                class: 'table__column__heading'
               },
               text: game.name,
-              type: `p`
+              type: 'p'
             }, {
-              type: `p`,
+              type: 'p',
               children: [{
                 attributes: {
-                  class: `table__column__secondary-link`,
+                  class: 'table__column__secondary-link',
                   href: `http://store.steampowered.com/app/${game.id}`,
-                  rel: `nofollow`,
-                  target: `_blank`
+                  rel: 'nofollow',
+                  target: '_blank'
                 },
                 text: `http://store.steampowered.com/app/${game.id}`,
-                type: `a`
+                type: 'a'
               }]
             }]
           }, {
             attributes: {
-              class: `table__column--width--small text-center`
+              class: 'table__column--width--small text-center'
             },
-            type: `div`,
+            type: 'div',
             children: [{
               attributes: {
-                class: `table__column__secondary-link esgst-clickable`
+                class: 'table__column__secondary-link esgst-clickable'
               },
               text: `${game.wishlists.length} (${Math.round(game.wishlists.length / glwc.memberCount * 10000) / 100}%)`,
-              type: `span`
+              type: 'span'
             }]
           }]
         }]
       }]).firstElementChild.lastElementChild.firstElementChild, users.join(`, `), true);
       popout.onFirstOpen = () => shared.common.endless_load(popout.popout);
     }
-    libraryInput.addEventListener(`input`, () => {
+    libraryInput.addEventListener('input', () => {
       const value = libraryInput.value.toLowerCase();
       if (value) {
         game = glwc.games[value];
@@ -603,72 +639,72 @@ class GroupsGroupLibraryWishlistChecker extends Module {
               user = glwc.users[k];
               users.push(`<a class="table__column__secondary-link" href="http://steamcommunity.com/profiles/${user.steamId}/games?tab=all">${user.username}</a>`);
             });
-            createElements(librarySearch, `inner`, [{
+            createElements(librarySearch, 'inner', [{
               attributes: {
-                class: `table__row-outer-wrap`
+                class: 'table__row-outer-wrap'
               },
-              type: `div`,
+              type: 'div',
               children: [{
                 attributes: {
-                  class: `table__row-inner-wrap`
+                  class: 'table__row-inner-wrap'
                 },
-                type: `div`,
+                type: 'div',
                 children: [{
                   attributes: {
-                    class: `table__column--width-small text-center`
+                    class: 'table__column--width-small text-center'
                   },
-                  type: `div`,
+                  type: 'div',
                   children: [{
                     attributes: {
-                      class: `table__column__rank`
+                      class: 'table__column__rank'
                     },
-                    text: `-`,
-                    type: `span`
+                    text: '-',
+                    type: 'span'
                   }]
                 }, {
-                  type: `div`,
+                  type: 'div',
                   children: [{
                     attributes: {
-                      class: `table_image_thumbnail`,
+                      class: 'table_image_thumbnail',
                       style: `background-image:url(${game.logo});`
                     },
-                    type: `div`
+                    type: 'div'
                   }]
                 }, {
                   attributes: {
-                    class: `table__column--width-fill`
+                    class: 'table__column--width-fill'
                   },
-                  type: `div`,
+                  type: 'div',
                   children: [{
                     attributes: {
-                      class: `table__column__heading`
+                      class: 'table__column__heading'
                     },
                     text: game.name,
-                    type: `p`
+                    type: 'p'
                   }, {
-                    type: `p`,
+                    type: 'p',
                     children: [{
                       attributes: {
-                        class: `table__column__secondary-link`,
+                        class: 'table__column__secondary-link',
                         href: `http://store.steampowered.com/app/${game.id}`,
-                        rel: `nofollow`,
-                        target: `_blank`
+                        rel: 'nofollow',
+                        target: '_blank'
                       },
                       text: `http://store.steampowered.com/app/${game.id}`,
-                      type: `a`
+                      type: 'a'
                     }]
                   }]
                 }, {
                   attributes: {
-                    class: `table__column--width-small text-center`
+                    class: 'table__column--width-small text-center'
                   },
-                  type: `div`,
+                  type: 'div',
                   children: [{
                     attributes: {
-                      class: `table__column__secondary-link esgst-clickable`
+                      class: 'table__column__secondary-link esgst-clickable'
                     },
                     text: `${game.libraries.length} (${Math.round(game.libraries.length / glwc.memberCount * 10000) / 100}%)`,
-                    type: `span`
+                    type: 'span'
                   }]
                 }]
               }]
@@ -676,13 +712,13 @@ class GroupsGroupLibraryWishlistChecker extends Module {
             const popout = createTooltip(librarySearch.firstElementChild.firstElementChild.lastElementChild.firstElementChild, users.join(`, `), true);
             popout.onFirstOpen = () => shared.common.endless_load(popout.popout);
           } else {
-            createElements(librarySearch, `inner`, [{
-              text: `Nothing found...`,
-              type: `node`
+            createElements(librarySearch, 'inner', [{
+              text: 'Nothing found...',
+              type: 'node'
             }]);
           }
         } else {
-          librarySearch.innerHTML = ``;
+          librarySearch.innerHTML = '';
           for (i = 0, j = 0, n = library.length; j < 100 && i < n; ++i) {
             game = library[i];
             if (game.name.toLowerCase().match(value)) {
@@ -691,72 +727,72 @@ class GroupsGroupLibraryWishlistChecker extends Module {
                 user = glwc.users[k];
                 users.push(`<a class="table__column__secondary-link" href="http://steamcommunity.com/profiles/${user.steamId}/games?tab=all">${user.username}</a>`);
               });
-              const popout = createTooltip(createElements(librarySearch, `beforeEnd`, [{
+              const popout = createTooltip(createElements(librarySearch, 'beforeEnd', [{
                 attributes: {
-                  class: `table__row-outer-wrap`
+                  class: 'table__row-outer-wrap'
                 },
-                type: `div`,
+                type: 'div',
                 children: [{
                   attributes: {
-                    class: `table__row-inner-wrap`
+                    class: 'table__row-inner-wrap'
                   },
-                  type: `div`,
+                  type: 'div',
                   children: [{
                     attributes: {
-                      class: `table__column--width-small text-center`
+                      class: 'table__column--width-small text-center'
                     },
-                    type: `div`,
+                    type: 'div',
                     children: [{
                       attributes: {
-                        class: `table__column__rank`
+                        class: 'table__column__rank'
                       },
-                      text: `-`,
-                      type: `span`
+                      text: '-',
+                      type: 'span'
                     }]
                   }, {
-                    type: `div`,
+                    type: 'div',
                     children: [{
                       attributes: {
-                        class: `table_image_thumbnail`,
+                        class: 'table_image_thumbnail',
                         style: `background-image:url(${game.logo});`
                       },
-                      type: `div`
+                      type: 'div'
                     }]
                   }, {
                     attributes: {
-                      class: `table__column--width-fill`
+                      class: 'table__column--width-fill'
                     },
-                    type: `div`,
+                    type: 'div',
                     children: [{
                       attributes: {
-                        class: `table__column__heading`
+                        class: 'table__column__heading'
                       },
                       text: game.name,
-                      type: `p`
+                      type: 'p'
                     }, {
-                      type: `p`,
+                      type: 'p',
                       children: [{
                         attributes: {
-                          class: `table__column__secondary-link`,
+                          class: 'table__column__secondary-link',
                           href: `http://store.steampowered.com/app/${game.id}`,
-                          rel: `nofollow`,
-                          target: `_blank`
+                          rel: 'nofollow',
+                          target: '_blank'
                         },
                         text: `http://store.steampowered.com/app/${game.id}`,
-                        type: `a`
+                        type: 'a'
                       }]
                     }]
                   }, {
                     attributes: {
-                      class: `table__column--width--small text-center`
+                      class: 'table__column--width--small text-center'
                     },
-                    type: `div`,
+                    type: 'div',
                     children: [{
                       attributes: {
-                        class: `table__column__secondary-link esgst-clickable`
+                        class: 'table__column__secondary-link esgst-clickable'
                       },
                       text: `${game.libraries.length} (${Math.round(game.libraries.length / glwc.memberCount * 10000) / 100}%)`,
-                      type: `span`
+                      type: 'span'
                     }]
                   }]
                 }]
@@ -766,20 +802,20 @@ class GroupsGroupLibraryWishlistChecker extends Module {
             }
           }
           if (!librarySearch.innerHTML) {
-            createElements(librarySearch, `inner`, [{
-              text: `Nothing found...`,
-              type: `node`
+            createElements(librarySearch, 'inner', [{
+              text: 'Nothing found...',
+              type: 'node'
             }]);
           }
         }
-        librarySearch.classList.remove(`esgst-hidden`);
-        libraryResults.classList.add(`esgst-hidden`);
+        librarySearch.classList.remove('esgst-hidden');
+        libraryResults.classList.add('esgst-hidden');
       } else {
-        libraryResults.classList.remove(`esgst-hidden`);
-        librarySearch.classList.add(`esgst-hidden`);
+        libraryResults.classList.remove('esgst-hidden');
+        librarySearch.classList.add('esgst-hidden');
       }
     });
-    wishlistInput.addEventListener(`input`, () => {
+    wishlistInput.addEventListener('input', () => {
       const value = wishlistInput.value;
       if (value) {
         game = glwc.games[value];
@@ -790,72 +826,72 @@ class GroupsGroupLibraryWishlistChecker extends Module {
               user = glwc.users[k];
               users.push(`<a class="table__column__secondary-link" href="http://store.steampowered.com/wishlist/profiles/${user.steamId}">${user.username}</a>`);
             });
-            createElements(wishlistSearch, `inner`, [{
+            createElements(wishlistSearch, 'inner', [{
               attributes: {
-                class: `table__row-outer-wrap`
+                class: 'table__row-outer-wrap'
               },
-              type: `div`,
+              type: 'div',
               children: [{
                 attributes: {
-                  class: `table__row-inner-wrap`
+                  class: 'table__row-inner-wrap'
                 },
-                type: `div`,
+                type: 'div',
                 children: [{
                   attributes: {
-                    class: `table__column--width-small text-center`
+                    class: 'table__column--width-small text-center'
                   },
-                  type: `div`,
+                  type: 'div',
                   children: [{
                     attributes: {
-                      class: `table__column__rank`
+                      class: 'table__column__rank'
                     },
-                    text: `-`,
-                    type: `span`
+                    text: '-',
+                    type: 'span'
                   }]
                 }, {
-                  type: `div`,
+                  type: 'div',
                   children: [{
                     attributes: {
-                      class: `table_image_thumbnail`,
+                      class: 'table_image_thumbnail',
                       style: `background-image:url(${game.logo});`
                     },
-                    type: `div`
+                    type: 'div'
                   }]
                 }, {
                   attributes: {
-                    class: `table__column--width-fill`
+                    class: 'table__column--width-fill'
                   },
-                  type: `div`,
+                  type: 'div',
                   children: [{
                     attributes: {
-                      class: `table__column__heading`
+                      class: 'table__column__heading'
                     },
                     text: game.name,
-                    type: `p`
+                    type: 'p'
                   }, {
-                    type: `p`,
+                    type: 'p',
                     children: [{
                       attributes: {
-                        class: `table__column__secondary-link`,
+                        class: 'table__column__secondary-link',
                         href: `http://store.steampowered.com/app/${game.id}`,
-                        rel: `nofollow`,
-                        target: `_blank`
+                        rel: 'nofollow',
+                        target: '_blank'
                       },
                       text: `http://store.steampowered.com/app/${game.id}`,
-                      type: `a`
+                      type: 'a'
                     }]
                   }]
                 }, {
                   attributes: {
-                    class: `table__column--width-small text-center`
+                    class: 'table__column--width-small text-center'
                   },
-                  type: `div`,
+                  type: 'div',
                   children: [{
                     attributes: {
-                      class: `table__column__secondary-link esgst-clickable`
+                      class: 'table__column__secondary-link esgst-clickable'
                     },
                     text: `${game.wishlists.length} (${Math.round(game.wishlists.length / glwc.memberCount * 10000) / 100}%)`,
-                    type: `span`
+                    type: 'span'
                   }]
                 }]
               }]
@@ -863,13 +899,13 @@ class GroupsGroupLibraryWishlistChecker extends Module {
             const popout = createTooltip(wishlistSearch.firstElementChild.firstElementChild.lastElementChild.firstElementChild, users.join(`, `), true);
             popout.onFirstOpen = () => shared.common.endless_load(popout.popout);
           } else {
-            createElements(wishlistSearch, `inner`, [{
-              text: `Nothing found...`,
-              type: `node`
+            createElements(wishlistSearch, 'inner', [{
+              text: 'Nothing found...',
+              type: 'node'
             }]);
           }
         } else {
-          wishlistSearch.innerHTML = ``;
+          wishlistSearch.innerHTML = '';
           for (i = 0, j = 0, n = wishlist.length; j < 100 && i < n; ++i) {
             game = wishlist[i];
             if (game.name.toLowerCase().match(value)) {
@@ -878,72 +914,72 @@ class GroupsGroupLibraryWishlistChecker extends Module {
                 user = glwc.users[k];
                 users.push(`<a class="table__column__secondary-link" href="http://steamcommunity.com/profiles/${user.steamId}/wishlists">${user.username}</a>`);
               });
-              const popout = createTooltip(createElements(wishlistSearch, `beforeEnd`, [{
+              const popout = createTooltip(createElements(wishlistSearch, 'beforeEnd', [{
                 attributes: {
-                  class: `table__row-outer-wrap`
+                  class: 'table__row-outer-wrap'
                 },
-                type: `div`,
+                type: 'div',
                 children: [{
                   attributes: {
-                    class: `table__row-inner-wrap`
+                    class: 'table__row-inner-wrap'
                   },
-                  type: `div`,
+                  type: 'div',
                   children: [{
                     attributes: {
-                      class: `table__column--width-small text-center`
+                      class: 'table__column--width-small text-center'
                     },
-                    type: `div`,
+                    type: 'div',
                     children: [{
                       attributes: {
-                        class: `table__column__rank`
+                        class: 'table__column__rank'
                       },
-                      text: `-`,
-                      type: `span`
+                      text: '-',
+                      type: 'span'
                     }]
                   }, {
-                    type: `div`,
+                    type: 'div',
                     children: [{
                       attributes: {
-                        class: `table_image_thumbnail`,
+                        class: 'table_image_thumbnail',
                         style: `background-image:url(${game.logo});`
                       },
-                      type: `div`
+                      type: 'div'
                     }]
                   }, {
                     attributes: {
-                      class: `table__column--width-fill`
+                      class: 'table__column--width-fill'
                     },
-                    type: `div`,
+                    type: 'div',
                     children: [{
                       attributes: {
-                        class: `table__column__heading`
+                        class: 'table__column__heading'
                       },
                       text: game.name,
-                      type: `p`
+                      type: 'p'
                     }, {
-                      type: `p`,
+                      type: 'p',
                       children: [{
                         attributes: {
-                          class: `table__column__secondary-link`,
+                          class: 'table__column__secondary-link',
                           href: `http://store.steampowered.com/app/${game.id}`,
-                          rel: `nofollow`,
-                          target: `_blank`
+                          rel: 'nofollow',
+                          target: '_blank'
                         },
                         text: `http://store.steampowered.com/app/${game.id}`,
-                        type: `a`
+                        type: 'a'
                       }]
                     }]
                   }, {
                     attributes: {
-                      class: `table__column--width--small text-center`
+                      class: 'table__column--width--small text-center'
                     },
-                    type: `div`,
+                    type: 'div',
                     children: [{
                       attributes: {
-                        class: `table__column__secondary-link esgst-clickable`
+                        class: 'table__column__secondary-link esgst-clickable'
                       },
                       text: `${game.wishlists.length} (${Math.round(game.wishlists.length / glwc.memberCount * 10000) / 100}%)`,
-                      type: `span`
+                      type: 'span'
                     }]
                   }]
                 }]
@@ -953,17 +989,17 @@ class GroupsGroupLibraryWishlistChecker extends Module {
             }
           }
           if (!wishlistSearch.innerHTML) {
-            createElements(wishlistSearch, `inner`, [{
-              text: `Nothing found...`,
-              type: `node`
+            createElements(wishlistSearch, 'inner', [{
+              text: 'Nothing found...',
+              type: 'node'
             }]);
           }
         }
-        wishlistSearch.classList.remove(`esgst-hidden`);
-        wishlistResults.classList.add(`esgst-hidden`);
+        wishlistSearch.classList.remove('esgst-hidden');
+        wishlistResults.classList.add('esgst-hidden');
       } else {
-        wishlistResults.classList.remove(`esgst-hidden`);
-        wishlistSearch.classList.add(`esgst-hidden`);
+        wishlistResults.classList.remove('esgst-hidden');
+        wishlistSearch.classList.add('esgst-hidden');
       }
     });
   }

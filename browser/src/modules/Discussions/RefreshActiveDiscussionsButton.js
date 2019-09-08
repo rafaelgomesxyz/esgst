@@ -13,18 +13,18 @@ class DiscussionsRefreshActiveDiscussionsButton extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, [
+        ['ul', [
+          ['li', [
             `Adds a button (`,
-            [`i`, { class: `fa fa-refresh` }],
+            ['i', { class: 'fa fa-refresh' }],
             `) to the page heading of the active discussions (in the main page) that allows you to refresh the active discussions without having to refresh the entire page.`
           ]]
         ]]
       ],
-      id: `radb`,
-      name: `Refresh Active Discussions Button`,
+      id: 'radb',
+      name: 'Refresh Active Discussions Button',
       sg: true,
-      type: `discussions`
+      type: 'discussions'
     };
   }
 
@@ -32,29 +32,29 @@ class DiscussionsRefreshActiveDiscussionsButton extends Module {
     let elements, i;
     elements = this.esgst.activeDiscussions.querySelectorAll(`.homepage_heading, .esgst-heading-button`);
     for (i = elements.length - 1; i > -1; --i) {
-      createElements(elements[i], `beforeBegin`, [{
+      createElements(elements[i], 'beforeBegin', [{
         attributes: {
-          class: `esgst-radb-button${gSettings.oadd ? `` : ` homepage_heading`}`,
-          title: getFeatureTooltip(`radb`, `Refresh active discussions/deals`)
+          class: `esgst-radb-button${gSettings.oadd ? '' : ' homepage_heading'}`,
+          title: getFeatureTooltip('radb', 'Refresh active discussions/deals')
         },
-        type: `div`,
+        type: 'div',
         children: [{
           attributes: {
-            class: `fa fa-refresh`
+            class: 'fa fa-refresh'
           },
-          type: `i`
+          type: 'i'
         }]
-      }]).addEventListener(`click`, event => {
+      }]).addEventListener('click', event => {
         let icon = event.currentTarget.firstElementChild;
-        icon.classList.add(`fa-spin`);
+        icon.classList.add('fa-spin');
         if (gSettings.oadd) {
           // noinspection JSIgnoredPromiseFromCall
           this.esgst.modules.discussionsOldActiveDiscussionsDesign.oadd_load(true, () => {
-            icon.classList.remove(`fa-spin`);
+            icon.classList.remove('fa-spin');
           });
         } else {
           checkMissingDiscussions(true, () => {
-            icon.classList.remove(`fa-spin`);
+            icon.classList.remove('fa-spin');
           });
         }
       });

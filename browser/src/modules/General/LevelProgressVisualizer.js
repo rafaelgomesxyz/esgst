@@ -19,25 +19,25 @@ class GeneralLevelProgressVisualizer extends Module {
     super();
     this.info = {
       colors: {
-        barColor: `Bar Color`,
-        projectedBarColor: `Projected Bar Color`,
+        barColor: 'Bar Color',
+        projectedBarColor: 'Projected Bar Color',
         barColorHover: `Bar Color (Hover / Account Page)`,
         projectedBarColorHover: `Projected Bar Color (Hover / Account Page)`,
         barColorSelected: `Bar Color (Account Page Hover)`,
         projectedBarColorSelected: `Projected Bar Color (Account Page Hover)`
       },
       description: [
-        [`ul`, [
-          [`li`, `Displays a green bar in the account button at the header of any page that represents your level progress.`],
-          [`li`, `Also displays a lighter green bar, if you have any giveaways open, to estimate what your level will be when the giveaways are marked as received. If you hover over the account button, it shows the number of the estimated level.`]
+        ['ul', [
+          ['li', 'Displays a green bar in the account button at the header of any page that represents your level progress.'],
+          ['li', `Also displays a lighter green bar, if you have any giveaways open, to estimate what your level will be when the giveaways are marked as received. If you hover over the account button, it shows the number of the estimated level.`]
         ]]
       ],
-      id: `lpv`,
-      name: `Level Progress Visualizer`,
+      id: 'lpv',
+      name: 'Level Progress Visualizer',
       sg: true,
       sync: `Giveaways, No CV Games, Reduced CV Games`,
-      syncKeys: [`Giveaways`, `NoCvGames`, `ReducedCvGames`],
-      type: `general`
+      syncKeys: ['Giveaways', 'NoCvGames', 'ReducedCvGames'],
+      type: 'general'
     };
   }
 
@@ -50,17 +50,17 @@ class GeneralLevelProgressVisualizer extends Module {
   }
 
   async getCache() {
-    if (shared.common.getLocalValue(`lpvCache_v2`)) {
-      shared.common.delLocalValue(`lpvCache_v2`);
+    if (shared.common.getLocalValue('lpvCache_v2')) {
+      shared.common.delLocalValue('lpvCache_v2');
     }
-    const cache = JSON.parse(shared.common.getLocalValue(`lpvCache`, `{ "cv": 0, "level": 0, "v": 3 }`));
-    const currentLevel = parseFloat(shared.esgst.levelContainer.getAttribute(`title`));
+    const cache = JSON.parse(shared.common.getLocalValue('lpvCache', `{ "cv": 0, "level": 0, "v": 3 }`));
+    const currentLevel = parseFloat(shared.esgst.levelContainer.getAttribute('title'));
     if (cache.v !== 3 || currentLevel !== cache.level) {
       cache.level = currentLevel;
       const response = await FetchRequest.get(`/user/${gSettings.username}`);
-      const element = response.html.querySelectorAll(`.featured__table__row__right`)[6];
-      cache.cv = shared.common.round(parseFloat(JSON.parse(element.firstElementChild.lastElementChild.getAttribute(`data-ui-tooltip`)).rows[0].columns[1].name.replace(/[$,]/g, ``)));
-      shared.common.setLocalValue(`lpvCache`, JSON.stringify(cache));
+      const element = response.html.querySelectorAll('.featured__table__row__right')[6];
+      cache.cv = shared.common.round(parseFloat(JSON.parse(element.firstElementChild.lastElementChild.getAttribute('data-ui-tooltip')).rows[0].columns[1].name.replace(/[$,]/g, '')));
+      shared.common.setLocalValue('lpvCache', JSON.stringify(cache));
     }
     return cache;
   }
@@ -75,8 +75,8 @@ class GeneralLevelProgressVisualizer extends Module {
     const currentProgress = Math.trunc(currentPercentage * (fullButtonWidth / 100));
     const firstBar = `${currentProgress}px`;
     const secondBar = `${Math.max(0, currentProgress - mainButtonWidth)}px`;
-    let projectedFirstBar = `0`;
-    let projectedSecondBar = `0`;
+    let projectedFirstBar = '0';
+    let projectedSecondBar = '0';
     const cache = await this.getCache();
     const cv = this.lpv_getCv();
     if (cv > 0) {
@@ -89,7 +89,7 @@ class GeneralLevelProgressVisualizer extends Module {
       const predictedProgress = Math.trunc(Math.min(100, predictedPercentage) * (fullButtonWidth / 100));
       projectedFirstBar = `${predictedProgress}px`;
       projectedSecondBar = `${Math.max(0, predictedProgress - mainButtonWidth)}px`;
-      this.esgst.levelContainer.title = getFeatureTooltip(`lpv`, `${this.esgst.levelContainer.getAttribute(`title`)} (${predictedFullLevel})`);
+      this.esgst.levelContainer.title = getFeatureTooltip('lpv', `${this.esgst.levelContainer.getAttribute('title')} (${predictedFullLevel})`);
     }
     const barColor = gSettings.lpv_barColor;
     const projectedBarColor = gSettings.lpv_projectedBarColor;
@@ -98,9 +98,9 @@ class GeneralLevelProgressVisualizer extends Module {
     const barColorSelected = gSettings.lpv_barColorSelected;
     const projectedBarColorSelected = gSettings.lpv_projectedBarColorSelected;
     this.esgst.lpvStyleArray = [{
-      selector: `.esgst-lpv-container`,
+      selector: '.esgst-lpv-container',
       rules: [{
-        name: `background-image`,
+        name: 'background-image',
         values: [
           `linear-gradient(to right, ${barColor} ${firstBar}, ${projectedBarColor} ${firstBar}, ${projectedBarColor} ${projectedFirstBar}, transparent ${firstBar})`,
           `var(--esgst-lpv-button, linear-gradient(#8a92a1 0px, #757e8f 8px, #4e5666 100%))`
@@ -109,7 +109,7 @@ class GeneralLevelProgressVisualizer extends Module {
     }, {
       selector: `.esgst-lpv-container .nav__button--is-dropdown:hover`,
       rules: [{
-        name: `background-image`,
+        name: 'background-image',
         values: [
           `linear-gradient(to right, ${barColorHover} ${firstBar}, ${projectedBarColorHover} ${firstBar}, ${projectedBarColorHover} ${projectedFirstBar}, transparent ${firstBar})`,
           `var(--esgst-lpv-button-hover, linear-gradient(#9ba2b0 0px, #8c94a3 8px, #596070 100%))`
@@ -118,34 +118,34 @@ class GeneralLevelProgressVisualizer extends Module {
     }, {
       selector: `.esgst-lpv-container .nav__button--is-dropdown-arrow:hover`,
       rules: [{
-        name: `background-image`,
+        name: 'background-image',
         values: [
           `linear-gradient(to right, ${barColorHover} ${secondBar}, ${projectedBarColorHover} ${secondBar}, ${projectedBarColorHover} ${projectedSecondBar}, transparent ${secondBar})`,
           `var(--esgst-lpv-button-hover, linear-gradient(#9ba2b0 0px, #8c94a3 8px, #596070 100%))`
         ]
       }]
     }, {
-      selector: `.esgst-lpv-container .nav__button--is-dropdown-arrow.is-selected`,
+      selector: '.esgst-lpv-container .nav__button--is-dropdown-arrow.is-selected',
       rules: [{
-        name: `background-image`,
+        name: 'background-image',
         values: [
           `linear-gradient(to right, ${barColor} ${secondBar}, ${projectedBarColor} ${secondBar}, ${projectedBarColor} ${projectedSecondBar}, transparent ${secondBar})`,
           `var(--esgst-lpv-arrow, linear-gradient(#4e525f 0px, #434857 5px, #2b2e3a 100%))`
         ]
       }]
     }, {
-      selector: `.esgst-lpv-container.is-selected .nav__button--is-dropdown`,
+      selector: '.esgst-lpv-container.is-selected .nav__button--is-dropdown',
       rules: [{
-        name: `background-image`,
+        name: 'background-image',
         values: [
           `linear-gradient(to right, ${barColorHover} ${firstBar}, ${projectedBarColorHover} ${firstBar}, ${projectedBarColorHover} ${projectedFirstBar}, transparent ${firstBar})`,
           `var(--esgst-lpv-button-selected, linear-gradient(#d0d5de 0px, #c9cdd7 5px, #9097a6 100%))`
         ]
       }]
     }, {
-      selector: `.esgst-lpv-container.is-selected .nav__button--is-dropdown-arrow `,
+      selector: '.esgst-lpv-container.is-selected .nav__button--is-dropdown-arrow ',
       rules: [{
-        name: `background-image`,
+        name: 'background-image',
         values: [
           `linear-gradient(to right, ${barColorHover} ${secondBar}, ${projectedBarColorHover} ${secondBar}, ${projectedBarColorHover} ${projectedSecondBar}, transparent ${secondBar})`,
           `var(--esgst-lpv-button-selected, linear-gradient(#d0d5de 0px, #c9cdd7 5px, #9097a6 100%)) `
@@ -154,7 +154,7 @@ class GeneralLevelProgressVisualizer extends Module {
     }, {
       selector: `.esgst-lpv-container.is-selected .nav__button--is-dropdown:hover`,
       rules: [{
-        name: `background-image`,
+        name: 'background-image',
         values: [
           `linear-gradient(to right, ${barColorSelected} ${firstBar}, ${projectedBarColorSelected} ${firstBar}, ${projectedBarColorSelected} ${projectedFirstBar}, transparent ${firstBar})`,
           `var(--esgst-lpv-button-selected-hover, linear-gradient(#f0f1f5 0px, #d1d4de 100%)) `
@@ -163,16 +163,16 @@ class GeneralLevelProgressVisualizer extends Module {
     }, {
       selector: `.esgst-lpv-container.is-selected .nav__button--is-dropdown-arrow:hover:not(.is-selected)`,
       rules: [{
-        name: `background-image`,
+        name: 'background-image',
         values: [
           `linear-gradient(to right, ${barColorSelected} ${secondBar}, ${projectedBarColorSelected} ${secondBar}, ${projectedBarColorSelected} ${projectedSecondBar}, transparent ${secondBar})`,
           `var(--esgst-lpv-button-selected-hover, linear-gradient(#f0f1f5 0px, #d1d4de 100%))`
         ]
       }]
     }, {
-      selector: `.esgst-lpv-container.is-selected .nav__button--is-dropdown-arrow.is-selected `,
+      selector: '.esgst-lpv-container.is-selected .nav__button--is-dropdown-arrow.is-selected ',
       rules: [{
-        name: `background-image`,
+        name: 'background-image',
         values: [
           `linear-gradient(to right, ${barColorSelected} ${secondBar}, ${projectedBarColorSelected} ${secondBar}, ${projectedBarColorSelected} ${projectedSecondBar}, transparent ${secondBar})`,
           `var(--esgst-lpv-arrow-selected, linear-gradient(#4e525f 0px, #434857 5px, #2b2e3a 100%)) `
@@ -191,23 +191,23 @@ class GeneralLevelProgressVisualizer extends Module {
             rule.values = rule.values.concat(JSON.parse(JSON.stringify(this.esgst.pvStyleArray[i].rules[j].values)));
           }
           item.rules.push({
-            name: `background-position`,
+            name: 'background-position',
             values: [
-              `left top`,
-              `left top`,
-              `left bottom`,
-              `left bottom`
+              'left top',
+              'left top',
+              'left bottom',
+              'left bottom'
             ]
           }, {
-              name: `background-repeat`,
-              values: new Array(4).fill(`no-repeat`)
+              name: 'background-repeat',
+              values: new Array(4).fill('no-repeat')
             }, {
-              name: `background-size`,
+              name: 'background-size',
               values: [
-                `auto 50%`,
-                `0`,
-                `auto 50%`,
-                `auto`
+                'auto 50%',
+                '0',
+                'auto 50%',
+                'auto'
               ]
             });
         }
@@ -218,28 +218,28 @@ class GeneralLevelProgressVisualizer extends Module {
     if (!style || !Array.isArray(style)) {
       return;
     }
-    let styleString = ``;
+    let styleString = '';
     for (const item of style) {
       styleString += `${item.selector} {\n`;
       for (const rule of item.rules) {
         styleString += `  ${rule.name}: ${rule.values.join(`, `)} !important;\n`;
       }
-      styleString += `}\n\n`;
+      styleString += '}\n\n';
     }
     if (!this.esgst.lpvStyle) {
-      this.esgst.lpvStyle = createElements(this.esgst.style, `afterEnd`, [{
+      this.esgst.lpvStyle = createElements(this.esgst.style, 'afterEnd', [{
         attributes: {
-          id: `esgst-lpv-style`
+          id: 'esgst-lpv-style'
         },
-        type: `style`
+        type: 'style'
       }]);
     }
     this.esgst.lpvStyle.textContent = styleString;
-    this.esgst.mainButton.parentElement.classList.add(`esgst-lpv-container`);
+    this.esgst.mainButton.parentElement.classList.add('esgst-lpv-container');
   }
 
   lpv_getCv() {
-    logger.info(`Beginning CV calculation...`);
+    logger.info('Beginning CV calculation...');
     let cv = 0;
     const user = this.esgst.users.users[gSettings.steamId];
     if (!user) {
@@ -250,7 +250,7 @@ class GeneralLevelProgressVisualizer extends Module {
       return cv;
     }
     const currentTime = Date.now();
-    for (const type of [`apps`, `subs`]) {
+    for (const type of ['apps', 'subs']) {
       const items = giveaways.sent[type];
       for (const id in items) {
         if (items.hasOwnProperty(id)) {
@@ -274,7 +274,7 @@ class GeneralLevelProgressVisualizer extends Module {
                 if (Array.isArray(giveaway.winners)) {
                   // user is using the new database, which is more accurate
                   for (const winner of giveaway.winners) {
-                    if (winner.status === `Received`) {
+                    if (winner.status === 'Received') {
                       sent += 1;
                     }
                   }
@@ -306,21 +306,21 @@ class GeneralLevelProgressVisualizer extends Module {
             }
             if (realValue > 0) {
               cv += realValue;
-              logger.info(`Adding ${realValue} CV from: http://store.steampowered.com/${type.slice(0, -1)}/${id}${game && game.name ? ` (${game.name})` : ``}`);
+              logger.info(`Adding ${realValue} CV from: http://store.steampowered.com/${type.slice(0, -1)}/${id}${game && game.name ? ` (${game.name})` : ''}`);
               logger.info(`Total CV: ${cv}`);
             }
           } else if (open > 0) {
             value *= open;
             if (value > 0) {
               cv += value;
-              logger.info(`Adding ${value} CV from: http://store.steampowered.com/${type.slice(0, -1)}/${id}${game && game.name ? ` (${game.name})` : ``}`);
+              logger.info(`Adding ${value} CV from: http://store.steampowered.com/${type.slice(0, -1)}/${id}${game && game.name ? ` (${game.name})` : ''}`);
               logger.info(`Total CV: ${cv}`);
             }
           }
         }
       }
     }
-    logger.info(`CV calculation ended...`);
+    logger.info('CV calculation ended...');
     return cv;
   }
 }

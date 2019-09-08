@@ -28,32 +28,32 @@ class Utils {
   }
 
   isNumber(number) {
-    return this.isSet(number) && this.compareTypes(number, `number`) && !isNaN(number);
+    return this.isSet(number) && this.compareTypes(number, 'number') && !isNaN(number);
   }
 
   isObject(object) {
-    return this.isSet(object) && this.compareTypes(object, `object`);
+    return this.isSet(object) && this.compareTypes(object, 'object');
   }
 
   isSet(variable) {
-    return typeof variable !== `undefined` && variable !== null;
+    return typeof variable !== 'undefined' && variable !== null;
   }
 
   isString(string) {
-    return this.isSet(string) && this.compareTypes(string, `string`);
+    return this.isSet(string) && this.compareTypes(string, 'string');
   }
 
   isValidDate(date) {
-    return this.isSet(date) && this.compareTypes(date, `date`) && !isNaN(date);
+    return this.isSet(date) && this.compareTypes(date, 'date') && !isNaN(date);
   }
 
   parseHtml(string) {
-    return this.parser.parseFromString(string, `text/html`);
+    return this.parser.parseFromString(string, 'text/html');
   }
 
   sortArray(array, desc, key) {
     if (!this.isSet(array) || !Array.isArray(array)) {
-      throw `The "array" argument is not an array`;
+      throw 'The "array" argument is not an array';
     }
 
     const modifier = desc ? -1 : 1;
@@ -70,7 +70,7 @@ class Utils {
             return 0;
           }
           return a[key].localeCompare(b[key], {
-            sensitivity: `base`
+            sensitivity: 'base'
           }) * modifier;
         }
         return 0;
@@ -85,7 +85,7 @@ class Utils {
         return 0;
       }
       return a.localeCompare(b, {
-        sensitivity: `base`
+        sensitivity: 'base'
       }) * modifier;
     });
   }
@@ -115,7 +115,7 @@ class Utils {
     }
     const match = hex.match(/[\dA-Fa-f]{2}/g);
     if (!match) {
-      return ``;
+      return '';
     }
     const red = parseInt(match[0], 16);
     const green = parseInt(match[1], 16);
@@ -126,7 +126,7 @@ class Utils {
   createUuid(c) {
     let r, v;
     r = Math.random() * 16 | 0;
-    v = c === `x` ? r : (r & 0x3 | 0x8);
+    v = c === 'x' ? r : (r & 0x3 | 0x8);
     return v.toString(16);
   }
 }

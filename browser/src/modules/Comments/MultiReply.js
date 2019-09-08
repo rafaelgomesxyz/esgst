@@ -8,15 +8,15 @@ class CommentsMultiReply extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, `Replaces SteamGifts' native comment box (in any page) with a comment box that allows you to reply to multiple comments at the same time and does not reload the page after submitting a reply (submitting a comment that is not a reply to another comment still reloads the page).`]
+        ['ul', [
+          ['li', `Replaces SteamGifts' native comment box (in any page) with a comment box that allows you to reply to multiple comments at the same time and does not reload the page after submitting a reply (submitting a comment that is not a reply to another comment still reloads the page).`]
         ]]
       ],
-      id: `mr`,
-      name: `Multi-Reply`,
+      id: 'mr',
+      name: 'Multi-Reply',
       sg: true,
       st: true,
-      type: `comments`,
+      type: 'comments',
       featureMap: {
         endless: this.mr_getButtons.bind(this)
       }
@@ -24,8 +24,8 @@ class CommentsMultiReply extends Module {
   }
 
   mr_getButtons(context, main, source, endless) {
-    if ((!gSettings.mr || shared.common.isCurrentPath(`Messages`)) && (!gSettings.rfi || (!shared.common.isCurrentPath(`Messages`) && main))) return;
-    const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .comment__actions, .esgst-es-page-${endless}.comment__actions` : `.comment__actions`}, ${endless ? `.esgst-es-page-${endless} .action_list, .esgst-es-page-${endless}.action_list` : `.action_list`}`);
+    if ((!gSettings.mr || shared.common.isCurrentPath('Messages')) && (!gSettings.rfi || (!shared.common.isCurrentPath('Messages') && main))) return;
+    const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .comment__actions, .esgst-es-page-${endless}.comment__actions` : '.comment__actions'}, ${endless ? `.esgst-es-page-${endless} .action_list, .esgst-es-page-${endless}.action_list` : '.action_list'}`);
     for (let i = 0, n = elements.length; i < n; ++i) {
       this.mr_addButton(elements[i], main);
     }
@@ -34,48 +34,48 @@ class CommentsMultiReply extends Module {
   mr_addButton(Context, main) {
     let MR = {};
     MR.Context = Context;
-    MR.Comment = Context.closest(shared.esgst.sg ? `.comment` : `.comment_outer`);
+    MR.Comment = Context.closest(shared.esgst.sg ? '.comment' : '.comment_outer');
     let Parent, ReplyButton, Permalink;
     if (MR.Comment) {
-      Parent = MR.Comment.closest(shared.esgst.sg ? `.comment` : `.comment_outer`);
-      MR.Container = /** @type {HTMLElement} */ MR.Comment.getElementsByClassName(shared.esgst.sg ? `comment__summary` : `comment_inner`)[0];
+      Parent = MR.Comment.closest(shared.esgst.sg ? '.comment' : '.comment_outer');
+      MR.Container = /** @type {HTMLElement} */ MR.Comment.getElementsByClassName(shared.esgst.sg ? 'comment__summary' : 'comment_inner')[0];
       MR.Timestamp = /** @type {HTMLElement} */ MR.Context.firstElementChild;
-      ReplyButton = MR.Context.getElementsByClassName(shared.esgst.sg ? `js__comment-reply` : `js_comment_reply`)[0];
+      ReplyButton = MR.Context.getElementsByClassName(shared.esgst.sg ? 'js__comment-reply' : 'js_comment_reply')[0];
       Permalink = MR.Context.querySelectorAll(`[href*="/go/comment/"]`);
       Permalink = Permalink[Permalink.length - 1];
-      if (ReplyButton || !main || shared.common.isCurrentPath(`Messages`)) {
+      if (ReplyButton || !main || shared.common.isCurrentPath('Messages')) {
         if (ReplyButton) {
           ReplyButton.remove();
-          MR.ParentID = Parent.getAttribute(shared.esgst.sg ? `data-comment-id` : `data-id`);
-          if (!main || shared.common.isCurrentPath(`Messages`)) {
-            MR.URL = Permalink.getAttribute(`href`);
+          MR.ParentID = Parent.getAttribute(shared.esgst.sg ? 'data-comment-id' : 'data-id');
+          if (!main || shared.common.isCurrentPath('Messages')) {
+            MR.URL = Permalink.getAttribute('href');
           }
-          MR.url = Permalink.getAttribute(`href`);
+          MR.url = Permalink.getAttribute('href');
         } else {
-          MR.url = MR.URL = Permalink.getAttribute(`href`);
-          shared.common.createElements(MR.Comment, `beforeEnd`, [{
+          MR.url = MR.URL = Permalink.getAttribute('href');
+          shared.common.createElements(MR.Comment, 'beforeEnd', [{
             attributes: {
-              class: `comment__children comment_children`
+              class: 'comment__children comment_children'
             },
-            type: `div`
+            type: 'div'
           }]);
         }
         if (shared.esgst.sg) {
-          MR.TradeCode = ``;
+          MR.TradeCode = '';
         } else {
-          if (main && !shared.common.isCurrentPath(`Messages`)) {
+          if (main && !shared.common.isCurrentPath('Messages')) {
             MR.TradeCode = window.location.pathname.match(/^\/trade\/(.+?)\//)[1];
           }
-          MR.Username = MR.Comment.getElementsByClassName(`author_name`)[0].textContent;
+          MR.Username = MR.Comment.getElementsByClassName('author_name')[0].textContent;
         }
-        shared.common.createElements(MR.Timestamp, `afterEnd`, [{
+        shared.common.createElements(MR.Timestamp, 'afterEnd', [{
           attributes: {
-            class: `comment__actions__button esgst-mr-reply`
+            class: 'comment__actions__button esgst-mr-reply'
           },
-          text: `Reply`,
-          type: `a`
+          text: 'Reply',
+          type: 'a'
         }]);
-        MR.Timestamp.nextElementSibling.addEventListener(`click`, () => {
+        MR.Timestamp.nextElementSibling.addEventListener('click', () => {
           if (!MR.Box) {
             this.mr_addBox(MR);
           } else {
@@ -83,7 +83,7 @@ class CommentsMultiReply extends Module {
           }
         });
       }
-      MR.Children = /** @type {HTMLElement} */ MR.Comment.getElementsByClassName(shared.esgst.sg ? `comment__children` : `comment_children`)[0];
+      MR.Children = /** @type {HTMLElement} */ MR.Comment.getElementsByClassName(shared.esgst.sg ? 'comment__children' : 'comment_children')[0];
       this.mr_setEdit(MR);
       this.mr_setDelete(MR);
       this.mr_setUndelete(MR);
@@ -95,100 +95,100 @@ class CommentsMultiReply extends Module {
     Username = gSettings.username;
     const items = [{
       attributes: {
-        class: `comment reply_form MRBox`
+        class: 'comment reply_form MRBox'
       },
-      type: `div`
+      type: 'div'
     }];
     const basicItems = [{
       attributes: {
-        name: `trade_code`,
-        type: `hidden`,
+        name: 'trade_code',
+        type: 'hidden',
         value: MR.TradeCode
       },
-      type: `input`
+      type: 'input'
     }, {
       attributes: {
-        name: `parent_id`,
-        type: `hidden`,
+        name: 'parent_id',
+        type: 'hidden',
         value: MR.ParentID
       },
-      type: `input`
+      type: 'input'
     }, {
       attributes: {
-        class: `esgst-mr-description`,
-        name: `description`
+        class: 'esgst-mr-description',
+        name: 'description'
       },
-      type: `textarea`
+      type: 'textarea'
     }, {
       attributes: {
-        class: `align-button-container btn_actions`
+        class: 'align-button-container btn_actions'
       },
-      type: `div`,
+      type: 'div',
       children: [{
-        type: `div`
+        type: 'div'
       }, {
         attributes: {
-          class: `comment__cancel-button btn_cancel esgst-mr-cancel`
+          class: 'comment__cancel-button btn_cancel esgst-mr-cancel'
         },
-        type: `div`,
+        type: 'div',
         children: [{
-          text: `Cancel`,
-          type: `span`
+          text: 'Cancel',
+          type: 'span'
         }]
       }]
     }];
     if (shared.esgst.sg) {
       items[0].children = [{
         attributes: {
-          class: `comment__child`
+          class: 'comment__child'
         },
-        type: `div`,
+        type: 'div',
         children: [{
           attributes: {
-            class: `global__image-outer-wrap global__image-outer-wrap--avatar-small`,
+            class: 'global__image-outer-wrap global__image-outer-wrap--avatar-small',
             href: `/user/${Username}`
           },
-          type: `a`,
+          type: 'a',
           children: [{
             attributes: {
-              class: `global__image-inner-wrap`,
+              class: 'global__image-inner-wrap',
               style: `background-image: url(${gSettings.avatar});`
             },
-            type: `div`
+            type: 'div'
           }]
         }, {
           attributes: {
-            class: `comment__summary`
+            class: 'comment__summary'
           },
-          type: `div`,
+          type: 'div',
           children: [{
             attributes: {
-              class: `comment__author`
+              class: 'comment__author'
             },
-            type: `div`,
+            type: 'div',
             children: [{
               attributes: {
-                class: `comment__username`
+                class: 'comment__username'
               },
-              type: `div`,
+              type: 'div',
               children: [{
                 attributes: {
                   href: `/user/${Username}`
                 },
                 text: Username,
-                type: `a`
+                type: 'a'
               }]
             }]
           }, {
             attributes: {
-              class: `comment__display-state`
+              class: 'comment__display-state'
             },
-            type: `div`,
+            type: 'div',
             children: [{
               attributes: {
-                class: `comment__description`
+                class: 'comment__description'
               },
-              type: `div`,
+              type: 'div',
               children: basicItems
             }]
           }]
@@ -198,10 +198,10 @@ class CommentsMultiReply extends Module {
       basicItems[2].attributes.placeholder = `Write a reply to ${MR.Username}...`;
       items[0].children = basicItems;
     }
-    shared.common.createElements(MR.Children, `afterBegin`, items);
+    shared.common.createElements(MR.Children, 'afterBegin', items);
     MR.Box = MR.Children.firstElementChild;
-    MR.Description = MR.Box.getElementsByClassName(`esgst-mr-description`)[0];
-    MR.Cancel = MR.Box.getElementsByClassName(`esgst-mr-cancel`)[0];
+    MR.Description = MR.Box.getElementsByClassName('esgst-mr-description')[0];
+    MR.Cancel = MR.Box.getElementsByClassName('esgst-mr-cancel')[0];
     if (gSettings.cfh) {
       shared.esgst.modules.commentsCommentFormattingHelper.cfh_addPanel(MR.Description);
     }
@@ -210,7 +210,7 @@ class CommentsMultiReply extends Module {
       let Reply;
       if (shared.esgst.sg) {
         if (id) {
-          Reply = utils.parseHtml(Response.responseText).getElementById(id).closest(`.comment`);
+          Reply = utils.parseHtml(Response.responseText).getElementById(id).closest('.comment');
           if (gSettings.rfi && gSettings.rfi_s) {
             await shared.esgst.modules.commentsReplyFromInbox.rfi_saveReply(id, Reply.outerHTML, MR.url);
           }
@@ -223,14 +223,14 @@ class CommentsMultiReply extends Module {
             window.location.hash = id;
           }
         } else {
-          shared.common.createElements(DEDStatus, `inner`, [{
+          shared.common.createElements(DEDStatus, 'inner', [{
             attributes: {
-              class: `fa fa-times`
+              class: 'fa fa-times'
             },
-            type: `i`
+            type: 'i'
           }, {
-            text: `Failed!`,
-            type: `span`
+            text: 'Failed!',
+            type: 'span'
           }]);
         }
       } else {
@@ -248,19 +248,19 @@ class CommentsMultiReply extends Module {
             window.location.hash = id;
           }
         } else {
-          shared.common.createElements(DEDStatus, `inner`, [{
+          shared.common.createElements(DEDStatus, 'inner', [{
             attributes: {
-              class: `fa fa-times`
+              class: 'fa fa-times'
             },
-            type: `i`
+            type: 'i'
           }, {
-            text: `Failed!`,
-            type: `span`
+            text: 'Failed!',
+            type: 'span'
           }]);
         }
       }
     });
-    MR.Cancel.addEventListener(`click`, () => {
+    MR.Cancel.addEventListener('click', () => {
       MR.Box.remove();
       MR.Box = null;
     });
@@ -268,71 +268,71 @@ class CommentsMultiReply extends Module {
 
   mr_setEdit(MR) {
     let DisplayState, EditState, EditSave, ID, AllowReplies, Description;
-    MR.Edit = MR.Context.getElementsByClassName(shared.esgst.sg ? `js__comment-edit` : `js_comment_edit`)[0];
+    MR.Edit = MR.Context.getElementsByClassName(shared.esgst.sg ? 'js__comment-edit' : 'js_comment_edit')[0];
     if (MR.Edit) {
-      shared.common.createElements(MR.Edit, `afterEnd`, [{
+      shared.common.createElements(MR.Edit, 'afterEnd', [{
         attributes: {
-          class: `comment__actions__button esgst-mr-edit`
+          class: 'comment__actions__button esgst-mr-edit'
         },
-        text: `Edit`,
-        type: `a`
+        text: 'Edit',
+        type: 'a'
       }]);
       MR.Edit = MR.Edit.nextElementSibling;
       MR.Edit.previousElementSibling.remove();
-      DisplayState = MR.Comment.getElementsByClassName(shared.esgst.sg ? `comment__display-state` : `comment_body_default`)[0];
-      EditState = MR.Comment.getElementsByClassName(shared.esgst.sg ? `comment__edit-state` : `edit_form`)[0];
+      DisplayState = MR.Comment.getElementsByClassName(shared.esgst.sg ? 'comment__display-state' : 'comment_body_default')[0];
+      EditState = MR.Comment.getElementsByClassName(shared.esgst.sg ? 'comment__edit-state' : 'edit_form')[0];
       EditSave = EditState.querySelector(`.js__comment-edit-save, .js_submit, .EditSave`);
-      shared.common.createElements(EditSave, `afterEnd`, [{
+      shared.common.createElements(EditSave, 'afterEnd', [{
         attributes: {
-          class: `comment__submit-button btn_action white EditSave`
+          class: 'comment__submit-button btn_action white EditSave'
         },
-        type: `a`,
+        type: 'a',
         children: [{
           attributes: {
-            class: `fa fa-edit`
+            class: 'fa fa-edit'
           },
-          type: `i`
+          type: 'i'
         }, {
-          text: `Edit`,
-          type: `span`
+          text: 'Edit',
+          type: 'span'
         }]
       }]);
       EditSave = EditSave.nextElementSibling;
       EditSave.previousElementSibling.remove();
       ID = EditState.querySelector(`[name="comment_id"]`).value;
-      AllowReplies = shared.esgst.sg ? EditState.querySelector(`[name="allow_replies"]`).value : ``;
+      AllowReplies = shared.esgst.sg ? EditState.querySelector(`[name="allow_replies"]`).value : '';
       Description = EditState.querySelector(`[name="description"]`);
-      MR.Edit.addEventListener(`click`, () => {
+      MR.Edit.addEventListener('click', () => {
         let Temp;
         if (shared.esgst.sg) {
-          DisplayState.classList.add(`is-hidden`);
-          MR.Context.classList.add(`is-hidden`);
+          DisplayState.classList.add('is-hidden');
+          MR.Context.classList.add('is-hidden');
         } else {
-          MR.Container.classList.add(`is_hidden`);
+          MR.Container.classList.add('is_hidden');
         }
-        EditState.classList.remove(shared.esgst.sg ? `is-hidden` : `is_hidden`);
+        EditState.classList.remove(shared.esgst.sg ? 'is-hidden' : 'is_hidden');
         Temp = Description.value;
         Description.focus();
-        Description.value = ``;
+        Description.value = '';
         Description.value = Temp;
       });
-      EditSave.addEventListener(`click`, async () => {
+      EditSave.addEventListener('click', async () => {
         let ResponseJSON, ResponseHTML;
         ResponseJSON = JSON.parse((await shared.common.request({
           data: `xsrf_token=${shared.esgst.xsrfToken}&do=comment_edit&comment_id=${ID}&allow_replies=${AllowReplies}&description=${encodeURIComponent(Description.value)}`,
-          method: `POST`,
-          url: `/ajax.php`
+          method: 'POST',
+          url: '/ajax.php'
         })).responseText);
-        if (ResponseJSON.type === `success` || ResponseJSON.success) {
-          ResponseHTML = utils.parseHtml(ResponseJSON[shared.esgst.sg ? `comment` : `html`]);
+        if (ResponseJSON.type === 'success' || ResponseJSON.success) {
+          ResponseHTML = utils.parseHtml(ResponseJSON[shared.esgst.sg ? 'comment' : 'html']);
           if (gSettings.rfi && gSettings.rfi_s) {
             let reply = MR.Comment.cloneNode(true);
             if (shared.esgst.sg) {
-              shared.common.createElements(reply, `inner`, [{
+              shared.common.createElements(reply, 'inner', [{
                 attributes: {
-                  class: `ajax comment__child`
+                  class: 'ajax comment__child'
                 },
-                type: `div`,
+                type: 'div',
                 children: [...(Array.from(ResponseHTML.body.childNodes).map(x => {
                   return {
                     context: x.cloneNode(true)
@@ -340,31 +340,31 @@ class CommentsMultiReply extends Module {
                 }))]
               }, {
                 attributes: {
-                  class: `comment__children`
+                  class: 'comment__children'
                 },
-                type: `div`
+                type: 'div'
               }]);
             } else {
-              shared.common.createElements(reply, `inner`, [...(Array.from(ResponseHTML.body.childNodes).map(x => {
+              shared.common.createElements(reply, 'inner', [...(Array.from(ResponseHTML.body.childNodes).map(x => {
                 return {
                   context: x.cloneNode(true)
                 };
               })), {
                 attributes: {
-                  class: `comment__children`
+                  class: 'comment__children'
                 },
-                type: `div`
+                type: 'div'
               }]);
             }
             await shared.esgst.modules.commentsReplyFromInbox.rfi_saveReply(MR.url.match(/\/comment\/(.+)/)[1], reply.outerHTML, null, true);
           }
-          shared.common.createElements(DisplayState, `inner`, [...(Array.from(ResponseHTML.getElementsByClassName(shared.esgst.sg ? `comment__display-state` : `comment_body_default`)[0].childNodes).map(x => {
+          shared.common.createElements(DisplayState, 'inner', [...(Array.from(ResponseHTML.getElementsByClassName(shared.esgst.sg ? 'comment__display-state' : 'comment_body_default')[0].childNodes).map(x => {
             return {
               context: x
             };
           }))]);
-          EditState.classList.add(shared.esgst.sg ? `is-hidden` : `is_hidden`);
-          shared.common.createElements(MR.Timestamp, `inner`, [...(Array.from(ResponseHTML.getElementsByClassName(shared.esgst.sg ? `comment__actions` : `action_list`)[0].firstElementChild.childNodes).map(x => {
+          EditState.classList.add(shared.esgst.sg ? 'is-hidden' : 'is_hidden');
+          shared.common.createElements(MR.Timestamp, 'inner', [...(Array.from(ResponseHTML.getElementsByClassName(shared.esgst.sg ? 'comment__actions' : 'action_list')[0].firstElementChild.childNodes).map(x => {
             return {
               context: x
             };
@@ -374,17 +374,17 @@ class CommentsMultiReply extends Module {
           }
           if (gSettings.ged) {
             await shared.esgst.ged_addIcons([{
-              actions: MR.Container.getElementsByClassName(shared.esgst.sg ? `comment__actions` : `action_list`)[0],
+              actions: MR.Container.getElementsByClassName(shared.esgst.sg ? 'comment__actions' : 'action_list')[0],
               displayState: DisplayState,
               comment: MR.Container,
               id: MR.url.match(/\/comment\/(.+)/)[1]
             }]);
           }
           if (shared.esgst.sg) {
-            DisplayState.classList.remove(`is-hidden`);
-            MR.Context.classList.remove(`is-hidden`);
+            DisplayState.classList.remove('is-hidden');
+            MR.Context.classList.remove('is-hidden');
           } else {
-            MR.Container.classList.remove(`is_hidden`);
+            MR.Container.classList.remove('is_hidden');
           }
         }
       });
@@ -393,54 +393,54 @@ class CommentsMultiReply extends Module {
 
   mr_setDelete(mr) {
     let allowReplies, data, id;
-    mr.delete = mr.Context.getElementsByClassName(shared.esgst.sg ? `js__comment-delete` : `js_comment_delete`)[0];
+    mr.delete = mr.Context.getElementsByClassName(shared.esgst.sg ? 'js__comment-delete' : 'js_comment_delete')[0];
     if (mr.delete) {
       if (shared.esgst.sg) {
         allowReplies = mr.delete.parentElement.querySelector(`[name="allow_replies"]`).value;
         id = mr.delete.parentElement.querySelector(`[name="comment_id"]`).value;
         data = `xsrf_token=${shared.esgst.xsrfToken}&do=comment_delete&allow_replies=${allowReplies}&comment_id=${id}`;
       } else {
-        data = mr.delete.getAttribute(`data-form`);
+        data = mr.delete.getAttribute('data-form');
       }
-      shared.common.createElements(mr.delete, `afterEnd`, [{
+      shared.common.createElements(mr.delete, 'afterEnd', [{
         attributes: {
-          class: `comment__actions__button esgst-mr-delete`
+          class: 'comment__actions__button esgst-mr-delete'
         },
-        text: `Delete`,
-        type: `a`
+        text: 'Delete',
+        type: 'a'
       }]);
       mr.delete = mr.delete.nextElementSibling;
       mr.delete.previousElementSibling.remove();
-      mr.delete.addEventListener(`click`, async () => {
+      mr.delete.addEventListener('click', async () => {
         // noinspection JSIgnoredPromiseFromCall
-        this.mr_editReply(mr, await shared.common.request({ data, method: `POST`, url: `/ajax.php` }));
+        this.mr_editReply(mr, await shared.common.request({ data, method: 'POST', url: '/ajax.php' }));
       });
     }
   }
 
   mr_setUndelete(mr) {
     let allowReplies, data, id;
-    mr.undelete = mr.Context.getElementsByClassName(shared.esgst.sg ? `js__comment-undelete` : `js_comment_undelete`)[0];
+    mr.undelete = mr.Context.getElementsByClassName(shared.esgst.sg ? 'js__comment-undelete' : 'js_comment_undelete')[0];
     if (mr.undelete) {
       if (shared.esgst.sg) {
         allowReplies = mr.undelete.parentElement.querySelector(`[name="allow_replies"]`).value;
         id = mr.undelete.parentElement.querySelector(`[name="comment_id"]`).value;
         data = `xsrf_token=${shared.esgst.xsrfToken}&do=comment_undelete&allow_replies=${allowReplies}&comment_id=${id}`;
       } else {
-        data = mr.undelete.getAttribute(`data-form`);
+        data = mr.undelete.getAttribute('data-form');
       }
-      shared.common.createElements(mr.undelete, `afterEnd`, [{
+      shared.common.createElements(mr.undelete, 'afterEnd', [{
         attributes: {
-          class: `comment__actions__button esgst-mr-undelete`
+          class: 'comment__actions__button esgst-mr-undelete'
         },
-        text: `Undelete`,
-        type: `a`
+        text: 'Undelete',
+        type: 'a'
       }]);
       mr.undelete = mr.undelete.nextElementSibling;
       mr.undelete.previousElementSibling.remove();
-      mr.undelete.addEventListener(`click`, async () => {
+      mr.undelete.addEventListener('click', async () => {
         // noinspection JSIgnoredPromiseFromCall
-        this.mr_editReply(mr, await shared.common.request({ data, method: `POST`, url: `/ajax.php` }));
+        this.mr_editReply(mr, await shared.common.request({ data, method: 'POST', url: '/ajax.php' }));
       });
     }
   }
@@ -448,16 +448,16 @@ class CommentsMultiReply extends Module {
   async mr_editReply(mr, response) {
     let responseHtml, responseJson;
     responseJson = JSON.parse(response.responseText);
-    if (responseJson.type === `success` || responseJson.success) {
-      responseHtml = utils.parseHtml(responseJson[shared.esgst.sg ? `comment` : `html`]);
+    if (responseJson.type === 'success' || responseJson.success) {
+      responseHtml = utils.parseHtml(responseJson[shared.esgst.sg ? 'comment' : 'html']);
       if (shared.esgst.sg) {
-        shared.common.createElements(mr.Container, `inner`, [...(Array.from(responseHtml.getElementsByClassName(`comment__summary`)[0].childNodes).map(x => {
+        shared.common.createElements(mr.Container, 'inner', [...(Array.from(responseHtml.getElementsByClassName('comment__summary')[0].childNodes).map(x => {
           return {
             context: x
           };
         }))]);
       } else {
-        shared.common.createElements(mr.Container, `inner`, [...(Array.from(responseHtml.getElementsByClassName(`comment_inner`)[0].childNodes).map(x => {
+        shared.common.createElements(mr.Container, 'inner', [...(Array.from(responseHtml.getElementsByClassName('comment_inner')[0].childNodes).map(x => {
           return {
             context: x
           };
@@ -466,11 +466,11 @@ class CommentsMultiReply extends Module {
       if (gSettings.rfi && gSettings.rfi_s) {
         let reply = mr.Comment.cloneNode(true);
         if (shared.esgst.sg) {
-          shared.common.createElements(reply, `inner`, [{
+          shared.common.createElements(reply, 'inner', [{
             attributes: {
-              class: `ajax comment__child`
+              class: 'ajax comment__child'
             },
-            type: `div`,
+            type: 'div',
             children: [...(Array.from(responseHtml.body.childNodes).map(x => {
               return {
                 context: x
@@ -478,20 +478,20 @@ class CommentsMultiReply extends Module {
             }))]
           }, {
             attributes: {
-              class: `comment__children`
+              class: 'comment__children'
             },
-            type: `div`
+            type: 'div'
           }]);
         } else {
-          shared.common.createElements(reply, `inner`, [...(Array.from(responseHtml.body.childNodes).map(x => {
+          shared.common.createElements(reply, 'inner', [...(Array.from(responseHtml.body.childNodes).map(x => {
             return {
               context: x
             };
           })), {
             attributes: {
-              class: `comment__children`
+              class: 'comment__children'
             },
-            type: `div`
+            type: 'div'
           }]);
         }
         await shared.esgst.modules.commentsReplyFromInbox.rfi_saveReply(mr.url.match(/\/comment\/(.+)/)[1], reply.outerHTML, null, true);

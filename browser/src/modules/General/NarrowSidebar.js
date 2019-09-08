@@ -5,21 +5,21 @@ class GeneralNarrowSidebar extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, `Keeps the sidebar narrowed in all pages.`]
+        ['ul', [
+          ['li', 'Keeps the sidebar narrowed in all pages.']
         ]]
       ],
-      id: `ns`,
-      name: `Narrow Sidebar`,
+      id: 'ns',
+      name: 'Narrow Sidebar',
       sg: true,
-      type: `general`
+      type: 'general'
     };
   }
 
   init() {
     if (!this.esgst.sidebar) return;
-    this.esgst.sidebar.classList.remove(`sidebar--wide`);
-    this.esgst.sidebar.classList.add(`esgst-ns`);
+    this.esgst.sidebar.classList.remove('sidebar--wide');
+    this.esgst.sidebar.classList.add('esgst-ns');
   }
 }
 

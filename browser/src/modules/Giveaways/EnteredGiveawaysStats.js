@@ -7,22 +7,22 @@ class GiveawaysEnteredGiveawaysStats extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, `Allows you to see stats for your entered giveaways in the sidebar of the entered page.`]
+        ['ul', [
+          ['li', 'Allows you to see stats for your entered giveaways in the sidebar of the entered page.']
         ]]
       ],
       features: {
         egs_e: {
-          name: `Include ended giveaways in the stats.`,
-          sgPaths: `My Giveaways - Entered`,
+          name: 'Include ended giveaways in the stats.',
+          sgPaths: 'My Giveaways - Entered',
           sg: true
         }
       },
-      id: `egs`,
-      name: `Entered Giveaways Stats`,
+      id: 'egs',
+      name: 'Entered Giveaways Stats',
       sg: true,
-      sgPaths: `My Giveaways - Entered`,
-      type: `giveaways`
+      sgPaths: 'My Giveaways - Entered',
+      type: 'giveaways'
     };
   }
 
@@ -30,32 +30,32 @@ class GiveawaysEnteredGiveawaysStats extends Module {
     if (!this.esgst.enteredPath) {
       return;
     }
-    common.createSidebarNavigation(this.esgst.sidebar, `beforeEnd`, {
-      name: `Entered Giveaways Stats`,
+    common.createSidebarNavigation(this.esgst.sidebar, 'beforeEnd', {
+      name: 'Entered Giveaways Stats',
       items: [
         {
-          id: `egs_chance`,
-          name: `Average Chance`,
+          id: 'egs_chance',
+          name: 'Average Chance',
           count: 0
         },
         {
-          id: `egs_level`,
-          name: `Average Level`,
+          id: 'egs_level',
+          name: 'Average Level',
           count: 0
         },
         {
-          id: `egs_entries`,
-          name: `Average Entries`,
+          id: 'egs_entries',
+          name: 'Average Entries',
           count: 0
         },
         {
-          id: `egs_points`,
-          name: `Average Points Spent`,
+          id: 'egs_points',
+          name: 'Average Points Spent',
           count: 0
         },
         {
-          id: `egs_simple_points`,
-          name: `Total Points Spent`,
+          id: 'egs_simple_points',
+          name: 'Total Points Spent',
           count: 0
         }
       ]
@@ -74,10 +74,10 @@ class GiveawaysEnteredGiveawaysStats extends Module {
       total: 0
     };
     for (const key in obj.counters) {
-      obj.elements[key] = document.querySelector(`#egs_${key}`).querySelector(`.sidebar__navigation__item__count`);
+      obj.elements[key] = document.querySelector(`#egs_${key}`).querySelector('.sidebar__navigation__item__count');
     }
     for (const key in obj.simpleCounters) {
-      obj.elements[`simple_${key}`] = document.querySelector(`#egs_simple_${key}`).querySelector(`.sidebar__navigation__item__count`);
+      obj.elements[`simple_${key}`] = document.querySelector(`#egs_simple_${key}`).querySelector('.sidebar__navigation__item__count');
     }
     this.esgst.giveawayFeatures.push((giveaways, main) => this.addStats(obj, giveaways, main));
   }

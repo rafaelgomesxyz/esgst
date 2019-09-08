@@ -6,25 +6,25 @@ class GeneralVisibleAttachedImages extends Module {
     super();
     this.info = {
       conflicts: [
-        `ail`
+        'ail'
       ],
       description: [
-        [`ul`, [
-          [`li`, `Displays all of the attached images (in any page) by default so that you do not need to click on "View attached image" to view them.`]
+        ['ul', [
+          ['li', `Displays all of the attached images (in any page) by default so that you do not need to click on "View attached image" to view them.`]
         ]]
       ],
       features: {
         vai_gifv: {
-          name: `Rename .gifv images to .gif so that they are properly attached.`,
+          name: 'Rename .gifv images to .gif so that they are properly attached.',
           sg: true,
           st: true
         }
       },
-      id: `vai`,
-      name: `Visible Attached Images`,
+      id: 'vai',
+      name: 'Visible Attached Images',
       sg: true,
       st: true,
-      type: `general`,
+      type: 'general',
       featureMap: {
         endless: this.vai_getImages.bind(this)
       }
@@ -32,16 +32,16 @@ class GeneralVisibleAttachedImages extends Module {
   }
 
   vai_getImages(context, main, source, endless) {
-    let buttons = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .comment__toggle-attached, .esgst-es-page-${endless}.comment__toggle-attached` : `.comment__toggle-attached`}, ${endless ? `.esgst-es-page-${endless} .view_attached, .esgst-es-page-${endless}.view_attached` : `.view_attached`}`);
+    let buttons = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .comment__toggle-attached, .esgst-es-page-${endless}.comment__toggle-attached` : '.comment__toggle-attached'}, ${endless ? `.esgst-es-page-${endless} .view_attached, .esgst-es-page-${endless}.view_attached` : '.view_attached'}`);
     for (let i = 0, n = buttons.length; i < n; i++) {
       let button = buttons[i];
       let image = button.nextElementSibling.firstElementChild;
-      let url = image.getAttribute(`src`);
+      let url = image.getAttribute('src');
       if (url && gSettings.vai_gifv) {
-        url = url.replace(/\.gifv/, `.gif`);
-        image.setAttribute(`src`, url);
+        url = url.replace(/\.gifv/, '.gif');
+        image.setAttribute('src', url);
       }
-      image.classList.remove(`is_hidden`, `is-hidden`);
+      image.classList.remove('is_hidden', 'is-hidden');
     }
   }
 }

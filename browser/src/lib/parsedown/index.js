@@ -3,14 +3,14 @@
 // functions taken from http://locutus.io/
 
 function rtrim(string, charList) {
-  charList = !charList ? ` \\s\u00A0` : `${charList}`.replace(/([[\]().?/*{}+$^:])/g, `\\$1`);
-  return `${string}`.replace(new RegExp(`[` + charList + `]+$`, `g`), ``);
+  charList = !charList ? ' \\s\u00A0' : `${charList}`.replace(/([[\]().?/*{}+$^:])/g, `\\$1`);
+  return `${string}`.replace(new RegExp(`[' + charList + ']+$`, 'g'), '');
 }
 
 function trim(string, charList) {
   let i, n, whiteSpace;
-  string += ``;
-  whiteSpace = ` \n\r\t\f\x0b\xa0\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u200b\u2028\u2029\u3000`;
+  string += '';
+  whiteSpace = ' \n\r\t\f\x0b\xa0\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u200b\u2028\u2029\u3000';
   if (charList) {
     whiteSpace = `${charList}`.replace(/([[\]().?/*{}+$^:])/g, `$1`);
   }
@@ -26,7 +26,7 @@ function trim(string, charList) {
       break
     }
   }
-  return whiteSpace.indexOf(string.charAt(0)) === -1 ? string : ``;
+  return whiteSpace.indexOf(string.charAt(0)) === -1 ? string : '';
 }
 
 function strlen(string) {
@@ -34,23 +34,23 @@ function strlen(string) {
   let getWholeChar = (string, i) => {
     let code, next, prev;
     code = string.charCodeAt(i);
-    next = prev = ``;
+    next = prev = '';
     if (code >= 0xD800 && code <= 0xDBFF) {
       if (string.length <= i + 1) {
-        throw new Error(`High surrogate without following low surrogate`);
+        throw new Error('High surrogate without following low surrogate');
       }
       next = string.charCodeAt(i + 1);
       if (next < 0xDC00 || next > 0xDFFF) {
-        throw new Error(`High surrogate without following low surrogate`);
+        throw new Error('High surrogate without following low surrogate');
       }
       return string.charAt(i) + string.charAt(i + 1);
     } else if (code >= 0xDC00 && code <= 0xDFFF) {
       if (i === 0) {
-        throw new Error(`Low surrogate without preceding high surrogate`);
+        throw new Error('Low surrogate without preceding high surrogate');
       }
       prev = string.charCodeAt(i - 1);
       if (prev < 0xD800 || prev > 0xDBFF) {
-        throw new Error(`Low surrogate without preceding high surrogate`);
+        throw new Error('Low surrogate without preceding high surrogate');
       }
       return false;
     }
@@ -84,72 +84,72 @@ function strpbrk(string, charList) {
 let methods, variables;
 variables = {
   blockTypes: {
-    [`#`]: [`Header`],
-    [`*`]: [`Rule`, `List`],
-    [`+`]: [`List`],
-    [`-`]: [`SetextHeader`, `Table`, `Rule`, `List`],
-    [`0`]: [`List`],
-    [`1`]: [`List`],
-    [`2`]: [`List`],
-    [`3`]: [`List`],
-    [`4`]: [`List`],
-    [`5`]: [`List`],
-    [`6`]: [`List`],
-    [`7`]: [`List`],
-    [`8`]: [`List`],
-    [`9`]: [`List`],
-    [`:`]: [`Table`],
-    [`<`]: [`Comment`, `Markup`],
-    [`=`]: [`SetextHeader`],
-    [`>`]: [`Quote`],
-    [`[`]: [`Reference`],
-    [`_`]: [`Rule`],
-    [`\``]: [`FencedCode`],
-    [`|`]: [`Table`],
-    [`~`]: [`FencedCode`]
+    ['#']: ['Header'],
+    ['*']: ['Rule', 'List'],
+    ['+']: ['List'],
+    ['-']: ['SetextHeader', 'Table', 'Rule', 'List'],
+    ['0']: ['List'],
+    ['1']: ['List'],
+    ['2']: ['List'],
+    ['3']: ['List'],
+    ['4']: ['List'],
+    ['5']: ['List'],
+    ['6']: ['List'],
+    ['7']: ['List'],
+    ['8']: ['List'],
+    ['9']: ['List'],
+    [`:`]: ['Table'],
+    ['<']: ['Comment', 'Markup'],
+    [`=`]: ['SetextHeader'],
+    ['>']: ['Quote'],
+    [`[`]: ['Reference'],
+    ['_']: ['Rule'],
+    ['`']: ['FencedCode'],
+    ['|']: ['Table'],
+    ['~']: ['FencedCode']
   },
   breaksEnabled: false,
   definitionData: {},
   emRegex: {
-    [`*`]: /^[*]((?:\\\\\*|[^*]|[*][*][^*]+?[*][*])+?)[*](?![*])/,
-    [`_`]: /^_((?:\\\\_|[^_]|__[^_]*__)+?)_(?!_)\b/u
+    ['*']: /^[*]((?:\\\\\*|[^*]|[*][*][^*]+?[*][*])+?)[*](?![*])/,
+    ['_']: /^_((?:\\\\_|[^_]|__[^_]*__)+?)_(?!_)\b/u
   },
-  inlineMarkerList: `!"*_&[:<>\`~\\`,
+  inlineMarkerList: '!"*_&[:<>`~\\',
   inlineTypes: {
-    [`"`]: [`SpecialCharacter`],
-    [`!`]: [`Image`],
-    [`&`]: [`SpecialCharacter`],
-    [`*`]: [`Emphasis`],
-    [`:`]: [`Url`],
-    [`<`]: [`UrlTag`, `EmailTag`, `Markup`, `SpecialCharacter`],
-    [`>`]: [`SpecialCharacter`],
-    [`[`]: [`Link`],
-    [`_`]: [`Emphasis`],
-    [`\``]: [`Code`],
-    [`~`]: [`Strikethrough`],
-    [`\\`]: [`EscapeSequence`],
+    ['"']: ['SpecialCharacter'],
+    ['!']: ['Image'],
+    ['&']: ['SpecialCharacter'],
+    ['*']: ['Emphasis'],
+    [`:`]: ['Url'],
+    ['<']: ['UrlTag', 'EmailTag', 'Markup', 'SpecialCharacter'],
+    ['>']: ['SpecialCharacter'],
+    [`[`]: ['Link'],
+    ['_']: ['Emphasis'],
+    ['`']: ['Code'],
+    ['~']: ['Strikethrough'],
+    ['\\']: ['EscapeSequence'],
   },
   markupEscaped: false,
   regexHtmlAttribute: `[a-zA-Z_:][:.-\\w]*(?:\\s*=\\s*(?:[^"'=<>\`\\s]+|"[^"]*"|'[^']*'))?`,
-  specialCharacters: [`\\`, `\``, `*`, `_`, `{`, `}`, `[`, `]`, `(`, `)`, `>`, `#`, `+`, `-`, `.`, `!`, `|`],
+  specialCharacters: ['\\', '`', '*', '_', '{', '}', `[`, `]`, `(`, `)`, '>', '#', '+', '-', '.', '!', '|'],
   strongRegex: {
-    [`*`]: /^[*]{2}((?:\\\\\*|[^*]|[*][^*]*[*])+?)[*]{2}(?![*])/,
-    [`_`]: /^__((?:\\\\_|[^_]|_[^_]*_)+?)__(?!_)/u
+    ['*']: /^[*]{2}((?:\\\\\*|[^*]|[*][^*]*[*])+?)[*]{2}(?![*])/,
+    ['_']: /^__((?:\\\\_|[^_]|_[^_]*_)+?)__(?!_)/u
   },
   textLevelElements: [
-    `a`, `br`, `bdo`, `abbr`, `blink`, `nextid`, `acronym`, `basefont`,
-    `b`, `em`, `big`, `cite`, `small`, `spacer`, `listing`,
-    `i`, `rp`, `del`, `code`, `strike`, `marquee`,
-    `q`, `rt`, `ins`, `font`, `strong`,
-    `s`, `tt`, `kbd`, `mark`,
-    `u`, `xm`, `sub`, `nobr`,
-    `sup`, `ruby`,
-    `var`, `span`,
-    `wbr`, `time`
+    'a', 'br', 'bdo', 'abbr', 'blink', 'nextid', 'acronym', 'basefont',
+    'b', 'em', 'big', 'cite', 'small', 'spacer', 'listing',
+    'i', 'rp', 'del', 'code', 'strike', 'marquee',
+    'q', 'rt', 'ins', 'font', 'strong',
+    's', 'tt', 'kbd', 'mark',
+    'u', 'xm', 'sub', 'nobr',
+    'sup', 'ruby',
+    'var', 'span',
+    'wbr', 'time'
   ],
-  unmarkedBlockTypes: [`Code`],
+  unmarkedBlockTypes: ['Code'],
   urlsLinked: true,
-  voidElements: [`area`, `base`, `br`, `col`, `command`, `embed`, `hr`, `img`, `input`, `link`, `meta`, `param`, `source`]
+  voidElements: ['area', 'base', 'br', 'col', 'command', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source']
 };
 // noinspection JSUnusedGlobalSymbols
 methods = {
@@ -159,21 +159,21 @@ methods = {
     blocks = [];
     main: for (i = 0, n1 = lines.length; i < n1; ++i) {
       line = lines[i];
-      if (rtrim(line) === ``) {
+      if (rtrim(line) === '') {
         if (methods.isSet(currentBlock)) {
           currentBlock.interrupted = true;
         }
         continue;
       }
-      if (line.indexOf(`\t`) > -1) {
-        parts = line.split(`\t`);
+      if (line.indexOf('\t') > -1) {
+        parts = line.split('\t');
         line = parts.shift();
         parts.forEach(part => {
-          line += `${` `.repeat(4 - line.length % 4)}${part}`; // original method: mb_strlen with UTF-8
+          line += `${' '.repeat(4 - line.length % 4)}${part}`; // original method: mb_strlen with UTF-8
         });
       }
       indent = 0;
-      while (methods.isSet(line[indent]) && line[indent] === ` `) {
+      while (methods.isSet(line[indent]) && line[indent] === ' ') {
         indent += 1;
       }
       text = indent > 0 ? line.slice(indent) : line;
@@ -226,7 +226,7 @@ methods = {
     }
     blocks.push(currentBlock);
     blocks.shift();
-    markup = ``;
+    markup = '';
     for (i = 0, n1 = blocks.length; i < n1; ++i) {
       block = blocks[i];
       if (methods.isSet(block.hidden)) {
@@ -234,12 +234,12 @@ methods = {
       }
       markup += `\n${methods.isSet(block.markup) ? block.markup : methods.element(block.element)}`;
     }
-    markup += `\n`;
+    markup += '\n';
     return markup;
   },
-  isBlockContinuable: type => typeof methods[`block${type}Continue`] !== `undefined`,
-  isBlockCompletable: type => typeof methods[`block${type}Complete`] !== `undefined`,
-  isSet: element => typeof element !== `undefined` && element !== null,
+  isBlockContinuable: type => typeof methods[`block${type}Continue`] !== 'undefined',
+  isBlockCompletable: type => typeof methods[`block${type}Complete`] !== 'undefined',
+  isSet: element => typeof element !== 'undefined' && element !== null,
   blockCode: (line, block = null) => {
     if (methods.isSet(block) && !methods.isSet(block.type) && !methods.isSet(block.interrupted)) {
       return;
@@ -247,10 +247,10 @@ methods = {
     if (line.indent >= 4) {
       return {
         element: {
-          handler: `element`,
-          name: `pre`,
+          handler: 'element',
+          name: 'pre',
           text: {
-            name: `code`,
+            name: 'code',
             text: line.body.slice(4)
           }
         }
@@ -261,7 +261,7 @@ methods = {
     if (line.indent >= 4) {
       if (methods.isSet(block.interrupted)) {
         // noinspection JSPrimitiveTypeWrapperUsage
-        block.element.text.text += `\n`;
+        block.element.text.text += '\n';
         delete block.interrupted;
       }
       // noinspection JSPrimitiveTypeWrapperUsage
@@ -270,14 +270,14 @@ methods = {
     }
   },
   blockCodeComplete: block => {
-    block.element.text.text = block.element.text.text.replace(/</g, `&lt;`).replace(/>/g, `&gt;`);
+    block.element.text.text = block.element.text.text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
     return block;
   },
   blockComment: line => {
     if (variables.markupEscaped) {
       return;
     }
-    if (methods.isSet(line.text[3]) && line.text[3] === `-` && line.text[2] === `-` && line.text[1] === `!`) {
+    if (methods.isSet(line.text[3]) && line.text[3] === '-' && line.text[2] === '-' && line.text[1] === '!') {
       let block = {
         markup: line.body
       };
@@ -301,8 +301,8 @@ methods = {
     let matches = line.text.match(new RegExp(`^[` + line.text[0] + `]{3,}[ ]*([\\w-]+)?[ ]*$`));
     if (matches) {
       let element = {
-        name: `code`,
-        text: ``
+        name: 'code',
+        text: ''
       };
       if (methods.isSet(matches[1])) {
         element.attributes = {
@@ -312,8 +312,8 @@ methods = {
       return {
         char: line.text[0],
         element: {
-          handler: `element`,
-          name: `pre`,
+          handler: 'element',
+          name: 'pre',
           text: element
         }
       };
@@ -324,7 +324,7 @@ methods = {
       return;
     }
     if (methods.isSet(block.interrupted)) {
-      block.element.text.text += `\n`;
+      block.element.text.text += '\n';
       delete block.interrupted;
     }
     if (line.text.match(new RegExp(`^${block.char}{3,}[ ]*$`))) {
@@ -336,13 +336,13 @@ methods = {
     return block;
   },
   blockFencedCodeComplete: block => {
-    block.element.text.text = block.element.text.text.replace(/</g, `&lt;`).replace(/>/g, `&gt;`);
+    block.element.text.text = block.element.text.text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
     return block;
   },
   blockHeader: line => {
     if (methods.isSet(line.text[1])) {
       let level = 1;
-      while (methods.isSet(line.text[level]) && line.text[level] === `#`) {
+      while (methods.isSet(line.text[level]) && line.text[level] === '#') {
         level += 1;
       }
       if (level > 6) {
@@ -350,37 +350,37 @@ methods = {
       }
       return {
         element: {
-          handler: `line`,
+          handler: 'line',
           name: `h${Math.min(6, level)}`,
-          text: trim(line.text, `# `)
+          text: trim(line.text, '# ')
         }
       };
     }
   },
   blockList: line => {
     let matches, name, pattern;
-    [name, pattern] = line.text[0] <= `-` ? [`ul`, `[*+-]`] : [`ol`, `[0-9]+[.]`];
+    [name, pattern] = line.text[0] <= '-' ? ['ul', `[*+-]`] : ['ol', `[0-9]+[.]`];
     matches = line.text.match(new RegExp(`^(${pattern}[ ]+)(.*)`));
     if (matches) {
       let block = {
         element: {
-          handler: `elements`,
+          handler: 'elements',
           name
         },
         indent: line.indent,
         pattern
       };
-      if (name === `ol`) {
-        let listStart = matches[0].slice(0, matches[0].indexOf(`.`));
-        if (listStart !== `1`) {
+      if (name === 'ol') {
+        let listStart = matches[0].slice(0, matches[0].indexOf('.'));
+        if (listStart !== '1') {
           block.element.attributes = {
             start: listStart
           };
         }
       }
       block.li = {
-        handler: `li`,
-        name: `li`,
+        handler: 'li',
+        name: 'li',
         text: [matches[2]]
       };
       block.element.text = [block.li]; // original attribution: []= &
@@ -391,14 +391,14 @@ methods = {
     let matches = line.text.match(new RegExp(`^${block.pattern}(?:[ ]+(.*)|$)`));
     if (block.indent === line.indent && matches) {
       if (methods.isSet(block.interrupted)) {
-        block.li.text.push(``);
+        block.li.text.push('');
         delete block.interrupted;
       }
       delete block.li;
       block.li = {
-        handler: `li`,
-        name: `li`,
-        text: [methods.isSet(matches[1]) ? matches[1] : ``]
+        handler: 'li',
+        name: 'li',
+        text: [methods.isSet(matches[1]) ? matches[1] : '']
       };
       block.element.text.push(block.li);
       return block;
@@ -407,12 +407,12 @@ methods = {
       return block;
     }
     if (!methods.isSet(block.interrupted)) {
-      block.li.text.push(line.body.replace(/^[ ]{0,4}/, ``));
+      block.li.text.push(line.body.replace(/^[ ]{0,4}/, ''));
       return block;
     }
     if (line.indent > 0) {
-      block.li.text.push(``);
-      block.li.text.push(line.body.replace(/^[ ]{0,4}/, ``));
+      block.li.text.push('');
+      block.li.text.push(line.body.replace(/^[ ]{0,4}/, ''));
       delete block.interrupted;
       return block;
     }
@@ -422,8 +422,8 @@ methods = {
     if (matches) {
       return {
         element: {
-          handler: `lines`,
-          name: `blockquote`,
+          handler: 'lines',
+          name: 'blockquote',
           text: [matches[1]]
         }
       };
@@ -431,9 +431,9 @@ methods = {
   },
   blockQuoteContinue: (line, block) => {
     let matches = line.text.match(/^>[ ]?(.*)/);
-    if (line.text[0] === `>` && matches) {
+    if (line.text[0] === '>' && matches) {
       if (methods.isSet(block.interrupted)) {
-        block.element.text.push(``);
+        block.element.text.push('');
         delete block.interrupted;
       }
       block.element.text.push(matches[1]);
@@ -448,7 +448,7 @@ methods = {
     if (line.text.match(new RegExp(`^([` + line.text[0] + `])([ ]*\\1){2,}[ ]*$`))) {
       return {
         element: {
-          name: `hr`
+          name: 'hr'
         }
       };
     }
@@ -457,8 +457,8 @@ methods = {
     if (!methods.isSet(block) || methods.isSet(block.type) || methods.isSet(block.interrupted)) {
       return;
     }
-    if (rtrim(line.text, line.text[0]) === ``) {
-      block.element.name = line.text[0] === `=` ? `h1` : `h2`;
+    if (rtrim(line.text, line.text[0]) === '') {
+      block.element.name = line.text[0] === `=` ? 'h1' : 'h2';
       return block;
     }
   },
@@ -480,7 +480,7 @@ methods = {
         void: false
       };
       remainder = line.text.slice(strlen(matches[0]));
-      if (trim(remainder) === ``) {
+      if (trim(remainder) === '') {
         if (methods.isSet(matches[2]) || variables.voidElements.indexOf(matches[1]) > -1) {
           block.closed = true;
           block.void = true;
@@ -489,7 +489,7 @@ methods = {
         if (methods.isSet(matches[2]) || variables.voidElements.indexOf(matches[1]) > -1) {
           return;
         }
-        if (remainder.match(new RegExp(`</${matches[1]}>[ ]*$`, `i`))) {
+        if (remainder.match(new RegExp(`</${matches[1]}>[ ]*$`, 'i'))) {
           block.closed = true;
         }
       }
@@ -500,10 +500,10 @@ methods = {
     if (methods.isSet(block.closed)) {
       return;
     }
-    if (line.text.match(new RegExp(`^<${block.name}(?:[ ]*${variables.regexHtmlAttribute})*[ ]*>`, `i`))) {
+    if (line.text.match(new RegExp(`^<${block.name}(?:[ ]*${variables.regexHtmlAttribute})*[ ]*>`, 'i'))) {
       block.depth += 1;
     }
-    let matches = line.text.match(new RegExp(`(.*?)</${block.name}>[ ]*$`, `i`));
+    let matches = line.text.match(new RegExp(`(.*?)</${block.name}>[ ]*$`, 'i'));
     if (matches) {
       if (block.depth > 0) {
         block.depth -= 1;
@@ -512,7 +512,7 @@ methods = {
       }
     }
     if (methods.isSet(block.interrupted)) {
-      block.markup += `\n`;
+      block.markup += '\n';
       delete block.interrupted;
     }
     block.markup += `\n${line.body}`;
@@ -538,32 +538,32 @@ methods = {
     if (!methods.isSet(block) || methods.isSet(block.type) || methods.isSet(block.interrupted)) {
       return;
     }
-    if (block.element.text.indexOf(`|`) > -1 && rtrim(line.text, ` -:|`) === ``) {
+    if (block.element.text.indexOf('|') > -1 && rtrim(line.text, ` -:|`) === '') {
       let alignment, alignments, dividerCell, dividerCells, headerCell, headerCells, headerElement, headerElements, i,
         n;
       alignments = [];
-      dividerCells = trim(trim(line.text), `|`).split(`|`);
+      dividerCells = trim(trim(line.text), '|').split('|');
       for (i = 0, n = dividerCells.length; i < n; ++i) {
         dividerCell = trim(dividerCells[i]);
-        if (dividerCell === ``) {
+        if (dividerCell === '') {
           continue;
         }
         alignment = null;
         if (dividerCell[0] === `:`) {
-          alignment = `left`;
+          alignment = 'left';
         }
         if (dividerCell.slice(-1) === `:`) {
-          alignment = alignment === `left` ? `center` : `right`;
+          alignment = alignment === 'left' ? 'center' : 'right';
         }
         alignments.push(alignment);
       }
       headerElements = [];
-      headerCells = trim(trim(block.element.text), `|`).split(`|`);
+      headerCells = trim(trim(block.element.text), '|').split('|');
       for (i = 0, n = headerCells.length; i < n; ++i) {
         headerCell = trim(headerCells[i]);
         headerElement = {
-          handler: `line`,
-          name: `th`,
+          handler: 'line',
+          name: 'th',
           text: headerCell,
           attributes: {}
         };
@@ -578,25 +578,25 @@ methods = {
       block = {
         alignments,
         element: {
-          handler: `elements`,
-          name: `table`,
+          handler: 'elements',
+          name: 'table',
           text: []
         },
         identified: true
       };
       block.element.text.push({
-        handler: `elements`,
-        name: `thead`,
+        handler: 'elements',
+        name: 'thead',
         text: []
       });
       block.element.text.push({
-        handler: `elements`,
-        name: `tbody`,
+        handler: 'elements',
+        name: 'tbody',
         text: []
       });
       block.element.text[0].text.push({
-        handler: `elements`,
-        name: `tr`,
+        handler: 'elements',
+        name: 'tr',
         text: headerElements,
       });
       return block;
@@ -606,14 +606,14 @@ methods = {
     if (methods.isSet(block.interrupted)) {
       return;
     }
-    if (line.text[0] === `|` || line.text.indexOf(`|`) > -1) {
+    if (line.text[0] === '|' || line.text.indexOf('|') > -1) {
       let element, elements, i, matches, n;
       elements = [];
-      matches = trim(trim(line.text), `|`).match(/(?:(\\\\[|])|[^|`]|`[^`]+`|`)+/g);
+      matches = trim(trim(line.text), '|').match(/(?:(\\\\[|])|[^|`]|`[^`]+'|')+/g);
       for (i = 0, n = matches.length; i < n; ++i) {
         element = {
-          handler: `line`,
-          name: `td`,
+          handler: 'line',
+          name: 'td',
           text: trim(matches[i]),
           attributes: {}
         };
@@ -625,8 +625,8 @@ methods = {
         elements.push(element);
       }
       element = {
-        handler: `elements`,
-        name: `tr`,
+        handler: 'elements',
+        name: 'tr',
         text: elements,
       };
       block.element.text[1].text.push(element);
@@ -635,14 +635,14 @@ methods = {
   },
   paragraph: line => ({
     element: {
-      handler: `line`,
-      name: `p`,
+      handler: 'line',
+      name: 'p',
       text: line.text
     }
   }),
   line: text => {
     let excerpt, i, inline, inlineType, marker, markerPosition, markup, n;
-    markup = ``;
+    markup = '';
     main: while (excerpt = strpbrk(text, variables.inlineMarkerList)) { // eslint-disable-line
       marker = excerpt[0];
       markerPosition = text.indexOf(marker);
@@ -679,8 +679,8 @@ methods = {
     if (matches && !matches[3]) {
       return {
         element: {
-          name: `code`,
-          text: matches[2].replace(/</g, `&lt;`).replace(/>/g, `&gt;`).replace(/[ ]*\n/, ``)
+          name: 'code',
+          text: matches[2].replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/[ ]*\n/, '')
         },
         extent: strlen(matches[0])
       };
@@ -688,14 +688,14 @@ methods = {
   },
   inlineEmailTag: excerpt => {
     let matches = excerpt.text.match(/^<((mailto:)?\S+?@\S+?)>/i);
-    if (excerpt.text.indexOf(`>`) > -1 && matches) {
+    if (excerpt.text.indexOf('>') > -1 && matches) {
       let url = matches[1];
       if (!methods.isSet(matches[2])) {
         url = `mailto:${url}`;
       }
       return {
         element: {
-          name: `a`,
+          name: 'a',
           text: matches[1],
           attributes: {
             href: url
@@ -712,15 +712,15 @@ methods = {
     let emphasis, marker, matches;
     marker = excerpt.text[0];
     if (excerpt.text[1] === marker && (matches = excerpt.text.match(variables.strongRegex[marker]))) {
-      emphasis = `strong`;
+      emphasis = 'strong';
     } else if (matches = excerpt.text.match(variables.emRegex[marker])) { // eslint-disable-line
-      emphasis = `em`;
+      emphasis = 'em';
     } else {
       return;
     }
     return {
       element: {
-        handler: `line`,
+        handler: 'line',
         name: emphasis,
         text: matches[1]
       },
@@ -752,7 +752,7 @@ methods = {
           alt: link.element.text,
           title: link.element.text
         },
-        name: `img`
+        name: 'img'
       },
       extent: link.extent + 1
     };
@@ -772,8 +772,8 @@ methods = {
         href: null,
         title: null
       },
-      handler: `line`,
-      name: `a`,
+      handler: 'line',
+      name: 'a',
       text: null
     };
     extent = 0;
@@ -814,32 +814,32 @@ methods = {
       element.attributes.href = definition.url;
       element.attributes.title = definition.title;
     }
-    element.attributes.href = element.attributes.href.replace(/&/g, `&amp;`).replace(/</g, `&lt;`);
+    element.attributes.href = element.attributes.href.replace(/&/g, '&amp;').replace(/</g, '&lt;');
     return {
       element,
       extent
     };
   },
   inlineMarkup: excerpt => {
-    if (variables.markupEscaped || excerpt.text.indexOf(`>`) < 0) {
+    if (variables.markupEscaped || excerpt.text.indexOf('>') < 0) {
       return;
     }
     let matches = excerpt.text.match(/^<\/\w*[ ]*>/);
-    if (excerpt.text[1] === `/` && matches) {
+    if (excerpt.text[1] === '/' && matches) {
       return {
         extent: strlen(matches[0]),
         markup: matches[0],
       };
     }
     matches = excerpt.text.match(/^<!---?[^>-](?:-?[^-])*-->/);
-    if (excerpt.text[1] === `!` && matches) {
+    if (excerpt.text[1] === '!' && matches) {
       return {
         extent: strlen(matches[0]),
         markup: matches[0],
       };
     }
     matches = excerpt.text.match(new RegExp(`^<\\w*(?:[ ]*${variables.regexHtmlAttribute})*[ ]*/?>`));
-    if (excerpt.text[1] !== ` ` && matches) {
+    if (excerpt.text[1] !== ' ' && matches) {
       return {
         extent: strlen(matches[0]),
         markup: matches[0],
@@ -847,16 +847,16 @@ methods = {
     }
   },
   inlineSpecialCharacter: excerpt => {
-    if (excerpt.text[0] === `&` && !excerpt.text.match(/^&#?\w+;/)) {
+    if (excerpt.text[0] === '&' && !excerpt.text.match(/^&#?\w+;/)) {
       return {
         extent: 1,
-        markup: `&amp;`
+        markup: '&amp;'
       };
     }
     let specialCharacter = {
-      [`>`]: `gt`,
-      [`<`]: `lt`,
-      [`"`]: `quot`
+      ['>']: 'gt',
+      ['<']: 'lt',
+      ['"']: 'quot'
     };
     if (methods.isSet(specialCharacter[excerpt.text[0]])) {
       return {
@@ -871,19 +871,19 @@ methods = {
     }
     let matches, name, text;
     if ((matches = excerpt.text.match(/^~([^~]+?)(~+)/)) && matches[2].length === 1) {
-      name = `span`;
+      name = 'span';
       text = matches[1];
     } else if ((matches = excerpt.text.match(/^~~([^~]+?)(~+)/)) && matches[2].length === 2) {
-      name = `del`;
+      name = 'del';
       text = matches[1];
     } else if (matches = excerpt.text.match(/^~~~([^~]+?)(~+)/)) { // eslint-disable-line
       switch (matches[2].length) {
         case 3:
-          name = `span`;
+          name = 'span';
           text = `~~${matches[1]}~~`;
           break;
         case 4:
-          name = `del`;
+          name = 'del';
           text = `~${matches[1]}~~`;
           break;
         default:
@@ -892,23 +892,23 @@ methods = {
     }
     if (name) {
       switch (name) {
-        case `del`:
+        case 'del':
           return {
             element: {
-              handler: `line`,
-              name: `del`,
+              handler: 'line',
+              name: 'del',
               text
             },
             extent: strlen(matches[0])
           };
-        case `span`:
+        case 'span':
           return {
             element: {
               attributes: {
-                class: `spoiler`
+                class: 'spoiler'
               },
-              handler: `line`,
-              name: `span`,
+              handler: 'line',
+              name: 'span',
               text
             },
             extent: strlen(matches[0])
@@ -919,7 +919,7 @@ methods = {
     }
   },
   inlineUrl: excerpt => {
-    if (variables.urlsLinked !== true || !methods.isSet(excerpt.text[2]) || excerpt.text[2] !== `/`) {
+    if (variables.urlsLinked !== true || !methods.isSet(excerpt.text[2]) || excerpt.text[2] !== '/') {
       return;
     }
     let match = /\bhttps?:[/]{2}[^\s<]+\b\/*/ui.exec(excerpt.context);
@@ -929,7 +929,7 @@ methods = {
           attributes: {
             href: match[0]
           },
-          name: `a`,
+          name: 'a',
           text: match[0]
         },
         extent: strlen(match[0]),
@@ -939,11 +939,11 @@ methods = {
   },
   inlineUrlTag: excerpt => {
     let matches = excerpt.text.match(/^<(\w+:\/{2}[^ >]+)>/i);
-    if (excerpt.text.indexOf(`>`) > -1 && matches) {
-      let url = matches[1].replace(/&/g, `&amp;`).replace(/</g, `&lt;`);
+    if (excerpt.text.indexOf('>') > -1 && matches) {
+      let url = matches[1].replace(/&/g, '&amp;').replace(/</g, '&lt;');
       return {
         element: {
-          name: `a`,
+          name: 'a',
           text: url,
           attributes: {
             href: url
@@ -955,12 +955,12 @@ methods = {
   },
   unmarkedText: text => {
     if (!text) {
-      return ``;
+      return '';
     }
     if (variables.breaksEnabled) {
-      return text.replace(/[ ]*\n/g, `<br />\n`);
+      return text.replace(/[ ]*\n/g, '<br />\n');
     } else {
-      return text.replace(/(?:[ ][ ]+|[ ]*\\\\)\n/g, `<br />\n`).replace(/\s\n/g, `\n`);
+      return text.replace(/(?:[ ][ ]+|[ ]*\\\\)\n/g, '<br />\n').replace(/\s\n/g, '\n');
     }
   },
   element: element => {
@@ -978,7 +978,7 @@ methods = {
       }
     }
     if (methods.isSet(element.text)) {
-      markup += `>`;
+      markup += '>';
       if (methods.isSet(element.handler)) {
         markup += methods[element.handler](element.text);
       } else {
@@ -986,23 +986,23 @@ methods = {
       }
       markup += `</${element.name}>`;
     } else {
-      markup += ` />`;
+      markup += ' />';
     }
     return markup;
   },
   elements: elements => {
-    let markup = ``;
+    let markup = '';
     elements.forEach(element => markup += `\n${methods.element(element)}`);
-    markup += `\n`;
+    markup += '\n';
     return markup;
   },
   li: lines => {
     let markup, trimmedMarkup, i;
     markup = methods.lines(lines);
     trimmedMarkup = trim(markup);
-    if (lines.indexOf(``) < 0 && trimmedMarkup.slice(0, 3) === `<p>`) {
+    if (lines.indexOf('') < 0 && trimmedMarkup.slice(0, 3) === '<p>') {
       markup = trimmedMarkup.slice(3);
-      i = markup.indexOf(`</p>`);
+      i = markup.indexOf('</p>');
       markup = `${markup.slice(0, i)}${markup.slice(i + 4)}`;
     }
     return markup;
@@ -1014,8 +1014,8 @@ class Parsedown {
     variables.definitionData = {
       Reference: {}
     };
-    let markup = methods.lines(trim(text.replace(/\r\n|\r/g, `\n`), `\n`).split(`\n`));
-    markup = trim(markup, `\n`);
+    let markup = methods.lines(trim(text.replace(/\r\n|\r/g, '\n'), '\n').split('\n'));
+    markup = trim(markup, '\n');
     return markup;
   }
 

@@ -16,7 +16,7 @@ class Giveaways extends Module {
     super();
     this.info = {
       endless: true,
-      id: `giveaways`,
+      id: 'giveaways',
       featureMap: {
         endless: this.giveaways_load.bind(this)
       }
@@ -24,7 +24,7 @@ class Giveaways extends Module {
   }
 
   async giveaways_load(context, main, source, endless) {
-    if (context.getAttribute && context.getAttribute(`data-rfi`)) return;
+    if (context.getAttribute && context.getAttribute('data-rfi')) return;
     let giveaways = await this.giveaways_get(context, main, null, false, null, false, endless);
     if (!giveaways.length) return;
     for (const [i, giveaway] of giveaways.entries()) {
@@ -45,7 +45,7 @@ class Giveaways extends Module {
       this.esgst.modules.giveawaysGiveawayFilters.filters_filter(this.esgst.gfPopup);
     }
     if (gSettings.mm_enableGiveaways && this.esgst.mm_enable) {
-      this.esgst.mm_enable(this.esgst.currentScope.giveaways, `Giveaways`);
+      this.esgst.mm_enable(this.esgst.currentScope.giveaways, 'Giveaways');
     }
   }
 
@@ -54,14 +54,14 @@ class Giveaways extends Module {
     giveaways = [];
     if (!hr && main && (this.esgst.createdPath || this.esgst.enteredPath || this.esgst.wonPath || this.esgst.archivePath)) {
       query = shared.common.getSelectors(endless, [
-        `X.giveaway__row-outer-wrap`,
-        `X.featured__outer-wrap--giveaway`,
+        'X.giveaway__row-outer-wrap',
+        'X.featured__outer-wrap--giveaway',
         `.table:not(.table--summary) X.table__row-outer-wrap`
       ]);
     } else {
       query = shared.common.getSelectors(endless, [
-        `X.giveaway__row-outer-wrap`,
-        `X.featured__outer-wrap--giveaway`
+        'X.giveaway__row-outer-wrap',
+        'X.featured__outer-wrap--giveaway'
       ]);
     }
     if (key) {
@@ -69,10 +69,10 @@ class Giveaways extends Module {
     } else {
       if (mainUrl) {
         mainContext = context;
-        key = `data`;
+        key = 'data';
       } else {
         mainContext = document;
-        key = `giveaway`;
+        key = 'giveaway';
       }
     }
     matches = context.querySelectorAll(query);
@@ -93,53 +93,53 @@ class Giveaways extends Module {
       winners: []
     };
     giveaway.outerWrap = context;
-    giveaway.gameId = giveaway.outerWrap.getAttribute(`data-game-id`);
+    giveaway.gameId = giveaway.outerWrap.getAttribute('data-game-id');
     info = await this.esgst.modules.games.games_getInfo(giveaway.outerWrap);
     if (info) {
       giveaway.id = info.id;
       giveaway.type = info.type;
       if (this.esgst.games && this.esgst.games[giveaway.type][giveaway.id]) {
-        keys = [`owned`, `wishlisted`, `followed`, `hidden`, `ignored`, `previouslyEntered`, `previouslyWon`, `reducedCV`, `noCV`, `banned`, `removed`];
+        keys = ['owned', 'wishlisted', 'followed', 'hidden', 'ignored', 'previouslyEntered', 'previouslyWon', 'reducedCV', 'noCV', 'banned', 'removed'];
         for (i = 0, n = keys.length; i < n; ++i) {
           key = keys[i];
-          if (key === `banned` && shared.esgst.delistedGames.banned.indexOf(parseInt(giveaway.id)) > -1) {
+          if (key === 'banned' && shared.esgst.delistedGames.banned.indexOf(parseInt(giveaway.id)) > -1) {
             giveaway[key] = true;
-          } else if (key === `removed` && (shared.esgst.delistedGames.removed.indexOf(parseInt(giveaway.id)) > -1 || shared.esgst.games[giveaway.type][giveaway.id].removed)) {
+          } else if (key === 'removed' && (shared.esgst.delistedGames.removed.indexOf(parseInt(giveaway.id)) > -1 || shared.esgst.games[giveaway.type][giveaway.id].removed)) {
             giveaway[key] = true;
-          } else if (shared.esgst.games[giveaway.type][giveaway.id][key === `previouslyEntered` ? `entered` : (key === `previouslyWon` ? `won` : key)]) {
+          } else if (shared.esgst.games[giveaway.type][giveaway.id][key === 'previouslyEntered' ? 'entered' : (key === 'previouslyWon' ? 'won' : key)]) {
             giveaway[key] = true;
           }
         }
       }
     }
-    const giveawayPath = common.testPath(`Giveaway`, `sg`, mainUrl || window.location.pathname);
-    const createdPath = common.testPath(`My Giveaways - Created`, `sg`, mainUrl || window.location.pathname);
-    const enteredPath = common.testPath(`My Giveaways - Entered`, `sg`, mainUrl || window.location.pathname);
-    const wonPath = common.testPath(`My Giveaways - Won`, `sg`, mainUrl || window.location.pathname);
-    const wishlistPath = common.testPath(`Community Wishlist`, `sg`, mainUrl || window.location.pathname);
-    const archivePath = common.testPath(`Archive`, `sg`, mainUrl || window.location.pathname);
-    const giveawaysPath = common.testPath(`Giveaways`, `sg`, mainUrl || window.location.pathname);
-    const groupPath = common.testPath(`Group`, `sg`, mainUrl || window.location.pathname);
-    const userPath = common.testPath(`User - Giveaways - Sent`, `sg`, mainUrl || window.location.pathname);
-    const userWonPath = common.testPath(`User - Giveaways - Won`, `sg`, mainUrl || window.location.pathname);
-    if (giveaway.outerWrap.classList.contains(`table__row-outer-wrap`) && giveawayPath) {
+    const giveawayPath = common.testPath('Giveaway', 'sg', mainUrl || window.location.pathname);
+    const createdPath = common.testPath('My Giveaways - Created', 'sg', mainUrl || window.location.pathname);
+    const enteredPath = common.testPath('My Giveaways - Entered', 'sg', mainUrl || window.location.pathname);
+    const wonPath = common.testPath('My Giveaways - Won', 'sg', mainUrl || window.location.pathname);
+    const wishlistPath = common.testPath('Community Wishlist', 'sg', mainUrl || window.location.pathname);
+    const archivePath = common.testPath('Archive', 'sg', mainUrl || window.location.pathname);
+    const giveawaysPath = common.testPath('Giveaways', 'sg', mainUrl || window.location.pathname);
+    const groupPath = common.testPath('Group', 'sg', mainUrl || window.location.pathname);
+    const userPath = common.testPath('User - Giveaways - Sent', 'sg', mainUrl || window.location.pathname);
+    const userWonPath = common.testPath('User - Giveaways - Won', 'sg', mainUrl || window.location.pathname);
+    if (giveaway.outerWrap.classList.contains('table__row-outer-wrap') && giveawayPath) {
       return;
     }
     giveaway.innerWrap = giveaway.outerWrap.querySelector(`.giveaway__row-inner-wrap, .featured__inner-wrap, .table__row-inner-wrap`);
     giveaway.avatar = giveaway.outerWrap.querySelector(`.giveaway_image_avatar, .featured_giveaway_image_avatar`);
     giveaway.image = giveaway.outerWrap.querySelector(`.giveaway_image_thumbnail, .giveaway_image_thumbnail_missing, .global__image-outer-wrap--game-medium`);
     giveaway.summary = giveaway.innerWrap.querySelector(`.giveaway__summary, .featured__summary, .table__column--width-fill`);
-    if (giveaway.outerWrap.getAttribute(`data-entered`)) {
+    if (giveaway.outerWrap.getAttribute('data-entered')) {
       giveaway.entered = true;
     } else if (giveawayPath && main) {
-      let button = mainContext.getElementsByClassName(`sidebar__entry-delete`)[0];
+      let button = mainContext.getElementsByClassName('sidebar__entry-delete')[0];
       if (button) {
-        giveaway.entered = !button.classList.contains(`is-hidden`);
+        giveaway.entered = !button.classList.contains('is-hidden');
       }
     } else if ((enteredPath || wonPath) && main) {
       giveaway.entered = true;
     } else {
-      giveaway.entered = giveaway.innerWrap.classList.contains(`is-faded`);
+      giveaway.entered = giveaway.innerWrap.classList.contains('is-faded');
     }
     giveaway.headingName = giveaway.innerWrap.querySelector(`.giveaway__heading__name, .featured__heading__medium, .table__column__heading`);
     if (wishlistPath) {
@@ -150,14 +150,14 @@ class Giveaways extends Module {
     giveaway.name = giveaway.headingName.textContent;
     match = giveaway.name.match(/\s\((.+) Copies\)/);
     if (match) {
-      giveaway.name = giveaway.name.replace(match[0], ``);
-      giveaway.copies = parseInt(match[1].replace(/,/g, ``).match(/\d+/)[0]);
+      giveaway.name = giveaway.name.replace(match[0], '');
+      giveaway.copies = parseInt(match[1].replace(/,/g, '').match(/\d+/)[0]);
     } else {
       giveaway.copies = 1;
     }
-    giveaway.url = giveawayPath && main && !ugd ? ((mainUrl && common.getPath(mainUrl)) || window.location.pathname) : (mainUrl || giveaway.headingName.getAttribute(`href`));
+    giveaway.url = giveawayPath && main && !ugd ? ((mainUrl && common.getPath(mainUrl)) || window.location.pathname) : (mainUrl || giveaway.headingName.getAttribute('href'));
     if (giveaway.url) {
-      giveaway.url = giveaway.url.replace(/\/(entries|groups|region-restrictions|winners)$/, ``);
+      giveaway.url = giveaway.url.replace(/\/(entries|groups|region-restrictions|winners)$/, '');
       match = giveaway.url.match(/\/giveaway\/(.+?)(\/.+?)$/);
       if (match) {
         giveaway.code = match[1];
@@ -171,7 +171,7 @@ class Giveaways extends Module {
         }
       }
     }
-    giveaway.pinned = giveaway.outerWrap.closest(`.pinned-giveaways__outer-wrap`);
+    giveaway.pinned = giveaway.outerWrap.closest('.pinned-giveaways__outer-wrap');
     thinHeadings = giveaway.innerWrap.querySelectorAll(`.giveaway__heading__thin:not(.dyegb_playtime):not(.dyegb_achievement), .featured__heading__small`);
     n = thinHeadings.length;
     giveaway.points = 0;
@@ -179,7 +179,7 @@ class Giveaways extends Module {
     if (n > 0) {
       if (n > 1) {
         giveaway.copiesContainer = thinHeadings[0];
-        giveaway.copies = parseInt(thinHeadings[0].textContent.replace(/,/g, ``).match(/\d+/)[0]);
+        giveaway.copies = parseInt(thinHeadings[0].textContent.replace(/,/g, '').match(/\d+/)[0]);
         giveaway.pointsContainer = thinHeadings[1];
         giveaway.points = parseInt(thinHeadings[1].textContent.match(/\d+/)[0]);
       } else {
@@ -191,15 +191,15 @@ class Giveaways extends Module {
     giveaway.columns = giveaway.innerWrap.querySelector(`.giveaway__columns, .featured__columns`);
     if (giveaway.columns && (!archivePath || !main)) {
       giveaway.endTimeColumn = giveaway.columns.firstElementChild;
-      if (giveaway.endTimeColumn.classList.contains(`esgst-ged-source`)) {
+      if (giveaway.endTimeColumn.classList.contains('esgst-ged-source')) {
         giveaway.sourceColumn = giveaway.endTimeColumn;
         giveaway.endTimeColumn = giveaway.sourceColumn.nextElementSibling;
       }
       giveaway.startTimeColumn = giveaway.columns.querySelector(`.giveaway__column--width-fill.text-right, .featured__column--width-fill.text-right`);
       giveaway.started = !giveaway.endTimeColumn.textContent.match(/Begins/);
-      giveaway.endTime = parseInt(giveaway.endTimeColumn.lastElementChild.getAttribute(`data-timestamp`)) * 1e3;
+      giveaway.endTime = parseInt(giveaway.endTimeColumn.lastElementChild.getAttribute('data-timestamp')) * 1e3;
       giveaway.ended = Boolean(giveaway.deleted || giveaway.endTimeColumn.textContent.match(/Ended/));
-      giveaway.startTime = parseInt(giveaway.startTimeColumn.firstElementChild.getAttribute(`data-timestamp`)) * 1e3;
+      giveaway.startTime = parseInt(giveaway.startTimeColumn.firstElementChild.getAttribute('data-timestamp')) * 1e3;
       giveaway.creatorContainer = giveaway.startTimeColumn.querySelector(`a[href*="/user/"]`);
     } else {
       giveaway.started = true;
@@ -207,7 +207,7 @@ class Giveaways extends Module {
     if (main && archivePath) {
       giveaway.startTimeColumn = giveaway.innerWrap.querySelector(`[data-timestamp]`);
       if (giveaway.startTimeColumn) {
-        giveaway.startTime = parseInt(giveaway.startTimeColumn.getAttribute(`data-timestamp`)) * 1e3;
+        giveaway.startTime = parseInt(giveaway.startTimeColumn.getAttribute('data-timestamp')) * 1e3;
       } else {
         giveaway.startTime = 0;
       }
@@ -219,7 +219,7 @@ class Giveaways extends Module {
         giveaway.endTimeColumn = giveaway.endTime.parentElement;
         giveaway.started = !giveaway.endTimeColumn.textContent.match(/Begins/);
         giveaway.deleted = giveaway.endTimeColumn.parentElement.textContent.match(/Deleted/);
-        giveaway.endTime = parseInt(giveaway.endTime.getAttribute(`data-timestamp`)) * 1e3;
+        giveaway.endTime = parseInt(giveaway.endTime.getAttribute('data-timestamp')) * 1e3;
         giveaway.ended = Boolean(giveaway.deleted || giveaway.endTimeColumn.parentElement.textContent.match(/Ended/));
       } else {
         giveaway.endTime = 0;
@@ -229,7 +229,7 @@ class Giveaways extends Module {
     if (giveaway.creatorContainer) {
       giveaway.creator = giveaway.creatorContainer.textContent;
     } else if (ugd) {
-      if (ugdType === `sent`) {
+      if (ugdType === 'sent') {
         giveaway.creator = ugd;
       }
     } else if (userPath && !userWonPath && main && !ged) {
@@ -255,14 +255,14 @@ class Giveaways extends Module {
       } else if (wonPath) {
         giveaway.received = false;
         giveaway.notReceived = false;
-        const elements = giveaway.outerWrap.querySelectorAll(`.table__column--gift-feedback`);
+        const elements = giveaway.outerWrap.querySelectorAll('.table__column--gift-feedback');
         for (const element of elements) {
           const text = element.textContent.trim();
-          if ((text.match(/^Received$/) && element.querySelector(`.icon-green`)) || element.querySelector(`.table__gift-feedback-received:not(.is-hidden)`)) {
+          if ((text.match(/^Received$/) && element.querySelector('.icon-green')) || element.querySelector(`.table__gift-feedback-received:not(.is-hidden)`)) {
             giveaway.received = true;
             break;
           }
-          if ((text.match(/^Not\sReceived$/) && element.querySelector(`.icon-red`)) || element.querySelector(`.table__gift-feedback-not-received:not(.is-hidden)`)) {
+          if ((text.match(/^Not\sReceived$/) && element.querySelector('.icon-red')) || element.querySelector(`.table__gift-feedback-not-received:not(.is-hidden)`)) {
             giveaway.notReceived = true;
             break;
           }
@@ -274,83 +274,83 @@ class Giveaways extends Module {
     if (gSettings.gf && gSettings.gf_s && main) {
       let savedGiveaway = this.esgst.giveaways[giveaway.code];
       if ((giveawaysPath || groupPath) && savedGiveaway && savedGiveaway.hidden && savedGiveaway.code && savedGiveaway.endTime && savedGiveaway.endTime > Date.now()) {
-        giveaway.outerWrap.classList.add(`esgst-hidden`);
-        giveaway.outerWrap.setAttribute(`data-esgst-not-filterable`, `gf`);
+        giveaway.outerWrap.classList.add('esgst-hidden');
+        giveaway.outerWrap.setAttribute('data-esgst-not-filterable', 'gf');
         if (gSettings.gf_s_s) {
           shared.esgst.modules.giveawaysGiveawayFilters.updateSingleCounter();
         }
       }
     }
-    giveaway.links = giveaway.innerWrap.getElementsByClassName(`giveaway__links`)[0];
+    giveaway.links = giveaway.innerWrap.getElementsByClassName('giveaway__links')[0];
     if (giveaway.links) {
-      giveaway.links.classList.add(`esgst-giveaway-links`);
+      giveaway.links.classList.add('esgst-giveaway-links');
       giveaway.entriesLink = giveaway.links.firstElementChild;
       giveaway.commentsLink = giveaway.entriesLink.nextElementSibling;
     } else if (giveawayPath) {
-      giveaway.entriesLink = mainContext.getElementsByClassName(`sidebar__navigation__item__count`)[1];
-      giveaway.commentsLink = mainContext.getElementsByClassName(`sidebar__navigation__item__count`)[0];
+      giveaway.entriesLink = mainContext.getElementsByClassName('sidebar__navigation__item__count')[1];
+      giveaway.commentsLink = mainContext.getElementsByClassName('sidebar__navigation__item__count')[0];
     }
     if (giveaway.entriesLink && giveaway.commentsLink) {
-      giveaway.entriesLink.setAttribute(`data-draggable-id`, `entries`);
-      giveaway.commentsLink.setAttribute(`data-draggable-id`, `comments`);
-      giveaway.entries = parseInt(giveaway.entriesLink.textContent.replace(/,/g, ``).match(/\d+/)[0]);
-      giveaway.comments = parseInt(giveaway.commentsLink.textContent.replace(/,/g, ``).match(/\d+/)[0]);
+      giveaway.entriesLink.setAttribute('data-draggable-id', 'entries');
+      giveaway.commentsLink.setAttribute('data-draggable-id', 'comments');
+      giveaway.entries = parseInt(giveaway.entriesLink.textContent.replace(/,/g, '').match(/\d+/)[0]);
+      giveaway.comments = parseInt(giveaway.commentsLink.textContent.replace(/,/g, '').match(/\d+/)[0]);
     }
-    giveaway.extraPanel = common.createElements_v2(giveaway.summary, `beforeEnd`, [[`div`]]);
-    giveaway.panel = giveaway.innerWrap.getElementsByClassName(`esgst-giveaway-panel`)[0];
+    giveaway.extraPanel = common.createElements_v2(giveaway.summary, 'beforeEnd', [['div']]);
+    giveaway.panel = giveaway.innerWrap.getElementsByClassName('esgst-giveaway-panel')[0];
     if (!giveaway.panel && (gSettings.gwc || gSettings.gwr || gSettings.gptw || gSettings.gp || gSettings.elgb || gSettings.cewgd)) {
       if (giveaway.links) {
-        giveaway.panelFlexbox = common.createElements_v2(giveaway.links, `afterEnd`, [
-          [`div`, { class: `esgst-panel-flexbox` }]
+        giveaway.panelFlexbox = common.createElements_v2(giveaway.links, 'afterEnd', [
+          ['div', { class: 'esgst-panel-flexbox' }]
         ]);
         giveaway.panelFlexbox.appendChild(giveaway.links);
-        giveaway.panel = createElements(giveaway.panelFlexbox, `beforeEnd`, [{
+        giveaway.panel = createElements(giveaway.panelFlexbox, 'beforeEnd', [{
           attributes: {
-            class: `giveaway__columns esgst-giveaway-panel`
+            class: 'giveaway__columns esgst-giveaway-panel'
           },
-          type: `div`
+          type: 'div'
         }]);
       } else if (giveaway.columns) {
         if (archivePath) {
-          giveaway.columns.style.justifyContent = `flex-end`;
-          giveaway.panel = createElements(giveaway.columns, `afterEnd`, [{
+          giveaway.columns.style.justifyContent = 'flex-end';
+          giveaway.panel = createElements(giveaway.columns, 'afterEnd', [{
             attributes: {
-              class: `giveaway__columns esgst-giveaway-panel`
+              class: 'giveaway__columns esgst-giveaway-panel'
             },
-            type: `div`
+            type: 'div'
           }]);
         } else {
-          giveaway.panel = createElements(giveaway.columns, `afterEnd`, [{
+          giveaway.panel = createElements(giveaway.columns, 'afterEnd', [{
             attributes: {
-              class: `featured__columns esgst-giveaway-panel`
+              class: 'featured__columns esgst-giveaway-panel'
             },
-            type: `div`
+            type: 'div'
           }]);
         }
       } else if ((enteredPath || (wonPath && gSettings.cewgd && gSettings.cewgd_w && gSettings.cewgd_w_e)) && (gSettings.gwc || gSettings.gwr || gSettings.gptw)) {
-        giveaway.panel = createElements(giveaway.innerWrap.firstElementChild.nextElementSibling, `afterEnd`, [{
+        giveaway.panel = createElements(giveaway.innerWrap.firstElementChild.nextElementSibling, 'afterEnd', [{
           attributes: {
-            class: `table__column--width-small text-center esgst-giveaway-panel`
+            class: 'table__column--width-small text-center esgst-giveaway-panel'
           },
-          type: `div`
+          type: 'div'
         }]);
       }
     }
-    if (giveaway.sgTools && !giveaway.panel.getElementsByClassName(`esgst-ge-sgt-button`)[0]) {
-      createElements(giveaway.panel, `beforeEnd`, [{
+    if (giveaway.sgTools && !giveaway.panel.getElementsByClassName('esgst-ge-sgt-button')[0]) {
+      createElements(giveaway.panel, 'beforeEnd', [{
         attributes: {
-          class: `esgst-ge-sgt-button esgst-giveaway-column-button`,
-          [`data-draggable-id`]: `sgTools`,
+          class: 'esgst-ge-sgt-button esgst-giveaway-column-button',
+          ['data-draggable-id']: 'sgTools',
           href: `https://www.sgtools.info/giveaways/${giveaway.code}`,
-          target: `_blank`
+          target: '_blank'
         },
-        type: `a`,
+        type: 'a',
         children: [{
           attributes: {
-            class: `form__submit-button`
+            class: 'form__submit-button'
           },
-          text: `SGTools`,
-          type: `div`
+          text: 'SGTools',
+          type: 'div'
         }]
       }]);
     }
@@ -358,7 +358,7 @@ class Giveaways extends Module {
     if (!giveaway.entriesLink) {
       let ct = giveaway.panel || (gSettings.gm_enable && createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling);
       if (ct.nextElementSibling) {
-        giveaway.entries = parseInt(ct.nextElementSibling.textContent.replace(/,/g, ``));
+        giveaway.entries = parseInt(ct.nextElementSibling.textContent.replace(/,/g, ''));
       }
     }
     giveaway.levelColumn = giveaway.outerWrap.querySelector(`.giveaway__column--contributor-level, .featured__column--contributor-level`);
@@ -368,84 +368,84 @@ class Giveaways extends Module {
     giveaway.group = giveaway.outerWrap.querySelector(`.giveaway__column--group, .featured__column--group`);
     giveaway.whitelist = giveaway.outerWrap.querySelector(`.giveaway__column--whitelist, .featured__column--whitelist`);
     giveaway.public = !giveaway.sgTools && !giveaway.inviteOnly && !giveaway.regionRestricted && !giveaway.group && !giveaway.whitelist;
-    giveaway.touhouBox = giveaway.outerWrap.querySelector(`.touhou_giveaway_points`);
+    giveaway.touhouBox = giveaway.outerWrap.querySelector('.touhou_giveaway_points');
     if (!main || !giveawayPath) {
       if (giveaway.inviteOnly) {
-        createElements(giveaway.inviteOnly, `inner`, [{
+        createElements(giveaway.inviteOnly, 'inner', [{
           attributes: {
-            class: `fa fa-lock`
+            class: 'fa fa-lock'
           },
-          type: `i`
+          type: 'i'
         }]);
       }
       if (giveaway.group) {
-        createElements(giveaway.group, `inner`, [{
+        createElements(giveaway.group, 'inner', [{
           attributes: {
-            class: `fa fa-user`
+            class: 'fa fa-user'
           },
-          type: `i`
+          type: 'i'
         }]);
       }
       if (giveaway.whitelist) {
-        createElements(giveaway.whitelist, `inner`, [{
+        createElements(giveaway.whitelist, 'inner', [{
           attributes: {
-            class: `fa fa-heart`
+            class: 'fa fa-heart'
           },
-          type: `i`
+          type: 'i'
         }]);
       }
     }
-    chance = context.getElementsByClassName(`esgst-gwc`)[0];
-    giveaway.chance = chance ? parseFloat(chance.getAttribute(`data-chance`)) : 0;
-    giveaway.projectedChance = chance ? parseFloat(chance.getAttribute(`data-projectedChance`)) : 0;
+    chance = context.getElementsByClassName('esgst-gwc')[0];
+    giveaway.chance = chance ? parseFloat(chance.getAttribute('data-chance')) : 0;
+    giveaway.projectedChance = chance ? parseFloat(chance.getAttribute('data-projectedChance')) : 0;
     giveaway.chancePerPoint = Math.round(giveaway.chance / Math.max(1, giveaway.points) * 100) / 100;
     giveaway.projectedChancePerPoint = Math.round(giveaway.projectedChance / Math.max(1, giveaway.points) * 100) / 100;
-    giveaway.blacklist = giveaway.outerWrap.getAttribute(`data-blacklist`);
-    giveaway.error = giveaway.outerWrap.getAttribute(`data-error`);
-    const ratio = context.getElementsByClassName(`esgst-gwr`)[0];
-    giveaway.ratio = ratio ? parseFloat(ratio.getAttribute(`data-ratio`)) : 0;
-    giveaway.projectedRatio = ratio ? parseFloat(ratio.getAttribute(`data-projectedRatio`)) : 0;
-    const pointsToWin = context.getElementsByClassName(`esgst-gptw`)[0];
-    giveaway.pointsToWin = pointsToWin ? parseFloat(pointsToWin.getAttribute(`data-pointsToWin`)) : 0;
-    giveaway.enterable = giveaway.outerWrap.getAttribute(`data-enterable`);
-    giveaway.currentlyEnterable = giveaway.outerWrap.getAttribute(`data-currently-enterable`);
+    giveaway.blacklist = giveaway.outerWrap.getAttribute('data-blacklist');
+    giveaway.error = giveaway.outerWrap.getAttribute('data-error');
+    const ratio = context.getElementsByClassName('esgst-gwr')[0];
+    giveaway.ratio = ratio ? parseFloat(ratio.getAttribute('data-ratio')) : 0;
+    giveaway.projectedRatio = ratio ? parseFloat(ratio.getAttribute('data-projectedRatio')) : 0;
+    const pointsToWin = context.getElementsByClassName('esgst-gptw')[0];
+    giveaway.pointsToWin = pointsToWin ? parseFloat(pointsToWin.getAttribute('data-pointsToWin')) : 0;
+    giveaway.enterable = giveaway.outerWrap.getAttribute('data-enterable');
+    giveaway.currentlyEnterable = giveaway.outerWrap.getAttribute('data-currently-enterable');
     if (main) {
-      if (gSettings.gr && giveaway.creator === gSettings.username && (gSettings.gr_a || (giveaway.ended && (giveaway.entries === 0 || giveaway.entries < giveaway.copies))) && (!gSettings.gr_r || !this.esgst.giveaways[giveaway.code] || !this.esgst.giveaways[giveaway.code].recreated) && !giveaway.heading.getElementsByClassName(`esgst-gr-button`)[0]) {
-        let button = createElements(giveaway.headingName, `beforeBegin`, [{
+      if (gSettings.gr && giveaway.creator === gSettings.username && (gSettings.gr_a || (giveaway.ended && (giveaway.entries === 0 || giveaway.entries < giveaway.copies))) && (!gSettings.gr_r || !this.esgst.giveaways[giveaway.code] || !this.esgst.giveaways[giveaway.code].recreated) && !giveaway.heading.getElementsByClassName('esgst-gr-button')[0]) {
+        let button = createElements(giveaway.headingName, 'beforeBegin', [{
           attributes: {
-            class: `esgst-gr-button`,
-            [`data-draggable-id`]: `gr`,
-            title: `${getFeatureTooltip(`gr`, `Recreate giveaway`)}`
+            class: 'esgst-gr-button',
+            ['data-draggable-id']: 'gr',
+            title: `${getFeatureTooltip('gr', 'Recreate giveaway')}`
           },
-          type: `div`,
+          type: 'div',
           children: [{
             attributes: {
-              class: `fa fa-rotate-left`
+              class: 'fa fa-rotate-left'
             },
-            type: `i`
+            type: 'i'
           }]
         }]);
-        button.firstElementChild.addEventListener(`click`, this.esgst.modules.giveawaysGiveawayRecreator.gr_recreateGiveaway.bind(this.esgst.modules.giveawaysGiveawayRecreator, button, giveaway), true);
+        button.firstElementChild.addEventListener('click', this.esgst.modules.giveawaysGiveawayRecreator.gr_recreateGiveaway.bind(this.esgst.modules.giveawaysGiveawayRecreator, button, giveaway), true);
       }
     }
     let hideButton = giveaway.innerWrap.querySelector(`.giveaway__hide, .featured__giveaway__hide`);
-    if (hideButton && !hideButton.classList.contains(`fa-eye`)) {
+    if (hideButton && !hideButton.classList.contains('fa-eye')) {
       if (!main || endless) {
-        if (hideButton.classList.contains(`featured__giveaway__hide`)) {
+        if (hideButton.classList.contains('featured__giveaway__hide')) {
           hideButton = hideButton.parentElement;
         }
         let temp = hideButton.previousElementSibling;
-        createElements(hideButton, `outer`, [{
+        createElements(hideButton, 'outer', [{
           attributes: {
-            class: `fa fa-eye-slash giveaway__hide giveaway__icon`,
-            title: getFeatureTooltip(null, `Hide all giveaways for this game`)
+            class: 'fa fa-eye-slash giveaway__hide giveaway__icon',
+            title: getFeatureTooltip(null, 'Hide all giveaways for this game')
           },
-          type: `i`
+          type: 'i'
         }]);
         hideButton = temp.nextElementSibling;
-        hideButton.addEventListener(`click`, hideGame.bind(common, hideButton, giveaway.gameId, giveaway.name, giveaway.id, giveaway.type));
+        hideButton.addEventListener('click', hideGame.bind(common, hideButton, giveaway.gameId, giveaway.name, giveaway.id, giveaway.type));
       } else if (gSettings.updateHiddenGames) {
-        hideButton.addEventListener(`click`, () => {
+        hideButton.addEventListener('click', () => {
           this.esgst.hidingGame = {
             id: giveaway.id,
             type: giveaway.type
@@ -454,31 +454,31 @@ class Giveaways extends Module {
       }
     }
     if (hideButton) {
-      if (hideButton.classList.contains(`featured__giveaway__hide`)) {
-        hideButton.parentElement.setAttribute(`data-draggable-id`, `hideGame`);
+      if (hideButton.classList.contains('featured__giveaway__hide')) {
+        hideButton.parentElement.setAttribute('data-draggable-id', 'hideGame');
       } else {
-        hideButton.setAttribute(`data-draggable-id`, `hideGame`);
+        hideButton.setAttribute('data-draggable-id', 'hideGame');
       }
     }
     for (const child of giveaway.heading.children) {
-      if (child === giveaway.headingName || child.classList.contains(`giveaway__heading__name`) || child.classList.contains(`featured__heading__medium`)) {
-        child.setAttribute(`data-draggable-id`, `name`);
+      if (child === giveaway.headingName || child.classList.contains('giveaway__heading__name') || child.classList.contains('featured__heading__medium')) {
+        child.setAttribute('data-draggable-id', 'name');
         continue;
       }
       if (child.textContent.match(/\(.+?\sCopies\)/)) {
-        child.setAttribute(`data-draggable-id`, `copies`);
+        child.setAttribute('data-draggable-id', 'copies');
         continue;
       }
       if (child.textContent.match(/\(.+?P\)/)) {
-        child.setAttribute(`data-draggable-id`, `points`);
+        child.setAttribute('data-draggable-id', 'points');
         continue;
       }
-      if (child.getAttribute(`href`) && child.getAttribute(`href`).match(/store.steampowered.com/)) {
-        child.setAttribute(`data-draggable-id`, `steam`);
+      if (child.getAttribute('href') && child.getAttribute('href').match(/store.steampowered.com/)) {
+        child.setAttribute('data-draggable-id', 'steam');
         continue;
       }
-      if (child.getAttribute(`href`) && child.getAttribute(`href`).match(/\/giveaways\/search/)) {
-        child.setAttribute(`data-draggable-id`, `search`);
+      if (child.getAttribute('href') && child.getAttribute('href').match(/\/giveaways\/search/)) {
+        child.setAttribute('data-draggable-id', 'search');
       }
     }
     /**
@@ -489,29 +489,29 @@ class Giveaways extends Module {
     if (giveaway.startTimeColumn && giveaway.endTimeColumn) {
       let column = giveaway.endTimeColumn.nextElementSibling;
       while (column && column !== giveaway.startTimeColumn) {
-        let key = ``;
-        let status = ``;
-        if (column.classList.contains(`giveaway__column--positive`)) {
-          [key, status] = [`received`, `Received`];
-        } else if (column.classList.contains(`giveaway__column--negative`)) {
-          [key, status] = [`notReceived`, `Not Received`];
+        let key = '';
+        let status = '';
+        if (column.classList.contains('giveaway__column--positive')) {
+          [key, status] = ['received', 'Received'];
+        } else if (column.classList.contains('giveaway__column--negative')) {
+          [key, status] = ['notReceived', 'Not Received'];
         } else if (column.textContent.trim().match(/Awaiting\sfeedback/)) {
-          [key, status] = [`awaitingFeedback`, `Awaiting Feedback`];
+          [key, status] = ['awaitingFeedback', 'Awaiting Feedback'];
         } else if (column.textContent.trim().match(/No\swinners/)) {
-          [key, status] = [`noWinners`, ``];
+          [key, status] = ['noWinners', ''];
         } else {
           continue;
         }
         const winners = [];
-        if (key === `received` || key === `notReceived`) {
+        if (key === 'received' || key === 'notReceived') {
           winners.push(...column.textContent.trim().split(/,\s/).filter(x => x));
           giveaway.winners.push(...winners.map(x => ({ status, username: x })));
-          if (key === `received`) {
+          if (key === 'received') {
             giveaway.winnerNames = winners.map(x => x.toLowerCase());
           }
         }
         giveaway.winnerColumns[key] = { column, status, winners };
-        column.setAttribute(`data-draggable-id`, `winners`);
+        column.setAttribute('data-draggable-id', 'winners');
         column = column.nextElementSibling;
       }
     }
@@ -519,31 +519,31 @@ class Giveaways extends Module {
       giveaway.numWinners = giveaway.winners.length;
     }
     if (giveaway.endTimeColumn) {
-      giveaway.endTimeColumn.setAttribute(`data-draggable-id`, `endTime`);
+      giveaway.endTimeColumn.setAttribute('data-draggable-id', 'endTime');
     }
     if (giveaway.startTimeColumn) {
-      giveaway.startTimeColumn.setAttribute(`data-draggable-id`, `startTime`);
+      giveaway.startTimeColumn.setAttribute('data-draggable-id', 'startTime');
     }
     if (giveaway.inviteOnly) {
-      giveaway.inviteOnly.setAttribute(`data-draggable-id`, `inviteOnly`);
+      giveaway.inviteOnly.setAttribute('data-draggable-id', 'inviteOnly');
     }
     if (giveaway.whitelist) {
-      giveaway.whitelist.setAttribute(`data-draggable-id`, `whitelist`);
+      giveaway.whitelist.setAttribute('data-draggable-id', 'whitelist');
     }
     if (giveaway.group) {
-      giveaway.group.setAttribute(`data-draggable-id`, `group`);
+      giveaway.group.setAttribute('data-draggable-id', 'group');
     }
     if (giveaway.regionRestricted) {
-      giveaway.regionRestricted.setAttribute(`data-draggable-id`, `regionRestricted`);
+      giveaway.regionRestricted.setAttribute('data-draggable-id', 'regionRestricted');
     }
     if (giveaway.levelColumn) {
-      giveaway.levelColumn.setAttribute(`data-draggable-id`, `level`);
+      giveaway.levelColumn.setAttribute('data-draggable-id', 'level');
     }
     if (giveaway.sourceColumn) {
-      giveaway.sourceColumn.setAttribute(`data-draggable-id`, `ged`);
+      giveaway.sourceColumn.setAttribute('data-draggable-id', 'ged');
     }
     if (giveaway.touhouBox) {
-      giveaway.touhouBox.setAttribute(`data-draggable-id`, `touhou`);
+      giveaway.touhouBox.setAttribute('data-draggable-id', 'touhou');
     }
     return {
       giveaway: giveaway,
@@ -578,7 +578,7 @@ class Giveaways extends Module {
   giveaways_reorder(giveaway) {
     if (giveaway.columns || giveaway.gvIcons) {
       for (const id of (giveaway.gvIcons ? gSettings.giveawayColumns_gv : gSettings.giveawayColumns)) {
-        if (id === `startTime` && shared.common.isCurrentPath(`Archive`)) {
+        if (id === 'startTime' && shared.common.isCurrentPath('Archive')) {
           continue;
         }
         const elements = giveaway.outerWrap.querySelectorAll(`[data-draggable-id="${id}"]`);
@@ -587,17 +587,17 @@ class Giveaways extends Module {
           if (giveaway.elementOrdering) {
             continue;
           }
-          if (element.getAttribute(`data-draggable-id`).match(/^(elgb|gp)$/)) {
-            element.classList.add(`esgst-giveaway-column-button`);
+          if (element.getAttribute('data-draggable-id').match(/^(elgb|gp)$/)) {
+            element.classList.add('esgst-giveaway-column-button');
           }
-          if (!this.esgst.giveawayPath && element.getAttribute(`data-draggable-id`).match(/steam|search|hideGame/)) {
-            element.classList.remove(`giveaway__icon`);
+          if (!this.esgst.giveawayPath && element.getAttribute('data-draggable-id').match(/steam|search|hideGame/)) {
+            element.classList.remove('giveaway__icon');
           }
-          element.classList.add(this.esgst.giveawayPath ? `featured__column` : `giveaway__column`);
-          if (element.getAttribute(`data-color`)) {
-            element.firstElementChild.style.color = element.getAttribute(`data-bgColor`);
-            element.style.color = ``;
-            element.style.backgroundColor = ``;
+          element.classList.add(this.esgst.giveawayPath ? 'featured__column' : 'giveaway__column');
+          if (element.getAttribute('data-color')) {
+            element.firstElementChild.style.color = element.getAttribute('data-bgColor');
+            element.style.color = '';
+            element.style.backgroundColor = '';
           }
         }
       }
@@ -613,17 +613,17 @@ class Giveaways extends Module {
           if (giveaway.elementOrdering) {
             continue;
           }
-          if (element.getAttribute(`data-draggable-id`).match(/^(elgb|gp)$/)) {
-            element.classList.remove(`esgst-giveaway-column-button`, this.esgst.giveawayPath ? `featured__column` : `giveaway__column`);
+          if (element.getAttribute('data-draggable-id').match(/^(elgb|gp)$/)) {
+            element.classList.remove('esgst-giveaway-column-button', this.esgst.giveawayPath ? 'featured__column' : 'giveaway__column');
           } else {
-            element.classList.add(this.esgst.giveawayPath ? `featured__column` : `giveaway__column`);
+            element.classList.add(this.esgst.giveawayPath ? 'featured__column' : 'giveaway__column');
           }
-          if (!this.esgst.giveawayPath && element.getAttribute(`data-draggable-id`).match(/steam|search|hideGame/)) {
-            element.classList.remove(`giveaway__icon`);
+          if (!this.esgst.giveawayPath && element.getAttribute('data-draggable-id').match(/steam|search|hideGame/)) {
+            element.classList.remove('giveaway__icon');
           }
-          if (element.getAttribute(`data-color`)) {
-            element.style.color = element.getAttribute(`data-color`);
-            element.style.backgroundColor = element.getAttribute(`data-bgColor`);
+          if (element.getAttribute('data-color')) {
+            element.style.color = element.getAttribute('data-color');
+            element.style.backgroundColor = element.getAttribute('data-bgColor');
           }
         }
       }
@@ -636,16 +636,16 @@ class Giveaways extends Module {
           if (giveaway.elementOrdering) {
             continue;
           }
-          if (element.getAttribute(`data-draggable-id`).match(/^(elgb|gp)$/)) {
-            element.classList.remove(`esgst-giveaway-column-button`);
+          if (element.getAttribute('data-draggable-id').match(/^(elgb|gp)$/)) {
+            element.classList.remove('esgst-giveaway-column-button');
           }
-          if (!this.esgst.giveawayPath && element.getAttribute(`data-draggable-id`).match(/steam|search|hideGame/)) {
-            element.classList.add(`giveaway__icon`);
+          if (!this.esgst.giveawayPath && element.getAttribute('data-draggable-id').match(/steam|search|hideGame/)) {
+            element.classList.add('giveaway__icon');
           }
-          element.classList.remove(this.esgst.giveawayPath ? `featured__column` : `giveaway__column`);
-          if (element.getAttribute(`data-color`)) {
-            element.style.color = element.getAttribute(`data-color`);
-            element.style.backgroundColor = element.getAttribute(`data-bgColor`);
+          element.classList.remove(this.esgst.giveawayPath ? 'featured__column' : 'giveaway__column');
+          if (element.getAttribute('data-color')) {
+            element.style.color = element.getAttribute('data-color');
+            element.style.backgroundColor = element.getAttribute('data-bgColor');
           }
         }
       }
@@ -658,16 +658,16 @@ class Giveaways extends Module {
           if (giveaway.elementOrdering) {
             continue;
           }
-          if (element.getAttribute(`data-draggable-id`).match(/^(elgb|gp)$/)) {
-            element.classList.remove(`esgst-giveaway-column-button`);
+          if (element.getAttribute('data-draggable-id').match(/^(elgb|gp)$/)) {
+            element.classList.remove('esgst-giveaway-column-button');
           }
-          if (!this.esgst.giveawayPath && element.getAttribute(`data-draggable-id`).match(/steam|search|hideGame/)) {
-            element.classList.remove(`giveaway__icon`);
+          if (!this.esgst.giveawayPath && element.getAttribute('data-draggable-id').match(/steam|search|hideGame/)) {
+            element.classList.remove('giveaway__icon');
           }
-          element.classList.remove(this.esgst.giveawayPath ? `featured__column` : `giveaway__column`);
-          if (element.getAttribute(`data-color`)) {
-            element.style.color = element.getAttribute(`data-color`);
-            element.style.backgroundColor = element.getAttribute(`data-bgColor`);
+          element.classList.remove(this.esgst.giveawayPath ? 'featured__column' : 'giveaway__column');
+          if (element.getAttribute('data-color')) {
+            element.style.color = element.getAttribute('data-color');
+            element.style.backgroundColor = element.getAttribute('data-bgColor');
           }
         }
       }
@@ -680,16 +680,16 @@ class Giveaways extends Module {
           if (giveaway.elementOrdering) {
             continue;
           }
-          if (element.getAttribute(`data-draggable-id`).match(/^(elgb|gp)$/)) {
-            element.classList.remove(`esgst-giveaway-column-button`);
+          if (element.getAttribute('data-draggable-id').match(/^(elgb|gp)$/)) {
+            element.classList.remove('esgst-giveaway-column-button');
           }
-          if (!this.esgst.giveawayPath && element.getAttribute(`data-draggable-id`).match(/steam|search|hideGame/)) {
-            element.classList.remove(`giveaway__icon`);
+          if (!this.esgst.giveawayPath && element.getAttribute('data-draggable-id').match(/steam|search|hideGame/)) {
+            element.classList.remove('giveaway__icon');
           }
-          element.classList.remove(this.esgst.giveawayPath ? `featured__column` : `giveaway__column`);
-          if (element.getAttribute(`data-color`)) {
-            element.style.color = element.getAttribute(`data-color`);
-            element.style.backgroundColor = element.getAttribute(`data-bgColor`);
+          element.classList.remove(this.esgst.giveawayPath ? 'featured__column' : 'giveaway__column');
+          if (element.getAttribute('data-color')) {
+            element.style.color = element.getAttribute('data-color');
+            element.style.backgroundColor = element.getAttribute('data-bgColor');
           }
         }
       }
@@ -702,20 +702,20 @@ class Giveaways extends Module {
           if (giveaway.elementOrdering) {
             continue;
           }
-          if (element.getAttribute(`data-draggable-id`).match(/^(elgb|gp)$/)) {
-            element.classList.remove(`esgst-giveaway-column-button`);
+          if (element.getAttribute('data-draggable-id').match(/^(elgb|gp)$/)) {
+            element.classList.remove('esgst-giveaway-column-button');
           }
-          if (!this.esgst.giveawayPath && element.getAttribute(`data-draggable-id`).match(/steam|search|hideGame/)) {
-            element.classList.remove(`giveaway__icon`);
+          if (!this.esgst.giveawayPath && element.getAttribute('data-draggable-id').match(/steam|search|hideGame/)) {
+            element.classList.remove('giveaway__icon');
           }
-          element.classList.remove(this.esgst.giveawayPath ? `featured__column` : `giveaway__column`);
-          if (element.getAttribute(`data-color`)) {
-            element.style.color = element.getAttribute(`data-color`);
-            element.style.backgroundColor = element.getAttribute(`data-bgColor`);
+          element.classList.remove(this.esgst.giveawayPath ? 'featured__column' : 'giveaway__column');
+          if (element.getAttribute('data-color')) {
+            element.style.color = element.getAttribute('data-color');
+            element.style.backgroundColor = element.getAttribute('data-bgColor');
           }
         }
       }
-      const loading = giveaway.gcPanel.querySelector(`.esgst-gc-loading`);
+      const loading = giveaway.gcPanel.querySelector('.esgst-gc-loading');
       if (loading) {
         giveaway.gcPanel.appendChild(loading);
       }

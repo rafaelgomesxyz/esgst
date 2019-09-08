@@ -2,9 +2,9 @@ import { shared } from './Shared';
 import { gSettings } from './Globals';
 
 class Popout {
-  constructor(className = ``, context = null, hoverSpeed = 1000, onClick = false, popout = null, onOpen = null) {
+  constructor(className = '', context = null, hoverSpeed = 1000, onClick = false, popout = null, onOpen = null) {
     this.custom = {};
-    if (className === `esgst-hidden-buttons`) {
+    if (className === 'esgst-hidden-buttons') {
       this.isDynamicHeight = true;
     }
     this.onClose = null;
@@ -12,24 +12,24 @@ class Popout {
     this.onFirstOpen = null;
     this.hasOpened = false;
     this.context = context;
-    this.popout = popout || shared.common.createElements(document.body, `beforeEnd`, [{
+    this.popout = popout || shared.common.createElements(document.body, 'beforeEnd', [{
       attributes: {
         class: className
       },
-      type: `div`
+      type: 'div'
     }]);
-    this.popout.classList.add(`esgst-popout`, `esgst-hidden`);
-    this.popup = this.popout.closest(`.esgst-popup`);
+    this.popout.classList.add('esgst-popout', 'esgst-hidden');
+    this.popup = this.popout.closest('.esgst-popup');
     this.hoverSpeed = hoverSpeed;
     if (!onClick) {
       if (this.context) {
         let timeout = null;
-        this.context.addEventListener(`mouseenter`, () => {
+        this.context.addEventListener('mouseenter', () => {
           timeout = window.setTimeout(() => {
             this.open();
           }, this.hoverSpeed);
         });
-        this.context.addEventListener(`mouseleave`, event => {
+        this.context.addEventListener('mouseleave', event => {
           if (timeout) {
             window.clearTimeout(timeout);
             timeout = null;
@@ -40,29 +40,29 @@ class Popout {
         });
       }
       let timeout = null;
-      this.popout.addEventListener(`mouseenter`, () => {
+      this.popout.addEventListener('mouseenter', () => {
         if (timeout) {
           window.clearTimeout(timeout);
           timeout = null;
         }
       });
-      this.popout.addEventListener(`mouseleave`, event => {
+      this.popout.addEventListener('mouseleave', event => {
         timeout = window.setTimeout(() => {
-          if (event.relatedTarget && !this.context.contains(event.relatedTarget) && ((this.ancestor && this.ancestor.contains(event.relatedTarget)) || !event.relatedTarget.closest(`.esgst-popout`))) {
-            this.context.classList.remove(`esgst-qgs-container-expanded`);
+          if (event.relatedTarget && !this.context.contains(event.relatedTarget) && ((this.ancestor && this.ancestor.contains(event.relatedTarget)) || !event.relatedTarget.closest('.esgst-popout'))) {
+            this.context.classList.remove('esgst-qgs-container-expanded');
             this.close();
           }
         }, this.hoverSpeed);
       });
-      document.addEventListener(`click`, event => {
+      document.addEventListener('click', event => {
         const element = /** @type {Node} */ event.target;
-        if (this.context && !this.context.contains(element) && !this.popout.contains(element) && ((this.ancestor && this.ancestor.contains(element)) || !element.closest(`.esgst-popout`))) {
+        if (this.context && !this.context.contains(element) && !this.popout.contains(element) && ((this.ancestor && this.ancestor.contains(element)) || !element.closest('.esgst-popout'))) {
           this.close();
         }
       }, true);
     } else {
       if (this.context) {
-        this.context.addEventListener(`click`, () => {
+        this.context.addEventListener('click', () => {
           if (this.isOpen) {
             this.close();
           } else {
@@ -70,7 +70,7 @@ class Popout {
           }
         });
       }
-      document.addEventListener(`click`, event => {
+      document.addEventListener('click', event => {
         const element = /** @type {Node} */ event.target;
         if (this.context && !this.context.contains(element) && !this.popout.contains(element)) {
           this.close();
@@ -82,9 +82,9 @@ class Popout {
 
   open(context = null, isFixed = false) {
     this.context = context || this.context;
-    this.ancestor = this.context.closest(`.esgst-popout`);;
+    this.ancestor = this.context.closest('.esgst-popout');
     this.isFixed = isFixed;
-    this.popout.classList.remove(`esgst-hidden`);
+    this.popout.classList.remove('esgst-hidden');
     let n = 9999 + document.querySelectorAll(`.esgst-popup:not(.esgst-hidden), .esgst-popout:not(.esgst-hidden)`).length;
     if (shared.esgst.openPopups > 0) {
       const highestN = parseInt(shared.esgst.popups[shared.esgst.openPopups - 1].popup.style.zIndex || 0);
@@ -94,7 +94,7 @@ class Popout {
     }
     this.popout.style.zIndex = n;
     if (this.isFixed) {
-      this.popout.classList.add(`esgst-fixed`);
+      this.popout.classList.add('esgst-fixed');
     }
     this.reposition();
     this.isOpen = true;
@@ -110,7 +110,7 @@ class Popout {
   }
 
   close() {
-    this.popout.classList.add(`esgst-hidden`);
+    this.popout.classList.add('esgst-hidden');
     if (this.isOpen && this.onClose) {
       this.onClose();
     }
@@ -120,10 +120,10 @@ class Popout {
   reposition(context = null) {
     let contextLeft, contextRect, contextTop, popoutHeight, popoutWidth, popupRect;
     if (!this.isDynamicHeight) {
-      this.popout.style.height = ``;
+      this.popout.style.height = '';
     }
-    this.popout.style.left = `0`;
-    this.popout.style.top = `0`;
+    this.popout.style.left = '0';
+    this.popout.style.top = '0';
     this.context = context || this.context;
     contextRect = this.context.getBoundingClientRect();
     contextLeft = contextRect.left;
@@ -133,7 +133,7 @@ class Popout {
     } else {
       this.popout.style.maxHeight = `${window.innerHeight - (contextTop + contextRect.height)}px`;
     }
-    const oldHeight = parseFloat(window.getComputedStyle(this.popout).getPropertyValue(`height`));
+    const oldHeight = parseFloat(window.getComputedStyle(this.popout).getPropertyValue('height'));
     const oldRealHeight = this.popout.offsetHeight;
     const difference = (oldRealHeight - oldHeight) + 10;
     const newHeight = Math.max(

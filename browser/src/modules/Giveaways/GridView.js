@@ -17,33 +17,33 @@ class GiveawaysGridView extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, `Turns each giveaway in the main page and some popups([id=gb], [id=ged] and[id=ge]) into a small box where only the game's image is shown. Overlaying the image you will find the start/end times, type and level of the giveaway. To get the other details of the giveaway (such as the game name, the number of points it costs to enter, the number of entries/comments and the creator's username), you can hover over the box and a popout will appear containing them.This allows multiple giveaways to be shown per line, which reduces the size of the page and allows you to view all of the giveaways in the page at a single glance.`],
-          [`li`, [
+        ['ul', [
+          ['li', `Turns each giveaway in the main page and some popups([id=gb], [id=ged] and[id=ge]) into a small box where only the game\'s image is shown. Overlaying the image you will find the start/end times, type and level of the giveaway. To get the other details of the giveaway (such as the game name, the number of points it costs to enter, the number of entries/comments and the creator's username), you can hover over the box and a popout will appear containing them.This allows multiple giveaways to be shown per line, which reduces the size of the page and allows you to view all of the giveaways in the page at a single glance.`],
+          ['li', [
             `Also adds a button (`,
-            [`i`, { class: `fa fa-th-large` }],
+            ['i', { class: 'fa fa-th-large' }],
             `) to the main page heading of the same page that allows you to set the size of the space between each box.`
           ]]
         ]]
       ],
       features: {
         gv_gb: {
-          name: `Extend to Giveaway Bookmarks.`,
+          name: 'Extend to Giveaway Bookmarks.',
           sg: true
         },
         gv_ged: {
-          name: `Extend to Giveaway Encrypter / Decrypter.`,
+          name: 'Extend to Giveaway Encrypter / Decrypter.',
           sg: true
         },
         gv_ge: {
-          name: `Extend to Giveaway Extractor.`,
+          name: 'Extend to Giveaway Extractor.',
           sg: true
         }
       },
-      id: `gv`,
-      name: `Grid View`,
+      id: 'gv',
+      name: 'Grid View',
       sg: true,
-      type: `giveaways`
+      type: 'giveaways'
     };
   }
 
@@ -64,16 +64,16 @@ class GiveawaysGridView extends Module {
       `);
       if (this.esgst.giveawaysPath) {
         let button, display, element, elements, i, n, popout, spacing, slider;
-        button = createHeadingButton({ id: `gv`, icons: [`fa-th-large`], title: `Set Grid View spacing` });
-        popout = new Popout(`esgst-gv-spacing`, button, 0, true);
+        button = createHeadingButton({ id: 'gv', icons: ['fa-th-large'], title: 'Set Grid View spacing' });
+        popout = new Popout('esgst-gv-spacing', button, 0, true);
         spacing = gSettings.gv_spacing;
-        element = createElements(popout.popout, `beforeEnd`, [{
-          type: `div`,
+        element = createElements(popout.popout, 'beforeEnd', [{
+          type: 'div',
           children: [{
-            type: `div`
+            type: 'div'
           }, {
             text: `${spacing}px`,
-            type: `div`
+            type: 'div'
           }]
         }]);
         slider = element.firstElementChild;
@@ -81,13 +81,13 @@ class GiveawaysGridView extends Module {
         window.$(slider).slider({
           slide: (event, ui) => {
             spacing = ui.value;
-            elements = document.getElementsByClassName(`esgst-gv-container`);
+            elements = document.getElementsByClassName('esgst-gv-container');
             for (i = 0, n = elements.length; i < n; ++i) {
               elements[i].style.margin = `${spacing}px`;
             }
             popout.reposition();
             display.textContent = `${spacing}px`;
-            setSetting(`gv_spacing`, spacing);
+            setSetting('gv_spacing', spacing);
           },
           max: 10,
           value: spacing
@@ -97,53 +97,53 @@ class GiveawaysGridView extends Module {
   }
 
   gv_setContainer(giveaways, main, source) {
-    if ((!main || !this.esgst.giveawaysPath) && (main || ((source !== `gb` || !gSettings.gv_gb) && (source !== `ged` || !gSettings.gv_ged) && (source !== `ge` || !gSettings.gv_ge)))) return;
+    if ((!main || !this.esgst.giveawaysPath) && (main || ((source !== 'gb' || !gSettings.gv_gb) && (source !== 'ged' || !gSettings.gv_ged) && (source !== 'ge' || !gSettings.gv_ge)))) return;
     giveaways.forEach(giveaway => {
       giveaway.grid = true;
-      let popup = giveaway.outerWrap.closest(`.esgst-popup-scrollable`) || (shared.common.isCurrentPath(`Account`) && this.esgst.parameters.esgst && this.esgst.parameters.esgst !== `guide`);
+      let popup = giveaway.outerWrap.closest('.esgst-popup-scrollable') || (shared.common.isCurrentPath('Account') && this.esgst.parameters.esgst && this.esgst.parameters.esgst !== 'guide');
       if (popup) {
-        giveaway.outerWrap.parentElement.parentElement.classList.add(`esgst-gv-view`);
-        giveaway.outerWrap.parentElement.style.display = `inline-block`;
-        giveaway.outerWrap.classList.add(`esgst-gv-container`);
+        giveaway.outerWrap.parentElement.parentElement.classList.add('esgst-gv-view');
+        giveaway.outerWrap.parentElement.style.display = 'inline-block';
+        giveaway.outerWrap.classList.add('esgst-gv-container');
         giveaway.outerWrap.style.margin = `${gSettings.gv_spacing}px`;
       } else {
-        giveaway.outerWrap.parentElement.classList.add(`esgst-gv-view`);
-        giveaway.outerWrap.classList.add(`esgst-gv-container`);
+        giveaway.outerWrap.parentElement.classList.add('esgst-gv-view');
+        giveaway.outerWrap.classList.add('esgst-gv-container');
         giveaway.outerWrap.style.margin = `${gSettings.gv_spacing}px`;
       }
-      giveaway.innerWrap.classList.add(`esgst-gv-box`);
+      giveaway.innerWrap.classList.add('esgst-gv-box');
       const now = Date.now();
-      giveaway.gvIcons = createElements(giveaway.innerWrap, `afterBegin`, [{
+      giveaway.gvIcons = createElements(giveaway.innerWrap, 'afterBegin', [{
         attributes: {
-          class: `esgst-gv-icons giveaway__columns`
+          class: 'esgst-gv-icons giveaway__columns'
         },
-        type: `div`,
+        type: 'div',
         children: [{
           attributes: {
-            class: `esgst-gv-time`,
-            [`data-draggable-id`]: `time`,
+            class: 'esgst-gv-time',
+            ['data-draggable-id']: 'time',
             draggable: true
           },
-          type: `div`,
+          type: 'div',
           children: [{
             attributes: {
-              title: `${giveaway.started ? `Ends` : `Starts`} ${giveaway.endTimeColumn.lastElementChild.textContent}`
+              title: `${giveaway.started ? 'Ends' : 'Starts'} ${giveaway.endTimeColumn.lastElementChild.textContent}`
             },
             // @ts-ignore
             text: dateFns_formatDistanceStrict(giveaway.endTime, now, { locale: this.esgst.formatDistanceLocale }),
-            type: `span`
+            type: 'span'
           }, {
             attributes: {
-              class: `fa fa-clock-o`
+              class: 'fa fa-clock-o'
             },
-            type: `i`
+            type: 'i'
           }, {
             attributes: {
               title: `Created ${giveaway.startTimeColumn.lastElementChild.previousElementSibling.textContent}`
             },
             // @ts-ignore
             text: dateFns_formatDistanceStrict(giveaway.startTime, now, { locale: this.esgst.formatDistanceLocale }),
-            type: `span`
+            type: 'span'
           }]
         }]
       }]);
@@ -161,16 +161,16 @@ class GiveawaysGridView extends Module {
         giveaway.gvIcons.appendChild(giveaway.whitelist);
       }
       if (giveaway.levelColumn) {
-        giveaway.levelColumn.textContent = giveaway.levelColumn.textContent.replace(/Level\s/, ``);
+        giveaway.levelColumn.textContent = giveaway.levelColumn.textContent.replace(/Level\s/, '');
         giveaway.gvIcons.appendChild(giveaway.levelColumn);
       }
       giveaway.innerWrap.insertBefore(giveaway.image, giveaway.gvIcons);
-      giveaway.summary.classList.add(`esgst-gv-popout`, `global__image-outer-wrap`);
-      const temp = common.createElements_v2(giveaway.links, `beforeBegin`, [
-        [`div`, { style: `align-items: center; display: flex; justify-content: space-between;` }, [
-          [`div`, { style: `display: flex; flex: 1; flex-direction: column;` }, [
-            [`div`, { class: `esgst-gv-creator` }, [
-              `by `
+      giveaway.summary.classList.add('esgst-gv-popout', 'global__image-outer-wrap');
+      const temp = common.createElements_v2(giveaway.links, 'beforeBegin', [
+        ['div', { style: `align-items: center; display: flex; justify-content: space-between;` }, [
+          ['div', { style: `display: flex; flex: 1; flex-direction: column;` }, [
+            ['div', { class: 'esgst-gv-creator' }, [
+              'by '
             ]]
           ]]
         ]]
@@ -178,11 +178,11 @@ class GiveawaysGridView extends Module {
       temp.firstElementChild.firstElementChild.appendChild(giveaway.creatorContainer);
       temp.firstElementChild.appendChild(giveaway.links);
       temp.appendChild(giveaway.avatar);
-      giveaway.endTimeColumn.classList.add(`esgst-hidden`);
-      giveaway.startTimeColumn.classList.add(`esgst-hidden`);
-      giveaway.entriesLink.lastElementChild.textContent = giveaway.entriesLink.textContent.replace(/[^\d,]+/g, ``);
-      giveaway.commentsLink.lastElementChild.textContent = giveaway.commentsLink.textContent.replace(/[^\d,]+/g, ``);
-      new Popout(``, giveaway.outerWrap, 100, false, giveaway.summary);
+      giveaway.endTimeColumn.classList.add('esgst-hidden');
+      giveaway.startTimeColumn.classList.add('esgst-hidden');
+      giveaway.entriesLink.lastElementChild.textContent = giveaway.entriesLink.textContent.replace(/[^\d,]+/g, '');
+      giveaway.commentsLink.lastElementChild.textContent = giveaway.commentsLink.textContent.replace(/[^\d,]+/g, '');
+      new Popout('', giveaway.outerWrap, 100, false, giveaway.summary);
     });
   }
 }

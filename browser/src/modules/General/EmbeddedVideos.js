@@ -10,16 +10,16 @@ class GeneralEmbeddedVideos extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, `Embeds any YouTube/Vimeo videos found in a comment (in any page) into the comment.`],
-          [`li`, `Videos are only embedded if their links are in the[URL](URL) format and are the only content in a line.For example, "[https://youtu.be/ihd9dKek2gc](https://youtu.be/ihd9dKek2gc)" gets embedded, but "[Watch this!](https://youtu.be/ihd9dKek2gc)" and "Watch this: [https://youtu.be/ihd9dKek2gc](https://youtu.be/ihd9dKek2gc)" do not.`]
+        ['ul', [
+          ['li', `Embeds any YouTube/Vimeo videos found in a comment (in any page) into the comment.`],
+          ['li', `Videos are only embedded if their links are in the[URL](URL) format and are the only content in a line.For example, "[https://youtu.be/ihd9dKek2gc](https://youtu.be/ihd9dKek2gc)" gets embedded, but "[Watch this!](https://youtu.be/ihd9dKek2gc)" and "Watch this: [https://youtu.be/ihd9dKek2gc](https://youtu.be/ihd9dKek2gc)" do not.`]
         ]]
       ],
-      id: `ev`,
-      name: `Embedded Videos`,
+      id: 'ev',
+      name: 'Embedded Videos',
       sg: true,
       st: true,
-      type: `general`,
+      type: 'general',
       featureMap: {
         endless: this.ev_getVideos.bind(this)
       }
@@ -28,7 +28,7 @@ class GeneralEmbeddedVideos extends Module {
 
   ev_getVideos(context, main, source, endless) {
     let types, i, numTypes, type, videos, j, numVideos, video, previous, next, embedUrl, url, text, title;
-    types = [`youtube.com`, `youtu.be`, `vimeo.com`];
+    types = ['youtube.com', 'youtu.be', 'vimeo.com'];
     for (i = 0, numTypes = types.length; i < numTypes; ++i) {
       type = types[i];
       videos = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} a[href*="${type}"], .esgst-es-page-${endless}a[href*="${type}"]` : `a[href*="${type}"]`}`);
@@ -38,29 +38,29 @@ class GeneralEmbeddedVideos extends Module {
         next = video.nextSibling;
         if ((!previous || !previous.textContent.trim()) && (!next || !next.textContent.trim())) {
           // video is the only content in the line
-          url = video.getAttribute(`href`);
+          url = video.getAttribute('href');
           embedUrl = this.ev_getEmbedUrl(i, url);
           if (embedUrl) {
             text = video.textContent;
             if (url !== text) {
               title = `<div>${text}</div>`;
             } else {
-              title = ``;
+              title = '';
             }
-            createElements(video, `outer`, [{
-              type: `div`,
+            createElements(video, 'outer', [{
+              type: 'div',
               children: [{
                 text: title,
-                type: `node`
+                type: 'node'
               }, {
                 attributes: {
-                  allowfullscreen: `0`,
-                  frameborder: `0`,
-                  height: `360`,
+                  allowfullscreen: '0',
+                  frameborder: '0',
+                  height: '360',
                   src: embedUrl,
-                  width: `640`
+                  width: '640'
                 },
-                type: `iframe`
+                type: 'iframe'
               }]
             }]);
           }

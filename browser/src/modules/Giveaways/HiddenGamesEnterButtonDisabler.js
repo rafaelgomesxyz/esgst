@@ -10,24 +10,24 @@ class GiveawaysHiddenGamesEnterButtonDisabler extends Module {
     super();
     this.info = {
       description: [
-        [`ul`, [
-          [`li`, `Disables the enter button of any giveaway if you have hidden the game on SteamGifts so that you do not accidentally enter it.`]
+        ['ul', [
+          ['li', 'Disables the enter button of any giveaway if you have hidden the game on SteamGifts so that you do not accidentally enter it.']
         ]]
       ],
-      id: `hgebd`,
-      name: `Hidden Game's Enter Button Disabler`,
+      id: 'hgebd',
+      name: 'Hidden Game\'s Enter Button Disabler',
       sg: true,
-      sync: `Hidden Games`,
-      syncKeys: [`HiddenGames`],
-      type: `giveaways`
+      sync: 'Hidden Games',
+      syncKeys: ['HiddenGames'],
+      type: 'giveaways'
     };
   }
 
   init() {
-    if (!this.esgst.giveawayPath || document.getElementsByClassName(`table--summary`)[0]) {
+    if (!this.esgst.giveawayPath || document.getElementsByClassName('table--summary')[0]) {
       return;
     }
-    const hideButton = document.getElementsByClassName(`featured__giveaway__hide`)[0];
+    const hideButton = document.getElementsByClassName('featured__giveaway__hide')[0];
     if ((this.esgst.enterGiveawayButton || (this.esgst.giveawayErrorButton && !this.esgst.giveawayErrorButton.textContent.match(/Exists\sin\sAccount/))) && !hideButton) {
       const parent = (this.esgst.enterGiveawayButton || this.esgst.giveawayErrorButton).parentElement;
       if (this.esgst.enterGiveawayButton) {
@@ -36,19 +36,19 @@ class GiveawaysHiddenGamesEnterButtonDisabler extends Module {
       if (this.esgst.giveawayErrorButton) {
         this.esgst.giveawayErrorButton.remove();
       }
-      createElements(parent, `afterBegin`, [{
+      createElements(parent, 'afterBegin', [{
         attributes: {
-          class: `sidebar__error is-disabled`
+          class: 'sidebar__error is-disabled'
         },
-        type: `div`,
+        type: 'div',
         children: [{
           attributes: {
-            class: `fa fa-exclamation-circle`
+            class: 'fa fa-exclamation-circle'
           },
-          type: `i`
+          type: 'i'
         }, {
-          text: ` Hidden Game`,
-          type: `node`
+          text: ' Hidden Game',
+          type: 'node'
         }]
       }]);
     }

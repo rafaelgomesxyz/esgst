@@ -4,7 +4,7 @@ import JSZip from 'jszip';
 Cu.importGlobalProperties(["fetch", "FileReader"]);
 
 // @ts-ignore
-const file = FileUtils.getFile(`ProfD`, [`esgst.sqlite`]);
+const file = FileUtils.getFile('ProfD', ['esgst.sqlite']);
 
 const TYPE_SET = 0;
 const TYPE_GET = 1;
@@ -25,10 +25,10 @@ buttons.ActionButton({
 });
 
 exports.main = details => {
-  if (details.loadReason === `install`) {
-    sendMessage(`isFirstRun`);
-  } else if (details.loadReason === `upgrade`) {
-    sendMessage(`isUpdate`);
+  if (details.loadReason === 'install') {
+    sendMessage('isFirstRun');
+  } else if (details.loadReason === 'upgrade') {
+    sendMessage('isUpdate');
   }
 };
 
@@ -50,8 +50,8 @@ function handle_storage(operation, values) {
         const params = stmt.newBindingParamsArray();
         for (const key in values) {
           const bp = params.newBindingParams();
-          bp.bindByName(`key`, key);
-          bp.bindByName(`value`, values[key]);
+          bp.bindByName('key', key);
+          bp.bindByName('value', values[key]);
           params.addParams(bp);
         }
         stmt.bindParameters(params);
@@ -64,8 +64,8 @@ function handle_storage(operation, values) {
           const params = stmt.newBindingParamsArray();
           for (const key in values) {
             const bp = params.newBindingParams();
-            bp.bindByName(`key`, key);
-            bp.bindByName(`value`, values[key]);
+            bp.bindByName('key', key);
+            bp.bindByName('value', values[key]);
             params.addParams(bp);
           }
           stmt.bindParameters(params);
@@ -76,14 +76,14 @@ function handle_storage(operation, values) {
           while (i < n) {
             conditions.push(`key = :key${i++}`);
           }
-          const select_stmt = dbConn.createStatement(`SELECT * FROM esgst WHERE ${conditions.join(` OR `)}`);
+          const select_stmt = dbConn.createStatement(`SELECT * FROM esgst WHERE ${conditions.join(' OR ')}`);
           i = 0;
           for (const key in values) {
             select_stmt.params[`key${i}`] = key;
           }
           statements.push(select_stmt);
         } else {
-          const select_stmt = dbConn.createStatement(`SELECT * FROM esgst`);
+          const select_stmt = dbConn.createStatement('SELECT * FROM esgst');
           statements.push(select_stmt);
         }
         break;
@@ -95,7 +95,7 @@ function handle_storage(operation, values) {
         while (i < n) {
           conditions.push(`key = :key${i++}`);
         }
-        const stmt = dbConn.createStatement(`DELETE FROM esgst WHERE ${conditions.join(` OR `)}`);
+        const stmt = dbConn.createStatement(`DELETE FROM esgst WHERE ${conditions.join(' OR ')}`);
         i = 0;
         for (const key of values) {
           stmt.params[`key${i}`] = key;
@@ -113,7 +113,7 @@ function handle_storage(operation, values) {
         do {
           row = aResultSet.getNextRow();
           if (row) {
-            output[row.getResultByName(`key`)] = row.getResultByName(`value`);
+            output[row.getResultByName('key')] = row.getResultByName('value');
           }
         } while (row);
       }
@@ -123,7 +123,7 @@ function handle_storage(operation, values) {
 }
 
 (async () => {
-  const settings = JSON.parse((await handle_storage(TYPE_GET, { settings: `{}` })).settings);
+  const settings = JSON.parse((await handle_storage(TYPE_GET, { settings: '{}' })).settings);
   if (!settings.activateTab_sg && !settings.activateTab_st) {
     return;
   }
@@ -132,11 +132,11 @@ function handle_storage(operation, values) {
   const currentTab = tabs.activeTab;
   if (settings.activateTab_sg) {
     // Set the SG tab as active.
-    activateTab(`steamgifts`);
+    activateTab('steamgifts');
   }
   if (settings.activateTab_st) {
     // Set the ST tab as active.
-    activateTab(`steamtrades`);
+    activateTab('steamtrades');
   }
   // Go back to the previously active tab.  
   if (currentTab && currentTab.id) {
@@ -144,13 +144,13 @@ function handle_storage(operation, values) {
   }
 })();
 
-function sendMessage(action, sender, values) {
+function sendMessage(action, sender, values, sendToAll) {
   for (const worker of workers) {
     if (sender && worker === sender) {
       continue;
     }
-    worker.port.emit(`esgstMessage`, JSON.stringify({ action, values }));
-    if (!sender) {
+    worker.port.emit('esgstMessage', JSON.stringify({ action, values }));
+    if (!sender && !sendToAll) {
       return;
     }
   }
@@ -160,11 +160,11 @@ async function getZip(data, fileName) {
   const zip = new JSZip();
   zip.file(fileName, data);
   return (await zip.generateAsync({
-    compression: `DEFLATE`,
+    compression: 'DEFLATE',
     compressionOptions: {
       level: 9
     },
-    type: `uint8array`
+    type: 'uint8array'
   }));
 }
 
@@ -176,7 +176,7 @@ async function readZip(data) {
   for (const key of keys) {
     output.push({
       name: key,
-      value: await zip.file(key).async(`text`)
+      value: await zip.file(key).async('text')
     });
   }
   return output;
@@ -268,7 +268,7 @@ function do_lock(lock) {
 function _do_lock(lock, resolve) {
   const now = Date.now();
   let locked = locks[lock.key];
-  if (!locked || !locked.uuid || locked.timestamp < now - (lock.threshold + 15000)) {
+  if (!locked || !locked.uuid || locked.timestamp < now - (lock.threshold + (lock.timeout || 15000))) {
     locks[lock.key] = {
       timestamp: now,
       uuid: lock.uuid
@@ -276,13 +276,19 @@ function _do_lock(lock, resolve) {
     setTimeout(() => {
       locked = locks[lock.key];
       if (!locked || locked.uuid !== lock.uuid) {
-        setTimeout(() => _do_lock(lock, resolve), 0);
+        if (!lock.lockOrDie) {
+          setTimeout(() => _do_lock(lock, resolve), 0);
+        } else {
+          resolve('false');
+        }
       } else {
-        resolve();
+        resolve('true');
       }
     }, lock.threshold / 2);
-  } else {
+  } else if (!lock.lockOrDie) {
     setTimeout(() => _do_lock(lock, resolve), lock.threshold / 3);
+  } else {
+    resolve('false');
   }
 }
 
@@ -299,113 +305,127 @@ function do_unlock(lock) {
   }
 }
 
+let tdsData = [];
+
 // @ts-ignore
 PageMod({
-  include: [`*.steamgifts.com`, `*.steamtrades.com`],
+  include: ['*.steamgifts.com', '*.steamtrades.com'],
   // @ts-ignore
-  contentScriptFile: data.url(`esgst.js`),
-  contentScriptWhen: `start`,
+  contentScriptFile: data.url('esgst.js'),
+  contentScriptWhen: 'start',
   onAttach: worker => {
     let keys, parameters, values;
 
     workers.push(worker);
 
-    worker.on(`detach`, () => {
+    worker.on('detach', () => {
       detachWorker(worker);
     });
 
-    worker.port.on(`permissions_contains`, request => {
-      worker.port.emit(`permissions_contains_${request.uuid}_response`, `true`);
+    worker.port.on('get-tds', request => {
+      worker.port.emit(`get-tds_${request.uuid}_response`, JSON.stringify(tdsData));
     });
 
-    worker.port.on(`permissions_request`, request => {
-      worker.port.emit(`permissions_request_${request.uuid}_response`, `true`);
+    worker.port.on('notify-tds', request => {
+      tdsData = JSON.parse(request.data);
+
+      sendMessage('notify-tds', null, tdsData, true);
+
+      worker.port.emit(`notify-tds_${request.uuid}_response`, 'null');
     });
 
-    worker.port.on(`permissions_remove`, request => {
-      worker.port.emit(`permissions_remove_${request.uuid}_response`, `true`);
+    worker.port.on('permissions_contains', request => {
+      worker.port.emit(`permissions_contains_${request.uuid}_response`, 'true');
     });
 
-    worker.port.on(`getBrowserInfo`, request => {
+    worker.port.on('permissions_request', request => {
+      worker.port.emit(`permissions_request_${request.uuid}_response`, 'true');
+    });
+
+    worker.port.on('permissions_remove', request => {
+      worker.port.emit(`permissions_remove_${request.uuid}_response`, 'true');
+    });
+
+    worker.port.on('getBrowserInfo', request => {
       worker.port.emit(`getBrowserInfo_${request.uuid}_response`, `{ "name": "?" }`);
     });
 
-    worker.port.on(`do_lock`, async request => {
-      await do_lock(JSON.parse(request.lock));
-      worker.port.emit(`do_lock_${request.uuid}_response`, `null`);
+    worker.port.on('do_lock', async request => {
+      const result = await do_lock(JSON.parse(request.lock));
+      worker.port.emit(`do_lock_${request.uuid}_response`, result);
     });
 
-    worker.port.on(`update_lock`, request => {
+    worker.port.on('update_lock', request => {
       update_lock(JSON.parse(request.lock));
-      worker.port.emit(`update_lock_${request.uuid}_response`, `null`);
+      worker.port.emit(`update_lock_${request.uuid}_response`, 'null');
     });
 
-    worker.port.on(`do_unlock`, request => {
+    worker.port.on('do_unlock', request => {
       do_unlock(JSON.parse(request.lock));
-      worker.port.emit(`do_unlock_${request.uuid}_response`, `null`);
+      worker.port.emit(`do_unlock_${request.uuid}_response`, 'null');
     });
 
-    worker.port.on(`delValues`, async request => {
+    worker.port.on('delValues', async request => {
       keys = JSON.parse(request.keys);
       await handle_storage(TYPE_DEL, keys);
-      worker.port.emit(`delValues_${request.uuid}_response`, `null`);
+      worker.port.emit(`delValues_${request.uuid}_response`, 'null');
       const changes = {};
       for (const key of keys) {
         changes[key] = {
-          newValue: `null`
+          newValue: 'null'
         };
       }
-      sendMessage(`storageChanged`, worker, { changes, areaName: `local` });
+      sendMessage('storageChanged', worker, { changes, areaName: 'local' });
     });
 
-    worker.port.on(`fetch`, async request => {
+    worker.port.on('fetch', async request => {
       parameters = JSON.parse(request.parameters);
       const response = await doFetch(parameters, request);      
       worker.port.emit(`fetch_${request.uuid}_response`, response);
     });
 
-    worker.port.on(`getPackageJson`, request => {
+    worker.port.on('getPackageJson', request => {
       // @ts-ignore
       worker.port.emit(`getPackageJson_${request.uuid}_response`, JSON.stringify(packageJson));
     });
 
-    worker.port.on(`getStorage`, async request => {
+    worker.port.on('getStorage', async request => {
       const storage = await handle_storage(TYPE_GET, null);
       worker.port.emit(`getStorage_${request.uuid}_response`, JSON.stringify(storage));
     });
 
-    worker.port.on(`reload`, request => {
-      worker.port.emit(`reload_${request.uuid}_response`, `null`);
+    worker.port.on('reload', request => {
+      worker.port.emit(`reload_${request.uuid}_response`, 'null');
     });
 
-    worker.port.on(`setValues`, async request => {
+    worker.port.on('setValues', async request => {
       values = JSON.parse(request.values);
       await handle_storage(TYPE_SET, values);
-      worker.port.emit(`setValues_${request.uuid}_response`, `null`);
+      worker.port.emit(`setValues_${request.uuid}_response`, 'null');
       const changes = {};
       for (const key in values) {
         changes[key] = {
           newValue: values[key]
         };
       }
-      sendMessage(`storageChanged`, worker, { changes, areaName: `local` });
+      sendMessage('storageChanged', worker, { changes, areaName: 'local' });
     });
 
-    worker.port.on(`tabs`, request => {
+    worker.port.on('tabs', request => {
       getTabs(request);
-      worker.port.emit(`tabs_${request.uuid}_response`, `null`);
+      worker.port.emit(`tabs_${request.uuid}_response`, 'null');
     });
   }
 });
 
 // @ts-ignore
 PageMod({
-  include: [`*.sgtools.info`],
+  include: ['*.sgtools.info'],
   // @ts-ignore
-  contentScriptFile: data.url(`esgst_sgtools.js`),
-  contentScriptWhen: `start`,
+  contentScriptFile: data.url('esgst_sgtools.js'),
+  contentScriptWhen: 'start',
   onAttach: worker => {
-    worker.port.on(`getStorage`, async request => {
+    worker.port.on('getStorage', async request => {
       const storage = await handle_storage(TYPE_GET, null);
       worker.port.emit(`getStorage_${request.uuid}_response`, JSON.stringify(storage));
     });
@@ -415,22 +435,22 @@ PageMod({
 function getTabs(request) {
   let items = [
     {
-      id: `inbox_sg`,
+      id: 'inbox_sg',
       pattern: /.*:\/\/.*\.steamgifts\.com\/messages.*/,
       url: `https://www.steamgifts.com/messages`
     },
     {
-      id: `inbox_st`,
+      id: 'inbox_st',
       pattern: /.*:\/\/.*\.steamtrades\.com\/messages.*/,
       url: `https://www.steamtrades.com/messages`
     },
     {
-      id: `wishlist`,
+      id: 'wishlist',
       pattern: /.*:\/\/.*\.steamgifts\.com\/giveaways\/search\?.*type=wishlist.*/,
       url: `https://www.steamgifts.com/giveaways/search?type=wishlist`
     },
     {
-      id: `won`,
+      id: 'won',
       pattern: /.*:\/\/.*\.steamgifts\.com\/giveaways\/won.*/,
       url: `https://www.steamgifts.com/giveaways/won`
     }

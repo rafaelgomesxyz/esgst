@@ -235,5 +235,5 @@ To learn more about each feature you have to install ESGST.
 
 ### Other Info
 
-* All requests from `Whitelist/Blacklist Checker`, `Not Activated/Multiple Win Checker`, `Not Received Finder` and `Archive Searcher` are limited to 2 per second, to prevent a stress on the SteamGifts servers.
-* If you try to leave the page while `Whitelist/Blacklist Checker`, `Not Activated/Multiple Win Checker`, `Not Received Finder` and `Archive Searcher` are running, you will get a confirmation dialog asking you if you want to leave the page. Additionally, while these features are running, their buttons are faded out.
+* All requests from 'Whitelist/Blacklist Checker', 'Not Activated/Multiple Win Checker', 'Not Received Finder' and 'Archive Searcher' are limited to 2 per second, to prevent a stress on the SteamGifts servers.
+* If you try to leave the page while 'Whitelist/Blacklist Checker', 'Not Activated/Multiple Win Checker', 'Not Received Finder' and 'Archive Searcher' are running, you will get a confirmation dialog asking you if you want to leave the page. Additionally, while these features are running, their buttons are faded out.
