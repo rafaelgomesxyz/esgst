@@ -558,6 +558,7 @@ class Common extends Module {
     } else {
       mainPageHeadingIndex = 0;
     }
+    this.esgst.pageHeadings = document.querySelectorAll(`.${this.esgst.pageHeadingClass}`);
     this.esgst.mainPageHeading = document.getElementsByClassName(this.esgst.pageHeadingClass)[mainPageHeadingIndex];
     if (!this.esgst.mainPageHeading && mainPageHeadingIndex === 1) {
       this.esgst.mainPageHeading = document.getElementsByClassName(this.esgst.pageHeadingClass)[0];
