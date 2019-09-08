@@ -1,7 +1,7 @@
 {
   "name": "esgst",
-  "version": "8.5.2",
-  "devVersion": "8.5.2-dev.2",
+  "version": "8.5.3",
+  "devVersion": "8.5.3-dev.1",
   "title": "Enhanced SteamGifts & SteamTrades (ESGST)",
   "description": "A script that adds some cool features to SteamGifts and SteamTrades.",
   "author": "rafaelgssa",
@@ -14,7 +14,7 @@
     "url": "git+https://github.com/rafaelgssa/esgst.git"
   },
   "scripts": {
-    "build": "./node_modules/.bin/webpack --env.production",
+    "build": "./node_modules/.bin/webpack --env.production --env.withBabel",
     "build-dev": "./node_modules/.bin/webpack --env.development --env.withBabel",
     "build-dev-no-babel": "./node_modules/.bin/webpack --env.development",
     "start": "./node_modules/.bin/webpack --env.development --env.withBabel --env.withWatch",
@@ -37,15 +37,14 @@
     "webextension-polyfill": "^0.4.0"
   },
   "devDependencies": {
-    "@babel/core": "7.5.5",
-    "@babel/plugin-transform-runtime": "7.5.5",
-    "@babel/preset-env": "7.5.5",
-    "@babel/runtime": "7.5.5",
+    "@babel/core": "^7.6.0",
+    "@babel/plugin-transform-runtime": "^7.6.0",
+    "@babel/preset-env": "^7.6.0",
+    "@babel/runtime": "^7.6.0",
     "@octokit/rest": "^16.28.9",
     "apidoc": "^0.17.7",
     "babel-eslint": "^10.0.3",
     "babel-loader": "^8.0.6",
-    "babel-minify": "^0.5.1",
     "calfinated": "^1.4.1",
     "circular-dependency-plugin": "^5.2.0",
     "clean-webpack-plugin": "^3.0.0",
