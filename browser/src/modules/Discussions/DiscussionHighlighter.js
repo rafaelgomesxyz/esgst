@@ -35,10 +35,10 @@ class DiscussionsDiscussionHighlighter extends Module {
 
     if (numHighlightedDiscussions > 0) {
       const popup = new Popup({
-        addScrollable: true,
+        addProgress: true,
         icon: 'fa-exchange',
         isTemp: true,
-        title: 'Discussion Highlighter has been removed because the ability to bookmark discussions has been added to SteamGifts. Would you like to transfer the discussions you had previously highlighted to the SteamGifts bookmark list?',
+        title: 'Discussion Highlighter has been removed because the ability to bookmark discussions has been added to SteamGifts. Do you want to transfer the discussions you had previously highlighted to the SteamGifts bookmark list or do you want to delete them from your data?',
         buttons: [
           {
             color1: 'green',
@@ -58,12 +58,26 @@ class DiscussionsDiscussionHighlighter extends Module {
                 popup.setProgress(`${current++} of ${numHighlightedDiscussions} discussions transferred...`);
               }
 
+              await shared.common.lockAndSaveDiscussions(highlightedDiscussions)
+
+              popup.close();
+            }
+          },
+          {
+            color1: 'red',
+            color2: 'grey',
+            icon1: 'fa-times',
+            icon2: 'fa-circle-o-notch fa-spin',
+            title1: 'Delete',
+            title2: 'Deleting...',
+            callback1: async () => {
+              await shared.common.lockAndSaveDiscussions(highlightedDiscussions)
+
               popup.close();
             }
           }
         ]
       });
-      popup.onClose = async () => await shared.common.lockAndSaveDiscussions(highlightedDiscussions);
       popup.open();
     }
   }
