@@ -35,6 +35,7 @@ class DiscussionsDiscussionHighlighter extends Module {
 
     if (numHighlightedDiscussions > 0) {
       const popup = new Popup({
+        addScrollable: true,
         icon: 'fa-exchange',
         isTemp: true,
         title: 'Discussion Highlighter has been removed because the ability to bookmark discussions has been added to SteamGifts. Would you like to transfer the discussions you had previously highlighted to the SteamGifts bookmark list?',
@@ -57,13 +58,12 @@ class DiscussionsDiscussionHighlighter extends Module {
                 popup.setProgress(`${current++} of ${numHighlightedDiscussions} discussions transferred...`);
               }
 
-              await shared.common.lockAndSaveDiscussions(highlightedDiscussions);
-
               popup.close();
             }
           }
         ]
       });
+      popup.onClose = async () => await shared.common.lockAndSaveDiscussions(highlightedDiscussions);
       popup.open();
     }
   }
