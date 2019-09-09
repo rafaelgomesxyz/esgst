@@ -1,7 +1,7 @@
 {
   "name": "esgst",
-  "version": "8.5.3",
-  "devVersion": "8.5.3-dev.1",
+  "version": "8.5.4",
+  "devVersion": "8.5.4",
   "title": "Enhanced SteamGifts & SteamTrades (ESGST)",
   "description": "A script that adds some cool features to SteamGifts and SteamTrades.",
   "author": "rafaelgssa",
