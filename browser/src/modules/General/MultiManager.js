@@ -405,6 +405,20 @@ class GeneralMultiManager extends Module {
             callback1: this.mm_hideDiscussions.bind(this, obj, items)
           },
           {
+            check: true,
+            color1: 'green', color2: 'grey',
+            icon1: 'fa-bookmark', icon2: 'fa-circle-o-notch fa-spin',
+            title1: 'Bookmark', title2: '',
+            callback1: this.mm_bookmarkDiscussions.bind(this, obj, items)
+          },
+          {
+            check: true,
+            color1: 'green', color2: 'grey',
+            icon1: 'fa-bookmark-o', icon2: 'fa-circle-o-notch fa-spin',
+            title1: 'Unbookmark', title2: '',
+            callback1: this.mm_unbookmarkDiscussions.bind(this, obj, items)
+          },
+          {
             check: gSettings.gdttt,
             color1: 'green', color2: 'grey',
             icon1: 'fa-check', icon2: 'fa-circle-o-notch fa-spin',
@@ -1014,6 +1028,26 @@ class GeneralMultiManager extends Module {
       }
     });
     await lockAndSaveDiscussions(newItems);
+  }
+
+  async mm_bookmarkDiscussions(obj, items) {
+    for (const item of items) {
+      if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`)) || !item.idbButton || item.idbButton.index !== 1) {
+        continue;
+      }
+
+      await item.idbButton.triggerCallback();
+    }
+  }
+
+  async mm_unbookmarkDiscussions(obj, items) {
+    for (const item of items) {
+      if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`)) || !item.idbButton || item.idbButton.index !== 3) {
+        continue;
+      }
+
+      await item.idbButton.triggerCallback();
+    }
   }
 
   async mm_visitDiscussions(obj, items) {
