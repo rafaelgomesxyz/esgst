@@ -997,6 +997,8 @@ class Esgst {
     };
 
     this.oldValues = {
+      idb_sg: 'dh_sg',
+      idb_t_sg: 'dh_t_sg',
       cl_gc_index: () => (this.settings.gcl_index || 0) + 1,
       cl_gi_index: () => (this.settings.ap_index || 0) + 1,
       cl_ui_index: () => (this.settings.ap_index || 0) + 1,

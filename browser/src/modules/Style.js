@@ -1175,7 +1175,7 @@ function addStyle() {
     cursor: pointer;
   }
 
-  .popup__keys__list .esgst-ggl-member, .esgst-dh-highlighted, .esgst-dh-highlighted.table__row-outer-wrap {
+  .popup__keys__list .esgst-ggl-member, .esgst-dh-highlighted, .esgst-dh-highlighted.table__row-outer-wrap, .esgst-idb-highlight, .esgst-idb-highlight.table__row-outer-wrap {
     background-color: rgba(150, 196, 104, 0.2) !important;
     padding: 5px !important;
   }
@@ -1205,13 +1205,13 @@ function addStyle() {
     margin: 0 5px 0 0;
   }
 
-  .esgst-codb-button, .esgst-dh-button, .esgst-df-button {
+  .esgst-codb-button, .esgst-dh-button, .esgst-idb-button, .esgst-df-button {
     display: inline-block;
     margin: 0 5px 0 0;
     padding: 0;
   }
 
-  .page__heading .esgst-codb-button >*, .page__heading .esgst-dh-button >*, .page__heading .esgst-df-button >* {
+  .page__heading .esgst-codb-button >*, .page__heading .esgst-dh-button >*, .page__heading .esgst-idb-button >*, .page__heading .esgst-df-button >* {
     padding: 5px 10px;
   }
 
@@ -1228,7 +1228,7 @@ function addStyle() {
     top: calc(50% - 7px);
   }
 
-  .esgst-dh-highlighted .esgst-pm-button {
+  .esgst-dh-highlighted .esgst-pm-button, .esgst-idb-highlight .esgst-pm-button {
     margin-left: -22px;
   }
 
@@ -1807,7 +1807,7 @@ function addStyle() {
     vertical-align: baseline;
   }
 
-  .esgst-checkbox, .esgst-hb-update, .esgst-hb-changelog, .esgst-dh-view-button {
+  .esgst-checkbox, .esgst-hb-update, .esgst-hb-changelog {
     cursor: pointer;
   }
 
@@ -2200,7 +2200,7 @@ function addStyle() {
     overflow: auto;
   }
 
-  .sidebar .esgst-adots .esgst-dh-highlighted {
+  .sidebar .esgst-adots .esgst-dh-highlighted, .sidebar .esgst-adots .esgst-idb-highlighted {
     padding: 0 !important;
     padding-bottom: 5px !important;
   }

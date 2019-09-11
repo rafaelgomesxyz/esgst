@@ -38,6 +38,10 @@ class Button {
       this.button.firstElementChild.addEventListener('click', this.change.bind(this, this.callbacks[index], undefined));
     }
   }
+
+  async triggerCallback() {
+    await this.change(this.callbacks[this.index - 1]);
+  }
 }
 
 export { Button };
