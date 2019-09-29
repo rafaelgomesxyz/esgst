@@ -50,7 +50,7 @@ const plugins = {
 
 /**
  * @param {Environment} env
- * @param {string} browserName 
+ * @param {string} browserName
  */
 function getWebExtensionManifest(env, browserName) {
   const manifest = {
@@ -158,7 +158,7 @@ function getWebExtensionManifest(env, browserName) {
 
 /**
  * @param {Environment} env
- * @param {string} browserName 
+ * @param {string} browserName
  */
 function getLegacyExtensionManifest(env, browserName) {
   const manifest = {
@@ -194,7 +194,7 @@ function getLegacyExtensionManifest(env, browserName) {
 
 /**
  * @param {Environment} env
- * @param {string} browserName 
+ * @param {string} browserName
  */
 function packageWebExtension(env, browserName) {
   return new Promise((resolve, reject) => {
@@ -243,7 +243,7 @@ function packageWebExtension(env, browserName) {
 
 /**
  * @param {Environment} env
- * @param {string} browserName 
+ * @param {string} browserName
  */
 async function packageLegacyExtension(env, browserName) {
   const extensionPath = path.resolve(BASE_PATH, 'build', browserName);
@@ -269,7 +269,7 @@ async function packageLegacyExtension(env, browserName) {
 }
 
 /**
- * @param {Environment} env 
+ * @param {Environment} env
  */
 async function runFinalSteps(env) {
   if (!fs.existsSync('./build/chrome/lib')) {
@@ -284,7 +284,7 @@ async function runFinalSteps(env) {
     fs.mkdirSync('./dist');
   }
 
-  const filesToCopy = [        
+  const filesToCopy = [
     { from: './src/assets/images/icon.png', to: './build/chrome/icon.png' },
     { from: './src/html/permissions.html', to: './build/chrome/permissions.html' },
     { from: './src/assets/images/icon.png', to: './build/firefox/icon.png' },
@@ -347,7 +347,7 @@ async function runFinalSteps(env) {
 }
 
 /**
- * @param {Environment} env 
+ * @param {Environment} env
  */
 async function getWebpackConfig(env) {
   let mode;
@@ -387,7 +387,7 @@ async function getWebpackConfig(env) {
       ].concat(env.withBabel ? [
         {
           exclude: /node_modules/,
-          test: /\.js$/,
+          test: /\.(ts|js)$/,
           use: {
             loader: 'babel-loader'
           }
@@ -443,6 +443,9 @@ async function getWebpackConfig(env) {
       }),
       new plugins.runAfterBuild(() => runFinalSteps(env))
     ],
+    resolve: {
+      extensions: ['.js', '.ts', '.json']
+    },
     watch: env.development && env.withWatch,
     watchOptions: {
       aggregateTimeout: 1000,
