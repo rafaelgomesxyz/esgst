@@ -3,7 +3,7 @@ import { common } from '../Common';
 import IntersectionObserver from 'intersection-observer-polyfill';
 import { gSettings } from '../../class/Globals';
 import { shared } from '../../class/Shared';
-import { DOM } from '../class/DOM';
+import { DOM } from '../../class/DOM';
 
 const
   animateScroll = common.animateScroll.bind(common),

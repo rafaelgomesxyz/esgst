@@ -15,7 +15,7 @@ import { gSettings } from './class/Globals';
 import { shared } from './class/Shared';
 import { logger } from './class/Logger';
 import { persistentStorage } from './class/PersistentStorage';
-import { DOM } from '../class/DOM';
+import { DOM } from './class/DOM';
 
 // @ts-ignore
 window.interact = interact;

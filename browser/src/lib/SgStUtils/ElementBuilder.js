@@ -23,7 +23,6 @@ class SgNotification {
    * @param {String} options.message
    */
   constructor(options) {
-    super();
     options = Object.assign({
       context: null,
       position: null,
@@ -62,7 +61,6 @@ class PageHeading {
    * @param {"sg"|"st"} namespace
    */
   constructor(options, namespace) {
-    super();
     this.namespace = namespace;
     options = Object.assign({
       context: null,

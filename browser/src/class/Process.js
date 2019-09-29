@@ -3,7 +3,7 @@ import { shared } from './Shared';
 import { gSettings } from './Globals';
 import { permissions } from './Permissions';
 import { logger } from './Logger';
-import { DOM } from '../class/DOM';
+import { DOM } from './DOM';
 
 class Process {
   constructor(details) {

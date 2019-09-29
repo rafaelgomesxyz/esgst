@@ -5,7 +5,7 @@ import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { Utils } from '../../lib/jsUtils';
 import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
-import { DOM } from '../class/DOM';
+import { DOM } from '../../class/DOM';
 
 class UsersUserSuspensionChecker extends Module {
   constructor() {
