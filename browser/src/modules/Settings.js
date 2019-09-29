@@ -2,7 +2,7 @@ import { ButtonSet } from '../class/ButtonSet';
 import { Popup } from '../class/Popup';
 import { shared } from '../class/Shared';
 import { ToggleSwitch } from '../class/ToggleSwitch';
-import { utils } from '../lib/jsUtils';
+import { Utils } from '../lib/jsUtils';
 import { setSync } from './Sync';
 import { elementBuilder } from '../lib/SgStUtils/ElementBuilder';
 import { gSettings } from '../class/Globals';
@@ -10,6 +10,7 @@ import { permissions } from '../class/Permissions';
 import { Table } from '../class/Table';
 import { browser } from '../browser';
 import { logger } from '../class/Logger';
+import { DOM } from '../class/DOM';
 
 class Settings {
   constructor() {
@@ -73,7 +74,7 @@ class Settings {
       Container.innerHTML = '';
     }
 
-    const input = shared.common.createElements_v2(isPopup ? Container : shared.esgst.sidebar, 'afterBegin', [
+    const input = DOM.build(isPopup ? Container : shared.esgst.sidebar, 'afterBegin', [
       ['div', { class: 'sidebar__search-container' }, [
         ['input', { class: 'sidebar__search-input', type: 'text', placeholder: 'Search...' }]
       ]]
@@ -84,10 +85,10 @@ class Settings {
 
     let newIndicators = null;
 
-    const buttonGroup = shared.common.createElements_v2(Container, 'beforeEnd', [
+    const buttonGroup = DOM.build(Container, 'beforeEnd', [
       ['div', { class: 'esgst-button-group' }]
     ]);
-    
+
     buttonGroup.appendChild(new ButtonSet({
       color1: 'green',
       color2: 'grey',
@@ -100,7 +101,7 @@ class Settings {
           this.collapseSection(item.collapseButton, item.id, item.subMenu);
         }
       }
-    }).set);    
+    }).set);
 
     buttonGroup.appendChild(new ButtonSet({
       color1: 'green',
@@ -123,7 +124,7 @@ class Settings {
       icon2: 'fa-circle-o-notch fa-spin',
       title1: 'Dismiss All New',
       title2: 'Dismissing',
-      callback1: async () => {      
+      callback1: async () => {
         await shared.common.setSetting('dismissedOptions', shared.esgst.toDismiss);
         for (let i = newIndicators.length - 1; i > -1; i--) {
           newIndicators[i].remove();
@@ -277,7 +278,7 @@ class Settings {
     input.addEventListener('input', event => this.filterSm(event));
     input.addEventListener('change', event => this.filterSm(event));
     Context.classList.add('esgst-menu-layer');
-    shared.common.createElements_v2(Context, 'beforeEnd', [
+    DOM.build(Context, 'beforeEnd', [
       ['div', { class: 'esgst-menu-split' }, [
         ['div', { class: 'esgst-settings-menu' }],
         ['div', { class: `esgst-settings-menu-feature ${isPopup ? '' : 'esgst-menu-split-fixed'}` }, [
@@ -477,7 +478,7 @@ class Settings {
     let sgContext, stContext, sgtoolsContext;
     if (feature.sg) {
       const value = (gSettings.full[`${id}_sg`] || shared.common.getFeaturePath(feature, id, 'sg')).enabled;
-      sgContext = shared.common.createElements_v2([['div']]).firstElementChild;
+      sgContext = DOM.build([['div']]).firstElementChild;
       const sgSwitch = new ToggleSwitch(sgContext, null, true, gSettings.esgst_st || gSettings.esgst_sgtools ? 'SteamGifts' : '', true, false, null, value);
       feature.sgFeatureSwitch = sgSwitch;
       sgSwitch.onEnabled = () => {
@@ -512,7 +513,7 @@ class Settings {
             shared.common.updateTheme(id);
           }
         }
-        shared.common.createElements_v2(document.querySelector('#esgst-paths-sg'), 'inner', [
+        DOM.build(document.querySelector('#esgst-paths-sg'), 'inner', [
           this.openPathsPopup(feature, id, 'sg')
         ]);
       };
@@ -530,14 +531,14 @@ class Settings {
           }
           shared.common.setTheme();
         }
-        shared.common.createElements_v2(document.querySelector('#esgst-paths-sg'), 'inner', [
+        DOM.build(document.querySelector('#esgst-paths-sg'), 'inner', [
           this.openPathsPopup(feature, id, 'sg')
         ]);
       };
     }
     if (feature.st && (gSettings.esgst_st || id === 'esgst')) {
       const value = (gSettings.full[`${id}_st`] || shared.common.getFeaturePath(feature, id, 'st')).enabled;
-      stContext = shared.common.createElements_v2([['div']]).firstElementChild;
+      stContext = DOM.build([['div']]).firstElementChild;
       const stSwitch = new ToggleSwitch(stContext, null, true, 'SteamTrades', false, true, null, value);
       feature.stFeatureSwitch = stSwitch;
       stSwitch.onEnabled = () => {
@@ -572,7 +573,7 @@ class Settings {
             shared.common.updateTheme(id);
           }
         }
-        shared.common.createElements_v2(document.querySelector('#esgst-paths-st'), 'inner', [
+        DOM.build(document.querySelector('#esgst-paths-st'), 'inner', [
           this.openPathsPopup(feature, id, 'st')
         ]);
       };
@@ -590,14 +591,14 @@ class Settings {
           }
           shared.common.setTheme();
         }
-        shared.common.createElements_v2(document.querySelector('#esgst-paths-st'), 'inner', [
+        DOM.build(document.querySelector('#esgst-paths-st'), 'inner', [
           this.openPathsPopup(feature, id, 'st')
         ]);
       };
     }
     if (feature.sgtools && (gSettings.esgst_sgtools || id === 'esgst')) {
       const value = (gSettings.full[`${id}_sgtools`] || shared.common.getFeaturePath(feature, id, 'sgtools')).enabled;
-      sgtoolsContext = shared.common.createElements_v2([['div']]).firstElementChild;
+      sgtoolsContext = DOM.build([['div']]).firstElementChild;
       const sgtoolsSwitch = new ToggleSwitch(sgtoolsContext, null, true, 'SGTools', true, false, null, value);
       feature.sgtoolsFeatureSwitch = sgtoolsSwitch;
       sgtoolsSwitch.onEnabled = () => {
@@ -632,7 +633,7 @@ class Settings {
             shared.common.updateTheme(id);
           }
         }
-        shared.common.createElements_v2(document.querySelector('#esgst-paths-sgtools'), 'inner', [
+        DOM.build(document.querySelector('#esgst-paths-sgtools'), 'inner', [
           this.openPathsPopup(feature, id, 'sgtools')
         ]);
       };
@@ -650,7 +651,7 @@ class Settings {
           }
           shared.common.setTheme();
         }
-        shared.common.createElements_v2(document.querySelector('#esgst-paths-sgtools'), 'inner', [
+        DOM.build(document.querySelector('#esgst-paths-sgtools'), 'inner', [
           this.openPathsPopup(feature, id, 'sgtools')
         ]);
       };
@@ -1141,7 +1142,7 @@ class Settings {
       includeItems: [],
       name: name
     };
-    const context = shared.common.createElements_v2([
+    const context = DOM.build([
       ['div', { class: 'esgst-bold' }, [
         `Run it here: `,
         ['i', { class: 'fa fa-question-circle', title: `Select the places where you want the feature to run. If you cannot find the place you want, select "Custom" and enter the place manually (you have to use regular expressions).` }]
@@ -1191,7 +1192,7 @@ class Settings {
     item.switch.onChange = () => {
       this.savePaths(feature.id, obj);
     };
-    item.select = shared.common.createElements_v2(item.container, 'beforeEnd', [
+    item.select = DOM.build(item.container, 'beforeEnd', [
       ['select', { class: 'esgst-switch-input esgst-switch-input-large' }, [
         ...(shared.esgst.paths[obj.name].filter(x => !feature[`${obj.name}Paths`] || x.name === 'Everywhere' || x.name.match(feature[`${obj.name}Paths`])).map(x =>
           ['option', Object.assign({ value: x.pattern }, x.pattern === path.pattern && (found = true) ? { selected: true } : null), x.name]
@@ -1199,7 +1200,7 @@ class Settings {
         feature[`${obj.name}Paths`] ? null : ['option', Object.assign({ value: 'custom' }, found ? null : { selected: true }), 'Custom']
       ]]
     ]);
-    item.input = shared.common.createElements_v2(item.container, 'beforeEnd', [
+    item.input = DOM.build(item.container, 'beforeEnd', [
       ['input', Object.assign({ class: 'esgst-switch-input esgst-switch-input-large', type: 'text' }, item.select.value === 'custom' ? null : { disabled: true })]
     ]);
     item.select.addEventListener('change', () => {
@@ -1323,7 +1324,7 @@ class Settings {
       text: `${number}.`,
       type: 'div'
     }]);
-    let isMainNew = gSettings.dismissedOptions.indexOf(id) < 0 && !utils.isSet(shared.esgst.settings[`${id}_sg`]) && !utils.isSet(shared.esgst.settings[`${id}_st`]) && !utils.isSet(shared.esgst.settings[`${id}_sgtools`]);
+    let isMainNew = gSettings.dismissedOptions.indexOf(id) < 0 && !Utils.isSet(shared.esgst.settings[`${id}_sg`]) && !Utils.isSet(shared.esgst.settings[`${id}_st`]) && !Utils.isSet(shared.esgst.settings[`${id}_sgtools`]);
     if (isMainNew) {
       feature.isNew = true;
       shared.common.createElements(menu.firstElementChild, 'afterEnd', [{
@@ -1343,7 +1344,7 @@ class Settings {
       if (value) {
         isHidden = false;
       }
-      sgContext = shared.common.createElements_v2([['div']]).firstElementChild;
+      sgContext = DOM.build([['div']]).firstElementChild;
       const sgSwitch = new ToggleSwitch(sgContext, null, true, gSettings.esgst_st || gSettings.esgst_sgtools ? `[SG]` : '', true, false, null, value);
       feature.sgSwitch = sgSwitch;
       sgSwitch.onEnabled = () => {
@@ -1409,7 +1410,7 @@ class Settings {
       if (value) {
         isHidden = false;
       }
-      stContext = shared.common.createElements_v2([['div']]).firstElementChild;
+      stContext = DOM.build([['div']]).firstElementChild;
       const stSwitch = new ToggleSwitch(stContext, null, true, `[ST]`, false, true, null, value);
       feature.stSwitch = stSwitch;
       stSwitch.onEnabled = () => {
@@ -1475,7 +1476,7 @@ class Settings {
       if (value) {
         isHidden = false;
       }
-      sgtoolsContext = shared.common.createElements_v2([['div']]).firstElementChild;
+      sgtoolsContext = DOM.build([['div']]).firstElementChild;
       const sgtoolsSwitch = new ToggleSwitch(sgtoolsContext, null, true, `[SGT]`, false, true, null, value);
       feature.sgtoolsSwitch = sgtoolsSwitch;
       sgtoolsSwitch.onEnabled = () => {
@@ -1536,7 +1537,7 @@ class Settings {
         }
       };
     }
-    shared.common.createElements_v2(menu, 'beforeEnd', [
+    DOM.build(menu, 'beforeEnd', [
       ['span', [
         sgContext && sgContext.firstElementChild,
         stContext && stContext.firstElementChild,
@@ -1618,10 +1619,10 @@ class Settings {
   }
 
   resetColor(hexInput, alphaInput, id, colorId) {
-    const color = utils.rgba2Hex(shared.esgst.defaultValues[`${id}_${colorId}`]);
+    const color = Utils.rgba2Hex(shared.esgst.defaultValues[`${id}_${colorId}`]);
     hexInput.value = color.hex;
     alphaInput.value = color.alpha;
-    this.preSave(`${id}_${colorId}`, utils.hex2Rgba(hexInput.value, alphaInput.value));
+    this.preSave(`${id}_${colorId}`, Utils.hex2Rgba(hexInput.value, alphaInput.value));
   }
 
   getSmFeatureAdditionalOptions(Feature, ID) {
@@ -1657,7 +1658,7 @@ class Settings {
       }
       const children = [];
       for (const id in Feature.colors) {
-        const color = utils.rgba2Hex(gSettings[`${ID}_${id}`]);
+        const color = Utils.rgba2Hex(gSettings[`${ID}_${id}`]);
         children.push(
           ['strong', `${Feature.colors[id]}: `],
           ['br'],
@@ -1669,7 +1670,7 @@ class Settings {
           ['br']
         );
       }
-      const context = shared.common.createElements_v2([
+      const context = DOM.build([
         ['div', { class: 'esgst-sm-colors' }, children]
       ]).firstElementChild;
       const elements = context.querySelectorAll(`[data-color-id]`);
@@ -1681,7 +1682,7 @@ class Settings {
       }
       items.push(context);
       if (ID === 'gc_g') {
-        const input = shared.common.createElements_v2([
+        const input = DOM.build([
           ['div', { class: 'esgst-sm-colors' }, [
             `Only show the following genres: `,
             ['input', { type: 'text', value: gSettings.gc_g_filters }],
@@ -1693,7 +1694,7 @@ class Settings {
         items.push(this.addGcMenuPanel());
       }
       if (Feature.input) {
-        const input = shared.common.createElements_v2([
+        const input = DOM.build([
           ['div', { class: 'esgst-sm-colors' }, [
             `Icon: `,
             ['input', { type: 'text', value: gSettings[`${ID}Icon`] }],
@@ -1720,7 +1721,7 @@ class Settings {
         items.push(input);
       }
     } else if (Feature.inputItems) {
-      let containerr = shared.common.createElements_v2([
+      let containerr = DOM.build([
         ['div', { class: 'esgst-sm-colors' }]
       ]).firstElementChild;
       if (ID.match(/^(chfl|sk_)/)) {
@@ -1856,7 +1857,7 @@ class Settings {
           ['span']
         );
       }
-      let containerr = shared.common.createElements_v2([
+      let containerr = DOM.build([
         ['div', { class: 'esgst-sm-colors' }, children]
       ]).firstElementChild;
       let startTime = containerr.firstElementChild;
@@ -1919,7 +1920,7 @@ class Settings {
             value.match(/~/) ? ['option', { disabled: 'true' }, value.replace(/~/, '')] : ['option', value]
           );
         }
-        const select = shared.common.createElements_v2([
+        const select = DOM.build([
           ['div', { class: 'esgst-sm-colors' }, [
             option.title,
             ['select', children]
@@ -1971,7 +1972,7 @@ class Settings {
   }
 
   addGwcrMenuPanel(id, key, background, upper = '100') {
-    const panel = shared.common.createElements_v2([
+    const panel = DOM.build([
       ['div', { class: 'esgst-sm-colors' }, [
         ['div', { class: 'form__saving-button esgst-sm-colors-default' }, [
           ['span', 'Add Color Setting']
@@ -2092,7 +2093,7 @@ class Settings {
   }
 
   addUlMenuPanel(id) {
-    const panel = shared.common.createElements_v2([
+    const panel = DOM.build([
       ['div', { class: 'esgst-sm-colors' }, [
         ['div'],
         ['div', { class: 'form__saving-button esgst-sm-colors-default', onclick: () => this.addUlMenuItem(id, panel) }, [
@@ -2163,7 +2164,7 @@ class Settings {
   }
 
   addUlLink(i, id, link, panel) {
-    const setting = shared.common.createElements_v2(panel.firstElementChild, 'beforeEnd', [
+    const setting = DOM.build(panel.firstElementChild, 'beforeEnd', [
       ['div', { 'data-draggable-id': i, 'data-draggable-obj': JSON.stringify(link) }, [
         `Label: `,
         ['input', { onchange: event => { link.label = event.currentTarget.value; this.preSave(id, gSettings[id]); setting.setAttribute('data-draggable-obj', JSON.stringify(link)); }, type: 'text', value: link.label }],
@@ -2185,7 +2186,7 @@ class Settings {
   }
 
   addGcRatingPanel() {
-    const panel = shared.common.createElements_v2([
+    const panel = DOM.build([
       ['div', { class: 'esgst-sm-colors' }, [
         ['div', { class: 'form__saving-button esgst-sm-colors-default' }, [
           ['span', 'Add Rating Setting']
@@ -2322,7 +2323,7 @@ class Settings {
 
   addGcMenuPanel() {
     let button, colorSetting, i, n;
-    const panel = shared.common.createElements_v2([
+    const panel = DOM.build([
       ['div', { class: 'esgst-sm-colors' }, [
         ['div', { class: 'form__saving-button esgst-sm-colors-default' }, [
           ['span', 'Add Custom Genre Setting']
@@ -2423,7 +2424,7 @@ class Settings {
 
   addGcAltMenuPanel() {
     let altSetting, button, i, n;
-    const panel = shared.common.createElements_v2([
+    const panel = DOM.build([
       ['div', { class: 'esgst-sm-colors' }, [
         ['div', { class: 'form__saving-button esgst-sm-colors-default' }, [
           ['span', 'Add Alt Account']
@@ -2593,11 +2594,11 @@ class Settings {
   addColorObserver(hexInput, alphaInput, id, colorId) {
     hexInput.addEventListener('change', () => {
       // noinspection JSIgnoredPromiseFromCall
-      this.preSave(`${id}_${colorId}`, utils.hex2Rgba(hexInput.value, alphaInput.value));
+      this.preSave(`${id}_${colorId}`, Utils.hex2Rgba(hexInput.value, alphaInput.value));
     });
     alphaInput.addEventListener('change', () => {
       // noinspection JSIgnoredPromiseFromCall
-      this.preSave(`${id}_${colorId}`, utils.hex2Rgba(hexInput.value, alphaInput.value));
+      this.preSave(`${id}_${colorId}`, Utils.hex2Rgba(hexInput.value, alphaInput.value));
     });
   }
 
@@ -2992,7 +2993,7 @@ class Settings {
         }
       }
     }
-    for (type of ['element_ordering', 'steam_api_key']) {      
+    for (type of ['element_ordering', 'steam_api_key']) {
       element = document.getElementById(`esgst_${type}`);
       if (element) {
         if (element.textContent.toLowerCase().trim().match(value)) {

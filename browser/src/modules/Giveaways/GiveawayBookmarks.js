@@ -2,14 +2,13 @@ import { Button } from '../../class/Button';
 import { ButtonSet } from '../../class/ButtonSet';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
-import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
 import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
+import { DOM } from '../class/DOM';
 
 const
-  parseHtml = utils.parseHtml.bind(utils),
   createElements = common.createElements.bind(common),
   createLock = common.createLock.bind(common),
   endless_load = common.endless_load.bind(common),
@@ -397,7 +396,7 @@ class GiveawaysGiveawayBookmarks extends Module {
       let element = gb.popup.scrollable.children[i].firstElementChild;
       if (!element.getAttribute('data-esgst')) {
         let code = element.textContent;
-        element.textContent = parseHtml((await request({
+        element.textContent = DOM.parse((await request({
           method: 'GET',
           queue: true,
           url: element.getAttribute('href')
@@ -415,7 +414,7 @@ class GiveawaysGiveawayBookmarks extends Module {
       if (bookmarked[i]) {
         let response = await request({ method: 'GET', queue: true, url: `/giveaway/${bookmarked[i].code}/` });
         let endTime;
-        let responseHtml = parseHtml(response.responseText);
+        let responseHtml = DOM.parse(response.responseText);
         let container = responseHtml.getElementsByClassName('featured__outer-wrap--giveaway')[0];
         if (container) {
           let heading = responseHtml.getElementsByClassName('featured__heading')[0];

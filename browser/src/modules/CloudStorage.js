@@ -6,6 +6,7 @@ import { OneDriveStorage } from '../class/OneDriveStorage';
 import { ButtonSet } from '../class/ButtonSet';
 import { Checkbox } from '../class/Checkbox';
 import { Popup } from '../class/Popup';
+import { DOM } from '../class/DOM';
 
 class CloudStorage {
   static get DROPBOX() { return 0; }
@@ -170,7 +171,7 @@ class CloudStorage {
     };
     popup.open();
 
-    const filesContainer = shared.common.createElements_v2(popup.scrollable, 'beforeEnd', [
+    const filesContainer = DOM.build(popup.scrollable, 'beforeEnd', [
       ['div', { class: 'popup__keys__list' }]
     ]);
 
@@ -199,7 +200,7 @@ class CloudStorage {
     let selectedFiles = {};
 
     for (const file of files) {
-      const item = shared.common.createElements_v2(filesContainer, 'beforeEnd', [
+      const item = DOM.build(filesContainer, 'beforeEnd', [
         ['div', { class: 'esgst-clickable esgst-restore-entry' }, [
           ['span'],
           ['span', `${file.name} - ${shared.common.convertBytes(file.size)}`],
@@ -234,9 +235,9 @@ class CloudStorage {
             if (callback) {
               callback();
             }
-            return;            
+            return;
           }
-            
+
           shared.esgst.modules.manageData(dm, false, false, false, false, callback);
         });
       });

@@ -5,6 +5,7 @@ import { Table } from '../../class/Table';
 import { shared } from '../../class/Shared';
 import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { ButtonSet } from '../../class/ButtonSet';
+import { DOM } from '../../class/DOM';
 
 class GeneralCakeDayReminder extends Module {
   constructor() {
@@ -82,7 +83,7 @@ class GeneralCakeDayReminder extends Module {
 
       this.checkUser(cdrObj, steamId, user);
     }
-    
+
     if (cdrObj.elements.length > 1) {
       shared.common.setLocalValue('cdrCache', JSON.stringify(cdrObj.cache));
 
@@ -169,7 +170,7 @@ class GeneralCakeDayReminder extends Module {
       return;
     }
 
-    const button = shared.common.createElements_v2(profile.heading, 'beforeEnd', [
+    const button = DOM.build(profile.heading, 'beforeEnd', [
       ['a', { title: shared.common.getFeatureTooltip('cdr', `Get notified about ${profile.username}'s cake day`) }, [
         ['i', { class: 'fa fa-gift' }]
       ]]
@@ -191,7 +192,7 @@ class GeneralCakeDayReminder extends Module {
       };
       const savedUser = await shared.common.getUser(shared.esgst.users, user);
       if (savedUser && savedUser.cdr) {
-        user.values.cdr = savedUser.cdr;        
+        user.values.cdr = savedUser.cdr;
       } else {
         user.values.cdr = {
           a: false,

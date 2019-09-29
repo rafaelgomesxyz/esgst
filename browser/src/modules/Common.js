@@ -11,7 +11,7 @@ import { Popup } from '../class/Popup';
 import { Scope } from '../class/Scope';
 import { shared } from '../class/Shared';
 import { ToggleSwitch } from '../class/ToggleSwitch';
-import { utils } from '../lib/jsUtils';
+import { Utils } from '../lib/jsUtils';
 import { settingsModule } from './Settings';
 import { loadDataCleaner, loadDataManagement } from './Storage';
 import { runSilentSync, setSync } from './Sync';
@@ -22,11 +22,7 @@ import '../lib/bootstrap-tourist/bootstrap-tourist.css';
 import { gSettings } from '../class/Globals';
 import { permissions } from '../class/Permissions';
 import { logger } from '../class/Logger';
-
-const
-  isSet = utils.isSet.bind(utils),
-  parseHtml = utils.parseHtml.bind(utils)
-  ;
+import { DOM } from '../class/DOM';
 
 class Common extends Module {
   constructor() {
@@ -115,7 +111,7 @@ class Common extends Module {
     selected.classList.remove('is-selected');
     const newSelected = document.querySelector(`#${id}`);
     newSelected.classList.add('is-selected');
-    this.createElements_v2(newSelected.querySelector('.sidebar__navigation__item__link'), 'afterBegin', [
+    DOM.build(newSelected.querySelector('.sidebar__navigation__item__link'), 'afterBegin', [
       ['i', { class: 'fa fa-caret-right' }]
     ]);
   }
@@ -125,7 +121,7 @@ class Common extends Module {
    * @param {Object} modules
    * @returns {Promise<void>}
    */
-  async loadFeatures(modules) {  
+  async loadFeatures(modules) {
     logger.info(this.esgst.games.apps[269650]);
     if (this.isCurrentPath('Account')) {
       this.createSidebarNavigation(this.esgst.sidebar, 'beforeEnd', {
@@ -170,7 +166,7 @@ class Common extends Module {
       });
       if (this.esgst.parameters.esgst === 'debug') {
         let textArea;
-        this.createElements_v2(document.body, 'inner', [
+        DOM.build(document.body, 'inner', [
           ['textarea', { ref: ref => textArea = ref }],
           ['button', { onclick: () => Function('"use strict";' + textArea.value + '').call(shared) }, 'Debug']
         ]);
@@ -204,10 +200,10 @@ class Common extends Module {
     }
 
     if (this.esgst.mainPageHeading) {
-      this.esgst.leftMainPageHeadingButtons = this.createElements_v2(this.esgst.mainPageHeading, 'afterBegin', [
+      this.esgst.leftMainPageHeadingButtons = DOM.build(this.esgst.mainPageHeading, 'afterBegin', [
         ['div', { class: 'esgst-page-heading esgst-page-heading-buttons' }]
       ]);
-      this.esgst.rightMainPageHeadingButtons = this.createElements_v2(this.esgst.mainPageHeading, 'beforeEnd', [
+      this.esgst.rightMainPageHeadingButtons = DOM.build(this.esgst.mainPageHeading, 'beforeEnd', [
         ['div', { class: 'esgst-page-heading esgst-page-heading-buttons' }]
       ]);
     }
@@ -215,7 +211,7 @@ class Common extends Module {
     let hideButtonsLeft, hideButtonsRight;
     hideButtonsLeft = document.createElement('div');
     hideButtonsLeft.className = 'esgst-heading-button';
-    this.createElements_v2(hideButtonsLeft, 'inner', [
+    DOM.build(hideButtonsLeft, 'inner', [
       ['i', { class: 'fa fa-ellipsis-v' }]
     ]);
     this.esgst.leftButtons = this.createElements(new Popout('esgst-hidden-buttons', hideButtonsLeft, 0, true).popout, 'beforeEnd', [{
@@ -226,7 +222,7 @@ class Common extends Module {
     }]);
     hideButtonsRight = document.createElement('div');
     hideButtonsRight.className = 'esgst-heading-button';
-    this.createElements_v2(hideButtonsRight, 'inner', [
+    DOM.build(hideButtonsRight, 'inner', [
       ['i', { class: 'fa fa-ellipsis-v' }]
     ]);
     this.esgst.rightButtons = this.createElements(new Popout('esgst-hidden-buttons', hideButtonsRight, 0, true).popout, 'beforeEnd', [{
@@ -428,7 +424,7 @@ class Common extends Module {
         }
         step.element = element;
       }
-      guide.addStep(step);   
+      guide.addStep(step);
     }
     guide.start();
     if (shared.esgst.parameters.step) {
@@ -454,7 +450,7 @@ class Common extends Module {
   }
 
   processHash() {
-    this.goToComment(this.esgst.originalHash, null, false);        
+    this.goToComment(this.esgst.originalHash, null, false);
     if (this.esgst.parameters.esgst && this.esgst.parameters.esgst !== 'guide' && this.esgst.parameters.id) {
       const element = document.querySelector(`[data-id="${this.esgst.parameters.id}"]`);
       if (element) {
@@ -597,14 +593,14 @@ class Common extends Module {
       if (dateElement) {
         const rows = JSON.parse(dateElement.getAttribute('data-ui-tooltip')).rows;
         const date = rows[rows.length - 1].columns[1].name;
-        if (!this.esgst.games[info.type][info.id] || !utils.isSet(this.esgst.games[info.type][info.id].noCV) || this.esgst.games[info.type][info.id].noCV !== date) {
+        if (!this.esgst.games[info.type][info.id] || !Utils.isSet(this.esgst.games[info.type][info.id].noCV) || this.esgst.games[info.type][info.id].noCV !== date) {
           games[info.type][info.id] = {
             name: element.getElementsByClassName('table__column__heading')[0].firstChild.textContent.trim(),
             effective_date: date
           };
           found  = true;
         }
-      } else if (this.esgst.games[info.type][info.id] && utils.isSet(this.esgst.games[info.type][info.id].noCV)) {
+      } else if (this.esgst.games[info.type][info.id] && Utils.isSet(this.esgst.games[info.type][info.id].noCV)) {
         games[info.type][info.id] = {
           name: element.getElementsByClassName('table__column__heading')[0].firstChild.textContent.trim(),
           effective_date: null
@@ -693,7 +689,7 @@ class Common extends Module {
     }
   }
 
-  purgeRemovedElements() {    
+  purgeRemovedElements() {
     // there are more elements that need to be purged,
     // but for now these are the most critical ones
     for (const scopeKey in this.esgst.scopes) {
@@ -747,7 +743,7 @@ class Common extends Module {
     let success = true;
     if (this.esgst.sg) {
       if (response.redirected) {
-        responseHtml = parseHtml(response.responseText);
+        responseHtml = DOM.parse(response.responseText);
         if (parentId) {
           id = responseHtml.querySelector(`[data-comment-id="${parentId}"]`).getElementsByClassName('comment__children')[0].lastElementChild.getElementsByClassName('comment__summary')[0].id;
         } else {
@@ -760,7 +756,7 @@ class Common extends Module {
     } else {
       const responseJson = JSON.parse(response.responseText);
       if (responseJson.success) {
-        responseHtml = parseHtml(responseJson.html);
+        responseHtml = DOM.parse(responseJson.html);
         id = responseHtml.getElementsByClassName('comment_outer')[0].id;
       } else {
         success = false;
@@ -1228,7 +1224,7 @@ class Common extends Module {
     };
     await this.esgst.onBeforeCommentSubmit(obj);
     string = obj.comment;
-    return Array.from(parseHtml(this.esgst.markdownParser.text(string)).body.children);
+    return Array.from(DOM.parse(this.esgst.markdownParser.text(string)).body.children);
   }
 
   async addGiveawayToStorage() {
@@ -1486,7 +1482,7 @@ class Common extends Module {
     const settings = JSON.parse(this.getValue('settings', '{}'));
     for (const key in settingsObj) {
       if (settingsObj[key] === null) {
-        if (utils.isSet(settings[key])) {
+        if (Utils.isSet(settings[key])) {
           delete settings[key];
         }
       } else {
@@ -1515,7 +1511,7 @@ class Common extends Module {
         value.id = `${value.id}_sg`;
       } else if (value.st) {
         value.id = `${value.id}_st`;
-      }      
+      }
       gSettings[value.id] = value.value;
       settings[value.id] = value.value;
     }
@@ -1555,7 +1551,7 @@ class Common extends Module {
     switch (id) {
       case 'cl':
         if (namespace !== 'sg') return;
-        setting.enabled = 
+        setting.enabled =
           this.esgst.settings.ap_sg ||
           this.esgst.settings.gcl_sg ||
           this.esgst.settings.ggl_sg;
@@ -1760,7 +1756,7 @@ class Common extends Module {
       current: value
     };
   }
-  
+
   initGlobalSettings() {
     for (const key in shared.esgst.settings) {
       const match = key.match(/(.+?)_(sg|st|sgt)$/);
@@ -1775,7 +1771,7 @@ class Common extends Module {
     for (const key in shared.esgst.oldValues) {
       if (shared.esgst.oldValues.hasOwnProperty(key)) {
         const localKey = key.replace(new RegExp(`(.+?)_${shared.esgst.name}$`), `$1`);
-        if (!utils.isSet(gSettings[localKey])) {
+        if (!Utils.isSet(gSettings[localKey])) {
           gSettings[key] = gSettings[localKey] = common.getSetting(key, shared.esgst.name, key.match(/^(wbc_checkBlacklist|wbc_hb_sg)$/));
         }
       }
@@ -1783,7 +1779,7 @@ class Common extends Module {
     for (const key in shared.esgst.defaultValues) {
       if (shared.esgst.defaultValues.hasOwnProperty(key)) {
         const localKey = key.replace(new RegExp(`(.+?)_${shared.esgst.name}$`), `$1`);
-        if (!utils.isSet(gSettings[localKey])) {
+        if (!Utils.isSet(gSettings[localKey])) {
           gSettings[key] = gSettings[localKey] = common.getSetting(key, shared.esgst.name, key.match(/^(wbc_checkBlacklist|wbc_hb_sg)$/));
         }
       }
@@ -1812,11 +1808,11 @@ class Common extends Module {
       }
     }
   }
-  
+
   getGlobalSetting(id, namespace = shared.esgst.name, path = '') {
     let value;
     const key = this.getGlobalSettingKey(id, namespace, path);
-    if (utils.isSet(gSettings[key])) {
+    if (Utils.isSet(gSettings[key])) {
       value = gSettings[key];
     } else {
       const feature = shared.esgst.featuresById[id];
@@ -1841,7 +1837,7 @@ class Common extends Module {
     }
     return value;
   }
-  
+
   setGlobalSetting(id, value, namespace = shared.esgst.name, path = '') {
     const key = this.getGlobalSettingKey(id, namespace, path);
     gSettings[key] = value;
@@ -1849,7 +1845,7 @@ class Common extends Module {
       gSettings[id] = value;
     }
   }
-  
+
   getGlobalSettingKey(id, namespace, path) {
     return `${id}_${namespace}_${path}`.replace(/\s/g, '');
   }
@@ -1884,7 +1880,7 @@ class Common extends Module {
 
   addHeaderButton(icon, state, title) {
     const [query, position] = this.esgst.sg ? ['.nav__left-container', 'afterEnd'] : ['.nav_logo', 'afterEnd'];
-    const button = this.createElements_v2(document.querySelector(query), position, [
+    const button = DOM.build(document.querySelector(query), position, [
       ['div', { class: shared.esgst.sg ? `nav__button-container nav__button-container--notification nav__button-container--${state}` : 'nav_btn_container' }, [
         ['span', { class: shared.esgst.sg ? 'nav__button' : 'nav_btn', title }, [
           ['i', { class: `fa ${icon}` }]
@@ -2102,7 +2098,7 @@ class Common extends Module {
     let match, response, responseHtml;
     response = await this.request({ method: 'GET', url: `https://www.steamgifts.com/go/user/${user.steamId}` });
     match = response.finalUrl.match(/\/user\/(.+)/);
-    responseHtml = parseHtml(response.responseText);
+    responseHtml = DOM.parse(response.responseText);
     if (match) {
       user.username = match[1];
       let input = responseHtml.querySelector(`[name="child_user_id"]`);
@@ -2139,7 +2135,7 @@ class Common extends Module {
     if (!response.finalUrl.match(/\/user\//)) {
       return;
     }
-    responseHtml = parseHtml(response.responseText);
+    responseHtml = DOM.parse(response.responseText);
     const profileLink = responseHtml.querySelector(`[href*="/profiles/"]`);
     if (!profileLink) {
       return;
@@ -2453,7 +2449,7 @@ class Common extends Module {
           savedGroups.push(savedGroup);
         }
         if (!savedGroup.avatar || !savedGroup.steamId) {
-          const html = parseHtml((await this.request({ method: 'GET', url: `/group/${code}/` })).responseText);
+          const html = DOM.parse((await this.request({ method: 'GET', url: `/group/${code}/` })).responseText);
           savedGroup.avatar = html.getElementsByClassName('global__image-inner-wrap')[0].style.backgroundImage.match(/\/avatars\/(.+)_full/)[1];
           savedGroup.steamId = html.getElementsByClassName('sidebar__shortcut-inner-wrap')[0].firstElementChild.getAttribute('href').match(/\d+/)[0];
         }
@@ -2464,7 +2460,7 @@ class Common extends Module {
   }
 
   lookForPopups(response) {
-    const popup = (response.html || parseHtml(response.responseText)).querySelector(`.popup--gift-sent, .popup--gift-received`);
+    const popup = (response.html || DOM.parse(response.responseText)).querySelector(`.popup--gift-sent, .popup--gift-received`);
     if (!popup) {
       return;
     }
@@ -2505,7 +2501,7 @@ class Common extends Module {
       pagination = null;
     do {
       syncer.progress.lastElementChild.textContent = `Syncing your won games (page ${nextPage}${lastPage ? ` of ${lastPage}` : ''})...`;
-      const responseHtml = parseHtml((await this.request({
+      const responseHtml = DOM.parse((await this.request({
         method: 'GET',
         url: `/giveaways/won/search?page=${nextPage}`
       })).responseText),
@@ -2617,8 +2613,8 @@ class Common extends Module {
         this.request({ method: 'GET', url: '/discussions' }),
         this.request({ method: 'GET', url: '/discussions/deals' })
       ]);
-      let response1Html = parseHtml(response1.responseText);
-      let response2Html = parseHtml(response2.responseText);
+      let response1Html = DOM.parse(response1.responseText);
+      let response2Html = DOM.parse(response2.responseText);
       let revisedElements = [];
       let preset = null;
       if (gSettings.df && gSettings.df_m && gSettings.df_enable) {
@@ -2869,7 +2865,7 @@ class Common extends Module {
           queue: true,
           url: `https://www.steamgifts.com/giveaway/${hidden[i].code}/`
         });
-        giveaway = await this.buildGiveaway(parseHtml(response.responseText), response.finalUrl);
+        giveaway = await this.buildGiveaway(DOM.parse(response.responseText), response.finalUrl);
         if (giveaway) {
           this.createElements(gfGiveaways, 'beforeEnd', giveaway.html);
           await this.endless_load(gfGiveaways.lastElementChild, false, 'gf');
@@ -3406,7 +3402,7 @@ class Common extends Module {
     const lock = {
       key,
       threshold,
-      uuid: 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, utils.createUuid.bind(utils)),
+      uuid: 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, Utils.createUuid.bind(Utils)),
       ...v2Obj
     };
     const wasLocked = await this.do_lock(lock);
@@ -3719,14 +3715,14 @@ class Common extends Module {
       }
     }
     if (settings) {
-      const message = this.createElements_v2(settings, 'beforeEnd', [
+      const message = DOM.build(settings, 'beforeEnd', [
         ['div', { class: 'esgst-description esgst-bold' }, [
           ['i', { class: 'fa fa-circle-o-notch fa-spin', title: 'Saving...' }]
         ]]
       ]);
       await this.setSetting(toSave);
       message.classList.add('esgst-green');
-      this.createElements_v2(message, 'inner', [
+      DOM.build(message, 'inner', [
         ['i', { class: 'fa fa-check', title: 'Saved!' }]
       ]);
       window.setTimeout(() => message.remove(), 2500);
@@ -4288,7 +4284,7 @@ class Common extends Module {
     popout = new Popout(`esgst-feature-description ${noMarkdown ? '' : 'markdown'}`, context, 100);
     popout.popout.style.maxHeight = '300px';
     popout.popout.style.overflow = 'auto';
-    this.createElements(popout.popout, 'inner', [...(Array.from(parseHtml(message).body.childNodes).map(x => {
+    this.createElements(popout.popout, 'inner', [...(Array.from(DOM.parse(message).body.childNodes).map(x => {
       return {
         context: x
       };
@@ -5021,7 +5017,7 @@ class Common extends Module {
   }
 
   createFormNotification(context, position, options) {
-    return this.createElements_v2(context, position, [
+    return DOM.build(context, position, [
       ['div', { class: `notification notification--${options.loading ? 'default' : (options.success ? 'success' : 'warning')}` }, [
         ['i', { class: `fa ${options.loading ? 'fa-circle-o-notch fa-spin' : (options.success ? 'fa-check-circle' : 'fa-times-circle')}` }],
         ' ',
@@ -5062,7 +5058,7 @@ class Common extends Module {
         ]]
       );
     }
-    return this.createElements_v2(context, position, [
+    return DOM.build(context, position, [
       ['div', { class: 'form__rows' }, items]
     ]);
   }
@@ -5075,122 +5071,17 @@ class Common extends Module {
           [item.url ? 'a' : 'div', Object.assign({ class: 'sidebar__navigation__item__link' }, item.url ? { href: item.url } : null), [
             ['div', { class: 'sidebar__navigation__item__name' }, item.name],
             ['div', { class: 'sidebar__navigation__item__underline' }],
-            isSet(item.count)
+            Utils.isSet(item.count)
               ? ['div', { class: 'sidebar__navigation__item__count' }, item.count]
               : null
           ]]
         ]]
       );
     }
-    return this.createElements_v2(context, position, [
+    return DOM.build(context, position, [
       ['h3', { class: 'sidebar__heading' }, options.name],
       ['ul', { class: 'sidebar__navigation' }, items]
     ]);
-  }
-
-  createElements_v2(context, position, items) {
-    try {
-      if (Array.isArray(context)) {
-        items = context;
-        context = null;
-      }
-      if (position && position === 'inner') {
-        context.innerHTML = '';
-      }
-      if (!items || !items.length) {
-        return;
-      }
-      const fragment = document.createDocumentFragment();
-      let element = null;
-      this.buildElements_v2(fragment, items);
-      if (!context) {
-        return fragment;
-      }
-      switch (position) {
-        case 'beforeBegin':
-          context.parentElement.insertBefore(fragment, context);
-          element = context.previousElementSibling;
-          break;
-        case 'afterBegin':
-          context.insertBefore(fragment, context.firstElementChild);
-          element = context.firstElementChild;
-          break;
-        case 'beforeEnd':
-          context.appendChild(fragment);
-          element = context.lastElementChild;
-          break;
-        case 'afterEnd':
-          context.parentElement.insertBefore(fragment, context.nextElementSibling);
-          element = context.nextElementSibling;
-          break;
-        case 'inner':
-          context.appendChild(fragment);
-          element = context.firstElementChild;
-          break;
-        case 'outer':
-          context.parentElement.insertBefore(fragment, context);
-          element = context.previousElementSibling;
-          context.remove();
-          break;
-      }
-      return element;
-    } catch (error) {
-      logger.error(error.stack);
-    }
-  }
-
-  buildElements_v2(context, items) {
-    for (const item of items) {
-      if (!item) {
-        continue;
-      }
-      if (typeof item === 'string') {
-        const node = document.createTextNode(item);
-        context.appendChild(node);
-        continue;
-      } else if (!Array.isArray(item)) {
-        context.appendChild(item);
-        continue;
-      }
-      const element = document.createElement(item[0]);
-      if (isSet(item[1])) {
-        if (Array.isArray(item[1])) {
-          this.buildElements_v2(element, item[1]);
-        } else if (typeof item[1] === 'object') {
-          for (const key in item[1]) {
-            if (item[1].hasOwnProperty(key)) {
-              if (key === 'ref') {
-                item[1].ref(element);
-              } else if (key === 'extend') {
-                item[1].extend = item[1].extend.bind(null, element);
-              } else if (key.match(/^on/)) {
-                element.addEventListener(key.replace(/^on/, ''), item[1][key]);
-              } else if (key === 'dataset') {
-                for (const datasetKey in item[1][key]) {
-                  element.dataset[datasetKey] = item[1][key][datasetKey];
-                }
-              } else if (key === 'style' && typeof item[1][key] === 'object') {
-                for (const styleKey in item[1][key]) {
-                  element.dataset[styleKey] = item[1][key][styleKey];
-                }
-              } else {
-                element.setAttribute(key, item[1][key]);
-              }
-            }
-          }
-        } else {
-          element.textContent = item[1];
-        }
-      }
-      if (isSet(item[2])) {
-        if (Array.isArray(item[2])) {
-          this.buildElements_v2(element, item[2]);
-        } else {
-          element.textContent = item[2];
-        }
-      }
-      context.appendChild(element);
-    }
   }
 
   createElements(context, position, items) {
@@ -5242,7 +5133,7 @@ class Common extends Module {
       if (!item) {
         continue;
       }
-      if (isSet(item.context)) {
+      if (Utils.isSet(item.context)) {
         context.appendChild(item.context);
         continue;
       }
@@ -5252,20 +5143,20 @@ class Common extends Module {
         continue;
       }
       const element = document.createElement(item.type);
-      if (isSet(item.attributes)) {
+      if (Utils.isSet(item.attributes)) {
         for (const key in item.attributes) {
           if (item.attributes.hasOwnProperty(key)) {
             element.setAttribute(key, item.attributes[key]);
           }
         }
       }
-      if (isSet(item.text)) {
+      if (Utils.isSet(item.text)) {
         element.textContent = item.text;
       }
-      if (isSet(item.children)) {
+      if (Utils.isSet(item.children)) {
         this.buildElements(element, item.children);
       }
-      if (isSet(item.events)) {
+      if (Utils.isSet(item.events)) {
         for (const key in item.events) {
           if (item.events.hasOwnProperty(key)) {
             element.addEventListener(key, item.events[key]);
@@ -5338,7 +5229,7 @@ class Common extends Module {
       method: 'GET',
       url: obj.commentUrl
     }),
-      responseHtml = utils.parseHtml(response.responseText),
+      responseHtml = DOM.parse(response.responseText),
       comment = responseHtml.getElementById(obj.commentUrl.match(/\/comment\/(.+)/)[1]);
     obj.parentId = this.esgst.sg
       ? comment.closest('.comment').getAttribute('data-comment-id')
@@ -5477,7 +5368,7 @@ class Common extends Module {
       }
       hasCacheChanged = true;
     }
-    
+
     obj.update && obj.update('Retrieving ids from cache...');
 
     const games = { apps: {}, subs: {} };
@@ -5583,7 +5474,7 @@ class Common extends Module {
   }
 
   async getGameSgId(id, type) {
-    const elements = parseHtml(JSON.parse((await this.request({
+    const elements = DOM.parse(JSON.parse((await this.request({
       data: `do=autocomplete_giveaway_game&page_number=1&search_query=${encodeURIComponent(id)}`,
       method: 'POST',
       url: '/ajax.php'
@@ -5614,7 +5505,7 @@ class Common extends Module {
     script.remove();
   }
 
-  testPath(name, namespace, path) {    
+  testPath(name, namespace, path) {
     const pathObj = this.esgst.paths[namespace].filter(x => x.name === name)[0];
     if (pathObj && this.getPath(path).match(pathObj.pattern)) {
       return true;
@@ -5703,14 +5594,14 @@ class Common extends Module {
   }
 
   getValue(key, value) {
-    return utils.isSet(this.esgst.storage[key]) ? this.esgst.storage[key] : value;
+    return Utils.isSet(this.esgst.storage[key]) ? this.esgst.storage[key] : value;
   }
 
   getValues(values) {
     const output = {};
     for (const key in values) {
       if (values.hasOwnProperty(key)) {
-        output[key] = utils.isSet(this.esgst.storage[key]) ? this.esgst.storage[key] : values[key];
+        output[key] = Utils.isSet(this.esgst.storage[key]) ? this.esgst.storage[key] : values[key];
       }
     }
     return output;
@@ -5746,7 +5637,7 @@ class Common extends Module {
         try {
           let _fetch;
           let _requestOptions;
-          if ((await this.getBrowserInfo()).name === 'Firefox' && utils.isSet(window.wrappedJSObject)) {
+          if ((await this.getBrowserInfo()).name === 'Firefox' && Utils.isSet(window.wrappedJSObject)) {
             // @ts-ignore
             _fetch = XPCNativeWrapper(window.wrappedJSObject.fetch);
             // @ts-ignore
@@ -5793,7 +5684,7 @@ class Common extends Module {
           if (typeof response === 'string') {
             response = JSON.parse(response);
           }
-          if (utils.isSet(response.error)) {
+          if (Utils.isSet(response.error)) {
             reject(response);
             return;
           }
@@ -5820,7 +5711,7 @@ class Common extends Module {
     }
     context = document.getElementsByClassName(className)[0];
     const manifest = await browser.runtime.getManifest();
-    menu = this.createElements_v2(context, position, [
+    menu = DOM.build(context, position, [
       ['div', { class: 'esgst-header-menu', id: 'esgst', title: this.getFeatureTooltip() }, [
         ['div', { class: 'esgst-header-menu-relative-dropdown esgst-hidden' }, [
           ['div', { class: 'esgst-header-menu-absolute-dropdown' }, [
@@ -5992,7 +5883,7 @@ class Common extends Module {
         continue;
       }
       const change = changes[key];
-      if (!utils.isSet(change.newValue)) {
+      if (!Utils.isSet(change.newValue)) {
         continue;
       }
       shared.esgst.storage[key] = change.newValue;

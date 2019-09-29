@@ -7,6 +7,7 @@ import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
 import { permissions } from '../../class/Permissions';
 import { logger } from '../../class/Logger';
+import { DOM } from '../../class/DOM';
 
 class CommentsCommentFormattingHelper extends Module {
   constructor() {
@@ -752,7 +753,7 @@ class CommentsCommentFormattingHelper extends Module {
                 codes.push(emoji.codePointAt(i));
               }
               emoji = String.fromCodePoint(...codes);
-              this.cfh_setEmoji(shared.common.createElements_v2(emojis, 'beforeEnd', [
+              this.cfh_setEmoji(DOM.build(emojis, 'beforeEnd', [
                 ['span', { 'data-draggable-id': emoji }, emoji]
               ]));
               shared.common.draggable_set({
@@ -1070,7 +1071,7 @@ class CommentsCommentFormattingHelper extends Module {
           }]);
         });
         if (item.addSpan) {
-          shared.common.createElements_v2(button, 'beforeEnd', [['span']]);
+          DOM.build(button, 'beforeEnd', [['span']]);
         }
         if (item.text) {
           button.insertAdjacentText("beforeend", item.text);
@@ -1129,7 +1130,7 @@ class CommentsCommentFormattingHelper extends Module {
           }
         }]
       }]).addEventListener('click', async () => {
-        shared.common.createElements_v2(this.esgst.cfh.preview, 'inner', await shared.common.parseMarkdown(this.esgst.cfh.textArea, this.esgst.cfh.textArea.value));
+        DOM.build(this.esgst.cfh.preview, 'inner', await shared.common.parseMarkdown(this.esgst.cfh.textArea, this.esgst.cfh.textArea.value));
         this.cfh_formatImages(this.esgst.cfh.preview);
       });
     }
@@ -1216,7 +1217,7 @@ class CommentsCommentFormattingHelper extends Module {
       textArea.parentElement.insertBefore(this.esgst.cfh.preview, textArea.nextElementSibling);
       if (gSettings.cfh_p_a) {
         textArea.oninput = async () => {
-          shared.common.createElements_v2(this.esgst.cfh.preview, 'inner', await shared.common.parseMarkdown(textArea, textArea.value));
+          DOM.build(this.esgst.cfh.preview, 'inner', await shared.common.parseMarkdown(textArea, textArea.value));
           this.cfh_formatImages(this.esgst.cfh.preview);
         };
       }
@@ -1256,7 +1257,7 @@ class CommentsCommentFormattingHelper extends Module {
     this.esgst.cfh.textArea.setSelectionRange(range, range);
     this.esgst.cfh.textArea.focus();
     if (gSettings.cfh_p && gSettings.cfh_p_a) {
-      shared.common.createElements_v2(this.esgst.cfh.preview, 'inner', await shared.common.parseMarkdown(this.esgst.cfh.textArea, this.esgst.cfh.textArea.value));
+      DOM.build(this.esgst.cfh.preview, 'inner', await shared.common.parseMarkdown(this.esgst.cfh.textArea, this.esgst.cfh.textArea.value));
       this.cfh_formatImages(this.esgst.cfh.preview);
     }
   }
@@ -1284,7 +1285,7 @@ class CommentsCommentFormattingHelper extends Module {
     }
     this.esgst.cfh.textArea.focus();
     if (gSettings.cfh_p && gSettings.cfh_p_a) {
-      shared.common.createElements_v2(this.esgst.cfh.preview, 'inner', await shared.common.parseMarkdown(this.esgst.cfh.textArea, this.esgst.cfh.textArea.value));
+      DOM.build(this.esgst.cfh.preview, 'inner', await shared.common.parseMarkdown(this.esgst.cfh.textArea, this.esgst.cfh.textArea.value));
       this.cfh_formatImages(this.esgst.cfh.preview);
     }
   }

@@ -1,11 +1,10 @@
 import { Module } from '../class/Module';
-import {utils} from '../lib/jsUtils';
 import {common} from './Common';
 import { gSettings } from '../class/Globals';
 import { shared } from '../class/Shared';
+import { DOM } from '../class/DOM';
 
 const
-  parseHtml = utils.parseHtml.bind(utils),
   getValue = common.getValue.bind(common),
   lockAndSaveGames = common.lockAndSaveGames.bind(common),
   request = common.request.bind(common),
@@ -191,7 +190,7 @@ class Games extends Module {
     const gameId = context.getAttribute('data-game-id');
     if (gameId && WHITELIST[gameId]) {
       return WHITELIST[gameId];
-    }    
+    }
     const missing = context.querySelector('.table_image_thumbnail_missing');
     if (!missing) {
       return null;
@@ -218,7 +217,7 @@ class Games extends Module {
       method: 'GET',
       url: heading.getAttribute('href')
     });
-    const html = parseHtml(response.responseText);
+    const html = DOM.parse(response.responseText);
     const giveaway = (await this.esgst.modules.giveaways.giveaways_get(html, false, response.finalUrl))[0];
     if (!giveaway || !giveaway.gameType || !giveaway.gameSteamId) {
       return null;

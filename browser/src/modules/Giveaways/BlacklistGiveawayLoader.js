@@ -1,9 +1,8 @@
 import { Module } from '../../class/Module';
-import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
+import { DOM } from '../class/DOM';
 
 const
-  parseHtml = utils.parseHtml.bind(utils),
   createElements = common.createElements.bind(common),
   getElements = common.getElements.bind(common),
   request = common.request.bind(common)
@@ -47,7 +46,7 @@ class GiveawaysBlacklistGiveawayLoader extends Module {
       text: 'Loading giveaway...',
       type: 'span'
     }]);
-    let responseHtml = parseHtml((await request({ anon: true, method: 'GET', url: window.location.pathname })).responseText);
+    let responseHtml = DOM.parse((await request({ anon: true, method: 'GET', url: window.location.pathname })).responseText);
     if (responseHtml.getElementsByClassName('table--summary')[0]) {
       createElements(this.esgst.pageOuterWrap, 'inner', backup);
       createElements(this.esgst.pageOuterWrap.getElementsByClassName('table--summary')[0].lastElementChild.firstElementChild.lastElementChild, 'beforeEnd', [{

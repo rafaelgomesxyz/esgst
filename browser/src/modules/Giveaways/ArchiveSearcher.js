@@ -1,15 +1,14 @@
 import { ButtonSet } from '../../class/ButtonSet';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
-import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
 import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
 import { permissions } from '../../class/Permissions';
+import { DOM } from '../class/DOM';
 
 const
-  parseHtml = utils.parseHtml.bind(utils),
   endless_load = common.endless_load.bind(common),
   request = common.request.bind(common)
   ;
@@ -121,12 +120,12 @@ class GiveawaysArchiveSearcher extends Module {
     });
     obj.context = context;
 
-    const progress = common.createElements_v2(container, 'beforeEnd', [['div']]);
+    const progress = DOM.build(container, 'beforeEnd', [['div']]);
     progress.innerHTML = 'Retrieving game title...';
 
     // retrieve the game title from Steam
     if (this.esgst.parameters.isAppId) {
-      let title = parseHtml((await request({
+      let title = DOM.parse((await request({
         method: 'GET',
         url: `https://steamcommunity.com/app/${obj.query}`
       })).responseText).getElementsByClassName('apphub_AppName')[0];
@@ -153,14 +152,14 @@ class GiveawaysArchiveSearcher extends Module {
       title2: 'Loading...',
       callback1: async () => await this.as_request(obj)
     });
-    obj.container = common.createElements_v2(obj.context, 'beforeEnd', [['div']]);
+    obj.container = DOM.build(obj.context, 'beforeEnd', [['div']]);
     obj.context.appendChild(set.set);
     set.trigger();
   }
 
   async as_request(obj) {
     obj.count = 0;
-    const context = common.createElements_v2(obj.container, 'beforeEnd', [['div']]);
+    const context = DOM.build(obj.container, 'beforeEnd', [['div']]);
     while (obj.leftovers.length && obj.count < 25) {
       const leftover = obj.leftovers.splice(0, 1)[0];
       context.appendChild(leftover);
@@ -172,7 +171,7 @@ class GiveawaysArchiveSearcher extends Module {
         method: 'GET',
         url: `${obj.url}${obj.page}`
       });
-      const responseHtml = parseHtml(response.responseText);
+      const responseHtml = DOM.parse(response.responseText);
       const elements = responseHtml.querySelectorAll('.table__row-outer-wrap');
       for (const element of elements) {
         if (element.querySelector('.table__column__heading').textContent.match(/(.+?)( \(.+ Copies\))?$/)[1].toLowerCase() === obj.query) {

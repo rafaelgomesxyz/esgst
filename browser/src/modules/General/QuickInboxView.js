@@ -1,11 +1,10 @@
 import { Module } from '../../class/Module';
 import { Popout } from '../../class/Popout';
-import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { gSettings } from '../../class/Globals';
+import { DOM } from '../class/DOM';
 
 const
-  parseHtml = utils.parseHtml.bind(utils),
   createElements = common.createElements.bind(common),
   endless_load = common.endless_load.bind(common),
   request = common.request.bind(common)
@@ -147,7 +146,7 @@ class GeneralQuickInboxView extends Module {
           }]
         );
         this.esgst.qiv.popout.reposition(this.esgst.inboxButton);
-        const context = parseHtml((await request({
+        const context = DOM.parse((await request({
           method: 'GET',
           url: `/messages/search?page=${this.esgst.qiv.nextPage}`
         })).responseText).querySelector(`.page__heading, .page_heading`).nextElementSibling;

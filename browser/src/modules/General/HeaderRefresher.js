@@ -1,13 +1,12 @@
 import { Module } from '../../class/Module';
-import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { browser } from '../../browser';
 import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
 import { logger } from '../../class/Logger';
+import { DOM } from '../class/DOM';
 
 const
-  parseHtml = utils.parseHtml.bind(utils),
   createElements = common.createElements.bind(common),
   getLocalValue = common.getLocalValue.bind(common),
   request = common.request.bind(common),
@@ -245,7 +244,7 @@ class GeneralHeaderRefresher extends Module {
   }
 
   async hr_startRefresher(hr) {
-    await this.hr_refreshHeaderElements(parseHtml((await request({
+    await this.hr_refreshHeaderElements(DOM.parse((await request({
       method: 'GET',
       url: this.esgst.sg ? `/giveaways/search?type=wishlist` : '/'
     })).responseText));
@@ -260,7 +259,7 @@ class GeneralHeaderRefresher extends Module {
     if (cache.username !== gSettings.username || Date.now() - cache.timestamp > gSettings.hr_minutes * 60000) {
       cache.timestamp = Date.now();
       setLocalValue('hrCache', JSON.stringify(cache));
-      await this.hr_refreshHeaderElements(parseHtml((await request({
+      await this.hr_refreshHeaderElements(DOM.parse((await request({
         method: 'GET',
         url: this.esgst.sg ? `/giveaways/search?type=wishlist` : '/'
       })).responseText));
@@ -278,18 +277,18 @@ class GeneralHeaderRefresher extends Module {
   async hr_refreshHeader(cache, hr, notify) {
     await this.hr_refreshHeaderElements(document);
     createElements(this.esgst.mainButton, 'outer', [{
-      context: parseHtml(cache.mainButton).body.firstElementChild
+      context: DOM.parse(cache.mainButton).body.firstElementChild
     }]);
     if (this.esgst.sg) {
       createElements(this.esgst.createdButton, 'outer', [{
-        context: parseHtml(cache.createdButton).body.firstElementChild
+        context: DOM.parse(cache.createdButton).body.firstElementChild
       }]);
       createElements(this.esgst.wonButton, 'outer', [{
-        context: parseHtml(cache.wonButton).body.firstElementChild
+        context: DOM.parse(cache.wonButton).body.firstElementChild
       }]);
     }
     createElements(this.esgst.inboxButton, 'outer', [{
-      context: parseHtml(cache.inboxButton).body.firstElementChild
+      context: DOM.parse(cache.inboxButton).body.firstElementChild
     }]);
     if (gSettings.nm) {
       // refresh notification merger

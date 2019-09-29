@@ -1,6 +1,7 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
 import { shared } from '../../class/Shared';
+import { DOM } from '../../class/DOM';
 
 class GiveawaysVisibleInviteOnlyGiveaways extends Module {
   constructor() {
@@ -65,7 +66,7 @@ class GiveawaysVisibleInviteOnlyGiveaways extends Module {
         giveaway.image.setAttribute('href', giveaway.url);
         giveaway.image.style.backgroundImage = `url("https://steamcdn-a.akamaihd.net/steam/${giveaway.type}/${giveaway.id}/capsule_184x69.jpg")`;
         giveaway.image.innerHTML = '';
-        common.createElements_v2(giveaway.heading, 'beforeEnd', [
+        DOM.build(giveaway.heading, 'beforeEnd', [
           ['span', { class: 'giveaway__heading__thin', 'data-draggable-id': 'points', ref: ref => giveaway.pointsContainer = ref }, `(${giveaway.points}P)`],
           giveaway.copies > 1
             ? ['span', { class: 'giveaway__heading__thin', 'data-draggable-id': 'copies', ref: ref => giveaway.copiesContainer = ref }, `(${giveaway.copies} Copies)`]

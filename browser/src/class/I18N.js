@@ -1,9 +1,9 @@
-import { utils } from '../lib/jsUtils';
+import { Utils } from '../lib/jsUtils';
 import { browser } from '../browser';
 
 class I18N {
   getMessage(messageName, substitutions) {
-    if (utils.isNumber(substitutions)) {
+    if (Utils.is(substitutions, 'number')) {
       if (substitutions === 1) {
         messageName += '_one';
       } else {

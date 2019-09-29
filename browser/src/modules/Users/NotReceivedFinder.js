@@ -1,12 +1,11 @@
 import { Module } from '../../class/Module';
 import { Process } from '../../class/Process';
-import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { gSettings } from '../../class/Globals';
 import { shared } from '../../class/Shared';
+import { DOM } from '../class/DOM';
 
 const
-  parseHtml = utils.parseHtml.bind(utils),
   createElements = common.createElements.bind(common),
   endless_load = common.endless_load.bind(common),
   getFeatureTooltip = common.getFeatureTooltip.bind(common),
@@ -133,7 +132,7 @@ class UsersNotReceivedFinder extends Module {
     } else {
       obj.onDone = null;
       obj.requests = [];
-      createElements(obj.nrfResults, 'inner', [...(Array.from(parseHtml(obj.nrfData.results).body.childNodes).map(x => {
+      createElements(obj.nrfResults, 'inner', [...(Array.from(DOM.parse(obj.nrfData.results).body.childNodes).map(x => {
         return {
           context: x
         };

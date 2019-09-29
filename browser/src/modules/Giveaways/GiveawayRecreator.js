@@ -1,9 +1,8 @@
 import { Module } from '../../class/Module';
-import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
+import { DOM } from '../class/DOM';
 
 const
-  parseHtml = utils.parseHtml.bind(utils),
   createElements = common.createElements.bind(common),
   delValue = common.delValue.bind(common),
   getValue = common.getValue.bind(common),
@@ -65,7 +64,7 @@ class GiveawaysGiveawayRecreator extends Module {
     if (this.esgst.createdPath) {
       let response = await request({ method: 'GET', url: giveaway.url });
       // noinspection JSIgnoredPromiseFromCall
-      this.gr_saveTemplate(button, (await this.esgst.modules.giveaways.giveaways_get(parseHtml(response.responseText), true, response.finalUrl, false, 'giveaway'))[0] || giveaway);
+      this.gr_saveTemplate(button, (await this.esgst.modules.giveaways.giveaways_get(DOM.parse(response.responseText), true, response.finalUrl, false, 'giveaway'))[0] || giveaway);
     } else {
       // noinspection JSIgnoredPromiseFromCall
       this.gr_saveTemplate(button, giveaway);
@@ -93,7 +92,7 @@ class GiveawaysGiveawayRecreator extends Module {
     } else {
       template.whoCanEnter = 'everyone';
     }
-    elements = parseHtml(JSON.parse((await request({
+    elements = DOM.parse(JSON.parse((await request({
       data: `do=autocomplete_giveaway_game&page_number=1&search_query=${encodeURIComponent(giveaway.name)}`,
       method: 'POST',
       url: '/ajax.php'
@@ -105,7 +104,7 @@ class GiveawaysGiveawayRecreator extends Module {
     }
     keys = [];
     if (giveaway.entries === 0 || giveaway.entries < giveaway.copies) {
-      context = parseHtml(JSON.parse((await request({
+      context = DOM.parse(JSON.parse((await request({
         data: `xsrf_token=${this.esgst.xsrfToken}&do=popup_keys&code=${giveaway.code}`,
         method: 'POST',
         url: '/ajax.php'

@@ -1,15 +1,14 @@
 import { ButtonSet } from '../../class/ButtonSet';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
-import { utils } from '../../lib/jsUtils';
+import { Utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
 import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
+import { DOM } from '../class/DOM';
 
 const
-  sortArray = utils.sortArray.bind(utils),
-  parseHtml = utils.parseHtml.bind(utils),
   buildGiveaway = common.buildGiveaway.bind(common),
   createElements = common.createElements.bind(common),
   createLock = common.createLock.bind(common),
@@ -243,13 +242,13 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
       if (ged.button) {
         ged.button.classList.remove('esgst-hidden');
       }
-      ged.giveaways = sortArray(ged.giveaways, false, 'timestamp');
+      ged.giveaways = Utils.sortArray(ged.giveaways, false, 'timestamp');
     }
   }
 
   async ged_getGiveaway(code, currentGiveaways, isEnded, source) {
     let response = await request({ method: 'GET', url: `/giveaway/${code}/` });
-    let giveaway = (await this.esgst.modules.giveaways.giveaways_get(parseHtml(response.responseText), false, response.finalUrl, false, null, true))[0];
+    let giveaway = (await this.esgst.modules.giveaways.giveaways_get(DOM.parse(response.responseText), false, response.finalUrl, false, null, true))[0];
     if (giveaway) {
       currentGiveaways[code] = giveaway;
       if (giveaway.started && isEnded) {
@@ -272,7 +271,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
       let giveaway = ged.giveaways[ged.i];
       ged.i += 1;
       let response = await request({ method: 'GET', url: `/giveaway/${giveaway.code}/` });
-      let builtGiveaway = await buildGiveaway(parseHtml(response.responseText), response.finalUrl);
+      let builtGiveaway = await buildGiveaway(DOM.parse(response.responseText), response.finalUrl);
       if (!builtGiveaway || !builtGiveaway.started) {
         continue;
       }

@@ -1,4 +1,5 @@
 import { shared } from './Shared';
+import { DOM } from './DOM';
 
 class Table {
   /**
@@ -7,7 +8,7 @@ class Table {
   constructor(values) {
     this.table = document.createElement('div');
     this.table.className = 'table esgst-ugd-table';
-    shared.common.createElements_v2(this.table, 'inner', [
+    DOM.build(this.table, 'inner', [
       ['div', { class: 'table__heading' }],
       ['div', { class: 'table__rows' }]
     ]);
@@ -34,7 +35,7 @@ class Table {
   }
 
   addRow(columns, name, isCollapsibleGroup, isCollapsible, collapseMessage, expandMessage) {
-    const row = shared.common.createElements_v2(this.rows, 'beforeEnd', [
+    const row = DOM.build(this.rows, 'beforeEnd', [
       ['div', { class: `table__row-outer-wrap ${name && isCollapsible ? 'esgst-hidden' : ''}` }, [
         ['div', { class: 'table__row-inner-wrap' },
           name && isCollapsible
@@ -54,7 +55,7 @@ class Table {
           isCollapsible: true,
           row: row
         };
-        const expand = shared.common.createElements_v2(row, 'afterBegin', [
+        const expand = DOM.build(row, 'afterBegin', [
           ['i', { class: 'fa fa-plus-square esgst-clickable', title: expandMessage }],
           ['i', { class: 'fa fa-minus-square esgst-clickable esgst-hidden', title: collapseMessage }]
         ]);
@@ -100,7 +101,7 @@ class Table {
           attributes[parts[1]] = attributes[parts[2]];
         }
       }
-      const column = shared.common.createElements_v2(row, 'beforeEnd', [
+      const column = DOM.build(row, 'beforeEnd', [
         ['div', attributes, cell]
       ]);
       if (group) {
@@ -132,7 +133,7 @@ class Table {
         attributes[parts[1]] = attributes[parts[2]];
       }
     }
-    shared.common.createElements_v2(this.heading, 'beforeEnd', [
+    DOM.build(this.heading, 'beforeEnd', [
       ['div', attributes, cell]
     ]);
     if (cell === 'Total') {
@@ -140,7 +141,7 @@ class Table {
     }
     for (let i = 0; i < this.numRows; i++) {
       const row = this.rows.children[i];
-      shared.common.createElements_v2(row, 'beforeEnd', [
+      DOM.build(row, 'beforeEnd', [
         ['div', attributes]
       ]);
     }

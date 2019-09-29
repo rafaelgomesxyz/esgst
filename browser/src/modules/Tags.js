@@ -1,12 +1,11 @@
 import { Checkbox } from '../class/Checkbox';
 import { Module } from '../class/Module';
 import { Popup } from '../class/Popup';
-import { utils } from '../lib/jsUtils';
+import { Utils } from '../lib/jsUtils';
 import { common } from './Common';
 import { gSettings } from '../class/Globals';
 
 const
-  sortArray = utils.sortArray.bind(utils),
   createElements = common.createElements.bind(common),
   formatTags = common.formatTags.bind(common),
   lockAndSaveDiscussions = common.lockAndSaveDiscussions.bind(common),
@@ -101,7 +100,7 @@ class Tags extends Module {
         });
       }
     }
-    this.esgst[`${this.id}Tags`] = sortArray(this.esgst[`${this.id}Tags`], true, 'count').map(x => x.tag);
+    this.esgst[`${this.id}Tags`] = Utils.sortArray(this.esgst[`${this.id}Tags`], true, 'count').map(x => x.tag);
     if (gSettings[`${this.id}_s`]) {
       this.esgst.documentEvents.keydown.add(this.tags_navigateSuggestions.bind(this));
       this.esgst.documentEvents.click.add(this.tags_closeSuggestions.bind(this));

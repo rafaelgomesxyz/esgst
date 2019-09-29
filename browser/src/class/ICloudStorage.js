@@ -1,5 +1,5 @@
 import { shared } from './Shared';
-import { utils } from '../lib/jsUtils';
+import { Utils } from '../lib/jsUtils';
 
 class ICloudStorage {
   static get REDIRECT_URL() { return `https://www.steamgifts.com/account/settings/profile`; }
@@ -12,7 +12,7 @@ class ICloudStorage {
 
   static async checkToken(key, resolve, startTime = Date.now(), timeout = 60000) {
     const token = await shared.common.getValue(key);
-    if (utils.isSet(token)) {
+    if (Utils.isSet(token)) {
       resolve(token);
     } else if (startTime - Date.now() > timeout) {
       resolve(null);

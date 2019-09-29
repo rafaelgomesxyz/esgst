@@ -1,8 +1,8 @@
 import { Module } from '../../class/Module';
-import { utils } from '../../lib/jsUtils';
 import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
 import { logger } from '../../class/Logger';
+import { DOM } from '../class/DOM';
 
 class CommentsReplyFromInbox extends Module {
   constructor() {
@@ -96,7 +96,7 @@ class CommentsReplyFromInbox extends Module {
         children = comment.comment.closest(`.comment, .comment_outer`).querySelector(`.comment__children, .comment_children`);
         for (j = 0, numReplies = saved[id].length; j < numReplies; ++j) {
           const dateElement = shared.common.createElements(children, 'beforeEnd', [{
-            context: utils.parseHtml(saved[id][j].reply).body.firstElementChild
+            context: DOM.parse(saved[id][j].reply).body.firstElementChild
           }]).querySelector(`[data-timestamp]`);
           if (dateElement) {
             dateElement.textContent = shared.common.getTimeSince(saved[id][j].timestamp);

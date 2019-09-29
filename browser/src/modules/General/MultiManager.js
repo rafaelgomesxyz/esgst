@@ -7,13 +7,13 @@ import { Popout } from '../../class/Popout';
 import { Popup } from '../../class/Popup';
 import { Process } from '../../class/Process';
 import { ToggleSwitch } from '../../class/ToggleSwitch';
-import { utils } from '../../lib/jsUtils';
+import { Utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { gSettings } from '../../class/Globals';
 import { permissions } from '../../class/Permissions';
+import { DOM } from '../../class/DOM';
 
 const
-  sortArray = utils.sortArray.bind(utils),
   createElements = common.createElements.bind(common),
   createFadeMessage = common.createFadeMessage.bind(common),
   createHeadingButton = common.createHeadingButton.bind(common),
@@ -585,7 +585,7 @@ class GeneralMultiManager extends Module {
         }
       });
     });
-    obj[`progress${key}`] = common.createElements_v2(context, 'beforeEnd', [['div']]);
+    obj[`progress${key}`] = DOM.build(context, 'beforeEnd', [['div']]);
     createTooltip(createElements(context, 'beforeEnd', [{
       attributes: {
         class: 'esgst-description'
@@ -830,7 +830,7 @@ class GeneralMultiManager extends Module {
         break;
     }
     if (sorting) {
-      links = sortArray(links, sorting === '-desc');
+      links = Utils.sortArray(links, sorting === '-desc');
     }
     obj[`textArea${key}`].value = obj[`textArea${key}`].value.replace(/\[LINE.*?].+\[\/LINE]/i, links.join('\n'));
   }
@@ -1130,7 +1130,7 @@ class GeneralMultiManager extends Module {
     }
 
     const result = await common.hideGames({ appIds, subIds, update: message => obj.progressGames.textContent = message });
-    
+
     let message = '';
     if (result.apps.length) {
       message += `The following apps were not found and therefore not hidden (they are most likely internal apps, such as demos, game editors etc): ${result.apps.join(`, `)}\n`;
@@ -1174,23 +1174,23 @@ class GeneralMultiManager extends Module {
     createTooltip(popup.title.lastElementChild, `
       How To Use
       <br>
-      <br> 
+      <br>
       1. Exit Steam.
-      <br> 
+      <br>
       2. Click "Browse..." to select a file from your computer.
-      <br> 
+      <br>
       3. Navigate to where "sharedconfig.vdf" is located and select it. The file should be located at "[YourSteamFolder]/userdata/[YourSteamId]/7/remote".
-      <br> 
+      <br>
       4. Enter the categories that you want to assign to the games, separated by a comma and followed by a space.
-      <br> 
+      <br>
       5. Click "Categorize".
-      <br> 
+      <br>
       6. If you did everything correctly, a new "sharedconfig.vdf" file will be downloaded to your computer.
-      <br> 
+      <br>
       7. Replace the old file with the new file. Make sure to make a backup of the old file, just in case.
-      <br> 
+      <br>
       8. Start Steam. You should see the games categorized as you wanted.
-      <br> 
+      <br>
     `);
     popup.open();
   }

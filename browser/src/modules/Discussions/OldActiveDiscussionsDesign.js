@@ -1,10 +1,9 @@
 import { Module } from '../../class/Module';
-import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { gSettings } from '../../class/Globals';
+import { DOM } from '../class/DOM';
 
 const
-  parseHtml = utils.parseHtml.bind(utils),
   createElements = common.createElements.bind(common),
   endless_load = common.endless_load.bind(common),
   request = common.request.bind(common)
@@ -50,8 +49,8 @@ class DiscussionsOldActiveDiscussionsDesign extends Module {
   async oadd_load(refresh, callback) {
     let deals, dealsRows, dealsSwitch, discussions, discussionsRows, discussionsSwitch, i, j, response1Html,
       response2Html, revisedElements;
-    response1Html = parseHtml((await request({ method: 'GET', url: '/discussions' })).responseText);
-    response2Html = parseHtml((await request({ method: 'GET', url: '/discussions/deals' })).responseText);
+    response1Html = DOM.parse((await request({ method: 'GET', url: '/discussions' })).responseText);
+    response2Html = DOM.parse((await request({ method: 'GET', url: '/discussions/deals' })).responseText);
     this.esgst.activeDiscussions.classList.add('esgst-oadd');
     createElements(this.esgst.activeDiscussions, 'inner', [{
       type: 'div',

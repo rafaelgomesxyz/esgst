@@ -1,10 +1,9 @@
 import { Module } from '../../class/Module';
-import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { gSettings } from '../../class/Globals';
+import { DOM } from '../class/DOM';
 
 const
-  parseHtml = utils.parseHtml.bind(utils),
   createElements = common.createElements.bind(common),
   getFeatureTooltip = common.getFeatureTooltip.bind(common),
   request = common.request.bind(common)
@@ -41,7 +40,7 @@ class GeneralNotificationMerger extends Module {
 
   async nm_getNotifications() {
     if (this.esgst.sg) {
-      let notification = parseHtml((await request({
+      let notification = DOM.parse((await request({
         method: 'GET',
         url: `https://www.steamtrades.com`
       })).responseText).getElementsByClassName('message_count')[0];
@@ -87,7 +86,7 @@ class GeneralNotificationMerger extends Module {
         this.altMessageCount = this.altInboxButton.firstElementChild.lastElementChild;
       }
     } else {
-      let notification = parseHtml((await request({
+      let notification = DOM.parse((await request({
         method: 'GET',
         url: `https://www.steamgifts.com`
       })).responseText).getElementsByClassName('nav__notification')[0];

@@ -1,14 +1,13 @@
 import { ButtonSet } from '../../class/ButtonSet';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
-import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
 import { logger } from '../../class/Logger';
+import { DOM } from '../class/DOM';
 
 const
-  parseHtml = utils.parseHtml.bind(utils),
   createElements = common.createElements.bind(common),
   getFeatureTooltip = common.getFeatureTooltip.bind(common),
   getValue = common.getValue.bind(common),
@@ -420,7 +419,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
     }
     let description = null;
     let responseHtml = null;
-    responseHtml = parseHtml((await request({ method: 'GET', url: giveaway.url })).responseText);
+    responseHtml = DOM.parse((await request({ method: 'GET', url: giveaway.url })).responseText);
     if (mainCallback && !responseHtml.getElementsByClassName('featured__outer-wrap--giveaway')[0]) {
       mainCallback(true);
       return;

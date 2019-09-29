@@ -2,15 +2,11 @@ import { ButtonSet } from '../class/ButtonSet';
 import { Checkbox } from '../class/Checkbox';
 import { Popup } from '../class/Popup';
 import { shared } from '../class/Shared';
-import { utils } from '../lib/jsUtils';
 import { elementBuilder } from '../lib/SgStUtils/ElementBuilder';
 import { gSettings } from '../class/Globals';
 import { permissions } from '../class/Permissions';
 import { logger } from '../class/Logger';
-
-const
-  parseHtml = utils.parseHtml.bind(utils)
-;
+import { DOM } from '../class/DOM';
 
 let toSave = {};
 
@@ -159,9 +155,9 @@ async function setSync(isPopup = false, isSilent = false) {
     shared.esgst.mainPageHeading = heading;
   }
   if (syncer.isSilent) {
-    syncer.area = shared.common.createElements_v2(context, 'beforeEnd', [['div']]);
+    syncer.area = DOM.build(context, 'beforeEnd', [['div']]);
   } else {
-    shared.common.createElements_v2(context, 'beforeEnd', [
+    DOM.build(context, 'beforeEnd', [
       ['div', { class: 'esgst-menu-split' }, [
         ['div', { class: 'esgst-sync-options' }],
         ['div', { class: 'esgst-sync-area' }]
@@ -186,7 +182,7 @@ async function setSync(isPopup = false, isSilent = false) {
     }).set);
     syncer.container = context.querySelector('.esgst-sync-options');
     syncer.area = context.querySelector('.esgst-sync-area');
-    syncer.notificationArea = shared.common.createElements_v2(syncer.area, 'beforeEnd', [['div']]);
+    syncer.notificationArea = DOM.build(syncer.area, 'beforeEnd', [['div']]);
     syncer.manual = {
       check: true,
       content: [],
@@ -396,7 +392,7 @@ async function sync(syncer) {
     let pagination = null;
     do {
       let elements, responseHtml;
-      responseHtml = parseHtml((await shared.common.request({
+      responseHtml = DOM.parse((await shared.common.request({
         method: 'GET',
         url: `https://www.steamgifts.com/account/steam/groups/search?page=${nextPage}`
       })).responseText);
@@ -418,7 +414,7 @@ async function sync(syncer) {
         } else {
           let avatar, steamId;
           avatar = element.getElementsByClassName('table_image_avatar')[0].style.backgroundImage.match(/\/avatars\/(.+)_medium/)[1];
-          steamId = parseHtml((await shared.common.request({
+          steamId = DOM.parse((await shared.common.request({
             method: 'GET',
             url: `/group/${code}/`
           })).responseText).getElementsByClassName('sidebar__shortcut-inner-wrap')[0].firstElementChild.getAttribute('href').match(/\d+/)[0];
@@ -478,7 +474,7 @@ async function sync(syncer) {
         ]]
       );
     }
-    shared.common.createElements_v2(syncer.results, 'beforeEnd', [
+    DOM.build(syncer.results, 'beforeEnd', [
       ['div', 'Groups synced.'],
       ...syncer.html
     ]);
@@ -511,7 +507,7 @@ async function sync(syncer) {
     }
     syncer.progress.lastElementChild.textContent = `Saving your whitelist/blacklist (this may take a while)...`;
     await shared.common.saveUsers(syncer.users);
-    shared.common.createElements_v2(syncer.results, 'beforeEnd', [
+    DOM.build(syncer.results, 'beforeEnd', [
       ['div', 'Whitelist/blacklist synced.']
     ]);
   }
@@ -544,18 +540,18 @@ async function sync(syncer) {
         }
         syncer.progress.lastElementChild.textContent = `Saving your Steam friends (this may take a while)...`;
         await shared.common.saveUsers(users);
-        shared.common.createElements_v2(syncer.results, 'beforeEnd', [
+        DOM.build(syncer.results, 'beforeEnd', [
           ['div', 'Steam friends synced.']
         ]);
       } catch (e) {
         syncer.failed.SteamFriends = true;
-        shared.common.createElements_v2(syncer.results, 'beforeEnd', [
+        DOM.build(syncer.results, 'beforeEnd', [
           ['div', 'Failed to sync your Steam friends. Check if you have a valid Steam API key set or if your profile is public.']
         ]);
       }
     } else {
       syncer.failed.SteamFriends = true;
-      shared.common.createElements_v2(syncer.results, 'beforeEnd', [
+      DOM.build(syncer.results, 'beforeEnd', [
         ['div', permissions.getMessage([['steamApi']])]
       ]);
     }
@@ -577,7 +573,7 @@ async function sync(syncer) {
     let pagination = null;
     do {
       let elements, responseHtml;
-      responseHtml = parseHtml((await shared.common.request({
+      responseHtml = DOM.parse((await shared.common.request({
         method: 'GET',
         url: `https://www.steamgifts.com/account/settings/giveaways/filters/search?page=${nextPage}`
       })).responseText);
@@ -617,7 +613,7 @@ async function sync(syncer) {
     }
     await shared.common.setValue('games', JSON.stringify(savedGames));
     deleteLock();
-    shared.common.createElements_v2(syncer.results, 'beforeEnd', [
+    DOM.build(syncer.results, 'beforeEnd', [
       ['div', 'Hidden games synced.']
     ]);
   }
@@ -666,7 +662,7 @@ async function sync(syncer) {
         }
         await shared.common.setSetting('gc_o_altAccounts', gSettings.gc_o_altAccounts);
       }
-      shared.common.createElements_v2(syncer.results, 'beforeEnd', [
+      DOM.build(syncer.results, 'beforeEnd', [
         ['div', 'Owned/wishlisted/ignored games synced.'],
         ...syncer.html
       ]);
@@ -676,7 +672,7 @@ async function sync(syncer) {
       }
     } else {
       syncer.failed.Games = true;
-      shared.common.createElements_v2(syncer.results, 'beforeEnd', [
+      DOM.build(syncer.results, 'beforeEnd', [
         ['div', permissions.getMessage([['steamApi'], ['steamStore']])]
       ]);
     }
@@ -696,7 +692,7 @@ async function sync(syncer) {
         method: 'GET',
         url: `https://steamcommunity.com/my/followedgames/`
       });
-      const responseHtml = parseHtml(response.responseText);
+      const responseHtml = DOM.parse(response.responseText);
       const elements = responseHtml.querySelectorAll('.gameListRow.followed');
       const savedGames = JSON.parse(shared.common.getValue('games'));
       for (const id in savedGames.apps) {
@@ -712,12 +708,12 @@ async function sync(syncer) {
         savedGames.apps[id].followed = true;
       }
       await shared.common.lockAndSaveGames(savedGames);
-      shared.common.createElements_v2(syncer.results, 'beforeEnd', [
+      DOM.build(syncer.results, 'beforeEnd', [
         ['div', 'Followed games synced.']
       ]);
     } else {
       syncer.failed.FollowedGames = true;
-      shared.common.createElements_v2(syncer.results, 'beforeEnd', [
+      DOM.build(syncer.results, 'beforeEnd', [
         ['div', permissions.getMessage([['steamCommunity']])]
       ]);
     }
@@ -732,7 +728,7 @@ async function sync(syncer) {
   if ((syncer.parameters && syncer.parameters.WonGames) || (!syncer.parameters && gSettings.syncWonGames)) {
     syncer.progress.lastElementChild.textContent = 'Syncing your won games...';
     await shared.common.getWonGames(syncer);
-    shared.common.createElements_v2(syncer.results, 'beforeEnd', [
+    DOM.build(syncer.results, 'beforeEnd', [
       ['div', 'Won games synced.']
     ]);
   }
@@ -749,7 +745,7 @@ async function sync(syncer) {
       syncer.progress.lastElementChild.textContent = 'Syncing reduced CV games...';
       try {
         await syncReducedCvGames();
-        shared.common.createElements_v2(syncer.results, 'beforeEnd', [
+        DOM.build(syncer.results, 'beforeEnd', [
           ['div', [
             ['i', { class: 'fa fa-check' }],
             'Reduced CV games synced.'
@@ -757,7 +753,7 @@ async function sync(syncer) {
         ]);
       } catch (e) {
         syncer.failed.ReducedCvGames = true;
-        shared.common.createElements_v2(syncer.results, 'beforeEnd', [
+        DOM.build(syncer.results, 'beforeEnd', [
           ['div', [
             ['i', { class: 'fa fa-times' }],
             'Failed to sync reduced CV games.'
@@ -766,7 +762,7 @@ async function sync(syncer) {
       }
     } else {
       syncer.failed.ReducedCvGames = true;
-      shared.common.createElements_v2(syncer.results, 'beforeEnd', [
+      DOM.build(syncer.results, 'beforeEnd', [
         ['div', [
           ['i', { class: 'fa fa-times' }],
           permissions.getMessage([['server'], ['googleWebApp']])
@@ -787,7 +783,7 @@ async function sync(syncer) {
       syncer.progress.lastElementChild.textContent = 'Syncing no CV games...';
       try {
         await syncNoCvGames();
-        shared.common.createElements_v2(syncer.results, 'beforeEnd', [
+        DOM.build(syncer.results, 'beforeEnd', [
           ['div', [
             ['i', { class: 'fa fa-check' }],
             'No CV games synced.'
@@ -795,7 +791,7 @@ async function sync(syncer) {
         ]);
       } catch (e) {
         syncer.failed.NoCvGames = true;
-        shared.common.createElements_v2(syncer.results, 'beforeEnd', [
+        DOM.build(syncer.results, 'beforeEnd', [
           ['div', [
             ['i', { class: 'fa fa-times' }],
             'Failed to sync no CV games.'
@@ -804,7 +800,7 @@ async function sync(syncer) {
       }
     } else {
       syncer.failed.NoCvGames = true;
-      shared.common.createElements_v2(syncer.results, 'beforeEnd', [
+      DOM.build(syncer.results, 'beforeEnd', [
         ['div', [
           ['i', { class: 'fa fa-times' }],
           permissions.getMessage([['googleWebApp']])
@@ -845,12 +841,12 @@ async function sync(syncer) {
       } catch (e) {
         logger.warning(e.stack);
       }
-      shared.common.createElements_v2(syncer.results, 'beforeEnd', [
+      DOM.build(syncer.results, 'beforeEnd', [
         ['div', 'HLTB times synced.']
       ]);
     } else {
       syncer.failed.HltbTimes = true;
-      shared.common.createElements_v2(syncer.results, 'beforeEnd', [
+      DOM.build(syncer.results, 'beforeEnd', [
         ['div', permissions.getMessage([['googleWebApp']])]
       ]);
     }
@@ -875,7 +871,7 @@ async function sync(syncer) {
         if (json.success) {
           const banned = json.removed_apps.filter(x => x.type === 'game' && x.category === 'Banned').map(x => parseInt(x.appid));
           const removed = json.removed_apps.filter(x => x.type === 'game' && x.category === 'Delisted').map(x => parseInt(x.appid));
-          await shared.common.setValue('delistedGames', JSON.stringify({ banned, removed }));          
+          await shared.common.setValue('delistedGames', JSON.stringify({ banned, removed }));
           if (gSettings.hgm_s) {
             if (gSettings.hgm_addBanned) {
               for (const id of banned) {
@@ -888,18 +884,18 @@ async function sync(syncer) {
             }
           }
         }
-        shared.common.createElements_v2(syncer.results, 'beforeEnd', [
+        DOM.build(syncer.results, 'beforeEnd', [
           ['div', 'Delisted games synced.']
         ]);
       } catch (error) {
-        shared.common.createElements_v2(syncer.results, 'beforeEnd', [
+        DOM.build(syncer.results, 'beforeEnd', [
           ['div', `Failed to sync delisted games (check the console log for more info).`]
         ]);
         logger.warning(error.stack);
       }
-    } else {     
-      syncer.failed.DelistedGames = true; 
-      shared.common.createElements_v2(syncer.results, 'beforeEnd', [
+    } else {
+      syncer.failed.DelistedGames = true;
+      DOM.build(syncer.results, 'beforeEnd', [
         ['div', permissions.getMessage([['steamTracker']])]
       ]);
     }
@@ -908,7 +904,7 @@ async function sync(syncer) {
   if (syncer.canceled) {
     return;
   }
-  
+
   if (gSettings.hgm_s) {
     const result = await shared.common.hideGames({ appIds: syncer.hgm.toAdd.apps, subIds: syncer.hgm.toAdd.subs, update: message => syncer.progress.lastElementChild.textContent = message });
     const tmpResult =  await shared.common.hideGames({ appIds: syncer.hgm.toRemove.apps, subIds: syncer.hgm.toRemove.subs, update: message => syncer.progress.lastElementChild.textContent = message }, true);
@@ -940,7 +936,7 @@ async function sync(syncer) {
     };
     syncer.process = await shared.esgst.modules.usersUserGiveawayData.ugd_add(null, key, user, syncer);
     await syncer.process.start();
-    shared.common.createElements_v2(syncer.results, 'beforeEnd', [
+    DOM.build(syncer.results, 'beforeEnd', [
       ['div', 'Giveaways synced.']
     ]);
   }
@@ -955,7 +951,7 @@ async function sync(syncer) {
     };
     syncer.process = await shared.esgst.modules.usersUserGiveawayData.ugd_add(null, key, user, syncer);
     await syncer.process.start();
-    shared.common.createElements_v2(syncer.results, 'beforeEnd', [
+    DOM.build(syncer.results, 'beforeEnd', [
       ['div', 'Won giveaways synced.']
     ]);
   }
@@ -975,7 +971,7 @@ async function sync(syncer) {
     }
     await shared.common.lockAndSaveSettings(toSave);
     toSave = {};
-    shared.common.createElements_v2(syncer.progress, 'inner', ['Synced!']);
+    DOM.build(syncer.progress, 'inner', ['Synced!']);
     shared.common.delLocalValue('isSyncing');
   }
   if (!syncer.isSilent) {
@@ -983,7 +979,7 @@ async function sync(syncer) {
   }
 }
 
-async function syncReducedCvGames() {  
+async function syncReducedCvGames() {
   let result = null;
   try {
     result = JSON.parse((await shared.common.request({
@@ -1033,7 +1029,7 @@ async function syncReducedCvGames() {
   }
 }
 
-async function syncNoCvGames() {  
+async function syncNoCvGames() {
   const games = JSON.parse((await shared.common.request({
     method: 'GET',
     url: `https://script.google.com/macros/s/AKfycbz2IWN7I79WsbGELQk2rbQQSPI8XNWvDt3mEO-3nLEWqHiQmeo/exec?action=ncv`
@@ -1072,7 +1068,7 @@ async function syncWhitelistBlacklist(key, syncer, url) {
   let pagination = null;
   do {
     let elements, responseHtml;
-    responseHtml = parseHtml((await shared.common.request({ method: 'GET', url: `${url}${nextPage}` })).responseText);
+    responseHtml = DOM.parse((await shared.common.request({ method: 'GET', url: `${url}${nextPage}` })).responseText);
     elements = responseHtml.getElementsByClassName('table__row-outer-wrap');
     for (let i = 0, n = elements.length; i < n; ++i) {
       let element, user;
