@@ -1,4 +1,4 @@
-import { utils } from '../lib/jsUtils';
+import { Utils } from '../lib/jsUtils';
 
 class Scope {
   constructor(name, context) {
@@ -7,7 +7,7 @@ class Scope {
     if (name === 'main') {
       this.id = name;
     } else {
-      this.id = new Array(16).fill('x').map(x => utils.createUuid(x)).join('');
+      this.id = new Array(16).fill('x').map(x => Utils.createUuid(x)).join('');
     }
 
     this.data = {

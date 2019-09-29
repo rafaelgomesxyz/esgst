@@ -1,4 +1,5 @@
 import { shared } from './Shared';
+import { DOM } from './DOM';
 
 class Checkbox {
   constructor(context, defaultValue, threeState, messages = {}) {
@@ -19,9 +20,9 @@ class Checkbox {
       ]]
     ];
     if (context) {
-      this.checkbox = shared.common.createElements_v2(context, 'afterBegin', items);
+      this.checkbox = DOM.build(context, 'afterBegin', items);
     } else {
-      this.checkbox = shared.common.createElements_v2(items).firstElementChild;
+      this.checkbox = DOM.build(items).firstElementChild;
     }
     this.input = this.checkbox.firstElementChild;
     this.disabled = this.input.nextElementSibling;

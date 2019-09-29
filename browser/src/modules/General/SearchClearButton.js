@@ -1,5 +1,6 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
+import { DOM } from '../../class/DOM';
 
 class GeneralSearchClearButton extends Module {
   constructor() {
@@ -25,7 +26,7 @@ class GeneralSearchClearButton extends Module {
     const inputs = context.querySelectorAll('.sidebar__search-input');
     for (const input of inputs) {
       input.parentElement.classList.add('esgst-scb');
-      common.createElements_v2(input.parentElement, 'beforeEnd', [
+      DOM.build(input.parentElement, 'beforeEnd', [
         ['i', { class: 'fa fa-times', title: 'Clear search', onclick: () => { input.value = ''; input.dispatchEvent(new Event('change')); input.focus(); } }]
       ]);
     }

@@ -1,13 +1,12 @@
 import { Button } from '../../class/Button';
 import { Filters } from '../Filters';
 import { Process } from '../../class/Process';
-import { utils } from '../../lib/jsUtils';
+import { Utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { gSettings } from '../../class/Globals';
 import { shared } from '../../class/Shared';
 
 const
-  sortArray = utils.sortArray.bind(utils),
   checkMissingDiscussions = common.checkMissingDiscussions.bind(common),
   createElements = common.createElements.bind(common),
   createHeadingButton = common.createHeadingButton.bind(common),
@@ -347,7 +346,7 @@ class DiscussionsDiscussionFilters extends Filters {
         }
       }
     }
-    hidden = sortArray(hidden, true, 'hidden');
+    hidden = Utils.sortArray(hidden, true, 'hidden');
     obj.ids = [];
     for (const discussion of hidden) {
       obj.ids.push(discussion.code);

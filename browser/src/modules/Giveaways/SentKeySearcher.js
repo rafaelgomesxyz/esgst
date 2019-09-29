@@ -2,12 +2,11 @@ import { ButtonSet } from '../../class/ButtonSet';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { ToggleSwitch } from '../../class/ToggleSwitch';
-import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { gSettings } from '../../class/Globals';
+import { DOM } from '../class/DOM';
 
 const
-  parseHtml = utils.parseHtml.bind(utils),
   createElements = common.createElements.bind(common),
   createHeadingButton = common.createHeadingButton.bind(common),
   downloadFile = common.downloadFile.bind(common),
@@ -158,7 +157,7 @@ class GiveawaysSentKeySearcher extends Module {
         skipped = true;
         continue;
       } else {
-        context = parseHtml((await request({
+        context = DOM.parse((await request({
           method: 'GET',
           url: `/giveaways/created/search?page=${nextPage}`
         })).responseText);
@@ -204,7 +203,7 @@ class GiveawaysSentKeySearcher extends Module {
           code: element.parentElement.querySelector(`[name=code]`).value,
           name: element.getAttribute('data-name')
         };
-        let heading = parseHtml(JSON.parse((await request({
+        let heading = DOM.parse(JSON.parse((await request({
           data: `xsrf_token=${this.esgst.xsrfToken}&do=popup_keys&code=${giveaway.code}`,
           method: 'POST',
           url: '/ajax.php'

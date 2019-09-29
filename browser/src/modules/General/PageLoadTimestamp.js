@@ -2,6 +2,7 @@ import { Module } from '../../class/Module';
 import dateFns_format from 'date-fns/format';
 import {common} from '../Common';
 import { gSettings } from '../../class/Globals';
+import { DOM } from '../../class/DOM';
 
 class GeneralPageLoadTimestamp extends Module {
   constructor() {
@@ -36,7 +37,7 @@ class GeneralPageLoadTimestamp extends Module {
     switch (gSettings.plt_index) {
       case 0:
         if (this.esgst.sidebar) {
-          common.createElements_v2(this.esgst.sidebar, 'afterBegin', [
+          DOM.build(this.esgst.sidebar, 'afterBegin', [
             ['span', { class: 'esgst-plt' }, [
               ['h3', { class: 'sidebar__heading' }, 'Page Load Timestamp'],
               ['div', { class: 'sidebar__navigation' }, timestamp]
@@ -48,7 +49,7 @@ class GeneralPageLoadTimestamp extends Module {
         if (!this.esgst.footer) {
           return;
         }
-        common.createElements_v2(this.esgst.footer.firstElementChild.firstElementChild, 'beforeEnd', [
+        DOM.build(this.esgst.footer.firstElementChild.firstElementChild, 'beforeEnd', [
           ['span', { class: 'esgst-plt' }, [
             ['span', { class: 'esgst-bold' }, `Page Load Timestamp: `],
             ['span', timestamp]

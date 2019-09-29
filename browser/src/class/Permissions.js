@@ -3,6 +3,7 @@ import { Popup } from './Popup';
 import { shared } from './Shared';
 import { ButtonSet } from './ButtonSet';
 import { gSettings } from './Globals';
+import { DOM } from './DOM';
 
 class Permissions {
   constructor() {
@@ -227,7 +228,7 @@ class Permissions {
 
         for (const key of keys) {
           const permission = this.permissions[key];
-          
+
           items.push(
             ['div', [
               ['strong', `${permission.values.join(`, `)}: `],
@@ -236,7 +237,7 @@ class Permissions {
           );
         }
 
-        shared.common.createElements_v2(popup.scrollable, 'beforeEnd', [
+        DOM.build(popup.scrollable, 'beforeEnd', [
           ['br'],
           ['div', { style: 'align-items: center; border: 1px solid #ccc; display: flex; justify-content: center; padding: 5px;' }, [
             ['div', { style: 'margin-right: 5px;' }, items],

@@ -1,6 +1,7 @@
 import { gSettings } from './Globals';
 import { Popup } from './Popup';
 import { shared } from './Shared';
+import { DOM } from './DOM';
 
 const INFO = 'info';
 const WARNING = 'warning';
@@ -68,7 +69,7 @@ class Logger {
       isTemp: true,
       title: 'Logs'
     });
-    shared.common.createElements_v2(popup.scrollable, 'beforeEnd', [
+    DOM.build(popup.scrollable, 'beforeEnd', [
       ['div', { class: 'popup__keys__list' }, this.logs.map(x => ['div', { class: `esgst-log esgst-log-${x.level}` }, x.message])]
     ]);
     popup.open();

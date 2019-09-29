@@ -2,15 +2,14 @@ import { ButtonSet } from '../../class/ButtonSet';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { ToggleSwitch } from '../../class/ToggleSwitch';
-import { utils } from '../../lib/jsUtils';
+import { Utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
 import { logger } from '../../class/Logger';
+import { DOM } from '../class/DOM';
 
 const
-  parseHtml = utils.parseHtml.bind(utils),
-  sortArray = utils.sortArray.bind(utils),
   createElements = common.createElements.bind(common),
   createHeadingButton = common.createHeadingButton.bind(common),
   createResults = common.createResults.bind(common),
@@ -432,10 +431,10 @@ class UsersWhitelistBlacklistChecker extends Module {
           }
         }
       }
-      WBC.Users = sortArray(WBC.Users);
+      WBC.Users = Utils.sortArray(WBC.Users);
       if (WBC.ShowResults) {
         for (I = 0, N = WBC.Users.length; I < N; ++I) {
-          if (utils.isSet(WBC.Users[I]) && !SavedUsers.users[SavedUsers.steamIds[WBC.Users[I]]]) {
+          if (Utils.isSet(WBC.Users[I]) && !SavedUsers.users[SavedUsers.steamIds[WBC.Users[I]]]) {
             continue;
           }
           let user = {
@@ -495,7 +494,7 @@ class UsersWhitelistBlacklistChecker extends Module {
               WBC.manualSkip = true;
             }
           }).set);
-          WBC.Users = sortArray(WBC.Users);
+          WBC.Users = Utils.sortArray(WBC.Users);
           if (window.location.pathname.match(/^\/users/)) {
             WBC.Users = WBC.Users.slice(0, 25);
           }
@@ -514,7 +513,7 @@ class UsersWhitelistBlacklistChecker extends Module {
             WBC.manualSkip = true;
           }
         }).set);
-        WBC.Users = sortArray(WBC.Users);
+        WBC.Users = Utils.sortArray(WBC.Users);
         if (window.location.pathname.match(/^\/users/)) {
           WBC.Users = WBC.Users.slice(0, 25);
         }
@@ -797,7 +796,7 @@ class UsersWhitelistBlacklistChecker extends Module {
     if (obj.Canceled) {
       return;
     }
-    let responseHtml = parseHtml((await request({
+    let responseHtml = DOM.parse((await request({
       method: 'GET',
       queue: true,
       url: `/giveaway/${data.wl_ga || data.g_wl_ga || data.ga}/`
@@ -877,7 +876,7 @@ class UsersWhitelistBlacklistChecker extends Module {
           url: `${url}${nextPage}`
         });
         if (response.finalUrl.match(/\/user\//)) {
-          context = parseHtml(response.responseText);
+          context = DOM.parse(response.responseText);
         } else {
           isStopped = true;
           break;
@@ -1009,7 +1008,7 @@ class UsersWhitelistBlacklistChecker extends Module {
         queue: true,
         url: `${url}${nextPage}`
       });
-      const context = parseHtml(response.responseText);
+      const context = DOM.parse(response.responseText);
       const groups = context.getElementsByClassName('table__column__heading');
       const n = groups.length;
       if (n < 1) {
@@ -1075,7 +1074,7 @@ class UsersWhitelistBlacklistChecker extends Module {
       NextPage += 1;
       if (!gSettings.wbc_checkPages || (NextPage <= gSettings.wbc_maxPage)) {
         if (CurrentPage !== NextPage) {
-          window.setTimeout(async () => this.wbc_getUsers(WBC, NextPage, CurrentPage, URL, Callback, parseHtml((await request({
+          window.setTimeout(async () => this.wbc_getUsers(WBC, NextPage, CurrentPage, URL, Callback, DOM.parse((await request({
             method: 'GET',
             queue: true,
             url: URL + NextPage

@@ -1,8 +1,9 @@
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
-import { utils } from '../../lib/jsUtils';
+import { Utils } from '../../lib/jsUtils';
 import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
+import { DOM } from '../../class/DOM';
 
 class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
   constructor() {
@@ -112,7 +113,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
             cewgd_w_e: {
               name: 'Entries',
               sg: true
-            }            
+            }
           }
         }
       },
@@ -174,7 +175,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
         ['div', { class: 'table__column--width-small text-center esgst-cewgd-heading' }, 'Entries']
       );
     }
-    shared.common.createElements_v2(tableHeading.firstElementChild, 'afterEnd', items);
+    DOM.build(tableHeading.firstElementChild, 'afterEnd', items);
   }
 
   async getGiveaways(giveaways, main) {
@@ -212,12 +213,12 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
     }
   }
 
-  async fetchDetails(giveaway, now) {    
+  async fetchDetails(giveaway, now) {
     const response = await shared.common.request({
       method: 'GET',
       url: giveaway.url
     });
-    const responseHtml = utils.parseHtml(response.responseText);
+    const responseHtml = DOM.parse(response.responseText);
     const giveaways = await shared.esgst.modules.giveaways.giveaways_get(responseHtml, false, response.finalUrl);
     if (giveaways.length > 0) {
       const details = giveaways[0];
@@ -230,7 +231,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
   }
 
   async fetchWinners(giveaway, now) {
-    let nextPage = 1; 
+    let nextPage = 1;
     let details = null;
     let pagination = null;
     do {
@@ -238,7 +239,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
         method: 'GET',
         url: `${giveaway.url}/winners/search?page=${nextPage}`
       });
-      const responseHtml = utils.parseHtml(response.responseText);
+      const responseHtml = DOM.parse(response.responseText);
       if (!details) {
         const giveaways = await shared.esgst.modules.giveaways.giveaways_get(responseHtml, false, response.finalUrl);
         if (giveaways.length > 0) {
@@ -246,7 +247,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
           details.winners = [];
         }
       }
-      if (!details) {        
+      if (!details) {
         this.addDetails(giveaway);
         return;
       }
@@ -320,7 +321,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
         ]]
       );
     }
-    shared.common.createElements_v2(giveaway.headingName, 'afterEnd', headingItems);
+    DOM.build(giveaway.headingName, 'afterEnd', headingItems);
 
     for (const child of giveaway.heading.children) {
       if (child === giveaway.headingName || child.classList.contains('giveaway__heading__name') || child.classList.contains('featured__heading__medium')) {
@@ -368,7 +369,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
     }
 
     if (this.entered || this.won) {
-      shared.common.createElements_v2(giveaway.endTimeColumn, 'beforeEnd', [
+      DOM.build(giveaway.endTimeColumn, 'beforeEnd', [
         ' by ',
         details
           ? ['a', { class: 'table__column__secondary-link', href: `/user/${giveaway.creator}` }, giveaway.creator]
@@ -420,7 +421,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
     }
     if (gSettings[`${this.currentId}_l`]) {
       columnItems.push(
-        ['div', { class: 'table__column--width-small text-center' }, details && utils.isSet(giveaway.level) ? giveaway.level : '-']
+        ['div', { class: 'table__column--width-small text-center' }, details && Utils.isSet(giveaway.level) ? giveaway.level : '-']
       );
     }
     if (this.created && gSettings[`${this.currentId}_w`]) {
@@ -453,10 +454,10 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
     }
     if (this.won && gSettings[`${this.currentId}_e`]) {
       columnItems.push(
-        ['div', { class: 'table__column--width-small text-center' }, details && utils.isSet(giveaway.entries) ? giveaway.entries : '-']
+        ['div', { class: 'table__column--width-small text-center' }, details && Utils.isSet(giveaway.entries) ? giveaway.entries : '-']
       );
     }
-    shared.common.createElements_v2(giveaway.panel || giveaway.innerWrap.querySelector('.table__column--width-fill'), 'afterEnd', columnItems);
+    DOM.build(giveaway.panel || giveaway.innerWrap.querySelector('.table__column--width-fill'), 'afterEnd', columnItems);
 
     if (giveaway.gwcContext) {
       giveaway.chancePerPoint = Math.round(giveaway.chance / Math.max(1, giveaway.points) * 100) / 100;

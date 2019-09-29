@@ -2,13 +2,12 @@ import { ButtonSet } from '../../class/ButtonSet';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { ToggleSwitch } from '../../class/ToggleSwitch';
-import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { gSettings } from '../../class/Globals';
 import { shared } from '../../class/Shared';
+import { DOM } from '../class/DOM';
 
 const
-  parseHtml = utils.parseHtml.bind(utils),
   createConfirmation = common.createConfirmation.bind(common),
   createElements = common.createElements.bind(common),
   createFadeMessage = common.createFadeMessage.bind(common),
@@ -229,7 +228,7 @@ class UsersWhitelistBlacklistManager extends Module {
         type: 'span'
       }]);
       let elements, i, n, pagination, responseHtml;
-      responseHtml = parseHtml((await request({
+      responseHtml = DOM.parse((await request({
         method: 'GET',
         url: `https://www.steamgifts.com/account/manage/${wbm.key}/search?page=${nextPage}`
       })).responseText);
@@ -285,7 +284,7 @@ class UsersWhitelistBlacklistManager extends Module {
         type: 'span'
       }]);
       let element, elements, i, n, pagination, responseHtml;
-      responseHtml = parseHtml((await request({
+      responseHtml = DOM.parse((await request({
         method: 'GET',
         url: `https://www.steamgifts.com/account/manage/${wbm.key}/search?page=${nextPage}`
       })).responseText);

@@ -1,10 +1,9 @@
 import { Module } from '../../class/Module';
-import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { shared } from '../../class/Shared';
+import { DOM } from '../class/DOM';
 
 const
-  parseHtml = utils.parseHtml.bind(utils),
   createElements = common.createElements.bind(common),
   request = common.request.bind(common)
   ;
@@ -94,7 +93,7 @@ class UsersUserStats extends Module {
     let element, elements, html, i, n, cvrow, rows;
     html = [];
     const profile = {};
-    elements = parseHtml(response.responseText).getElementsByClassName('featured__table__row__left');
+    elements = DOM.parse(response.responseText).getElementsByClassName('featured__table__row__left');
     for (i = 0, n = elements.length; i < n; ++i) {
       element = elements[i];
       switch (element.textContent) {

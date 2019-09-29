@@ -3,15 +3,14 @@ import { ButtonSet } from '../../class/ButtonSet';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { ToggleSwitch } from '../../class/ToggleSwitch';
-import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
 import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
 import { logger } from '../../class/Logger';
+import { DOM } from '../class/DOM';
 
 const
-  parseHtml = utils.parseHtml.bind(utils),
   buildGiveaway = common.buildGiveaway.bind(common),
   createElements = common.createElements.bind(common),
   createHeadingButton = common.createHeadingButton.bind(common),
@@ -115,7 +114,7 @@ class GiveawaysGiveawayExtractor extends Module {
 
       const parameters = getParameters();
       let ge = {
-        context: parseHtml((await request({ method: 'GET', url: `${parameters.url}${parameters.page ? `/search?page=${parameters.page}` : ''}` })).responseText),
+        context: DOM.parse((await request({ method: 'GET', url: `${parameters.url}${parameters.page ? `/search?page=${parameters.page}` : ''}` })).responseText),
         extractOnward: !!parameters.extractOnward,
         flushCache: !!parameters.flush,
         flushCacheHours: parameters.flushHrs,
@@ -368,7 +367,7 @@ class GiveawaysGiveawayExtractor extends Module {
     if (!ge.extractOnward && ge.cache[ge.cacheId]) {
       ge.cache[ge.cacheId].ithLinks = new Set(ge.cache[ge.cacheId].ithLinks);
       ge.cache[ge.cacheId].jigidiLinks = new Set(ge.cache[ge.cacheId].jigidiLinks);
-      ge.cacheWarning = common.createElements_v2(ge.popup.description, 'beforeEnd', [
+      ge.cacheWarning = DOM.build(ge.popup.description, 'beforeEnd', [
         ['div', `These results were retrieved from the cache from ${common.getTimeSince(ge.cache[ge.cacheId].timestamp)} ago (${this.esgst.modules.generalAccurateTimestamp.at_formatTimestamp(ge.cache[ge.cacheId].timestamp)}). If you want to update the cache, you will have to extract again.`]
       ]);
 
@@ -545,7 +544,7 @@ class GiveawaysGiveawayExtractor extends Module {
               method: 'GET',
               url: sgTools ? `https://www.sgtools.info/giveaways/${code}` : `/giveaway/${code}/`
             });
-            responseHtml = parseHtml(response.responseText);
+            responseHtml = DOM.parse(response.responseText);
             button = responseHtml.getElementsByClassName('sidebar__error')[0];
             giveaway = await buildGiveaway(responseHtml, response.finalUrl, button && button.textContent);
           } catch (error) {}
@@ -596,7 +595,7 @@ class GiveawaysGiveawayExtractor extends Module {
             let bumpLink, giveaway, giveaways, n, responseHtml;
             try {
               let response = await request({ anon: true, method: 'GET', url: `/giveaway/${code}/` });
-              responseHtml = parseHtml(response.responseText);
+              responseHtml = DOM.parse(response.responseText);
               giveaway = await buildGiveaway(responseHtml, response.finalUrl, null, true);
             } catch (error) {}
             if (giveaway) {

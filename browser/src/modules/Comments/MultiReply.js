@@ -1,7 +1,7 @@
 import { Module } from '../../class/Module';
-import { utils } from '../../lib/jsUtils';
 import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
+import { DOM } from '../class/DOM';
 
 class CommentsMultiReply extends Module {
   constructor() {
@@ -210,7 +210,7 @@ class CommentsMultiReply extends Module {
       let Reply;
       if (shared.esgst.sg) {
         if (id) {
-          Reply = utils.parseHtml(Response.responseText).getElementById(id).closest('.comment');
+          Reply = DOM.parse(Response.responseText).getElementById(id).closest('.comment');
           if (gSettings.rfi && gSettings.rfi_s) {
             await shared.esgst.modules.commentsReplyFromInbox.rfi_saveReply(id, Reply.outerHTML, MR.url);
           }
@@ -235,7 +235,7 @@ class CommentsMultiReply extends Module {
         }
       } else {
         if (id) {
-          Reply = utils.parseHtml(JSON.parse(Response.responseText).html).getElementById(id);
+          Reply = DOM.parse(JSON.parse(Response.responseText).html).getElementById(id);
           if (gSettings.rfi && gSettings.rfi_s) {
             await shared.esgst.modules.commentsReplyFromInbox.rfi_saveReply(id, Reply.outerHTML, MR.url);
           }
@@ -324,7 +324,7 @@ class CommentsMultiReply extends Module {
           url: '/ajax.php'
         })).responseText);
         if (ResponseJSON.type === 'success' || ResponseJSON.success) {
-          ResponseHTML = utils.parseHtml(ResponseJSON[shared.esgst.sg ? 'comment' : 'html']);
+          ResponseHTML = DOM.parse(ResponseJSON[shared.esgst.sg ? 'comment' : 'html']);
           if (gSettings.rfi && gSettings.rfi_s) {
             let reply = MR.Comment.cloneNode(true);
             if (shared.esgst.sg) {
@@ -449,7 +449,7 @@ class CommentsMultiReply extends Module {
     let responseHtml, responseJson;
     responseJson = JSON.parse(response.responseText);
     if (responseJson.type === 'success' || responseJson.success) {
-      responseHtml = utils.parseHtml(responseJson[shared.esgst.sg ? 'comment' : 'html']);
+      responseHtml = DOM.parse(responseJson[shared.esgst.sg ? 'comment' : 'html']);
       if (shared.esgst.sg) {
         shared.common.createElements(mr.Container, 'inner', [...(Array.from(responseHtml.getElementsByClassName('comment__summary')[0].childNodes).map(x => {
           return {

@@ -1,6 +1,7 @@
 import { ButtonSet } from './ButtonSet';
 import { shared } from './Shared';
 import { gSettings } from './Globals';
+import { DOM } from './DOM';
 
 class Popup {
   constructor(details) {
@@ -10,7 +11,7 @@ class Popup {
     this.Results = undefined;
     this.textArea = undefined;
     this.temp = details.isTemp;
-    this.layer = shared.common.createElements_v2(document.body, 'beforeEnd', [
+    this.layer = DOM.build(document.body, 'beforeEnd', [
       ['div', { class: 'esgst-hidden esgst-popup-layer' }, [
         ...(details.popup ? [
           details.popup
@@ -191,7 +192,7 @@ class Popup {
   }
 
   getScrollable(html) {
-    return shared.common.createElements_v2(this.scrollable, 'beforeEnd', [
+    return DOM.build(this.scrollable, 'beforeEnd', [
       ['div', html]
     ]);
   }

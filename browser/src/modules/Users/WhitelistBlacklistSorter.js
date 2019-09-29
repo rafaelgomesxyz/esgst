@@ -1,11 +1,10 @@
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
-import { utils } from '../../lib/jsUtils';
+import { Utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { shared } from '../../class/Shared';
 
 const
-  sortArray = utils.sortArray.bind(utils),
   createElements = common.createElements.bind(common),
   createHeadingButton = common.createHeadingButton.bind(common),
   createLock = common.createLock.bind(common),
@@ -92,7 +91,7 @@ class UsersWhitelistBlacklistSorter extends Module {
         users.push(savedUser);
       }
     }
-    users = sortArray(users, obj.isDescending, obj.dateKey);
+    users = Utils.sortArray(users, obj.isDescending, obj.dateKey);
 
     let popup = new Popup({ addScrollable: true, icon: obj.icon, isTemp: true, title: obj.title });
     popup.popup.classList.add('esgst-wbs-popup');

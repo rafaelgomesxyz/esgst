@@ -1,6 +1,7 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
 import { gSettings } from '../../class/Globals';
+import { DOM } from '../../class/DOM';
 
 class UsersVisibleGiftsBreakdown extends Module {
   constructor() {
@@ -48,7 +49,7 @@ class UsersVisibleGiftsBreakdown extends Module {
 
   vgb_add(profile) {
     const position = gSettings.vgb_index === 0 ? 'afterBegin' : 'beforeEnd';
-    common.createElements_v2(profile.wonRowRight.firstElementChild.firstElementChild, position, [
+    DOM.build(profile.wonRowRight.firstElementChild.firstElementChild, position, [
       ` ${
         gSettings.vgb_wonFormat
           .replace(/\[FCV]/, profile.wonFull)
@@ -57,7 +58,7 @@ class UsersVisibleGiftsBreakdown extends Module {
           .replace(/\[NR]/, profile.wonNotReceived)
       } `
     ]);
-    common.createElements_v2(profile.sentRowRight.firstElementChild.firstElementChild, position, [
+    DOM.build(profile.sentRowRight.firstElementChild.firstElementChild, position, [
       ` ${
         gSettings.vgb_sentFormat
           .replace(/\[FCV]/, profile.sentFull)

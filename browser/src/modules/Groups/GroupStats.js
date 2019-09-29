@@ -4,6 +4,7 @@ import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
 import { permissions } from '../../class/Permissions';
 import { FetchRequest } from '../../class/FetchRequest';
+import { DOM } from '../../class/DOM';
 
 class GroupsGroupStats extends Module {
   constructor() {
@@ -92,7 +93,7 @@ class GroupsGroupStats extends Module {
       return;
     }
 
-    shared.common.createElements_v2(document.getElementsByClassName('table__heading')[0], 'beforeEnd', [
+    DOM.build(document.getElementsByClassName('table__heading')[0], 'beforeEnd', [
       gSettings.gs_sent ? ['div', { class: 'table__column--width-small text-center' }, 'Sent'] : null,
       gSettings.gs_received ? ['div', { class: 'table__column--width-small text-center' }, 'Received'] : null,
       gSettings.gs_giftDifference ? ['div', { class: 'table__column--width-small text-center' }, 'Gift Difference'] : null,
@@ -243,7 +244,7 @@ class GroupsGroupStats extends Module {
             group.creationDate = new Date(date);
             break;
           }
-        }          
+        }
         items.push(['div', { class: 'table__column--width-small text-center' }, [
           ['span', { 'data-timestamp': group.creationDate / 1e3 }, date]
         ]]);
@@ -270,7 +271,7 @@ class GroupsGroupStats extends Module {
       }
     }
 
-    shared.common.createElements_v2(group.container, 'afterEnd', items);
+    DOM.build(group.container, 'afterEnd', items);
 
     if (main && shared.esgst.gpf && shared.esgst.gpf.filteredCount && gSettings[`gpf_enable${shared.esgst.gpf.type}`]) {
       shared.esgst.modules.groupsGroupFilters.filters_filter(shared.esgst.gpf);

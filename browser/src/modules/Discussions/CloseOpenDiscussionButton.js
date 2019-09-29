@@ -1,11 +1,10 @@
 import { Button } from '../../class/Button';
 import { Module } from '../../class/Module';
-import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { gSettings } from '../../class/Globals';
+import { DOM } from '../class/DOM';
 
 const
-  parseHtml = utils.parseHtml.bind(utils),
   request = common.request.bind(common)
   ;
 
@@ -61,7 +60,7 @@ class DiscussionsCloseOpenDiscussionButton extends Module {
       method: 'POST',
       url: discussion.url
     });
-    if (parseHtml(response.responseText).getElementsByClassName('page__heading__button--red')[0]) {
+    if (DOM.parse(response.responseText).getElementsByClassName('page__heading__button--red')[0]) {
       discussion.closed = true;
       discussion.innerWrap.classList.add('is-faded');
       return true;
@@ -75,7 +74,7 @@ class DiscussionsCloseOpenDiscussionButton extends Module {
       method: 'POST',
       url: discussion.url
     });
-    if (!parseHtml(response.responseText).getElementsByClassName('page__heading__button--red')[0]) {
+    if (!DOM.parse(response.responseText).getElementsByClassName('page__heading__button--red')[0]) {
       discussion.closed = false;
       discussion.innerWrap.classList.remove('is-faded');
       return true;

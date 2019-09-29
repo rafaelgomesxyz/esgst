@@ -4,6 +4,7 @@ import { gSettings } from '../../class/Globals';
 import { logger } from '../../class/Logger';
 import { FetchRequest } from '../../class/FetchRequest';
 import { Popout } from '../../class/Popout';
+import { DOM } from '../../class/DOM';
 
 class GeneralThreadSubscription extends Module {
   constructor() {
@@ -87,7 +88,7 @@ class GeneralThreadSubscription extends Module {
 
         if (gSettings.tds_forums[forumCode]) {
           this.addUnsubscribeButton(null, forumCode, element, null, this.forumCategories[forumCode], 'forum');
-        } else {            
+        } else {
           this.addSubscribeButton(null, forumCode, element, null, this.forumCategories[forumCode], 'forum');
         }
       }
@@ -100,11 +101,11 @@ class GeneralThreadSubscription extends Module {
     const match = window.location.pathname.match(/(discussion|ticket|trade)\/(.+?)\//);
     const type = `${match[1]}s`;
     const code = match[2];
-    
+
     const context = document.querySelector('.page__heading, .page_heading');
     const name = context.querySelector('h1').textContent.trim();
 
-    const heading = shared.esgst.mainPageHeading.querySelector('.page__heading__breadcrumbs, .page_heading_breadcrumbs').firstElementChild;    
+    const heading = shared.esgst.mainPageHeading.querySelector('.page__heading__breadcrumbs, .page_heading_breadcrumbs').firstElementChild;
     const count = parseInt(heading.textContent.replace(/,/g, '').match(/\d+/)[0]);
 
     if (shared.esgst.discussionPath || shared.esgst.tradePath) {
@@ -157,7 +158,7 @@ class GeneralThreadSubscription extends Module {
     this.subscribedItems.sort((a, b) => a.diff > b.diff ? -1 : 1);
 
     for (const item of this.subscribedItems) {
-      const element = shared.common.createElements_v2(this.popout.popout, 'beforeEnd', [
+      const element = DOM.build(this.popout.popout, 'beforeEnd', [
         ['div', { class: `esgst-tds-item ${item.diff ? 'esgst-tds-item-active' : ''}` }, [
           ['div', { class: 'esgst-tds-item-description' }, [
             ['a', { class: 'esgst-tds-item-name', href: item.type === 'forum' ? `https://www.steamgifts.com/discussions${item.code ? `/${item.code}` : ''}` : (item.type === 'discussions' ? `https://www.steamgifts.com/discussion/${item.code}/` : `https://www.steamtrades.com/${item.code}/`) }, item.type === 'forum' ? this.forumCategories[item.code] : item.name],
@@ -204,7 +205,7 @@ class GeneralThreadSubscription extends Module {
     if (result !== 'granted') {
       return;
     }
-     
+
     new Notification('ESGST Notification', {
       body: 'There are new comments in your subscriptions.',
       icon: 'https://dl.dropboxusercontent.com/s/lr3t3bxrxfxylqe/esgstIcon.ico?raw=1',
@@ -254,7 +255,7 @@ class GeneralThreadSubscription extends Module {
 
     for (const item of this.subscribedItems) {
       const response = await FetchRequest.get(item.type === 'discussions' ? `https://www.steamgifts.com/discussion/${item.code}/` : `https://www.steamtrades.com/trade/${item.code}/`);
-      
+
       const mainPageHeading = response.html.querySelectorAll('.page__heading, .page_heading')[1];
 
       const heading = mainPageHeading.querySelector('.page__heading__breadcrumbs, .page_heading_breadcrumbs').firstElementChild;
@@ -266,7 +267,7 @@ class GeneralThreadSubscription extends Module {
       }
     }
 
-    for (const code in gSettings.tds_forums) {    
+    for (const code in gSettings.tds_forums) {
       const codes = [];
 
       const response = await FetchRequest.get(`/discussions${code ? `/${code}` : ''}/search?sort=new`);
@@ -278,7 +279,7 @@ class GeneralThreadSubscription extends Module {
       }
 
       const diff = codes.filter(subCode => !gSettings.tds_forums[code].includes(subCode)).length;
-      
+
       this.subscribedItems.push({
         code,
         codes,
@@ -374,7 +375,7 @@ class GeneralThreadSubscription extends Module {
       await shared.common.setSetting('tds_forums', gSettings.tds_forums);
     } else {
       const savedThread = shared.esgst[type][code] || {};
-      
+
       savedThread.subscribed = null;
       savedThread.lastUsed = Date.now();
 
@@ -389,18 +390,18 @@ class GeneralThreadSubscription extends Module {
           break;
       }
     }
-    
+
     return true;
   }
 
   addSubscribeButton(button, code, context, count, name, type) {
     if (!button) {
-      button = shared.common.createElements_v2(context, type === 'forum' ? 'afterEnd' : 'afterBegin', [
+      button = DOM.build(context, type === 'forum' ? 'afterEnd' : 'afterBegin', [
         ['div', { class: 'esgst-tds-button page_heading_btn' }]
       ]);
     }
 
-    shared.common.createElements_v2(button, 'inner', [
+    DOM.build(button, 'inner', [
       ['i', { class: 'fa fa-bell-o', title: shared.common.getFeatureTooltip('tds', 'Subscribe') }]
     ]);
 
@@ -413,10 +414,10 @@ class GeneralThreadSubscription extends Module {
 
       busy = true;
 
-      shared.common.createElements_v2(button, 'inner', [
+      DOM.build(button, 'inner', [
         ['i', { class: 'fa fa-circle-o-notch fa-spin' }]
       ]);
-      
+
       await this.subscribe(code, count, name, type);
 
       this.addUnsubscribeButton(button, code, context, count, name, type);
@@ -425,12 +426,12 @@ class GeneralThreadSubscription extends Module {
 
   addUnsubscribeButton(button, code, context, count, name, type) {
     if (!button) {
-      button = shared.common.createElements_v2(context, type === 'forum' ? 'afterEnd' : 'afterBegin', [
+      button = DOM.build(context, type === 'forum' ? 'afterEnd' : 'afterBegin', [
         ['div', { class: 'esgst-tds-button page_heading_btn' }]
       ]);
     }
 
-    shared.common.createElements_v2(button, 'inner', [
+    DOM.build(button, 'inner', [
       ['i', { class: 'fa fa-bell', title: shared.common.getFeatureTooltip('tds', 'Unsubscribe') }]
     ]);
 
@@ -443,10 +444,10 @@ class GeneralThreadSubscription extends Module {
 
       busy = true;
 
-      shared.common.createElements_v2(button, 'inner', [
+      DOM.build(button, 'inner', [
         ['i', { class: 'fa fa-circle-o-notch fa-spin' }]
       ]);
-      
+
       await this.unsubscribe(code, type);
 
       this.addSubscribeButton(button, code, context, count, name, type);

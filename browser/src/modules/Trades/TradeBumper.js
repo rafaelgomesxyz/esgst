@@ -1,11 +1,10 @@
 import { Module } from '../../class/Module';
-import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
+import { DOM } from '../class/DOM';
 
 const
-  parseHtml = utils.parseHtml.bind(utils),
   createElements = common.createElements.bind(common),
   createHeadingButton = common.createHeadingButton.bind(common),
   getValue = common.getValue.bind(common),
@@ -109,7 +108,7 @@ class TradesTradeBumper extends Module {
       this.tb_getTrades(button, document);
     } else {
       // noinspection JSIgnoredPromiseFromCall
-      this.tb_getTrades(null, parseHtml((await request({
+      this.tb_getTrades(null, DOM.parse((await request({
         method: 'GET',
         queue: true,
         url: `https://www.steamtrades.com/trades/search?user=${gSettings.steamId}`

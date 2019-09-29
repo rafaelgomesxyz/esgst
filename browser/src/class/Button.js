@@ -1,4 +1,5 @@
 import { shared } from './Shared';
+import { DOM } from './DOM';
 
 class Button {
   constructor(context, position, details) {
@@ -8,7 +9,7 @@ class Button {
     this.id = details.id;
     this.index = details.index;
     this.titles = details.titles;
-    this.button = shared.common.createElements_v2(context, position, [
+    this.button = DOM.build(context, position, [
       ['div', { class: details.className }]
     ]);
     // noinspection JSIgnoredPromiseFromCall
@@ -22,7 +23,7 @@ class Button {
     }
     this.index = index + 1;
     this.button.title = shared.common.getFeatureTooltip(this.id, this.titles[index]);
-    shared.common.createElements_v2(this.button, 'inner', [
+    DOM.build(this.button, 'inner', [
       ['i', { class: `fa ${this.icons[index]}` }]
     ]);
     if (mainCallback) {
@@ -30,7 +31,7 @@ class Button {
         // noinspection JSIgnoredPromiseFromCall
         this.change();
       } else {
-        shared.common.createElements_v2(this.button, 'inner', [
+        DOM.build(this.button, 'inner', [
           ['i', { class: 'fa fa-times esgst-red', title: 'Unable to perform action' }]
         ]);
       }
