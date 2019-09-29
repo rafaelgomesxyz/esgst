@@ -8,7 +8,7 @@ import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
 import { logger } from '../../class/Logger';
 import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
-import { DOM } from '../class/DOM';
+import { DOM } from '../../class/DOM';
 
 const
   createElements = common.createElements.bind(common),

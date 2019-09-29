@@ -2,7 +2,7 @@ import { Module } from '../../class/Module';
 import { Popout } from '../../class/Popout';
 import { common } from '../Common';
 import { gSettings } from '../../class/Globals';
-import { DOM } from '../class/DOM';
+import { DOM } from '../../class/DOM';
 
 const
   createElements = common.createElements.bind(common),

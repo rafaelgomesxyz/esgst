@@ -2,7 +2,7 @@ import { shared } from './Shared';
 import { browser } from '../browser';
 import { gSettings } from './Globals';
 import { Utils } from '../lib/jsUtils';
-import { DOM } from '../class/DOM';
+import { DOM } from './DOM';
 
 const DEFAULT_HEADERS = {
   'Content-Type': 'application/x-www-form-urlencoded'

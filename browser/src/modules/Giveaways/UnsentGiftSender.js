@@ -5,7 +5,7 @@ import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { common } from '../Common';
 import { gSettings } from '../../class/Globals';
 import { permissions } from '../../class/Permissions';
-import { DOM } from '../class/DOM';
+import { DOM } from '../../class/DOM';
 
 const
   createElements = common.createElements.bind(common),

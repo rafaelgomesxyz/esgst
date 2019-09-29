@@ -6,7 +6,7 @@ import { common } from '../Common';
 import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
 import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
-import { DOM } from '../class/DOM';
+import { DOM } from '../../class/DOM';
 
 const
   buildGiveaway = common.buildGiveaway.bind(common),

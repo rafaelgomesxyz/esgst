@@ -1,7 +1,7 @@
 import { Module } from '../../class/Module';
 import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
-import { DOM } from '../class/DOM';
+import { DOM } from '../../class/DOM';
 
 class CommentsMultiReply extends Module {
   constructor() {

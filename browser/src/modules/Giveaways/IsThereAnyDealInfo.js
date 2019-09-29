@@ -1,7 +1,7 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
 import { permissions } from '../../class/Permissions';
-import { DOM } from '../class/DOM';
+import { DOM } from '../../class/DOM';
 
 const
   createElements = common.createElements.bind(common),
