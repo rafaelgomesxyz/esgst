@@ -38,8 +38,10 @@
   },
   "devDependencies": {
     "@babel/core": "^7.6.0",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/plugin-transform-runtime": "^7.6.0",
     "@babel/preset-env": "^7.6.0",
+    "@babel/preset-typescript": "^7.6.0",
     "@babel/runtime": "^7.6.0",
     "@octokit/rest": "^16.28.9",
     "apidoc": "^0.17.7",
@@ -55,6 +57,7 @@
     "node-fetch": "^2.6.0",
     "progress-bar-webpack-plugin": "^1.12.1",
     "style-loader": "^1.0.0",
+    "typescript": "^3.6.3",
     "webpack": "^4.39.3",
     "webpack-cli": "^3.3.8"
   },
