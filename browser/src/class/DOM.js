@@ -1,37 +1,16 @@
 import { Utils } from '../lib/jsUtils';
 
-type IDOMBuildPosition =
-  'beforeBegin' |
-  'afterBegin' |
-  'beforeEnd' |
-  'afterEnd' |
-  'inner' |
-  'outer';
-
-type IDOMBuildItem =
-  [string, IDOMBuildItemProperties, string | IDOMBuildItems] |
-  [string, string | IDOMBuildItems] |
-  [string, IDOMBuildItemProperties] |
-  [string];
-
-interface IDOMBuildItemProperties extends HTMLElement {
-  [key: string]: any;
-
-  href: string;
-
-  ref(element: HTMLElement): void;
-}
-
-interface IDOMBuildItems extends Array<IDOMBuildItem> {}
-
 class _DOM {
-  private parser: DOMParser;
-
   constructor() {
-    this.parser = new DOMParser();
+    /** @type {DOMParser} */
+    this._parser = new DOMParser();
   }
 
-  private _build(context: HTMLElement, items: IDOMBuildItems) {
+  /**
+   * @param {HTMLElement} context
+   * @param {string} items
+   */
+  _build(context, items) {
     for (const item of items) {
       if (!item) {
         continue;
@@ -97,7 +76,12 @@ class _DOM {
     }
   }
 
-  build(context: HTMLElement, position: IDOMBuildPosition, items: IDOMBuildItems) {
+  /**
+   * @param {HTMLElement} context
+   * @param {string} position
+   * @param {*[]} items
+   */
+  build(context, position, items) {
     try {
       if (Array.isArray(context)) {
         items = context;
@@ -114,7 +98,7 @@ class _DOM {
 
       const fragment = document.createDocumentFragment();
 
-      this._build(fragment as any as HTMLElement, items);
+      this._build(fragment, items);
 
       if (!context) {
         return fragment;
@@ -168,11 +152,15 @@ class _DOM {
     }
   }
 
-  parse(text: string): Document {
-    return this.parser.parseFromString(text, 'text/html');
+  /**
+   * @param {string} text
+   * @returns Document
+   */
+  parse(text) {
+    return this._parser.parseFromString(text, 'text/html');
   }
-};
+}
 
 const DOM = new _DOM();
 
-export { DOM, IDOMBuildItem, IDOMBuildItems };
+export { DOM };
