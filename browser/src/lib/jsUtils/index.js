@@ -1,28 +1,51 @@
 class _Utils {
-  private compareTypes(obj: any, type: string): boolean {
+  /**
+   * @param {*} obj
+   * @param {string} type
+   * @returns {boolean}
+   */
+  _compareTypes(obj, type) {
     return Object.prototype.toString.call(obj).toLowerCase() === `[object ${type}]`;
   }
 
-  private getPath(pathString: string): string[] {
+  /**
+   * @param {string} pathString
+   * @returns {string[]}
+   */
+  _getPath(pathString) {
     return pathString.split(/\.|\[|]/).filter(x => x);
   }
 
-  createUuid(c: string): string {
+  /**
+   * @param {string} c
+   * @returns {string}
+   */
+  createUuid(c) {
     const r = Math.random() * 16 | 0;
     const v = c === 'x' ? r : (r & 0x3 | 0x8);
 
     return v.toString(16);
   }
 
-  getProperty(obj: any, path: string | string[]) {
+  /**
+   * @param {*} obj
+   * @param {string | string[]} path
+   * @returns {object}
+   */
+  getProperty(obj, path) {
     if (!Array.isArray(path)) {
-      path = this.getPath(path);
+      path = this._getPath(path);
     }
 
     return path.reduce((obj, key) => (obj && obj[key]) ? obj[key] : null, obj);
   }
 
-  hex2Rgba(hex: string, alpha: string): string {
+  /**
+   * @param {string} hex
+   * @param {string} alpha
+   * @returns {string}
+   */
+  hex2Rgba(hex, alpha) {
     const alphaNumber = parseFloat(alpha);
 
     if (alphaNumber === 1.0) {
@@ -42,35 +65,48 @@ class _Utils {
     return `rgba(${red}, ${green}, ${blue}, ${alpha})`;
   }
 
-  is(obj: any, type: string): boolean {
+  /**
+   * @param {*} obj
+   * @param {string} type
+   * @returns {boolean}
+   */
+  is(obj, type) {
     if (!this.isSet(obj)) {
       return false;
     }
 
     switch (type) {
       case 'number': {
-        return this.compareTypes(obj, 'number') && !isNaN(obj);
+        return this._compareTypes(obj, 'number') && !isNaN(obj);
       }
       case 'object': {
-        return this.compareTypes(obj, 'object');
+        return this._compareTypes(obj, 'object');
       }
       case 'string': {
-        return this.compareTypes(obj, 'string');
+        return this._compareTypes(obj, 'string');
       }
     }
   }
 
-  isSet(obj: any) : boolean {
+  /**
+   * @param {*} obj
+   * @returns {boolean}
+   */
+  isSet(obj) {
     return typeof obj !== 'undefined' && obj !== null;
   }
 
-  rgba2Hex(string: string): Object {
+  /**
+   * @param {string} string
+   * @returns {object}
+   */
+  rgba2Hex(string) {
     const match = string.match(/rgba?\((\d+?),\s*(\d+?),\s*(\d+?)(,\s*(.+?))?\)/);
 
     if (!match) {
       return {
         hex: string,
-        alpha: 1.0
+        alpha: 1.0,
       };
     }
 
@@ -81,13 +117,18 @@ class _Utils {
 
     return {
       hex: `#${red}${green}${blue}`,
-      alpha
+      alpha,
     };
   }
 
-  setProperty(obj: any, path: string | string[], value: any) {
+  /**
+   * @param {*} obj
+   * @param {string | string[]} path
+   * @param {*} value
+   */
+  setProperty(obj, path, value) {
     if (!Array.isArray(path)) {
-      path = this.getPath(path);
+      path = this._getPath(path);
     }
 
     const key = path.pop();
@@ -96,7 +137,13 @@ class _Utils {
     property[key] = value;
   }
 
-  sortArray(array: any[], desc: boolean, key: string): any[] {
+  /**
+   * @param {*[]} array
+   * @param {boolean} desc
+   * @param {string} key
+   * @returns {*[]}
+   */
+  sortArray(array, desc, key) {
     if (!this.isSet(array) || !Array.isArray(array)) {
       throw 'The "array" argument is not an array';
     }
@@ -118,7 +165,7 @@ class _Utils {
           }
 
           return a[key].localeCompare(b[key], {
-            sensitivity: 'base'
+            sensitivity: 'base',
           }) * modifier;
         }
 
@@ -138,7 +185,7 @@ class _Utils {
       }
 
       return a.localeCompare(b, {
-        sensitivity: 'base'
+        sensitivity: 'base',
       }) * modifier;
     });
   }
