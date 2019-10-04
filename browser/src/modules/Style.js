@@ -192,6 +192,10 @@ function addStyle() {
   `;
   }
   style += `
+  .nav__button img, .nav_btn img {
+    vertical-align: middle;
+  }
+
   .esgst-tds-sidebar-item {
     align-items: center;
     display: flex;
