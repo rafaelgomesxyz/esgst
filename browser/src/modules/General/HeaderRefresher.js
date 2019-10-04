@@ -183,14 +183,14 @@ class GeneralHeaderRefresher extends Module {
   }
 
   init() {
-    EventDispatcher.subscribe(Events.WON_UPDATED, this.notifyWon.bind(this));
-    EventDispatcher.subscribe(Events.MESSAGES_UPDATED, this.notifyMessages.bind(this));
-    EventDispatcher.subscribe(Events.POINTS_UPDATED, this.notifyPoints.bind(this));
-    EventDispatcher.subscribe(Events.WISHLIST_UPDATED, this.notifyWishlist.bind(this));
+    EventDispatcher.subscribe(Events.WON_UPDATED, this.notifyWon.bind(this, false));
+    EventDispatcher.subscribe(Events.MESSAGES_UPDATED, this.notifyMessages.bind(this, false));
+    EventDispatcher.subscribe(Events.POINTS_UPDATED, this.notifyPoints.bind(this, false));
+    EventDispatcher.subscribe(Events.WISHLIST_UPDATED, this.notifyWishlist.bind(this, false));
 
-    this.notifyWon(Session.counters.won, Session.counters.won);
-    this.notifyMessages(Session.counters.messages, Session.counters.messages);
-    this.notifyPoints(Session.counters.points, Session.counters.points);
+    this.notifyWon(true, Session.counters.won, Session.counters.won);
+    this.notifyMessages(true, Session.counters.messages, Session.counters.messages);
+    this.notifyPoints(true, Session.counters.points, Session.counters.points);
 
     this.startRefresher();
 
@@ -257,7 +257,7 @@ class GeneralHeaderRefresher extends Module {
           if (wonContainer) {
             const counterNode = wonContainer.nodes.counter;
 
-            await Shared.header.updateCounter('giveawaysWon', counterNode ? counterNode.textContent : null, counterNode.classList.contains('fade_infinite'));
+            await Shared.header.updateCounter('giveawaysWon', counterNode ? counterNode.textContent : null, counterNode && counterNode.classList.contains('fade_infinite'));
           }
 
           const messagesContainer = header.buttonContainers['messages'];
@@ -371,9 +371,9 @@ class GeneralHeaderRefresher extends Module {
     await EventDispatcher.dispatch(Events.HEADER_REFRESHED);
   }
 
-  notifyWon(oldWon, newWon, delivered) {
+  notifyWon(firstRun, oldWon, newWon, delivered) {
     if (delivered && gSettings.hr_g) {
-      if (gSettings.hr_g_n) {
+      if (gSettings.hr_g_n && !firstRun) {
         this.showNotification({
           msg: 'You have new gifts delivered.',
           won: true,
@@ -388,10 +388,10 @@ class GeneralHeaderRefresher extends Module {
     this.notifyTitleChange();
   }
 
-  notifyMessages(oldMessages, newMessages) {
+  notifyMessages(firstRun, oldMessages, newMessages) {
     const difference = newMessages - oldMessages;
 
-    if (difference > 0 && gSettings.hr_m) {
+    if (gSettings.hr_m) {
       const canvas = document.createElement('canvas');
       const image = new Image();
 
@@ -410,14 +410,14 @@ class GeneralHeaderRefresher extends Module {
         context.font = 'bold 10px Arial';
         context.textAlign = 'left';
 
-        context.fillText(difference > 9 ? '+' : difference, 9, 14);
+        context.fillText(newMessages > 9 ? '+' : newMessages, 9, 14);
 
         Shared.esgst.favicon.href = canvas.toDataURL('image/png');
       };
 
       image.src = Shared.esgst[`${Shared.esgst.name}Icon`];
 
-      if (gSettings.hr_m_n) {
+      if (difference > 0 && gSettings.hr_m_n && !firstRun) {
         this.showNotification({
           inbox: true,
           msg: `You have ${difference} new messages.`,
@@ -430,8 +430,8 @@ class GeneralHeaderRefresher extends Module {
     this.notifyTitleChange();
   }
 
-  notifyPoints(oldPoints, newPoints) {
-    if (newPoints >= 400 && gSettings.hr_fp) {
+  notifyPoints(firstRun, oldPoints, newPoints) {
+    if (newPoints >= 400 && gSettings.hr_fp && !firstRun) {
       this.showNotification({
         msg: `You have ${newPoints}P.`,
         points: true,
@@ -443,8 +443,8 @@ class GeneralHeaderRefresher extends Module {
     this.notifyTitleChange();
   }
 
-  notifyWishlist(oldWishlist, newWishlist, wishlist) {
-    if (newWishlist && gSettings.hr_w && gSettings.hr_w_n) {
+  notifyWishlist(firstRun, oldWishlist, newWishlist, wishlist) {
+    if (newWishlist && gSettings.hr_w && gSettings.hr_w_n && !firstRun) {
       this.showNotification({
         msg: gSettings.hr_w_h ? `You have ${newWishlist} new wishlist giveaways ending in ${gSettings.hr_w_hours} hours.` : `You have ${newWishlist} new wishlist giveaways.`,
         wishlist: true,

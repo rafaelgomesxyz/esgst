@@ -401,6 +401,10 @@ class SgHeader extends IHeader {
       ]);
     }
 
+    if (buttonContainer.nodes.counter.textContent === newCounterText) {
+      return;
+    }
+
     const oldCounter = buttonContainer.data.counter;
 
     if (isFlashing) {
@@ -412,14 +416,14 @@ class SgHeader extends IHeader {
     if (newCounterText) {
       buttonContainer.nodes.outer.classList.remove('nav__button-container--inactive');
       buttonContainer.nodes.outer.classList.add('nav__button-container--active');
-      buttonContainer.nodes.counter.classList.remove('is_hidden');
+      buttonContainer.nodes.counter.classList.remove('is-hidden');
 
       buttonContainer.nodes.counter.textContent = newCounterText;
       buttonContainer.data.counter = IHeader.extractCounter(newCounterText);
     } else {
       buttonContainer.nodes.outer.classList.remove('nav__button-container--active');
       buttonContainer.nodes.outer.classList.add('nav__button-container--inactive');
-      buttonContainer.nodes.counter.classList.add('is_hidden');
+      buttonContainer.nodes.counter.classList.add('is-hidden');
 
       buttonContainer.data.counter = 0;
     }
@@ -802,15 +806,19 @@ class StHeader extends IHeader {
       ]);
     }
 
+    if (buttonContainer.nodes.counter.textContent === newCounterText) {
+      return;
+    }
+
     const oldCounter = buttonContainer.data.counter;
 
     if (newCounterText) {
-      buttonContainer.nodes.counter.classList.remove('is-hidden');
+      buttonContainer.nodes.counter.classList.remove('is_hidden');
 
       buttonContainer.nodes.counter.textContent = newCounterText;
       buttonContainer.data.counter = IHeader.extractCounter(newCounterText);
     } else {
-      buttonContainer.nodes.counter.classList.add('is-hidden');
+      buttonContainer.nodes.counter.classList.add('is_hidden');
 
       buttonContainer.data.counter = 0;
     }
