@@ -846,16 +846,16 @@ class Common extends Module {
           manipulateCookies: {
             description: [
               ['ul', [
-                ['li', `You should enable this option if you use a single Firefox container for the common sites requested by ESGST that require you to be logged in (SteamGifts, SteamTrades, Steam, SGTools, etc...). With it enabled, ESGST will manipulate your cookies to make sure that requests are sent using the cookies from the current container you are on.`],
+                ['li', `You should enable this option if you use a single Firefox container for the common sites requested by ESGST that require you to be logged in (SteamGifts, SteamTrades, Steam, SGTools, etc...) or if you block third-party cookies. With it enabled, ESGST will read your cookies and modify request headers to make sure that requests are sent using the cookies from the current container you are on.`],
                 ['li', `For example: you are only logged in on SteamGifts and Steam in the personal container. With this option disabled, when you try to sync your owned games on ESGST it will fail because it will use the default cookies (where you are not logged in). With this option enabled, the sync will succeed because the container cookies will be used instead (where you are logged in).`],
-                ['li', `If you are concerned about what exactly is done, you can check out the source code of the eventPage.js file, where the manipulation occurs. Basically what happens is: the default cookies are backed up and replaced by the container cookies while the request is being made, and after the request is done the default cookies are restored. This is not a pretty solution, but it does the job until a better and more permanent solution comes along.`]
+                ['li', `If you are concerned about what exactly is done, you can check out the source code of the eventPage.js file, where the process occurs. Basically what happens is: the ID of your current container is retrieved from the tab that initiated the request and used to retrieve the cookies from that container (using the cookies API), then ESGST sends the request with a custom header "Esgst-Cookie" and the request is intercepted by the webRequest API, where the custom header is renamed to "Cookie" so that the cookies can be sent with the request. This is not a pretty solution, but it does the job until a better and more permanent solution comes along.`]
               ]]
             ],
             extensionOnly: true,
-            name: 'Allow ESGST to manipulate your cookies when using Firefox containers.',
+            name: 'Allow ESGST to read your cookies and modify request headers when using Firefox containers or when blocking third-party cookies.',
             sg: true,
             st: true,
-            permissions: ['cookies']
+            permissions: ['cookies', 'webRequest', 'webRequestBlocking']
           },
           addNoCvGames: {
             name: 'Automatically add no CV games to the database when searching for games in the new giveaway page.',
@@ -5667,14 +5667,16 @@ class Common extends Module {
           this.lookForPopups(response);
         }
       } else {
+        const manipulateCookies = (await this.getBrowserInfo()).name === 'Firefox' && gSettings.manipulateCookies;
+
         browser.runtime.sendMessage({
           action: 'fetch',
           blob: details.blob,
           fileName: details.fileName,
-          manipulateCookies: (await this.getBrowserInfo()).name === 'Firefox' && gSettings.manipulateCookies,
+          manipulateCookies,
           parameters: JSON.stringify({
             body: details.data,
-            credentials: details.anon ? 'omit' : 'include',
+            credentials: details.anon || manipulateCookies ? 'omit' : 'include',
             headers: details.headers,
             method: details.method,
             redirect: 'follow'

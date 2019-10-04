@@ -101,6 +101,8 @@ function getWebExtensionManifest(env, browserName) {
     ],
     optional_permissions: [
       'cookies',
+      'webRequest',
+      'webRequestBlocking',
       '*://*.api.dropboxapi.com/*',
       '*://*.api.imgur.com/*',
       '*://*.api.steampowered.com/*',

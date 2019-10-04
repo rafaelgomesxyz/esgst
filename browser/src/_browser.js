@@ -77,7 +77,7 @@ if (typeof browser !== 'undefined') {
             case 'fetch': {
               const parameters = JSON.parse(obj.parameters);
               if (parameters.credentials === 'omit') {
-                parameters.headers.Cookie = '';
+                parameters.headers['Esgst-Cookie'] = '';
               }
               _browser.gm.xmlHttpRequest({
                 binary: !!obj.fileName,

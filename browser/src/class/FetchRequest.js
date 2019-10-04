@@ -115,12 +115,14 @@ class FetchRequest {
   }
 
   static async sendExternal(url, options) {
+    const manipulateCookies = (await shared.common.getBrowserInfo()).name === 'Firefox' && gSettings.manipulateCookies;
+
     const messageOptions = {
       action: 'fetch',
       blob: options.blob,
       fileName: options.fileName,
-      manipulateCookies: (await shared.common.getBrowserInfo()).name === 'Firefox' && gSettings.manipulateCookies,
-      parameters: JSON.stringify(FetchRequest.getFetchOptions(options)),
+      manipulateCookies,
+      parameters: JSON.stringify(FetchRequest.getFetchOptions(options, manipulateCookies)),
       url
     };
     let response = await browser.runtime.sendMessage(messageOptions);
@@ -160,10 +162,10 @@ class FetchRequest {
     return { fetchObj, fetchOptions };
   }
 
-  static getFetchOptions(options) {
+  static getFetchOptions(options, manipulateCookies) {
     return {
       body: options.data,
-      credentials: options.anon ? 'omit' : 'include',
+      credentials: options.anon || manipulateCookies ? 'omit' : 'include',
       headers: options.headers,
       method: options.method,
       redirect: 'follow'

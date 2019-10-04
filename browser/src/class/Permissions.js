@@ -1,7 +1,6 @@
 import { browser } from '../browser';
 import { Popup } from './Popup';
 import { shared } from './Shared';
-import { ButtonSet } from './ButtonSet';
 import { gSettings } from './Globals';
 import { DOM } from './DOM';
 
@@ -12,7 +11,7 @@ class Permissions {
         messages: {
           manipulateCookies: 'Required if the option to manipulate cookies is enabled.'
         },
-        values: ['cookies']
+        values: ['cookies', 'webRequest', 'webRequestBlocking']
       },
       dropbox: {
         isOrigin: true,
