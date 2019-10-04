@@ -8,7 +8,7 @@ const WARNING = 'warning';
 const ERROR = 'error';
 const PRIORITY = [ERROR, WARNING, INFO];
 
-class Logger {
+class _Logger {
   constructor() {
     this.logs = [];
     this.button = null;
@@ -76,6 +76,6 @@ class Logger {
   }
 }
 
-const logger = new Logger();
+const Logger = new _Logger();
 
-export { logger };
+export { Logger, Logger as logger };
