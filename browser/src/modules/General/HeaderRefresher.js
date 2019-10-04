@@ -391,7 +391,7 @@ class GeneralHeaderRefresher extends Module {
   notifyMessages(firstRun, oldMessages, newMessages) {
     const difference = newMessages - oldMessages;
 
-    if (gSettings.hr_m) {
+    if (newMessages > 0 && gSettings.hr_m) {
       const canvas = document.createElement('canvas');
       const image = new Image();
 
