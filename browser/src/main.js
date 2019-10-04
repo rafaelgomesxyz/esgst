@@ -12,10 +12,12 @@ import { Utils } from './lib/jsUtils';
 import { addStyle } from './modules/Style';
 import { runSilentSync } from './modules/Sync';
 import { gSettings } from './class/Globals';
-import { shared } from './class/Shared';
+import { Shared } from './class/Shared';
 import { logger } from './class/Logger';
 import { persistentStorage } from './class/PersistentStorage';
 import { DOM } from './class/DOM';
+import { Header } from './components/Header';
+import { Session } from './class/Session';
 
 // @ts-ignore
 window.interact = interact;
@@ -67,25 +69,25 @@ window.interact = interact;
       message = JSON.parse(message);
       switch (message.action) {
         case 'notify-tds':
-          shared.esgst.modules.generalThreadSubscription.updateItems(message.values);
+          Shared.esgst.modules.generalThreadSubscription.updateItems(message.values);
 
           break;
         case 'isFirstRun':
           if (esgst.bodyLoaded) {
-            shared.common.checkNewVersion(true);
+            Shared.common.checkNewVersion(true);
           } else {
             esgst.isFirstRun = true;
           }
           break;
         case 'isUpdate':
           if (esgst.bodyLoaded) {
-            shared.common.checkNewVersion(false, true);
+            Shared.common.checkNewVersion(false, true);
           } else {
             esgst.isUpdate = true;
           }
           break;
         case 'storageChanged':
-          shared.common.getChanges(message.values.changes, message.values.areaName);
+          Shared.common.getChanges(message.values.changes, message.values.areaName);
           break;
         case 'update':
           common.createConfirmation(
@@ -99,7 +101,7 @@ window.interact = interact;
       }
     });
 
-    browser.storage.onChanged.addListener(shared.common.getChanges.bind(shared.common));
+    browser.storage.onChanged.addListener(Shared.common.getChanges.bind(Shared.common));
 
     // set default values or correct values
     /**
@@ -560,11 +562,21 @@ window.interact = interact;
         window.close();
       }
     }
-    esgst.logoutButton = document.querySelector(`.js__logout, .js_logout`);
-    if (!esgst.logoutButton) {
-      // user is not logged in
+
+    Session.init();
+
+    try {
+      Shared.header = new Header();
+
+      Shared.header.parse(document.body);
+    } catch (e) {
+      logger.error(e.message);
+    }
+
+    if (!Session.isLoggedIn) {
       return;
     }
+
     if (esgst.st && !gSettings.esgst_st) {
       // esgst is not enabled for steamtrades
       return;

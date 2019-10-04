@@ -16,7 +16,6 @@ class Esgst {
     this.mgc_createTrainSwitch = undefined;
     this.mgc_removeLinksSwitch = undefined;
     this.gas = undefined;
-    this.hr = undefined;
     this.ged_addIcons = undefined;
     this.cf = undefined;
     this.cfh = undefined;
@@ -46,8 +45,6 @@ class Esgst {
     this.mmSelectionStart = undefined;
     this.lpvStyleArray = undefined;
     this.pvStyleArray = undefined;
-    this.onLevelContainerUpdated = undefined;
-    this.wonButton = undefined;
     this.currentPage = undefined;
     this.itemsPerPage = undefined;
     this.giveawaysDropdown = undefined;
@@ -71,9 +68,9 @@ class Esgst {
     this.dataManagementUrl = `https://www.steamgifts.com/account/settings/profile?esgst=data-management`;
 
     this.path = window.location.pathname.replace(/\/search/, '');
-    
+
     this.customPages = {};
-    
+
     this.sidebarGroups = [];
 
     this.paths = {
@@ -226,7 +223,6 @@ class Esgst {
     };
     this.newGiveawayDateFormat = `MMM d, yyyy h:mm a`;
     this.triggerFunctions = {
-      onLevelContainerUpdated: [],
       onBeforeCommentSubmit: []
     };
 
@@ -1133,7 +1129,7 @@ class Esgst {
     this.firstInstall = undefined;
 
     this.giveaways = null;
-    
+
     this.mainContext = null;
 
     this.pageOuterWrap = null;
@@ -1154,9 +1150,9 @@ class Esgst {
 
     /** @type {string} */
     this.pageHeadingBreadcrumbsClass = '';
-    
+
     this.footer = null;
-    
+
     this.replyBox = null;
 
     /** @type {string} */
@@ -1173,7 +1169,7 @@ class Esgst {
 
     /** @type {string} */
     this.originalUrl = '';
-    
+
     this.favicon = null;
 
     /** @type {string} */
@@ -1181,23 +1177,21 @@ class Esgst {
 
     /** @type {string} */
     this.searchUrl = '';
-    
-    this.header = null;
-    
+
     this.headerNavigationLeft = null;
-    
+
     this.pagination = null;
-    
+
     this.featuredContainer = null;
-    
+
     this.paginationNavigation = null;
-    
+
     this.enterGiveawayButton = null;
-    
+
     this.leaveGiveawayButton = null;
-    
+
     this.activeDiscussions = null;
-    
+
     this.pinnedGiveaways = null;
 
     /** @type {boolean} */
@@ -1220,22 +1214,14 @@ class Esgst {
     this.name = undefined;
 
     this.style = null;
-    
+
     this.customThemeElement = null;
-    
+
     this.theme = null;
-    
+
     this.ustButton = null;
 
     this.modules = null;
-
-    this.fullLevel = null;
-
-    this.level = null;
-
-    this.pointsContainer = null;
-
-    this.points = null;
 
     this.decryptedGiveaways = null;
 
@@ -1245,19 +1231,9 @@ class Esgst {
 
     this.gc_categories_ids = ['gc_gi', 'gc_r', 'gc_hltb', 'gc_ocv', 'gc_fcv', 'gc_rcv', 'gc_ncv', 'gc_h', 'gc_i', 'gc_o', 'gc_w', 'gc_f', 'gc_pw', 'gc_a', 'gc_bd', 'gc_bvg', 'gc_sp', 'gc_mp', 'gc_sc', 'gc_tc', 'gc_l', 'gc_m', 'gc_ea', 'gc_lg', 'gc_rm', 'gc_dlc', 'gc_p', 'gc_rd', 'gc_g'];
 
-    this.pointsPlayer = null;
-
-    this.inboxPlayer = null;
-
-    this.wishlistPlayer = null;
-
-    this.wonPlayer = null;
-
     this.giveawayErrorButton = null;
 
     this.gcToFetch = null;
-
-    this.createdButton = null;
 
     this.rerolls = null;
 
@@ -1265,27 +1241,11 @@ class Esgst {
 
     this.stopEs = false;
 
-    this.audioContext = null;
-
-    this.mainButton = null;
-
-    this.inboxButton = null;
-  
-    this.messageCountContainer = null;
-
-    this.messageCount = null;
-
-    this.wishlistNew = null;
-
     this.lastPage = null;
-
-    this.levelContainer = null;
 
     this.lpvStyle = null;
 
     this.pvStyle = null;
-
-    this.wishlist = null;
 
     this.toDismiss = [];
 
