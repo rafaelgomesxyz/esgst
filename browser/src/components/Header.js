@@ -21,6 +21,34 @@ class IHeader {
   }
 
   /**
+   * @param {IHeaderButtonContainer} buttonContainer
+   * @param {string} newCounterText
+   * @param {boolean} [isFlashing]
+   */
+  // eslint-disable-next-line no-unused-vars
+  async updateCounter(buttonContainerId, newCounterText, isFlashing) {}
+
+  /**
+   * @param {string} newPointsText
+   * @param {string} [newPointsTitle]
+   */
+  // eslint-disable-next-line no-unused-vars
+  async updatePoints(newPointsText, newPointsTitle) {}
+
+  /**
+   * @param {string} newLevelText
+   * @param {string} [newLevelTitle]
+   */
+  // eslint-disable-next-line no-unused-vars
+  async updateLevel(newLevelText, newLevelTitle) {}
+
+  /**
+   * @param {string} newReputationText
+   */
+  // eslint-disable-next-line no-unused-vars
+  async updateReputation(newReputationText) {}
+
+  /**
    * @param {string} text
    * @returns {number}
    */
@@ -358,8 +386,9 @@ class SgHeader extends IHeader {
   /**
    * @param {IHeaderButtonContainer} buttonContainer
    * @param {string} newCounterText
+   * @param {boolean} [isFlashing]
    */
-  updateCounter(buttonContainerId, newCounterText, isFlashing) {
+  async updateCounter(buttonContainerId, newCounterText, isFlashing) {
     const buttonContainer = this.buttonContainers[buttonContainerId];
 
     if (!buttonContainer) {
@@ -376,10 +405,24 @@ class SgHeader extends IHeader {
 
     if (isFlashing) {
       buttonContainer.nodes.counter.classList.add('fade_infinite');
+    } else {
+      buttonContainer.nodes.counter.classList.remove('fade_infinite');
     }
 
-    buttonContainer.nodes.counter.textContent = newCounterText;
-    buttonContainer.data.counter = IHeader.extractCounter(newCounterText);
+    if (newCounterText) {
+      buttonContainer.nodes.outer.classList.remove('nav__button-container--inactive');
+      buttonContainer.nodes.outer.classList.add('nav__button-container--active');
+      buttonContainer.nodes.counter.classList.remove('is_hidden');
+
+      buttonContainer.nodes.counter.textContent = newCounterText;
+      buttonContainer.data.counter = IHeader.extractCounter(newCounterText);
+    } else {
+      buttonContainer.nodes.outer.classList.remove('nav__button-container--active');
+      buttonContainer.nodes.outer.classList.add('nav__button-container--inactive');
+      buttonContainer.nodes.counter.classList.add('is_hidden');
+
+      buttonContainer.data.counter = 0;
+    }
 
     const newCounter = buttonContainer.data.counter;
 
@@ -387,7 +430,7 @@ class SgHeader extends IHeader {
       case 'giveawaysCreated': {
         Session.counters.created = newCounter;
 
-        EventDispatcher.dispatch(Events.CREATED_UPDATED, oldCounter, newCounter);
+        await EventDispatcher.dispatch(Events.CREATED_UPDATED, oldCounter, newCounter);
 
         break;
       }
@@ -396,7 +439,7 @@ class SgHeader extends IHeader {
         Session.counters.won = newCounter;
         Session.counters.wonDelivered = isFlashing;
 
-        EventDispatcher.dispatch(Events.WON_UPDATED, oldCounter, newCounter, isFlashing);
+        await EventDispatcher.dispatch(Events.WON_UPDATED, oldCounter, newCounter, isFlashing);
 
         break;
       }
@@ -404,7 +447,7 @@ class SgHeader extends IHeader {
       case 'messages': {
         Session.counters.messages = newCounter;
 
-        EventDispatcher.dispatch(Events.MESSAGES_UPDATED, oldCounter, newCounter);
+        await EventDispatcher.dispatch(Events.MESSAGES_UPDATED, oldCounter, newCounter);
 
         break;
       }
@@ -417,8 +460,9 @@ class SgHeader extends IHeader {
 
   /**
    * @param {string} newPointsText
+   * @param {string} [newPointsTitle]
    */
-  updatePoints(newPointsText) {
+  async updatePoints(newPointsText, newPointsTitle) {
     const accountContainer = this.buttonContainers['account'];
 
     if (!accountContainer) {
@@ -433,18 +477,23 @@ class SgHeader extends IHeader {
 
     const oldPoints = Session.counters.points;
 
+    if (newPointsTitle) {
+      pointsNode.title = newPointsTitle;
+    }
+
     pointsNode.textContent = newPointsText;
     Session.counters.points = IHeader.extractPoints(newPointsText);
 
     const newPoints = Session.counters.points;
 
-    EventDispatcher.dispatch(Events.POINTS_UPDATED, oldPoints, newPoints);
+    await EventDispatcher.dispatch(Events.POINTS_UPDATED, oldPoints, newPoints);
   }
 
   /**
    * @param {string} newLevelText
+   * @param {string} [newLevelTitle]
    */
-  updateLevel(newLevelText) {
+  async updateLevel(newLevelText, newLevelTitle) {
     const accountContainer = this.buttonContainers['account'];
 
     if (!accountContainer) {
@@ -459,12 +508,13 @@ class SgHeader extends IHeader {
 
     const oldLevel = Session.counters.level;
 
+    levelNode.title = newLevelTitle || newLevelText;
     levelNode.textContent = newLevelText;
     Session.counters.level = IHeader.extractLevel(newLevelText);
 
     const newLevel = Session.counters.level;
 
-    EventDispatcher.dispatch(Events.LEVEL_UPDATED, oldLevel, newLevel);
+    await EventDispatcher.dispatch(Events.LEVEL_UPDATED, oldLevel, newLevel);
   }
 }
 
@@ -739,7 +789,7 @@ class StHeader extends IHeader {
    * @param {IHeaderButtonContainer} buttonContainer
    * @param {string} newCounterText
    */
-  updateCounter(buttonContainerId, newCounterText) {
+  async updateCounter(buttonContainerId, newCounterText) {
     const buttonContainer = this.buttonContainers[buttonContainerId];
 
     if (!buttonContainer) {
@@ -754,8 +804,16 @@ class StHeader extends IHeader {
 
     const oldCounter = buttonContainer.data.counter;
 
-    buttonContainer.nodes.counter.textContent = newCounterText;
-    buttonContainer.data.counter = IHeader.extractCounter(newCounterText);
+    if (newCounterText) {
+      buttonContainer.nodes.counter.classList.remove('is-hidden');
+
+      buttonContainer.nodes.counter.textContent = newCounterText;
+      buttonContainer.data.counter = IHeader.extractCounter(newCounterText);
+    } else {
+      buttonContainer.nodes.counter.classList.add('is-hidden');
+
+      buttonContainer.data.counter = 0;
+    }
 
     const newCounter = buttonContainer.data.counter;
 
@@ -763,7 +821,7 @@ class StHeader extends IHeader {
       case 'messages': {
         Session.counters.messages = newCounter;
 
-        EventDispatcher.dispatch(Events.MESSAGES_UPDATED, oldCounter, newCounter);
+        await EventDispatcher.dispatch(Events.MESSAGES_UPDATED, oldCounter, newCounter);
 
         break;
       }
@@ -777,7 +835,7 @@ class StHeader extends IHeader {
   /**
    * @param {string} newReputationText
    */
-  updateReputation(newReputationText) {
+  async updateReputation(newReputationText) {
     const myProfileContainer = this.buttonContainers['myProfile'];
 
     if (!myProfileContainer) {
@@ -797,7 +855,7 @@ class StHeader extends IHeader {
 
     const newReputation = Session.counters.reputation;
 
-    EventDispatcher.dispatch(Events.REPUTATION_UPDATED, oldReputation, newReputation);
+    await EventDispatcher.dispatch(Events.REPUTATION_UPDATED, oldReputation, newReputation);
   }
 }
 

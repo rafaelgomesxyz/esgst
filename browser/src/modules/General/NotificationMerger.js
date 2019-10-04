@@ -1,13 +1,12 @@
 import { Module } from '../../class/Module';
-import { common } from '../Common';
-import { gSettings } from '../../class/Globals';
-import { DOM } from '../../class/DOM';
-
-const
-  createElements = common.createElements.bind(common),
-  getFeatureTooltip = common.getFeatureTooltip.bind(common),
-  request = common.request.bind(common)
-  ;
+import { FetchRequest } from '../../class/FetchRequest';
+import { Logger } from '../../class/Logger';
+import { Namespaces } from '../../class/Namespaces';
+import { Session } from '../../class/Session';
+import { Shared } from '../../class/Shared';
+import { Header } from '../../components/Header';
+import { EventDispatcher } from '../../class/EventDispatcher';
+import { Events } from '../../class/Events';
 
 class GeneralNotificationMerger extends Module {
   constructor() {
@@ -33,109 +32,95 @@ class GeneralNotificationMerger extends Module {
   }
 
   init() {
-    if (gSettings.hr) return;
-    // noinspection JSIgnoredPromiseFromCall
-    this.nm_getNotifications();
+    if (!Shared.header) {
+      return;
+    }
+
+    EventDispatcher.subscribe(Events.HEADER_REFRESHED, this.getNotifications.bind(this));
+
+    this.getNotifications();
   }
 
-  async nm_getNotifications() {
-    if (this.esgst.sg) {
-      let notification = DOM.parse((await request({
-        method: 'GET',
-        url: `https://www.steamtrades.com`
-      })).responseText).getElementsByClassName('message_count')[0];
-      if (!notification) {
-        if (this.altInboxButton) {
-          // hide the button, since there are no notifications
-          this.altInboxButton.classList.add('esgst-hidden');
+  async getNotifications() {
+    switch (Session.namespace) {
+      case Namespaces.SG: {
+        /** @type {import('../../components/Header').IHeader} */
+        const header = new Header(Namespaces.ST);
+
+        try {
+          header.parse((await FetchRequest.get('https://www.steamtrades.com')).html);
+        } catch (error) {
+          Logger.error(error.message);
         }
-        return;
-      }
-      if (this.altInboxButton) {
-        // the button already exists, so simply unhide it and change the message count
-        this.altInboxButton.classList.remove('esgst-hidden');
-        this.altMessageCount.textContent = notification.textContent;
-      } else {
-        // the button does not exist yet, so add it and save it in a global variable
-        this.altInboxButton = createElements(this.esgst.inboxButton, 'afterEnd', [{
-          attributes: {
-            class: 'nav__button-container nav__button-container--notification nav__button-container--active'
-          },
-          type: 'div',
-          children: [{
-            attributes: {
-              class: 'nav__button',
-              href: `https://www.steamtrades.com/messages`,
-              title: getFeatureTooltip('nm', 'SteamTrades Messages')
-            },
-            type: 'a',
-            children: [{
-              attributes: {
-                class: 'fa fa-envelope esgst-nm-icon'
-              },
-              type: 'i'
-            }, {
-              attributes: {
-                class: 'nav__notification'
-              },
-              text: notification.textContent,
-              type: 'div'
-            }]
-          }]
-        }]);
-        this.altMessageCount = this.altInboxButton.firstElementChild.lastElementChild;
-      }
-    } else {
-      let notification = DOM.parse((await request({
-        method: 'GET',
-        url: `https://www.steamgifts.com`
-      })).responseText).getElementsByClassName('nav__notification')[0];
-      if (!notification) {
-        if (this.altInboxButton) {
-          // hide the button, since there are no notifications
-          this.altInboxButton.classList.add('esgst-hidden');
+
+        if (!header.buttonContainers['messages']) {
+          if (Shared.header.buttonContainers['stMessages']) {
+            Shared.header.buttonContainers['stMessages'].nodes.outer.classList.add('esgst-hidden');
+          }
+
+          return;
         }
-        return;
+
+        if (Shared.header.buttonContainers['stMessages']) {
+          Shared.header.buttonContainers['stMessages'].nodes.outer.classList.remove('esgst-hidden');
+
+          Shared.header.updateCounter('stMessages', header.buttonContainers['messages'].nodes.counter.textContent);
+        } else {
+          Shared.header.addButtonContainer({
+            buttonIcon: 'fa fa-envelope esgst-nm-icon',
+            buttonName: 'ST Messages',
+            context: Shared.header.buttonContainers['messages'].nodes.outer,
+            counter: header.buttonContainers['messages'].nodes.counter.textContent,
+            isActive: true,
+            isNotification: true,
+            position: 'afterEnd',
+            url: 'https://www.steamtrades.com/messages',
+          });
+        }
+
+        break;
       }
-      if (this.altInboxButton) {
-        // the button already exists, so simply unhide it and change the message count
-        this.altInboxButton.classList.remove('esgst-hidden');
-        this.altMessageCount.textContent = notification.textContent;
-      } else {
-        // the button does not exist yet, so add it and save it in a global variable
-        this.altInboxButton = createElements(this.esgst.inboxButton, 'afterEnd', [{
-          attributes: {
-            class: 'nav_btn_container',
-            title: getFeatureTooltip('nm')
-          },
-          type: 'div',
-          children: [{
-            attributes: {
-              class: 'nav_btn',
-              href: `https://www.steamgifts.com/messages`
-            },
-            type: 'a',
-            children: [{
-              attributes: {
-                class: 'fa fa-envelope esgst-nm-icon'
-              },
-              type: 'i'
-            }, {
-              type: 'span',
-              children: [{
-                text: 'Messages ',
-                type: 'node'
-              }, {
-                attributes: {
-                  class: 'message_count'
-                },
-                text: notification.textContent,
-                type: 'span'
-              }]
-            }]
-          }]
-        }]);
-        this.altMessageCount = this.altInboxButton.firstElementChild.lastElementChild.lastElementChild;
+
+      case Namespaces.ST: {
+        /** @type {import('../../components/Header').IHeader} */
+        const header = new Header(Namespaces.SG);
+
+        try {
+          header.parse((await FetchRequest.get('https://www.steamgifts.com')).html);
+        } catch (error) {
+          Logger.error(error.message);
+        }
+
+        if (!header.buttonContainers['messages']) {
+          if (Shared.header.buttonContainers['sgMessages']) {
+            Shared.header.buttonContainers['sgMessages'].nodes.outer.classList.add('esgst-hidden');
+          }
+
+          return;
+        }
+
+        if (Shared.header.buttonContainers['sgMessages']) {
+          Shared.header.buttonContainers['sgMessages'].nodes.outer.classList.remove('esgst-hidden');
+
+          Shared.header.updateCounter('sgMessages', header.buttonContainers['messages'].nodes.counter.textContent);
+        } else {
+          Shared.header.addButtonContainer({
+            buttonIcon: 'fa fa-envelope esgst-nm-icon',
+            buttonName: 'SG Messages',
+            context: Shared.header.buttonContainers['messages'].nodes.outer,
+            counter: header.buttonContainers['messages'].nodes.counter.textContent,
+            isActive: true,
+            isNotification: true,
+            position: 'afterEnd',
+            url: 'https://www.steamgifts.com/messages',
+          });
+        }
+
+        break;
+      }
+
+      default: {
+        throw 'Invalid namespace.';
       }
     }
   }

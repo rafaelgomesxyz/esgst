@@ -1,17 +1,17 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
-import { shared } from '../../class/Shared';
-import { utils } from '../../lib/jsUtils';
+import { shared, Shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
 import { FetchRequest } from '../../class/FetchRequest';
 import { logger } from '../../class/Logger';
+import { EventDispatcher } from '../../class/EventDispatcher';
+import { Events } from '../../class/Events';
+import { Session } from '../../class/Session';
 
 const
   createElements = common.createElements.bind(common),
   getFeatureTooltip = common.getFeatureTooltip.bind(common),
-  getLocalValue = common.getLocalValue.bind(common),
-  round = common.round.bind(common),
-  setLocalValue = common.setLocalValue.bind(common)
+  round = common.round.bind(common)
   ;
 
 class GeneralLevelProgressVisualizer extends Module {
@@ -42,10 +42,10 @@ class GeneralLevelProgressVisualizer extends Module {
   }
 
   async init() {
-    if (gSettings.hr) {
-      return;
-    }
-    await this.lpv_setStyle();
+    EventDispatcher.subscribe(Events.LEVEL_UPDATED, this.lpv_setStyle.bind(this));
+
+    await this.lpv_setStyle(null, Session.counters.level);
+
     this.joinStyles();
   }
 
@@ -54,7 +54,7 @@ class GeneralLevelProgressVisualizer extends Module {
       shared.common.delLocalValue('lpvCache_v2');
     }
     const cache = JSON.parse(shared.common.getLocalValue('lpvCache', `{ "cv": 0, "level": 0, "v": 3 }`));
-    const currentLevel = parseFloat(shared.esgst.levelContainer.getAttribute('title'));
+    const currentLevel = Session.counters.level.full;
     if (cache.v !== 3 || currentLevel !== cache.level) {
       cache.level = currentLevel;
       const response = await FetchRequest.get(`/user/${gSettings.username}`);
@@ -65,13 +65,14 @@ class GeneralLevelProgressVisualizer extends Module {
     return cache;
   }
 
-  async lpv_setStyle() {
-    if (shared.esgst.level === 10) {
+  async lpv_setStyle(oldLevel, newLevel) {
+    if (newLevel.base === 10) {
       return;
     }
+
     const mainButtonWidth = this.esgst.mainButton.offsetWidth;
     const fullButtonWidth = this.esgst.mainButton.parentElement.offsetWidth;
-    const currentPercentage = Math.trunc(round(shared.esgst.fullLevel - shared.esgst.level) * 100);
+    const currentPercentage = Math.trunc(round(newLevel.full - newLevel.base) * 100);
     const currentProgress = Math.trunc(currentPercentage * (fullButtonWidth / 100));
     const firstBar = `${currentProgress}px`;
     const secondBar = `${Math.max(0, currentProgress - mainButtonWidth)}px`;
@@ -89,7 +90,8 @@ class GeneralLevelProgressVisualizer extends Module {
       const predictedProgress = Math.trunc(Math.min(100, predictedPercentage) * (fullButtonWidth / 100));
       projectedFirstBar = `${predictedProgress}px`;
       projectedSecondBar = `${Math.max(0, predictedProgress - mainButtonWidth)}px`;
-      this.esgst.levelContainer.title = getFeatureTooltip('lpv', `${this.esgst.levelContainer.getAttribute('title')} (${predictedFullLevel})`);
+
+      Shared.header.buttonContainers['account'].nodes.level.title = getFeatureTooltip('lpv', `${newLevel.full} (${predictedFullLevel})`);
     }
     const barColor = gSettings.lpv_barColor;
     const projectedBarColor = gSettings.lpv_projectedBarColor;

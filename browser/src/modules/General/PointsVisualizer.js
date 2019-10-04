@@ -1,5 +1,8 @@
 import { Module } from '../../class/Module';
 import { gSettings } from '../../class/Globals';
+import { EventDispatcher } from '../../class/EventDispatcher';
+import { Events } from '../../class/Events';
+import { Session } from '../../class/Session';
 
 class GeneralPointsVisualizer extends Module {
   constructor() {
@@ -23,12 +26,15 @@ class GeneralPointsVisualizer extends Module {
   }
 
   init() {
-    this.pv_setStyle();
+    EventDispatcher.subscribe(Events.POINTS_UPDATED, this.pv_setStyle.bind(this));
+
+    this.pv_setStyle(null, Session.counters.points);
+
     this.esgst.modules.generalLevelProgressVisualizer.joinStyles();
   }
 
-  pv_setStyle() {
-    const points = Math.min(400, this.esgst.points);
+  pv_setStyle(oldPoints, newPoints) {
+    const points = Math.min(400, newPoints);
     const percentage = points / 400 * 100;
     const mainButtonWidth = this.esgst.mainButton.offsetWidth;
     const fullButtonWidth = this.esgst.mainButton.parentElement.offsetWidth;

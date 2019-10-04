@@ -7,6 +7,7 @@ const Events = {
   WISHLIST_UPDATED: 5,
   REPUTATION_UPDATED: 6,
   PAGE_REFRESHED: 7,
+  HEADER_REFRESHED: 8,
 };
 
 export { Events };

@@ -2,8 +2,11 @@ import { Module } from '../../class/Module';
 import { common } from '../Common';
 import IntersectionObserver from 'intersection-observer-polyfill';
 import { gSettings } from '../../class/Globals';
-import { shared } from '../../class/Shared';
+import { Shared } from '../../class/Shared';
 import { DOM } from '../../class/DOM';
+import { EventDispatcher } from '../../class/EventDispatcher';
+import { Events } from '../../class/Events';
+import { FetchRequest } from '../../class/FetchRequest';
 
 const
   animateScroll = common.animateScroll.bind(common),
@@ -715,14 +718,8 @@ class GeneralEndlessScrolling extends Module {
       await endless_load(this.esgst.pinnedGiveaways, true);
       this.esgst.modules.giveawaysPinnedGiveawaysButton.init();
     }
-    if (!gSettings.hr) {
-      await this.esgst.modules.generalHeaderRefresher.hr_refreshHeaderElements(DOM.parse((await request({
-        method: 'GET',
-        url: this.esgst.sg ? `/giveaways/search?type=wishlist` : '/'
-      })).responseText));
-      // noinspection JSIgnoredPromiseFromCall
-      this.esgst.modules.generalHeaderRefresher.hr_refreshHeader(this.esgst.modules.generalHeaderRefresher.hr_getCache());
-    }
+
+    await EventDispatcher.dispatch(Events.PAGE_REFRESHED, (await FetchRequest.get(Shared.esgst.sg ? '/giveaways/search?type=wishlist' : '/')).html);
   }
 
   async es_refreshAll(es) {
@@ -743,14 +740,9 @@ class GeneralEndlessScrolling extends Module {
       // noinspection JSIgnoredPromiseFromCall
       promises.push(this.es_getNext(es, true, page, null, await request({ method: 'GET', url: `${this.esgst.searchUrl}${page}` })));
     }
-    if (!gSettings.hr) {
-      await this.esgst.modules.generalHeaderRefresher.hr_refreshHeaderElements(DOM.parse((await request({
-        method: 'GET',
-        url: this.esgst.sg ? `/giveaways/search?type=wishlist` : '/'
-      })).responseText));
-      // noinspection JSIgnoredPromiseFromCall
-      this.esgst.modules.generalHeaderRefresher.hr_refreshHeader(this.esgst.modules.generalHeaderRefresher.hr_getCache());
-    }
+
+    await EventDispatcher.dispatch(Events.PAGE_REFRESHED, (await FetchRequest.get(Shared.esgst.sg ? '/giveaways/search?type=wishlist' : '/')).html);
+
     await Promise.all(promises);
     await endless_load(es.mainContext, true);
     this.es_setRemoveEntry(es.mainContext);
@@ -831,8 +823,7 @@ class GeneralEndlessScrolling extends Module {
           Context.classList.add('is-faded');
           Complete.classList.toggle('is-hidden');
           if (responseJson.points) {
-            this.esgst.pointsContainer.textContent = responseJson.points;
-            this.esgst.points = parseInt(this.esgst.pointsContainer.textContent.replace(/,/g, '').match(/\d+/)[0]);
+            Shared.header.updatePoints(responseJson.points);
           }
         } else {
           Default.classList.toggle('is-hidden');
