@@ -212,7 +212,7 @@ class SgHeader extends IHeader {
       this.parseButtonContainer(buttonContainerNode);
     }
 
-    if (this.buttonContainers['account']) {
+    if (this.buttonContainers['account'] && Session.namespace === Namespaces.SG) {
       Session.isLoggedIn = true;
       Session.xsrfToken = ISession.extractXsrfToken(this.buttonContainers['account'].dropdownItems['logout'].nodes.outer.dataset.form);
     }
@@ -259,7 +259,9 @@ class SgHeader extends IHeader {
       if (pointsNode) {
         buttonContainer.nodes.points = pointsNode;
 
-        Session.counters.points = IHeader.extractPoints(buttonContainer.nodes.points.textContent);
+        if (Session.namespace === Namespaces.SG) {
+          Session.counters.points = IHeader.extractPoints(buttonContainer.nodes.points.textContent);
+        }
       }
 
       const levelNode = buttonContainer.nodes.button.querySelector('[title]');
@@ -267,7 +269,9 @@ class SgHeader extends IHeader {
       if (levelNode) {
         buttonContainer.nodes.level = levelNode;
 
-        Session.counters.level = IHeader.extractLevel(buttonContainer.nodes.level.title);
+        if (Session.namespace === Namespaces.SG) {
+          Session.counters.level = IHeader.extractLevel(buttonContainer.nodes.level.title);
+        }
       }
 
       buttonContainer.data.isDropdown = true;
@@ -282,7 +286,9 @@ class SgHeader extends IHeader {
         buttonContainer.user = new User(Namespaces.SG);
         buttonContainer.user.parse(buttonContainer.nodes.outer);
 
-        Session.user = Object.assign({}, buttonContainer.user.data);
+        if (Session.namespace === Namespaces.SG) {
+          Session.user = Object.assign({}, buttonContainer.user.data);
+        }
       }
     }
 
@@ -315,28 +321,30 @@ class SgHeader extends IHeader {
 
     buttonContainer.data.id = IHeader.generateId(buttonContainer.data.buttonName);
 
-    switch (buttonContainer.data.id) {
-      case 'giveawaysCreated': {
-        Session.counters.created = buttonContainer.data.counter;
+    if (Session.namespace === Namespaces.SG) {
+      switch (buttonContainer.data.id) {
+        case 'giveawaysCreated': {
+          Session.counters.created = buttonContainer.data.counter;
 
-        break;
-      }
+          break;
+        }
 
-      case 'giveawaysWon': {
-        Session.counters.won = buttonContainer.data.counter;
-        Session.counters.wonDelivered = buttonContainer.data.isFlashing;
+        case 'giveawaysWon': {
+          Session.counters.won = buttonContainer.data.counter;
+          Session.counters.wonDelivered = buttonContainer.data.isFlashing;
 
-        break;
-      }
+          break;
+        }
 
-      case 'messages': {
-        Session.counters.messages = buttonContainer.data.counter;
+        case 'messages': {
+          Session.counters.messages = buttonContainer.data.counter;
 
-        break;
-      }
+          break;
+        }
 
-      default: {
-        break;
+        default: {
+          break;
+        }
       }
     }
 
@@ -642,7 +650,7 @@ class StHeader extends IHeader {
       this.parseButtonContainer(buttonContainerNode);
     }
 
-    if (this.buttonContainers['myProfile']) {
+    if (this.buttonContainers['myProfile'] && Session.namespace === Namespaces.ST) {
       Session.isLoggedIn = true;
       Session.xsrfToken = ISession.extractXsrfToken(this.buttonContainers['myProfile'].dropdownItems['logout'].nodes.outer.dataset.form);
     }
@@ -689,7 +697,9 @@ class StHeader extends IHeader {
       if (reputationNode) {
         buttonContainer.nodes.reputation = reputationNode;
 
-        Session.counters.reputation = IHeader.extractReputation(buttonContainer.nodes.reputation.textContent);
+        if (Session.namespace === Namespaces.ST) {
+          Session.counters.reputation = IHeader.extractReputation(buttonContainer.nodes.reputation.textContent);
+        }
       }
 
       buttonContainer.data.isDropdown = true;
@@ -704,7 +714,9 @@ class StHeader extends IHeader {
         buttonContainer.user = new User(Namespaces.ST);
         buttonContainer.user.parse(buttonContainer.nodes.outer);
 
-        Session.user = Object.assign({}, buttonContainer.user.data);
+        if (Session.namespace === Namespaces.ST) {
+          Session.user = Object.assign({}, buttonContainer.user.data);
+        }
       }
     }
 
@@ -737,15 +749,17 @@ class StHeader extends IHeader {
 
     buttonContainer.data.id = IHeader.generateId(buttonContainer.data.buttonName);
 
-    switch (buttonContainer.data.id) {
-      case 'messages': {
-        Session.counters.messages = buttonContainer.data.counter;
+    if (Session.namespace === Namespaces.ST) {
+      switch (buttonContainer.data.id) {
+        case 'messages': {
+          Session.counters.messages = buttonContainer.data.counter;
 
-        break;
-      }
+          break;
+        }
 
-      default: {
-        break;
+        default: {
+          break;
+        }
       }
     }
 
