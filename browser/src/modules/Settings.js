@@ -1788,7 +1788,7 @@ class Settings {
           }]);
         input = context.firstElementChild;
         if (item.play) {
-          input.nextElementSibling.addEventListener('click', async () => (await shared.esgst.modules.generalHeaderRefresher.hr_createPlayer(gSettings[item.id] || shared.esgst.modules.generalHeaderRefresher.hr_getDefaultSound())).play());
+          input.nextElementSibling.addEventListener('click', async () => (await shared.esgst.modules.generalHeaderRefresher.createPlayer(gSettings[item.id] || shared.esgst.modules.generalHeaderRefresher.getDefaultSound())).play());
         }
         if (typeof gSettings[item.id] === 'undefined' && gSettings.dismissedOptions.indexOf(item.id) < 0) {
           Feature.isNew = true;
@@ -1958,7 +1958,7 @@ class Settings {
         binary += String.fromCharCode(bytes[i]);
       }
       let string = window.btoa(binary);
-      (await shared.esgst.modules.generalHeaderRefresher.hr_createPlayer(string)).play();
+      (await shared.esgst.modules.generalHeaderRefresher.createPlayer(string)).play();
       // noinspection JSIgnoredPromiseFromCall
       this.preSave(`${id}_sound`, string);
       popup.close();

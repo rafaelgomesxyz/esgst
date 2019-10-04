@@ -993,8 +993,8 @@ class GeneralMultiManager extends Module {
     });
     let nextRefresh = 60 - new Date().getMinutes();
     while (nextRefresh > 15) nextRefresh -= 15;
-    if (points > this.esgst.points) {
-      obj.textAreaGiveaways.value = `You will need to wait ${this.esgst.modules.giveawaysTimeToEnterCalculator.ttec_getTime(Math.round((nextRefresh + (15 * Math.floor((points - this.esgst.points) / 6))) * 100) / 100)} to enter all selected giveaways for a total of ${points}P.${points > 400 ? `\n\nSince each 400P regeneration takes about 17h, you will need to return in 17h and use all your points so more can be regenerated.` : ''}`;
+    if (points > Session.counters.points) {
+      obj.textAreaGiveaways.value = `You will need to wait ${this.esgst.modules.giveawaysTimeToEnterCalculator.ttec_getTime(Math.round((nextRefresh + (15 * Math.floor((points - Session.counters.points) / 6))) * 100) / 100)} to enter all selected giveaways for a total of ${points}P.${points > 400 ? `\n\nSince each 400P regeneration takes about 17h, you will need to return in 17h and use all your points so more can be regenerated.` : ''}`;
     } else {
       obj.textAreaGiveaways.value = 'You have enough points to enter all giveaways right now.';
     }
