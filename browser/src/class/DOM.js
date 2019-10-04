@@ -35,24 +35,20 @@ class _DOM {
           this._build(element, item[1]);
         } else if (typeof item[1] === 'object') {
           for (const key in item[1]) {
-            if (item[1].hasOwnProperty(key)) {
+            if (item[1].hasOwnProperty(key) && Utils.isSet(item[1][key])) {
               if (key === 'ref') {
-                if (Utils.isSet(item[1].ref)) {
-                  item[1].ref(element);
-                }
+                item[1].ref(element);
               } else if (key === 'extend') {
                 item[1].extend = item[1].extend.bind(null, element);
               } else if (key.match(/^on/)) {
-                if (Utils.isSet(item[1][key])) {
-                  element.addEventListener(key.replace(/^on/, ''), item[1][key]);
-                }
+                element.addEventListener(key.replace(/^on/, ''), item[1][key]);
               } else if (key === 'dataset') {
                 for (const datasetKey in item[1][key]) {
                   element.dataset[datasetKey] = item[1][key][datasetKey];
                 }
               } else if (key === 'style' && typeof item[1][key] === 'object') {
                 for (const styleKey in item[1][key]) {
-                  element.dataset[styleKey] = item[1][key][styleKey];
+                  element.style[styleKey] = item[1][key][styleKey];
                 }
               } else {
                 element.setAttribute(key, item[1][key]);
@@ -148,7 +144,7 @@ class _DOM {
 
       return element;
     } catch (error) {
-      window.console.log(error.stack);
+      window.console.log(error.message);
     }
   }
 
