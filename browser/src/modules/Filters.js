@@ -9,6 +9,8 @@ import { gSettings } from '../class/Globals';
 import { shared } from '../class/Shared';
 import { SYNC_KEYS } from './Sync';
 import { logger } from '../class/Logger';
+import { Session } from '../class/Session';
+import { DOM } from '../class/DOM';
 
 const
   createElements = common.createElements.bind(common),
@@ -945,7 +947,7 @@ class Filters extends Module {
             spinning.classList.remove('esgst-hidden');
             await setSetting(filter.id, select.value);
             await request({
-              data: `filter_os=${gSettings.filter_os}&filter_giveaways_exist_in_account=${gSettings.filter_giveaways_exist_in_account}&filter_giveaways_missing_base_game=${gSettings.filter_giveaways_missing_base_game}&filter_giveaways_level=${gSettings.filter_giveaways_level}&filter_giveaways_additional_games=${gSettings.filter_giveaways_additional_games}&xsrf_token=${this.esgst.xsrfToken}`,
+              data: `filter_os=${gSettings.filter_os}&filter_giveaways_exist_in_account=${gSettings.filter_giveaways_exist_in_account}&filter_giveaways_missing_base_game=${gSettings.filter_giveaways_missing_base_game}&filter_giveaways_level=${gSettings.filter_giveaways_level}&filter_giveaways_additional_games=${gSettings.filter_giveaways_additional_games}&xsrf_token=${Session.xsrfToken}`,
               method: 'POST',
               url: '/account/settings/giveaways'
             });
@@ -959,7 +961,7 @@ class Filters extends Module {
             spinning.classList.remove('esgst-hidden');
             await setSetting(filter.id, checkbox.value ? 1 : 0);
             await request({
-              data: `filter_os=${gSettings.filter_os}&filter_giveaways_exist_in_account=${gSettings.filter_giveaways_exist_in_account}&filter_giveaways_missing_base_game=${gSettings.filter_giveaways_missing_base_game}&filter_giveaways_level=${gSettings.filter_giveaways_level}&filter_giveaways_additional_games=${gSettings.filter_giveaways_additional_games}&xsrf_token=${this.esgst.xsrfToken}`,
+              data: `filter_os=${gSettings.filter_os}&filter_giveaways_exist_in_account=${gSettings.filter_giveaways_exist_in_account}&filter_giveaways_missing_base_game=${gSettings.filter_giveaways_missing_base_game}&filter_giveaways_level=${gSettings.filter_giveaways_level}&filter_giveaways_additional_games=${gSettings.filter_giveaways_additional_games}&xsrf_token=${Session.xsrfToken}`,
               method: 'POST',
               url: '/account/settings/giveaways'
             });

@@ -3,6 +3,7 @@ import { Module } from '../../class/Module';
 import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
 import { DOM } from '../../class/DOM';
+import { Session } from '../../class/Session';
 
 class CommentsCommentTracker extends Module {
   constructor() {
@@ -801,7 +802,7 @@ class CommentsCommentTracker extends Module {
   }
 
   async ct_markMessagesRead(key, markRead, url, event) {
-    await shared.common.request({ data: `xsrf_token=${this.esgst.xsrfToken}&do=${key}`, method: 'POST', url });
+    await shared.common.request({ data: `xsrf_token=${Session.xsrfToken}&do=${key}`, method: 'POST', url });
     await this.ct_markCommentsRead(markRead);
     this.ct_completeInboxRead(event.currentTarget);
   }

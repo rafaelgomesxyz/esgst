@@ -6,6 +6,7 @@ import { common } from '../Common';
 import { gSettings } from '../../class/Globals';
 import { shared } from '../../class/Shared';
 import { DOM } from '../../class/DOM';
+import { Session } from '../../class/Session';
 
 const
   createConfirmation = common.createConfirmation.bind(common),
@@ -192,7 +193,7 @@ class UsersWhitelistBlacklistManager extends Module {
     }]);
     if (i < n) {
       await request({
-        data: `xsrf_token=${shared.esgst.xsrfToken}&do=${wbm.key}&action=insert&child_user_id=${list[i]}`,
+        data: `xsrf_token=${Session.xsrfToken}&do=${wbm.key}&action=insert&child_user_id=${list[i]}`,
         method: 'POST',
         url: '/ajax.php'
       });
@@ -334,7 +335,7 @@ class UsersWhitelistBlacklistManager extends Module {
     }]);
     if (i < n) {
       await request({
-        data: `xsrf_token=${shared.esgst.xsrfToken}&do=${wbm.key}&action=delete&child_user_id=${list[i]}`,
+        data: `xsrf_token=${Session.xsrfToken}&do=${wbm.key}&action=delete&child_user_id=${list[i]}`,
         method: 'POST',
         url: '/ajax.php'
       });

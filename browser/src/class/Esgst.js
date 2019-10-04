@@ -1119,11 +1119,6 @@ class Esgst {
     this.sidebar = null;
 
     /** @type {string} */
-    this.xsrfToken = undefined;
-    
-    this.logoutButton = null;
-
-    /** @type {string} */
     this.version = undefined;
 
     this.storage = undefined;

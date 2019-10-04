@@ -1,5 +1,6 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
+import { Session } from '../../class/Session';
 
 const
   createConfirmation = common.createConfirmation.bind(common),
@@ -55,7 +56,7 @@ class GiveawaysDeleteKeyConfirmation extends Module {
     row.querySelector(`[name="key_value"]`).value = '';
     row.getElementsByClassName('form__key-value')[0].textContent = '';
     await request({
-      data: `xsrf_token=${this.esgst.xsrfToken}&do=set_gift_key&key_value=&winner_id=${row.querySelector(`[name="winner_id"]`).value}`,
+      data: `xsrf_token=${Session.xsrfToken}&do=set_gift_key&key_value=&winner_id=${row.querySelector(`[name="winner_id"]`).value}`,
       method: 'POST',
       url: '/ajax.php'
     });

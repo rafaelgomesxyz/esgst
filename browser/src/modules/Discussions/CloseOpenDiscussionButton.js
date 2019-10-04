@@ -3,6 +3,7 @@ import { Module } from '../../class/Module';
 import { common } from '../Common';
 import { gSettings } from '../../class/Globals';
 import { DOM } from '../../class/DOM';
+import { Session } from '../../class/Session';
 
 const
   request = common.request.bind(common)
@@ -56,7 +57,7 @@ class DiscussionsCloseOpenDiscussionButton extends Module {
 
   async codb_close(discussion) {
     let response = await request({
-      data: `xsrf_token=${this.esgst.xsrfToken}&do=close_discussion`,
+      data: `xsrf_token=${Session.xsrfToken}&do=close_discussion`,
       method: 'POST',
       url: discussion.url
     });
@@ -70,7 +71,7 @@ class DiscussionsCloseOpenDiscussionButton extends Module {
 
   async codb_open(discussion) {
     let response = await request({
-      data: `xsrf_token=${this.esgst.xsrfToken}&do=reopen_discussion`,
+      data: `xsrf_token=${Session.xsrfToken}&do=reopen_discussion`,
       method: 'POST',
       url: discussion.url
     });

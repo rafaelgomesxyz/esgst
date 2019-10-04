@@ -6,6 +6,7 @@ import { common } from '../Common';
 import { gSettings } from '../../class/Globals';
 import { shared } from '../../class/Shared';
 import { DOM } from '../../class/DOM';
+import { Session } from '../../class/Session';
 
 const
   createElements = common.createElements.bind(common),
@@ -74,7 +75,7 @@ class GiveawaysGiveawayTemplates extends Module {
           return;
         }
         return new Promise(async resolve => {
-          let data = `xsrf_token=${this.esgst.xsrfToken}&next_step=3&`;
+          let data = `xsrf_token=${Session.xsrfToken}&next_step=3&`;
           data += `game_id=${document.querySelector(`[name="game_id"]`).value}&`;
           data += `type=${document.querySelector(`[name="type"]`).value}&`;
           data += `copies=${document.querySelector(`[name="copies"]`).value}&`;

@@ -9,6 +9,7 @@ import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
 import { logger } from '../../class/Logger';
 import { DOM } from '../../class/DOM';
+import { Session } from '../../class/Session';
 
 const
   buildGiveaway = common.buildGiveaway.bind(common),
@@ -78,7 +79,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
         delLocalValue('mgcAttach_step2');
         setLocalValue('mgcAttach_step3', window.location.pathname.match(/\/discussion\/(.+?)\//)[1]);
         await request({
-          data: `xsrf_token=${this.esgst.xsrfToken}&do=close_discussion`,
+          data: `xsrf_token=${Session.xsrfToken}&do=close_discussion`,
           method: 'POST',
           url: shared.esgst.locationHref
         });
@@ -88,7 +89,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       } else if (getLocalValue('mgcAttach_step5')) {
         delLocalValue('mgcAttach_step5');
         await request({
-          data: `xsrf_token=${this.esgst.xsrfToken}&do=reopen_discussion`,
+          data: `xsrf_token=${Session.xsrfToken}&do=reopen_discussion`,
           method: 'POST',
           url: shared.esgst.locationHref
         });
@@ -812,7 +813,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       .replace(/\[ESGST-STEAM-TYPE]/ig, values.steam ? values.steam.type.slice(0, -1) : `$0`)
       .replace(/\[ESGST-STEAM-URL]/ig, values.steam ? `http://store.steampowered.com/${values.steam.type.slice(0, -1)}/${values.steam.id}` : `$0`);
     details += `Level ${values.level}\n\n${values.description}`;
-    data = `xsrf_token=${this.esgst.xsrfToken}&next_step=3&game_id=${values.gameId}&type=${values.gameType}&copies=${values.copies}&key_string=${encodeURIComponent(values.keys)}&timezone=${mgc.timezone}&start_time=${encodeURIComponent(values.startTime)}&end_time=${encodeURIComponent(values.endTime)}&region_restricted=${values.region}&country_item_string=${encodeURIComponent(values.countries)}&who_can_enter=${values.whoCanEnter}&whitelist=${values.whitelist}&group_item_string=${encodeURIComponent(values.groups)}&contributor_level=${values.level}&description=${encodeURIComponent(values.description)}`;
+    data = `xsrf_token=${Session.xsrfToken}&next_step=3&game_id=${values.gameId}&type=${values.gameType}&copies=${values.copies}&key_string=${encodeURIComponent(values.keys)}&timezone=${mgc.timezone}&start_time=${encodeURIComponent(values.startTime)}&end_time=${encodeURIComponent(values.endTime)}&region_restricted=${values.region}&country_item_string=${encodeURIComponent(values.countries)}&who_can_enter=${values.whoCanEnter}&whitelist=${values.whitelist}&group_item_string=${encodeURIComponent(values.groups)}&contributor_level=${values.level}&description=${encodeURIComponent(values.description)}`;
     if (edit) {
       mgc.datas[mgc.editPos] = data;
       mgc.values[mgc.editPos] = values;
@@ -1832,7 +1833,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
         description = description.replace(/\[ESGST-B](.+?)\[\/ESGST-B]/g, '');
       }
       await request({
-        data: `xsrf_token=${this.esgst.xsrfToken}&do=edit_giveaway_description&giveaway_id=${id}&description=${encodeURIComponent(description.trim())}`,
+        data: `xsrf_token=${Session.xsrfToken}&do=edit_giveaway_description&giveaway_id=${id}&description=${encodeURIComponent(description.trim())}`,
         method: 'POST',
         url: '/ajax.php'
       });

@@ -4,6 +4,7 @@ import { gSettings } from '../../class/Globals';
 import { shared } from '../../class/Shared';
 import { Popup } from '../../class/Popup';
 import { FetchRequest } from '../../class/FetchRequest';
+import { Session } from '../../class/Session';
 
 class DiscussionsImprovedDiscussionBookmarks extends Module {
   constructor() {
@@ -142,10 +143,10 @@ class DiscussionsImprovedDiscussionBookmarks extends Module {
   async bookmarkDiscussion(code, context) {
     if (code) {
       await FetchRequest.post(`/discussion/${code}/`, {
-        data: `xsrf_token=${shared.esgst.xsrfToken}&do=bookmark_insert`
+        data: `xsrf_token=${Session.xsrfToken}&do=bookmark_insert`
       });
     }
-    
+
     if (context) {
       context.classList.add('esgst-idb-highlight');
     }
@@ -156,10 +157,10 @@ class DiscussionsImprovedDiscussionBookmarks extends Module {
   async unbookmarkDiscussion(code, context) {
     if (code) {
       await FetchRequest.post(`/discussion/${code}/`, {
-        data: `xsrf_token=${shared.esgst.xsrfToken}&do=bookmark_delete`
+        data: `xsrf_token=${Session.xsrfToken}&do=bookmark_delete`
       });
     }
-    
+
     if (context) {
       context.classList.remove('esgst-idb-highlight');
     }
