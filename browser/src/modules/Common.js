@@ -5795,6 +5795,8 @@ class Common extends Module {
       },
     });
 
+    Shared.header.buttonContainers['esgst'].nodes.outer.id = 'esgst';
+
     const arrow = Shared.header.buttonContainers['esgst'].nodes.arrow;
 
     arrow.addEventListener('click', this.toggleHeaderMenu.bind(this));
