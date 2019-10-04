@@ -5,6 +5,7 @@ import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { common } from '../Common';
 import { gSettings } from '../../class/Globals';
 import { DOM } from '../../class/DOM';
+import { Session } from '../../class/Session';
 
 const
   createElements = common.createElements.bind(common),
@@ -204,7 +205,7 @@ class GiveawaysSentKeySearcher extends Module {
           name: element.getAttribute('data-name')
         };
         let heading = DOM.parse(JSON.parse((await request({
-          data: `xsrf_token=${this.esgst.xsrfToken}&do=popup_keys&code=${giveaway.code}`,
+          data: `xsrf_token=${Session.xsrfToken}&do=popup_keys&code=${giveaway.code}`,
           method: 'POST',
           url: '/ajax.php'
         })).responseText).html).getElementsByClassName('popup__keys__heading')[0];

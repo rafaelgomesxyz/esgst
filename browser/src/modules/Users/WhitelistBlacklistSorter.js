@@ -3,6 +3,7 @@ import { Popup } from '../../class/Popup';
 import { Utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { shared } from '../../class/Shared';
+import { Session } from '../../class/Session';
 
 const
   createElements = common.createElements.bind(common),
@@ -235,7 +236,7 @@ class UsersWhitelistBlacklistSorter extends Module {
     obj.removeButton.classList.add('esgst-hidden');
     obj.removingButton.classList.remove('esgst-hidden');
     await request({
-      data: `xsrf_token=${shared.esgst.xsrfToken}&do=${obj.key}&action=delete&child_user_id=${obj.user.id}`,
+      data: `xsrf_token=${Session.xsrfToken}&do=${obj.key}&action=delete&child_user_id=${obj.user.id}`,
       method: 'POST',
       url: '/ajax.php'
     });

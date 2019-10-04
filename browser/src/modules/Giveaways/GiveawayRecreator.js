@@ -1,6 +1,7 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
 import { DOM } from '../../class/DOM';
+import { Session } from '../../class/Session';
 
 const
   createElements = common.createElements.bind(common),
@@ -105,7 +106,7 @@ class GiveawaysGiveawayRecreator extends Module {
     keys = [];
     if (giveaway.entries === 0 || giveaway.entries < giveaway.copies) {
       context = DOM.parse(JSON.parse((await request({
-        data: `xsrf_token=${this.esgst.xsrfToken}&do=popup_keys&code=${giveaway.code}`,
+        data: `xsrf_token=${Session.xsrfToken}&do=popup_keys&code=${giveaway.code}`,
         method: 'POST',
         url: '/ajax.php'
       })).responseText).html).getElementsByClassName('popup__keys__heading');

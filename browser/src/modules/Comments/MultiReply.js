@@ -2,6 +2,7 @@ import { Module } from '../../class/Module';
 import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
 import { DOM } from '../../class/DOM';
+import { Session } from '../../class/Session';
 
 class CommentsMultiReply extends Module {
   constructor() {
@@ -319,7 +320,7 @@ class CommentsMultiReply extends Module {
       EditSave.addEventListener('click', async () => {
         let ResponseJSON, ResponseHTML;
         ResponseJSON = JSON.parse((await shared.common.request({
-          data: `xsrf_token=${shared.esgst.xsrfToken}&do=comment_edit&comment_id=${ID}&allow_replies=${AllowReplies}&description=${encodeURIComponent(Description.value)}`,
+          data: `xsrf_token=${Session.xsrfToken}&do=comment_edit&comment_id=${ID}&allow_replies=${AllowReplies}&description=${encodeURIComponent(Description.value)}`,
           method: 'POST',
           url: '/ajax.php'
         })).responseText);
@@ -398,7 +399,7 @@ class CommentsMultiReply extends Module {
       if (shared.esgst.sg) {
         allowReplies = mr.delete.parentElement.querySelector(`[name="allow_replies"]`).value;
         id = mr.delete.parentElement.querySelector(`[name="comment_id"]`).value;
-        data = `xsrf_token=${shared.esgst.xsrfToken}&do=comment_delete&allow_replies=${allowReplies}&comment_id=${id}`;
+        data = `xsrf_token=${Session.xsrfToken}&do=comment_delete&allow_replies=${allowReplies}&comment_id=${id}`;
       } else {
         data = mr.delete.getAttribute('data-form');
       }
@@ -425,7 +426,7 @@ class CommentsMultiReply extends Module {
       if (shared.esgst.sg) {
         allowReplies = mr.undelete.parentElement.querySelector(`[name="allow_replies"]`).value;
         id = mr.undelete.parentElement.querySelector(`[name="comment_id"]`).value;
-        data = `xsrf_token=${shared.esgst.xsrfToken}&do=comment_undelete&allow_replies=${allowReplies}&comment_id=${id}`;
+        data = `xsrf_token=${Session.xsrfToken}&do=comment_undelete&allow_replies=${allowReplies}&comment_id=${id}`;
       } else {
         data = mr.undelete.getAttribute('data-form');
       }

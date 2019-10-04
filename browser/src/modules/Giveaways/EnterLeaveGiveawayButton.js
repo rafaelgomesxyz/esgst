@@ -2,10 +2,11 @@ import { ButtonSet } from '../../class/ButtonSet';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { common } from '../Common';
-import { shared } from '../../class/Shared';
+import { shared, Shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
 import { logger } from '../../class/Logger';
 import { DOM } from '../../class/DOM';
+import { Session } from '../../class/Session';
 
 const
   createElements = common.createElements.bind(common),
@@ -216,7 +217,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
     addingButton.classList.remove('esgst-hidden');
     try {
       let responseJson = JSON.parse((await request({
-        data: `xsrf_token=${this.esgst.xsrfToken}&do=entry_insert&code=${giveaway.code}`,
+        data: `xsrf_token=${Session.xsrfToken}&do=entry_insert&code=${giveaway.code}`,
         method: 'POST',
         url: '/ajax.php'
       })).responseText);
@@ -247,7 +248,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
     removingButton.classList.remove('esgst-hidden');
     try {
       let responseJson = JSON.parse((await request({
-        data: `xsrf_token=${this.esgst.xsrfToken}&do=entry_delete&code=${giveaway.code}`,
+        data: `xsrf_token=${Session.xsrfToken}&do=entry_delete&code=${giveaway.code}`,
         method: 'POST',
         url: '/ajax.php'
       })).responseText);
@@ -484,7 +485,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
         callback1: async () => {
           if (box.value) {
             await request({
-              data: `xsrf_token=${this.esgst.xsrfToken}&do=comment_new&description=${box.value}`,
+              data: `xsrf_token=${Session.xsrfToken}&do=comment_new&description=${box.value}`,
               method: 'POST',
               url: giveaway.url
             });
@@ -576,7 +577,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
 
   async elgb_enterGiveaway(giveaway, main, popup, source, callback) {
     const responseText = (await request({
-      data: `xsrf_token=${this.esgst.xsrfToken}&do=entry_insert&code=${giveaway.code}`,
+      data: `xsrf_token=${Session.xsrfToken}&do=entry_insert&code=${giveaway.code}`,
       method: 'POST',
       url: '/ajax.php'
     })).responseText;
@@ -650,7 +651,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
 
   async elgb_leaveGiveaway(giveaway, main, source, callback) {
     const responseText = (await request({
-      data: `xsrf_token=${this.esgst.xsrfToken}&do=entry_delete&code=${giveaway.code}`,
+      data: `xsrf_token=${Session.xsrfToken}&do=entry_delete&code=${giveaway.code}`,
       method: 'POST',
       url: '/ajax.php'
     })).responseText;

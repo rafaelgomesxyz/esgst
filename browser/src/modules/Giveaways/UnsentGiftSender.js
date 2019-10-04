@@ -6,6 +6,7 @@ import { common } from '../Common';
 import { gSettings } from '../../class/Globals';
 import { permissions } from '../../class/Permissions';
 import { DOM } from '../../class/DOM';
+import { Session } from '../../class/Session';
 
 const
   createElements = common.createElements.bind(common),
@@ -651,7 +652,7 @@ class GiveawaysUnsentGiftSender extends Module {
               }]);
             } else if (!ugs.isCanceled) {
               await request({
-                data: `xsrf_token=${this.esgst.xsrfToken}&do=sent_feedback&action=1&winner_id=${winner.winnerId}`,
+                data: `xsrf_token=${Session.xsrfToken}&do=sent_feedback&action=1&winner_id=${winner.winnerId}`,
                 method: 'POST',
                 url: '/ajax.php'
               });

@@ -3,6 +3,7 @@ import { common } from '../Common';
 import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
 import { DOM } from '../../class/DOM';
+import { Session } from '../../class/Session';
 
 const
   createElements = common.createElements.bind(common),
@@ -78,7 +79,7 @@ class TradesTradeBumper extends Module {
     const elements = context.querySelectorAll(`.row_inner_wrap:not(.is_faded)`);
     for (const element of elements) {
       await request({
-        data: `xsrf_token=${shared.esgst.xsrfToken}&do=trade_bump&code=${element.querySelector(`[href*="/trade/"]`).getAttribute('href').match(/\/trade\/(.+?)\//)[1]}`,
+        data: `xsrf_token=${Session.xsrfToken}&do=trade_bump&code=${element.querySelector(`[href*="/trade/"]`).getAttribute('href').match(/\/trade\/(.+?)\//)[1]}`,
         method: 'POST',
         url: `https://www.steamtrades.com/ajax.php`
       });

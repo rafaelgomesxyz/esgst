@@ -23,6 +23,7 @@ import { gSettings } from '../class/Globals';
 import { permissions } from '../class/Permissions';
 import { logger } from '../class/Logger';
 import { DOM } from '../class/DOM';
+import { Session } from '../class/Session';
 
 class Common extends Module {
   constructor() {
@@ -559,9 +560,6 @@ class Common extends Module {
     if (!this.esgst.mainPageHeading && mainPageHeadingIndex === 1) {
       this.esgst.mainPageHeading = document.getElementsByClassName(this.esgst.pageHeadingClass)[0];
     }
-    if (this.esgst.logoutButton) {
-      this.esgst.xsrfToken = this.esgst.logoutButton.getAttribute('data-form').match(/xsrf_token=(.+)/)[1];
-    }
   }
 
   async checkNewGiveawayInput(context) {
@@ -736,7 +734,7 @@ class Common extends Module {
     };
     await this.esgst.onBeforeCommentSubmit(obj);
     description = obj.comment;
-    const data = `xsrf_token=${this.esgst.xsrfToken}&do=${this.esgst.sg ? 'comment_new' : 'comment_insert'}&trade_code=${tradeCode}&parent_id=${parentId}&description=${encodeURIComponent(description)}`;
+    const data = `xsrf_token=${Session.xsrfToken}&do=${this.esgst.sg ? 'comment_new' : 'comment_insert'}&trade_code=${tradeCode}&parent_id=${parentId}&description=${encodeURIComponent(description)}`;
     let id = null;
     let response = await this.request({ data, method: 'POST', url });
     let responseHtml = null;
@@ -3848,7 +3846,7 @@ class Common extends Module {
       title2: 'Please wait...',
       callback1: async () => {
         await this.request({
-          data: `xsrf_token=${this.esgst.xsrfToken}&do=hide_giveaways_by_game_id&game_id=${id}`,
+          data: `xsrf_token=${Session.xsrfToken}&do=hide_giveaways_by_game_id&game_id=${id}`,
           method: 'POST',
           url: '/ajax.php'
         });
@@ -3889,7 +3887,7 @@ class Common extends Module {
       title2: 'Please wait...',
       callback1: async () => {
         await this.request({
-          data: `xsrf_token=${this.esgst.xsrfToken}&do=remove_filter&game_id=${id}`,
+          data: `xsrf_token=${Session.xsrfToken}&do=remove_filter&game_id=${id}`,
           method: 'POST',
           url: '/ajax.php'
         });
@@ -5455,7 +5453,7 @@ class Common extends Module {
       obj.update && obj.update(`${title} games (${index} of ${total})...`);
 
       await this.request({
-        data: `xsrf_token=${this.esgst.xsrfToken}&do=${unhide ? 'remove_filter' : 'hide_giveaways_by_game_id'}&game_id=${id}`,
+        data: `xsrf_token=${Session.xsrfToken}&do=${unhide ? 'remove_filter' : 'hide_giveaways_by_game_id'}&game_id=${id}`,
         method: 'POST',
         url: '/ajax.php'
       });

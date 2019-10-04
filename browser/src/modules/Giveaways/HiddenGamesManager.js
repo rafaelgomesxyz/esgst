@@ -7,6 +7,7 @@ import { gSettings } from '../../class/Globals';
 import { permissions } from '../../class/Permissions';
 import { shared } from '../../class/Shared';
 import { DOM } from '../../class/DOM';
+import { Session } from '../../class/Session';
 
 const
   createElements = common.createElements.bind(common),
@@ -281,7 +282,7 @@ class GiveawaysHiddenGamesManager extends Module {
           button.dispatchEvent(new Event('click'));
         } else {
           await request({
-            data: `xsrf_token=${this.esgst.xsrfToken}&do=remove_filter&game_id=${button.parentElement.querySelector(`[name="game_id"]`).value}`,
+            data: `xsrf_token=${Session.xsrfToken}&do=remove_filter&game_id=${button.parentElement.querySelector(`[name="game_id"]`).value}`,
             method: 'POST',
             url: '/ajax.php'
           });

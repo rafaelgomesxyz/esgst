@@ -3,6 +3,8 @@ import { Popout } from '../../class/Popout';
 import { common } from '../Common';
 import { gSettings } from '../../class/Globals';
 import { DOM } from '../../class/DOM';
+import { Session } from '../../class/Session';
+import { Shared } from '../../class/Shared';
 
 const
   createElements = common.createElements.bind(common),
@@ -260,7 +262,7 @@ class GeneralQuickInboxView extends Module {
       url = '/ajax.php';
     }
     this.esgst.qiv.markReadButton.addEventListener('click', async () => {
-      await request({ data: `xsrf_token=${this.esgst.xsrfToken}&do=${key}`, method: 'POST', url });
+      await request({ data: `xsrf_token=${Session.xsrfToken}&do=${key}`, method: 'POST', url });
       this.esgst.qiv.markReadButton.remove();
       this.esgst.qiv.markReadButton = null;
       let elements = this.esgst.qiv.comments.querySelectorAll('.comment__envelope');

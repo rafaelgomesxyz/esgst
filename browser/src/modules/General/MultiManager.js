@@ -12,6 +12,7 @@ import { common } from '../Common';
 import { gSettings } from '../../class/Globals';
 import { permissions } from '../../class/Permissions';
 import { DOM } from '../../class/DOM';
+import { Session } from '../../class/Session';
 
 const
   createElements = common.createElements.bind(common),
@@ -873,7 +874,7 @@ class GeneralMultiManager extends Module {
       if (match) {
         const idContext = description.previousElementSibling;
         let responseJson = JSON.parse((await request({
-          data: `xsrf_token=${this.esgst.xsrfToken}&do=edit_giveaway_description&giveaway_id=${idContext.value}&description=${encodeURIComponent(description.value.replace(searchValue, replaceValue))}`,
+          data: `xsrf_token=${Session.xsrfToken}&do=edit_giveaway_description&giveaway_id=${idContext.value}&description=${encodeURIComponent(description.value.replace(searchValue, replaceValue))}`,
           method: 'POST',
           url: '/ajax.php'
         })).responseText);

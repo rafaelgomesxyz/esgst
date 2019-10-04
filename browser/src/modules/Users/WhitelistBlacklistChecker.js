@@ -8,6 +8,7 @@ import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
 import { logger } from '../../class/Logger';
 import { DOM } from '../../class/DOM';
+import { Session } from '../../class/Session';
 
 const
   createElements = common.createElements.bind(common),
@@ -713,7 +714,7 @@ class UsersWhitelistBlacklistChecker extends Module {
       } else {
         let success = false;
         if (JSON.parse((await request({
-          data: `xsrf_token=${shared.esgst.xsrfToken}&do=${Type}&child_user_id=${id}&action=insert`,
+          data: `xsrf_token=${Session.xsrfToken}&do=${Type}&child_user_id=${id}&action=insert`,
           method: 'POST',
           queue: true,
           url: '/ajax.php'
