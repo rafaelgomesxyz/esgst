@@ -1846,32 +1846,20 @@ class Common extends Module {
     return `${id}_${namespace}_${path}`.replace(/\s/g, '');
   }
 
-  toggleHeaderMenu(arrow, dropdown) {
-    if (this.esgst.sg) {
-      let buttons = document.querySelectorAll('nav .nav__button');
-      // @ts-ignore
-      for (let button of buttons) {
-        button.classList.remove('is-selected');
-      }
-      let dropdowns = document.querySelectorAll('nav .nav__relative-dropdown');
-      // @ts-ignore
-      for (let dropdown of dropdowns) {
-        dropdown.classList.add('is-hidden');
-      }
-    } else {
-      let buttons = document.querySelectorAll(`.nav_btn_dropdown, .page_heading_btn_dropdown`);
-      // @ts-ignore
-      for (let button of buttons) {
-        button.classList.remove('is_selected');
-      }
-      let dropdowns = document.querySelectorAll('.dropdown');
-      // @ts-ignore
-      for (let dropdown of dropdowns) {
-        dropdown.classList.add('is_hidden');
+  toggleHeaderMenu() {
+    for (const id in Shared.header.buttonContainers) {
+      const buttonContainer = Shared.header.buttonContainers[id];
+
+      if (buttonContainer.data.id === 'esgst') {
+        buttonContainer.nodes.relativeDropdown.classList.toggle('is-hidden');
+        buttonContainer.nodes.relativeDropdown.classList.toggle('is_hidden');
+        buttonContainer.nodes.arrow.classList.toggle('is-selected');
+        buttonContainer.nodes.arrow.classList.toggle('is_selected');
+      } else {
+        buttonContainer.nodes.relativeDropdown.classList.add('is-hidden', 'is_hidden');
+        buttonContainer.nodes.arrow.classList.remove('is-selected', 'is_selected');
       }
     }
-    arrow.classList.toggle('selected');
-    dropdown.classList.toggle('esgst-hidden');
   }
 
   addHeaderButton(icon, state, title) {
@@ -5695,130 +5683,121 @@ class Common extends Module {
     });
   }
 
+  openDonationsPopup() {
+    const popup = new Popup({
+      icon: 'fa-dollar',
+      title: 'Donations',
+      isTemp: true,
+    });
+
+    popup.getScrollable([
+      ['br'],
+      ['div', [
+        ['a', { class: 'table__column__secondary-link', href: `https://www.patreon.com/rafaelgssa`, target: '_blank' }, [
+          ['strong', 'Patreon']
+        ]]
+      ]],
+      ['div', [
+        ['a', { class: 'table__column__secondary-link', href: `https://steamcommunity.com/tradeoffer/new/?partner=214244550&token=LW6Selqp`, target: '_blank' }, [
+          ['strong', 'Steam Trade']
+        ]]
+      ]],
+      ['div', [
+        ['strong', `Paypal: `],
+        'rafael.gssa@gmail.com ',
+        this.getCopyIcon('rafael.gssa@gmail.com')
+      ]],
+      ['div', [
+        ['strong', `Bitcoin: `],
+        '32WY96ch5MSZ3FNubL5f7QZ9K3WWNHNpV9 ',
+        this.getCopyIcon('32WY96ch5MSZ3FNubL5f7QZ9K3WWNHNpV9')
+      ]],
+      ['div', [
+        ['strong', `Monero: `],
+        '42Tw49nUAig3kk1tJh1y1ZP8vrkmY4EH3QW3SRijHxGggtBpDUn2TqJAVBJYBCybGXNninC4gGD9nhe3cttBaZ6u5NuhiLM ',
+        this.getCopyIcon('42Tw49nUAig3kk1tJh1y1ZP8vrkmY4EH3QW3SRijHxGggtBpDUn2TqJAVBJYBCybGXNninC4gGD9nhe3cttBaZ6u5NuhiLM')
+      ]],
+      ['div', [
+        ['strong', `Humble Bundle Partner ID: `],
+        'gsrafael01 ',
+        this.getCopyIcon('gsrafael01')
+      ]],
+    ]);
+
+    popup.open();
+  }
+
   async addHeaderMenu() {
     if (!Shared.header) {
       return;
     }
 
-    let arrow, button, className, context, dropdown, menu, position;
-    if (this.esgst.sg) {
-      className = 'nav__left-container';
-      position = 'beforeEnd';
-    } else {
-      className = 'nav_logo';
-      position = 'afterEnd';
-    }
-    context = document.getElementsByClassName(className)[0];
     const manifest = await browser.runtime.getManifest();
-    menu = DOM.build(context, position, [
-      ['div', { class: 'esgst-header-menu', id: 'esgst', title: this.getFeatureTooltip() }, [
-        ['div', { class: 'esgst-header-menu-relative-dropdown esgst-hidden' }, [
-          ['div', { class: 'esgst-header-menu-absolute-dropdown' }, [
-            ['a', { class: 'esgst-header-menu-row', href: `https://github.com/rafaelgssa/esgst`, target: '_blank' }, [
-              ['i', { class: 'fa fa-fw fa-github grey' }],
-              ['div', [
-                ['p', { class: 'esgst-header-menu-name' }, 'GitHub'],
-                ['p', { class: 'esgst-header-menu-description' }, 'Visit the GitHub page.']
-              ]]
-            ]],
-            ['a', { class: 'esgst-header-menu-row', href: `https://github.com/rafaelgssa/esgst/issues`, target: '_blank' }, [
-              ['i', { class: 'fa fa-fw fa-bug red' }],
-              ['div', [
-                ['p', { class: 'esgst-header-menu-name' }, 'Bugs / Suggestions'],
-                ['p', { class: 'esgst-header-menu-description' }, 'Report bugs and / or make suggestions.']
-              ]]
-            ]],
-            ['a', { class: 'esgst-header-menu-row', href: `https://github.com/rafaelgssa/esgst/milestones`, target: '_blank' }, [
-              ['i', { class: 'fa fa-fw fa-map-signs blue' }],
-              ['div', [
-                ['p', { class: 'esgst-header-menu-name' }, 'Milestones'],
-                ['p', { class: 'esgst-header-menu-description' }, 'Check out what\'s coming in the next versions.']
-              ]]
-            ]],
-            ['a', { class: 'esgst-header-menu-row', href: `https://www.steamgifts.com/discussion/TDyzv/`, target: '_blank' }, [
-              ['i', { class: 'fa fa-fw fa-commenting green' }],
-              ['div', [
-                ['p', { class: 'esgst-header-menu-name' }, 'Discussion'],
-                ['p', { class: 'esgst-header-menu-description' }, 'Visit the discussion page.']
-              ]]
-            ]],
-            ['a', { class: 'esgst-header-menu-row', href: `http://steamcommunity.com/groups/esgst`, target: '_blank' }, [
-              ['i', { class: 'fa fa-fw fa-steam green' }],
-              ['div', [
-                ['p', { class: 'esgst-header-menu-name' }, 'Steam Group'],
-                ['p', { class: 'esgst-header-menu-description' }, 'Visit / join the Steam group.']
-              ]]
-            ]],
-            ['a', { class: 'esgst-header-menu-row', href: 'https://github.com/rafaelgssa/esgst/releases', target: '_blank' }, [
-              ['i', { class: 'fa fa-fw fa-file-text-o yellow' }],
-              ['div', [
-                ['p', { class: 'esgst-header-menu-name' }, 'Changelog'],
-                ['p', { class: 'esgst-header-menu-description' }, 'Check out the changelog.']
-              ]]
-            ]],
-            ['div', { class: 'esgst-header-menu-row esgst-version-row' }, [
-              ['i', { class: 'fa fa-fw fa-dollar green' }],
-              ['div', [
-                ['p', { class: 'esgst-header-menu-name' }, 'Donations'],
-                ['p', { class: 'esgst-header-menu-description' }, [
-                  ['br'],
-                  ['div', [
-                    ['a', { class: 'table__column__secondary-link', href: `https://www.patreon.com/rafaelgssa`, target: '_blank' }, [
-                      ['strong', 'Patreon']
-                    ]]
-                  ]],
-                  ['div', [
-                    ['a', { class: 'table__column__secondary-link', href: `https://steamcommunity.com/tradeoffer/new/?partner=214244550&token=LW6Selqp`, target: '_blank' }, [
-                      ['strong', 'Steam Trade']
-                    ]]
-                  ]],
-                  ['div', [
-                    ['strong', `Paypal: `],
-                    'rafael.gssa@gmail.com ',
-                    this.getCopyIcon('rafael.gssa@gmail.com')
-                  ]],
-                  ['div', [
-                    ['strong', `Bitcoin: `],
-                    '32WY96ch5MSZ3FNubL5f7QZ9K3WWNHNpV9 ',
-                    this.getCopyIcon('32WY96ch5MSZ3FNubL5f7QZ9K3WWNHNpV9')
-                  ]],
-                  ['div', [
-                    ['strong', `Monero: `],
-                    '42Tw49nUAig3kk1tJh1y1ZP8vrkmY4EH3QW3SRijHxGggtBpDUn2TqJAVBJYBCybGXNninC4gGD9nhe3cttBaZ6u5NuhiLM ',
-                    this.getCopyIcon('42Tw49nUAig3kk1tJh1y1ZP8vrkmY4EH3QW3SRijHxGggtBpDUn2TqJAVBJYBCybGXNninC4gGD9nhe3cttBaZ6u5NuhiLM')
-                  ]],
-                ]]
-              ]]
-            ]],
-            ['div', { class: 'esgst-header-menu-row esgst-version-row' }, [
-              ['div', [
-                ['p', { class: 'esgst-header-menu-description' }, `Current Version: ${manifest.version_name || manifest.version}`]
-              ]]
-            ]]
-          ]]
-        ]],
-        ['a', { class: 'esgst-header-menu-button', href: this.esgst.settingsUrl}, [
-          ['i', { class: 'fa' }, [
-            ['img', { src: this.esgst.icon }]
-          ]],
-          ' ESGST'
-        ]],
-        ['div', { class: 'esgst-header-menu-button arrow' }, [
-          ['i', { class: 'fa fa-angle-down' }]
-        ]]
-      ]]
-    ]);
-    dropdown = /** @type {HTMLElement} */ menu.firstElementChild;
-    button = dropdown.nextElementSibling;
-    arrow = button.nextElementSibling;
-    button.addEventListener('click', event => {
-      if (!gSettings.openSettingsInTab) {
-        event.preventDefault();
-        settingsModule.loadMenu(true);
-      }
+
+    Shared.header.addButtonContainer({
+      buttonImage: Shared.esgst.icon,
+      buttonName: ' ESGST',
+      isDropdown: true,
+      side: 'left',
+      dropdownItems: [
+        {
+          description: 'Visit the GitHub page.',
+          icon: 'fa fa-fw fa-github icon-grey grey',
+          name: 'GitHub',
+          url: 'https://github.com/rafaelgssa/esgst',
+        },
+        {
+          description: 'Report bugs and / or make suggestions.',
+          icon: 'fa fa-fw fa-bug icon-red red',
+          name: 'Bugs / Suggestions',
+          url: 'https://github.com/rafaelgssa/esgst/issues',
+        },
+        {
+          description: 'Check out what\'s coming in the next versions.',
+          icon: 'fa fa-fw fa-map-signs icon-blue blue',
+          name: 'Milestones',
+          url: 'https://github.com/rafaelgssa/esgst/milestones',
+        },
+        {
+          description: 'Visit the discussion page.',
+          icon: 'fa fa-fw fa-commenting icon-green green',
+          name: 'Discussion',
+          url: 'https://www.steamgifts.com/discussion/TDyzv/',
+        },
+        {
+          description: 'Visit / join the Steam group.',
+          icon: 'fa fa-fw fa-steam icon-green green',
+          name: 'Steam Group',
+          url: 'http://steamcommunity.com/groups/esgst',
+        },
+        {
+          description: 'Check out the changelog.',
+          icon: 'fa fa-fw fa-file-text-o icon-yellow yellow',
+          name: 'Changelog',
+          url: 'https://github.com/rafaelgssa/esgst/releases',
+        },
+        {
+          description: 'Help make ESGST better!',
+          icon: 'fa fa-fw fa-dollar icon-green green',
+          name: 'Donations',
+          onClick: this.openDonationsPopup.bind(this),
+        },
+        {
+          icon: 'fa fa-fw fa-info-circle icon-grey grey',
+          name: `Current Version: ${manifest.version_name || manifest.version}`,
+        },
+      ],
+      onClick: event => {
+        if (!gSettings.openSettingsInTab) {
+          event.preventDefault();
+          settingsModule.loadMenu(true);
+        }
+      },
     });
-    arrow.addEventListener('click', this.toggleHeaderMenu.bind(this, arrow, dropdown));
-    document.addEventListener('click', this.closeHeaderMenu.bind(this, arrow, dropdown, menu), true);
+
+    const arrow = Shared.header.buttonContainers['esgst'].nodes.arrow;
+
+    arrow.addEventListener('click', this.toggleHeaderMenu.bind(this));
   }
 
   getSelectors(endless, selectors) {

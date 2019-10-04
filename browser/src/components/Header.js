@@ -123,7 +123,15 @@ class SgHeader extends IHeader {
           ['div', { class: 'nav__relative-dropdown is-hidden' }, [
             ['div', { class: 'nav__absolute-dropdown' }],
           ]],
-          ['a', { class: 'nav__button nav__button--is-dropdown', href: params.url }, params.buttonName],
+          ['a', { class: 'nav__button nav__button--is-dropdown', href: params.url || null, onclick: params.onClick }, [
+            ...(params.buttonIcon ? [
+              ['i', { class: params.buttonIcon }],
+            ] : []),
+            ...(params.buttonImage ? [
+              ['img', { src: params.buttonImage }],
+            ] : []),
+            params.buttonName,
+          ]],
           ['div', { class: 'nav__button nav__button--is-dropdown-arrow' }, [
             ['i', { class: 'fa fa-angle-down' }],
           ]],
@@ -133,7 +141,12 @@ class SgHeader extends IHeader {
       buttonContainerNode = DOM.build(context, position, [
         ['div', { class: `nav__button-container nav__button-container--notification ${params.isActive ? 'nav__button-container--active' : 'nav__button-container--inactive'}` }, [
           ['a', { class: 'nav__button', href: params.url, title: params.buttonName }, [
-            ['i', { class: params.buttonIcon }],
+            ...(params.buttonIcon ? [
+              ['i', { class: params.buttonIcon }],
+            ] : []),
+            ...(params.buttonImage ? [
+              ['img', { src: params.buttonImage }],
+            ] : []),
             ...(params.isActive ? [
               ['div', { class: `nav__notification ${params.isFlashing ? 'fade_infinite' : ''}` }, params.counter],
             ] : []),
@@ -174,7 +187,7 @@ class SgHeader extends IHeader {
     }
 
     const dropdownItemNode = DOM.build(buttonContainer.nodes.absoluteDropdown, 'beforeEnd', [
-      [params.url ? 'a' : 'div', { class: `nav__row ${params.url ? '' : 'is-clickable'}`, href: params.url || null }, [
+      [params.url ? 'a' : 'div', { class: `nav__row ${params.url ? '' : 'is-clickable'}`, href: params.url || null, onclick: params.onClick }, [
         ['i', { class: params.icon }],
         ['div', { class: 'nav__row__summary' }, [
           ['p', { class: 'nav__row__summary__name' }, params.name],
@@ -301,6 +314,14 @@ class SgHeader extends IHeader {
         buttonContainer.nodes.buttonIcon = buttonIconNode;
 
         buttonContainer.data.buttonIcon = buttonContainer.nodes.buttonIcon.className;
+      }
+
+      const buttonImageNode = buttonContainer.nodes.button.querySelector('img');
+
+      if (buttonImageNode) {
+        buttonContainer.nodes.buttonImage = buttonImageNode;
+
+        buttonContainer.data.buttonImage = buttonContainer.nodes.buttonImage.className;
       }
 
       buttonContainer.data.url = buttonContainer.nodes.button.getAttribute('href');
@@ -549,8 +570,13 @@ class StHeader extends IHeader {
           ['div', { class: 'dropdown is_hidden' }, [
             ['div'],
           ]],
-          ['a', { class: 'nav_btn nav_btn_left', href: params.url }, [
-            ['i', { class: params.buttonIcon }],
+          ['a', { class: 'nav_btn nav_btn_left', href: params.url || null, onclick: params.onClick }, [
+            ...(params.buttonIcon ? [
+              ['i', { class: params.buttonIcon }],
+            ] : []),
+            ...(params.buttonImage ? [
+              ['img', { src: params.buttonImage }],
+            ] : []),
             ['span', [
               params.buttonName,
               ...(params.isNotification ? [
@@ -567,7 +593,12 @@ class StHeader extends IHeader {
       buttonContainerNode = DOM.build(context, position, [
         ['div', { class: 'nav_btn_container' }, [
           ['a', { class: 'nav_btn', href: params.url }, [
-            ['i', { class: params.buttonIcon }],
+            ...(params.buttonIcon ? [
+              ['i', { class: params.buttonIcon }],
+            ] : []),
+            ...(params.buttonImage ? [
+              ['img', { src: params.buttonImage }],
+            ] : []),
             ['span', { class: 'message_count' }, params.counter],
           ]],
         ]],
@@ -576,7 +607,12 @@ class StHeader extends IHeader {
       buttonContainerNode = DOM.build(context, position, [
         ['div', { class: 'nav_btn_container' }, [
           ['a', { class: 'nav_btn', href: params.url }, [
-            ['i', { class: params.buttonIcon }],
+            ...(params.buttonIcon ? [
+              ['i', { class: params.buttonIcon }],
+            ] : []),
+            ...(params.buttonImage ? [
+              ['img', { src: params.buttonImage }],
+            ] : []),
             ['span', [
               params.buttonName,
               ...(params.isNotification ? [
@@ -614,7 +650,7 @@ class StHeader extends IHeader {
     }
 
     const dropdownItemNode = DOM.build(buttonContainer.nodes.absoluteDropdown, 'beforeEnd', [
-      ['a', { class: 'dropdown_btn', href: params.url }, [
+      [params.url ? 'a' : 'div', { class: 'dropdown_btn', href: params.url || null, onclick: params.onClick }, [
         ['i', { class: params.icon }],
         ['span', params.name],
       ]],
@@ -729,6 +765,14 @@ class StHeader extends IHeader {
         buttonContainer.nodes.buttonIcon = buttonIconNode;
 
         buttonContainer.data.buttonIcon = buttonContainer.nodes.buttonIcon.className;
+      }
+
+      const buttonImageNode = buttonContainer.nodes.button.querySelector('img');
+
+      if (buttonImageNode) {
+        buttonContainer.nodes.buttonImage = buttonImageNode;
+
+        buttonContainer.data.buttonImage = buttonContainer.nodes.buttonImage.className;
       }
 
       const counterNode = buttonContainer.nodes.buttonName.querySelector('.message_count');

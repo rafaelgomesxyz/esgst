@@ -597,7 +597,9 @@ window.interact = interact;
       }
     }
 
+    try {
     await common.addHeaderMenu();
+    } catch (e){console.log(e.message)}
 
     common.checkNewVersion(esgst.isFirstRun, esgst.isUpdate);
     esgst.isFirstRun = false;
