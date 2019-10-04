@@ -9,7 +9,7 @@ import { Module } from '../class/Module';
 import { Popout } from '../class/Popout';
 import { Popup } from '../class/Popup';
 import { Scope } from '../class/Scope';
-import { shared } from '../class/Shared';
+import { shared, Shared } from '../class/Shared';
 import { ToggleSwitch } from '../class/ToggleSwitch';
 import { Utils } from '../lib/jsUtils';
 import { settingsModule } from './Settings';
@@ -525,8 +525,6 @@ class Common extends Module {
     }
     url += `page=`;
     this.esgst.searchUrl = url;
-    await this.esgst.modules.generalHeaderRefresher.hr_refreshHeaderElements(document);
-    this.esgst.header = /** @type {HTMLElement} */ document.getElementsByTagName('header')[0];
     this.esgst.headerNavigationLeft = /** @type {HTMLElement} */ document.getElementsByClassName('nav__left-container')[0];
     this.esgst.pagination = /** @type {HTMLElement} */ document.getElementsByClassName('pagination')[0];
     this.esgst.featuredContainer = /** @type {HTMLElement} */ document.getElementsByClassName('featured__container')[0];
@@ -5698,9 +5696,10 @@ class Common extends Module {
   }
 
   async addHeaderMenu() {
-    if (!this.esgst.header) {
+    if (!Shared.header) {
       return;
     }
+
     let arrow, button, className, context, dropdown, menu, position;
     if (this.esgst.sg) {
       className = 'nav__left-container';

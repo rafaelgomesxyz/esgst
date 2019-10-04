@@ -259,7 +259,7 @@ function addStyle() {
   .esgst-log-error {
     background-color: #d9534f;
     color: #ffffff;
-    text-shadow: none;    
+    text-shadow: none;
   }
 
   .esgst-logs-warning i {
@@ -286,7 +286,7 @@ function addStyle() {
     opacity: 0;
     z-index: 9999991102;
   }
-  
+
   .popover[class*="tour-"] {
     color: #000;
     z-index: 9999991110;
@@ -315,7 +315,7 @@ function addStyle() {
   .esgst-restore-entry >* {
     margin: 0 5px 0;
   }
-  
+
   footer .esgst-plt {
     margin-left: 15px;
   }
@@ -360,13 +360,13 @@ function addStyle() {
     padding: 0;
     text-shadow: none;
   }
-  
+
   .esgst-element-ordering-box {
     border: 2px solid #ccc;
     border-radius: 5px;
     padding: 5px;
   }
-  
+
   .esgst-element-ordering-box >* {
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -375,18 +375,18 @@ function addStyle() {
     margin: 5px;
     padding: 5px;
   }
-  
+
   .esgst-page-heading-buttons {
     background: none;
     border: none;
     margin: 0 !important;
     padding: 0;
   }
-  
+
     .esgst-page-heading-buttons >* {
     margin-right: 5px;
   }
-  
+
   .esgst-inline-list >*:not(:last-child) {
     margin-right: 15px;
   }
@@ -414,7 +414,7 @@ function addStyle() {
 
   .esgst-tag-suggestion:not(:last-child) {
     border-bottom: 1px solid #ccc;
-  }  
+  }
 
   .esgst-tag-suggestion.esgst-selected {
     background-color: #465670;
@@ -2741,7 +2741,7 @@ function addStyle() {
       border-top: 1px dotted #d2d6e0;
     }
 
-    .esgst-header-menu-row:not(.esgst-version-row):hover, .esgst.header-menu-button:hover + .esgst-header-menu-button {
+    .esgst-header-menu-row:not(.esgst-version-row):hover, .esgst-header-menu-button:hover + .esgst-header-menu-button {
       border-top-color: transparent;
     }
 
