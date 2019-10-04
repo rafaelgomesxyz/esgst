@@ -170,6 +170,8 @@ class SgHeader extends IHeader {
 
       this.addDropdownItem(dropdownItemParams);
     }
+
+    return buttonContainer;
   }
 
   /**
@@ -196,7 +198,7 @@ class SgHeader extends IHeader {
       ]],
     ]);
 
-    this.parseDropdownItem(buttonContainer.dropdownItems, dropdownItemNode);
+    return this.parseDropdownItem(buttonContainer.dropdownItems, dropdownItemNode);
   }
 
   /**
@@ -633,6 +635,8 @@ class StHeader extends IHeader {
 
       this.addDropdownItem(dropdownItemParams);
     }
+
+    return buttonContainer;
   }
 
   /**
@@ -656,7 +660,7 @@ class StHeader extends IHeader {
       ]],
     ]);
 
-    this.parseDropdownItem(buttonContainer.dropdownItems, dropdownItemNode);
+    return this.parseDropdownItem(buttonContainer.dropdownItems, dropdownItemNode);
   }
 
   /**
