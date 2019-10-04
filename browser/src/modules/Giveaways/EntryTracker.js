@@ -38,36 +38,19 @@ class GiveawaysEntryTracker extends Module {
       this.esgst.endlessFeatures.push(this.et_getEntries.bind(this));
     }
     if (!this.esgst.sg) return;
-    createElements(this.esgst.sg ? this.esgst.accountDropdown.firstElementChild.lastElementChild : Shared.header.buttonContainers['myProfile'].nodes.relativeDropdown.firstElementChild.lastElementChild, 'beforeBegin', [{
-      attributes: {
-        class: 'esgst-header-menu-row',
-        ['data-link-id']: 'et',
-        ['data-link-key']: 'account',
-        title: getFeatureTooltip('et')
-      },
-      type: 'div',
-      children: [{
-        attributes: {
-          class: 'fa fa-fw fa-ticket red'
-        },
-        type: 'i'
-      }, {
-        type: 'div',
-        children: [{
-          attributes: {
-            class: 'esgst-header-menu-name'
-          },
-          text: 'My Entry History',
-          type: 'p'
-        }, {
-          attributes: {
-            class: 'esgst-header-menu-description'
-          },
-          text: 'View your entry history.',
-          type: 'p'
-        }]
-      }]
-    }]).addEventListener('click', this.et_menu.bind(this));
+
+    const dropdownItem = Shared.header.addDropdownItem({
+      buttonContainerId: 'account',
+      description: 'View your entry history.',
+      icon: 'fa fa-fw fa-ticket icon-red red',
+      name: 'My Entry History',
+      onClick: this.et_menu.bind(this),
+    });
+
+    dropdownItem.nodes.outer.dataset.linkId = 'et';
+    dropdownItem.nodes.outer.dataset.linkKey = 'account';
+    dropdownItem.nodes.outer.title = getFeatureTooltip('et');
+
     if (this.esgst.giveawayPath && !document.getElementsByClassName('table--summary')[0] && this.esgst.enterGiveawayButton) {
       let code, name;
       code = window.location.pathname.match(/^\/giveaway\/(.+?)\//)[1];

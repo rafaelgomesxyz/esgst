@@ -1,6 +1,6 @@
 import { Module } from '../../class/Module';
 import { Process } from '../../class/Process';
-import { shared } from '../../class/Shared';
+import { shared, Shared } from '../../class/Shared';
 
 class CommentsCommentHistory extends Module {
   constructor() {
@@ -30,37 +30,20 @@ class CommentsCommentHistory extends Module {
     if (shared.esgst.replyBox) {
       shared.common.addReplyButton(shared.esgst.replyBox);
     }
+
+    const dropdownItem = Shared.header.addDropdownItem({
+      buttonContainerId: 'account',
+      description: 'View your comment history.',
+      icon: 'fa fa-fw fa-comments icon-yellow yellow',
+      name: 'My Comment History',
+    });
+
+    dropdownItem.nodes.outer.dataset.linkId = 'ch';
+    dropdownItem.nodes.outer.dataset.linkKey = 'account';
+    dropdownItem.nodes.outer.title = shared.common.getFeatureTooltip('ch');
+
     new Process({
-      button: shared.common.createElements(shared.esgst.accountDropdown.firstElementChild.lastElementChild, 'beforeBegin', [{
-        attributes: {
-          class: 'esgst-header-menu-row',
-          ['data-link-id']: 'ch',
-          ['data-link-key']: 'account',
-          title: shared.common.getFeatureTooltip('ch')
-        },
-        type: 'div',
-        children: [{
-          attributes: {
-            class: 'fa fa-fw fa-comments yellow'
-          },
-          type: 'i'
-        }, {
-          type: 'div',
-          children: [{
-            attributes: {
-              class: 'esgst-header-menu-name'
-            },
-            text: 'My Comment History',
-            type: 'p'
-          }, {
-            attributes: {
-              class: 'esgst-header-menu-description'
-            },
-            text: 'View your comment history.',
-            type: 'p'
-          }]
-        }]
-      }]),
+      button: dropdownItem.nodes.outer,
       popup: {
         icon: 'fa-comments',
         title: 'Comment History',
