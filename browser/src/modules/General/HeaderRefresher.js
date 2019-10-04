@@ -510,14 +510,14 @@ class GeneralHeaderRefresher extends Module {
         if (!this.audioContext) {
           this.audioContext = new AudioContext();
 
-          this.deliveredPlayer = await this.createPlayer(gSettings.hr_g_n_s_sound || this.getDefaultSound());
+          this.wonPlayer = await this.createPlayer(gSettings.hr_g_n_s_sound || this.getDefaultSound());
           this.messagesPlayer = await this.createPlayer(gSettings.hr_m_n_s_sound || this.getDefaultSound());
           this.pointsPlayer = await this.createPlayer(gSettings.hr_fp_s_sound || this.getDefaultSound());
           this.wishlistPlayer = await this.createPlayer(gSettings.hr_w_n_s_sound || this.getDefaultSound());
         }
 
-        if (details.won && this.deliveredPlayer) {
-          this.deliveredPlayer.play();
+        if (details.won && this.wonPlayer) {
+          this.wonPlayer.play();
         }
 
         if (details.inbox && this.messagesPlayer) {

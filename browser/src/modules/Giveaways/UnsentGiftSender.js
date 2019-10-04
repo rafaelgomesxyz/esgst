@@ -225,8 +225,7 @@ class GiveawaysUnsentGiftSender extends Module {
     ugs.progress.innerHTML = '';
     ugs.overallProgress.textContent = '';
 
-    let unsent = this.esgst.createdButton.getElementsByClassName('nav__notification')[0];
-    if (!unsent) {
+    if (!Session.counters.created) {
       // there are no unsent giveaways
       ugs.button.classList.remove('esgst-busy');
       createElements(ugs.progress, 'inner', [{
@@ -237,7 +236,7 @@ class GiveawaysUnsentGiftSender extends Module {
     }
 
     // retrieve unsent giveaways
-    ugs.count = parseInt(unsent.textContent);
+    ugs.count = Session.counters.created;
     let giveaways = [];
     let nextPage = 1;
     let pagination = null;

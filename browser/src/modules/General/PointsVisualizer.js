@@ -3,6 +3,7 @@ import { gSettings } from '../../class/Globals';
 import { EventDispatcher } from '../../class/EventDispatcher';
 import { Events } from '../../class/Events';
 import { Session } from '../../class/Session';
+import { Shared } from '../../class/Shared';
 
 class GeneralPointsVisualizer extends Module {
   constructor() {
@@ -36,8 +37,8 @@ class GeneralPointsVisualizer extends Module {
   pv_setStyle(oldPoints, newPoints) {
     const points = Math.min(400, newPoints);
     const percentage = points / 400 * 100;
-    const mainButtonWidth = this.esgst.mainButton.offsetWidth;
-    const fullButtonWidth = this.esgst.mainButton.parentElement.offsetWidth;
+    const mainButtonWidth = Shared.header.buttonContainers['account'].nodes.button.offsetWidth;
+    const fullButtonWidth = Shared.header.buttonContainers['account'].nodes.outer.offsetWidth;
     const progress = Math.trunc(percentage * (fullButtonWidth / 100)); // 186px is the width of the button
     const firstBar = `${progress}px`;
     const secondBar = `${Math.max(0, progress - mainButtonWidth)}px`; // 157px is the width of the button without the arrow

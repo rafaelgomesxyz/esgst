@@ -70,8 +70,8 @@ class GeneralLevelProgressVisualizer extends Module {
       return;
     }
 
-    const mainButtonWidth = this.esgst.mainButton.offsetWidth;
-    const fullButtonWidth = this.esgst.mainButton.parentElement.offsetWidth;
+    const mainButtonWidth = Shared.header.buttonContainers['account'].nodes.button.offsetWidth;
+    const fullButtonWidth = Shared.header.buttonContainers['account'].nodes.outer.offsetWidth;
     const currentPercentage = Math.trunc(round(newLevel.full - newLevel.base) * 100);
     const currentProgress = Math.trunc(currentPercentage * (fullButtonWidth / 100));
     const firstBar = `${currentProgress}px`;
@@ -237,7 +237,7 @@ class GeneralLevelProgressVisualizer extends Module {
       }]);
     }
     this.esgst.lpvStyle.textContent = styleString;
-    this.esgst.mainButton.parentElement.classList.add('esgst-lpv-container');
+    Shared.header.buttonContainers['account'].nodes.outer.classList.add('esgst-lpv-container');
   }
 
   lpv_getCv() {
