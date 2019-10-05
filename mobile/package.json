@@ -1,29 +1,21 @@
 {
-  "name": "mobile",
-  "version": "0.0.1",
-  "private": true,
+  "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "android": "react-native run-android",
-    "ios": "react-native run-ios",
-    "start": "react-native start",
-    "test": "jest",
-    "lint": "eslint ."
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "eject": "expo eject"
   },
   "dependencies": {
-    "react": "16.9.0",
-    "react-native": "0.61.1"
+    "expo": "^35.0.0",
+    "react": "16.8.3",
+    "react-dom": "16.8.3",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-35.0.0.tar.gz",
+    "react-native-web": "^0.11.7"
   },
   "devDependencies": {
-    "@babel/core": "7.6.2",
-    "@babel/runtime": "7.6.2",
-    "@react-native-community/eslint-config": "0.0.3",
-    "babel-jest": "24.9.0",
-    "eslint": "6.5.1",
-    "jest": "24.9.0",
-    "metro-react-native-babel-preset": "0.51.1",
-    "react-test-renderer": "16.9.0"
+    "babel-preset-expo": "^7.0.0"
   },
-  "jest": {
-    "preset": "react-native"
-  }
+  "private": true
 }
