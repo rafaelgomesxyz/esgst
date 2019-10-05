@@ -78,4 +78,4 @@ class _Logger {
 
 const Logger = new _Logger();
 
-export { Logger, Logger as logger };
+export { Logger };

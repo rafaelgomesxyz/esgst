@@ -7,7 +7,7 @@ import { common } from '../Common';
 import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
 import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
-import { logger } from '../../class/Logger';
+import { Logger } from '../../class/Logger';
 import { DOM } from '../../class/DOM';
 
 const
@@ -534,7 +534,7 @@ class GiveawaysGiveawayExtractor extends Module {
                   sgTools = false;
                 }
               } catch (error) {
-                logger.warning(error.stack);
+                Logger.warning(error.stack);
               }
             }
           }

@@ -4,7 +4,7 @@ import { common } from '../Common';
 import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
 import { permissions } from '../../class/Permissions';
-import { logger } from '../../class/Logger';
+import { Logger } from '../../class/Logger';
 import { DOM } from '../../class/DOM';
 
 const
@@ -1352,7 +1352,7 @@ class GamesGameCategories extends Module {
           await lockAndSaveGames(shared.esgst.games);
           setLocalValue('gcCache', JSON.stringify(gc.cache));
         } catch (error) {
-          logger.warning(error.stack);
+          Logger.warning(error.stack);
         }
 
         const lockObj = await shared.common.createLock('gc', 100, {});
@@ -1653,7 +1653,7 @@ class GamesGameCategories extends Module {
         setLocalValue('gcCache', JSON.stringify(gc.cache));
       }
     } catch (error) {
-      logger.warning(error.stack);
+      Logger.warning(error.stack);
       try {
         let categories = {
           achievements: 0,
@@ -1848,7 +1848,7 @@ class GamesGameCategories extends Module {
         await lockAndSaveGames(shared.esgst.games);
         setLocalValue('gcCache', JSON.stringify(gc.cache));
       } catch (error) {
-        logger.warning(error.stack);
+        Logger.warning(error.stack);
         for (const game of games[type][id]) {
           const panel = game.container.getElementsByClassName('esgst-gc-panel')[0];
           if (panel && !panel.getAttribute('data-gcReady')) {

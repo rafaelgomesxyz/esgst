@@ -9,7 +9,7 @@ import { gSettings } from '../class/Globals';
 import { permissions } from '../class/Permissions';
 import { Table } from '../class/Table';
 import { browser } from '../browser';
-import { logger } from '../class/Logger';
+import { Logger } from '../class/Logger';
 import { DOM } from '../class/DOM';
 
 class Settings {
@@ -1274,7 +1274,7 @@ class Settings {
     try {
       new RegExp(item.input.value);
     } catch (error) {
-      logger.warning(error.stack);
+      Logger.warning(error.stack);
       item.invalid.classList.remove('esgst-hidden');
     }
   }
@@ -1942,7 +1942,7 @@ class Settings {
       reader.onload = () => this.saveHrFile(id, popup, reader);
       reader.readAsArrayBuffer(event.currentTarget.files[0]);
     } catch (e) {
-      logger.warning(e.stack);
+      Logger.warning(e.stack);
       popup.icon.classList.remove('fa-circle-o-notch');
       popup.icon.classList.remove('fa-spin');
       popup.icon.classList.add('fa-times');
@@ -1963,7 +1963,7 @@ class Settings {
       this.preSave(`${id}_sound`, string);
       popup.close();
     } catch (e) {
-      logger.warning(e.stack);
+      Logger.warning(e.stack);
       popup.icon.classList.remove('fa-circle-o-notch');
       popup.icon.classList.remove('fa-spin');
       popup.icon.classList.add('fa-times');

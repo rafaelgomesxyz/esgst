@@ -4,7 +4,7 @@ import { Popup } from '../../class/Popup';
 import { common } from '../Common';
 import { shared, Shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
-import { logger } from '../../class/Logger';
+import { Logger } from '../../class/Logger';
 import { DOM } from '../../class/DOM';
 import { Session } from '../../class/Session';
 import { EventDispatcher } from '../../class/EventDispatcher';
@@ -587,9 +587,9 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
     try {
       responseJson = JSON.parse(responseText);
     } catch (e) {
-      logger.warning(e.stack);
-      logger.info(giveaway.code);
-      logger.info(responseText);
+      Logger.warning(e.stack);
+      Logger.info(giveaway.code);
+      Logger.info(responseText);
     }
     if (!responseJson) {
       return;
@@ -656,9 +656,9 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
     try {
       responseJson = JSON.parse(responseText);
     } catch (e) {
-      logger.warning(e.stack);
-      logger.info(giveaway.code);
-      logger.info(responseText);
+      Logger.warning(e.stack);
+      Logger.info(giveaway.code);
+      Logger.info(responseText);
     }
     if (!responseJson) {
       return;

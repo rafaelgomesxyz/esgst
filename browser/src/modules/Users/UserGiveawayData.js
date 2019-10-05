@@ -6,7 +6,7 @@ import { Utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
-import { logger } from '../../class/Logger';
+import { Logger } from '../../class/Logger';
 import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
 import { DOM } from '../../class/DOM';
 
@@ -731,7 +731,7 @@ class UsersUserGiveawayData extends Module {
         const responseText = response.responseText;
         obj.playtimes = JSON.parse(responseText).response.games;
       } catch (e) {
-        logger.warning(e.stack);
+        Logger.warning(e.stack);
         window.alert('An error occurred when retrieving playtime stats. Please check your Steam API key in the settings menu or try again later.');
         await this.ugd_complete(obj, results);
         await saveUser(null, null, obj.user);
@@ -883,7 +883,7 @@ class UsersUserGiveawayData extends Module {
             achievementsData = responseJson.achievements;
           }
         } catch (error) {
-          logger.warning(error.stack);
+          Logger.warning(error.stack);
         }
       }
       achievements = '0/0';
@@ -996,7 +996,7 @@ class UsersUserGiveawayData extends Module {
         for (const item of giveaways) {
           const giveaway = typeof item === 'string' ? savedGiveaways[item] : item;
           if (!giveaway || !giveaway.code) {
-            logger.info(`[UGD] Giveaway not found:`, item);
+            Logger.info(`[UGD] Giveaway not found:`, item);
             continue;
           }
           let selector = '';

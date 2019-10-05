@@ -6,7 +6,7 @@ import { EMOJIS } from '../../emojis';
 import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
 import { permissions } from '../../class/Permissions';
-import { logger } from '../../class/Logger';
+import { Logger } from '../../class/Logger';
 import { DOM } from '../../class/DOM';
 
 class CommentsCommentFormattingHelper extends Module {
@@ -769,7 +769,7 @@ class CommentsCommentFormattingHelper extends Module {
               await shared.common.setValue('emojis', JSON.stringify(emojiArray));
             } catch (error) {
               window.alert('Invalid emoji!');
-              logger.warning(error.stack);
+              Logger.warning(error.stack);
             }
           });
           emojis.nextElementSibling.nextElementSibling.addEventListener('click', async () => {
