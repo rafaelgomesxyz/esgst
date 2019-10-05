@@ -1,7 +1,7 @@
 import { Module } from '../../class/Module';
 import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
-import { logger } from '../../class/Logger';
+import { Logger } from '../../class/Logger';
 import { FetchRequest } from '../../class/FetchRequest';
 import { Popout } from '../../class/Popout';
 import { DOM } from '../../class/DOM';
@@ -214,7 +214,7 @@ class GeneralThreadSubscription extends Module {
   }
 
   async runDaemon(firstRun) {
-    //logger.info('Running TDS daemon...');
+    //Logger.info('Running TDS daemon...');
 
     await shared.common.updateLock(this.lockObj.lock);
 
@@ -309,7 +309,7 @@ class GeneralThreadSubscription extends Module {
     });
 
     if (!this.lockObj.wasLocked) {
-      //logger.info('TDS Daemon already running....');
+      //Logger.info('TDS Daemon already running....');
 
       this.updateItems(await shared.common.getTds());
 

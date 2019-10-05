@@ -7,7 +7,7 @@ import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { common } from '../Common';
 import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
-import { logger } from '../../class/Logger';
+import { Logger } from '../../class/Logger';
 import { DOM } from '../../class/DOM';
 import { Session } from '../../class/Session';
 
@@ -1483,7 +1483,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       if (values.region === '1') {
         regionRestricted = `Yes (`;
         values.countries.split(/\s/).forEach(id => {
-          logger.info(id, mgc.countryNames[id]);
+          Logger.info(id, mgc.countryNames[id]);
           regionRestricted += `${mgc.countryNames[id].match(/.+\s(.+)$/)[1]}, `;
         });
         regionRestricted = `${regionRestricted.slice(0, -2)})`;

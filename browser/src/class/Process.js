@@ -2,7 +2,7 @@ import { Popup } from './Popup';
 import { shared } from './Shared';
 import { gSettings } from './Globals';
 import { permissions } from './Permissions';
-import { logger } from './Logger';
+import { Logger } from './Logger';
 import { DOM } from './DOM';
 
 class Process {
@@ -151,7 +151,7 @@ class Process {
         this.index += 1;
         this.popup.setOverallProgress(`${this.index} of ${this.total} loaded.`);
       } catch (e) {
-        logger.error(e.stack);
+        Logger.error(e.stack);
       }
     }
     if (!this.urls.doNotTrigger && this.index >= this.total) {

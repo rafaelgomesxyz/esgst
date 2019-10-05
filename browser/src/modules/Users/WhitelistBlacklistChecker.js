@@ -6,7 +6,7 @@ import { Utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
-import { logger } from '../../class/Logger';
+import { Logger } from '../../class/Logger';
 import { DOM } from '../../class/DOM';
 import { Session } from '../../class/Session';
 
@@ -427,7 +427,7 @@ class UsersWhitelistBlacklistChecker extends Module {
           if (SavedUsers.users[I].wbc && SavedUsers.users[I].wbc.result) {
             WBC.Users.push(SavedUsers.users[I].username);
             if (!SavedUsers.users[I].username) {
-              logger.info(`Log for #1084: ${I}, ${JSON.stringify(SavedUsers.users[I])}`);
+              Logger.info(`Log for #1084: ${I}, ${JSON.stringify(SavedUsers.users[I])}`);
             }
           }
         }

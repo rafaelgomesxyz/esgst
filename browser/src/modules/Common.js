@@ -21,7 +21,7 @@ import '../lib/bootstrap-tourist/bootstrap-tourist.js';
 import '../lib/bootstrap-tourist/bootstrap-tourist.css';
 import { gSettings } from '../class/Globals';
 import { permissions } from '../class/Permissions';
-import { logger } from '../class/Logger';
+import { Logger } from '../class/Logger';
 import { DOM } from '../class/DOM';
 import { Session } from '../class/Session';
 
@@ -123,7 +123,7 @@ class Common extends Module {
    * @returns {Promise<void>}
    */
   async loadFeatures(modules) {
-    logger.info(this.esgst.games.apps[269650]);
+    Logger.info(this.esgst.games.apps[269650]);
     if (this.isCurrentPath('Account')) {
       this.createSidebarNavigation(this.esgst.sidebar, 'beforeEnd', {
         name: 'ESGST',
@@ -264,8 +264,8 @@ class Common extends Module {
           await this.timeout(0);
         }*/
       } catch (e) {
-        logger.warning(`${mod.info.name} failed to load:`);
-        logger.error(e.stack);
+        Logger.warning(`${mod.info.name} failed to load:`);
+        Logger.error(e.stack);
       }
     }
 
@@ -680,7 +680,7 @@ class Common extends Module {
       try {
         await feature(context, main, source, endless, mainEndless);
       } catch (e) {
-        logger.error(e.stack);
+        Logger.error(e.stack);
       }
     }
   }
@@ -4912,7 +4912,7 @@ class Common extends Module {
   }
 
   createConfirmation(message, onYes, onNo, event) {
-    logger.info(message);
+    Logger.info(message);
     let callback, popup;
     callback = onNo;
     popup = new Popup({ addScrollable: true, icon: 'fa-question', isTemp: true, title: message });
@@ -5108,7 +5108,7 @@ class Common extends Module {
       }
       return element;
     } catch (error) {
-      logger.error(error.stack);
+      Logger.error(error.stack);
     }
   }
 
@@ -5835,14 +5835,14 @@ class Common extends Module {
   setCurrentScope(id) {
     this.esgst.currentScope = this.esgst.scopes[id];
     this.esgst.scopeHistory.push(id);
-    logger.info(`Current scope: `, this.esgst.currentScope.id);
+    Logger.info(`Current scope: `, this.esgst.currentScope.id);
   }
 
   resetCurrentScope() {
     this.esgst.scopeHistory.pop();
     const id = this.esgst.scopeHistory[this.esgst.scopeHistory.length - 1];
     this.esgst.currentScope = this.esgst.scopes[id];
-    logger.info(`Current scope: `, this.esgst.currentScope.id);
+    Logger.info(`Current scope: `, this.esgst.currentScope.id);
   }
 
   getLevelFromCv(cv) {

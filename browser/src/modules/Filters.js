@@ -8,7 +8,7 @@ import { common } from './Common';
 import { gSettings } from '../class/Globals';
 import { shared } from '../class/Shared';
 import { SYNC_KEYS } from './Sync';
-import { logger } from '../class/Logger';
+import { Logger } from '../class/Logger';
 import { Session } from '../class/Session';
 import { DOM } from '../class/DOM';
 
@@ -1024,7 +1024,7 @@ class Filters extends Module {
       }
       this.filters_filter(obj);
     } catch (e) {
-      logger.error(e.stack);
+      Logger.error(e.stack);
     }
     obj.basicApplied = false;
   }

@@ -5,7 +5,7 @@ import { shared } from '../class/Shared';
 import { elementBuilder } from '../lib/SgStUtils/ElementBuilder';
 import { gSettings } from '../class/Globals';
 import { permissions } from '../class/Permissions';
-import { logger } from '../class/Logger';
+import { Logger } from '../class/Logger';
 import { DOM } from '../class/DOM';
 
 let toSave = {};
@@ -839,7 +839,7 @@ async function sync(syncer) {
         cache.hltb = hltb;
         shared.common.setLocalValue('gcCache', JSON.stringify(cache));
       } catch (e) {
-        logger.warning(e.stack);
+        Logger.warning(e.stack);
       }
       DOM.build(syncer.results, 'beforeEnd', [
         ['div', 'HLTB times synced.']
@@ -891,7 +891,7 @@ async function sync(syncer) {
         DOM.build(syncer.results, 'beforeEnd', [
           ['div', `Failed to sync delisted games (check the console log for more info).`]
         ]);
-        logger.warning(error.stack);
+        Logger.warning(error.stack);
       }
     } else {
       syncer.failed.DelistedGames = true;
@@ -1116,7 +1116,7 @@ async function syncGames(altAccount, syncer, apiResponse, storeResponse) {
       `Unable to sync through the Steam store. Check if you are logged in to Steam on your current browser session. If you are, try again later. Some games may not be available through the Steam API (if you have a Steam API key set).`
     );
   }
-  logger.info(hasApi, hasStore);
+  Logger.info(hasApi, hasStore);
   if ((!hasApi || !gSettings.fallbackSteamApi) && !hasStore) {
     return;
   }

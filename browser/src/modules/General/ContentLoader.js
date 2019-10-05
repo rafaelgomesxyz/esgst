@@ -4,7 +4,7 @@ import { Module } from '../../class/Module';
 import { Popout } from '../../class/Popout';
 import { Popup } from '../../class/Popup';
 import { shared } from '../../class/Shared';
-import { logger } from '../../class/Logger';
+import { Logger } from '../../class/Logger';
 import { DOM } from '../../class/DOM';
 
 const ON_LOAD = 0;
@@ -419,7 +419,7 @@ class GeneralContentLoader extends Module {
       try {
         await this.fetchGiveawayCountries(giveaway, triggerObj, context);
       } catch (e) {
-        logger.warning(e.stack);
+        Logger.warning(e.stack);
       }
     }
   }
@@ -507,7 +507,7 @@ class GeneralContentLoader extends Module {
       try {
         await this.fetchGiveawayEntries(giveaway, triggerObj, context);
       } catch (e) {
-        logger.warning(e.stack);
+        Logger.warning(e.stack);
       }
     }
   }
@@ -623,7 +623,7 @@ class GeneralContentLoader extends Module {
       try {
         await this.fetchGiveawayGroups(giveaway, triggerObj, context, giveawaysToSave, groupsToSave);
       } catch (e) {
-        logger.warning(e.stack);
+        Logger.warning(e.stack);
       }
     }
 
@@ -807,7 +807,7 @@ class GeneralContentLoader extends Module {
       try {
         await this.fetchInfo(targetObj, triggerObj, context);
       } catch (e) {
-        logger.warning(e.stack);
+        Logger.warning(e.stack);
       }
     }
   }

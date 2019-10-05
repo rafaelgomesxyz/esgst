@@ -13,7 +13,7 @@ import { addStyle } from './modules/Style';
 import { runSilentSync } from './modules/Sync';
 import { gSettings } from './class/Globals';
 import { Shared } from './class/Shared';
-import { logger } from './class/Logger';
+import { Logger } from './class/Logger';
 import { persistentStorage } from './class/PersistentStorage';
 import { DOM } from './class/DOM';
 import { Header } from './components/Header';
@@ -193,7 +193,7 @@ window.interact = interact;
         esgst.groups = JSON.parse(toSet.groups);
         common.delLocalValue('groups');
       }
-      logger.info(`GROUP: `, esgst.groups.filter(group => group.steamId === '103582791454597143')[0]);
+      Logger.info(`GROUP: `, esgst.groups.filter(group => group.steamId === '103582791454597143')[0]);
       if (!Utils.isSet(esgst.storage.entries)) {
         toSet.entries = common.getLocalValue('entries', '[]');
         common.delLocalValue('entries');
@@ -570,7 +570,7 @@ window.interact = interact;
 
       Shared.header.parse(document.body);
     } catch (e) {
-      logger.error(e.message);
+      Logger.error(e.message);
     }
 
     if (!Session.isLoggedIn) {

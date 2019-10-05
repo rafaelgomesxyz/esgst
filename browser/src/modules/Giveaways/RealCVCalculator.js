@@ -2,7 +2,7 @@ import { Module } from '../../class/Module';
 import { common } from '../Common';
 import { gSettings } from '../../class/Globals';
 import { permissions } from '../../class/Permissions';
-import { logger } from '../../class/Logger';
+import { Logger } from '../../class/Logger';
 
 const
   createElements = common.createElements.bind(common),
@@ -149,7 +149,7 @@ class GiveawaysRealCVCalculator extends Module {
               }]
             }]);
           } catch (e) {
-            logger.warning(e.stack);
+            Logger.warning(e.stack);
           }
           button = document.getElementsByClassName('js__submit-form')[0];
           button.addEventListener('click', () => {

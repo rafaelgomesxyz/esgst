@@ -1,7 +1,7 @@
 import { Module } from '../../class/Module';
 import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
-import { logger } from '../../class/Logger';
+import { Logger } from '../../class/Logger';
 import { DOM } from '../../class/DOM';
 
 class CommentsReplyFromInbox extends Module {
@@ -56,7 +56,7 @@ class CommentsReplyFromInbox extends Module {
   }
 
   async rfi_saveReply(id, reply, url, edit) {
-    logger.info(id, reply, url, edit);
+    Logger.info(id, reply, url, edit);
     let i, n, source, saved;
     if (url) {
       source = url.match(/\/comment\/(.+)/)[1];
