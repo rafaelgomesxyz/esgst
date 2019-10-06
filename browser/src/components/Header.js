@@ -327,7 +327,7 @@ class SgHeader extends IHeader {
       }
 
       buttonContainer.data.url = buttonContainer.nodes.button.getAttribute('href');
-      buttonContainer.data.buttonName = buttonContainer.nodes.buttonName.title || buttonContainer.nodes.buttonName.textContent;
+      buttonContainer.data.buttonName = buttonContainer.nodes.buttonName.title || buttonContainer.nodes.buttonName.textContent.trim();
     }
 
     if (buttonContainer.nodes.outer.classList.contains('nav__button-container--notification')) {
@@ -404,8 +404,8 @@ class SgHeader extends IHeader {
 
     dropdownItem.data.url = dropdownItem.nodes.outer.getAttribute('href') || '';
     dropdownItem.data.icon = dropdownItem.nodes.icon.className;
-    dropdownItem.data.name = dropdownItem.nodes.name.textContent;
-    dropdownItem.data.description = dropdownItem.nodes.description.textContent;
+    dropdownItem.data.name = dropdownItem.nodes.name.textContent.trim();
+    dropdownItem.data.description = dropdownItem.nodes.description.textContent.trim();
 
     dropdownItem.data.id = IHeader.generateId(dropdownItem.data.name);
 
@@ -792,7 +792,7 @@ class StHeader extends IHeader {
       }
 
       buttonContainer.data.url = buttonContainer.nodes.button.getAttribute('href');
-      buttonContainer.data.buttonName = buttonContainer.nodes.buttonName.title || buttonContainer.nodes.buttonName.textContent;
+      buttonContainer.data.buttonName = buttonContainer.nodes.buttonName.title || buttonContainer.nodes.buttonName.textContent.trim();
     }
 
     buttonContainer.data.id = IHeader.generateId(buttonContainer.data.buttonName);
@@ -842,7 +842,7 @@ class StHeader extends IHeader {
 
     dropdownItem.data.url = dropdownItem.nodes.outer.getAttribute('href') || '';
     dropdownItem.data.icon = dropdownItem.nodes.icon.className;
-    dropdownItem.data.name = dropdownItem.nodes.name.textContent;
+    dropdownItem.data.name = dropdownItem.nodes.name.textContent.trim();
 
     dropdownItem.data.id = IHeader.generateId(dropdownItem.data.name);
 

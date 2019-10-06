@@ -1,6 +1,7 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
 import { gSettings } from '../../class/Globals';
+import { Shared } from '../../class/Shared';
 
 const
   animateScroll = common.animateScroll.bind(common),
@@ -63,21 +64,20 @@ class GeneralScrollToBottomButton extends Module {
         button = createHeadingButton({ id: 'stbb', icons: ['fa-chevron-down'], title: 'Scroll to bottom' });
         button.classList.add('esgst-stbb-button');
         break;
-      case 2:
-        button = createElements(this.esgst.footer.firstElementChild.lastElementChild, 'beforeEnd', [{
-          attributes: {
-            class: 'esgst-stbb-button',
-            title: getFeatureTooltip('stbb', 'Scroll to bottom')
-          },
-          type: this.esgst.sg ? 'div' : 'li',
-          children: [{
-            attributes: {
-              class: 'fa fa-chevron-down'
-            },
-            type: 'i'
-          }]
-        }]);
+      case 2: {
+        const linkContainer = Shared.footer.addLinkContainer({
+          icon: 'fa fa-chevron-down',
+          position: 'beforeEnd',
+          side: 'right',
+        });
+
+        linkContainer.nodes.outer.classList.add('esgst-stbb-button');
+        linkContainer.nodes.outer.title = getFeatureTooltip('stbb', 'Scroll to bottom');
+
+        button = linkContainer.nodes.outer;
+
         break;
+      }
     }
     button.addEventListener('click', () => animateScroll(document.documentElement.offsetHeight, () => {
       if (gSettings.es && this.esgst.es.paginations) {

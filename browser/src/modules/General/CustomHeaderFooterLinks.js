@@ -3,7 +3,7 @@ import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { common } from '../Common';
-import { shared } from '../../class/Shared';
+import { shared, Shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
 
 const
@@ -83,8 +83,8 @@ class GeneralCustomHeaderFooterLinks extends Module {
             elements: {}
           },
           footer: {
-            container: this.esgst.footer,
-            context: this.esgst.footer.firstElementChild.lastElementChild,
+            container: Shared.footer.nodes.outer,
+            context: Shared.footer.nodes.rightNav,
             elements: {}
           }
         }
@@ -104,8 +104,8 @@ class GeneralCustomHeaderFooterLinks extends Module {
             elements: {}
           },
           footer: {
-            container: this.esgst.footer,
-            context: this.esgst.footer.firstElementChild.lastElementChild,
+            container: Shared.footer.nodes.outer,
+            context: Shared.footer.nodes.rightNav,
             elements: {}
           }
         }
