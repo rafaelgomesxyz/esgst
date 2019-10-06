@@ -3,6 +3,7 @@ import dateFns_format from 'date-fns/format';
 import {common} from '../Common';
 import { gSettings } from '../../class/Globals';
 import { DOM } from '../../class/DOM';
+import { Shared } from '../../class/Shared';
 
 class GeneralPageLoadTimestamp extends Module {
   constructor() {
@@ -45,17 +46,20 @@ class GeneralPageLoadTimestamp extends Module {
           ]);
           break;
         }
-      case 1:
-        if (!this.esgst.footer) {
+      case 1: {
+        if (!Shared.footer) {
           return;
         }
-        DOM.build(this.esgst.footer.firstElementChild.firstElementChild, 'beforeEnd', [
-          ['span', { class: 'esgst-plt' }, [
-            ['span', { class: 'esgst-bold' }, `Page Load Timestamp: `],
-            ['span', timestamp]
-          ]]
-        ]);
+
+        const linkContainer = Shared.footer.addLinkContainer({
+          name: `Page loaded on ${timestamp}`,
+          side: 'left',
+        });
+
+        linkContainer.nodes.outer.classList.add('esgst-plt');
+
         break;
+      }
     }
   }
 }

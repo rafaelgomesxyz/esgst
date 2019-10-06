@@ -1151,8 +1151,6 @@ class Esgst {
     /** @type {string} */
     this.pageHeadingBreadcrumbsClass = '';
 
-    this.footer = null;
-
     this.replyBox = null;
 
     /** @type {string} */

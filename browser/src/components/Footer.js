@@ -42,7 +42,7 @@ class SgFooter extends IFooter {
    * @param {IFooterLinkContainerParams} params
    */
   addLinkContainer(params) {
-    const [context, position] = params.context ? [params.context, params.position] : (params.side === 'left' ? [this.nodes.leftNav, 'beforeEnd'] : [this.nodes.rightNav, 'afterBegin']);
+    const [context, position] = params.context ? [params.context, params.position] : (params.side === 'left' ? [this.nodes.leftNav, params.position || 'beforeEnd'] : [this.nodes.rightNav, params.position || 'afterBegin']);
 
     const linkContainerNode = DOM.build(context, position, [
       ['div', [
@@ -123,10 +123,10 @@ class SgFooter extends IFooter {
     if (linkNode) {
       linkContainer.nodes.link = linkContainer.nodes.outer.querySelector('a');
 
-      linkContainer.data.name = linkContainer.nodes.link.textContent.trim();
+      linkContainer.data.name = linkContainer.nodes.link.textContent.trim() || linkContainer.nodes.outer.title;
       linkContainer.data.url = linkContainer.nodes.link.getAttribute('href');
     } else {
-      linkContainer.data.name = linkContainer.nodes.outer.textContent.trim();
+      linkContainer.data.name = linkContainer.nodes.outer.textContent.trim() || linkContainer.nodes.outer.title;
     }
 
     linkContainer.data.id = IFooter.generateId(linkContainer.data.name);
@@ -146,7 +146,7 @@ class StFooter extends IFooter {
    * @param {IFooterLinkContainerParams} params
    */
   addLinkContainer(params) {
-    const [context, position] = params.context ? [params.context, params.position] : (params.side === 'left' ? [this.nodes.leftNav, 'beforeEnd'] : [this.nodes.rightNav, 'afterBegin']);
+    const [context, position] = params.context ? [params.context, params.position] : (params.side === 'left' ? [this.nodes.leftNav, params.position || 'beforeEnd'] : [this.nodes.rightNav, params.position || 'afterBegin']);
 
     const linkContainerNode = DOM.build(context, position, [
       ['li', [
@@ -228,10 +228,10 @@ class StFooter extends IFooter {
     if (linkNode) {
       linkContainer.nodes.link = linkContainer.nodes.outer.querySelector('a');
 
-      linkContainer.data.name = linkContainer.nodes.link.textContent.trim();
+      linkContainer.data.name = linkContainer.nodes.link.textContent.trim() || linkContainer.nodes.outer.title;
       linkContainer.data.url = linkContainer.nodes.link.getAttribute('href');
     } else {
-      linkContainer.data.name = linkContainer.nodes.outer.textContent.trim();
+      linkContainer.data.name = linkContainer.nodes.outer.textContent.trim() || linkContainer.nodes.outer.title;
     }
 
     linkContainer.data.id = IFooter.generateId(linkContainer.data.name);

@@ -475,7 +475,6 @@ class Common extends Module {
       this.esgst.pageOuterWrapClass = 'page__outer-wrap';
       this.esgst.pageHeadingClass = 'page__heading';
       this.esgst.pageHeadingBreadcrumbsClass = 'page__heading__breadcrumbs';
-      this.esgst.footer = document.getElementsByClassName('footer__outer-wrap')[0];
       this.esgst.replyBox = document.getElementsByClassName('comment--submit')[0];
       this.esgst.cancelButtonClass = 'comment__cancel-button';
       this.esgst.paginationNavigationClass = 'pagination__navigation';
@@ -490,7 +489,6 @@ class Common extends Module {
       this.esgst.pageOuterWrapClass = 'page_outer_wrap';
       this.esgst.pageHeadingClass = 'page_heading';
       this.esgst.pageHeadingBreadcrumbsClass = 'page_heading_breadcrumbs';
-      this.esgst.footer = /** @type {HTMLElement} */ document.getElementsByTagName('footer')[0];
       this.esgst.replyBox = /** @type {HTMLElement} */ document.getElementsByClassName('reply_form')[0];
       this.esgst.cancelButtonClass = 'btn_cancel';
       this.esgst.paginationNavigationClass = 'pagination_navigation';

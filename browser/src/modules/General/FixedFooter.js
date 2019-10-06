@@ -1,4 +1,5 @@
 import { Module } from '../../class/Module';
+import { Shared } from '../../class/Shared';
 
 class GeneralFixedFooter extends Module {
   constructor() {
@@ -18,11 +19,11 @@ class GeneralFixedFooter extends Module {
   }
 
   init() {
-    if (!this.esgst.footer) {
+    if (!Shared.footer) {
       return;
     }
 
-    this.esgst.footer.classList.add('esgst-ff');
+    Shared.footer.nodes.outer.classList.add('esgst-ff');
   }
 }
 

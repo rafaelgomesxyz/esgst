@@ -192,6 +192,14 @@ function addStyle() {
   `;
   }
   style += `
+  .footer_inner_wrap {
+    justify-content: space-between;
+  }
+
+  .footer_inner_wrap > ul > :not(last-child) {
+    margin-right: 15px;
+  }
+
   .nav__button img, .nav_btn img {
     vertical-align: middle;
   }
