@@ -14,6 +14,11 @@ class _Shared {
      * @type {import('../components/Header').IHeader}
      */
     this.header = null;
+
+    /**
+     * @type {import('../components/Footer').IFooter}
+     */
+    this.footer = null;
   }
 
   add(objs) {

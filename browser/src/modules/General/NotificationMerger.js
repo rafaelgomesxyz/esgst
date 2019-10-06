@@ -125,7 +125,7 @@ class GeneralNotificationMerger extends Module {
         }
 
         if (!counterNode) {
-          Shared.header.buttonContainers['stMessages'].nodes.outer.classList.add('esgst-hidden');
+          Shared.header.buttonContainers['sgMessages'].nodes.outer.classList.add('esgst-hidden');
         }
 
         break;

@@ -18,6 +18,7 @@ import { persistentStorage } from './class/PersistentStorage';
 import { DOM } from './class/DOM';
 import { Header } from './components/Header';
 import { Session } from './class/Session';
+import { Footer } from './components/Footer';
 
 // @ts-ignore
 window.interact = interact;
@@ -567,8 +568,10 @@ window.interact = interact;
 
     try {
       Shared.header = new Header();
-
       Shared.header.parse(document.body);
+
+      Shared.footer = new Footer();
+      Shared.footer.parse(document.body);
     } catch (e) {
       Logger.error(e.message);
     }
