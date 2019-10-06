@@ -1,4 +1,4 @@
-import { Namespaces } from '../class/Namespaces';
+import { Namespaces } from '../constants/Namespaces';
 import { Session } from '../class/Session';
 
 class IUser {

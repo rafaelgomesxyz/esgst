@@ -6,7 +6,7 @@ import { DOM } from '../../class/DOM';
 import { Session } from '../../class/Session';
 import { Shared } from '../../class/Shared';
 import { EventDispatcher } from '../../class/EventDispatcher';
-import { Events } from '../../class/Events';
+import { Events } from '../../constants/Events';
 
 const
   createElements = common.createElements.bind(common),
