@@ -1,4 +1,4 @@
-import { Namespaces } from './Namespaces';
+import { Namespaces } from '../constants/Namespaces';
 
 class ISession {
   /**

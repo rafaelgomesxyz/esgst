@@ -1,7 +1,7 @@
 import { DOM } from '../class/DOM';
 import { EventDispatcher } from '../class/EventDispatcher';
-import { Events } from '../class/Events';
-import { Namespaces } from '../class/Namespaces';
+import { Events } from '../constants/Events';
+import { Namespaces } from '../constants/Namespaces';
 import { ISession, Session } from '../class/Session';
 import { User } from './User';
 

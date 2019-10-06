@@ -2,7 +2,7 @@ import { Module } from '../../class/Module';
 import { common } from '../Common';
 import { gSettings } from '../../class/Globals';
 import { EventDispatcher } from '../../class/EventDispatcher';
-import { Events } from '../../class/Events';
+import { Events } from '../../constants/Events';
 import { Session } from '../../class/Session';
 import { Shared } from '../../class/Shared';
 

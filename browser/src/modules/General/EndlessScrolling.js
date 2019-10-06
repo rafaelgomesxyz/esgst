@@ -5,7 +5,7 @@ import { gSettings } from '../../class/Globals';
 import { Shared } from '../../class/Shared';
 import { DOM } from '../../class/DOM';
 import { EventDispatcher } from '../../class/EventDispatcher';
-import { Events } from '../../class/Events';
+import { Events } from '../../constants/Events';
 import { FetchRequest } from '../../class/FetchRequest';
 
 const

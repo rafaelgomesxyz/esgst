@@ -1,12 +1,12 @@
 import { Module } from '../../class/Module';
 import { FetchRequest } from '../../class/FetchRequest';
 import { Logger } from '../../class/Logger';
-import { Namespaces } from '../../class/Namespaces';
+import { Namespaces } from '../../constants/Namespaces';
 import { Session } from '../../class/Session';
 import { Shared } from '../../class/Shared';
 import { Header } from '../../components/Header';
 import { EventDispatcher } from '../../class/EventDispatcher';
-import { Events } from '../../class/Events';
+import { Events } from '../../constants/Events';
 
 class GeneralNotificationMerger extends Module {
   constructor() {
