@@ -1,6 +1,6 @@
 import { gSettings } from './Globals';
 import { Popup } from './Popup';
-import { shared } from './Shared';
+import { shared, Shared } from './Shared';
 import { DOM } from './DOM';
 
 const INFO = 'info';
@@ -49,16 +49,25 @@ class _Logger {
   addButton(level) {
     if (this.button) {
       if (PRIORITY.indexOf(level) < PRIORITY.indexOf(this.currentMaxLevel)) {
-        this.button.button.classList.remove(`esgst-logs-${this.currentMaxLevel}`);
-        this.button.button.classList.add(`esgst-logs-${level}`);
+        this.button.nodes.outer.classList.remove(`esgst-logs-${this.currentMaxLevel}`);
+        this.button.nodes.outer.classList.add(`esgst-logs-${level}`);
         this.currentMaxLevel = level;
       }
       return;
     }
 
-    this.button = shared.common.addHeaderButton('fa-bug', 'active', shared.common.getFeatureTooltip('notifyLogs', 'View logs'));
-    this.button.button.classList.add('esgst-logs', `esgst-logs-${level}`);
-    this.button.button.addEventListener('click', this.showPopup.bind(this));
+    this.button = Shared.header.addButtonContainer({
+      buttonIcon: 'fa fa-bug',
+      buttonName: 'ESGST Logs',
+      isActive: true,
+      isNotification: true,
+      side: 'right',
+    });
+
+    this.button.nodes.outer.classList.add('esgst-logs', `esgst-logs-${level}`);
+    this.button.nodes.buttonIcon.title = shared.common.getFeatureTooltip('notifyLogs', 'View logs');
+
+    this.button.nodes.outer.addEventListener('click', this.showPopup.bind(this));
     this.currentMaxLevel = level;
   }
 

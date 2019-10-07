@@ -4,7 +4,7 @@ import { Popup } from '../../class/Popup';
 import { Utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
-import { shared } from '../../class/Shared';
+import { shared, Shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
 import { DOM } from '../../class/DOM';
 
@@ -78,26 +78,18 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
       // noinspection JSIgnoredPromiseFromCall
       this.ged_openPopup(ged);
     } else {
-      ged.button = createElements(this.esgst.headerNavigationLeft, 'beforeEnd', [{
-        attributes: {
-          class: 'nav__button-container esgst-hidden',
-          title: getFeatureTooltip('ged', 'View your decrypted giveaways')
-        },
-        type: 'div',
-        children: [{
-          attributes: {
-            class: 'nav__button'
-          },
-          type: 'div',
-          children: [{
-            attributes: {
-              class: 'fa fa-star'
-            },
-            type: 'i'
-          }]
-        }]
-      }]);
-      ged.button.addEventListener('click', () => {
+      ged.button = Shared.header.addButtonContainer({
+        buttonIcon: 'fa fa-star',
+        buttonName: 'ESGST Decrypted Giveaways',
+        isActive: true,
+        isNotification: true,
+        side: 'left',
+      });
+
+      ged.button.nodes.outer.classList.add('esgst-hidden');
+      ged.button.nodes.buttonIcon.title = getFeatureTooltip('ged', 'View your decrypted giveaways');
+
+      ged.button.nodes.outer.addEventListener('click', () => {
         if (gSettings.ged_t) {
           window.open(`https://www.steamgifts.com/account/settings/profile?esgst=ged`);
         } else {
@@ -240,7 +232,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
     ged.n = ged.giveaways.length;
     if (ged.n > 0) {
       if (ged.button) {
-        ged.button.classList.remove('esgst-hidden');
+        ged.button.nodes.outer.classList.remove('esgst-hidden');
       }
       ged.giveaways = Utils.sortArray(ged.giveaways, false, 'timestamp');
     }
@@ -363,9 +355,9 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
       deleteLock();
     }
     if (ged.button && (hasEnded || hasNew)) {
-      ged.button.classList.remove('esgst-hidden');
+      ged.button.nodes.outer.classList.remove('esgst-hidden');
       if (hasNew) {
-        ged.button.firstElementChild.firstElementChild.classList.add('esgst-positive');
+        ged.button.nodes.buttonIcon.classList.add('esgst-positive');
       }
     }
   }

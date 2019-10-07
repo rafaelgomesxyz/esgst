@@ -1192,19 +1192,21 @@ function addStyle() {
     padding: 5px !important;
   }
 
-  .esgst-gb-highlighted.ending, .esgst-error-button, .esgst-error-button >*:hover {
+  .esgst-error-button, .esgst-error-button >*:hover {
     background-color: rgba(236, 133, 131, 0.8) !important;
     background-image: none !important;
   }
 
-  .esgst-gb-highlighted.started {
-    background-color: rgba(150, 196, 104, 0.8) !important;
-    background-image: none !important;
+  .esgst-gb-highlighted.ending i {
+    color: rgba(236, 133, 131, 0.8) !important;
   }
 
-  .esgst-gb-highlighted.ending.started {
-    background-color: rgba(193, 165, 118, 0.8) !important;
-    background-image: none !important;
+  .esgst-gb-highlighted.started i {
+    color: rgba(150, 196, 104, 0.8) !important;
+  }
+
+  .esgst-gb-highlighted.ending.started i {
+    color: rgba(193, 165, 118, 0.8) !important;
   }
 
   .esgst-ct-comment-read:hover, .esgst-ct-visited:hover {
@@ -1817,6 +1819,10 @@ function addStyle() {
 
   .nav__left-container .fa img {
     vertical-align: baseline;
+  }
+
+  .nav__left-container .nav__button-container--notification .nav__button {
+    padding: 0 0 0 20px;
   }
 
   .esgst-checkbox, .esgst-hb-update, .esgst-hb-changelog {

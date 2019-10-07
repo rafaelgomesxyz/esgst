@@ -1,6 +1,7 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
 import { gSettings } from '../../class/Globals';
+import { Shared } from '../../class/Shared';
 
 const
   createElements = common.createElements.bind(common),
@@ -35,7 +36,7 @@ class GiveawaysQuickGiveawaySearch extends Module {
   }
 
   init() {
-    let container = createElements(document.getElementsByClassName('nav__left-container')[0], gSettings.qgs_index === 0 ? 'afterBegin' : 'beforeEnd', [{
+    let container = createElements(Shared.header.nodes.leftNav, gSettings.qgs_index === 0 ? 'afterBegin' : 'beforeEnd', [{
       attributes: {
         class: 'esgst-qgs-container',
         title: getFeatureTooltip('qgs')

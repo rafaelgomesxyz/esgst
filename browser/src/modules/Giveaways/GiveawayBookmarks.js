@@ -4,7 +4,7 @@ import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { common } from '../Common';
 import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
-import { shared } from '../../class/Shared';
+import { shared, Shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
 import { DOM } from '../../class/DOM';
 
@@ -91,27 +91,19 @@ class GiveawaysGiveawayBookmarks extends Module {
   }
 
   init() {
-    let button = createElements(document.getElementsByClassName('nav__left-container')[0], 'beforeEnd', [{
-      attributes: {
-        class: 'nav__button-container esgst-hidden',
-        title: getFeatureTooltip('gb', 'View your bookmarked giveaways')
-      },
-      type: 'div',
-      children: [{
-        attributes: {
-          class: 'nav__button'
-        },
-        type: 'div',
-        children: [{
-          attributes: {
-            class: 'fa fa-bookmark'
-          },
-          type: 'i'
-        }]
-      }]
-    }]);
+    let button = Shared.header.addButtonContainer({
+      buttonIcon: 'fa fa-bookmark',
+      buttonName: 'ESGST Bookmarked Giveaways',
+      isNotification: true,
+      side: 'left',
+    });
+
+    button.nodes.outer.classList.add('esgst-hidden');
+    button.nodes.buttonIcon.title = getFeatureTooltip('gb', 'View your bookmarked giveaways');
+
     // noinspection JSIgnoredPromiseFromCall
     this.gb_addButton(button);
+
     if (gSettings.gb_ue && this.esgst.enterGiveawayButton) {
       this.esgst.enterGiveawayButton.onclick = () => {
         let giveaway = this.esgst.scopes.main.giveaways[0];
@@ -140,7 +132,7 @@ class GiveawaysGiveawayBookmarks extends Module {
     let i, n;
     let bookmarked = [], endingSoon = 1, started = 0, ending = 0;
     if (gSettings.gb_h && button) {
-      button.classList.add('esgst-gb-highlighted');
+      button.nodes.outer.classList.add('esgst-gb-highlighted');
     }
     const toSave = {};
     for (let key in this.esgst.giveaways) {
@@ -163,7 +155,7 @@ class GiveawaysGiveawayBookmarks extends Module {
               bookmarked.push(giveaway);
               ++started;
               if (gSettings.gb_h && button) {
-                button.classList.add('started');
+                button.nodes.outer.classList.add('started');
               }
             }
           } else {
@@ -194,7 +186,7 @@ class GiveawaysGiveawayBookmarks extends Module {
       title = '';
     }
     if (button) {
-      button.title = getFeatureTooltip('gb', `View your bookmarked giveaways ${title}`);
+      button.nodes.buttonIcon.title = getFeatureTooltip('gb', `View your bookmarked giveaways ${title}`);
     }
     if (bookmarked.length) {
       bookmarked.sort((a, b) => {
@@ -214,9 +206,9 @@ class GiveawaysGiveawayBookmarks extends Module {
         }
       }
       if (button) {
-        button.classList.remove('esgst-hidden');
+        button.nodes.outer.classList.remove('esgst-hidden');
         if (gSettings.gb_h && ending > 0) {
-          button.classList.add('ending');
+          button.nodes.outer.classList.add('ending');
         }
       }
     }
@@ -246,7 +238,7 @@ class GiveawaysGiveawayBookmarks extends Module {
       }]));
     }
     if (button) {
-      button.addEventListener('click', () => {
+      button.nodes.outer.addEventListener('click', () => {
         if (gSettings.gb_t) {
           window.open(`https://www.steamgifts.com/account/settings/profile?esgst=gb`);
         } else {

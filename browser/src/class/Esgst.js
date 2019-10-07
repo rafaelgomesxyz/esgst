@@ -1170,8 +1170,6 @@ class Esgst {
     /** @type {string} */
     this.searchUrl = '';
 
-    this.headerNavigationLeft = null;
-
     this.pagination = null;
 
     this.featuredContainer = null;

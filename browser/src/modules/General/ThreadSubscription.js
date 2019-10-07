@@ -1,5 +1,5 @@
 import { Module } from '../../class/Module';
-import { shared } from '../../class/Shared';
+import { shared, Shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
 import { Logger } from '../../class/Logger';
 import { FetchRequest } from '../../class/FetchRequest';
@@ -66,9 +66,16 @@ class GeneralThreadSubscription extends Module {
   }
 
   async init() {
-    this.button = shared.common.addHeaderButton('fa-circle-o-notch fa-spin', 'inactive', 'Loading your subscriptions');
+    this.button = Shared.header.addButtonContainer({
+      buttonIcon: 'fa fa-circle-o-notch fa-spin',
+      buttonName: 'ESGST Thread Subscriptions',
+      isNotification: true,
+      side: 'right',
+    });
 
-    this.popout = new Popout('esgst-tds-popout', this.button.button, 0, true);
+    this.button.nodes.buttonIcon.title = 'Loading your subscriptions';
+
+    this.popout = new Popout('esgst-tds-popout', this.button.nodes.outer, 0, true);
 
     this.minutes = parseInt(gSettings.tds_minutes) * 60000;
 
@@ -181,13 +188,15 @@ class GeneralThreadSubscription extends Module {
 
   updateButton() {
     if (this.subscribedItems.filter(item => item.diff).length) {
-      this.button.changeIcon('fa-bell');
-      this.button.changeState('active');
-      this.button.changeTitle('New comments in your subscriptions, click to see');
+      this.button.nodes.outer.classList.remove('nav__button-container--inactive');
+      this.button.nodes.outer.classList.add('nav__button-container--active');
+      this.button.nodes.buttonIcon.className = 'fa fa-bell';
+      this.button.nodes.buttonIcon.title = 'New comments in your subscriptions, click to see';
     } else {
-      this.button.changeIcon('fa-bell-o');
-      this.button.changeState('inactive');
-      this.button.changeTitle('No new comments in your subscriptions');
+      this.button.nodes.outer.classList.remove('nav__button-container--active');
+      this.button.nodes.outer.classList.add('nav__button-container--inactive');
+      this.button.nodes.buttonIcon.className = 'fa fa-bell-o';
+      this.button.nodes.buttonIcon.title = 'No new comments in your subscriptions';
     }
 
     this.updatePopout();
