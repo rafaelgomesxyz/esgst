@@ -204,6 +204,10 @@ function addStyle() {
     vertical-align: middle;
   }
 
+  .nav_btn img {
+    margin-right: 10px;
+  }
+
   .esgst-tds-sidebar-item {
     align-items: center;
     display: flex;
@@ -326,10 +330,6 @@ function addStyle() {
 
   .esgst-restore-entry >* {
     margin: 0 5px 0;
-  }
-
-  footer .esgst-plt {
-    margin-left: 15px;
   }
 
   .esgst-gv-popout .esgst-panel-flexbox {

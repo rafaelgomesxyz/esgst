@@ -47,12 +47,7 @@ class Esgst {
     this.pvStyleArray = undefined;
     this.currentPage = undefined;
     this.itemsPerPage = undefined;
-    this.giveawaysDropdown = undefined;
-    this.helpDropdown = undefined;
-    this.supportDropdown = undefined;
     this.delistedGames = undefined;
-    this.discussionsDropdown = undefined;
-    this.accountDropdown = undefined;
     this.featuresById = undefined;
 
     this.gc_queue = [];

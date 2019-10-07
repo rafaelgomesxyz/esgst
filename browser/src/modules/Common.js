@@ -265,7 +265,7 @@ class Common extends Module {
         }*/
       } catch (e) {
         Logger.warning(`${mod.info.name} failed to load:`);
-        Logger.error(e.stack);
+        Logger.error(e.message);
       }
     }
 
@@ -480,11 +480,6 @@ class Common extends Module {
       this.esgst.paginationNavigationClass = 'pagination__navigation';
       this.esgst.hiddenClass = 'is-hidden';
       this.esgst.selectedClass = 'is-selected';
-      this.esgst.giveawaysDropdown = document.querySelector(`.nav__button--is-dropdown[href="/"]`).parentElement.querySelector('.nav__relative-dropdown');
-      this.esgst.discussionsDropdown = document.querySelector(`.nav__button--is-dropdown[href="/discussions"]`).parentElement.querySelector('.nav__relative-dropdown');
-      this.esgst.supportDropdown = document.querySelector(`.nav__button--is-dropdown[href="/support"]`).parentElement.querySelector('.nav__relative-dropdown');
-      this.esgst.helpDropdown = document.querySelector(`.nav__button--is-dropdown[href="/about/faq"]`).parentElement.querySelector('.nav__relative-dropdown');
-      this.esgst.accountDropdown = document.querySelector(`.nav__button--is-dropdown[href="/account"]`).parentElement.querySelector('.nav__relative-dropdown');
     } else {
       this.esgst.pageOuterWrapClass = 'page_outer_wrap';
       this.esgst.pageHeadingClass = 'page_heading';
