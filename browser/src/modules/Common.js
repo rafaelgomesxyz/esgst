@@ -409,7 +409,6 @@ class Common extends Module {
     }
     url += `page=`;
     this.esgst.searchUrl = url;
-    this.esgst.headerNavigationLeft = /** @type {HTMLElement} */ document.getElementsByClassName('nav__left-container')[0];
     this.esgst.pagination = /** @type {HTMLElement} */ document.getElementsByClassName('pagination')[0];
     this.esgst.featuredContainer = /** @type {HTMLElement} */ document.getElementsByClassName('featured__container')[0];
     this.esgst.pageOuterWrap = /** @type {HTMLElement} */ document.getElementsByClassName(this.esgst.pageOuterWrapClass)[0];
@@ -1652,30 +1651,6 @@ class Common extends Module {
     }
   }
 
-  addHeaderButton(icon, state, title) {
-    const [query, position] = this.esgst.sg ? ['.nav__left-container', 'afterEnd'] : ['.nav_logo', 'afterEnd'];
-    const button = DOM.build(document.querySelector(query), position, [
-      ['div', { class: shared.esgst.sg ? `nav__button-container nav__button-container--notification nav__button-container--${state}` : 'nav_btn_container' }, [
-        ['span', { class: shared.esgst.sg ? 'nav__button' : 'nav_btn', title }, [
-          ['i', { class: `fa ${icon}` }]
-        ]]
-      ]]
-    ]);
-    return {
-      button,
-      changeIcon(icon) {
-        button.firstElementChild.firstElementChild.className = `fa ${icon}`;
-      },
-      changeState(state) {
-        button.classList.remove('nav__button-container--active', 'nav__button-container--inactive');
-        button.classList.add(`nav__button-container--${state}`)
-      },
-      changeTitle(title) {
-        button.firstElementChild.title = title;
-      }
-    };
-  }
-
   getFeatureTooltip(id, title = '') {
     if (gSettings.showFeatureNumber) {
       if (title) {
@@ -2041,12 +2016,22 @@ class Common extends Module {
   }
 
   async runSilentBackup() {
-    const button = this.addHeaderButton('fa-sign-out fa-spin', 'active', 'ESGST is backing up your data... Please do not close this window.');
+    const button = Shared.header.addButtonContainer({
+      buttonIcon: 'fa-sign-out fa-spin',
+      buttonName: 'ESGST Backup',
+      isActive: true,
+      isNotification: true,
+      side: 'right',
+    });
+
+    button.nodes.buttonIcon.title = 'ESGST is backing up your data... Please do not close this window.';
+
     this.esgst.parameters = Object.assign(this.esgst.parameters, { autoBackup: true });
     loadDataManagement('export', false, () => {
-      button.changeIcon('fa-check');
-      button.changeState('inactive');
-      button.changeTitle('ESGST has finished backing up.');
+      button.nodes.outer.classList.remove('nav__button-container--active');
+      button.nodes.outer.classList.add('nav__button-container--inactive');
+      button.nodes.buttonIcon.className = 'fa fa-check';
+      button.nodes.buttonIcon.title = 'ESGST has finished backing up.';
     });
   }
 

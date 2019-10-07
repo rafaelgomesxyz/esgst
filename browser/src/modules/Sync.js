@@ -1,7 +1,7 @@
 import { ButtonSet } from '../class/ButtonSet';
 import { Checkbox } from '../class/Checkbox';
 import { Popup } from '../class/Popup';
-import { shared } from '../class/Shared';
+import { shared, Shared } from '../class/Shared';
 import { elementBuilder } from '../lib/SgStUtils/ElementBuilder';
 import { gSettings } from '../class/Globals';
 import { permissions } from '../class/Permissions';
@@ -84,16 +84,27 @@ const SYNC_KEYS = {
 };
 
 async function runSilentSync(parameters) {
-  const button = shared.common.addHeaderButton('fa-refresh fa-spin', 'active', 'ESGST is syncing your data... Please do not close this window.');
+  const button = Shared.header.addButtonContainer({
+    buttonIcon: 'fa fa-refresh fa-spin',
+    buttonName: 'ESGST Sync',
+    isActive: true,
+    isNotification: true,
+    side: 'right',
+  });
+
+  button.nodes.buttonIcon.title = 'ESGST is syncing your data... Please do not close this window.';
+
   shared.esgst.parameters = Object.assign(shared.esgst.parameters, shared.common.getParameters(`?autoSync=true&${parameters.replace(/&$/, '')}`));
   const syncer = await setSync(false, true);
-  button.button.addEventListener('click', () => syncer.popup.open());
+  button.nodes.outer.addEventListener('click', () => syncer.popup.open());
   shared.esgst.isSyncing = true;
   await sync(syncer);
   shared.esgst.isSyncing = false;
-  button.changeIcon('fa-check');
-  button.changeState('inactive');
-  button.changeTitle(`ESGST has finished syncing, click here to see the results.`);
+
+  button.nodes.outer.classList.remove('nav__button-container--active');
+  button.nodes.outer.classList.add('nav__button-container--inactive');
+  button.nodes.buttonIcon.className = 'fa fa-check';
+  button.nodes.buttonIcon.title = 'ESGST has finished syncing, click here to see the results.';
 }
 
 function getDependencies(syncer, feature, id) {
