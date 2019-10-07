@@ -1942,29 +1942,37 @@ class Filters extends Module {
     let filteredCount = 0;
     let pointsCount = 0;
     for (const item of items) {
+      let tableRow;
+
+      if (item.isGame && item.table) {
+        tableRow = item.container.closest('tr');
+      }
+
+      const outerWrap = tableRow && tableRow.querySelectorAll('.esgst-gc-panel').length < 2 ? tableRow : item.outerWrap;
+
       if (unfilter) {
-        if (item.outerWrap.classList.contains('esgst-hidden') && !item.outerWrap.getAttribute('data-esgst-not-filterable')) {
-          item.outerWrap.classList.remove('esgst-hidden');
+        if (outerWrap.classList.contains('esgst-hidden') && !outerWrap.getAttribute('data-esgst-not-filterable')) {
+          outerWrap.classList.remove('esgst-hidden');
         }
-        if (obj.id === 'cf' && item.outerWrap.parentElement.classList.contains('esgst-hidden') && !item.outerWrap.parentElement.getAttribute('data-esgst-not-filterable')) {
-          item.outerWrap.parentElement.classList.remove('esgst-hidden');
+        if (obj.id === 'cf' && outerWrap.parentElement.classList.contains('esgst-hidden') && !outerWrap.parentElement.getAttribute('data-esgst-not-filterable')) {
+          outerWrap.parentElement.classList.remove('esgst-hidden');
         }
       } else if (this.filters_filterItem(obj.filters, item, obj.rules)) {
-        if (item.outerWrap.classList.contains('esgst-hidden') && !item.outerWrap.getAttribute('data-esgst-not-filterable')) {
-          item.outerWrap.classList.remove('esgst-hidden');
+        if (outerWrap.classList.contains('esgst-hidden') && !outerWrap.getAttribute('data-esgst-not-filterable')) {
+          outerWrap.classList.remove('esgst-hidden');
         }
-        if (obj.id === 'cf' && item.outerWrap.parentElement.classList.contains('esgst-hidden') && !item.outerWrap.parentElement.getAttribute('data-esgst-not-filterable')) {
-          item.outerWrap.parentElement.classList.remove('esgst-hidden');
+        if (obj.id === 'cf' && outerWrap.parentElement.classList.contains('esgst-hidden') && !outerWrap.parentElement.getAttribute('data-esgst-not-filterable')) {
+          outerWrap.parentElement.classList.remove('esgst-hidden');
         }
         if (item.points && !item.entered) {
           pointsCount += item.points;
         }
       } else {
-        if (!item.outerWrap.classList.contains('esgst-hidden') && !item.outerWrap.getAttribute('data-esgst-not-filterable')) {
-          item.outerWrap.classList.add('esgst-hidden');
+        if (!outerWrap.classList.contains('esgst-hidden') && !outerWrap.getAttribute('data-esgst-not-filterable')) {
+          outerWrap.classList.add('esgst-hidden');
         }
-        if (obj.id === 'cf' && !item.outerWrap.parentElement.classList.contains('esgst-hidden') && !item.outerWrap.parentElement.getAttribute('data-esgst-not-filterable')) {
-          item.outerWrap.parentElement.classList.add('esgst-hidden');
+        if (obj.id === 'cf' && !outerWrap.parentElement.classList.contains('esgst-hidden') && !outerWrap.parentElement.getAttribute('data-esgst-not-filterable')) {
+          outerWrap.parentElement.classList.add('esgst-hidden');
         }
         filteredCount += 1;
       }
