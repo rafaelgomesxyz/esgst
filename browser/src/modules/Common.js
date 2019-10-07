@@ -1839,7 +1839,9 @@ class Common extends Module {
     return `${id}_${namespace}_${path}`.replace(/\s/g, '');
   }
 
-  toggleHeaderMenu() {
+  toggleHeaderMenu(event) {
+    event.stopPropagation();
+
     for (const id in Shared.header.buttonContainers) {
       const buttonContainer = Shared.header.buttonContainers[id];
 
@@ -1848,7 +1850,7 @@ class Common extends Module {
         buttonContainer.nodes.relativeDropdown.classList.toggle('is_hidden');
         buttonContainer.nodes.arrow.classList.toggle('is-selected');
         buttonContainer.nodes.arrow.classList.toggle('is_selected');
-      } else {
+      } else if (buttonContainer.data.isDropdown) {
         buttonContainer.nodes.relativeDropdown.classList.add('is-hidden', 'is_hidden');
         buttonContainer.nodes.arrow.classList.remove('is-selected', 'is_selected');
       }
