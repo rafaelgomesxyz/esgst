@@ -18,14 +18,21 @@ class GiveawaysGiveawayFilters extends Filters {
       description: 'Filter giveaways.',
       features: {
         gf_s: {
-          description: 'Hide individual giveaways.',
-          guideUrl: `https://www.steamgifts.com`,
-          guideSteps: [
-            [`.esgst-gf-hide-button:first()`, 'Click here to hide this giveaway.', { reflex: true, reflexOnly: true }],
-            [`#esgst .esgst-header-menu-button:not(.arrow)`, 'Click here to open the ESGST menu.', { reflex: true,reflexOnly: true }],
-            [`.page__heading__button[title="Manage hidden giveaways"]`, 'Click here to view your hidden giveaways.', { reflex: true, reflexOnly: true }],
-            [`.esgst-popup-layer:not(.esgst-hidden) .esgst-gf-unhide-button:first()`, 'Click here to unhide the giveaway.', { reflex: true, reflexOnly: true, waitForElement: 10 }],
-            ['', 'And that\'s it!']
+          description: [
+            ['ul', [
+              ['li', [
+                'Adds a button (',
+                ['i', { class: 'fa fa-eye-slash' }],
+                ') next to a giveaway\'s title in any page that allows you to hide that individual giveaway.',
+              ]],
+              ['li', [
+                'Adds a button (',
+                ['i', { class: 'fa fa-gift' }],
+                ' ',
+                ['i', { class: 'fa fa-eye-slash' }],
+                ') to the page heading of the settings menu that allows you to manage your hidden giveaways.',
+              ]],
+            ]],
           ],
           name: 'Single Filters',
           sg: true,

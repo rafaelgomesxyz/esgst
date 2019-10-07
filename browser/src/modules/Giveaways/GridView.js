@@ -101,7 +101,7 @@ class GiveawaysGridView extends Module {
     if ((!main || !this.esgst.giveawaysPath) && (main || ((source !== 'gb' || !gSettings.gv_gb) && (source !== 'ged' || !gSettings.gv_ged) && (source !== 'ge' || !gSettings.gv_ge)))) return;
     giveaways.forEach(giveaway => {
       giveaway.grid = true;
-      let popup = giveaway.outerWrap.closest('.esgst-popup-scrollable') || (shared.common.isCurrentPath('Account') && this.esgst.parameters.esgst && this.esgst.parameters.esgst !== 'guide');
+      let popup = giveaway.outerWrap.closest('.esgst-popup-scrollable') || (shared.common.isCurrentPath('Account') && this.esgst.parameters.esgst);
       if (popup) {
         giveaway.outerWrap.parentElement.parentElement.classList.add('esgst-gv-view');
         giveaway.outerWrap.parentElement.style.display = 'inline-block';
