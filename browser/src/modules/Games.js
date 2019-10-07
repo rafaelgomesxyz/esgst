@@ -90,9 +90,6 @@ class Games extends Module {
       game.container = game.outerWrap;
       game.columns = game.container.querySelector(`.giveaway__columns, .featured__columns`);
       game.table = !!game.container.closest('table');
-      if (game.table) {
-        game.outerWrap = game.container.closest('tr');
-      }
       game.grid = game.container.closest('.esgst-gv-view');
       if (game.grid) {
         game.gvIcons = game.container.getElementsByClassName('esgst-gv-icons')[0];
@@ -168,7 +165,7 @@ class Games extends Module {
     if (!context) {
       return null;
     }
-    const link = context.querySelector(`[href*="/app/"], [href*="/sub/"], [href*="/bundle/"]`);
+    const link = context.querySelector(`[href*="store.steampowered.com/app/"], [href*="store.steampowered.com/sub/"], [href*="store.steampowered.com/bundle/"], [href*="steamcommunity.com/app/"], [href*="steamcommunity.com/sub/"], [href*="steamcommunity.com/bundle/"]`);
     const image = context.querySelector(`[style*="/apps/"], [style*="/subs/"], [style*="/bundles/"]`);
     if (link || image) {
       const url = (link && link.getAttribute('href')) || (image && image.getAttribute('style'));
