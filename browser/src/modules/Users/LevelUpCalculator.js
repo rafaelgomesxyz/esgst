@@ -8,18 +8,22 @@ class UsersLevelUpCalculator extends Module {
   constructor() {
     super();
     this.info = {
-      description: 'Show how much real CV a user needs to level up.',
+      description: [
+        ['ul', [
+          ['li', 'Shows how much real CV a user needs to level up in their profile page.'],
+          ['li', [
+            'Uses the values mentioned on ',
+            ['a', { href: 'https://www.steamgifts.com/discussion/XaCbA/' }, 'this discussion'],
+            ' for the calculation.',
+          ]],
+        ]],
+      ],
       features: {
         luc_c: {
           name: 'Display current user level.',
           sg: true
         }
       },
-      guideSteps: [
-        ['.esgst-luc-value', `Here is how much this user needs to send (in real CV) to reach the next level. This value is calculated using the values mentioned <a class="table__column__secondary-link" href="https://www.steamgifts.com/discussion/XaCbA/">this discussion</a>.`],
-        ['', 'And that\'s it!']
-      ],
-      guideUrl: `https://www.steamgifts.com/user/nobody`,
       id: 'luc',
       name: 'Level Up Calculator',
       sg: true,

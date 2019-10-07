@@ -17,8 +17,6 @@ import { loadDataCleaner, loadDataManagement } from './Storage';
 import { runSilentSync, setSync } from './Sync';
 import { elementBuilder } from '../lib/SgStUtils/ElementBuilder';
 import 'bootstrap/dist/js/bootstrap';
-import '../lib/bootstrap-tourist/bootstrap-tourist.js';
-import '../lib/bootstrap-tourist/bootstrap-tourist.css';
 import { gSettings } from '../class/Globals';
 import { permissions } from '../class/Permissions';
 import { Logger } from '../class/Logger';
@@ -273,7 +271,7 @@ class Common extends Module {
     if (customPage && customPage.check) {
       await customPage.load();
     } else if (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst !== 'ge') {
-      await this.endless_load(document, !this.esgst.parameters.esgst || this.esgst.parameters.esgst === 'guide');
+      await this.endless_load(document, !this.esgst.parameters.esgst);
     }
 
     if (this.esgst.wbcButton && !this.esgst.scopes.main.users.length) {
@@ -341,118 +339,11 @@ class Common extends Module {
     }
 
     this.esgst.modules = modules;
-
-    if (shared.esgst.parameters.esgst === 'guide') {
-      if (shared.esgst.parameters.id === 'welcome') {
-        shared.esgst.guideSteps = [
-          ['#esgst .esgst-header-menu-button.arrow', 'Click here to open the ESGST dropdown.', { reflex: true, reflexOnly: true }],
-          ['#esgst .esgst-header-menu-absolute-dropdown', 'Here you can find a bunch of useful links / information related to the extension.', { preventInteraction: true }],
-          [`#esgst .esgst-header-menu-button:not(.arrow)`, 'Click here to open the ESGST settings menu.', { reflex: true, reflexOnly: true }],
-          ['.esgst-popup .page__heading', `The page heading allows you to access many useful functionalities (sync data, backup data, restore data, delete data, clean old data), as well as save any changes you have made.`, { preventInteraction: true }],
-          [`.esgst-popup .page__heading__button[title="Sync data"]`, 'Some features require you to sync specific parts of your data in order to work properly. The sync menu is accessible through this button.', { preventInteraction: true }],
-          [`.esgst-popup .page__heading__button[title="Backup data"]`, 'It is very important to back up your data often to prevent data loss. The backup menu is accessible through this button.', { preventInteraction: true }],
-          [`.esgst-popup .page__heading__button[title="Restore data"]`, `In the event of data loss, you can restore a previous backup to get your data back. The restore menu is accessible through this button.`, { preventInteraction: true }],
-          ['#esgst_plt', `To enable a feature, simply toggle the [SG] switch for SteamGifts or the [ST] switch for SteamTrades.`, { preventInteraction: true }],
-          [`[data-id="plt"]`, `You can click on the name of the feature to get more details about it, such as what it does, additional settings for it, what data you need to sync in order for it to work properly (if any), and you can also specify where exactly you want it to run, instead of letting it run everywhere. Click here to procceed.`, { reflex: true, reflexOnly: true }],
-          ['.esgst-settings-menu-feature', 'Here you can see the details.', { preventInteraction: true }],
-          ['.esgst-menu-layer + .esgst-popup-actions .esgst-popup-close', `Remember to always save your changes, otherwise they will not persist. Now let's close the settings menu. Click here.`, { reflex: true, reflexOnly: true }],
-          [`.sidebar > .sidebar__navigation:last-of-type`, `If you do not like popups, you can access the settings menu and all of the functionalities accessible from it through these links in the sidebar, which will open a new page with the content instead of a popup in the same page.`, { preventInteraction: true }],
-          ['', `And that's the basics! ESGST can be very overwhelming with the huge number of features it has, but we want to make it as easy-to-use as possible, so make sure to leave your feedback in the SG thread. And please do not hesitate to report bugs. Enjoy!`]
-        ];
-      } else {
-        for (const type in shared.esgst.features) {
-          for (const id in shared.esgst.features[type].features) {
-            const feature = this.findFeature(shared.esgst.features[type].features[id], id);
-            if (feature) {
-              shared.esgst.guideSteps = feature.guideSteps;
-              break;
-            }
-          }
-        }
-      }
-    }
-
-    if (shared.esgst.guideSteps) {
-      this.displayGuide();
-    }
-  }
-
-  displayGuide() {
-    // @ts-ignore
-    const guide = new Tour({
-      backdrop: true,
-      orphan: true,
-      showProgressBar: false,
-      showProgressText: false,
-      storage: false,
-      template: `
-        <div class="popover" role="tooltip">
-          <div class="arrow"></div>
-          <h3 class="popover-title"></h3>
-          <div class="popover-content"></div>
-          <div class="popover-navigation">
-            <div class="btn-group">
-              <button class="btn btn-sm btn-primary" data-role="next">Next</button>
-            </div>
-            <button class="btn btn-sm btn-default" data-role="end">End</button>
-          </div>
-        </div>
-      `
-    });
-    for (let i = 0, n = shared.esgst.guideSteps.length; i < n; i++) {
-      const [element, content, options] = shared.esgst.guideSteps[i];
-      const step = {
-        placement: 'auto'
-      };
-      if (options) {
-        if (options.reflexOnly || i + 1 === n) {
-          step.content = content;
-        } else {
-          step.content = `${content}<br><br>When you are ready to continue, click "Next".`;
-        }
-        if (options.isDynamic) {
-          step.element = () => $(document).find(element);
-          delete options.isDynamic;
-        } else {
-          step.element = element;
-        }
-        Object.assign(step, options);
-      } else {
-        if (i + 1 === n) {
-          step.content = content;
-        } else {
-          step.content = `${content}<br><br>When you are ready to continue, click "Next".`;
-        }
-        step.element = element;
-      }
-      guide.addStep(step);
-    }
-    guide.start();
-    if (shared.esgst.parameters.step) {
-      guide.goTo(parseInt(shared.esgst.parameters.step));
-    }
-  }
-
-  findFeature(feature, id) {
-    if (id === shared.esgst.parameters.id) {
-      return feature;
-    }
-
-    if (feature.features) {
-      for (const subId in feature.features) {
-        const result = this.findFeature(feature.features[subId], subId);
-        if (result) {
-          return result;
-        }
-      }
-    }
-
-    return null;
   }
 
   processHash() {
     this.goToComment(this.esgst.originalHash, null, false);
-    if (this.esgst.parameters.esgst && this.esgst.parameters.esgst !== 'guide' && this.esgst.parameters.id) {
+    if (this.esgst.parameters.esgst && this.esgst.parameters.id) {
       const element = document.querySelector(`[data-id="${this.esgst.parameters.id}"]`);
       if (element) {
         const hiddenSection = element.closest(`.esgst-form-row-indent.esgst-hidden:not(.SMFeatures)`);
@@ -1187,13 +1078,40 @@ class Common extends Module {
       let popup = new Popup({
         addScrollable: true, icon: 'fa-smile-o', isTemp: true, title: [
           ['i', { class: 'fa fa-circle-o-notch fa-spin' }],
-          ` Hi! ESGST is retrieving your avatar, username and Steam ID. This will not take long...`
-        ]
+          ' Hi! ESGST is retrieving your avatar, username and Steam ID. This will not take long...'
+        ],
       });
       popup.open();
       await this.checkSync(true);
-      popup.close();
-      this.createConfirmation(`All done, ${gSettings.username}! Would you like to see an interactive guide showing you how to get started using ESGST?`, () => window.open(`https://www.steamgifts.com/account/settings/profile?esgst=guide&id=welcome`));
+
+      popup.setTitle(`All done, ${gSettings.username}! Here's some useful info on how to get started!`);
+
+      popup.getScrollable([
+        ['div', { class: 'markdown' }, [
+          ['ul', [
+            ['li', 'ESGST comes with all features disabled. Use the ESGST button at the header to access the settings menu and start enabling features.'],
+            ['li', 'The page heading in the settings menu allows you to access many useful functionalities (sync data, backup data, restore data, delete data, clean old data, etc), as well as save any changes you have made.'],
+            ['li', 'To enable a feature, simply toggle the [SG] switch for SteamGifts or the [ST] switch for SteamTrades (you have to enable ESGST for SteamTrades in the "Other" section).'],
+            ['li', 'You can click on the name of the feature to get more details about it, such as what it does, additional settings for it, what data you need to sync in order for it to work properly (if any), and you can also specify where exactly you want it to run, instead of letting it run everywhere.'],
+            ['li', 'Some features require additional browser permissions in order to work propertly. Scroll to the end of the settings menu to find the "Permissions" section, where you can see what each permission is required for.'],
+            ['li', 'It is very important to back up your data often to prevent data loss.'],
+            ['li', 'In the event of data loss, you can restore a previous backup to get your data back.'],
+            ['li', [
+              'If you do not like popups, you can access the settings menu and all of the functionalities accessible from it through links in the sidebar on your account page, which will open a new page with the content instead of a popup in the same page. These are the links for quick access: ',
+              ['a', { href: 'https://www.steamgifts.com/account/settings/profile?esgst=settings' }, 'Settings Menu'],
+              ', ',
+              ['a', { href: 'https://www.steamgifts.com/account/settings/profile?esgst=sync' }, 'Sync Data'],
+              ', ',
+              ['a', { href: 'https://www.steamgifts.com/account/settings/profile?esgst=backup' }, 'Backup Data'],
+              ', ',
+              ['a', { href: 'https://www.steamgifts.com/account/settings/profile?esgst=restore' }, 'Restore Data'],
+              ', ',
+              ['a', { href: 'https://www.steamgifts.com/account/settings/profile?esgst=delete' }, 'Delete Data'],
+            ]],
+            ['li', 'And that\'s the basics! ESGST can be very overwhelming with the huge number of features it has, but we want to make it as easy-to-use as possible, so make sure to leave your feedback in the SG thread. And please do not hesitate to report bugs. Enjoy!'],
+          ]],
+        ]],
+      ]);
     } else if (isUpdate && gSettings.showChangelog) {
       new Popup({
         icon: 'fa-star',
@@ -1313,129 +1231,6 @@ class Common extends Module {
       await this.lockAndSaveGiveaways(ggiveaways);
       await this.saveUser(null, null, user);
       popup.close();
-    }
-  }
-
-  /**
-   * @param details
-   * @param [key]
-   * @returns {*}
-   */
-  generateHeaderMenuItem(details, key) {
-    if (details.icon) {
-      let icon = details.icon;
-      if (details.color) {
-        icon += ` icon-${details.color}`;
-      }
-      if (details.url) {
-        return [{
-          attributes: {
-            class: `esgst-header-menu-row${details.className || ''}`,
-            ['data-link-id']: details.id,
-            ['data-link-key']: key,
-            href: details.url,
-            title: details.title || ''
-          },
-          type: 'a',
-          children: [{
-            attributes: {
-              class: `fa fa-fw ${icon}`
-            },
-            type: 'i'
-          }, {
-            type: 'div',
-            children: [{
-              attributes: {
-                class: 'esgst-header-menu-name'
-              },
-              text: details.name,
-              type: 'p'
-            }, details.description ? {
-              attributes: {
-                class: 'esgst-header-menu-description'
-              },
-              text: details.description,
-              type: 'p'
-            } : null]
-          }]
-        }];
-      }
-      return [{
-        attributes: {
-          class: `esgst-header-menu-row${details.className || ''}`,
-          ['data-link-id']: details.id,
-          ['data-link-key']: key,
-          title: details.title || ''
-        },
-        type: 'div',
-        children: [{
-          attributes: {
-            class: `fa fa-fw ${icon}`
-          },
-          type: 'i'
-        }, {
-          type: 'div',
-          children: [{
-            attributes: {
-              class: 'esgst-header-menu-name'
-            },
-            text: details.name,
-            type: 'p'
-          }, details.description ? {
-            attributes: {
-              class: 'esgst-header-menu-description'
-            },
-            text: details.description,
-            type: 'p'
-          } : null]
-        }]
-      }];
-    }
-    if (this.esgst.sg) {
-      return [{
-        attributes: {
-          class: `nav__row${details.className || ''}`,
-          ['data-link-id']: details.id,
-          ['data-link-key']: key,
-          href: details.url,
-          title: details.title || ''
-        },
-        type: 'a',
-        children: [{
-          attributes: {
-            class: 'nav__row__summary'
-          },
-          type: 'div',
-          children: [{
-            attributes: {
-              class: 'nav__row__summary__name'
-            },
-            text: details.name,
-            type: 'p'
-          }, details.description ? {
-            attributes: {
-              class: 'esgst-header-menu-description'
-            },
-            text: details.description,
-            type: 'p'
-          } : null]
-        }]
-      }];
-    } else {
-      return [{
-        attributes: {
-          class: `dropdown_btn${details.className || ''}`,
-          ['data-link-id']: details.id,
-          ['data-link-key']: key,
-          href: details.url,
-          title: details.title || ''
-        },
-        type: 'a',
-        children: [{
-          text: details.name,
-          type: 'span'
-        }]
-      }];
     }
   }
 

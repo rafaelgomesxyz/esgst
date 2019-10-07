@@ -179,77 +179,77 @@ class Settings {
         onclick: () => shared.esgst.modules.loadDataCleaner(true)
       },
       {
-        check: !shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === 'guide',
+        check: !shared.esgst.parameters.esgst,
         icons: ['fa-user', 'fa-history'],
         position: 'afterBegin',
         title: 'View recent username changes',
         onclick: event => shared.common.setSMRecentUsernameChanges()
       },
       {
-        check: (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === 'guide') && gSettings.uf,
+        check: !shared.esgst.parameters.esgst && gSettings.uf,
         icons: ['fa-user', 'fa-eye-slash'],
         position: 'afterBegin',
         title: 'See list of filtered users',
         onclick: event => shared.common.setSMManageFilteredUsers()
       },
       {
-        check: (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === 'guide') && shared.esgst.sg && gSettings.gf && gSettings.gf_s,
+        check: !shared.esgst.parameters.esgst && shared.esgst.sg && gSettings.gf && gSettings.gf_s,
         icons: ['fa-gift', 'fa-eye-slash'],
         position: 'afterBegin',
         title: 'Manage hidden giveaways',
         onclick: event => shared.common.setSMManageFilteredGiveaways()
       },
       {
-        check: (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === 'guide') && shared.esgst.sg && gSettings.df && gSettings.df_s,
+        check: !shared.esgst.parameters.esgst && shared.esgst.sg && gSettings.df && gSettings.df_s,
         icons: ['fa-comments', 'fa-eye-slash'],
         position: 'afterBegin',
         title: 'Manage hidden discussions',
         onclick: event => shared.esgst.modules.discussionsDiscussionFilters.df_menu({}, event.currentTarget)
       },
       {
-        check: (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === 'guide') && shared.esgst.st && gSettings.tf && gSettings.tf_s,
+        check: !shared.esgst.parameters.esgst && shared.esgst.st && gSettings.tf && gSettings.tf_s,
         icons: ['fa-retweet', 'fa-eye-slash'],
         position: 'afterBegin',
         title: 'Manage hidden trades',
         onclick: event => shared.esgst.modules.tradesTradeFilters.tf_menu({}, event.currentTarget)
       },
       {
-        check: (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === 'guide') && shared.esgst.sg && gSettings.dt,
+        check: !shared.esgst.parameters.esgst && shared.esgst.sg && gSettings.dt,
         icons: ['fa-comments', 'fa-tags'],
         position: 'afterBegin',
         title: 'Manage discussion tags',
         onclick: () => shared.common.openManageDiscussionTagsPopup()
       },
       {
-        check: (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === 'guide') && shared.esgst.sg && gSettings.ut,
+        check: !shared.esgst.parameters.esgst && shared.esgst.sg && gSettings.ut,
         icons: ['fa-user', 'fa-tags'],
         position: 'afterBegin',
         title: 'Manage user tags',
         onclick: () => shared.common.openManageUserTagsPopup()
       },
       {
-        check: (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === 'guide') && gSettings.gt,
+        check: !shared.esgst.parameters.esgst && gSettings.gt,
         icons: ['fa-gamepad', 'fa-tags'],
         position: 'afterBegin',
         title: 'Manage game tags',
         onclick: () => shared.common.openManageGameTagsPopup()
       },
       {
-        check: (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === 'guide') && gSettings.gpt,
+        check: !shared.esgst.parameters.esgst && gSettings.gpt,
         icons: ['fa-users', 'fa-tags'],
         position: 'afterBegin',
         title: 'Manage group tags',
         onclick: () => shared.common.openManageGroupTagsPopup()
       },
       {
-        check: (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === 'guide') && gSettings.wbc,
+        check: !shared.esgst.parameters.esgst && gSettings.wbc,
         icons: ['fa-heart', 'fa-ban', 'fa-cog'],
         position: 'afterBegin',
         title: 'Manage Whitelist / Blacklist Checker caches',
         ref: button => shared.esgst.modules.usersWhitelistBlacklistChecker.wbc_addButton(false, button)
       },
       {
-        check: (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst === 'guide') && gSettings.namwc,
+        check: !shared.esgst.parameters.esgst && gSettings.namwc,
         icons: ['fa-trophy', 'fa-cog'],
         position: 'afterBegin',
         title: 'Manage Not Activated / Multiple Wins Checker caches',
@@ -468,12 +468,6 @@ class Settings {
         ['i', { 'data-clipboard-text': url, class: 'icon_to_clipboard fa fa-fw fa-copy' }]
       ],
       name: 'Link'
-    }, {
-      check: feature.guideUrl,
-      content: [
-        ['a',  { href: `${feature.guideUrl}?esgst=guide&id=${id}` }, `${feature.guideUrl}?esgst=guide&id=${id}`]
-      ],
-      name: 'Guide'
     }];
     let sgContext, stContext, sgtoolsContext;
     if (feature.sg) {

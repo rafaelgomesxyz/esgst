@@ -28,7 +28,6 @@ class Esgst {
     this.wbcButton = undefined;
     this.minimizePanel = undefined;
     this.onBeforeCommentSubmit = undefined;
-    this.guideSteps = undefined;
     this.leftMainPageHeadingButtons = undefined;
     this.rightMainPageHeadingButtons = undefined;
 
@@ -1262,11 +1261,7 @@ class Esgst {
 
     this.parameters = this.modules.common.getParameters();
 
-    if (this.parameters.esgst === 'guide') {
-      this.locationHref = window.location.href.replace(/\?.+/, '');
-    } else {
-      this.locationHref = window.location.href;
-    }
+    this.locationHref = window.location.href;
 
     this.markdownParser = new Parsedown;
     this.sg = window.location.hostname.match(/www.steamgifts.com/);

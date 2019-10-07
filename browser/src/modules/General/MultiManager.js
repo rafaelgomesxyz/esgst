@@ -68,7 +68,7 @@ class GeneralMultiManager extends Module {
   }
 
   init() {
-    if (this.esgst.parameters.esgst && this.esgst.parameters.esgst !== 'guide') return;
+    if (this.esgst.parameters.esgst) return;
     this.mm();
   }
 
