@@ -50,7 +50,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
         'new': 'createANewGiveaway',
         'wishlist': 'communityWishlist',
         'created': 'viewCreated',
-        'entered': 'viewEnteres',
+        'entered': 'viewEntered',
         'won': 'viewWon',
       },
       discussions: {
