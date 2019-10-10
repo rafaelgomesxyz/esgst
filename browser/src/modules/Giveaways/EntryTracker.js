@@ -47,7 +47,7 @@ class GiveawaysEntryTracker extends Module {
       onClick: this.et_menu.bind(this),
     });
 
-    dropdownItem.nodes.outer.dataset.linkId = 'et';
+    dropdownItem.nodes.outer.dataset.linkId = 'myEntryHistory';
     dropdownItem.nodes.outer.dataset.linkKey = 'account';
     dropdownItem.nodes.outer.title = getFeatureTooltip('et');
 
