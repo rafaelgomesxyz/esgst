@@ -1,5 +1,7 @@
 import { shared } from './Shared';
 import { Utils } from '../lib/jsUtils';
+import { IHeader } from '../components/Header';
+import { generalCustomHeaderFooterLinks } from '../modules/General/CustomHeaderFooterLinks';
 
 class PersistentStorage {
   constructor() { }
@@ -36,7 +38,9 @@ class PersistentStorage {
       if (!isRestoring) {
         shared.esgst.settingsChanged = true;
       }
-    } else if (version < 3) {
+    }
+
+    if (version < 3) {
       if (Utils.isSet(settings.chfl_discussions_sg)) {
         const index = settings.chfl_discussions_sg.indexOf('created');
 
@@ -44,6 +48,58 @@ class PersistentStorage {
           settings.chfl_discussions_sg.splice(index + 1, 0, 'bookmarked');
         } else {
           settings.chfl_discussions_sg.push('bookmarked');
+        }
+      }
+
+      if (!isRestoring) {
+        shared.esgst.settingsChanged = true;
+      }
+    }
+
+    if (version < 4) {
+      const keys = ['giveaways_sg', 'discussions_sg', 'support_sg', 'help_sg', 'account_sg', 'footer_sg', 'trades_st', 'account_st', 'footer_st'];
+
+      for (const key of keys) {
+        const source = key.match(/(.+?)_/)[1];
+
+        if (Utils.isSet(settings[`chfl_${key}`])) {
+          settings[`chfl_${key}`] = settings[`chfl_${key}`].map(item => {
+            if (item.id) {
+              item.id = IHeader.generateId(item.name);
+            } else {
+              item = generalCustomHeaderFooterLinks.newIds[source][item] || item;
+            }
+
+            return item;
+          });
+        }
+      }
+
+      if (Utils.isSet(settings.chfl_account_st)) {
+        const index = settings.chfl_account_st.indexOf('reviews');
+
+        if (index > -1) {
+          settings.chfl_account_st.splice(index + 1, 0, 'comments', 'settings');
+        } else {
+          settings.chfl_account_st.push('comments', 'settings');
+        }
+      }
+
+      if (Utils.isSet(settings.chfl_footer_st)) {
+        let index = settings.chfl_footer_st.indexOf('privacyPolicy');
+
+        if (index > -1) {
+          settings.chfl_footer_st.splice(index + 1, 0, 'cookiePolicy');
+        } else {
+          settings.chfl_footer_st.push('cookiePolicy');
+        }
+
+        index = settings.chfl_footer_st.indexOf('termsOfService');
+
+        if (index > -1) {
+          settings.chfl_footer_st.splice(index + 1, 0, 'advertise');
+        } else {
+          settings.chfl_footer_st.push('advertise');
         }
       }
 
