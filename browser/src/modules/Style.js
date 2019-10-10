@@ -607,7 +607,7 @@ function addStyle() {
     width: 550px;
   }
 
-  .esgst-mm-popout textarea {
+  .esgst-mm-popout textarea, .esgst-textarea-small {
     height: 150px !important;
     overflow-y: auto !important;
   }

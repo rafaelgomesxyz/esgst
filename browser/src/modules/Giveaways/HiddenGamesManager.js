@@ -72,7 +72,7 @@ class GiveawaysHiddenGamesManager extends Module {
       type: 'div'
     }]);
     obj.textArea = DOM.build(obj.popup.description, 'afterBegin', [
-      ['textarea', { placeholder: `https://store.steampowered.com/app/400\nhttps://store.steampowered.com/sub/1280`}]
+      ['textarea', { class: 'esgst-textarea-small', placeholder: `https://store.steampowered.com/app/400\nhttps://store.steampowered.com/sub/1280` }],
     ]);
     new ToggleSwitch(obj.popup.scrollable, 'hgm_addOwned', false, 'Add all owned games.', false, false, null, gSettings.hgm_addOwned);
     new ToggleSwitch(obj.popup.scrollable, 'hgm_addIgnored', false, 'Add all ignored games.', false, false, null, gSettings.hgm_addIgnored);
