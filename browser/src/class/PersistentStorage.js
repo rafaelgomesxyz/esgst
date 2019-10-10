@@ -108,6 +108,16 @@ class PersistentStorage {
       }
     }
 
+    if (version < 5) {
+      if (settings.npth_nextRegex === 'forw|more|next|onwards|►|>|→') {
+        settings.npth_nextRegex = 'forw|more|next|onwards?|►|>|→';
+      }
+
+      if (!isRestoring) {
+        shared.esgst.settingsChanged = true;
+      }
+    }
+
     if (!isRestoring) {
       shared.common.setValue('v', shared.esgst.CURRENT_STORAGE_VERSION);
     }

@@ -4,7 +4,7 @@ import { shared } from './Shared';
 
 class Esgst {
   constructor() {
-    this.CURRENT_STORAGE_VERSION = 4;
+    this.CURRENT_STORAGE_VERSION = 5;
     this.CURRENT_GIVEAWAY_VERSION = 2;
 
     this.gmf = undefined;
@@ -265,7 +265,7 @@ class Esgst {
       deleteOldBackups_days: 90,
       sfi_icon: 'user',
       npth_previousRegex: 'back|last|less|prev|<|←',
-      npth_nextRegex: 'forw|more|next|onwards|►|>|→',
+      npth_nextRegex: 'forw|more|next|onwards?|►|>|→',
       permissionsDenied: [],
       egh_c_sg: true,
       cewgd_c_sg: true,
