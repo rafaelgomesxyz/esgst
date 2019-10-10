@@ -4,11 +4,14 @@ import { Popup } from '../../class/Popup';
 import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { Utils } from '../../lib/jsUtils';
 import { common } from '../Common';
-import { shared } from '../../class/Shared';
+import { shared, Shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
 import { Logger } from '../../class/Logger';
 import { DOM } from '../../class/DOM';
 import { Session } from '../../class/Session';
+import { Table } from '../../class/Table';
+import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
+import { Popout } from '../../class/Popout';
 
 const
   createElements = common.createElements.bind(common),
@@ -139,7 +142,7 @@ class UsersWhitelistBlacklistChecker extends Module {
   }
 
   wbc_addButton(Context, WBCButton) {
-    let checkAllSwitch, checkPagesSwitch, checkSingleSwitch, popup, skip;
+    let checkAllSwitch, checkPagesSwitch, checkSingleSwitch, popup;
 
     let WBC = {};
     WBC.Update = !Context;
@@ -147,8 +150,6 @@ class UsersWhitelistBlacklistChecker extends Module {
     WBC.Username = gSettings.username;
     popup = new Popup({
       addScrollable: true,
-      icon: WBC.Update ? 'fa-cog' : 'fa-question',
-      title: WBC.Update ? `Manage Whitelist/Blacklist Checker caches:` : `Check for whitelists${WBC.B ? '/blacklists' : ''}:`
     });
     if (window.location.pathname.match(new RegExp(`^/user/(?!${WBC.Username})`))) {
       WBC.User = {
@@ -157,7 +158,26 @@ class UsersWhitelistBlacklistChecker extends Module {
         SteamID64: document.querySelector(`a[href*="/profiles/"]`).href.match(/\d+/)[0],
       };
     }
-    popup.Options = createElements(popup.description, 'beforeEnd', [{ type: 'div' }]);
+
+    let optionsButton;
+
+    this.heading = new elementBuilder.sg.pageHeading({
+      context: popup.description,
+      position: 'beforeEnd',
+      breadcrumbs: [WBC.Update ? 'Manage Whitelist/Blacklist Checker caches' : `Check for whitelists${WBC.B ? '/blacklists' : ''}`],
+      buttons: [
+        {
+          icons: ['fa-gear'],
+          position: 'beforeEnd',
+          title: 'Options',
+          ref: ref => optionsButton = ref,
+        },
+      ],
+    });
+
+    const popout = new Popout('', optionsButton, 0, true);
+
+    popup.Options = createElements(popout.popout, 'beforeEnd', [{ type: 'div' }]);
     if (WBC.User) {
       checkSingleSwitch = new ToggleSwitch(popup.Options, 'wbc_checkSingle', false, `Only check ${WBC.User ? WBC.User.Username : 'current user'}.`, false, false, `If disabled, all users in the current page will be checked.`, gSettings.wbc_checkSingle);
     }
@@ -282,7 +302,7 @@ class UsersWhitelistBlacklistChecker extends Module {
       text: `If an user is highlighted, that means they have been either checked for the first time or updated.`,
       type: 'div'
     }]);
-    popup.description.appendChild(new ButtonSet({
+    this.heading.pageHeading.appendChild(new ButtonSet({
       color1: 'green',
       color2: 'grey',
       icon1: WBC.Update ? 'fa-refresh' : 'fa-question-circle',
@@ -294,8 +314,12 @@ class UsersWhitelistBlacklistChecker extends Module {
           WBC.ShowResults = false;
           WBCButton.classList.add('esgst-busy');
           // noinspection JSIgnoredPromiseFromCall
-          this.wbc_setCheck(WBC, skip, () => {
-            skip.innerHTML = '';
+          this.wbc_setCheck(WBC, () => {
+            if (this.skip) {
+              this.skip.remove();
+
+              this.skip = null;
+            }
             WBCButton.classList.remove('esgst-busy');
             resolve();
             WBC.popup.setDone();
@@ -303,7 +327,11 @@ class UsersWhitelistBlacklistChecker extends Module {
         });
       },
       callback2: () => {
-        skip.innerHTML = '';
+        if (this.skip) {
+          this.skip.remove();
+
+          this.skip = null;
+        }
         window.clearInterval(WBC.Request);
         window.clearInterval(WBC.Save);
         WBC.Canceled = true;
@@ -313,35 +341,96 @@ class UsersWhitelistBlacklistChecker extends Module {
         WBCButton.classList.remove('esgst-busy');
       }
     }).set);
-    skip = createElements(popup.description, 'beforeEnd', [{ type: 'div' }]);
     WBC.Progress = createElements(popup.description, 'beforeEnd', [{ type: 'div' }]);
     WBC.OverallProgress = createElements(popup.description, 'beforeEnd', [{ type: 'div' }]);
     popup.Results = createElements(popup.scrollable, 'beforeEnd', [{ type: 'div' }]);
-    createResults(popup.Results, WBC, [{
-      Icon: 'fa fa-heart esgst-whitelist',
-      Description: 'You are whitelisted by',
-      Key: 'whitelisted'
-    }, {
-      Icon: 'fa fa-ban esgst-blacklist',
-      Description: 'You are blacklisted by',
-      Key: 'blacklisted'
-    }, {
-      Icon: 'fa fa-check-circle',
-      Description: WBC.B ? "You are neither whitelisted nor blacklisted by" : 'You are not whitelisted by',
-      Key: 'none'
-    }, {
-      Icon: 'fa fa-question-circle',
-      Description: 'You are not blacklisted and there is not enough information to know if you are whitelisted by',
-      Key: 'notBlacklisted'
-    }, {
-      Icon: 'fa fa-question-circle',
-      Description: `There is not enough information to know if you are whitelisted${WBC.B ? ' or blacklisted' : ''} by`,
-      Key: 'unknown'
-    }, {
-      Icon: 'fa fa-times-circle',
-      Description: 'Could not find these users (they might not exist or have changed their username)',
-      Key: 'nonexistent'
-    }]);
+
+    this.table = new Table([
+      [
+        {
+          size: 'fill',
+          value: [
+            ['i', { class: 'fa fa-heart esgst-whitelist' }],
+            ' Whitelisted (',
+            ['span', { ref: ref => this.whitelistedCount = ref }, '0'],
+            ') ',
+            ['i', { class: 'fa fa-question-circle', title: 'Users that have whitelisted you' }],
+          ],
+        },
+        {
+          size: 'fill',
+          value: [
+            ['i', { class: 'fa fa-ban esgst-blacklist' }],
+            ' Blacklisted (',
+            ['span', { ref: ref => this.blacklistedCount = ref }, '0'],
+            ') ',
+            ['i', { class: 'fa fa-question-circle', title: 'Users that have blacklisted you' }],
+          ],
+        },
+        {
+          size: 'fill',
+          value: [
+            ['i', { class: 'fa fa-check' }],
+            WBC.B ? ' None (' : ' Not Whitelisted (',
+            ['span', { ref: ref => this.noneCount = ref }, '0'],
+            ') ',
+            ['i', { class: 'fa fa-question-circle', title: WBC.B ? 'Users that have neither whitelisted nor blacklisted you' : 'Users that have not whitelisted you' }],
+          ],
+        },
+        {
+          size: 'fill',
+          value: [
+            ['i', { class: 'fa fa-question' }],
+            ' Not Blacklisted (',
+            ['span', { ref: ref => this.notBlacklistedCount = ref }, '0'],
+            ') ',
+            ['i', { class: 'fa fa-question-circle', title: 'Users that have not blacklisted you, but there is not enough information to know if they have whitelisted you' }],
+          ],
+        },
+        {
+          size: 'fill',
+          value: [
+            ['i', { class: 'fa fa-question' }],
+            ' Unknown (',
+            ['span', { ref: ref => this.unknownCount = ref }, '0'],
+            ') ',
+            ['i', { class: 'fa fa-question-circle', title: WBC.B ? 'There is not enough information to know if these users have whitelisted or blacklisted you' : 'There is not enough information to know if these users have whitelisted you' }],
+          ],
+        },
+        {
+          size: 'fill',
+          value: [
+            ['i', { class: 'fa fa-times' }],
+            ' Not Found (',
+            ['span', { ref: ref => this.nonexistentCount = ref }, '0'],
+            ') ',
+            ['i', { class: 'fa fa-question-circle', title: 'These users were not found (most likely they changed usernames or deleted their account)' }],
+          ],
+        },
+      ],
+    ]);
+
+    if (!WBC.B) {
+      this.table.hideColumns(2, 4);
+    }
+
+    this.table.table.style.minWidth = '1200px';
+
+    popup.Results.appendChild(this.table.table);
+
+    this.whitelistedRow = 0;
+    this.whitelistedColumn = 0;
+    this.blacklistedRow = 0;
+    this.blacklistedColumn = 1;
+    this.noneRow = 0;
+    this.noneColumn = 2;
+    this.notBlacklistedRow = 0;
+    this.notBlacklistedColumn = 3;
+    this.unknownRow = 0;
+    this.unknownColumn = 4;
+    this.nonexistentRow = 0;
+    this.nonexistentColumn = 5;
+
     WBCButton.addEventListener('click', () => {
       if (WBCButton.getAttribute('data-mm')) {
         if (!gSettings.wbc_checkSelected) {
@@ -389,7 +478,7 @@ class UsersWhitelistBlacklistChecker extends Module {
         if (WBC.Update) {
           WBC.ShowResults = true;
           // noinspection JSIgnoredPromiseFromCall
-          this.wbc_setCheck(WBC, skip);
+          this.wbc_setCheck(WBC);
         }
       });
     });
@@ -397,27 +486,23 @@ class UsersWhitelistBlacklistChecker extends Module {
 
   /**
    * @param WBC
-   * @param skip
    * @param [Callback]
    * @returns {Promise<void>}
    */
-  async wbc_setCheck(WBC, skip, Callback) {
+  async wbc_setCheck(WBC, Callback) {
     let SavedUsers, I, N;
     WBC.Progress.innerHTML = '';
     WBC.OverallProgress.innerHTML = '';
-    WBC.whitelisted.classList.add('esgst-hidden');
-    WBC.blacklisted.classList.add('esgst-hidden');
-    WBC.none.classList.add('esgst-hidden');
-    WBC.notBlacklisted.classList.add('esgst-hidden');
-    WBC.unknown.classList.add('esgst-hidden');
-    WBC.nonexistent.classList.add('esgst-hidden');
-    WBC.whitelistedCount.textContent = WBC.blacklistedCount.textContent = WBC.noneCount.textContent = WBC.notBlacklistedCount.textContent = WBC.unknownCount.textContent = WBC.nonexistentCount.textContent = '0';
-    WBC.whitelistedUsers.innerHTML = '';
-    WBC.blacklistedUsers.innerHTML = '';
-    WBC.noneUsers.innerHTML = '';
-    WBC.notBlacklistedUsers.innerHTML = '';
-    WBC.unknownUsers.innerHTML = '';
-    WBC.nonexistentUsers.innerHTML = '';
+
+    this.whitelistedCount.textContent = '0';
+    this.blacklistedCount.textContent = '0';
+    this.noneCount.textContent = '0';
+    this.notBlacklistedCount.textContent = '0';
+    this.unknownCount.textContent = '0';
+    this.nonexistentCount.textContent = '0';
+
+    this.table.clear();
+
     WBC.Users = [];
     WBC.Canceled = false;
     if (WBC.Update) {
@@ -444,10 +529,10 @@ class UsersWhitelistBlacklistChecker extends Module {
             username: WBC.Users[I]
           };
           // noinspection JSIgnoredPromiseFromCall
-          this.wbc_setResult(WBC, user, SavedUsers.users[SavedUsers.steamIds[WBC.Users[I]]].wbc, SavedUsers.users[SavedUsers.steamIds[WBC.Users[I]]].notes, SavedUsers.users[SavedUsers.steamIds[WBC.Users[I]]].whitelisted, SavedUsers.users[SavedUsers.steamIds[WBC.Users[I]]].blacklisted, false);
+          await this.wbc_setResult(WBC, user, SavedUsers.users[SavedUsers.steamIds[WBC.Users[I]]].wbc, SavedUsers.users[SavedUsers.steamIds[WBC.Users[I]]].notes, SavedUsers.users[SavedUsers.steamIds[WBC.Users[I]]].whitelisted, SavedUsers.users[SavedUsers.steamIds[WBC.Users[I]]].blacklisted, false);
         }
       } else {
-        skip.appendChild(new ButtonSet({
+        this.skip = new ButtonSet({
           color1: 'green',
           color2: '',
           icon1: 'fa-forward',
@@ -457,7 +542,9 @@ class UsersWhitelistBlacklistChecker extends Module {
           callback1: () => {
             WBC.manualSkip = true;
           }
-        }).set);
+        }).set;
+        this.heading.pageHeading.appendChild(this.skip);
+
         // noinspection JSIgnoredPromiseFromCall
         this.wbc_checkUsers(WBC, 0, WBC.Users.length, Callback);
       }
@@ -484,7 +571,7 @@ class UsersWhitelistBlacklistChecker extends Module {
         WBC.lastPage = gSettings.wbc_checkPages ? `of ${gSettings.wbc_maxPage}` : '';
         // noinspection JSIgnoredPromiseFromCall
         this.wbc_getUsers(WBC, gSettings.wbc_checkPages ? (gSettings.wbc_minPage - 1) : 0, shared.esgst.currentPage, shared.esgst.searchUrl, () => {
-          skip.appendChild(new ButtonSet({
+          this.skip = new ButtonSet({
             color1: 'green',
             color2: '',
             icon1: 'fa-forward',
@@ -494,7 +581,9 @@ class UsersWhitelistBlacklistChecker extends Module {
             callback1: () => {
               WBC.manualSkip = true;
             }
-          }).set);
+          }).set;
+          this.heading.pageHeading.appendChild(this.skip);
+
           WBC.Users = Utils.sortArray(WBC.Users);
           if (window.location.pathname.match(/^\/users/)) {
             WBC.Users = WBC.Users.slice(0, 25);
@@ -503,7 +592,7 @@ class UsersWhitelistBlacklistChecker extends Module {
           this.wbc_checkUsers(WBC, 0, WBC.Users.length, Callback);
         });
       } else {
-        skip.appendChild(new ButtonSet({
+        this.skip = new ButtonSet({
           color1: 'green',
           color2: '',
           icon1: 'fa-forward',
@@ -513,7 +602,9 @@ class UsersWhitelistBlacklistChecker extends Module {
           callback1: () => {
             WBC.manualSkip = true;
           }
-        }).set);
+        }).set;
+        this.heading.pageHeading.appendChild(this.skip);
+
         WBC.Users = Utils.sortArray(WBC.Users);
         if (window.location.pathname.match(/^\/users/)) {
           WBC.Users = WBC.Users.slice(0, 25);
@@ -576,7 +667,6 @@ class UsersWhitelistBlacklistChecker extends Module {
     WBC.autoSkip = false;
     if (!WBC.Canceled) {
       Key = ((wbc.result === 'blacklisted' || wbc.result === 'notBlacklisted') && !WBC.B) ? 'unknown' : wbc.result;
-      WBC[Key].classList.remove('esgst-hidden');
       const attributes = {
         href: `/user/${user.username}`
       };
@@ -584,49 +674,39 @@ class UsersWhitelistBlacklistChecker extends Module {
         attributes.class = 'esgst-bold esgst-italic';
       }
       let items = null;
+
       if (isSkipped && (wbc.result === 'unknown' || wbc.result === 'notBlacklisted')) {
-        items = [{
-          type: 'span',
-          children: [{
-            attributes,
-            text: `${user.username} `,
-            type: 'a'
-          }, {
-            attributes: {
-              class: 'fa fa-forward',
-              title: `This user was skipped, so there may actually be enough information available.`
-            },
-            type: 'i'
-          }]
-        }];
+        items = [
+          ['span', [
+            ['a', attributes, `${user.username} `],
+            ['i', { class: 'fa fa-forward', title: 'This user was skipped, so there may actually be enough information available.' }],
+          ]],
+        ];
       } else {
-        items = [{
-          type: 'div',
-          children: [{
-            attributes,
-            text: user.username,
-            type: 'a'
-          }, ...(wbc.wl_ga || wbc.g_wl_ga || wbc.ga ? [{
-            text: ' ',
-            type: 'node'
-          }, {
-            attributes: {
-              href: `/giveaway/${wbc.wl_ga || wbc.g_wl_ga || wbc.ga}/`,
-              target: '_blank'
-            },
-            type: 'a',
-            children: [{
-              attributes: {
-                class: 'fa fa-external-link',
-                title: 'Confirm'
-              },
-              type: 'i'
-            }]
-          }] : [])]
-        }];
+        items = [
+          ['div', [
+            ['a', attributes, user.username],
+            ...(wbc.wl_ga || wbc.g_wl_ga || wbc.ga ? [
+              ' ',
+              ['a', { href: `/giveaway/${wbc.wl_ga || wbc.g_wl_ga || wbc.ga}/`, target: '_blank' }, [
+                ['i', { class: 'fa fa-external-link', title: 'Confirm' }],
+              ]],
+            ] : []),
+          ]],
+        ];
       }
-      WBC[`${Key}Count`].textContent = parseInt(WBC[`${Key}Count`].textContent) + 1;
-      createElements(WBC[`${Key}Users`], 'beforeEnd', items);
+
+      this[`${Key}Count`].textContent = parseInt(this[`${Key}Count`].textContent) + 1;
+
+      const cell = this.table.addCell(this[`${Key}Row`], this[`${Key}Column`], {
+        size: 'fill',
+        value: items,
+      });
+
+      await Shared.common.endless_load(cell);
+
+      this[`${Key}Row`] += 1;
+
       if (!WBC.ShowResults) {
         if ((gSettings.wbc_returnWhitelists && (wbc.result === 'whitelisted') && !whitelisted) || (WBC.B && gSettings.wbc_returnBlacklists && (wbc.result === 'blacklisted') && !blacklisted)) {
           if (user.id) {
