@@ -38,7 +38,7 @@ class CommentsCommentHistory extends Module {
       name: 'My Comment History',
     });
 
-    dropdownItem.nodes.outer.dataset.linkId = 'ch';
+    dropdownItem.nodes.outer.dataset.linkId = 'myCommentHistory';
     dropdownItem.nodes.outer.dataset.linkKey = 'account';
     dropdownItem.nodes.outer.title = shared.common.getFeatureTooltip('ch');
 
