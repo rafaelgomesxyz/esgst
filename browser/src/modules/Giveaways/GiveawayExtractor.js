@@ -648,21 +648,11 @@ class GiveawaysGiveawayExtractor extends Module {
   }
 
   ge_getGiveaways(ge, context) {
-    const description = context.querySelector('.page__description');
-    const op = context.querySelector('.markdown');
     const giveawaySelectors = [
       `img[title]`,
       `[href*="/giveaway/"]`,
       `[href*="sgtools.info/giveaways"]`
     ];
-    let elements;
-    if (ge.ignoreDiscussionComments && !description && op) {
-      elements = op.querySelectorAll(giveawaySelectors.join(`, `));
-    } else if (ge.ignoreGiveawayComments && description) {
-      elements = description.querySelectorAll(giveawaySelectors.join(`, `));
-    } else {
-      elements = context.querySelectorAll(giveawaySelectors.map(x => `.markdown ${x}`).join(`, `));
-    }
     let giveaways = [];
     if (context === ge.context) {
       let match = getParameters().url.match(/\/giveaway\/(.+?)\//);
@@ -675,39 +665,44 @@ class GiveawaysGiveawayExtractor extends Module {
         giveaways.push(match[1]);
       }
     }
-    let next = {
+
+    const next = {
       code: null,
-      count: 0
+      count: 0,
     };
-    for (let element of elements) {
-      if (element.matches('img')) {
-        const title = element.getAttribute('title');
-        if (title.length === 5) {
-          if (ge.extracted.indexOf(title) < 0 && giveaways.indexOf(title) < 0) {
-            giveaways.push(title);
-          }
-        }
-        continue;
+
+    const description = context.querySelector('.page__description');
+    const op = context.querySelector('.markdown');
+    const commentElements = context.querySelectorAll('.comments');
+
+    let elements;
+
+    if (description) {
+      elements = description.querySelectorAll(giveawaySelectors.join(', '));
+
+      for (const element of elements) {
+        this.ge_getGiveaway(element, ge, giveaways, next);
       }
-      let url = element.getAttribute('href');
-      let match = url.match(/\/(\w{5})\b/);
-      if (!match) {
-        match = url.match(/(\w{8}-\w{4}-\w{4}-\w{4}-\w{12})/);
-        if (!match) continue;
-      }
-      let code = match[1];
-      if (!ge.extractOnward || this.esgst.discussionPath || element.textContent.toLowerCase().match(this.nextRegex)) {
-        if (ge.extracted.indexOf(code) < 0 && giveaways.indexOf(code) < 0) {
-          giveaways.push(code);
+
+      if (!ge.ignoreGiveawayComments && commentElements.length > 0) {
+        elements = commentElements[commentElements.length - 1].querySelectorAll(giveawaySelectors.map(x => `.markdown ${x}`).join(', '));
+
+        for (const element of elements) {
+          this.ge_getGiveaway(element, ge, giveaways);
         }
-      } else {
-        match = element.textContent.match(/\d+/);
-        if (match) {
-          let count = parseInt(match[0]);
-          if (count > next.count && ge.extracted.indexOf(code) < 0 && giveaways.indexOf(code) < 0) {
-            next.code = code;
-            next.count = count;
-          }
+      }
+    } else {
+      elements = op.querySelectorAll(giveawaySelectors.join(', '));
+
+      for (const element of elements) {
+        this.ge_getGiveaway(element, ge, giveaways, next);
+      }
+
+      if (!ge.ignoreDiscussionComments && commentElements.length > 0) {
+        elements = commentElements[commentElements.length - 1].querySelectorAll(giveawaySelectors.map(x => `.markdown ${x}`).join(', '));
+
+        for (const element of elements) {
+          this.ge_getGiveaway(element, ge, giveaways);
         }
       }
     }
@@ -752,6 +747,50 @@ class GiveawaysGiveawayExtractor extends Module {
       ge.cache[ge.cacheId].jigidiLinks.add(url);
     }
     return giveaways;
+  }
+
+  ge_getGiveaway(element, ge, giveaways, next) {
+    if (element.matches('img')) {
+      const title = element.getAttribute('title');
+
+      if (title.length === 5) {
+        if (ge.extracted.indexOf(title) < 0 && giveaways.indexOf(title) < 0) {
+          giveaways.push(title);
+        }
+      }
+
+      return;
+    }
+
+    const url = element.getAttribute('href');
+    let match = url.match(/\/(\w{5})\b/);
+
+    if (!match) {
+      match = url.match(/(\w{8}-\w{4}-\w{4}-\w{4}-\w{12})/);
+
+      if (!match) {
+        return;
+      }
+    }
+
+    const code = match[1];
+
+    if (!next || !ge.extractOnward || this.esgst.discussionPath || element.textContent.toLowerCase().match(this.nextRegex)) {
+      if (ge.extracted.indexOf(code) < 0 && giveaways.indexOf(code) < 0) {
+        giveaways.push(code);
+      }
+    } else {
+      match = element.textContent.match(/\d+/);
+
+      if (match) {
+        const count = parseInt(match[0]);
+
+        if (count > next.count && ge.extracted.indexOf(code) < 0 && giveaways.indexOf(code) < 0) {
+          next.code = code;
+          next.count = count;
+        }
+      }
+    }
   }
 
   checkGiveaways() {
