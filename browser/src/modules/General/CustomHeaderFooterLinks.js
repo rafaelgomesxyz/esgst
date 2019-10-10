@@ -6,6 +6,7 @@ import { shared, Shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
 import { DOM } from '../../class/DOM';
 import { Logger } from '../../class/Logger';
+import { IHeader } from '../../components/Header';
 
 class GeneralCustomHeaderFooterLinks extends Module {
   constructor() {
@@ -71,6 +72,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
         'stats': 'myStats',
         'et': 'myEntryHistory',
         'ch': 'myCommentHistory',
+        'user=[steamId]': 'reviews',
       },
       footer: {
         'archive': 'archive',
@@ -130,8 +132,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
           continue;
         }
 
-        const id = item.data.url.match(/.*([/?:])(.+?)(@|$)/)[2]
-          .replace(/\[steamId]/, gSettings.steamId);
+        const id = IHeader.generateId(item.data.name);
 
         item.nodes.outer.dataset.linkId = id;
         item.nodes.outer.dataset.linkKey = key;
@@ -154,16 +155,14 @@ class GeneralCustomHeaderFooterLinks extends Module {
         const objOrId = objs[i];
 
         if (objOrId.id) {
-          const newId = this.newIds[source][objOrId.id];
-
-          let item = key === 'footer' ? Shared.footer.linkContainers[newId] : Shared.header.buttonContainers[source].dropdownItems[newId];
+          let item = key === 'footer' ? Shared.footer.linkContainers[objOrId.id] : Shared.header.buttonContainers[source].dropdownItems[objOrId.id];
 
           if (!item || firstRun) {
             if (key === 'footer') {
               if (item) {
                 item.nodes.outer.remove();
 
-                delete Shared.footer.linkContainers[newId];
+                delete Shared.footer.linkContainers[objOrId.id];
               }
 
               item = Shared.footer.addLinkContainer({
@@ -173,14 +172,14 @@ class GeneralCustomHeaderFooterLinks extends Module {
                 url: objOrId.url,
               });
 
-              item.nodes.outer.dataset.linkId = objOrId.id.replace(/\[steamId]/, gSettings.steamId);
+              item.nodes.outer.dataset.linkId = objOrId.id;
               item.nodes.outer.dataset.linkKey = key;
               item.nodes.outer.title = Shared.common.getFeatureTooltip('chfl');
             } else {
               if (item) {
                 item.nodes.outer.remove();
 
-                delete Shared.header.buttonContainers[source].dropdownItems[newId];
+                delete Shared.header.buttonContainers[source].dropdownItems[objOrId.id];
               }
 
               item = Shared.header.addDropdownItem({
@@ -191,7 +190,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
                 url: objOrId.url,
               });
 
-              item.nodes.outer.dataset.linkId = objOrId.id.replace(/\[steamId]/, gSettings.steamId);
+              item.nodes.outer.dataset.linkId = objOrId.id;
               item.nodes.outer.dataset.linkKey = key;
               item.nodes.outer.title = Shared.common.getFeatureTooltip('chfl');
 
@@ -203,19 +202,15 @@ class GeneralCustomHeaderFooterLinks extends Module {
                 item.nodes.outer.classList.add('esgst-chfl-compact');
               }
             }
-
-            this.newIds[source][objOrId.id] = item.data.id;
           }
 
           item.nodes.outer.parentElement.insertBefore(item.nodes.outer, item.nodes.outer.parentElement.firstElementChild);
 
           this.makeDraggable(item.nodes.outer);
 
-          ids.push(objOrId.id.replace(/\[steamId]/, gSettings.steamId));
+          ids.push(objOrId.id);
         } else {
-          const newId = this.newIds[source][objOrId];
-
-          const item = key === 'footer' ? Shared.footer.linkContainers[newId] : Shared.header.buttonContainers[source].dropdownItems[newId];
+          const item = key === 'footer' ? Shared.footer.linkContainers[objOrId] : Shared.header.buttonContainers[source].dropdownItems[objOrId];
 
           if (item) {
             item.nodes.outer.parentElement.insertBefore(item.nodes.outer, item.nodes.outer.parentElement.firstElementChild);
@@ -223,7 +218,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
             this.makeDraggable(item.nodes.outer);
           }
 
-          ids.push(objOrId.replace(/\[steamId]/, gSettings.steamId));
+          ids.push(objOrId);
         }
       }
 
@@ -624,14 +619,12 @@ class GeneralCustomHeaderFooterLinks extends Module {
 
   async addLink(color, compactSwitch, description, editItem, icon, key, name, popup, url) {
     try {
-      const match = url.value.match(/\/(giveaway|discussion|support\/ticket|trade)\/(.+?)\//) || url.value.match(/.*([/?])(.+)$/);
-
       const item = {
         color: color.value,
         compact: compactSwitch.value ? 1 : 0,
         description: description.value,
         icon: icon.value,
-        id: match[2],
+        id: IHeader.generateId(name.value),
         name: name.value,
         url: url.value,
       };
@@ -684,7 +677,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
           url: item.url,
         });
 
-        newItem.nodes.outer.dataset.linkId = item.id.replace(/\[steamId]/, gSettings.steamId);
+        newItem.nodes.outer.dataset.linkId = item.id;
         newItem.nodes.outer.dataset.linkKey = key;
         newItem.nodes.outer.title = Shared.common.getFeatureTooltip('chfl');
       } else {
@@ -696,7 +689,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
           url: item.url,
         });
 
-        newItem.nodes.outer.dataset.linkId = item.id.replace(/\[steamId]/, gSettings.steamId);
+        newItem.nodes.outer.dataset.linkId = item.id;
         newItem.nodes.outer.dataset.linkKey = key;
         newItem.nodes.outer.title = Shared.common.getFeatureTooltip('chfl');
 
@@ -708,8 +701,6 @@ class GeneralCustomHeaderFooterLinks extends Module {
           newItem.nodes.outer.classList.add('esgst-chfl-compact');
         }
       }
-
-      this.newIds[source][item.id] = newItem.data.id;
 
       this.makeDraggable(newItem.nodes.outer);
 
@@ -733,9 +724,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
 
         const source = this.sources[key];
 
-        const newId = this.newIds[source][obj.id];
-
-        const item = key === 'footer' ? Shared.footer.linkContainers[newId] : Shared.header.buttonContainers[source].dropdownItems[newId];
+        const item = key === 'footer' ? Shared.footer.linkContainers[obj.id] : Shared.header.buttonContainers[source].dropdownItems[obj.id];
 
         if (!item) {
           continue;
@@ -744,9 +733,9 @@ class GeneralCustomHeaderFooterLinks extends Module {
         item.nodes.outer.remove();
 
         if (key === 'footer') {
-          delete Shared.footer.linkContainers[newId];
+          delete Shared.footer.linkContainers[obj.id];
         } else {
-          delete Shared.header.buttonContainers[source].dropdownItems[newId];
+          delete Shared.header.buttonContainers[source].dropdownItems[obj.id];
         }
       }
 
@@ -765,17 +754,17 @@ class GeneralCustomHeaderFooterLinks extends Module {
 
       const source = this.sources[key];
 
-      const newId = this.newIds[source][itemToRemove.nodes.outer.dataset.linkId];
+      const id = itemToRemove.nodes.outer.dataset.linkId;
 
-      const item = key === 'footer' ? Shared.footer.linkContainers[newId] : Shared.header.buttonContainers[source].dropdownItems[newId];
+      const item = key === 'footer' ? Shared.footer.linkContainers[id] : Shared.header.buttonContainers[source].dropdownItems[id];
 
       if (item) {
         item.nodes.outer.remove();
 
         if (key === 'footer') {
-          delete Shared.footer.linkContainers[newId];
+          delete Shared.footer.linkContainers[id];
         } else {
-          delete Shared.header.buttonContainers[source].dropdownItems[newId];
+          delete Shared.header.buttonContainers[source].dropdownItems[id];
         }
       }
 

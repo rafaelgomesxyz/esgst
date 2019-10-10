@@ -4,7 +4,7 @@ import { shared } from './Shared';
 
 class Esgst {
   constructor() {
-    this.CURRENT_STORAGE_VERSION = 3;
+    this.CURRENT_STORAGE_VERSION = 4;
     this.CURRENT_GIVEAWAY_VERSION = 2;
 
     this.gmf = undefined;
@@ -444,16 +444,16 @@ class Esgst {
       gwc_h_width: '3px',
       gwr_h_width: '3px',
       chfl_giveaways_sg: [
-        'new',
-        'wishlist',
-        'created',
-        'entered',
-        'won',
+        'createANewGiveaway',
+        'communityWishlist',
+        'viewCreated',
+        'viewEntered',
+        'viewWon',
         {
           color: 'grey',
           description: 'View your hidden games.',
           icon: 'fa-eye',
-          id: 'filters',
+          id: 'hiddenGames',
           name: 'Hidden Games',
           url: '/account/settings/giveaways/filters'
         },
@@ -461,36 +461,36 @@ class Esgst {
           color: 'grey',
           description: 'Check if a game receives reduced CV.',
           icon: 'fa-calendar-minus-o',
-          id: 'bundle-games',
+          id: 'reducedCvGames',
           name: 'Reduced CV Games',
           url: '/bundle-games'
         },
-        {id: `type=wishlist`, name: 'Browse Wishlist Giveaways', url: `/giveaways/search?type=wishlist`},
-        {id: `type=recommended`, name: 'Browse Recommended Giveaways', url: `/giveaways/search?type=recommended`},
-        {id: `type=group`, name: 'Browse Group Giveaways', url: `/giveaways/search?type=group`},
-        {id: `type=new`, name: 'Browse New Giveaways', url: `/giveaways/search?type=new`}
+        {id: `browseWishlistGiveaways`, name: 'Browse Wishlist Giveaways', url: `/giveaways/search?type=wishlist`},
+        {id: `browseRecommendedGiveaways`, name: 'Browse Recommended Giveaways', url: `/giveaways/search?type=recommended`},
+        {id: `browseGroupGiveaways`, name: 'Browse Group Giveaways', url: `/giveaways/search?type=group`},
+        {id: `browseNewGiveaways`, name: 'Browse New Giveaways', url: `/giveaways/search?type=new`}
       ],
       chfl_discussions_sg: [
-        'new',
-        'created',
-        'bookmarked',
-        {id: 'announcements', name: 'Browse Announcements', url: '/discussions/announcements'},
-        {id: 'bugs-suggestions', name: 'Browse Bugs / Suggestions', url: '/discussions/bugs-suggestions'},
-        {id: 'deals', name: 'Browse Deals', url: '/discussions/deals'},
-        {id: 'general', name: 'Browse General', url: '/discussions/general'},
-        {id: 'group-recruitment', name: 'Browse Group Recruitment', url: '/discussions/group-recruitment'},
-        {id: 'lets-play-together', name: "Browse Let`s Play Together", url: '/discussions/lets-play-together'},
-        {id: 'off-topic', name: 'Browse Off-Topic', url: '/discussions/off-topic'},
-        {id: 'puzzles', name: 'Browse Puzzles', url: '/discussions/puzzles'},
-        {id: 'uncategorized', name: 'Browse Uncategorized', url: '/discussions/uncategorized'}
+        'createANewDiscussion',
+        'viewCreated',
+        'viewBookmarked',
+        {id: 'browseAnnouncements', name: 'Browse Announcements', url: '/discussions/announcements'},
+        {id: 'browseBugs', name: 'Browse Bugs / Suggestions', url: '/discussions/bugs-suggestions'},
+        {id: 'browseDeals', name: 'Browse Deals', url: '/discussions/deals'},
+        {id: 'browseGeneral', name: 'Browse General', url: '/discussions/general'},
+        {id: 'browseGroupRecruitment', name: 'Browse Group Recruitment', url: '/discussions/group-recruitment'},
+        {id: 'browseLet', name: 'Browse Let\'s Play Together', url: '/discussions/lets-play-together'},
+        {id: 'browseOff', name: 'Browse Off-Topic', url: '/discussions/off-topic'},
+        {id: 'browsePuzzles', name: 'Browse Puzzles', url: '/discussions/puzzles'},
+        {id: 'browseUncategorized', name: 'Browse Uncategorized', url: '/discussions/uncategorized'}
       ],
       chfl_support_sg: [
-        'new',
+        'createANewTicket',
         {
           color: 'grey',
           description: "Check a user`s real CV.",
           icon: 'fa-dollar',
-          id: 'real-cv',
+          id: 'realCv',
           name: 'Real CV',
           url: `https://www.sgtools.info/real-cv`
         },
@@ -498,7 +498,7 @@ class Esgst {
           color: 'red',
           description: 'Check if a user has not activated wins.',
           icon: 'fa-exchange',
-          id: 'activation',
+          id: 'notActivatedWins',
           name: 'Not Activated Wins',
           url: `https://www.sgtools.info/activation`
         },
@@ -506,7 +506,7 @@ class Esgst {
           color: 'red',
           description: 'Check if a user has multiple wins.',
           icon: 'fa-clone',
-          id: 'multiple-wins',
+          id: 'multipleWins',
           name: 'Multiple Wins',
           url: `https://www.sgtools.info/multiple-wins`
         },
@@ -514,29 +514,29 @@ class Esgst {
           color: 'grey',
           description: 'Check the last bundled games.',
           icon: 'fa-percent',
-          id: 'lastbundled',
+          id: 'lastBundled',
           name: 'Last Bundled',
           url: `https://www.sgtools.info/lastbundled`
         }
       ],
       chfl_help_sg: [
-        'comment-formatting',
+        'commentFormatting',
         'faq',
         'guidelines',
         {
           color: 'grey',
           description: "View SteamGifts` change log.",
           icon: 'fa-file-text-o',
-          id: 'e9zDo',
+          id: 'changeLog',
           name: 'Change Log',
           url: '/discussion/e9zDo/'
         }
       ],
       chfl_account_sg: [
-        'profile',
-        'stats',
-        'et',
-        'ch',
+        'syncWithSteam',
+        'myStats',
+        'myEntryHistory',
+        'myCommentHistory',
         {color: 'blue', icon: 'fa-heart', id: 'whitelist', name: 'Whitelist', url: '/account/manage/whitelist'},
         {color: 'red', icon: 'fa-ban', id: 'blacklist', name: 'Blacklist', url: '/account/manage/blacklist'},
         {color: 'grey', icon: 'fa-folder', id: 'games', name: 'Games', url: '/account/steam/games'},
@@ -548,25 +548,29 @@ class Esgst {
         'stats',
         'roles',
         'users',
-        'steamgifts',
-        '103582791432125620',
-        'privacy-policy',
-        'cookie-policy',
-        'terms-of-service',
-        'advertising'
+        'steamGroup',
+        'chat',
+        'privacyPolicy',
+        'cookiePolicy',
+        'termsOfService',
+        'advertise'
       ],
       chfl_trades_st: [
-        'new',
-        `user=[steamId]`
+        'newTrade',
+        'myTrades'
       ],
       chfl_account_st: [
-        `user=[steamId]`
+        'reviews',
+        'comments',
+        'settings',
       ],
       chfl_footer_st: [
         'guidelines',
-        'comment-formatting',
-        'privacy-policy',
-        'terms-of-service'
+        'commentFormatting',
+        'privacyPolicy',
+        'cookiePolicy',
+        'termsOfService',
+        'advertise'
       ],
       cdr_days: 7,
       cdr_aDays: 7,
