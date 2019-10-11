@@ -148,11 +148,11 @@ class Process {
         const responseHtml = DOM.parse(response.responseText);
         await details.request(this, details, response, responseHtml);
         i += 1;
-        this.index += 1;
-        this.popup.setOverallProgress(`${this.index} of ${this.total} loaded.`);
       } catch (e) {
         Logger.error(e.stack);
       }
+      this.index += 1;
+      this.popup.setOverallProgress(`${this.index} of ${this.total} loaded.`);
     }
     if (!this.urls.doNotTrigger && this.index >= this.total) {
       this.popup.removeButton(0);
