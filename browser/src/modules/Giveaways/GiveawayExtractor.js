@@ -220,7 +220,7 @@ class GiveawaysGiveawayExtractor extends Module {
     ge.bumpLink = '';
     ge.points = 0;
     ge.sgToolsCount = 0;
-    ge.isDivided = gSettings.gc_gi || gSettings.gc_r || gSettings.gc_rm || gSettings.gc_ea || gSettings.gc_tc || gSettings.gc_a || gSettings.gc_mp || gSettings.gc_sc || gSettings.gc_l || gSettings.gc_m || gSettings.gc_dlc || gSettings.gc_rd || gSettings.gc_g;
+    ge.isDivided = !gSettings.es || !gSettings.es_ge || gSettings.gc_gi || gSettings.gc_r || gSettings.gc_rm || gSettings.gc_ea || gSettings.gc_tc || gSettings.gc_a || gSettings.gc_mp || gSettings.gc_sc || gSettings.gc_l || gSettings.gc_m || gSettings.gc_dlc || gSettings.gc_rd || gSettings.gc_g;
     if (shared.common.isCurrentPath('Account') && this.esgst.parameters.esgst === 'ge') {
       const context = this.esgst.sidebar.nextElementSibling;
       if (gSettings.removeSidebarInFeaturePages) {
@@ -459,7 +459,7 @@ class GiveawaysGiveawayExtractor extends Module {
       };
       ge.set.trigger();
     }
-    if (gSettings.es_ge) {
+    if (gSettings.es && gSettings.es_ge) {
       ge.popup.scrollable.addEventListener('scroll', this.checkScroll.bind(this, ge));
     }
   }
@@ -501,7 +501,9 @@ class GiveawaysGiveawayExtractor extends Module {
           }
         }
         ge.endless++;
-        this.checkScroll(ge, filtered);
+        if (gSettings.es && gSettings.es_ge) {
+          this.checkScroll(ge, filtered);
+        }
       } else {
         if (ge.extracted.indexOf(code) < 0) {
           let sgTools = code.length > 5;
