@@ -1,5 +1,5 @@
 import { shared } from './class/Shared';
-import { utils } from './lib/jsUtils';
+import { Utils } from './lib/jsUtils';
 
 let _browser = null;
 
@@ -77,7 +77,7 @@ if (typeof browser !== 'undefined') {
             case 'fetch': {
               const parameters = JSON.parse(obj.parameters);
               if (parameters.credentials === 'omit') {
-                parameters.headers.Cookie = '';
+                parameters.headers['Esgst-Cookie'] = '';
               }
               _browser.gm.xmlHttpRequest({
                 binary: !!obj.fileName,
@@ -237,7 +237,7 @@ if (typeof browser !== 'undefined') {
 
       return 'true';
     }
-    
+
     if (!lock.lockOrDie) {
       await shared.common.timeout(lock.threshold / 3);
       return _browser.gm.doLock(lock);
@@ -266,7 +266,7 @@ if (typeof browser !== 'undefined') {
       },
       sendMessage: obj => {
         return new Promise(resolve => {
-          obj.uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, utils.createUuid.bind(utils));
+          obj.uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, Utils.createUuid.bind(Utils));
           // @ts-ignore
           self.port.emit(obj.action, obj);
           // @ts-ignore

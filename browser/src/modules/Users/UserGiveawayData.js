@@ -2,15 +2,15 @@ import dateFns_format from 'date-fns/format';
 import { Module } from '../../class/Module';
 import { Process } from '../../class/Process';
 import { Table } from '../../class/Table';
-import { utils } from '../../lib/jsUtils';
+import { Utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
-import { logger } from '../../class/Logger';
+import { Logger } from '../../class/Logger';
 import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
+import { DOM } from '../../class/DOM';
 
 const
-  sortArray = utils.sortArray.bind(utils),
   createElements = common.createElements.bind(common),
   endless_load = common.endless_load.bind(common),
   getFeatureTooltip = common.getFeatureTooltip.bind(common),
@@ -97,7 +97,7 @@ class UsersUserGiveawayData extends Module {
       return;
     }
 
-    const context = common.createElements_v2(profile.commentsRow, 'afterEnd', [
+    const context = DOM.build(profile.commentsRow, 'afterEnd', [
       ['div', { class: 'esgst-ugd featured__table__row', title: getFeatureTooltip('ugd') }, [
         ['div', { class: 'featured__table__row__left' }, [
           'Won Games Playtime > ',
@@ -213,7 +213,7 @@ class UsersUserGiveawayData extends Module {
       }
     }
 
-    common.createElements_v2(profile.levelRow, 'afterEnd', [
+    DOM.build(profile.levelRow, 'afterEnd', [
       ['div', { class: 'esgst-ugd featured__table__row', title: getFeatureTooltip('ugd') }, [
         ['div', { class: 'featured__table__row__left' }, 'Gifts Won From This User'],
         ['div', { class: 'featured__table__row__right', title: won.join(`, `) }, won.length]
@@ -436,7 +436,7 @@ class UsersUserGiveawayData extends Module {
       if (!id) {
         if (obj.user.username === gSettings.username && obj.key === 'sent') {
           const response = await common.request({ method: 'GET', url: `/giveaway/${giveaway.code}/` });
-          const responseHtml = utils.parseHtml(response.responseText);
+          const responseHtml = DOM.parse(response.responseText);
           giveaway = (await shared.esgst.modules.giveaways.giveaways_get(responseHtml, false, response.finalUrl))[0];
           id = giveaway && giveaway.gameSteamId;
           if (!id) {
@@ -666,7 +666,7 @@ class UsersUserGiveawayData extends Module {
             array.push(item);
           }
         }
-        list.values = sortArray(array, true, 'value');
+        list.values = Utils.sortArray(array, true, 'value');
       }
     }
 
@@ -731,7 +731,7 @@ class UsersUserGiveawayData extends Module {
         const responseText = response.responseText;
         obj.playtimes = JSON.parse(responseText).response.games;
       } catch (e) {
-        logger.warning(e.stack);
+        Logger.warning(e.stack);
         window.alert('An error occurred when retrieving playtime stats. Please check your Steam API key in the settings menu or try again later.');
         await this.ugd_complete(obj, results);
         await saveUser(null, null, obj.user);
@@ -883,7 +883,7 @@ class UsersUserGiveawayData extends Module {
             achievementsData = responseJson.achievements;
           }
         } catch (error) {
-          logger.warning(error.stack);
+          Logger.warning(error.stack);
         }
       }
       achievements = '0/0';
@@ -996,7 +996,7 @@ class UsersUserGiveawayData extends Module {
         for (const item of giveaways) {
           const giveaway = typeof item === 'string' ? savedGiveaways[item] : item;
           if (!giveaway || !giveaway.code) {
-            logger.info(`[UGD] Giveaway not found:`, item);
+            Logger.info(`[UGD] Giveaway not found:`, item);
             continue;
           }
           let selector = '';
@@ -1171,7 +1171,7 @@ class UsersUserGiveawayData extends Module {
         );
       }
     }
-    shared.common.createElements_v2(results, 'beforeEnd', items);
+    DOM.build(results, 'beforeEnd', items);
     await endless_load(results);
   }
 }

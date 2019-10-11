@@ -2,13 +2,13 @@ import { ButtonSet } from '../../class/ButtonSet';
 import { Checkbox } from '../../class/Checkbox';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
-import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { gSettings } from '../../class/Globals';
 import { shared } from '../../class/Shared';
+import { DOM } from '../../class/DOM';
+import { Session } from '../../class/Session';
 
 const
-  parseHtml = utils.parseHtml.bind(utils),
   createElements = common.createElements.bind(common),
   createHeadingButton = common.createHeadingButton.bind(common),
   createLock = common.createLock.bind(common),
@@ -75,7 +75,7 @@ class GiveawaysGiveawayTemplates extends Module {
           return;
         }
         return new Promise(async resolve => {
-          let data = `xsrf_token=${this.esgst.xsrfToken}&next_step=3&`;
+          let data = `xsrf_token=${Session.xsrfToken}&next_step=3&`;
           data += `game_id=${document.querySelector(`[name="game_id"]`).value}&`;
           data += `type=${document.querySelector(`[name="type"]`).value}&`;
           data += `copies=${document.querySelector(`[name="copies"]`).value}&`;
@@ -97,7 +97,7 @@ class GiveawaysGiveawayTemplates extends Module {
           });
           if (response.finalUrl.match(/\/giveaways\/new/)) {
             resolve();
-            const errors = parseHtml(response.responseText).getElementsByClassName('form__row__error');
+            const errors = DOM.parse(response.responseText).getElementsByClassName('form__row__error');
             let message = `Unable to create giveaway because of the following errors:\n\n`;
             for (const error of errors) {
               message += `* ${error.textContent.trim()}`;

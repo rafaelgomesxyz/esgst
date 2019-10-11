@@ -1,7 +1,8 @@
 import { shared } from './Shared';
 import { browser } from '../browser';
 import { gSettings } from './Globals';
-import { utils } from '../lib/jsUtils';
+import { Utils } from '../lib/jsUtils';
+import { DOM } from './DOM';
 
 const DEFAULT_HEADERS = {
   'Content-Type': 'application/x-www-form-urlencoded'
@@ -79,14 +80,14 @@ class FetchRequest {
       } catch (error) {}
       if (!response.json) {
         try {
-          response.html = utils.parseHtml(response.text);
+          response.html = DOM.parse(response.text);
         } catch (error) {}
       }
 
       if (response.url.match(/www.steamgifts.com/)) {
         shared.common.lookForPopups(response);
       }
-  
+
       return response;
     } catch (error) {
       if (deleteLock) {
@@ -114,12 +115,14 @@ class FetchRequest {
   }
 
   static async sendExternal(url, options) {
+    const manipulateCookies = (await shared.common.getBrowserInfo()).name === 'Firefox' && gSettings.manipulateCookies;
+
     const messageOptions = {
       action: 'fetch',
       blob: options.blob,
       fileName: options.fileName,
-      manipulateCookies: (await shared.common.getBrowserInfo()).name === 'Firefox' && gSettings.manipulateCookies,
-      parameters: JSON.stringify(FetchRequest.getFetchOptions(options)),
+      manipulateCookies,
+      parameters: JSON.stringify(FetchRequest.getFetchOptions(options, manipulateCookies)),
       url
     };
     let response = await browser.runtime.sendMessage(messageOptions);
@@ -127,7 +130,7 @@ class FetchRequest {
       response = JSON.parse(response);
     }
 
-    if (utils.isSet(response.error)) {
+    if (Utils.isSet(response.error)) {
       throw new Error(response.error);
     }
 
@@ -143,7 +146,7 @@ class FetchRequest {
     let fetchOptions = FetchRequest.getFetchOptions(options);
 
     // @ts-ignore
-    if ((await shared.common.getBrowserInfo()).name === 'Firefox' && utils.isSet(window.wrappedJSObject)) {
+    if ((await shared.common.getBrowserInfo()).name === 'Firefox' && Utils.isSet(window.wrappedJSObject)) {
       // @ts-ignore
       // eslint-disable-next-line no-undef
       fetchObj = XPCNativeWrapper(window.wrappedJSObject.fetch);
@@ -159,10 +162,10 @@ class FetchRequest {
     return { fetchObj, fetchOptions };
   }
 
-  static getFetchOptions(options) {
+  static getFetchOptions(options, manipulateCookies) {
     return {
       body: options.data,
-      credentials: options.anon ? 'omit' : 'include',
+      credentials: options.anon || manipulateCookies ? 'omit' : 'include',
       headers: options.headers,
       method: options.method,
       redirect: 'follow'

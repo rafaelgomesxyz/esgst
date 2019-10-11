@@ -2,13 +2,13 @@ import { ButtonSet } from '../../class/ButtonSet';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { ToggleSwitch } from '../../class/ToggleSwitch';
-import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { gSettings } from '../../class/Globals';
 import { permissions } from '../../class/Permissions';
+import { DOM } from '../../class/DOM';
+import { Session } from '../../class/Session';
 
 const
-  parseHtml = utils.parseHtml.bind(utils),
   createElements = common.createElements.bind(common),
   createHeadingButton = common.createHeadingButton.bind(common),
   getSteamId = common.getSteamId.bind(common),
@@ -225,8 +225,7 @@ class GiveawaysUnsentGiftSender extends Module {
     ugs.progress.innerHTML = '';
     ugs.overallProgress.textContent = '';
 
-    let unsent = this.esgst.createdButton.getElementsByClassName('nav__notification')[0];
-    if (!unsent) {
+    if (!Session.counters.created) {
       // there are no unsent giveaways
       ugs.button.classList.remove('esgst-busy');
       createElements(ugs.progress, 'inner', [{
@@ -237,7 +236,7 @@ class GiveawaysUnsentGiftSender extends Module {
     }
 
     // retrieve unsent giveaways
-    ugs.count = parseInt(unsent.textContent);
+    ugs.count = Session.counters.created;
     let giveaways = [];
     let nextPage = 1;
     let pagination = null;
@@ -252,7 +251,7 @@ class GiveawaysUnsentGiftSender extends Module {
         skipped = true;
         continue;
       } else {
-        context = parseHtml((await request({
+        context = DOM.parse((await request({
           method: 'GET',
           url: `/giveaways/created/search?page=${nextPage}`
         })).responseText);
@@ -310,7 +309,7 @@ class GiveawaysUnsentGiftSender extends Module {
       let nextPage = 1;
       let pagination = null;
       do {
-        let context = parseHtml((await request({
+        let context = DOM.parse((await request({
           method: 'GET',
           url: `${giveaway.url}/winners/search?page=${nextPage}`
         })).responseText);
@@ -384,7 +383,7 @@ class GiveawaysUnsentGiftSender extends Module {
         let nextPage = 1;
         let pagination = null;
         do {
-          let context = parseHtml((await request({
+          let context = DOM.parse((await request({
             method: 'GET',
             url: `${giveaway.url}/groups/search?page=${nextPage}`
           })).responseText);
@@ -517,7 +516,7 @@ class GiveawaysUnsentGiftSender extends Module {
                     l = this.esgst.groups.length - 1;
                   }
                   if (!this.esgst.groups[l].steamId) {
-                    this.esgst.groups[l].steamId = parseHtml((await request({
+                    this.esgst.groups[l].steamId = DOM.parse((await request({
                       method: 'GET',
                       url: `/group/${code}/`
                     })).responseText).getElementsByClassName('sidebar__shortcut-inner-wrap')[0].firstElementChild.getAttribute('href').match(/\d+/)[0];
@@ -552,7 +551,7 @@ class GiveawaysUnsentGiftSender extends Module {
                   text: `Checking if ${winner.username} has a gift difference higher than the one set...`,
                   type: 'span'
                 }]);
-                let element = parseHtml((await request({
+                let element = DOM.parse((await request({
                   method: 'GET',
                   url: `/group/${code}/${group.urlName}/users/search?q=${winner.username}`
                 })).responseText).getElementsByClassName('table__row-outer-wrap')[0];
@@ -652,7 +651,7 @@ class GiveawaysUnsentGiftSender extends Module {
               }]);
             } else if (!ugs.isCanceled) {
               await request({
-                data: `xsrf_token=${this.esgst.xsrfToken}&do=sent_feedback&action=1&winner_id=${winner.winnerId}`,
+                data: `xsrf_token=${Session.xsrfToken}&do=sent_feedback&action=1&winner_id=${winner.winnerId}`,
                 method: 'POST',
                 url: '/ajax.php'
               });

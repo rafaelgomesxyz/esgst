@@ -1,5 +1,6 @@
 import { shared } from './Shared';
 import { gSettings } from './Globals';
+import { DOM } from './DOM';
 
 class ToggleSwitch {
   /**
@@ -23,14 +24,14 @@ class ToggleSwitch {
     this.sg = sg;
     this.st = st;
     this.value = value;
-    this.container = shared.common.createElements_v2(context, 'beforeEnd', [
+    this.container = DOM.build(context, 'beforeEnd', [
       ['div', { class: `esgst-toggle-switch-container ${inline ? 'inline' : ''}` }, [
         ['label', { class: 'esgst-toggle-switch' }, [
           ['input', { type: 'checkbox' }],
           ['div', { class: 'esgst-toggle-switch-slider' }]
         ]],
         ['span', name],
-        tooltip 
+        tooltip
           ? ['i', { class: 'fa fa-question-circle', title: tooltip }]
           : null
       ]]

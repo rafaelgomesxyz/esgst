@@ -1,11 +1,11 @@
 import { Button } from '../../class/Button';
 import { Module } from '../../class/Module';
-import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { gSettings } from '../../class/Globals';
+import { DOM } from '../../class/DOM';
+import { Session } from '../../class/Session';
 
 const
-  parseHtml = utils.parseHtml.bind(utils),
   request = common.request.bind(common)
   ;
 
@@ -57,11 +57,11 @@ class DiscussionsCloseOpenDiscussionButton extends Module {
 
   async codb_close(discussion) {
     let response = await request({
-      data: `xsrf_token=${this.esgst.xsrfToken}&do=close_discussion`,
+      data: `xsrf_token=${Session.xsrfToken}&do=close_discussion`,
       method: 'POST',
       url: discussion.url
     });
-    if (parseHtml(response.responseText).getElementsByClassName('page__heading__button--red')[0]) {
+    if (DOM.parse(response.responseText).getElementsByClassName('page__heading__button--red')[0]) {
       discussion.closed = true;
       discussion.innerWrap.classList.add('is-faded');
       return true;
@@ -71,11 +71,11 @@ class DiscussionsCloseOpenDiscussionButton extends Module {
 
   async codb_open(discussion) {
     let response = await request({
-      data: `xsrf_token=${this.esgst.xsrfToken}&do=reopen_discussion`,
+      data: `xsrf_token=${Session.xsrfToken}&do=reopen_discussion`,
       method: 'POST',
       url: discussion.url
     });
-    if (!parseHtml(response.responseText).getElementsByClassName('page__heading__button--red')[0]) {
+    if (!DOM.parse(response.responseText).getElementsByClassName('page__heading__button--red')[0]) {
       discussion.closed = false;
       discussion.innerWrap.classList.remove('is-faded');
       return true;

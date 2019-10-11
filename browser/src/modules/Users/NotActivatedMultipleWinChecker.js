@@ -1,15 +1,14 @@
 import { ButtonSet } from '../../class/ButtonSet';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
-import { utils } from '../../lib/jsUtils';
+import { Utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { gSettings } from '../../class/Globals';
 import { shared } from '../../class/Shared';
 import { permissions } from '../../class/Permissions';
+import { DOM } from '../../class/DOM';
 
 const
-  parseHtml = utils.parseHtml.bind(utils),
-  sortArray = utils.sortArray.bind(utils),
   createElements = common.createElements.bind(common),
   createHeadingButton = common.createHeadingButton.bind(common),
   createOptions = common.createOptions.bind(common),
@@ -329,7 +328,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
     }
 
     // check users
-    users = sortArray(users);
+    users = Utils.sortArray(users);
     let steamIds = [];
     let userElements = {
       activated: {},
@@ -517,7 +516,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
       user.values.namwc.results.unknown = 1;
     } else {
       user.values.namwc.results.notActivated = [];
-      let elements = parseHtml(responseText).getElementsByClassName('notActivatedGame');
+      let elements = DOM.parse(responseText).getElementsByClassName('notActivatedGame');
       let n = elements.length;
       for (let i = 0; i < n; ++i) {
         user.values.namwc.results.notActivated.push(new Date(elements[i].textContent.match(/\((\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2})\)/)[1]).getTime());
@@ -543,7 +542,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
       }]);
     }
     user.values.namwc.results.multiple = [];
-    let elements = parseHtml((await request({
+    let elements = DOM.parse((await request({
       method: 'GET',
       queue: true,
       url: `http://www.sgtools.info/multiple/${user.username}`

@@ -4,7 +4,7 @@ import { shared } from './Shared';
 
 class Esgst {
   constructor() {
-    this.CURRENT_STORAGE_VERSION = 3;
+    this.CURRENT_STORAGE_VERSION = 5;
     this.CURRENT_GIVEAWAY_VERSION = 2;
 
     this.gmf = undefined;
@@ -16,7 +16,6 @@ class Esgst {
     this.mgc_createTrainSwitch = undefined;
     this.mgc_removeLinksSwitch = undefined;
     this.gas = undefined;
-    this.hr = undefined;
     this.ged_addIcons = undefined;
     this.cf = undefined;
     this.cfh = undefined;
@@ -29,7 +28,6 @@ class Esgst {
     this.wbcButton = undefined;
     this.minimizePanel = undefined;
     this.onBeforeCommentSubmit = undefined;
-    this.guideSteps = undefined;
     this.leftMainPageHeadingButtons = undefined;
     this.rightMainPageHeadingButtons = undefined;
 
@@ -46,16 +44,9 @@ class Esgst {
     this.mmSelectionStart = undefined;
     this.lpvStyleArray = undefined;
     this.pvStyleArray = undefined;
-    this.onLevelContainerUpdated = undefined;
-    this.wonButton = undefined;
     this.currentPage = undefined;
     this.itemsPerPage = undefined;
-    this.giveawaysDropdown = undefined;
-    this.helpDropdown = undefined;
-    this.supportDropdown = undefined;
     this.delistedGames = undefined;
-    this.discussionsDropdown = undefined;
-    this.accountDropdown = undefined;
     this.featuresById = undefined;
 
     this.gc_queue = [];
@@ -71,9 +62,9 @@ class Esgst {
     this.dataManagementUrl = `https://www.steamgifts.com/account/settings/profile?esgst=data-management`;
 
     this.path = window.location.pathname.replace(/\/search/, '');
-    
+
     this.customPages = {};
-    
+
     this.sidebarGroups = [];
 
     this.paths = {
@@ -226,7 +217,6 @@ class Esgst {
     };
     this.newGiveawayDateFormat = `MMM d, yyyy h:mm a`;
     this.triggerFunctions = {
-      onLevelContainerUpdated: [],
       onBeforeCommentSubmit: []
     };
 
@@ -275,7 +265,7 @@ class Esgst {
       deleteOldBackups_days: 90,
       sfi_icon: 'user',
       npth_previousRegex: 'back|last|less|prev|<|←',
-      npth_nextRegex: 'forw|more|next|onwards|►|>|→',
+      npth_nextRegex: 'forw|more|next|onwards?|►|>|→',
       permissionsDenied: [],
       egh_c_sg: true,
       cewgd_c_sg: true,
@@ -454,16 +444,16 @@ class Esgst {
       gwc_h_width: '3px',
       gwr_h_width: '3px',
       chfl_giveaways_sg: [
-        'new',
-        'wishlist',
-        'created',
-        'entered',
-        'won',
+        'createANewGiveaway',
+        'communityWishlist',
+        'viewCreated',
+        'viewEntered',
+        'viewWon',
         {
           color: 'grey',
           description: 'View your hidden games.',
           icon: 'fa-eye',
-          id: 'filters',
+          id: 'hiddenGames',
           name: 'Hidden Games',
           url: '/account/settings/giveaways/filters'
         },
@@ -471,36 +461,36 @@ class Esgst {
           color: 'grey',
           description: 'Check if a game receives reduced CV.',
           icon: 'fa-calendar-minus-o',
-          id: 'bundle-games',
+          id: 'reducedCvGames',
           name: 'Reduced CV Games',
           url: '/bundle-games'
         },
-        {id: `type=wishlist`, name: 'Browse Wishlist Giveaways', url: `/giveaways/search?type=wishlist`},
-        {id: `type=recommended`, name: 'Browse Recommended Giveaways', url: `/giveaways/search?type=recommended`},
-        {id: `type=group`, name: 'Browse Group Giveaways', url: `/giveaways/search?type=group`},
-        {id: `type=new`, name: 'Browse New Giveaways', url: `/giveaways/search?type=new`}
+        {id: `browseWishlistGiveaways`, name: 'Browse Wishlist Giveaways', url: `/giveaways/search?type=wishlist`},
+        {id: `browseRecommendedGiveaways`, name: 'Browse Recommended Giveaways', url: `/giveaways/search?type=recommended`},
+        {id: `browseGroupGiveaways`, name: 'Browse Group Giveaways', url: `/giveaways/search?type=group`},
+        {id: `browseNewGiveaways`, name: 'Browse New Giveaways', url: `/giveaways/search?type=new`}
       ],
       chfl_discussions_sg: [
-        'new',
-        'created',
-        'bookmarked',
-        {id: 'announcements', name: 'Browse Announcements', url: '/discussions/announcements'},
-        {id: 'bugs-suggestions', name: 'Browse Bugs / Suggestions', url: '/discussions/bugs-suggestions'},
-        {id: 'deals', name: 'Browse Deals', url: '/discussions/deals'},
-        {id: 'general', name: 'Browse General', url: '/discussions/general'},
-        {id: 'group-recruitment', name: 'Browse Group Recruitment', url: '/discussions/group-recruitment'},
-        {id: 'lets-play-together', name: "Browse Let`s Play Together", url: '/discussions/lets-play-together'},
-        {id: 'off-topic', name: 'Browse Off-Topic', url: '/discussions/off-topic'},
-        {id: 'puzzles', name: 'Browse Puzzles', url: '/discussions/puzzles'},
-        {id: 'uncategorized', name: 'Browse Uncategorized', url: '/discussions/uncategorized'}
+        'createANewDiscussion',
+        'viewCreated',
+        'viewBookmarked',
+        {id: 'browseAnnouncements', name: 'Browse Announcements', url: '/discussions/announcements'},
+        {id: 'browseBugs', name: 'Browse Bugs / Suggestions', url: '/discussions/bugs-suggestions'},
+        {id: 'browseDeals', name: 'Browse Deals', url: '/discussions/deals'},
+        {id: 'browseGeneral', name: 'Browse General', url: '/discussions/general'},
+        {id: 'browseGroupRecruitment', name: 'Browse Group Recruitment', url: '/discussions/group-recruitment'},
+        {id: 'browseLet', name: 'Browse Let\'s Play Together', url: '/discussions/lets-play-together'},
+        {id: 'browseOff', name: 'Browse Off-Topic', url: '/discussions/off-topic'},
+        {id: 'browsePuzzles', name: 'Browse Puzzles', url: '/discussions/puzzles'},
+        {id: 'browseUncategorized', name: 'Browse Uncategorized', url: '/discussions/uncategorized'}
       ],
       chfl_support_sg: [
-        'new',
+        'createANewTicket',
         {
           color: 'grey',
           description: "Check a user`s real CV.",
           icon: 'fa-dollar',
-          id: 'real-cv',
+          id: 'realCv',
           name: 'Real CV',
           url: `https://www.sgtools.info/real-cv`
         },
@@ -508,7 +498,7 @@ class Esgst {
           color: 'red',
           description: 'Check if a user has not activated wins.',
           icon: 'fa-exchange',
-          id: 'activation',
+          id: 'notActivatedWins',
           name: 'Not Activated Wins',
           url: `https://www.sgtools.info/activation`
         },
@@ -516,7 +506,7 @@ class Esgst {
           color: 'red',
           description: 'Check if a user has multiple wins.',
           icon: 'fa-clone',
-          id: 'multiple-wins',
+          id: 'multipleWins',
           name: 'Multiple Wins',
           url: `https://www.sgtools.info/multiple-wins`
         },
@@ -524,29 +514,29 @@ class Esgst {
           color: 'grey',
           description: 'Check the last bundled games.',
           icon: 'fa-percent',
-          id: 'lastbundled',
+          id: 'lastBundled',
           name: 'Last Bundled',
           url: `https://www.sgtools.info/lastbundled`
         }
       ],
       chfl_help_sg: [
-        'comment-formatting',
+        'commentFormatting',
         'faq',
         'guidelines',
         {
           color: 'grey',
           description: "View SteamGifts` change log.",
           icon: 'fa-file-text-o',
-          id: 'e9zDo',
+          id: 'changeLog',
           name: 'Change Log',
           url: '/discussion/e9zDo/'
         }
       ],
       chfl_account_sg: [
-        'profile',
-        'stats',
-        'et',
-        'ch',
+        'syncWithSteam',
+        'myStats',
+        'myEntryHistory',
+        'myCommentHistory',
         {color: 'blue', icon: 'fa-heart', id: 'whitelist', name: 'Whitelist', url: '/account/manage/whitelist'},
         {color: 'red', icon: 'fa-ban', id: 'blacklist', name: 'Blacklist', url: '/account/manage/blacklist'},
         {color: 'grey', icon: 'fa-folder', id: 'games', name: 'Games', url: '/account/steam/games'},
@@ -558,25 +548,29 @@ class Esgst {
         'stats',
         'roles',
         'users',
-        'steamgifts',
-        '103582791432125620',
-        'privacy-policy',
-        'cookie-policy',
-        'terms-of-service',
-        'advertising'
+        'steamGroup',
+        'chat',
+        'privacyPolicy',
+        'cookiePolicy',
+        'termsOfService',
+        'advertise'
       ],
       chfl_trades_st: [
-        'new',
-        `user=[steamId]`
+        'newTrade',
+        'myTrades'
       ],
       chfl_account_st: [
-        `user=[steamId]`
+        'reviews',
+        'comments',
+        'settings',
       ],
       chfl_footer_st: [
         'guidelines',
-        'comment-formatting',
-        'privacy-policy',
-        'terms-of-service'
+        'commentFormatting',
+        'privacyPolicy',
+        'cookiePolicy',
+        'termsOfService',
+        'advertise'
       ],
       cdr_days: 7,
       cdr_aDays: 7,
@@ -997,6 +991,8 @@ class Esgst {
     };
 
     this.oldValues = {
+      idb_sg: 'dh_sg',
+      idb_t_sg: 'dh_t_sg',
       cl_gc_index: () => (this.settings.gcl_index || 0) + 1,
       cl_gi_index: () => (this.settings.ap_index || 0) + 1,
       cl_ui_index: () => (this.settings.ap_index || 0) + 1,
@@ -1117,11 +1113,6 @@ class Esgst {
     this.sidebar = null;
 
     /** @type {string} */
-    this.xsrfToken = undefined;
-    
-    this.logoutButton = null;
-
-    /** @type {string} */
     this.version = undefined;
 
     this.storage = undefined;
@@ -1136,7 +1127,7 @@ class Esgst {
     this.firstInstall = undefined;
 
     this.giveaways = null;
-    
+
     this.mainContext = null;
 
     this.pageOuterWrap = null;
@@ -1157,9 +1148,7 @@ class Esgst {
 
     /** @type {string} */
     this.pageHeadingBreadcrumbsClass = '';
-    
-    this.footer = null;
-    
+
     this.replyBox = null;
 
     /** @type {string} */
@@ -1176,7 +1165,7 @@ class Esgst {
 
     /** @type {string} */
     this.originalUrl = '';
-    
+
     this.favicon = null;
 
     /** @type {string} */
@@ -1184,23 +1173,19 @@ class Esgst {
 
     /** @type {string} */
     this.searchUrl = '';
-    
-    this.header = null;
-    
-    this.headerNavigationLeft = null;
-    
+
     this.pagination = null;
-    
+
     this.featuredContainer = null;
-    
+
     this.paginationNavigation = null;
-    
+
     this.enterGiveawayButton = null;
-    
+
     this.leaveGiveawayButton = null;
-    
+
     this.activeDiscussions = null;
-    
+
     this.pinnedGiveaways = null;
 
     /** @type {boolean} */
@@ -1223,22 +1208,14 @@ class Esgst {
     this.name = undefined;
 
     this.style = null;
-    
+
     this.customThemeElement = null;
-    
+
     this.theme = null;
-    
+
     this.ustButton = null;
 
     this.modules = null;
-
-    this.fullLevel = null;
-
-    this.level = null;
-
-    this.pointsContainer = null;
-
-    this.points = null;
 
     this.decryptedGiveaways = null;
 
@@ -1248,19 +1225,9 @@ class Esgst {
 
     this.gc_categories_ids = ['gc_gi', 'gc_r', 'gc_hltb', 'gc_ocv', 'gc_fcv', 'gc_rcv', 'gc_ncv', 'gc_h', 'gc_i', 'gc_o', 'gc_w', 'gc_f', 'gc_pw', 'gc_a', 'gc_bd', 'gc_bvg', 'gc_sp', 'gc_mp', 'gc_sc', 'gc_tc', 'gc_l', 'gc_m', 'gc_ea', 'gc_lg', 'gc_rm', 'gc_dlc', 'gc_p', 'gc_rd', 'gc_g'];
 
-    this.pointsPlayer = null;
-
-    this.inboxPlayer = null;
-
-    this.wishlistPlayer = null;
-
-    this.wonPlayer = null;
-
     this.giveawayErrorButton = null;
 
     this.gcToFetch = null;
-
-    this.createdButton = null;
 
     this.rerolls = null;
 
@@ -1268,27 +1235,11 @@ class Esgst {
 
     this.stopEs = false;
 
-    this.audioContext = null;
-
-    this.mainButton = null;
-
-    this.inboxButton = null;
-  
-    this.messageCountContainer = null;
-
-    this.messageCount = null;
-
-    this.wishlistNew = null;
-
     this.lastPage = null;
-
-    this.levelContainer = null;
 
     this.lpvStyle = null;
 
     this.pvStyle = null;
-
-    this.wishlist = null;
 
     this.toDismiss = [];
 
@@ -1312,11 +1263,7 @@ class Esgst {
 
     this.parameters = this.modules.common.getParameters();
 
-    if (this.parameters.esgst === 'guide') {
-      this.locationHref = window.location.href.replace(/\?.+/, '');
-    } else {
-      this.locationHref = window.location.href;
-    }
+    this.locationHref = window.location.href;
 
     this.markdownParser = new Parsedown;
     this.sg = window.location.hostname.match(/www.steamgifts.com/);

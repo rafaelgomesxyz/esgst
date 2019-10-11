@@ -1,13 +1,12 @@
 import { Checkbox } from '../../class/Checkbox';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
-import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { shared } from '../../class/Shared';
 import { permissions } from '../../class/Permissions';
+import { DOM } from '../../class/DOM';
 
 const
-  parseHtml = utils.parseHtml.bind(utils),
   createElements = common.createElements.bind(common),
   createHeadingButton = common.createHeadingButton.bind(common),
   getFeatureTooltip = common.getFeatureTooltip.bind(common),
@@ -166,7 +165,7 @@ class UsersUserSuspensionTracker extends Module {
   }
 
   async ust_check(code, obj) {
-    let responseHtml = parseHtml((await request({ method: 'GET', url: `/support/ticket/${code}/` })).responseText);
+    let responseHtml = DOM.parse((await request({ method: 'GET', url: `/support/ticket/${code}/` })).responseText);
     if (responseHtml.getElementsByClassName('table__column--width-fill')[1].textContent.trim().match(/Did\sNot\sActivate\sPrevious\sWins\sThis\sMonth|Other|Multiple\sWins\sfor\sthe\sSame\sGame|Not\sActivating\sWon\sGift/)) {
       const authorElement = responseHtml.querySelector('.comment__username');
       const closeElement = responseHtml.querySelector(`.notification [href*="/user/"]`);
@@ -191,7 +190,7 @@ class UsersUserSuspensionTracker extends Module {
     }]);
     let error = JSON.parse(
       (await request({
-        data: `${code}=${encodeURIComponent(parseHtml(
+        data: `${code}=${encodeURIComponent(DOM.parse(
           (await request({ method: 'GET', url: shared.esgst.locationHref })).responseText
         ).getElementsByClassName('sidebar')[0].nextElementSibling.innerHTML.replace(/\n|\r|\r\n|\s{2,}/g, '').trim())}`,
         method: 'POST',

@@ -107,7 +107,7 @@ function handle_storage(operation, values) {
     const output = {};
     dbConn.executeAsync(statements, statements.length, {
       handleCompletion: aReason => { },
-      handleError: aError => { }, 
+      handleError: aError => { },
       handleResult: aResultSet => {
         let row;
         do {
@@ -138,7 +138,7 @@ function handle_storage(operation, values) {
     // Set the ST tab as active.
     activateTab('steamtrades');
   }
-  // Go back to the previously active tab.  
+  // Go back to the previously active tab.
   if (currentTab && currentTab.id) {
     currentTab.activate();
   }
@@ -186,38 +186,6 @@ function doFetch(parameters, request) {
   return new Promise(async resolve => {
     if (request.fileName) {
       parameters.body = await getZip(parameters.body, request.fileName);
-    }
-
-    let domain = request.url.match(/https?:\/\/(.+?)(\/.*)?$/)[1];
-    let url = request.url.match(/(https?:\/\/.+?)(\/.*)?$/)[1];
-
-    const cookieHeader = parameters.headers.Cookie;
-    let setCookies = [];
-    if (cookieHeader) {
-      const expiresDate = new Date();
-      expiresDate.setMinutes(expiresDate.getMinutes() + 15);
-      const expires = expiresDate.getTime();
-      setCookies = cookieHeader
-        .split(/;\s/)
-        .map(x => {
-          const parts = x.match(/(.+?)=(.+?)/);
-          return {
-            expires, 
-            host: domain,
-            isHttpOnly: false,
-            isSecure: false,
-            isSession: false,
-            name: parts[1],
-            path: url,
-            value: parts[2]
-          };
-        })
-        // @ts-ignore
-        .filter(x => !Services.cookies.cookieExists(x));
-      for (const cookie of setCookies) {
-        // @ts-ignore
-        Services.cookies.add(cookie.host, cookie.path, cookie.name, cookie.value, cookie.isSecure, cookie.isHttpOnly, cookie.isSession, cookie.expires);
-      }
     }
 
     let response = null;
@@ -380,7 +348,7 @@ PageMod({
 
     worker.port.on('fetch', async request => {
       parameters = JSON.parse(request.parameters);
-      const response = await doFetch(parameters, request);      
+      const response = await doFetch(parameters, request);
       worker.port.emit(`fetch_${request.uuid}_response`, response);
     });
 

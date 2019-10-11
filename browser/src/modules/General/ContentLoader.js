@@ -4,7 +4,8 @@ import { Module } from '../../class/Module';
 import { Popout } from '../../class/Popout';
 import { Popup } from '../../class/Popup';
 import { shared } from '../../class/Shared';
-import { logger } from '../../class/Logger';
+import { Logger } from '../../class/Logger';
+import { DOM } from '../../class/DOM';
 
 const ON_LOAD = 0;
 const ON_HOVER_POPOUT = 1;
@@ -85,7 +86,7 @@ class GeneralContentLoader extends Module {
           sync: 'Steam Groups',
           syncKeys: ['Groups']
         },
-        cl_gi: {      
+        cl_gi: {
           description: [
             ['ul', [
               ['li', `Loads a group's info when clicking / hovering over (depending on preference) its avatar.`]
@@ -98,7 +99,7 @@ class GeneralContentLoader extends Module {
           },
           sg: true
         },
-        cl_ui: {      
+        cl_ui: {
           description: [
             ['ul', [
               ['li', `Loads a user's info when clicking / hovering over (depending on preference) its avatar.`]
@@ -317,7 +318,7 @@ class GeneralContentLoader extends Module {
             shared.esgst.apPopouts[targetObj.id] = triggerObj = new Popout('esgst-ap-popout', undefined, undefined, onClick);
             context = triggerObj.popout;
 
-            triggerObj.open(target); 
+            triggerObj.open(target);
           } else if (gSettings[`${id}_index`] === ON_CLICK_POPUP) {
             triggerObj = new Popup({
               addScrollable: true,
@@ -333,7 +334,7 @@ class GeneralContentLoader extends Module {
             triggerObj = new Popout(`esgst-${id}-popout`, undefined, undefined, onClick);
             context = triggerObj.popout;
 
-            shared.common.createElements_v2(context, 'beforeEnd', [
+            DOM.build(context, 'beforeEnd', [
               ['div', [
                 ['a', { class: `esgst-${id}-heading`, href: url }, name]
               ]]
@@ -342,7 +343,7 @@ class GeneralContentLoader extends Module {
             triggerObj.open(target);
           }
 
-          shared.common.createElements_v2(context, 'beforeEnd', [
+          DOM.build(context, 'beforeEnd', [
             addSearchBox
               ? ['input', { placeholder: 'Search...', type: 'text', ref: ref=> triggerObj.custom.searchBox = ref }]
               : null,
@@ -373,7 +374,7 @@ class GeneralContentLoader extends Module {
             });
           }
 
-          shared.common.createElements_v2(context.lastElementChild, 'inner', [
+          DOM.build(context.lastElementChild, 'inner', [
             ['i', { class: 'fa fa-circle-o-notch fa-spin' }],
             ' Loading content...'
           ]);
@@ -418,7 +419,7 @@ class GeneralContentLoader extends Module {
       try {
         await this.fetchGiveawayCountries(giveaway, triggerObj, context);
       } catch (e) {
-        logger.warning(e.stack);
+        Logger.warning(e.stack);
       }
     }
   }
@@ -456,7 +457,7 @@ class GeneralContentLoader extends Module {
     if (countries) {
       let table;
 
-      shared.common.createElements_v2(context.lastElementChild, 'inner', [
+      DOM.build(context.lastElementChild, 'inner', [
         ['div', { class: 'esgst-text-left table esgst-hidden', ref: ref => table = ref }, [
           ['div', { class: 'table__rows', ref: ref => triggerObj.custom.rows = ref }]
         ]]
@@ -465,7 +466,7 @@ class GeneralContentLoader extends Module {
       let numCountries = countries.length;
 
       for (const country of countries) {
-        shared.common.createElements_v2(triggerObj.custom.rows, 'beforeEnd', [
+        DOM.build(triggerObj.custom.rows, 'beforeEnd', [
           ['div', { class: 'table__row-outer-wrap' }, [
             ['div', { class: 'table__row-inner-wrap' }, [
               ['div', [
@@ -482,7 +483,7 @@ class GeneralContentLoader extends Module {
       }
 
       if (numCountries === 0) {
-        shared.common.createElements_v2(context.lastElementChild, 'inner', [
+        DOM.build(context.lastElementChild, 'inner', [
           ['i', { class: 'fa fa-exclamation-mark' }],
           ['span', 'You cannot see the countries of this giveaway.']
         ]);
@@ -493,7 +494,7 @@ class GeneralContentLoader extends Module {
         }
       }
     } else {
-      shared.common.createElements_v2(context.lastElementChild, 'inner', [
+      DOM.build(context.lastElementChild, 'inner', [
         ['i', { class: 'fa fa-times-circle' }],
         ['span', 'An error occurred.']
       ]);
@@ -506,7 +507,7 @@ class GeneralContentLoader extends Module {
       try {
         await this.fetchGiveawayEntries(giveaway, triggerObj, context);
       } catch (e) {
-        logger.warning(e.stack);
+        Logger.warning(e.stack);
       }
     }
   }
@@ -522,7 +523,7 @@ class GeneralContentLoader extends Module {
     const loadNextPage = async () => {
       isLoading = true;
 
-      const loadingElement = shared.common.createElements_v2(context, 'beforeEnd', [
+      const loadingElement = DOM.build(context, 'beforeEnd', [
         ['div', [
           ['i', { class: 'fa fa-circle-o-notch fa-spin' }],
           ['span', 'Loading next page...']
@@ -537,7 +538,7 @@ class GeneralContentLoader extends Module {
 
         loadingElement.remove();
 
-        shared.common.createElements_v2(context.lastElementChild, 'inner', [
+        DOM.build(context.lastElementChild, 'inner', [
           ['i', { class: 'fa fa-exclamation-mark' }],
           ['span', 'You cannot see the entries of this giveaway.']
         ]);
@@ -561,7 +562,7 @@ class GeneralContentLoader extends Module {
 
       const currentRows = document.createDocumentFragment();
       for (const entry of entries) {
-        shared.common.createElements_v2(currentRows, 'beforeEnd', [
+        DOM.build(currentRows, 'beforeEnd', [
           ['div', { class: 'table__row-outer-wrap' }, [
             ['div', { class: 'table__row-inner-wrap' }, [
               ['div', [
@@ -603,7 +604,7 @@ class GeneralContentLoader extends Module {
       }
     });
 
-    shared.common.createElements_v2(context.lastElementChild, 'inner', [
+    DOM.build(context.lastElementChild, 'inner', [
       ['div', { class: 'esgst-text-left table' }, [
         ['div', { class: 'table__rows', ref: ref => triggerObj.custom.rows = ref }]
       ]]
@@ -622,7 +623,7 @@ class GeneralContentLoader extends Module {
       try {
         await this.fetchGiveawayGroups(giveaway, triggerObj, context, giveawaysToSave, groupsToSave);
       } catch (e) {
-        logger.warning(e.stack);
+        Logger.warning(e.stack);
       }
     }
 
@@ -691,7 +692,7 @@ class GeneralContentLoader extends Module {
       if (groups) {
         let table;
 
-        shared.common.createElements_v2(context.lastElementChild, 'inner', [
+        DOM.build(context.lastElementChild, 'inner', [
           ['div', { class: 'esgst-text-left table esgst-hidden', ref: ref => table = ref }, [
             ['div', { class: 'table__rows', ref: ref => triggerObj.custom.rows = ref }]
           ]]
@@ -714,7 +715,7 @@ class GeneralContentLoader extends Module {
           }
 
           if (className !== 'esgst-hidden') {
-            shared.common.createElements_v2(triggerObj.custom.rows, 'beforeEnd', [
+            DOM.build(triggerObj.custom.rows, 'beforeEnd', [
               ['div', { class: `table__row-outer-wrap ${className}` }, [
                 ['div', { class: 'table__row-inner-wrap' }, [
                   ['div', [
@@ -732,7 +733,7 @@ class GeneralContentLoader extends Module {
         }
 
         if (numGroups === 0) {
-          shared.common.createElements_v2(context.lastElementChild, 'inner', [
+          DOM.build(context.lastElementChild, 'inner', [
             ['i', { class: 'fa fa-exclamation-mark' }],
             ['span', 'You are not a member of any group in this giveaway.']
           ]);
@@ -744,14 +745,14 @@ class GeneralContentLoader extends Module {
           shared.common.endless_load(table);
         }
       } else {
-        shared.common.createElements_v2(context.lastElementChild, 'inner', [
+        DOM.build(context.lastElementChild, 'inner', [
           ['i', { class: 'fa fa-times-circle' }],
           ['span', 'An error occurred.']
         ]);
       }
       triggerObj.reposition();
     } else if (groups && !giveaway.summary.querySelector('.esgst-ggl-panel')) {
-      const panel = shared.common.createElements_v2(giveaway.extraPanel || giveaway.summary, 'beforeEnd', [
+      const panel = DOM.build(giveaway.extraPanel || giveaway.summary, 'beforeEnd', [
         ['div', { class: 'esgst-ggl-panel', 'data-draggable-id': 'ggl' }]
       ]);
 
@@ -780,7 +781,7 @@ class GeneralContentLoader extends Module {
         giveaway.groupNames.push(group.name);
 
         if (className !== 'esgst-hidden') {
-          shared.common.createElements_v2(panel, 'beforeEnd', [
+          DOM.build(panel, 'beforeEnd', [
             ['div', { class: className }, [
               group.avatar
                 ? ['a', { class: 'table_image_avatar', href: `/group/${group.code}/`, style: `background-image:url(http://cdn.edgecast.steamstatic.com/steamcommunity/public/images/avatars/${group.avatar}_medium.jpg)` }]
@@ -806,7 +807,7 @@ class GeneralContentLoader extends Module {
       try {
         await this.fetchInfo(targetObj, triggerObj, context);
       } catch (e) {
-        logger.warning(e.stack);
+        Logger.warning(e.stack);
       }
     }
   }
@@ -819,7 +820,7 @@ class GeneralContentLoader extends Module {
     context.appendChild(response.html.querySelector('.featured__outer-wrap'));
 
     const avatar = context.querySelector('.global__image-outer-wrap--avatar-large')
-    const link = shared.common.createElements_v2(avatar, 'afterEnd', [
+    const link = DOM.build(avatar, 'afterEnd', [
       ['a', { class: 'esgst-ap-link' }]
     ]);
     link.appendChild(avatar);
@@ -841,7 +842,7 @@ class GeneralContentLoader extends Module {
 
     const suspensionElement = response.html.querySelector('.sidebar__suspension')
     if (suspensionElement) {
-      shared.common.createElements_v2(columns[0], 'beforeEnd', [
+      DOM.build(columns[0], 'beforeEnd', [
         ['div', { class: 'esgst-ap-suspended featured__table__row' }, [
           ['div', { class: 'featured__table__row__left' }, suspensionElement.textContent],
           ['div', { class: 'featured__table__row__right' }, suspensionElement.nextElementSibling.textContent]
@@ -856,7 +857,7 @@ class GeneralContentLoader extends Module {
         continue;
       }
 
-      shared.common.createElements_v2(columns[0], 'beforeEnd', [
+      DOM.build(columns[0], 'beforeEnd', [
         ['div', { class: 'featured__table__row' }, [
           ['div', { class: 'featured__table__row__left' }, match[0]],
           ['div', { class: 'featured__table__row__right' }, element.nextElementSibling.nextElementSibling.textContent]

@@ -1,6 +1,7 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
 import { gSettings } from '../../class/Globals';
+import { DOM } from '../../class/DOM';
 
 class UsersUserLinks extends Module {
   constructor() {
@@ -58,7 +59,7 @@ class UsersUserLinks extends Module {
         ['a', { href: link.url.replace(/%username%/g, profile.username).replace(/%steamid%/g, profile.steamId), target: '_blank' }, children]
       );
     }
-    common.createElements_v2(profile.heading, 'beforeEnd', items);
+    DOM.build(profile.heading, 'beforeEnd', items);
   }
 }
 

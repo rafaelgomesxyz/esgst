@@ -1,14 +1,16 @@
 import { ButtonSet } from '../../class/ButtonSet';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
-import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
-import { shared } from '../../class/Shared';
+import { shared, Shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
-import { logger } from '../../class/Logger';
+import { Logger } from '../../class/Logger';
+import { DOM } from '../../class/DOM';
+import { Session } from '../../class/Session';
+import { EventDispatcher } from '../../class/EventDispatcher';
+import { Events } from '../../constants/Events';
 
 const
-  parseHtml = utils.parseHtml.bind(utils),
   createElements = common.createElements.bind(common),
   getFeatureTooltip = common.getFeatureTooltip.bind(common),
   getValue = common.getValue.bind(common),
@@ -88,6 +90,10 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
     };
   }
 
+  init() {
+    EventDispatcher.subscribe(Events.POINTS_UPDATED, this.elgb_updateButtons.bind(this));
+  }
+
   async elgb_addButtons(giveaways, main, source) {
     giveaways.forEach(giveaway => {
       if (giveaway.sgTools || (main && (gSettings.elgb_p || this.esgst.createdPath || this.esgst.wonPath))) return;
@@ -98,7 +104,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
         this.elgb_setEntryButton(giveaway);
         return;
       }
-      if (giveaway.blacklist || (giveaway.inviteOnly && !giveaway.url) || !giveaway.started || giveaway.ended || giveaway.created || giveaway.level > this.esgst.level || (giveaway.id && (this.esgst.games[giveaway.type][giveaway.id] && (this.esgst.games[giveaway.type][giveaway.id].owned || this.esgst.games[giveaway.type][giveaway.id].won || (this.esgst.games[giveaway.type][giveaway.id].hidden && gSettings.hgebd))))) {
+      if (giveaway.blacklist || (giveaway.inviteOnly && !giveaway.url) || !giveaway.started || giveaway.ended || giveaway.created || giveaway.level > Session.counters.level.base || (giveaway.id && (this.esgst.games[giveaway.type][giveaway.id] && (this.esgst.games[giveaway.type][giveaway.id].owned || this.esgst.games[giveaway.type][giveaway.id].won || (this.esgst.games[giveaway.type][giveaway.id].hidden && gSettings.hgebd))))) {
         return;
       }
       if (this.esgst.giveawayPath && main) {
@@ -217,7 +223,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
     addingButton.classList.remove('esgst-hidden');
     try {
       let responseJson = JSON.parse((await request({
-        data: `xsrf_token=${this.esgst.xsrfToken}&do=entry_insert&code=${giveaway.code}`,
+        data: `xsrf_token=${Session.xsrfToken}&do=entry_insert&code=${giveaway.code}`,
         method: 'POST',
         url: '/ajax.php'
       })).responseText);
@@ -230,9 +236,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
         }
         errorButton.classList.remove('esgst-hidden');
       }
-      this.esgst.pointsContainer.textContent = responseJson.points;
-      // noinspection JSIgnoredPromiseFromCall
-      this.esgst.modules.generalHeaderRefresher.hr_refreshHeaderElements(document);
+      await Shared.header.updatePoints(responseJson.points);
     } catch (e) {
       errorButton.classList.remove('esgst-hidden');
     }
@@ -248,7 +252,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
     removingButton.classList.remove('esgst-hidden');
     try {
       let responseJson = JSON.parse((await request({
-        data: `xsrf_token=${this.esgst.xsrfToken}&do=entry_delete&code=${giveaway.code}`,
+        data: `xsrf_token=${Session.xsrfToken}&do=entry_delete&code=${giveaway.code}`,
         method: 'POST',
         url: '/ajax.php'
       })).responseText);
@@ -257,9 +261,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
       } else {
         errorButton.classList.remove('esgst-hidden');
       }
-      this.esgst.pointsContainer.textContent = responseJson.points;
-      // noinspection JSIgnoredPromiseFromCall
-      this.esgst.modules.generalHeaderRefresher.hr_refreshHeaderElements(document);
+      await Shared.header.updatePoints(responseJson.points);
     } catch (e) {
       errorButton.classList.remove('esgst-hidden');
     }
@@ -305,7 +307,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
       }).set;
       giveaway.elgbButton.setAttribute('title', giveaway.error);
     } else {
-      if (giveaway.points <= this.esgst.points) {
+      if (giveaway.points <= Session.points) {
         giveaway.elgbButton = new ButtonSet({
           color1: 'green',
           color2: 'grey',
@@ -397,7 +399,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
       popup.description.appendChild(set.set);
     } else {
       let games = JSON.parse(getValue('games'));
-      if (giveaway.started && !giveaway.ended && !giveaway.created && giveaway.level <= this.esgst.level && ((giveaway.id && ((games[giveaway.type][giveaway.id] && !games[giveaway.type][giveaway.id].owned && (!games[giveaway.type][giveaway.id].hidden || !gSettings.hgebd)) || !games[giveaway.type][giveaway.id])) || !giveaway.id)) {
+      if (giveaway.started && !giveaway.ended && !giveaway.created && giveaway.level <= Session.counters.level.base && ((giveaway.id && ((games[giveaway.type][giveaway.id] && !games[giveaway.type][giveaway.id].owned && (!games[giveaway.type][giveaway.id].hidden || !gSettings.hgebd)) || !games[giveaway.type][giveaway.id])) || !giveaway.id)) {
         let set = new ButtonSet({
           color1: 'green',
           color2: 'grey',
@@ -420,7 +422,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
     }
     let description = null;
     let responseHtml = null;
-    responseHtml = parseHtml((await request({ method: 'GET', url: giveaway.url })).responseText);
+    responseHtml = DOM.parse((await request({ method: 'GET', url: giveaway.url })).responseText);
     if (mainCallback && !responseHtml.getElementsByClassName('featured__outer-wrap--giveaway')[0]) {
       mainCallback(true);
       return;
@@ -485,7 +487,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
         callback1: async () => {
           if (box.value) {
             await request({
-              data: `xsrf_token=${this.esgst.xsrfToken}&do=comment_new&description=${box.value}`,
+              data: `xsrf_token=${Session.xsrfToken}&do=comment_new&description=${box.value}`,
               method: 'POST',
               url: giveaway.url
             });
@@ -577,7 +579,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
 
   async elgb_enterGiveaway(giveaway, main, popup, source, callback) {
     const responseText = (await request({
-      data: `xsrf_token=${this.esgst.xsrfToken}&do=entry_insert&code=${giveaway.code}`,
+      data: `xsrf_token=${Session.xsrfToken}&do=entry_insert&code=${giveaway.code}`,
       method: 'POST',
       url: '/ajax.php'
     })).responseText;
@@ -585,9 +587,9 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
     try {
       responseJson = JSON.parse(responseText);
     } catch (e) {
-      logger.warning(e.stack);
-      logger.info(giveaway.code);
-      logger.info(responseText);
+      Logger.warning(e.stack);
+      Logger.info(giveaway.code);
+      Logger.info(responseText);
     }
     if (!responseJson) {
       return;
@@ -603,12 +605,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
         // noinspection JSIgnoredPromiseFromCall
         this.esgst.modules.giveawaysEntryTracker.et_setEntry(giveaway.code, true, giveaway.name);
       }
-      this.esgst.pointsContainer.textContent = responseJson.points;
-      await this.esgst.modules.generalHeaderRefresher.hr_refreshHeaderElements(document);
-      if (gSettings.hr) {
-        setLocalValue('hrCache', JSON.stringify(this.esgst.modules.generalHeaderRefresher.hr_getCache()));
-      }
-      this.elgb_updateButtons();
+      await Shared.header.updatePoints(responseJson.points);
       if (gSettings.egh) {
         // noinspection JSIgnoredPromiseFromCall
         this.esgst.modules.gamesEnteredGameHighlighter.egh_saveGame(giveaway.id, giveaway.type);
@@ -651,7 +648,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
 
   async elgb_leaveGiveaway(giveaway, main, source, callback) {
     const responseText = (await request({
-      data: `xsrf_token=${this.esgst.xsrfToken}&do=entry_delete&code=${giveaway.code}`,
+      data: `xsrf_token=${Session.xsrfToken}&do=entry_delete&code=${giveaway.code}`,
       method: 'POST',
       url: '/ajax.php'
     })).responseText;
@@ -659,9 +656,9 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
     try {
       responseJson = JSON.parse(responseText);
     } catch (e) {
-      logger.warning(e.stack);
-      logger.info(giveaway.code);
-      logger.info(responseText);
+      Logger.warning(e.stack);
+      Logger.info(giveaway.code);
+      Logger.info(responseText);
     }
     if (!responseJson) {
       return;
@@ -675,12 +672,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
         // noinspection JSIgnoredPromiseFromCall
         this.esgst.modules.giveawaysEntryTracker.et_setEntry(giveaway.code, false, giveaway.name);
       }
-      this.esgst.pointsContainer.textContent = responseJson.points;
-      await this.esgst.modules.generalHeaderRefresher.hr_refreshHeaderElements(document);
-      if (gSettings.hr) {
-        setLocalValue('hrCache', JSON.stringify(this.esgst.modules.generalHeaderRefresher.hr_getCache()));
-      }
-      this.elgb_updateButtons();
+      await Shared.header.updatePoints(responseJson.points);
       if (gSettings.gb && giveaway.gbButton) {
         giveaway.gbButton.button.classList.remove('esgst-hidden');
       }

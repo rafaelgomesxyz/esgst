@@ -14,8 +14,33 @@
     "sourceType": "module"
   },
   "rules": {
+    "brace-style": "error",
+    "camelcase": "error",
+    "indent": [
+      "error",
+      2,
+      {
+        "SwitchCase": 1
+      }
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "semi": [
+      "error",
+      "always"
+    ],
+    "comma-dangle": [
+      "error",
+      "always-multiline"
+    ],
+    "no-trailing-spaces": [
+      "error"
+    ],
     "no-empty": "off",
     "no-console": "off",
     "no-constant-condition": ["error", { "checkLoops": false }],
-    "no-fallthrough": "off"}
+    "no-fallthrough": "off"
+  }
 }

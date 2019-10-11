@@ -4,7 +4,7 @@ import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { common } from '../Common';
 import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
-import { utils } from '../../lib/jsUtils';
+import { Utils } from '../../lib/jsUtils';
 import { Filters } from '../Filters';
 
 const
@@ -205,7 +205,7 @@ class UsersUserFilters extends Filters {
     if (!data) {
       return;
     }
-    if (utils.isSet(data.posts)) {
+    if (Utils.isSet(data.posts)) {
       data.giveawayPosts = data.posts;
       data.discussionPosts = data.posts;
       delete data.posts;

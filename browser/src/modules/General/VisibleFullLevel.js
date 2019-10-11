@@ -1,4 +1,8 @@
 import { Module } from '../../class/Module';
+import { EventDispatcher } from '../../class/EventDispatcher';
+import { Events } from '../../constants/Events';
+import { Session } from '../../class/Session';
+import { Shared } from '../../class/Shared';
 
 class GeneralVisibleFullLevel extends Module {
   constructor() {
@@ -17,15 +21,13 @@ class GeneralVisibleFullLevel extends Module {
   }
 
   init() {
-    this.update();
-    this.esgst.triggerFunctions.onLevelContainerUpdated.push(this.update.bind(this));
+    EventDispatcher.subscribe(Events.LEVEL_UPDATED, this.update.bind(this));
+
+    this.update(null, Session.counters.level);
   }
 
-  update() {
-    if (!this.esgst.levelContainer) {
-      return;
-    }
-    this.esgst.levelContainer.textContent = `Lvl ${this.esgst.levelContainer.getAttribute('title').match(/(\d+?\.\d+|\d+)/)[1]}`;
+  async update(oldLevel, newLevel) {
+    await Shared.header.updateLevel(`Lvl ${newLevel.full}`);
   }
 }
 

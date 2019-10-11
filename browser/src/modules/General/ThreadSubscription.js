@@ -1,9 +1,10 @@
 import { Module } from '../../class/Module';
-import { shared } from '../../class/Shared';
+import { shared, Shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
-import { logger } from '../../class/Logger';
+import { Logger } from '../../class/Logger';
 import { FetchRequest } from '../../class/FetchRequest';
 import { Popout } from '../../class/Popout';
+import { DOM } from '../../class/DOM';
 
 class GeneralThreadSubscription extends Module {
   constructor() {
@@ -65,9 +66,16 @@ class GeneralThreadSubscription extends Module {
   }
 
   async init() {
-    this.button = shared.common.addHeaderButton('fa-circle-o-notch fa-spin', 'inactive', 'Loading your subscriptions');
+    this.button = Shared.header.addButtonContainer({
+      buttonIcon: 'fa fa-circle-o-notch fa-spin',
+      buttonName: 'ESGST Thread Subscriptions',
+      isNotification: true,
+      side: 'right',
+    });
 
-    this.popout = new Popout('esgst-tds-popout', this.button.button, 0, true);
+    this.button.nodes.buttonIcon.title = 'Loading your subscriptions';
+
+    this.popout = new Popout('esgst-tds-popout', this.button.nodes.outer, 0, true);
 
     this.minutes = parseInt(gSettings.tds_minutes) * 60000;
 
@@ -87,7 +95,7 @@ class GeneralThreadSubscription extends Module {
 
         if (gSettings.tds_forums[forumCode]) {
           this.addUnsubscribeButton(null, forumCode, element, null, this.forumCategories[forumCode], 'forum');
-        } else {            
+        } else {
           this.addSubscribeButton(null, forumCode, element, null, this.forumCategories[forumCode], 'forum');
         }
       }
@@ -100,11 +108,11 @@ class GeneralThreadSubscription extends Module {
     const match = window.location.pathname.match(/(discussion|ticket|trade)\/(.+?)\//);
     const type = `${match[1]}s`;
     const code = match[2];
-    
+
     const context = document.querySelector('.page__heading, .page_heading');
     const name = context.querySelector('h1').textContent.trim();
 
-    const heading = shared.esgst.mainPageHeading.querySelector('.page__heading__breadcrumbs, .page_heading_breadcrumbs').firstElementChild;    
+    const heading = shared.esgst.mainPageHeading.querySelector('.page__heading__breadcrumbs, .page_heading_breadcrumbs').firstElementChild;
     const count = parseInt(heading.textContent.replace(/,/g, '').match(/\d+/)[0]);
 
     if (shared.esgst.discussionPath || shared.esgst.tradePath) {
@@ -157,7 +165,7 @@ class GeneralThreadSubscription extends Module {
     this.subscribedItems.sort((a, b) => a.diff > b.diff ? -1 : 1);
 
     for (const item of this.subscribedItems) {
-      const element = shared.common.createElements_v2(this.popout.popout, 'beforeEnd', [
+      const element = DOM.build(this.popout.popout, 'beforeEnd', [
         ['div', { class: `esgst-tds-item ${item.diff ? 'esgst-tds-item-active' : ''}` }, [
           ['div', { class: 'esgst-tds-item-description' }, [
             ['a', { class: 'esgst-tds-item-name', href: item.type === 'forum' ? `https://www.steamgifts.com/discussions${item.code ? `/${item.code}` : ''}` : (item.type === 'discussions' ? `https://www.steamgifts.com/discussion/${item.code}/` : `https://www.steamtrades.com/${item.code}/`) }, item.type === 'forum' ? this.forumCategories[item.code] : item.name],
@@ -180,13 +188,15 @@ class GeneralThreadSubscription extends Module {
 
   updateButton() {
     if (this.subscribedItems.filter(item => item.diff).length) {
-      this.button.changeIcon('fa-bell');
-      this.button.changeState('active');
-      this.button.changeTitle('New comments in your subscriptions, click to see');
+      this.button.nodes.outer.classList.remove('nav__button-container--inactive');
+      this.button.nodes.outer.classList.add('nav__button-container--active');
+      this.button.nodes.buttonIcon.className = 'fa fa-bell';
+      this.button.nodes.buttonIcon.title = 'New comments in your subscriptions, click to see';
     } else {
-      this.button.changeIcon('fa-bell-o');
-      this.button.changeState('inactive');
-      this.button.changeTitle('No new comments in your subscriptions');
+      this.button.nodes.outer.classList.remove('nav__button-container--active');
+      this.button.nodes.outer.classList.add('nav__button-container--inactive');
+      this.button.nodes.buttonIcon.className = 'fa fa-bell-o';
+      this.button.nodes.buttonIcon.title = 'No new comments in your subscriptions';
     }
 
     this.updatePopout();
@@ -204,7 +214,7 @@ class GeneralThreadSubscription extends Module {
     if (result !== 'granted') {
       return;
     }
-     
+
     new Notification('ESGST Notification', {
       body: 'There are new comments in your subscriptions.',
       icon: 'https://dl.dropboxusercontent.com/s/lr3t3bxrxfxylqe/esgstIcon.ico?raw=1',
@@ -213,7 +223,7 @@ class GeneralThreadSubscription extends Module {
   }
 
   async runDaemon(firstRun) {
-    //logger.info('Running TDS daemon...');
+    //Logger.info('Running TDS daemon...');
 
     await shared.common.updateLock(this.lockObj.lock);
 
@@ -254,7 +264,7 @@ class GeneralThreadSubscription extends Module {
 
     for (const item of this.subscribedItems) {
       const response = await FetchRequest.get(item.type === 'discussions' ? `https://www.steamgifts.com/discussion/${item.code}/` : `https://www.steamtrades.com/trade/${item.code}/`);
-      
+
       const mainPageHeading = response.html.querySelectorAll('.page__heading, .page_heading')[1];
 
       const heading = mainPageHeading.querySelector('.page__heading__breadcrumbs, .page_heading_breadcrumbs').firstElementChild;
@@ -266,7 +276,7 @@ class GeneralThreadSubscription extends Module {
       }
     }
 
-    for (const code in gSettings.tds_forums) {    
+    for (const code in gSettings.tds_forums) {
       const codes = [];
 
       const response = await FetchRequest.get(`/discussions${code ? `/${code}` : ''}/search?sort=new`);
@@ -278,7 +288,7 @@ class GeneralThreadSubscription extends Module {
       }
 
       const diff = codes.filter(subCode => !gSettings.tds_forums[code].includes(subCode)).length;
-      
+
       this.subscribedItems.push({
         code,
         codes,
@@ -308,7 +318,7 @@ class GeneralThreadSubscription extends Module {
     });
 
     if (!this.lockObj.wasLocked) {
-      //logger.info('TDS Daemon already running....');
+      //Logger.info('TDS Daemon already running....');
 
       this.updateItems(await shared.common.getTds());
 
@@ -374,7 +384,7 @@ class GeneralThreadSubscription extends Module {
       await shared.common.setSetting('tds_forums', gSettings.tds_forums);
     } else {
       const savedThread = shared.esgst[type][code] || {};
-      
+
       savedThread.subscribed = null;
       savedThread.lastUsed = Date.now();
 
@@ -389,18 +399,18 @@ class GeneralThreadSubscription extends Module {
           break;
       }
     }
-    
+
     return true;
   }
 
   addSubscribeButton(button, code, context, count, name, type) {
     if (!button) {
-      button = shared.common.createElements_v2(context, type === 'forum' ? 'afterEnd' : 'afterBegin', [
+      button = DOM.build(context, type === 'forum' ? 'afterEnd' : 'afterBegin', [
         ['div', { class: 'esgst-tds-button page_heading_btn' }]
       ]);
     }
 
-    shared.common.createElements_v2(button, 'inner', [
+    DOM.build(button, 'inner', [
       ['i', { class: 'fa fa-bell-o', title: shared.common.getFeatureTooltip('tds', 'Subscribe') }]
     ]);
 
@@ -413,10 +423,10 @@ class GeneralThreadSubscription extends Module {
 
       busy = true;
 
-      shared.common.createElements_v2(button, 'inner', [
+      DOM.build(button, 'inner', [
         ['i', { class: 'fa fa-circle-o-notch fa-spin' }]
       ]);
-      
+
       await this.subscribe(code, count, name, type);
 
       this.addUnsubscribeButton(button, code, context, count, name, type);
@@ -425,12 +435,12 @@ class GeneralThreadSubscription extends Module {
 
   addUnsubscribeButton(button, code, context, count, name, type) {
     if (!button) {
-      button = shared.common.createElements_v2(context, type === 'forum' ? 'afterEnd' : 'afterBegin', [
+      button = DOM.build(context, type === 'forum' ? 'afterEnd' : 'afterBegin', [
         ['div', { class: 'esgst-tds-button page_heading_btn' }]
       ]);
     }
 
-    shared.common.createElements_v2(button, 'inner', [
+    DOM.build(button, 'inner', [
       ['i', { class: 'fa fa-bell', title: shared.common.getFeatureTooltip('tds', 'Unsubscribe') }]
     ]);
 
@@ -443,10 +453,10 @@ class GeneralThreadSubscription extends Module {
 
       busy = true;
 
-      shared.common.createElements_v2(button, 'inner', [
+      DOM.build(button, 'inner', [
         ['i', { class: 'fa fa-circle-o-notch fa-spin' }]
       ]);
-      
+
       await this.unsubscribe(code, type);
 
       this.addSubscribeButton(button, code, context, count, name, type);

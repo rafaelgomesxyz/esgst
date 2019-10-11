@@ -1,12 +1,14 @@
 import { Module } from '../../class/Module';
-import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import IntersectionObserver from 'intersection-observer-polyfill';
 import { gSettings } from '../../class/Globals';
-import { shared } from '../../class/Shared';
+import { Shared } from '../../class/Shared';
+import { DOM } from '../../class/DOM';
+import { EventDispatcher } from '../../class/EventDispatcher';
+import { Events } from '../../constants/Events';
+import { FetchRequest } from '../../class/FetchRequest';
 
 const
-  parseHtml = utils.parseHtml.bind(utils),
   animateScroll = common.animateScroll.bind(common),
   checkMissingDiscussions = common.checkMissingDiscussions.bind(common),
   createElements = common.createElements.bind(common),
@@ -150,7 +152,7 @@ class GeneralEndlessScrolling extends Module {
     es.divisors = gSettings.es_pd;
     es.mainContext = this.esgst.pagination.previousElementSibling;
     if (this.esgst.commentsPath && !es.mainContext.classList.contains('comments')) {
-      es.mainContext = common.createElements_v2(es.mainContext, 'afterEnd', [
+      es.mainContext = DOM.build(es.mainContext, 'afterEnd', [
         ['div', { class: 'comments' }]
       ]);
     }
@@ -353,7 +355,7 @@ class GeneralEndlessScrolling extends Module {
   }
 
   async es_getNext(es, refresh, refreshAll, callback, response) {
-    let pagination = parseHtml(response.responseText).getElementsByClassName('pagination')[0],
+    let pagination = DOM.parse(response.responseText).getElementsByClassName('pagination')[0],
       context = pagination.previousElementSibling,
       rows = context.getElementsByClassName('table__rows')[0];
     if (this.esgst.commentsPath && !context.classList.contains('comments')) {
@@ -379,7 +381,7 @@ class GeneralEndlessScrolling extends Module {
     let paginationNavigation = pagination.getElementsByClassName(this.esgst.paginationNavigationClass)[0];
     if (es.reversePages) {
       es.paginations[0] = paginationNavigation.innerHTML;
-      createElements(this.esgst.paginationNavigation, 'inner', [...(Array.from(parseHtml(es.paginations[0]).body.childNodes).map(x => {
+      createElements(this.esgst.paginationNavigation, 'inner', [...(Array.from(DOM.parse(es.paginations[0]).body.childNodes).map(x => {
         return {
           context: x
         };
@@ -530,7 +532,7 @@ class GeneralEndlessScrolling extends Module {
     let paginationCount = null;
     if (this.esgst.pagination.textContent.match(/No\sresults\swere\sfound\./)) {
       this.esgst.pagination.firstElementChild.firstChild.remove();
-      common.createElements_v2(this.esgst.pagination.firstElementChild, 'afterBegin', [
+      DOM.build(this.esgst.pagination.firstElementChild, 'afterBegin', [
         'Displaying ',
         ['strong', 1],
         ' to ',
@@ -553,7 +555,7 @@ class GeneralEndlessScrolling extends Module {
     const correctedIndex = es.reverseScrolling ? (es.pageBase - index) : (index - es.pageBase);
     const pagination = es.paginations[correctedIndex - 1];
     if (pagination && this.esgst.paginationNavigation.innerHTML !== pagination) {
-      createElements(this.esgst.paginationNavigation, 'inner', [...(Array.from(parseHtml(pagination).body.childNodes).map(x => {
+      createElements(this.esgst.paginationNavigation, 'inner', [...(Array.from(DOM.parse(pagination).body.childNodes).map(x => {
         return {
           context: x
         };
@@ -708,7 +710,7 @@ class GeneralEndlessScrolling extends Module {
       }
     }
     if (this.esgst.pinnedGiveaways) {
-      createElements(this.esgst.pinnedGiveaways, 'inner', [...(Array.from(parseHtml(response.responseText).getElementsByClassName('pinned-giveaways__outer-wrap')[0].childNodes).map(x => {
+      createElements(this.esgst.pinnedGiveaways, 'inner', [...(Array.from(DOM.parse(response.responseText).getElementsByClassName('pinned-giveaways__outer-wrap')[0].childNodes).map(x => {
         return {
           context: x
         };
@@ -716,14 +718,8 @@ class GeneralEndlessScrolling extends Module {
       await endless_load(this.esgst.pinnedGiveaways, true);
       this.esgst.modules.giveawaysPinnedGiveawaysButton.init();
     }
-    if (!gSettings.hr) {
-      await this.esgst.modules.generalHeaderRefresher.hr_refreshHeaderElements(parseHtml((await request({
-        method: 'GET',
-        url: this.esgst.sg ? `/giveaways/search?type=wishlist` : '/'
-      })).responseText));
-      // noinspection JSIgnoredPromiseFromCall
-      this.esgst.modules.generalHeaderRefresher.hr_refreshHeader(this.esgst.modules.generalHeaderRefresher.hr_getCache());
-    }
+
+    await EventDispatcher.dispatch(Events.PAGE_REFRESHED, (await FetchRequest.get(Shared.esgst.sg ? '/giveaways/search?type=wishlist' : '/')).html);
   }
 
   async es_refreshAll(es) {
@@ -744,14 +740,9 @@ class GeneralEndlessScrolling extends Module {
       // noinspection JSIgnoredPromiseFromCall
       promises.push(this.es_getNext(es, true, page, null, await request({ method: 'GET', url: `${this.esgst.searchUrl}${page}` })));
     }
-    if (!gSettings.hr) {
-      await this.esgst.modules.generalHeaderRefresher.hr_refreshHeaderElements(parseHtml((await request({
-        method: 'GET',
-        url: this.esgst.sg ? `/giveaways/search?type=wishlist` : '/'
-      })).responseText));
-      // noinspection JSIgnoredPromiseFromCall
-      this.esgst.modules.generalHeaderRefresher.hr_refreshHeader(this.esgst.modules.generalHeaderRefresher.hr_getCache());
-    }
+
+    await EventDispatcher.dispatch(Events.PAGE_REFRESHED, (await FetchRequest.get(Shared.esgst.sg ? '/giveaways/search?type=wishlist' : '/')).html);
+
     await Promise.all(promises);
     await endless_load(es.mainContext, true);
     this.es_setRemoveEntry(es.mainContext);
@@ -774,7 +765,7 @@ class GeneralEndlessScrolling extends Module {
       }
     }
     if (this.esgst.pinnedGiveaways) {
-      createElements(this.esgst.pinnedGiveaways, 'inner', [...(Array.from(parseHtml(response.responseText).getElementsByClassName('pinned-giveaways__outer-wrap')[0].childNodes).map(x => {
+      createElements(this.esgst.pinnedGiveaways, 'inner', [...(Array.from(DOM.parse(response.responseText).getElementsByClassName('pinned-giveaways__outer-wrap')[0].childNodes).map(x => {
         return {
           context: x
         };
@@ -832,8 +823,7 @@ class GeneralEndlessScrolling extends Module {
           Context.classList.add('is-faded');
           Complete.classList.toggle('is-hidden');
           if (responseJson.points) {
-            this.esgst.pointsContainer.textContent = responseJson.points;
-            this.esgst.points = parseInt(this.esgst.pointsContainer.textContent.replace(/,/g, '').match(/\d+/)[0]);
+            Shared.header.updatePoints(responseJson.points);
           }
         } else {
           Default.classList.toggle('is-hidden');

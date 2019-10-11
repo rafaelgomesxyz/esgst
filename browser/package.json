@@ -1,7 +1,7 @@
 {
   "name": "esgst",
-  "version": "8.5.5",
-  "devVersion": "8.5.5-dev.1",
+  "version": "8.5.6",
+  "devVersion": "8.5.6-dev.14",
   "title": "Enhanced SteamGifts & SteamTrades (ESGST)",
   "description": "A script that adds some cool features to SteamGifts and SteamTrades.",
   "author": "rafaelgssa",
@@ -20,6 +20,7 @@
     "start": "./node_modules/.bin/webpack --env.development --env.withBabel --env.withWatch",
     "generate-api-doc": "./node_modules/.bin/apidoc -i ./server/app -o ./server/documentation",
     "generate-release": "./node_modules/.bin/node ./scripts/generateRelease.js",
+    "notify-issue": "./node_modules/.bin/node ./scripts/notifyIssue.js",
     "start-no-babel": "./node_modules/.bin/webpack --env.development --env.withWatch",
     "update-emojis": "./node_modules/.bin/node ./scripts/updateEmojis.js"
   },

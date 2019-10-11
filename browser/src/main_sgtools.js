@@ -1,5 +1,5 @@
-import { utils } from './lib/jsUtils';
 import { browser } from './browser';
+import { DOM } from './class/DOM';
 
 let storage = null;
 let themeElement = null;
@@ -47,7 +47,7 @@ async function setTheme(settings) {
       const theme = storage[key];
       if (!theme) continue;
       const css = getThemeCss(JSON.parse(theme));
-      themeElement = createElements(document.head, 'beforeEnd', [
+      themeElement = DOM.build(document.head, 'beforeEnd', [
         ['style', { id: 'esgst-theme' }, css]
       ]);
       const revisedCss = css.replace(/!important;/g, ';').replace(/;/g, '!important;');
@@ -61,7 +61,7 @@ async function setTheme(settings) {
     const customTheme = storage.customTheme;
     if (!customTheme) return;
     const css = JSON.parse(customTheme);
-    customThemeElement = createElements(document.head, 'beforeEnd', [
+    customThemeElement = DOM.build(document.head, 'beforeEnd', [
       ['style', { id: 'esgst-custom-theme' }, css]
     ]);
     const revisedCss = css.replace(/!important;/g, ';').replace(/;/g, '!important;');
@@ -142,99 +142,6 @@ function getThemeCss(theme) {
     css.pop();
   });
   return css.join('');
-}
-
-function createElements(context, position, items) {
-  if (Array.isArray(context)) {
-    items = context;
-    context = null;
-  }
-  if (position && position === 'inner') {
-    context.innerHTML = '';
-  }
-  if (!items || !items.length) {
-    return;
-  }
-  const fragment = document.createDocumentFragment();
-  let element = null;
-  buildElements(fragment, items);
-  if (!context) {
-    return fragment;
-  }
-  switch (position) {
-    case 'beforeBegin':
-      context.parentElement.insertBefore(fragment, context);
-      element = context.previousElementSibling;
-      break;
-    case 'afterBegin':
-      context.insertBefore(fragment, context.firstElementChild);
-      element = context.firstElementChild;
-      break;
-    case 'beforeEnd':
-      context.appendChild(fragment);
-      element = context.lastElementChild;
-      break;
-    case 'afterEnd':
-      context.parentElement.insertBefore(fragment, context.nextElementSibling);
-      element = context.nextElementSibling;
-      break;
-    case 'inner':
-      context.appendChild(fragment);
-      element = context.firstElementChild;
-      break;
-    case 'outer':
-      context.parentElement.insertBefore(fragment, context);
-      element = context.previousElementSibling;
-      context.remove();
-      break;
-  }
-  return element;
-}
-
-function buildElements(context, items) {
-  for (const item of items) {
-    if (!item) {
-      continue;
-    }
-    if (typeof item === 'string') {
-      const node = document.createTextNode(item);
-      context.appendChild(node);
-      continue;
-    } else if (!Array.isArray(item)) {
-      context.appendChild(item);
-      continue;
-    }
-    const element = document.createElement(item[0]);
-    if (utils.isSet(item[1])) {
-      if (Array.isArray(item[1])) {
-        buildElements(element, item[1]);
-      } else if (typeof item[1] === 'object') {
-        for (const key in item[1]) {
-          if (item[1].hasOwnProperty(key)) {
-            if (key === 'ref') {
-              item[1].ref(element);
-            } if (key === 'extend') {
-              item[1].extend = item[1].extend.bind(null, element);
-            } else if (key.match(/^on/)) {
-              element.addEventListener(key.replace(/^on/, ''), item[1][key]);
-            } else {
-              element.setAttribute(key, item[1][key]);
-            }
-          }
-        }
-      } else {
-        element.textContent = item[1];
-      }
-    }
-    if (utils.isSet(item[2])) {
-      if (Array.isArray(item[2])) {
-        buildElements(element, item[2]);
-      } else {
-        element.textContent = item[2];
-      }
-    }
-    context.appendChild(element);
-  }
 }
 
 function setLocalValue(key, value) {

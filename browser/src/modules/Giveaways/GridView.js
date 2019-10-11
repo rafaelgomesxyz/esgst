@@ -5,6 +5,7 @@ import { Popout } from '../../class/Popout';
 import { common } from '../Common';
 import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
+import { DOM } from '../../class/DOM';
 
 const
   createElements = common.createElements.bind(common),
@@ -100,7 +101,7 @@ class GiveawaysGridView extends Module {
     if ((!main || !this.esgst.giveawaysPath) && (main || ((source !== 'gb' || !gSettings.gv_gb) && (source !== 'ged' || !gSettings.gv_ged) && (source !== 'ge' || !gSettings.gv_ge)))) return;
     giveaways.forEach(giveaway => {
       giveaway.grid = true;
-      let popup = giveaway.outerWrap.closest('.esgst-popup-scrollable') || (shared.common.isCurrentPath('Account') && this.esgst.parameters.esgst && this.esgst.parameters.esgst !== 'guide');
+      let popup = giveaway.outerWrap.closest('.esgst-popup-scrollable') || (shared.common.isCurrentPath('Account') && this.esgst.parameters.esgst);
       if (popup) {
         giveaway.outerWrap.parentElement.parentElement.classList.add('esgst-gv-view');
         giveaway.outerWrap.parentElement.style.display = 'inline-block';
@@ -166,7 +167,7 @@ class GiveawaysGridView extends Module {
       }
       giveaway.innerWrap.insertBefore(giveaway.image, giveaway.gvIcons);
       giveaway.summary.classList.add('esgst-gv-popout', 'global__image-outer-wrap');
-      const temp = common.createElements_v2(giveaway.links, 'beforeBegin', [
+      const temp = DOM.build(giveaway.links, 'beforeBegin', [
         ['div', { style: `align-items: center; display: flex; justify-content: space-between;` }, [
           ['div', { style: `display: flex; flex: 1; flex-direction: column;` }, [
             ['div', { class: 'esgst-gv-creator' }, [
