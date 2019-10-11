@@ -3,15 +3,14 @@ import { ButtonSet } from '../../class/ButtonSet';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { ToggleSwitch } from '../../class/ToggleSwitch';
-import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
 import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
-import { logger } from '../../class/Logger';
+import { Logger } from '../../class/Logger';
+import { DOM } from '../../class/DOM';
 
 const
-  parseHtml = utils.parseHtml.bind(utils),
   buildGiveaway = common.buildGiveaway.bind(common),
   createElements = common.createElements.bind(common),
   createHeadingButton = common.createHeadingButton.bind(common),
@@ -115,7 +114,7 @@ class GiveawaysGiveawayExtractor extends Module {
 
       const parameters = getParameters();
       let ge = {
-        context: parseHtml((await request({ method: 'GET', url: `${parameters.url}${parameters.page ? `/search?page=${parameters.page}` : ''}` })).responseText),
+        context: DOM.parse((await request({ method: 'GET', url: `${parameters.url}${parameters.page ? `/search?page=${parameters.page}` : ''}` })).responseText),
         extractOnward: !!parameters.extractOnward,
         flushCache: !!parameters.flush,
         flushCacheHours: parameters.flushHrs,
@@ -221,7 +220,7 @@ class GiveawaysGiveawayExtractor extends Module {
     ge.bumpLink = '';
     ge.points = 0;
     ge.sgToolsCount = 0;
-    ge.isDivided = gSettings.gc_gi || gSettings.gc_r || gSettings.gc_rm || gSettings.gc_ea || gSettings.gc_tc || gSettings.gc_a || gSettings.gc_mp || gSettings.gc_sc || gSettings.gc_l || gSettings.gc_m || gSettings.gc_dlc || gSettings.gc_rd || gSettings.gc_g;
+    ge.isDivided = !gSettings.es || !gSettings.es_ge || gSettings.gc_gi || gSettings.gc_r || gSettings.gc_rm || gSettings.gc_ea || gSettings.gc_tc || gSettings.gc_a || gSettings.gc_mp || gSettings.gc_sc || gSettings.gc_l || gSettings.gc_m || gSettings.gc_dlc || gSettings.gc_rd || gSettings.gc_g;
     if (shared.common.isCurrentPath('Account') && this.esgst.parameters.esgst === 'ge') {
       const context = this.esgst.sidebar.nextElementSibling;
       if (gSettings.removeSidebarInFeaturePages) {
@@ -368,7 +367,7 @@ class GiveawaysGiveawayExtractor extends Module {
     if (!ge.extractOnward && ge.cache[ge.cacheId]) {
       ge.cache[ge.cacheId].ithLinks = new Set(ge.cache[ge.cacheId].ithLinks);
       ge.cache[ge.cacheId].jigidiLinks = new Set(ge.cache[ge.cacheId].jigidiLinks);
-      ge.cacheWarning = common.createElements_v2(ge.popup.description, 'beforeEnd', [
+      ge.cacheWarning = DOM.build(ge.popup.description, 'beforeEnd', [
         ['div', `These results were retrieved from the cache from ${common.getTimeSince(ge.cache[ge.cacheId].timestamp)} ago (${this.esgst.modules.generalAccurateTimestamp.at_formatTimestamp(ge.cache[ge.cacheId].timestamp)}). If you want to update the cache, you will have to extract again.`]
       ]);
 
@@ -460,7 +459,7 @@ class GiveawaysGiveawayExtractor extends Module {
       };
       ge.set.trigger();
     }
-    if (gSettings.es_ge) {
+    if (gSettings.es && gSettings.es_ge) {
       ge.popup.scrollable.addEventListener('scroll', this.checkScroll.bind(this, ge));
     }
   }
@@ -502,7 +501,9 @@ class GiveawaysGiveawayExtractor extends Module {
           }
         }
         ge.endless++;
-        this.checkScroll(ge, filtered);
+        if (gSettings.es && gSettings.es_ge) {
+          this.checkScroll(ge, filtered);
+        }
       } else {
         if (ge.extracted.indexOf(code) < 0) {
           let sgTools = code.length > 5;
@@ -535,7 +536,7 @@ class GiveawaysGiveawayExtractor extends Module {
                   sgTools = false;
                 }
               } catch (error) {
-                logger.warning(error.stack);
+                Logger.warning(error.stack);
               }
             }
           }
@@ -545,7 +546,7 @@ class GiveawaysGiveawayExtractor extends Module {
               method: 'GET',
               url: sgTools ? `https://www.sgtools.info/giveaways/${code}` : `/giveaway/${code}/`
             });
-            responseHtml = parseHtml(response.responseText);
+            responseHtml = DOM.parse(response.responseText);
             button = responseHtml.getElementsByClassName('sidebar__error')[0];
             giveaway = await buildGiveaway(responseHtml, response.finalUrl, button && button.textContent);
           } catch (error) {}
@@ -596,7 +597,7 @@ class GiveawaysGiveawayExtractor extends Module {
             let bumpLink, giveaway, giveaways, n, responseHtml;
             try {
               let response = await request({ anon: true, method: 'GET', url: `/giveaway/${code}/` });
-              responseHtml = parseHtml(response.responseText);
+              responseHtml = DOM.parse(response.responseText);
               giveaway = await buildGiveaway(responseHtml, response.finalUrl, null, true);
             } catch (error) {}
             if (giveaway) {
@@ -649,21 +650,11 @@ class GiveawaysGiveawayExtractor extends Module {
   }
 
   ge_getGiveaways(ge, context) {
-    const description = context.querySelector('.page__description');
-    const op = context.querySelector('.markdown');
     const giveawaySelectors = [
       `img[title]`,
       `[href*="/giveaway/"]`,
       `[href*="sgtools.info/giveaways"]`
     ];
-    let elements;
-    if (ge.ignoreDiscussionComments && !description && op) {
-      elements = op.querySelectorAll(giveawaySelectors.join(`, `));
-    } else if (ge.ignoreGiveawayComments && description) {
-      elements = description.querySelectorAll(giveawaySelectors.join(`, `));
-    } else {
-      elements = context.querySelectorAll(giveawaySelectors.map(x => `.markdown ${x}`).join(`, `));
-    }
     let giveaways = [];
     if (context === ge.context) {
       let match = getParameters().url.match(/\/giveaway\/(.+?)\//);
@@ -676,39 +667,44 @@ class GiveawaysGiveawayExtractor extends Module {
         giveaways.push(match[1]);
       }
     }
-    let next = {
+
+    const next = {
       code: null,
-      count: 0
+      count: 0,
     };
-    for (let element of elements) {
-      if (element.matches('img')) {
-        const title = element.getAttribute('title');
-        if (title.length === 5) {
-          if (ge.extracted.indexOf(title) < 0 && giveaways.indexOf(title) < 0) {
-            giveaways.push(title);
-          }
-        }
-        continue;
+
+    const description = context.querySelector('.page__description');
+    const op = context.querySelector('.markdown');
+    const commentElements = context.querySelectorAll('.comments');
+
+    let elements;
+
+    if (description) {
+      elements = description.querySelectorAll(giveawaySelectors.join(', '));
+
+      for (const element of elements) {
+        this.ge_getGiveaway(element, ge, giveaways, next);
       }
-      let url = element.getAttribute('href');
-      let match = url.match(/\/(\w{5})\b/);
-      if (!match) {
-        match = url.match(/(\w{8}-\w{4}-\w{4}-\w{4}-\w{12})/);
-        if (!match) continue;
-      }
-      let code = match[1];
-      if (!ge.extractOnward || this.esgst.discussionPath || element.textContent.toLowerCase().match(this.nextRegex)) {
-        if (ge.extracted.indexOf(code) < 0 && giveaways.indexOf(code) < 0) {
-          giveaways.push(code);
+
+      if (!ge.ignoreGiveawayComments && commentElements.length > 0) {
+        elements = commentElements[commentElements.length - 1].querySelectorAll(giveawaySelectors.map(x => `.markdown ${x}`).join(', '));
+
+        for (const element of elements) {
+          this.ge_getGiveaway(element, ge, giveaways);
         }
-      } else {
-        match = element.textContent.match(/\d+/);
-        if (match) {
-          let count = parseInt(match[0]);
-          if (count > next.count && ge.extracted.indexOf(code) < 0 && giveaways.indexOf(code) < 0) {
-            next.code = code;
-            next.count = count;
-          }
+      }
+    } else {
+      elements = op.querySelectorAll(giveawaySelectors.join(', '));
+
+      for (const element of elements) {
+        this.ge_getGiveaway(element, ge, giveaways, next);
+      }
+
+      if (!ge.ignoreDiscussionComments && commentElements.length > 0) {
+        elements = commentElements[commentElements.length - 1].querySelectorAll(giveawaySelectors.map(x => `.markdown ${x}`).join(', '));
+
+        for (const element of elements) {
+          this.ge_getGiveaway(element, ge, giveaways);
         }
       }
     }
@@ -753,6 +749,50 @@ class GiveawaysGiveawayExtractor extends Module {
       ge.cache[ge.cacheId].jigidiLinks.add(url);
     }
     return giveaways;
+  }
+
+  ge_getGiveaway(element, ge, giveaways, next) {
+    if (element.matches('img')) {
+      const title = element.getAttribute('title');
+
+      if (title.length === 5) {
+        if (ge.extracted.indexOf(title) < 0 && giveaways.indexOf(title) < 0) {
+          giveaways.push(title);
+        }
+      }
+
+      return;
+    }
+
+    const url = element.getAttribute('href');
+    let match = url.match(/\/(\w{5})\b/);
+
+    if (!match) {
+      match = url.match(/(\w{8}-\w{4}-\w{4}-\w{4}-\w{12})/);
+
+      if (!match) {
+        return;
+      }
+    }
+
+    const code = match[1];
+
+    if (!next || !ge.extractOnward || this.esgst.discussionPath || element.textContent.toLowerCase().match(this.nextRegex)) {
+      if (ge.extracted.indexOf(code) < 0 && giveaways.indexOf(code) < 0) {
+        giveaways.push(code);
+      }
+    } else {
+      match = element.textContent.match(/\d+/);
+
+      if (match) {
+        const count = parseInt(match[0]);
+
+        if (count > next.count && ge.extracted.indexOf(code) < 0 && giveaways.indexOf(code) < 0) {
+          next.code = code;
+          next.count = count;
+        }
+      }
+    }
   }
 
   checkGiveaways() {

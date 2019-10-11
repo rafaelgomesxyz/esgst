@@ -1,6 +1,10 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
 import { gSettings } from '../../class/Globals';
+import { EventDispatcher } from '../../class/EventDispatcher';
+import { Events } from '../../constants/Events';
+import { Session } from '../../class/Session';
+import { Shared } from '../../class/Shared';
 
 class GeneralTimeToPointCapCalculator extends Module {
   constructor() {
@@ -25,23 +29,25 @@ class GeneralTimeToPointCapCalculator extends Module {
   }
 
   init() {
-    this.update();
-    this.esgst.triggerFunctions.onLevelContainerUpdated.push(this.update.bind(this));
+    EventDispatcher.subscribe(Events.POINTS_UPDATED, this.update.bind(this));
+
+    this.update(null, Session.counters.points);
   }
 
-  update() {
-    if (!this.esgst.pointsContainer || this.esgst.points >= 400) {
+  update(oldPoints, newPoints) {
+    if (newPoints >= 400) {
       return;
     }
+
     let nextRefresh = 60 - new Date().getMinutes();
+
     while (nextRefresh > 15) {
       nextRefresh -= 15;
     }
-    const time = this.esgst.modules.giveawaysTimeToEnterCalculator.ttec_getTime(Math.round((nextRefresh + (15 * Math.floor((400 - this.esgst.points) / 6))) * 100) / 100);
-    this.esgst.pointsContainer.title = common.getFeatureTooltip('ttpcc', `${time} to 400P`);
-    if (gSettings.ttpcc_a) {
-      this.esgst.pointsContainer.textContent = `${this.esgst.points}P / ${time} to 400`;
-    }
+
+    const time = this.esgst.modules.giveawaysTimeToEnterCalculator.ttec_getTime(Math.round((nextRefresh + (15 * Math.floor((400 - newPoints) / 6))) * 100) / 100);
+
+    Shared.header.updatePoints(`${newPoints}P${gSettings.ttpcc_a ? ` / ${time} to 400` : ''}`, common.getFeatureTooltip('ttpcc', `${time} to 400P`));
   }
 }
 

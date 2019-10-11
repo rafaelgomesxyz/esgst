@@ -1,4 +1,5 @@
 import { Module } from '../../class/Module';
+import { Shared } from '../../class/Shared';
 
 class GeneralFixedHeader extends Module {
   constructor() {
@@ -18,11 +19,11 @@ class GeneralFixedHeader extends Module {
   }
 
   init() {
-    if (!this.esgst.header) {
+    if (!Shared.header) {
       return;
     }
 
-    this.esgst.header.classList.add('esgst-fh');
+    Shared.header.nodes.outer.classList.add('esgst-fh');
   }
 }
 

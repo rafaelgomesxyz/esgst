@@ -1,13 +1,12 @@
 import { Module } from '../../class/Module';
-import { utils } from '../../lib/jsUtils'
 import { common } from '../Common';
 import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
 import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
 import { permissions } from '../../class/Permissions';
+import { DOM } from '../../class/DOM';
 
 const
-  parseHtml = utils.parseHtml.bind(utils),
   createElements = common.createElements.bind(common),
   createHeadingButton = common.createHeadingButton.bind(common),
   createTooltip = common.createTooltip.bind(common),
@@ -148,7 +147,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
       type: 'span'
     }]);
     let elements, i, n, pagination, responseHtml;
-    responseHtml = parseHtml((await request({
+    responseHtml = DOM.parse((await request({
       method: 'GET',
       url: `/${glwc.url}/search?page=${nextPage}`
     })).responseText);
@@ -185,7 +184,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
         glwc.users[i].steamId = steamId;
         window.setTimeout(() => this.glwc_getSteamIds(glwc, ++i, n), 0);
       } else {
-        glwc.users[i].steamId = parseHtml((await request({
+        glwc.users[i].steamId = DOM.parse((await request({
           method: 'GET',
           url: `/user/${glwc.users[i].username}`
         })).responseText).querySelector(`[href*="/profiles/"]`).getAttribute('href').match(/\d+/)[0];

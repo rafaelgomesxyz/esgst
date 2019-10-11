@@ -1,11 +1,14 @@
 import { Module } from '../../class/Module';
 import { Popout } from '../../class/Popout';
-import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { gSettings } from '../../class/Globals';
+import { DOM } from '../../class/DOM';
+import { Session } from '../../class/Session';
+import { Shared } from '../../class/Shared';
+import { EventDispatcher } from '../../class/EventDispatcher';
+import { Events } from '../../constants/Events';
 
 const
-  parseHtml = utils.parseHtml.bind(utils),
   createElements = common.createElements.bind(common),
   endless_load = common.endless_load.bind(common),
   request = common.request.bind(common)
@@ -46,11 +49,23 @@ class GeneralQuickInboxView extends Module {
   }
 
   init() {
+    EventDispatcher.subscribe(Events.HEADER_REFRESHED, () => {
+      this.qiv();
+
+      if (this.esgst.qiv.popout && Session.counters.messages > 0 && gSettings.qiv_p) {
+        this.esgst.qiv.nextPage = 1;
+        this.qiv_addMarkReadButton();
+        this.qiv_scroll(false, true);
+      }
+    });
+
     this.qiv(true);
   }
 
   qiv(first) {
-    if (!this.esgst.inboxButton) return;
+    if (!Shared.header || !Shared.header.buttonContainers['messages']) {
+      return;
+    }
 
     if (typeof this.esgst.qiv !== 'object') {
       this.esgst.qiv = {
@@ -61,7 +76,7 @@ class GeneralQuickInboxView extends Module {
     if (first && gSettings.qiv_p) {
       this.esgst.qiv.popout = new Popout('esgst-qiv-popout', null, 1000);
       this.esgst.qiv.popout.onClose = this.qiv_removeNew.bind(this);
-      if (this.esgst.messageCount > 0) {
+      if (Session.counters.messages > 0) {
         this.qiv_addMarkReadButton();
       }
       this.esgst.qiv.comments = createElements(this.esgst.qiv.popout.popout, 'beforeEnd', [{
@@ -74,8 +89,8 @@ class GeneralQuickInboxView extends Module {
       // noinspection JSIgnoredPromiseFromCall
       this.qiv_scroll(true);
     }
-    this.esgst.inboxButton.addEventListener('mouseenter', this.qiv_openPopout.bind(this));
-    this.esgst.inboxButton.addEventListener('mouseleave', event => {
+    Shared.header.buttonContainers['messages'].nodes.outer.addEventListener('mouseenter', this.qiv_openPopout.bind(this));
+    Shared.header.buttonContainers['messages'].nodes.outer.addEventListener('mouseleave', event => {
       if (this.esgst.qiv.timeout) {
         window.clearTimeout(this.esgst.qiv.timeout);
         this.esgst.qiv.timeout = null;
@@ -91,11 +106,11 @@ class GeneralQuickInboxView extends Module {
   qiv_openPopout() {
     this.esgst.qiv.timeout = window.setTimeout(() => {
       if (this.esgst.qiv.popout) {
-        this.esgst.qiv.popout.open(this.esgst.inboxButton);
+        this.esgst.qiv.popout.open(Shared.header.buttonContainers['messages'].nodes.outer);
       } else {
         this.esgst.qiv.popout = new Popout('esgst-qiv-popout', null, 1000);
         this.esgst.qiv.popout.onClose = this.qiv_removeNew.bind(this);
-        if (this.esgst.messageCount > 0) {
+        if (Session.counters.messages > 0) {
           this.qiv_addMarkReadButton();
         }
         this.esgst.qiv.comments = createElements(this.esgst.qiv.popout.popout, 'beforeEnd', [{
@@ -104,7 +119,7 @@ class GeneralQuickInboxView extends Module {
           },
           type: 'div'
         }]);
-        this.esgst.qiv.popout.open(this.esgst.inboxButton);
+        this.esgst.qiv.popout.open(Shared.header.buttonContainers['messages'].nodes.outer);
         this.esgst.qiv.comments.addEventListener('scroll', this.qiv_scroll.bind(this, false, false));
         // noinspection JSIgnoredPromiseFromCall
         this.qiv_scroll(true);
@@ -146,8 +161,8 @@ class GeneralQuickInboxView extends Module {
             }]
           }]
         );
-        this.esgst.qiv.popout.reposition(this.esgst.inboxButton);
-        const context = parseHtml((await request({
+        this.esgst.qiv.popout.reposition(Shared.header.buttonContainers['messages'].nodes.outer);
+        const context = DOM.parse((await request({
           method: 'GET',
           url: `/messages/search?page=${this.esgst.qiv.nextPage}`
         })).responseText).querySelector(`.page__heading, .page_heading`).nextElementSibling;
@@ -212,7 +227,7 @@ class GeneralQuickInboxView extends Module {
           await endless_load(context);
         }
         if (this.esgst.qiv.popout.isOpen) {
-          this.esgst.qiv.popout.reposition(this.esgst.inboxButton);
+          this.esgst.qiv.popout.reposition(Shared.header.buttonContainers['messages'].nodes.outer);
         }
         this.esgst.qiv.nextPage += 1;
       } while (doContinue);
@@ -261,19 +276,15 @@ class GeneralQuickInboxView extends Module {
       url = '/ajax.php';
     }
     this.esgst.qiv.markReadButton.addEventListener('click', async () => {
-      await request({ data: `xsrf_token=${this.esgst.xsrfToken}&do=${key}`, method: 'POST', url });
+      await request({ data: `xsrf_token=${Session.xsrfToken}&do=${key}`, method: 'POST', url });
       this.esgst.qiv.markReadButton.remove();
       this.esgst.qiv.markReadButton = null;
       let elements = this.esgst.qiv.comments.querySelectorAll('.comment__envelope');
       for (let i = elements.length - 1; i > -1; i--) {
         elements[i].remove();
       }
-      this.esgst.inboxButton.classList.remove('nav__button-container--active');
-      this.esgst.messageCountContainer.remove();
-      this.esgst.messageCount = 0;
-      if (gSettings.hr) {
-        this.esgst.modules.generalHeaderRefresher.hr_notifyChange(this.esgst.hr);
-      }
+
+      await Shared.header.updateCounter('messages', null);
     });
   }
 }

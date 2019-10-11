@@ -2,6 +2,7 @@ import { Module } from '../class/Module';
 import {common} from './Common';
 import { shared } from '../class/Shared';
 import { gSettings } from '../class/Globals';
+import { DOM } from '../class/DOM';
 
 const
   createElements = common.createElements.bind(common),
@@ -296,11 +297,11 @@ class Giveaways extends Module {
       giveaway.entries = parseInt(giveaway.entriesLink.textContent.replace(/,/g, '').match(/\d+/)[0]);
       giveaway.comments = parseInt(giveaway.commentsLink.textContent.replace(/,/g, '').match(/\d+/)[0]);
     }
-    giveaway.extraPanel = common.createElements_v2(giveaway.summary, 'beforeEnd', [['div']]);
+    giveaway.extraPanel = DOM.build(giveaway.summary, 'beforeEnd', [['div']]);
     giveaway.panel = giveaway.innerWrap.getElementsByClassName('esgst-giveaway-panel')[0];
     if (!giveaway.panel && (gSettings.gwc || gSettings.gwr || gSettings.gptw || gSettings.gp || gSettings.elgb || gSettings.cewgd)) {
       if (giveaway.links) {
-        giveaway.panelFlexbox = common.createElements_v2(giveaway.links, 'afterEnd', [
+        giveaway.panelFlexbox = DOM.build(giveaway.links, 'afterEnd', [
           ['div', { class: 'esgst-panel-flexbox' }]
         ]);
         giveaway.panelFlexbox.appendChild(giveaway.links);

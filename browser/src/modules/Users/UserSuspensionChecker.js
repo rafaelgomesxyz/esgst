@@ -2,9 +2,10 @@ import { ButtonSet } from '../../class/ButtonSet';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { ToggleSwitch } from '../../class/ToggleSwitch';
-import { utils } from '../../lib/jsUtils';
+import { Utils } from '../../lib/jsUtils';
 import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
+import { DOM } from '../../class/DOM';
 
 class UsersUserSuspensionChecker extends Module {
   constructor() {
@@ -52,7 +53,7 @@ class UsersUserSuspensionChecker extends Module {
       icon: 'fa-question',
       title: `Check users for suspensions:`
     });
-    uscObj.options = shared.common.createElements_v2(popup.description, 'beforeEnd', [['div']]);
+    uscObj.options = DOM.build(popup.description, 'beforeEnd', [['div']]);
     let checkSingleSwitch;
     if (uscObj.username) {
       checkSingleSwitch = new ToggleSwitch(uscObj.options, 'usc_checkSingle', false, `Only check ${uscObj.username  || 'current user'}.`, false, false, `If disabled, all users in the current page will be checked.`, gSettings.usc_checkSingle);
@@ -165,8 +166,8 @@ class UsersUserSuspensionChecker extends Module {
         button.classList.remove('esgst-busy');
       }
     }).set);
-    uscObj.progress = shared.common.createElements_v2(popup.description, 'beforeEnd', [['div']]);
-    uscObj.results = shared.common.createElements_v2(popup.scrollable, 'beforeEnd', [['div']]);
+    uscObj.progress = DOM.build(popup.description, 'beforeEnd', [['div']]);
+    uscObj.results = DOM.build(popup.scrollable, 'beforeEnd', [['div']]);
     shared.common.createResults(uscObj.results, uscObj, [{
       Icon: 'fa fa-times-circle esgst-red',
       Description: `Suspended: `,
@@ -260,7 +261,7 @@ class UsersUserSuspensionChecker extends Module {
       if ((gSettings.usc_checkAll || gSettings.usc_checkPages) && ((((uscObj.username && !gSettings.usc_checkSingle) || !uscObj.username) && !window.location.pathname.match(/^\/(discussions|users|archive)/)))) {
         await this.getUsers(uscObj);
       }
-      uscObj.users = utils.sortArray(uscObj.users);
+      uscObj.users = Utils.sortArray(uscObj.users);
       if (window.location.pathname.match(/^\/users/)) {
         uscObj.users = uscObj.users.slice(0, 25);
       }
@@ -273,7 +274,7 @@ class UsersUserSuspensionChecker extends Module {
     for (i = 0, n = uscObj.users.length; i < n && !uscObj.canceled; i++) {
       uscObj.progress.innerHTML = `${i} of ${n} users checked...`;
       const username = uscObj.users[i];
-      const html = utils.parseHtml((await shared.common.request({
+      const html = DOM.parse((await shared.common.request({
         method: 'GET',
         url: `/user/${username}`
       })).responseText);
@@ -295,7 +296,7 @@ class UsersUserSuspensionChecker extends Module {
         key = 'none';
       }
       uscObj[key].classList.remove('esgst-hidden');
-      shared.common.createElements_v2(uscObj[`${key}Users`], 'beforeEnd', [
+      DOM.build(uscObj[`${key}Users`], 'beforeEnd', [
         ['div', [
           ['a', { href: `/user/${username}`}, username],
           text ? ` (${text})` : null
@@ -324,7 +325,7 @@ class UsersUserSuspensionChecker extends Module {
       if (nextPage === shared.esgst.currentPage) {
         html = shared.esgst.pageOuterWrap;
       } else {
-        html = utils.parseHtml((await shared.common.request({
+        html = DOM.parse((await shared.common.request({
           method: 'GET',
           url: `${shared.esgst.searchUrl}${nextPage}`
         })).responseText);
@@ -336,7 +337,7 @@ class UsersUserSuspensionChecker extends Module {
         uscObj.lastPage = shared.esgst.modules.generalLastPageLink.lpl_getLastPage(html, true);
         uscObj.lastPage = uscObj.lastPage === 999999999 ? '' : ` of ${uscObj.lastPage}`;
       }
-      shared.common.createElements_v2(uscObj.progress, 'inner', [
+      DOM.build(uscObj.progress, 'inner', [
         ['i', { class: 'fa fa-circle-o-notch fa-spin' }],
         ['span', `Retrieving users (page ${nextPage}${uscObj.lastPage})...`]
       ]);

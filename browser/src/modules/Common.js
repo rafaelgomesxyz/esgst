@@ -9,24 +9,19 @@ import { Module } from '../class/Module';
 import { Popout } from '../class/Popout';
 import { Popup } from '../class/Popup';
 import { Scope } from '../class/Scope';
-import { shared } from '../class/Shared';
+import { shared, Shared } from '../class/Shared';
 import { ToggleSwitch } from '../class/ToggleSwitch';
-import { utils } from '../lib/jsUtils';
+import { Utils } from '../lib/jsUtils';
 import { settingsModule } from './Settings';
 import { loadDataCleaner, loadDataManagement } from './Storage';
 import { runSilentSync, setSync } from './Sync';
 import { elementBuilder } from '../lib/SgStUtils/ElementBuilder';
 import 'bootstrap/dist/js/bootstrap';
-import '../lib/bootstrap-tourist/bootstrap-tourist.js';
-import '../lib/bootstrap-tourist/bootstrap-tourist.css';
 import { gSettings } from '../class/Globals';
 import { permissions } from '../class/Permissions';
-import { logger } from '../class/Logger';
-
-const
-  isSet = utils.isSet.bind(utils),
-  parseHtml = utils.parseHtml.bind(utils)
-  ;
+import { Logger } from '../class/Logger';
+import { DOM } from '../class/DOM';
+import { Session } from '../class/Session';
 
 class Common extends Module {
   constructor() {
@@ -115,7 +110,7 @@ class Common extends Module {
     selected.classList.remove('is-selected');
     const newSelected = document.querySelector(`#${id}`);
     newSelected.classList.add('is-selected');
-    this.createElements_v2(newSelected.querySelector('.sidebar__navigation__item__link'), 'afterBegin', [
+    DOM.build(newSelected.querySelector('.sidebar__navigation__item__link'), 'afterBegin', [
       ['i', { class: 'fa fa-caret-right' }]
     ]);
   }
@@ -125,8 +120,8 @@ class Common extends Module {
    * @param {Object} modules
    * @returns {Promise<void>}
    */
-  async loadFeatures(modules) {  
-    logger.info(this.esgst.games.apps[269650]);
+  async loadFeatures(modules) {
+    Logger.info(this.esgst.games.apps[269650]);
     if (this.isCurrentPath('Account')) {
       this.createSidebarNavigation(this.esgst.sidebar, 'beforeEnd', {
         name: 'ESGST',
@@ -170,7 +165,7 @@ class Common extends Module {
       });
       if (this.esgst.parameters.esgst === 'debug') {
         let textArea;
-        this.createElements_v2(document.body, 'inner', [
+        DOM.build(document.body, 'inner', [
           ['textarea', { ref: ref => textArea = ref }],
           ['button', { onclick: () => Function('"use strict";' + textArea.value + '').call(shared) }, 'Debug']
         ]);
@@ -204,10 +199,10 @@ class Common extends Module {
     }
 
     if (this.esgst.mainPageHeading) {
-      this.esgst.leftMainPageHeadingButtons = this.createElements_v2(this.esgst.mainPageHeading, 'afterBegin', [
+      this.esgst.leftMainPageHeadingButtons = DOM.build(this.esgst.mainPageHeading, 'afterBegin', [
         ['div', { class: 'esgst-page-heading esgst-page-heading-buttons' }]
       ]);
-      this.esgst.rightMainPageHeadingButtons = this.createElements_v2(this.esgst.mainPageHeading, 'beforeEnd', [
+      this.esgst.rightMainPageHeadingButtons = DOM.build(this.esgst.mainPageHeading, 'beforeEnd', [
         ['div', { class: 'esgst-page-heading esgst-page-heading-buttons' }]
       ]);
     }
@@ -215,7 +210,7 @@ class Common extends Module {
     let hideButtonsLeft, hideButtonsRight;
     hideButtonsLeft = document.createElement('div');
     hideButtonsLeft.className = 'esgst-heading-button';
-    this.createElements_v2(hideButtonsLeft, 'inner', [
+    DOM.build(hideButtonsLeft, 'inner', [
       ['i', { class: 'fa fa-ellipsis-v' }]
     ]);
     this.esgst.leftButtons = this.createElements(new Popout('esgst-hidden-buttons', hideButtonsLeft, 0, true).popout, 'beforeEnd', [{
@@ -226,7 +221,7 @@ class Common extends Module {
     }]);
     hideButtonsRight = document.createElement('div');
     hideButtonsRight.className = 'esgst-heading-button';
-    this.createElements_v2(hideButtonsRight, 'inner', [
+    DOM.build(hideButtonsRight, 'inner', [
       ['i', { class: 'fa fa-ellipsis-v' }]
     ]);
     this.esgst.rightButtons = this.createElements(new Popout('esgst-hidden-buttons', hideButtonsRight, 0, true).popout, 'beforeEnd', [{
@@ -267,8 +262,8 @@ class Common extends Module {
           await this.timeout(0);
         }*/
       } catch (e) {
-        logger.warning(`${mod.info.name} failed to load:`);
-        logger.error(e.stack);
+        Logger.warning(`${mod.info.name} failed to load:`);
+        Logger.error(e.message);
       }
     }
 
@@ -276,7 +271,7 @@ class Common extends Module {
     if (customPage && customPage.check) {
       await customPage.load();
     } else if (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst !== 'ge') {
-      await this.endless_load(document, !this.esgst.parameters.esgst || this.esgst.parameters.esgst === 'guide');
+      await this.endless_load(document, !this.esgst.parameters.esgst);
     }
 
     if (this.esgst.wbcButton && !this.esgst.scopes.main.users.length) {
@@ -344,118 +339,11 @@ class Common extends Module {
     }
 
     this.esgst.modules = modules;
-
-    if (shared.esgst.parameters.esgst === 'guide') {
-      if (shared.esgst.parameters.id === 'welcome') {
-        shared.esgst.guideSteps = [
-          ['#esgst .esgst-header-menu-button.arrow', 'Click here to open the ESGST dropdown.', { reflex: true, reflexOnly: true }],
-          ['#esgst .esgst-header-menu-absolute-dropdown', 'Here you can find a bunch of useful links / information related to the extension.', { preventInteraction: true }],
-          [`#esgst .esgst-header-menu-button:not(.arrow)`, 'Click here to open the ESGST settings menu.', { reflex: true, reflexOnly: true }],
-          ['.esgst-popup .page__heading', `The page heading allows you to access many useful functionalities (sync data, backup data, restore data, delete data, clean old data), as well as save any changes you have made.`, { preventInteraction: true }],
-          [`.esgst-popup .page__heading__button[title="Sync data"]`, 'Some features require you to sync specific parts of your data in order to work properly. The sync menu is accessible through this button.', { preventInteraction: true }],
-          [`.esgst-popup .page__heading__button[title="Backup data"]`, 'It is very important to back up your data often to prevent data loss. The backup menu is accessible through this button.', { preventInteraction: true }],
-          [`.esgst-popup .page__heading__button[title="Restore data"]`, `In the event of data loss, you can restore a previous backup to get your data back. The restore menu is accessible through this button.`, { preventInteraction: true }],
-          ['#esgst_plt', `To enable a feature, simply toggle the [SG] switch for SteamGifts or the [ST] switch for SteamTrades.`, { preventInteraction: true }],
-          [`[data-id="plt"]`, `You can click on the name of the feature to get more details about it, such as what it does, additional settings for it, what data you need to sync in order for it to work properly (if any), and you can also specify where exactly you want it to run, instead of letting it run everywhere. Click here to procceed.`, { reflex: true, reflexOnly: true }],
-          ['.esgst-settings-menu-feature', 'Here you can see the details.', { preventInteraction: true }],
-          ['.esgst-menu-layer + .esgst-popup-actions .esgst-popup-close', `Remember to always save your changes, otherwise they will not persist. Now let's close the settings menu. Click here.`, { reflex: true, reflexOnly: true }],
-          [`.sidebar > .sidebar__navigation:last-of-type`, `If you do not like popups, you can access the settings menu and all of the functionalities accessible from it through these links in the sidebar, which will open a new page with the content instead of a popup in the same page.`, { preventInteraction: true }],
-          ['', `And that's the basics! ESGST can be very overwhelming with the huge number of features it has, but we want to make it as easy-to-use as possible, so make sure to leave your feedback in the SG thread. And please do not hesitate to report bugs. Enjoy!`]
-        ];
-      } else {
-        for (const type in shared.esgst.features) {
-          for (const id in shared.esgst.features[type].features) {
-            const feature = this.findFeature(shared.esgst.features[type].features[id], id);
-            if (feature) {
-              shared.esgst.guideSteps = feature.guideSteps;
-              break;
-            }
-          }
-        }
-      }
-    }
-
-    if (shared.esgst.guideSteps) {
-      this.displayGuide();
-    }
-  }
-
-  displayGuide() {
-    // @ts-ignore
-    const guide = new Tour({
-      backdrop: true,
-      orphan: true,
-      showProgressBar: false,
-      showProgressText: false,
-      storage: false,
-      template: `
-        <div class="popover" role="tooltip">
-          <div class="arrow"></div>
-          <h3 class="popover-title"></h3>
-          <div class="popover-content"></div>
-          <div class="popover-navigation">
-            <div class="btn-group">
-              <button class="btn btn-sm btn-primary" data-role="next">Next</button>
-            </div>
-            <button class="btn btn-sm btn-default" data-role="end">End</button>
-          </div>
-        </div>
-      `
-    });
-    for (let i = 0, n = shared.esgst.guideSteps.length; i < n; i++) {
-      const [element, content, options] = shared.esgst.guideSteps[i];
-      const step = {
-        placement: 'auto'
-      };
-      if (options) {
-        if (options.reflexOnly || i + 1 === n) {
-          step.content = content;
-        } else {
-          step.content = `${content}<br><br>When you are ready to continue, click "Next".`;
-        }
-        if (options.isDynamic) {
-          step.element = () => $(document).find(element);
-          delete options.isDynamic;
-        } else {
-          step.element = element;
-        }
-        Object.assign(step, options);
-      } else {
-        if (i + 1 === n) {
-          step.content = content;
-        } else {
-          step.content = `${content}<br><br>When you are ready to continue, click "Next".`;
-        }
-        step.element = element;
-      }
-      guide.addStep(step);   
-    }
-    guide.start();
-    if (shared.esgst.parameters.step) {
-      guide.goTo(parseInt(shared.esgst.parameters.step));
-    }
-  }
-
-  findFeature(feature, id) {
-    if (id === shared.esgst.parameters.id) {
-      return feature;
-    }
-
-    if (feature.features) {
-      for (const subId in feature.features) {
-        const result = this.findFeature(feature.features[subId], subId);
-        if (result) {
-          return result;
-        }
-      }
-    }
-
-    return null;
   }
 
   processHash() {
-    this.goToComment(this.esgst.originalHash, null, false);        
-    if (this.esgst.parameters.esgst && this.esgst.parameters.esgst !== 'guide' && this.esgst.parameters.id) {
+    this.goToComment(this.esgst.originalHash, null, false);
+    if (this.esgst.parameters.esgst && this.esgst.parameters.id) {
       const element = document.querySelector(`[data-id="${this.esgst.parameters.id}"]`);
       if (element) {
         const hiddenSection = element.closest(`.esgst-form-row-indent.esgst-hidden:not(.SMFeatures)`);
@@ -478,22 +366,15 @@ class Common extends Module {
       this.esgst.pageOuterWrapClass = 'page__outer-wrap';
       this.esgst.pageHeadingClass = 'page__heading';
       this.esgst.pageHeadingBreadcrumbsClass = 'page__heading__breadcrumbs';
-      this.esgst.footer = document.getElementsByClassName('footer__outer-wrap')[0];
       this.esgst.replyBox = document.getElementsByClassName('comment--submit')[0];
       this.esgst.cancelButtonClass = 'comment__cancel-button';
       this.esgst.paginationNavigationClass = 'pagination__navigation';
       this.esgst.hiddenClass = 'is-hidden';
       this.esgst.selectedClass = 'is-selected';
-      this.esgst.giveawaysDropdown = document.querySelector(`.nav__button--is-dropdown[href="/"]`).parentElement.querySelector('.nav__relative-dropdown');
-      this.esgst.discussionsDropdown = document.querySelector(`.nav__button--is-dropdown[href="/discussions"]`).parentElement.querySelector('.nav__relative-dropdown');
-      this.esgst.supportDropdown = document.querySelector(`.nav__button--is-dropdown[href="/support"]`).parentElement.querySelector('.nav__relative-dropdown');
-      this.esgst.helpDropdown = document.querySelector(`.nav__button--is-dropdown[href="/about/faq"]`).parentElement.querySelector('.nav__relative-dropdown');
-      this.esgst.accountDropdown = document.querySelector(`.nav__button--is-dropdown[href="/account"]`).parentElement.querySelector('.nav__relative-dropdown');
     } else {
       this.esgst.pageOuterWrapClass = 'page_outer_wrap';
       this.esgst.pageHeadingClass = 'page_heading';
       this.esgst.pageHeadingBreadcrumbsClass = 'page_heading_breadcrumbs';
-      this.esgst.footer = /** @type {HTMLElement} */ document.getElementsByTagName('footer')[0];
       this.esgst.replyBox = /** @type {HTMLElement} */ document.getElementsByClassName('reply_form')[0];
       this.esgst.cancelButtonClass = 'btn_cancel';
       this.esgst.paginationNavigationClass = 'pagination_navigation';
@@ -528,9 +409,6 @@ class Common extends Module {
     }
     url += `page=`;
     this.esgst.searchUrl = url;
-    await this.esgst.modules.generalHeaderRefresher.hr_refreshHeaderElements(document);
-    this.esgst.header = /** @type {HTMLElement} */ document.getElementsByTagName('header')[0];
-    this.esgst.headerNavigationLeft = /** @type {HTMLElement} */ document.getElementsByClassName('nav__left-container')[0];
     this.esgst.pagination = /** @type {HTMLElement} */ document.getElementsByClassName('pagination')[0];
     this.esgst.featuredContainer = /** @type {HTMLElement} */ document.getElementsByClassName('featured__container')[0];
     this.esgst.pageOuterWrap = /** @type {HTMLElement} */ document.getElementsByClassName(this.esgst.pageOuterWrapClass)[0];
@@ -563,9 +441,6 @@ class Common extends Module {
     if (!this.esgst.mainPageHeading && mainPageHeadingIndex === 1) {
       this.esgst.mainPageHeading = document.getElementsByClassName(this.esgst.pageHeadingClass)[0];
     }
-    if (this.esgst.logoutButton) {
-      this.esgst.xsrfToken = this.esgst.logoutButton.getAttribute('data-form').match(/xsrf_token=(.+)/)[1];
-    }
   }
 
   async checkNewGiveawayInput(context) {
@@ -597,14 +472,14 @@ class Common extends Module {
       if (dateElement) {
         const rows = JSON.parse(dateElement.getAttribute('data-ui-tooltip')).rows;
         const date = rows[rows.length - 1].columns[1].name;
-        if (!this.esgst.games[info.type][info.id] || !utils.isSet(this.esgst.games[info.type][info.id].noCV) || this.esgst.games[info.type][info.id].noCV !== date) {
+        if (!this.esgst.games[info.type][info.id] || !Utils.isSet(this.esgst.games[info.type][info.id].noCV) || this.esgst.games[info.type][info.id].noCV !== date) {
           games[info.type][info.id] = {
             name: element.getElementsByClassName('table__column__heading')[0].firstChild.textContent.trim(),
             effective_date: date
           };
           found  = true;
         }
-      } else if (this.esgst.games[info.type][info.id] && utils.isSet(this.esgst.games[info.type][info.id].noCV)) {
+      } else if (this.esgst.games[info.type][info.id] && Utils.isSet(this.esgst.games[info.type][info.id].noCV)) {
         games[info.type][info.id] = {
           name: element.getElementsByClassName('table__column__heading')[0].firstChild.textContent.trim(),
           effective_date: null
@@ -688,12 +563,12 @@ class Common extends Module {
       try {
         await feature(context, main, source, endless, mainEndless);
       } catch (e) {
-        logger.error(e.stack);
+        Logger.error(e.stack);
       }
     }
   }
 
-  purgeRemovedElements() {    
+  purgeRemovedElements() {
     // there are more elements that need to be purged,
     // but for now these are the most critical ones
     for (const scopeKey in this.esgst.scopes) {
@@ -740,14 +615,14 @@ class Common extends Module {
     };
     await this.esgst.onBeforeCommentSubmit(obj);
     description = obj.comment;
-    const data = `xsrf_token=${this.esgst.xsrfToken}&do=${this.esgst.sg ? 'comment_new' : 'comment_insert'}&trade_code=${tradeCode}&parent_id=${parentId}&description=${encodeURIComponent(description)}`;
+    const data = `xsrf_token=${Session.xsrfToken}&do=${this.esgst.sg ? 'comment_new' : 'comment_insert'}&trade_code=${tradeCode}&parent_id=${parentId}&description=${encodeURIComponent(description)}`;
     let id = null;
     let response = await this.request({ data, method: 'POST', url });
     let responseHtml = null;
     let success = true;
     if (this.esgst.sg) {
       if (response.redirected) {
-        responseHtml = parseHtml(response.responseText);
+        responseHtml = DOM.parse(response.responseText);
         if (parentId) {
           id = responseHtml.querySelector(`[data-comment-id="${parentId}"]`).getElementsByClassName('comment__children')[0].lastElementChild.getElementsByClassName('comment__summary')[0].id;
         } else {
@@ -760,7 +635,7 @@ class Common extends Module {
     } else {
       const responseJson = JSON.parse(response.responseText);
       if (responseJson.success) {
-        responseHtml = parseHtml(responseJson.html);
+        responseHtml = DOM.parse(responseJson.html);
         id = responseHtml.getElementsByClassName('comment_outer')[0].id;
       } else {
         success = false;
@@ -850,16 +725,16 @@ class Common extends Module {
           manipulateCookies: {
             description: [
               ['ul', [
-                ['li', `You should enable this option if you use a single Firefox container for the common sites requested by ESGST that require you to be logged in (SteamGifts, SteamTrades, Steam, SGTools, etc...). With it enabled, ESGST will manipulate your cookies to make sure that requests are sent using the cookies from the current container you are on.`],
+                ['li', `You should enable this option if you use a single Firefox container for the common sites requested by ESGST that require you to be logged in (SteamGifts, SteamTrades, Steam, SGTools, etc...) or if you block third-party cookies. With it enabled, ESGST will read your cookies and modify request headers to make sure that requests are sent using the cookies from the current container you are on.`],
                 ['li', `For example: you are only logged in on SteamGifts and Steam in the personal container. With this option disabled, when you try to sync your owned games on ESGST it will fail because it will use the default cookies (where you are not logged in). With this option enabled, the sync will succeed because the container cookies will be used instead (where you are logged in).`],
-                ['li', `If you are concerned about what exactly is done, you can check out the source code of the eventPage.js file, where the manipulation occurs. Basically what happens is: the default cookies are backed up and replaced by the container cookies while the request is being made, and after the request is done the default cookies are restored. This is not a pretty solution, but it does the job until a better and more permanent solution comes along.`]
+                ['li', `If you are concerned about what exactly is done, you can check out the source code of the eventPage.js file, where the process occurs. Basically what happens is: the ID of your current container is retrieved from the tab that initiated the request and used to retrieve the cookies from that container (using the cookies API), then ESGST sends the request with a custom header "Esgst-Cookie" and the request is intercepted by the webRequest API, where the custom header is renamed to "Cookie" so that the cookies can be sent with the request. This is not a pretty solution, but it does the job until a better and more permanent solution comes along.`]
               ]]
             ],
             extensionOnly: true,
-            name: 'Allow ESGST to manipulate your cookies when using Firefox containers.',
+            name: 'Allow ESGST to read your cookies and modify request headers when using Firefox containers or when blocking third-party cookies.',
             sg: true,
             st: true,
-            permissions: ['cookies']
+            permissions: ['cookies', 'webRequest', 'webRequestBlocking']
           },
           addNoCvGames: {
             name: 'Automatically add no CV games to the database when searching for games in the new giveaway page.',
@@ -1202,13 +1077,40 @@ class Common extends Module {
       let popup = new Popup({
         addScrollable: true, icon: 'fa-smile-o', isTemp: true, title: [
           ['i', { class: 'fa fa-circle-o-notch fa-spin' }],
-          ` Hi! ESGST is retrieving your avatar, username and Steam ID. This will not take long...`
-        ]
+          ' Hi! ESGST is retrieving your avatar, username and Steam ID. This will not take long...'
+        ],
       });
       popup.open();
       await this.checkSync(true);
-      popup.close();
-      this.createConfirmation(`All done, ${gSettings.username}! Would you like to see an interactive guide showing you how to get started using ESGST?`, () => window.open(`https://www.steamgifts.com/account/settings/profile?esgst=guide&id=welcome`));
+
+      popup.setTitle(`All done, ${gSettings.username}! Here's some useful info on how to get started!`);
+
+      popup.getScrollable([
+        ['div', { class: 'markdown' }, [
+          ['ul', [
+            ['li', 'ESGST comes with all features disabled. Use the ESGST button at the header to access the settings menu and start enabling features.'],
+            ['li', 'The page heading in the settings menu allows you to access many useful functionalities (sync data, backup data, restore data, delete data, clean old data, etc), as well as save any changes you have made.'],
+            ['li', 'To enable a feature, simply toggle the [SG] switch for SteamGifts or the [ST] switch for SteamTrades (you have to enable ESGST for SteamTrades in the "Other" section).'],
+            ['li', 'You can click on the name of the feature to get more details about it, such as what it does, additional settings for it, what data you need to sync in order for it to work properly (if any), and you can also specify where exactly you want it to run, instead of letting it run everywhere.'],
+            ['li', 'Some features require additional browser permissions in order to work propertly. Scroll to the end of the settings menu to find the "Permissions" section, where you can see what each permission is required for.'],
+            ['li', 'It is very important to back up your data often to prevent data loss.'],
+            ['li', 'In the event of data loss, you can restore a previous backup to get your data back.'],
+            ['li', [
+              'If you do not like popups, you can access the settings menu and all of the functionalities accessible from it through links in the sidebar on your account page, which will open a new page with the content instead of a popup in the same page. These are the links for quick access: ',
+              ['a', { href: 'https://www.steamgifts.com/account/settings/profile?esgst=settings' }, 'Settings Menu'],
+              ', ',
+              ['a', { href: 'https://www.steamgifts.com/account/settings/profile?esgst=sync' }, 'Sync Data'],
+              ', ',
+              ['a', { href: 'https://www.steamgifts.com/account/settings/profile?esgst=backup' }, 'Backup Data'],
+              ', ',
+              ['a', { href: 'https://www.steamgifts.com/account/settings/profile?esgst=restore' }, 'Restore Data'],
+              ', ',
+              ['a', { href: 'https://www.steamgifts.com/account/settings/profile?esgst=delete' }, 'Delete Data'],
+            ]],
+            ['li', 'And that\'s the basics! ESGST can be very overwhelming with the huge number of features it has, but we want to make it as easy-to-use as possible, so make sure to leave your feedback in the SG thread. And please do not hesitate to report bugs. Enjoy!'],
+          ]],
+        ]],
+      ]);
     } else if (isUpdate && gSettings.showChangelog) {
       new Popup({
         icon: 'fa-star',
@@ -1228,7 +1130,7 @@ class Common extends Module {
     };
     await this.esgst.onBeforeCommentSubmit(obj);
     string = obj.comment;
-    return Array.from(parseHtml(this.esgst.markdownParser.text(string)).body.children);
+    return Array.from(DOM.parse(this.esgst.markdownParser.text(string)).body.children);
   }
 
   async addGiveawayToStorage() {
@@ -1331,129 +1233,6 @@ class Common extends Module {
     }
   }
 
-  /**
-   * @param details
-   * @param [key]
-   * @returns {*}
-   */
-  generateHeaderMenuItem(details, key) {
-    if (details.icon) {
-      let icon = details.icon;
-      if (details.color) {
-        icon += ` icon-${details.color}`;
-      }
-      if (details.url) {
-        return [{
-          attributes: {
-            class: `esgst-header-menu-row${details.className || ''}`,
-            ['data-link-id']: details.id,
-            ['data-link-key']: key,
-            href: details.url,
-            title: details.title || ''
-          },
-          type: 'a',
-          children: [{
-            attributes: {
-              class: `fa fa-fw ${icon}`
-            },
-            type: 'i'
-          }, {
-            type: 'div',
-            children: [{
-              attributes: {
-                class: 'esgst-header-menu-name'
-              },
-              text: details.name,
-              type: 'p'
-            }, details.description ? {
-              attributes: {
-                class: 'esgst-header-menu-description'
-              },
-              text: details.description,
-              type: 'p'
-            } : null]
-          }]
-        }];
-      }
-      return [{
-        attributes: {
-          class: `esgst-header-menu-row${details.className || ''}`,
-          ['data-link-id']: details.id,
-          ['data-link-key']: key,
-          title: details.title || ''
-        },
-        type: 'div',
-        children: [{
-          attributes: {
-            class: `fa fa-fw ${icon}`
-          },
-          type: 'i'
-        }, {
-          type: 'div',
-          children: [{
-            attributes: {
-              class: 'esgst-header-menu-name'
-            },
-            text: details.name,
-            type: 'p'
-          }, details.description ? {
-            attributes: {
-              class: 'esgst-header-menu-description'
-            },
-            text: details.description,
-            type: 'p'
-          } : null]
-        }]
-      }];
-    }
-    if (this.esgst.sg) {
-      return [{
-        attributes: {
-          class: `nav__row${details.className || ''}`,
-          ['data-link-id']: details.id,
-          ['data-link-key']: key,
-          href: details.url,
-          title: details.title || ''
-        },
-        type: 'a',
-        children: [{
-          attributes: {
-            class: 'nav__row__summary'
-          },
-          type: 'div',
-          children: [{
-            attributes: {
-              class: 'nav__row__summary__name'
-            },
-            text: details.name,
-            type: 'p'
-          }, details.description ? {
-            attributes: {
-              class: 'esgst-header-menu-description'
-            },
-            text: details.description,
-            type: 'p'
-          } : null]
-        }]
-      }];
-    } else {
-      return [{
-        attributes: {
-          class: `dropdown_btn${details.className || ''}`,
-          ['data-link-id']: details.id,
-          ['data-link-key']: key,
-          href: details.url,
-          title: details.title || ''
-        },
-        type: 'a',
-        children: [{
-          text: details.name,
-          type: 'span'
-        }]
-      }];
-    }
-  }
-
   reorderButtons(obj) {
     const items = [{
       context: obj.leftButtons,
@@ -1486,7 +1265,7 @@ class Common extends Module {
     const settings = JSON.parse(this.getValue('settings', '{}'));
     for (const key in settingsObj) {
       if (settingsObj[key] === null) {
-        if (utils.isSet(settings[key])) {
+        if (Utils.isSet(settings[key])) {
           delete settings[key];
         }
       } else {
@@ -1515,7 +1294,7 @@ class Common extends Module {
         value.id = `${value.id}_sg`;
       } else if (value.st) {
         value.id = `${value.id}_st`;
-      }      
+      }
       gSettings[value.id] = value.value;
       settings[value.id] = value.value;
     }
@@ -1555,7 +1334,7 @@ class Common extends Module {
     switch (id) {
       case 'cl':
         if (namespace !== 'sg') return;
-        setting.enabled = 
+        setting.enabled =
           this.esgst.settings.ap_sg ||
           this.esgst.settings.gcl_sg ||
           this.esgst.settings.ggl_sg;
@@ -1760,7 +1539,7 @@ class Common extends Module {
       current: value
     };
   }
-  
+
   initGlobalSettings() {
     for (const key in shared.esgst.settings) {
       const match = key.match(/(.+?)_(sg|st|sgt)$/);
@@ -1775,7 +1554,7 @@ class Common extends Module {
     for (const key in shared.esgst.oldValues) {
       if (shared.esgst.oldValues.hasOwnProperty(key)) {
         const localKey = key.replace(new RegExp(`(.+?)_${shared.esgst.name}$`), `$1`);
-        if (!utils.isSet(gSettings[localKey])) {
+        if (!Utils.isSet(gSettings[localKey])) {
           gSettings[key] = gSettings[localKey] = common.getSetting(key, shared.esgst.name, key.match(/^(wbc_checkBlacklist|wbc_hb_sg)$/));
         }
       }
@@ -1783,7 +1562,7 @@ class Common extends Module {
     for (const key in shared.esgst.defaultValues) {
       if (shared.esgst.defaultValues.hasOwnProperty(key)) {
         const localKey = key.replace(new RegExp(`(.+?)_${shared.esgst.name}$`), `$1`);
-        if (!utils.isSet(gSettings[localKey])) {
+        if (!Utils.isSet(gSettings[localKey])) {
           gSettings[key] = gSettings[localKey] = common.getSetting(key, shared.esgst.name, key.match(/^(wbc_checkBlacklist|wbc_hb_sg)$/));
         }
       }
@@ -1812,11 +1591,11 @@ class Common extends Module {
       }
     }
   }
-  
+
   getGlobalSetting(id, namespace = shared.esgst.name, path = '') {
     let value;
     const key = this.getGlobalSettingKey(id, namespace, path);
-    if (utils.isSet(gSettings[key])) {
+    if (Utils.isSet(gSettings[key])) {
       value = gSettings[key];
     } else {
       const feature = shared.esgst.featuresById[id];
@@ -1841,7 +1620,7 @@ class Common extends Module {
     }
     return value;
   }
-  
+
   setGlobalSetting(id, value, namespace = shared.esgst.name, path = '') {
     const key = this.getGlobalSettingKey(id, namespace, path);
     gSettings[key] = value;
@@ -1849,61 +1628,27 @@ class Common extends Module {
       gSettings[id] = value;
     }
   }
-  
+
   getGlobalSettingKey(id, namespace, path) {
     return `${id}_${namespace}_${path}`.replace(/\s/g, '');
   }
 
-  toggleHeaderMenu(arrow, dropdown) {
-    if (this.esgst.sg) {
-      let buttons = document.querySelectorAll('nav .nav__button');
-      // @ts-ignore
-      for (let button of buttons) {
-        button.classList.remove('is-selected');
-      }
-      let dropdowns = document.querySelectorAll('nav .nav__relative-dropdown');
-      // @ts-ignore
-      for (let dropdown of dropdowns) {
-        dropdown.classList.add('is-hidden');
-      }
-    } else {
-      let buttons = document.querySelectorAll(`.nav_btn_dropdown, .page_heading_btn_dropdown`);
-      // @ts-ignore
-      for (let button of buttons) {
-        button.classList.remove('is_selected');
-      }
-      let dropdowns = document.querySelectorAll('.dropdown');
-      // @ts-ignore
-      for (let dropdown of dropdowns) {
-        dropdown.classList.add('is_hidden');
+  toggleHeaderMenu(event) {
+    event.stopPropagation();
+
+    for (const id in Shared.header.buttonContainers) {
+      const buttonContainer = Shared.header.buttonContainers[id];
+
+      if (buttonContainer.data.id === 'esgst') {
+        buttonContainer.nodes.relativeDropdown.classList.toggle('is-hidden');
+        buttonContainer.nodes.relativeDropdown.classList.toggle('is_hidden');
+        buttonContainer.nodes.arrow.classList.toggle('is-selected');
+        buttonContainer.nodes.arrow.classList.toggle('is_selected');
+      } else if (buttonContainer.data.isDropdown) {
+        buttonContainer.nodes.relativeDropdown.classList.add('is-hidden', 'is_hidden');
+        buttonContainer.nodes.arrow.classList.remove('is-selected', 'is_selected');
       }
     }
-    arrow.classList.toggle('selected');
-    dropdown.classList.toggle('esgst-hidden');
-  }
-
-  addHeaderButton(icon, state, title) {
-    const [query, position] = this.esgst.sg ? ['.nav__left-container', 'afterEnd'] : ['.nav_logo', 'afterEnd'];
-    const button = this.createElements_v2(document.querySelector(query), position, [
-      ['div', { class: shared.esgst.sg ? `nav__button-container nav__button-container--notification nav__button-container--${state}` : 'nav_btn_container' }, [
-        ['span', { class: shared.esgst.sg ? 'nav__button' : 'nav_btn', title }, [
-          ['i', { class: `fa ${icon}` }]
-        ]]
-      ]]
-    ]);
-    return {
-      button,
-      changeIcon(icon) {
-        button.firstElementChild.firstElementChild.className = `fa ${icon}`;
-      },
-      changeState(state) {
-        button.classList.remove('nav__button-container--active', 'nav__button-container--inactive');
-        button.classList.add(`nav__button-container--${state}`)
-      },
-      changeTitle(title) {
-        button.firstElementChild.title = title;
-      }
-    };
   }
 
   getFeatureTooltip(id, title = '') {
@@ -2102,7 +1847,7 @@ class Common extends Module {
     let match, response, responseHtml;
     response = await this.request({ method: 'GET', url: `https://www.steamgifts.com/go/user/${user.steamId}` });
     match = response.finalUrl.match(/\/user\/(.+)/);
-    responseHtml = parseHtml(response.responseText);
+    responseHtml = DOM.parse(response.responseText);
     if (match) {
       user.username = match[1];
       let input = responseHtml.querySelector(`[name="child_user_id"]`);
@@ -2139,7 +1884,7 @@ class Common extends Module {
     if (!response.finalUrl.match(/\/user\//)) {
       return;
     }
-    responseHtml = parseHtml(response.responseText);
+    responseHtml = DOM.parse(response.responseText);
     const profileLink = responseHtml.querySelector(`[href*="/profiles/"]`);
     if (!profileLink) {
       return;
@@ -2271,12 +2016,22 @@ class Common extends Module {
   }
 
   async runSilentBackup() {
-    const button = this.addHeaderButton('fa-sign-out fa-spin', 'active', 'ESGST is backing up your data... Please do not close this window.');
+    const button = Shared.header.addButtonContainer({
+      buttonIcon: 'fa fa-sign-out fa-spin',
+      buttonName: 'ESGST Backup',
+      isActive: true,
+      isNotification: true,
+      side: 'right',
+    });
+
+    button.nodes.buttonIcon.title = 'ESGST is backing up your data... Please do not close this window.';
+
     this.esgst.parameters = Object.assign(this.esgst.parameters, { autoBackup: true });
     loadDataManagement('export', false, () => {
-      button.changeIcon('fa-check');
-      button.changeState('inactive');
-      button.changeTitle('ESGST has finished backing up.');
+      button.nodes.outer.classList.remove('nav__button-container--active');
+      button.nodes.outer.classList.add('nav__button-container--inactive');
+      button.nodes.buttonIcon.className = 'fa fa-check';
+      button.nodes.buttonIcon.title = 'ESGST has finished backing up.';
     });
   }
 
@@ -2453,7 +2208,7 @@ class Common extends Module {
           savedGroups.push(savedGroup);
         }
         if (!savedGroup.avatar || !savedGroup.steamId) {
-          const html = parseHtml((await this.request({ method: 'GET', url: `/group/${code}/` })).responseText);
+          const html = DOM.parse((await this.request({ method: 'GET', url: `/group/${code}/` })).responseText);
           savedGroup.avatar = html.getElementsByClassName('global__image-inner-wrap')[0].style.backgroundImage.match(/\/avatars\/(.+)_full/)[1];
           savedGroup.steamId = html.getElementsByClassName('sidebar__shortcut-inner-wrap')[0].firstElementChild.getAttribute('href').match(/\d+/)[0];
         }
@@ -2464,7 +2219,7 @@ class Common extends Module {
   }
 
   lookForPopups(response) {
-    const popup = (response.html || parseHtml(response.responseText)).querySelector(`.popup--gift-sent, .popup--gift-received`);
+    const popup = (response.html || DOM.parse(response.responseText)).querySelector(`.popup--gift-sent, .popup--gift-received`);
     if (!popup) {
       return;
     }
@@ -2505,7 +2260,7 @@ class Common extends Module {
       pagination = null;
     do {
       syncer.progress.lastElementChild.textContent = `Syncing your won games (page ${nextPage}${lastPage ? ` of ${lastPage}` : ''})...`;
-      const responseHtml = parseHtml((await this.request({
+      const responseHtml = DOM.parse((await this.request({
         method: 'GET',
         url: `/giveaways/won/search?page=${nextPage}`
       })).responseText),
@@ -2617,8 +2372,8 @@ class Common extends Module {
         this.request({ method: 'GET', url: '/discussions' }),
         this.request({ method: 'GET', url: '/discussions/deals' })
       ]);
-      let response1Html = parseHtml(response1.responseText);
-      let response2Html = parseHtml(response2.responseText);
+      let response1Html = DOM.parse(response1.responseText);
+      let response2Html = DOM.parse(response2.responseText);
       let revisedElements = [];
       let preset = null;
       if (gSettings.df && gSettings.df_m && gSettings.df_enable) {
@@ -2869,7 +2624,7 @@ class Common extends Module {
           queue: true,
           url: `https://www.steamgifts.com/giveaway/${hidden[i].code}/`
         });
-        giveaway = await this.buildGiveaway(parseHtml(response.responseText), response.finalUrl);
+        giveaway = await this.buildGiveaway(DOM.parse(response.responseText), response.finalUrl);
         if (giveaway) {
           this.createElements(gfGiveaways, 'beforeEnd', giveaway.html);
           await this.endless_load(gfGiveaways.lastElementChild, false, 'gf');
@@ -3406,7 +3161,7 @@ class Common extends Module {
     const lock = {
       key,
       threshold,
-      uuid: 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, utils.createUuid.bind(utils)),
+      uuid: 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, Utils.createUuid.bind(Utils)),
       ...v2Obj
     };
     const wasLocked = await this.do_lock(lock);
@@ -3719,14 +3474,14 @@ class Common extends Module {
       }
     }
     if (settings) {
-      const message = this.createElements_v2(settings, 'beforeEnd', [
+      const message = DOM.build(settings, 'beforeEnd', [
         ['div', { class: 'esgst-description esgst-bold' }, [
           ['i', { class: 'fa fa-circle-o-notch fa-spin', title: 'Saving...' }]
         ]]
       ]);
       await this.setSetting(toSave);
       message.classList.add('esgst-green');
-      this.createElements_v2(message, 'inner', [
+      DOM.build(message, 'inner', [
         ['i', { class: 'fa fa-check', title: 'Saved!' }]
       ]);
       window.setTimeout(() => message.remove(), 2500);
@@ -3852,7 +3607,7 @@ class Common extends Module {
       title2: 'Please wait...',
       callback1: async () => {
         await this.request({
-          data: `xsrf_token=${this.esgst.xsrfToken}&do=hide_giveaways_by_game_id&game_id=${id}`,
+          data: `xsrf_token=${Session.xsrfToken}&do=hide_giveaways_by_game_id&game_id=${id}`,
           method: 'POST',
           url: '/ajax.php'
         });
@@ -3893,7 +3648,7 @@ class Common extends Module {
       title2: 'Please wait...',
       callback1: async () => {
         await this.request({
-          data: `xsrf_token=${this.esgst.xsrfToken}&do=remove_filter&game_id=${id}`,
+          data: `xsrf_token=${Session.xsrfToken}&do=remove_filter&game_id=${id}`,
           method: 'POST',
           url: '/ajax.php'
         });
@@ -4288,7 +4043,7 @@ class Common extends Module {
     popout = new Popout(`esgst-feature-description ${noMarkdown ? '' : 'markdown'}`, context, 100);
     popout.popout.style.maxHeight = '300px';
     popout.popout.style.overflow = 'auto';
-    this.createElements(popout.popout, 'inner', [...(Array.from(parseHtml(message).body.childNodes).map(x => {
+    this.createElements(popout.popout, 'inner', [...(Array.from(DOM.parse(message).body.childNodes).map(x => {
       return {
         context: x
       };
@@ -4932,7 +4687,7 @@ class Common extends Module {
   }
 
   createConfirmation(message, onYes, onNo, event) {
-    logger.info(message);
+    Logger.info(message);
     let callback, popup;
     callback = onNo;
     popup = new Popup({ addScrollable: true, icon: 'fa-question', isTemp: true, title: message });
@@ -5021,7 +4776,7 @@ class Common extends Module {
   }
 
   createFormNotification(context, position, options) {
-    return this.createElements_v2(context, position, [
+    return DOM.build(context, position, [
       ['div', { class: `notification notification--${options.loading ? 'default' : (options.success ? 'success' : 'warning')}` }, [
         ['i', { class: `fa ${options.loading ? 'fa-circle-o-notch fa-spin' : (options.success ? 'fa-check-circle' : 'fa-times-circle')}` }],
         ' ',
@@ -5062,7 +4817,7 @@ class Common extends Module {
         ]]
       );
     }
-    return this.createElements_v2(context, position, [
+    return DOM.build(context, position, [
       ['div', { class: 'form__rows' }, items]
     ]);
   }
@@ -5075,122 +4830,17 @@ class Common extends Module {
           [item.url ? 'a' : 'div', Object.assign({ class: 'sidebar__navigation__item__link' }, item.url ? { href: item.url } : null), [
             ['div', { class: 'sidebar__navigation__item__name' }, item.name],
             ['div', { class: 'sidebar__navigation__item__underline' }],
-            isSet(item.count)
+            Utils.isSet(item.count)
               ? ['div', { class: 'sidebar__navigation__item__count' }, item.count]
               : null
           ]]
         ]]
       );
     }
-    return this.createElements_v2(context, position, [
+    return DOM.build(context, position, [
       ['h3', { class: 'sidebar__heading' }, options.name],
       ['ul', { class: 'sidebar__navigation' }, items]
     ]);
-  }
-
-  createElements_v2(context, position, items) {
-    try {
-      if (Array.isArray(context)) {
-        items = context;
-        context = null;
-      }
-      if (position && position === 'inner') {
-        context.innerHTML = '';
-      }
-      if (!items || !items.length) {
-        return;
-      }
-      const fragment = document.createDocumentFragment();
-      let element = null;
-      this.buildElements_v2(fragment, items);
-      if (!context) {
-        return fragment;
-      }
-      switch (position) {
-        case 'beforeBegin':
-          context.parentElement.insertBefore(fragment, context);
-          element = context.previousElementSibling;
-          break;
-        case 'afterBegin':
-          context.insertBefore(fragment, context.firstElementChild);
-          element = context.firstElementChild;
-          break;
-        case 'beforeEnd':
-          context.appendChild(fragment);
-          element = context.lastElementChild;
-          break;
-        case 'afterEnd':
-          context.parentElement.insertBefore(fragment, context.nextElementSibling);
-          element = context.nextElementSibling;
-          break;
-        case 'inner':
-          context.appendChild(fragment);
-          element = context.firstElementChild;
-          break;
-        case 'outer':
-          context.parentElement.insertBefore(fragment, context);
-          element = context.previousElementSibling;
-          context.remove();
-          break;
-      }
-      return element;
-    } catch (error) {
-      logger.error(error.stack);
-    }
-  }
-
-  buildElements_v2(context, items) {
-    for (const item of items) {
-      if (!item) {
-        continue;
-      }
-      if (typeof item === 'string') {
-        const node = document.createTextNode(item);
-        context.appendChild(node);
-        continue;
-      } else if (!Array.isArray(item)) {
-        context.appendChild(item);
-        continue;
-      }
-      const element = document.createElement(item[0]);
-      if (isSet(item[1])) {
-        if (Array.isArray(item[1])) {
-          this.buildElements_v2(element, item[1]);
-        } else if (typeof item[1] === 'object') {
-          for (const key in item[1]) {
-            if (item[1].hasOwnProperty(key)) {
-              if (key === 'ref') {
-                item[1].ref(element);
-              } else if (key === 'extend') {
-                item[1].extend = item[1].extend.bind(null, element);
-              } else if (key.match(/^on/)) {
-                element.addEventListener(key.replace(/^on/, ''), item[1][key]);
-              } else if (key === 'dataset') {
-                for (const datasetKey in item[1][key]) {
-                  element.dataset[datasetKey] = item[1][key][datasetKey];
-                }
-              } else if (key === 'style' && typeof item[1][key] === 'object') {
-                for (const styleKey in item[1][key]) {
-                  element.dataset[styleKey] = item[1][key][styleKey];
-                }
-              } else {
-                element.setAttribute(key, item[1][key]);
-              }
-            }
-          }
-        } else {
-          element.textContent = item[1];
-        }
-      }
-      if (isSet(item[2])) {
-        if (Array.isArray(item[2])) {
-          this.buildElements_v2(element, item[2]);
-        } else {
-          element.textContent = item[2];
-        }
-      }
-      context.appendChild(element);
-    }
   }
 
   createElements(context, position, items) {
@@ -5233,7 +4883,7 @@ class Common extends Module {
       }
       return element;
     } catch (error) {
-      logger.error(error.stack);
+      Logger.error(error.stack);
     }
   }
 
@@ -5242,7 +4892,7 @@ class Common extends Module {
       if (!item) {
         continue;
       }
-      if (isSet(item.context)) {
+      if (Utils.isSet(item.context)) {
         context.appendChild(item.context);
         continue;
       }
@@ -5252,20 +4902,20 @@ class Common extends Module {
         continue;
       }
       const element = document.createElement(item.type);
-      if (isSet(item.attributes)) {
+      if (Utils.isSet(item.attributes)) {
         for (const key in item.attributes) {
           if (item.attributes.hasOwnProperty(key)) {
             element.setAttribute(key, item.attributes[key]);
           }
         }
       }
-      if (isSet(item.text)) {
+      if (Utils.isSet(item.text)) {
         element.textContent = item.text;
       }
-      if (isSet(item.children)) {
+      if (Utils.isSet(item.children)) {
         this.buildElements(element, item.children);
       }
-      if (isSet(item.events)) {
+      if (Utils.isSet(item.events)) {
         for (const key in item.events) {
           if (item.events.hasOwnProperty(key)) {
             element.addEventListener(key, item.events[key]);
@@ -5338,7 +4988,7 @@ class Common extends Module {
       method: 'GET',
       url: obj.commentUrl
     }),
-      responseHtml = utils.parseHtml(response.responseText),
+      responseHtml = DOM.parse(response.responseText),
       comment = responseHtml.getElementById(obj.commentUrl.match(/\/comment\/(.+)/)[1]);
     obj.parentId = this.esgst.sg
       ? comment.closest('.comment').getAttribute('data-comment-id')
@@ -5477,7 +5127,7 @@ class Common extends Module {
       }
       hasCacheChanged = true;
     }
-    
+
     obj.update && obj.update('Retrieving ids from cache...');
 
     const games = { apps: {}, subs: {} };
@@ -5564,7 +5214,7 @@ class Common extends Module {
       obj.update && obj.update(`${title} games (${index} of ${total})...`);
 
       await this.request({
-        data: `xsrf_token=${this.esgst.xsrfToken}&do=${unhide ? 'remove_filter' : 'hide_giveaways_by_game_id'}&game_id=${id}`,
+        data: `xsrf_token=${Session.xsrfToken}&do=${unhide ? 'remove_filter' : 'hide_giveaways_by_game_id'}&game_id=${id}`,
         method: 'POST',
         url: '/ajax.php'
       });
@@ -5583,7 +5233,7 @@ class Common extends Module {
   }
 
   async getGameSgId(id, type) {
-    const elements = parseHtml(JSON.parse((await this.request({
+    const elements = DOM.parse(JSON.parse((await this.request({
       data: `do=autocomplete_giveaway_game&page_number=1&search_query=${encodeURIComponent(id)}`,
       method: 'POST',
       url: '/ajax.php'
@@ -5614,7 +5264,7 @@ class Common extends Module {
     script.remove();
   }
 
-  testPath(name, namespace, path) {    
+  testPath(name, namespace, path) {
     const pathObj = this.esgst.paths[namespace].filter(x => x.name === name)[0];
     if (pathObj && this.getPath(path).match(pathObj.pattern)) {
       return true;
@@ -5703,14 +5353,14 @@ class Common extends Module {
   }
 
   getValue(key, value) {
-    return utils.isSet(this.esgst.storage[key]) ? this.esgst.storage[key] : value;
+    return Utils.isSet(this.esgst.storage[key]) ? this.esgst.storage[key] : value;
   }
 
   getValues(values) {
     const output = {};
     for (const key in values) {
       if (values.hasOwnProperty(key)) {
-        output[key] = utils.isSet(this.esgst.storage[key]) ? this.esgst.storage[key] : values[key];
+        output[key] = Utils.isSet(this.esgst.storage[key]) ? this.esgst.storage[key] : values[key];
       }
     }
     return output;
@@ -5746,7 +5396,7 @@ class Common extends Module {
         try {
           let _fetch;
           let _requestOptions;
-          if ((await this.getBrowserInfo()).name === 'Firefox' && utils.isSet(window.wrappedJSObject)) {
+          if ((await this.getBrowserInfo()).name === 'Firefox' && Utils.isSet(window.wrappedJSObject)) {
             // @ts-ignore
             _fetch = XPCNativeWrapper(window.wrappedJSObject.fetch);
             // @ts-ignore
@@ -5776,14 +5426,16 @@ class Common extends Module {
           this.lookForPopups(response);
         }
       } else {
+        const manipulateCookies = (await this.getBrowserInfo()).name === 'Firefox' && gSettings.manipulateCookies;
+
         browser.runtime.sendMessage({
           action: 'fetch',
           blob: details.blob,
           fileName: details.fileName,
-          manipulateCookies: (await this.getBrowserInfo()).name === 'Firefox' && gSettings.manipulateCookies,
+          manipulateCookies,
           parameters: JSON.stringify({
             body: details.data,
-            credentials: details.anon ? 'omit' : 'include',
+            credentials: details.anon || manipulateCookies ? 'omit' : 'include',
             headers: details.headers,
             method: details.method,
             redirect: 'follow'
@@ -5793,7 +5445,7 @@ class Common extends Module {
           if (typeof response === 'string') {
             response = JSON.parse(response);
           }
-          if (utils.isSet(response.error)) {
+          if (Utils.isSet(response.error)) {
             reject(response);
             return;
           }
@@ -5806,129 +5458,123 @@ class Common extends Module {
     });
   }
 
+  openDonationsPopup() {
+    const popup = new Popup({
+      icon: 'fa-dollar',
+      title: 'Donations',
+      isTemp: true,
+    });
+
+    popup.getScrollable([
+      ['br'],
+      ['div', [
+        ['a', { class: 'table__column__secondary-link', href: `https://www.patreon.com/rafaelgssa`, target: '_blank' }, [
+          ['strong', 'Patreon']
+        ]]
+      ]],
+      ['div', [
+        ['a', { class: 'table__column__secondary-link', href: `https://steamcommunity.com/tradeoffer/new/?partner=214244550&token=LW6Selqp`, target: '_blank' }, [
+          ['strong', 'Steam Trade']
+        ]]
+      ]],
+      ['div', [
+        ['strong', `Paypal: `],
+        'rafael.gssa@gmail.com ',
+        this.getCopyIcon('rafael.gssa@gmail.com')
+      ]],
+      ['div', [
+        ['strong', `Bitcoin: `],
+        '32WY96ch5MSZ3FNubL5f7QZ9K3WWNHNpV9 ',
+        this.getCopyIcon('32WY96ch5MSZ3FNubL5f7QZ9K3WWNHNpV9')
+      ]],
+      ['div', [
+        ['strong', `Monero: `],
+        '42Tw49nUAig3kk1tJh1y1ZP8vrkmY4EH3QW3SRijHxGggtBpDUn2TqJAVBJYBCybGXNninC4gGD9nhe3cttBaZ6u5NuhiLM ',
+        this.getCopyIcon('42Tw49nUAig3kk1tJh1y1ZP8vrkmY4EH3QW3SRijHxGggtBpDUn2TqJAVBJYBCybGXNninC4gGD9nhe3cttBaZ6u5NuhiLM')
+      ]],
+      ['div', [
+        ['strong', `Humble Bundle Partner ID: `],
+        'gsrafael01 ',
+        this.getCopyIcon('gsrafael01')
+      ]],
+    ]);
+
+    popup.open();
+  }
+
   async addHeaderMenu() {
-    if (!this.esgst.header) {
+    if (!Shared.header) {
       return;
     }
-    let arrow, button, className, context, dropdown, menu, position;
-    if (this.esgst.sg) {
-      className = 'nav__left-container';
-      position = 'beforeEnd';
-    } else {
-      className = 'nav_logo';
-      position = 'afterEnd';
-    }
-    context = document.getElementsByClassName(className)[0];
+
     const manifest = await browser.runtime.getManifest();
-    menu = this.createElements_v2(context, position, [
-      ['div', { class: 'esgst-header-menu', id: 'esgst', title: this.getFeatureTooltip() }, [
-        ['div', { class: 'esgst-header-menu-relative-dropdown esgst-hidden' }, [
-          ['div', { class: 'esgst-header-menu-absolute-dropdown' }, [
-            ['a', { class: 'esgst-header-menu-row', href: `https://github.com/rafaelgssa/esgst`, target: '_blank' }, [
-              ['i', { class: 'fa fa-fw fa-github grey' }],
-              ['div', [
-                ['p', { class: 'esgst-header-menu-name' }, 'GitHub'],
-                ['p', { class: 'esgst-header-menu-description' }, 'Visit the GitHub page.']
-              ]]
-            ]],
-            ['a', { class: 'esgst-header-menu-row', href: `https://github.com/rafaelgssa/esgst/issues`, target: '_blank' }, [
-              ['i', { class: 'fa fa-fw fa-bug red' }],
-              ['div', [
-                ['p', { class: 'esgst-header-menu-name' }, 'Bugs / Suggestions'],
-                ['p', { class: 'esgst-header-menu-description' }, 'Report bugs and / or make suggestions.']
-              ]]
-            ]],
-            ['a', { class: 'esgst-header-menu-row', href: `https://github.com/rafaelgssa/esgst/milestones`, target: '_blank' }, [
-              ['i', { class: 'fa fa-fw fa-map-signs blue' }],
-              ['div', [
-                ['p', { class: 'esgst-header-menu-name' }, 'Milestones'],
-                ['p', { class: 'esgst-header-menu-description' }, 'Check out what\'s coming in the next versions.']
-              ]]
-            ]],
-            ['a', { class: 'esgst-header-menu-row', href: `https://www.steamgifts.com/discussion/TDyzv/`, target: '_blank' }, [
-              ['i', { class: 'fa fa-fw fa-commenting green' }],
-              ['div', [
-                ['p', { class: 'esgst-header-menu-name' }, 'Discussion'],
-                ['p', { class: 'esgst-header-menu-description' }, 'Visit the discussion page.']
-              ]]
-            ]],
-            ['a', { class: 'esgst-header-menu-row', href: `http://steamcommunity.com/groups/esgst`, target: '_blank' }, [
-              ['i', { class: 'fa fa-fw fa-steam green' }],
-              ['div', [
-                ['p', { class: 'esgst-header-menu-name' }, 'Steam Group'],
-                ['p', { class: 'esgst-header-menu-description' }, 'Visit / join the Steam group.']
-              ]]
-            ]],
-            ['a', { class: 'esgst-header-menu-row', href: 'https://github.com/rafaelgssa/esgst/releases', target: '_blank' }, [
-              ['i', { class: 'fa fa-fw fa-file-text-o yellow' }],
-              ['div', [
-                ['p', { class: 'esgst-header-menu-name' }, 'Changelog'],
-                ['p', { class: 'esgst-header-menu-description' }, 'Check out the changelog.']
-              ]]
-            ]],
-            ['div', { class: 'esgst-header-menu-row esgst-version-row' }, [
-              ['i', { class: 'fa fa-fw fa-dollar green' }],
-              ['div', [
-                ['p', { class: 'esgst-header-menu-name' }, 'Donations'],
-                ['p', { class: 'esgst-header-menu-description' }, [
-                  ['br'],
-                  ['div', [
-                    ['a', { class: 'table__column__secondary-link', href: `https://www.patreon.com/rafaelgssa`, target: '_blank' }, [
-                      ['strong', 'Patreon']
-                    ]]
-                  ]],
-                  ['div', [
-                    ['a', { class: 'table__column__secondary-link', href: `https://steamcommunity.com/tradeoffer/new/?partner=214244550&token=LW6Selqp`, target: '_blank' }, [
-                      ['strong', 'Steam Trade']
-                    ]]
-                  ]],
-                  ['div', [
-                    ['strong', `Paypal: `],
-                    'rafael.gssa@gmail.com ',
-                    this.getCopyIcon('rafael.gssa@gmail.com')
-                  ]],
-                  ['div', [
-                    ['strong', `Bitcoin: `],
-                    '32WY96ch5MSZ3FNubL5f7QZ9K3WWNHNpV9 ',
-                    this.getCopyIcon('32WY96ch5MSZ3FNubL5f7QZ9K3WWNHNpV9')
-                  ]],
-                  ['div', [
-                    ['strong', `Monero: `],
-                    '42Tw49nUAig3kk1tJh1y1ZP8vrkmY4EH3QW3SRijHxGggtBpDUn2TqJAVBJYBCybGXNninC4gGD9nhe3cttBaZ6u5NuhiLM ',
-                    this.getCopyIcon('42Tw49nUAig3kk1tJh1y1ZP8vrkmY4EH3QW3SRijHxGggtBpDUn2TqJAVBJYBCybGXNninC4gGD9nhe3cttBaZ6u5NuhiLM')
-                  ]],
-                ]]
-              ]]
-            ]],
-            ['div', { class: 'esgst-header-menu-row esgst-version-row' }, [
-              ['div', [
-                ['p', { class: 'esgst-header-menu-description' }, `Current Version: ${manifest.version_name || manifest.version}`]
-              ]]
-            ]]
-          ]]
-        ]],
-        ['a', { class: 'esgst-header-menu-button', href: this.esgst.settingsUrl}, [
-          ['i', { class: 'fa' }, [
-            ['img', { src: this.esgst.icon }]
-          ]],
-          ' ESGST'
-        ]],
-        ['div', { class: 'esgst-header-menu-button arrow' }, [
-          ['i', { class: 'fa fa-angle-down' }]
-        ]]
-      ]]
-    ]);
-    dropdown = /** @type {HTMLElement} */ menu.firstElementChild;
-    button = dropdown.nextElementSibling;
-    arrow = button.nextElementSibling;
-    button.addEventListener('click', event => {
-      if (!gSettings.openSettingsInTab) {
-        event.preventDefault();
-        settingsModule.loadMenu(true);
-      }
+
+    Shared.header.addButtonContainer({
+      buttonImage: Shared.esgst.icon,
+      buttonName: ' ESGST',
+      isDropdown: true,
+      side: 'left',
+      dropdownItems: [
+        {
+          description: 'Visit the GitHub page.',
+          icon: 'fa fa-fw fa-github icon-grey grey',
+          name: 'GitHub',
+          url: 'https://github.com/rafaelgssa/esgst',
+        },
+        {
+          description: 'Report bugs and / or make suggestions.',
+          icon: 'fa fa-fw fa-bug icon-red red',
+          name: 'Bugs / Suggestions',
+          url: 'https://github.com/rafaelgssa/esgst/issues',
+        },
+        {
+          description: 'Check out what\'s coming in the next versions.',
+          icon: 'fa fa-fw fa-map-signs icon-blue blue',
+          name: 'Milestones',
+          url: 'https://github.com/rafaelgssa/esgst/milestones',
+        },
+        {
+          description: 'Visit the discussion page.',
+          icon: 'fa fa-fw fa-commenting icon-green green',
+          name: 'Discussion',
+          url: 'https://www.steamgifts.com/discussion/TDyzv/',
+        },
+        {
+          description: 'Visit / join the Steam group.',
+          icon: 'fa fa-fw fa-steam icon-green green',
+          name: 'Steam Group',
+          url: 'http://steamcommunity.com/groups/esgst',
+        },
+        {
+          description: 'Check out the changelog.',
+          icon: 'fa fa-fw fa-file-text-o icon-yellow yellow',
+          name: 'Changelog',
+          url: 'https://github.com/rafaelgssa/esgst/releases',
+        },
+        {
+          description: 'Help make ESGST better!',
+          icon: 'fa fa-fw fa-dollar icon-green green',
+          name: 'Donations',
+          onClick: this.openDonationsPopup.bind(this),
+        },
+        {
+          icon: 'fa fa-fw fa-info-circle icon-grey grey',
+          name: `Current Version: ${manifest.version_name || manifest.version}`,
+        },
+      ],
+      onClick: event => {
+        if (!gSettings.openSettingsInTab) {
+          event.preventDefault();
+          settingsModule.loadMenu(true);
+        }
+      },
     });
-    arrow.addEventListener('click', this.toggleHeaderMenu.bind(this, arrow, dropdown));
-    document.addEventListener('click', this.closeHeaderMenu.bind(this, arrow, dropdown, menu), true);
+
+    Shared.header.buttonContainers['esgst'].nodes.outer.id = 'esgst';
+
+    const arrow = Shared.header.buttonContainers['esgst'].nodes.arrow;
+
+    arrow.addEventListener('click', this.toggleHeaderMenu.bind(this), true);
   }
 
   getSelectors(endless, selectors) {
@@ -5964,14 +5610,14 @@ class Common extends Module {
   setCurrentScope(id) {
     this.esgst.currentScope = this.esgst.scopes[id];
     this.esgst.scopeHistory.push(id);
-    logger.info(`Current scope: `, this.esgst.currentScope.id);
+    Logger.info(`Current scope: `, this.esgst.currentScope.id);
   }
 
   resetCurrentScope() {
     this.esgst.scopeHistory.pop();
     const id = this.esgst.scopeHistory[this.esgst.scopeHistory.length - 1];
     this.esgst.currentScope = this.esgst.scopes[id];
-    logger.info(`Current scope: `, this.esgst.currentScope.id);
+    Logger.info(`Current scope: `, this.esgst.currentScope.id);
   }
 
   getLevelFromCv(cv) {
@@ -5992,7 +5638,7 @@ class Common extends Module {
         continue;
       }
       const change = changes[key];
-      if (!utils.isSet(change.newValue)) {
+      if (!Utils.isSet(change.newValue)) {
         continue;
       }
       shared.esgst.storage[key] = change.newValue;

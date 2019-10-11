@@ -1,10 +1,9 @@
 import { Module } from '../../class/Module';
-import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { permissions } from '../../class/Permissions';
+import { DOM } from '../../class/DOM';
 
 const
-  parseHtml = utils.parseHtml.bind(utils),
   createElements = common.createElements.bind(common),
   createLock = common.createLock.bind(common),
   getValue = common.getValue.bind(common),
@@ -99,7 +98,7 @@ class GiveawaysIsThereAnyDealInfo extends Module {
       queue: true,
       url: `https://isthereanydeal.com/game/${plain}/info/`
     });
-    const html = parseHtml(response.responseText);
+    const html = DOM.parse(response.responseText);
     const deals = html.querySelectorAll('#gh-po tr');
     for (const deal of deals) {
       const match = deal.firstElementChild.textContent.trim().match(/(Current\sBest|Historical\sLow)/);

@@ -3,15 +3,16 @@ import { Checkbox } from '../class/Checkbox';
 import { Module } from '../class/Module';
 import { Popup } from '../class/Popup';
 import { ToggleSwitch } from '../class/ToggleSwitch';
-import { utils } from '../lib/jsUtils';
+import { Utils } from '../lib/jsUtils';
 import { common } from './Common';
 import { gSettings } from '../class/Globals';
 import { shared } from '../class/Shared';
 import { SYNC_KEYS } from './Sync';
-import { logger } from '../class/Logger';
+import { Logger } from '../class/Logger';
+import { Session } from '../class/Session';
+import { DOM } from '../class/DOM';
 
 const
-  isSet = utils.isSet.bind(utils),
   createElements = common.createElements.bind(common),
   createFadeMessage = common.createElements.bind(common),
   getFeatureTooltip = common.getFeatureTooltip.bind(common),
@@ -31,11 +32,11 @@ class Filters extends Module {
   addSingleButton(icon) {
     this.singleButton = shared.common.createHeadingButton({ id: `${this.id}_s_s`, icons: [icon], title: 'Hide / unhide items filtered by single filters temporarily' });
     this.singleButton.classList.add('esgst-hidden');
-    shared.common.createElements_v2(this.singleButton, 'afterBegin', [['span']]);
+    DOM.build(this.singleButton, 'afterBegin', [['span']]);
     this.singleSwitch = new ToggleSwitch(this.singleButton.firstElementChild, null, true, '', false, false, null, true);
     this.singleSwitch.onChange = () => this.toggleFilteredItems();
-    this.singleCounter = shared.common.createElements_v2(this.singleButton, 'beforeEnd', [['span', '0']]);
-  }    
+    this.singleCounter = DOM.build(this.singleButton, 'beforeEnd', [['span', '0']]);
+  }
 
   toggleFilteredItems() {
     const elements = document.querySelectorAll(`[data-esgst-not-filterable="${this.id}"]`);
@@ -53,7 +54,7 @@ class Filters extends Module {
   updateSingleCounter(count = 1) {
     const newCount = parseInt(this.singleCounter.textContent) + count;
     this.singleCounter.textContent = newCount;
-    if (newCount > 0) {      
+    if (newCount > 0) {
       this.singleButton.classList.remove('esgst-hidden');
     }
   }
@@ -946,7 +947,7 @@ class Filters extends Module {
             spinning.classList.remove('esgst-hidden');
             await setSetting(filter.id, select.value);
             await request({
-              data: `filter_os=${gSettings.filter_os}&filter_giveaways_exist_in_account=${gSettings.filter_giveaways_exist_in_account}&filter_giveaways_missing_base_game=${gSettings.filter_giveaways_missing_base_game}&filter_giveaways_level=${gSettings.filter_giveaways_level}&filter_giveaways_additional_games=${gSettings.filter_giveaways_additional_games}&xsrf_token=${this.esgst.xsrfToken}`,
+              data: `filter_os=${gSettings.filter_os}&filter_giveaways_exist_in_account=${gSettings.filter_giveaways_exist_in_account}&filter_giveaways_missing_base_game=${gSettings.filter_giveaways_missing_base_game}&filter_giveaways_level=${gSettings.filter_giveaways_level}&filter_giveaways_additional_games=${gSettings.filter_giveaways_additional_games}&xsrf_token=${Session.xsrfToken}`,
               method: 'POST',
               url: '/account/settings/giveaways'
             });
@@ -960,7 +961,7 @@ class Filters extends Module {
             spinning.classList.remove('esgst-hidden');
             await setSetting(filter.id, checkbox.value ? 1 : 0);
             await request({
-              data: `filter_os=${gSettings.filter_os}&filter_giveaways_exist_in_account=${gSettings.filter_giveaways_exist_in_account}&filter_giveaways_missing_base_game=${gSettings.filter_giveaways_missing_base_game}&filter_giveaways_level=${gSettings.filter_giveaways_level}&filter_giveaways_additional_games=${gSettings.filter_giveaways_additional_games}&xsrf_token=${this.esgst.xsrfToken}`,
+              data: `filter_os=${gSettings.filter_os}&filter_giveaways_exist_in_account=${gSettings.filter_giveaways_exist_in_account}&filter_giveaways_missing_base_game=${gSettings.filter_giveaways_missing_base_game}&filter_giveaways_level=${gSettings.filter_giveaways_level}&filter_giveaways_additional_games=${gSettings.filter_giveaways_additional_games}&xsrf_token=${Session.xsrfToken}`,
               method: 'POST',
               url: '/account/settings/giveaways'
             });
@@ -978,7 +979,7 @@ class Filters extends Module {
     const now = Date.now();
     const usedFilters = this.getUsedFilters(obj.rules);
     for (const key of usedFilters) {
-      const filter = obj.filters[key];        
+      const filter = obj.filters[key];
       if (filter.category && (!gSettings.gc || !gSettings[filter.category])) {
         warnings.push(`"${filter.name}" requires "${shared.common.getFeatureName(null, filter.category)}" to be enabled in the settings menu.`);
       } else if (filter.sync) {
@@ -991,7 +992,7 @@ class Filters extends Module {
     }
 
     if (warnings.length > 0) {
-      shared.common.createElements_v2(obj.warningsPanel, 'beforeEnd', [
+      DOM.build(obj.warningsPanel, 'beforeEnd', [
         `You are using some filters that may require your attention:`,
         ['div', { class: 'markdown' }, [
           ['ul', warnings.map(x => ['li', x])]
@@ -1023,7 +1024,7 @@ class Filters extends Module {
       }
       this.filters_filter(obj);
     } catch (e) {
-      logger.error(e.stack);
+      Logger.error(e.stack);
     }
     obj.basicApplied = false;
   }
@@ -1941,29 +1942,37 @@ class Filters extends Module {
     let filteredCount = 0;
     let pointsCount = 0;
     for (const item of items) {
+      let tableRow;
+
+      if (item.isGame && item.table) {
+        tableRow = item.container.closest('tr');
+      }
+
+      const outerWrap = tableRow && tableRow.querySelectorAll('.esgst-gc-panel').length < 2 ? tableRow : item.outerWrap;
+
       if (unfilter) {
-        if (item.outerWrap.classList.contains('esgst-hidden') && !item.outerWrap.getAttribute('data-esgst-not-filterable')) {
-          item.outerWrap.classList.remove('esgst-hidden');
+        if (outerWrap.classList.contains('esgst-hidden') && !outerWrap.getAttribute('data-esgst-not-filterable')) {
+          outerWrap.classList.remove('esgst-hidden');
         }
-        if (obj.id === 'cf' && item.outerWrap.parentElement.classList.contains('esgst-hidden') && !item.outerWrap.parentElement.getAttribute('data-esgst-not-filterable')) {
-          item.outerWrap.parentElement.classList.remove('esgst-hidden');
+        if (obj.id === 'cf' && outerWrap.parentElement.classList.contains('esgst-hidden') && !outerWrap.parentElement.getAttribute('data-esgst-not-filterable')) {
+          outerWrap.parentElement.classList.remove('esgst-hidden');
         }
       } else if (this.filters_filterItem(obj.filters, item, obj.rules)) {
-        if (item.outerWrap.classList.contains('esgst-hidden') && !item.outerWrap.getAttribute('data-esgst-not-filterable')) {
-          item.outerWrap.classList.remove('esgst-hidden');
+        if (outerWrap.classList.contains('esgst-hidden') && !outerWrap.getAttribute('data-esgst-not-filterable')) {
+          outerWrap.classList.remove('esgst-hidden');
         }
-        if (obj.id === 'cf' && item.outerWrap.parentElement.classList.contains('esgst-hidden') && !item.outerWrap.parentElement.getAttribute('data-esgst-not-filterable')) {
-          item.outerWrap.parentElement.classList.remove('esgst-hidden');
+        if (obj.id === 'cf' && outerWrap.parentElement.classList.contains('esgst-hidden') && !outerWrap.parentElement.getAttribute('data-esgst-not-filterable')) {
+          outerWrap.parentElement.classList.remove('esgst-hidden');
         }
         if (item.points && !item.entered) {
           pointsCount += item.points;
         }
       } else {
-        if (!item.outerWrap.classList.contains('esgst-hidden') && !item.outerWrap.getAttribute('data-esgst-not-filterable')) {
-          item.outerWrap.classList.add('esgst-hidden');
+        if (!outerWrap.classList.contains('esgst-hidden') && !outerWrap.getAttribute('data-esgst-not-filterable')) {
+          outerWrap.classList.add('esgst-hidden');
         }
-        if (obj.id === 'cf' && !item.outerWrap.parentElement.classList.contains('esgst-hidden') && !item.outerWrap.parentElement.getAttribute('data-esgst-not-filterable')) {
-          item.outerWrap.parentElement.classList.add('esgst-hidden');
+        if (obj.id === 'cf' && !outerWrap.parentElement.classList.contains('esgst-hidden') && !outerWrap.parentElement.getAttribute('data-esgst-not-filterable')) {
+          outerWrap.parentElement.classList.add('esgst-hidden');
         }
         filteredCount += 1;
       }
@@ -2001,7 +2010,7 @@ class Filters extends Module {
   filters_filterItem(filters, item, rules, notMain) {
     if (
       !rules ||
-      (!rules.id && (!rules.condition || (isSet(rules.valid) && !rules.valid))) ||
+      (!rules.id && (!rules.condition || (Utils.isSet(rules.valid) && !rules.valid))) ||
       (rules.id && !gSettings[`${this.id}_${rules.id}`])
     ) {
       return true;
@@ -2096,10 +2105,10 @@ class Filters extends Module {
             filtered = value >= ruleValue;
             break;
           case 'is_null':
-            filtered = !isSet(value) || value < 0;
+            filtered = !Utils.isSet(value) || value < 0;
             break;
           case 'is_not_null':
-            filtered = isSet(value) && value > -1;
+            filtered = Utils.isSet(value) && value > -1;
             break;
         }
 

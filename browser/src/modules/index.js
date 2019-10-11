@@ -19,7 +19,7 @@ import { commentsCommentReverser } from './Comments/CommentReverser';
 import { commentsCommentSearcher } from './Comments/CommentSearcher';
 import { commentsCommentTracker } from './Comments/CommentTracker';
 import { giveawaysCommunityWishlistSearchLink } from './Giveaways/CommunityWishlistSearchLink';
-import { discussionsDiscussionHighlighter } from './Discussions/DiscussionHighlighter';
+import { discussionsImprovedDiscussionBookmarks } from './Discussions/ImprovedDiscussionBookmarks';
 import { discussionsDiscussionsSorter } from './Discussions/DiscussionsSorter';
 import { gamesEnteredGameHighlighter } from './Games/EnteredGameHighlighter';
 import { giveawaysEntryTracker } from './Giveaways/EntryTracker';
@@ -184,7 +184,7 @@ const modules = {
   commentsCommentSearcher,
   commentsCommentTracker,
   giveawaysCommunityWishlistSearchLink,
-  discussionsDiscussionHighlighter,
+  discussionsImprovedDiscussionBookmarks,
   discussionsDiscussionsSorter,
   gamesEnteredGameHighlighter,
   giveawaysEntryTracker,
@@ -197,6 +197,7 @@ const modules = {
   commentsReplyBoxOnTop,
   generalFixedSidebar,
   giveawaysGiveawaysSorter,
+  giveawaysQuickGiveawaySearch,
   giveawaysGiveawayBookmarks,
   gamesGameCategories,
   giveawaysGiveawayCopyHighlighter,
@@ -240,7 +241,6 @@ const modules = {
   giveawaysPinnedGiveawaysButton,
   discussionsPuzzleMarker,
   generalPointsVisualizer,
-  giveawaysQuickGiveawaySearch,
   giveawaysAdvancedGiveawaySearch,
   generalSearchMagnifyingGlassButton,
   discussionsRefreshActiveDiscussionsButton,

@@ -1,15 +1,14 @@
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { Table } from '../../class/Table';
-import { utils } from '../../lib/jsUtils';
+import { Utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
 import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
+import { DOM } from '../../class/DOM';
 
 const
-  parseHtml = utils.parseHtml.bind(utils),
-  sortArray = utils.sortArray.bind(utils),
   request = common.request.bind(common)
   ;
 
@@ -55,7 +54,7 @@ class GiveawaysCommentEntryChecker extends Module {
 
     if (!this.esgst.giveawayPath || document.getElementsByClassName('table--summary')[0] ||  !this.esgst.mainPageHeading) return;
 
-    common.createElements_v2(this.esgst.sidebarGroups[0].navigation, 'beforeEnd', [
+    DOM.build(this.esgst.sidebarGroups[0].navigation, 'beforeEnd', [
       ['li', { class: 'sidebar__navigation__item', id: 'cec' }, [
         ['a', { class: 'sidebar__navigation__item__link', href: `${this.esgst.path.replace(/\/entries/, '')}/entries?esgst=cec`, onclick: event => !gSettings.cec_t && !event.preventDefault() && this.cec_openPopup(true) }, [
           ['div', { class: 'sidebar__navigation__item__name' }, 'Comments vs Entries'],
@@ -102,7 +101,7 @@ class GiveawaysCommentEntryChecker extends Module {
       this.esgst.mainPageHeading = heading;
     }
     const obj = { context };
-    obj.progress = common.createElements_v2(context, 'beforeEnd', [['div']]);
+    obj.progress = DOM.build(context, 'beforeEnd', [['div']]);
     this.cec_start(obj);
   }
 
@@ -119,7 +118,7 @@ class GiveawaysCommentEntryChecker extends Module {
       do {
         obj.progress.innerHTML = `Retrieving ${i > 0 ? 'bumps ' : 'comments '} (page ${nextPage})...`;
         let response = await request({ method: 'GET', queue: true, url: `${url}${nextPage}` });
-        let responseHtml = parseHtml(response.responseText);
+        let responseHtml = DOM.parse(response.responseText);
         let elements = responseHtml.querySelectorAll(`.comment:not(.comment--submit) .comment__username:not(.comment__username--op):not(.comment__username--deleted)`);
         for (let j = elements.length - 1; j > -1; j--) {
           comments.push(elements[j].textContent.trim());
@@ -149,7 +148,7 @@ class GiveawaysCommentEntryChecker extends Module {
     let url = urls[0].replace(/search\?page=/, `entries/search?page=`);
     do {
       obj.progress.innerHTML = `Retrieving entries (page ${nextPage})...`;
-      let responseHtml = parseHtml((await request({
+      let responseHtml = DOM.parse((await request({
         method: 'GET',
         queue: true,
         url: `${url}${nextPage}`
@@ -167,8 +166,8 @@ class GiveawaysCommentEntryChecker extends Module {
     obj.progress.innerHTML = '';
 
     // calculate data
-    comments = sortArray(Array.from(/** @type {ArrayLike} */ new Set(comments)));
-    entries = sortArray(Array.from(/** @type {ArrayLike} */ new Set(entries)));
+    comments = Utils.sortArray(Array.from(/** @type {ArrayLike} */ new Set(comments)));
+    entries = Utils.sortArray(Array.from(/** @type {ArrayLike} */ new Set(entries)));
     let both = 0;
     let commented = 0;
     let entered = 0;
@@ -209,7 +208,7 @@ class GiveawaysCommentEntryChecker extends Module {
     let total = comments.length;
     for (const user of entries) {
       if (comments.indexOf(user) < 0) {
-        // user entered but did not comment        
+        // user entered but did not comment
         rows.push(
           [
             {

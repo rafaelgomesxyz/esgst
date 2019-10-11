@@ -1,14 +1,13 @@
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
-import { utils } from '../../lib/jsUtils';
+import { Utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { shared } from '../../class/Shared';
 import { gSettings } from '../../class/Globals';
 import { permissions } from '../../class/Permissions';
+import { DOM } from '../../class/DOM';
 
 const
-  parseHtml = utils.parseHtml.bind(utils),
-  sortArray = utils.sortArray.bind(utils),
   createElements = common.createElements.bind(common),
   endless_load = common.endless_load.bind(common),
   getFeatureTooltip = common.getFeatureTooltip.bind(common),
@@ -170,11 +169,11 @@ class UsersSharedGroupChecker extends Module {
       method: 'GET',
       url: `http://steamcommunity.com/profiles/${profile.steamId}/groups/common`
     });
-    let responseHtml = parseHtml(response.responseText);
+    let responseHtml = DOM.parse(response.responseText);
     let isLoggedIn = true;
     if (!responseHtml.getElementById('groups_list')) {
       response = await request({ method: 'GET', url: `http://steamcommunity.com/profiles/${profile.steamId}/groups` });
-      responseHtml = parseHtml(response.responseText);
+      responseHtml = DOM.parse(response.responseText);
       isLoggedIn = false;
     }
     const elements = responseHtml.getElementsByClassName('group_block');
@@ -231,7 +230,7 @@ class UsersSharedGroupChecker extends Module {
     const n2 = privateGroups.length;
     if (n1 || n2) {
       if (n1 > 0) {
-        sortArray(publicGroups, false, 'name').map(x => {
+        Utils.sortArray(publicGroups, false, 'name').map(x => {
           createElements(profile.sgcPublicResults, 'beforeEnd', x.html).getElementsByClassName('table__column__heading')[0].textContent = x.name;
         });
         profile.sgcPublic.classList.remove('esgst-hidden');
@@ -242,7 +241,7 @@ class UsersSharedGroupChecker extends Module {
         }]);
       }
       if (n2 > 0) {
-        sortArray(privateGroups, false, 'name').map(x => {
+        Utils.sortArray(privateGroups, false, 'name').map(x => {
           createElements(profile.sgcPrivateResults, 'beforeEnd', x.html).getElementsByClassName('table__column__heading')[0].textContent = x.name;
         });
         profile.sgcPrivate.classList.remove('esgst-hidden');

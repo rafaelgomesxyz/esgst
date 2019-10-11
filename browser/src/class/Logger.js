@@ -1,13 +1,14 @@
 import { gSettings } from './Globals';
 import { Popup } from './Popup';
-import { shared } from './Shared';
+import { shared, Shared } from './Shared';
+import { DOM } from './DOM';
 
 const INFO = 'info';
 const WARNING = 'warning';
 const ERROR = 'error';
 const PRIORITY = [ERROR, WARNING, INFO];
 
-class Logger {
+class _Logger {
   constructor() {
     this.logs = [];
     this.button = null;
@@ -48,16 +49,25 @@ class Logger {
   addButton(level) {
     if (this.button) {
       if (PRIORITY.indexOf(level) < PRIORITY.indexOf(this.currentMaxLevel)) {
-        this.button.button.classList.remove(`esgst-logs-${this.currentMaxLevel}`);
-        this.button.button.classList.add(`esgst-logs-${level}`);
+        this.button.nodes.outer.classList.remove(`esgst-logs-${this.currentMaxLevel}`);
+        this.button.nodes.outer.classList.add(`esgst-logs-${level}`);
         this.currentMaxLevel = level;
       }
       return;
     }
 
-    this.button = shared.common.addHeaderButton('fa-bug', 'active', shared.common.getFeatureTooltip('notifyLogs', 'View logs'));
-    this.button.button.classList.add('esgst-logs', `esgst-logs-${level}`);
-    this.button.button.addEventListener('click', this.showPopup.bind(this));
+    this.button = Shared.header.addButtonContainer({
+      buttonIcon: 'fa fa-bug',
+      buttonName: 'ESGST Logs',
+      isActive: true,
+      isNotification: true,
+      side: 'right',
+    });
+
+    this.button.nodes.outer.classList.add('esgst-logs', `esgst-logs-${level}`);
+    this.button.nodes.buttonIcon.title = shared.common.getFeatureTooltip('notifyLogs', 'View logs');
+
+    this.button.nodes.outer.addEventListener('click', this.showPopup.bind(this));
     this.currentMaxLevel = level;
   }
 
@@ -68,13 +78,13 @@ class Logger {
       isTemp: true,
       title: 'Logs'
     });
-    shared.common.createElements_v2(popup.scrollable, 'beforeEnd', [
+    DOM.build(popup.scrollable, 'beforeEnd', [
       ['div', { class: 'popup__keys__list' }, this.logs.map(x => ['div', { class: `esgst-log esgst-log-${x.level}` }, x.message])]
     ]);
     popup.open();
   }
 }
 
-const logger = new Logger();
+const Logger = new _Logger();
 
-export { logger };
+export { Logger };

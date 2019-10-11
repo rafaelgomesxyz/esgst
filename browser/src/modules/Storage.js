@@ -2,17 +2,13 @@ import { ButtonSet } from '../class/ButtonSet';
 import { Popup } from '../class/Popup';
 import { shared } from '../class/Shared';
 import { ToggleSwitch } from '../class/ToggleSwitch';
-import { utils } from '../lib/jsUtils';
+import { Utils } from '../lib/jsUtils';
 import { settingsModule } from './Settings';
 import { elementBuilder } from '../lib/SgStUtils/ElementBuilder';
 import { gSettings } from '../class/Globals';
 import { permissions } from '../class/Permissions';
 import { CloudStorage } from './CloudStorage';
 import { persistentStorage } from '../class/PersistentStorage';
-
-const
-  sortArray = utils.sortArray.bind(utils)
-;
 
 function getDataMenu(option, switches, type) {
   let i, m, menu, n, options, toggleSwitch;
@@ -1252,7 +1248,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
       data.v = shared.esgst.storage.v;
     }
   }
-  
+
   for (let i = 0, n = dm.options.length; i < n; i++) {
     let option = dm.options[i];
     let optionKey = option.key;
@@ -1589,7 +1585,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                   }
                 }
                 if (optionKey === 'entries') {
-                  mergedData = sortArray(mergedData, false, 'timestamp');
+                  mergedData = Utils.sortArray(mergedData, false, 'timestamp');
                 }
                 await shared.common.setValue(optionKey, JSON.stringify(mergedData));
               } else {

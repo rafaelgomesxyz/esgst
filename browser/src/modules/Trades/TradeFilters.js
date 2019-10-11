@@ -1,13 +1,12 @@
 import { Button } from '../../class/Button';
 import { Process } from '../../class/Process';
-import { utils } from '../../lib/jsUtils';
+import { Utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { Filters } from '../Filters';
 import { gSettings } from '../../class/Globals';
 import { shared } from '../../class/Shared';
 
 const
-  sortArray = utils.sortArray.bind(utils),
   createElements = common.createElements.bind(common),
   createHeadingButton = common.createHeadingButton.bind(common),
   createLock = common.createLock.bind(common),
@@ -263,7 +262,7 @@ class TradesTradeFilters extends Filters {
         }
       }
     }
-    hidden = sortArray(hidden, true, 'hidden');
+    hidden = Utils.sortArray(hidden, true, 'hidden');
     obj.ids = [];
     for (const trade of hidden) {
       obj.ids.push(trade.code);

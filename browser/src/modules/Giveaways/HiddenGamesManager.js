@@ -2,15 +2,14 @@ import { ButtonSet } from '../../class/ButtonSet';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { ToggleSwitch } from '../../class/ToggleSwitch';
-import { utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { gSettings } from '../../class/Globals';
 import { permissions } from '../../class/Permissions';
 import { shared } from '../../class/Shared';
+import { DOM } from '../../class/DOM';
+import { Session } from '../../class/Session';
 
 const
-
-parseHtml = utils.parseHtml.bind(utils),
   createElements = common.createElements.bind(common),
   createHeadingButton = common.createHeadingButton.bind(common),
   request = common.request.bind(common)
@@ -72,8 +71,8 @@ class GiveawaysHiddenGamesManager extends Module {
       },
       type: 'div'
     }]);
-    obj.textArea = common.createElements_v2(obj.popup.description, 'afterBegin', [
-      ['textarea', { placeholder: `https://store.steampowered.com/app/400\nhttps://store.steampowered.com/sub/1280`}]
+    obj.textArea = DOM.build(obj.popup.description, 'afterBegin', [
+      ['textarea', { class: 'esgst-textarea-small', placeholder: `https://store.steampowered.com/app/400\nhttps://store.steampowered.com/sub/1280` }],
     ]);
     new ToggleSwitch(obj.popup.scrollable, 'hgm_addOwned', false, 'Add all owned games.', false, false, null, gSettings.hgm_addOwned);
     new ToggleSwitch(obj.popup.scrollable, 'hgm_addIgnored', false, 'Add all ignored games.', false, false, null, gSettings.hgm_addIgnored);
@@ -145,7 +144,7 @@ class GiveawaysHiddenGamesManager extends Module {
       type: 'span'
     }]);
     obj.result.innerHTML = '';
-    
+
     const appIds = [];
     const subIds = [];
 
@@ -186,7 +185,7 @@ class GiveawaysHiddenGamesManager extends Module {
     if (message) {
       window.alert(message);
     }
-    
+
     obj.button.classList.remove('esgst-busy');
     obj.progress.innerHTML = '';
     obj.running = false;
@@ -237,7 +236,7 @@ class GiveawaysHiddenGamesManager extends Module {
     }
 
     const newGames = { apps: {}, subs: {} };
-    
+
     let url = `/account/settings/giveaways/filters/search?page=`;
     let nextPage = 1;
     let pagination = null;
@@ -249,7 +248,7 @@ class GiveawaysHiddenGamesManager extends Module {
         nextPage += 1;
         continue;
       } else {
-        context = parseHtml((await request({ method: 'GET', url: `${url}${nextPage}` })).responseText);
+        context = DOM.parse((await request({ method: 'GET', url: `${url}${nextPage}` })).responseText);
       }
       if (!obj.lastPage) {
         obj.lastPage = this.esgst.modules.generalLastPageLink.lpl_getLastPage(context, context === document);
@@ -283,7 +282,7 @@ class GiveawaysHiddenGamesManager extends Module {
           button.dispatchEvent(new Event('click'));
         } else {
           await request({
-            data: `xsrf_token=${this.esgst.xsrfToken}&do=remove_filter&game_id=${button.parentElement.querySelector(`[name="game_id"]`).value}`,
+            data: `xsrf_token=${Session.xsrfToken}&do=remove_filter&game_id=${button.parentElement.querySelector(`[name="game_id"]`).value}`,
             method: 'POST',
             url: '/ajax.php'
           });

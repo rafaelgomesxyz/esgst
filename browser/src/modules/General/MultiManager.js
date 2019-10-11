@@ -7,13 +7,14 @@ import { Popout } from '../../class/Popout';
 import { Popup } from '../../class/Popup';
 import { Process } from '../../class/Process';
 import { ToggleSwitch } from '../../class/ToggleSwitch';
-import { utils } from '../../lib/jsUtils';
+import { Utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { gSettings } from '../../class/Globals';
 import { permissions } from '../../class/Permissions';
+import { DOM } from '../../class/DOM';
+import { Session } from '../../class/Session';
 
 const
-  sortArray = utils.sortArray.bind(utils),
   createElements = common.createElements.bind(common),
   createFadeMessage = common.createFadeMessage.bind(common),
   createHeadingButton = common.createHeadingButton.bind(common),
@@ -67,7 +68,7 @@ class GeneralMultiManager extends Module {
   }
 
   init() {
-    if (this.esgst.parameters.esgst && this.esgst.parameters.esgst !== 'guide') return;
+    if (this.esgst.parameters.esgst) return;
     this.mm();
   }
 
@@ -405,6 +406,20 @@ class GeneralMultiManager extends Module {
             callback1: this.mm_hideDiscussions.bind(this, obj, items)
           },
           {
+            check: true,
+            color1: 'green', color2: 'grey',
+            icon1: 'fa-bookmark', icon2: 'fa-circle-o-notch fa-spin',
+            title1: 'Bookmark', title2: '',
+            callback1: this.mm_bookmarkDiscussions.bind(this, obj, items)
+          },
+          {
+            check: true,
+            color1: 'green', color2: 'grey',
+            icon1: 'fa-bookmark-o', icon2: 'fa-circle-o-notch fa-spin',
+            title1: 'Unbookmark', title2: '',
+            callback1: this.mm_unbookmarkDiscussions.bind(this, obj, items)
+          },
+          {
             check: gSettings.gdttt,
             color1: 'green', color2: 'grey',
             icon1: 'fa-check', icon2: 'fa-circle-o-notch fa-spin',
@@ -571,7 +586,7 @@ class GeneralMultiManager extends Module {
         }
       });
     });
-    obj[`progress${key}`] = common.createElements_v2(context, 'beforeEnd', [['div']]);
+    obj[`progress${key}`] = DOM.build(context, 'beforeEnd', [['div']]);
     createTooltip(createElements(context, 'beforeEnd', [{
       attributes: {
         class: 'esgst-description'
@@ -816,7 +831,7 @@ class GeneralMultiManager extends Module {
         break;
     }
     if (sorting) {
-      links = sortArray(links, sorting === '-desc');
+      links = Utils.sortArray(links, sorting === '-desc');
     }
     obj[`textArea${key}`].value = obj[`textArea${key}`].value.replace(/\[LINE.*?].+\[\/LINE]/i, links.join('\n'));
   }
@@ -859,7 +874,7 @@ class GeneralMultiManager extends Module {
       if (match) {
         const idContext = description.previousElementSibling;
         let responseJson = JSON.parse((await request({
-          data: `xsrf_token=${this.esgst.xsrfToken}&do=edit_giveaway_description&giveaway_id=${idContext.value}&description=${encodeURIComponent(description.value.replace(searchValue, replaceValue))}`,
+          data: `xsrf_token=${Session.xsrfToken}&do=edit_giveaway_description&giveaway_id=${idContext.value}&description=${encodeURIComponent(description.value.replace(searchValue, replaceValue))}`,
           method: 'POST',
           url: '/ajax.php'
         })).responseText);
@@ -978,8 +993,8 @@ class GeneralMultiManager extends Module {
     });
     let nextRefresh = 60 - new Date().getMinutes();
     while (nextRefresh > 15) nextRefresh -= 15;
-    if (points > this.esgst.points) {
-      obj.textAreaGiveaways.value = `You will need to wait ${this.esgst.modules.giveawaysTimeToEnterCalculator.ttec_getTime(Math.round((nextRefresh + (15 * Math.floor((points - this.esgst.points) / 6))) * 100) / 100)} to enter all selected giveaways for a total of ${points}P.${points > 400 ? `\n\nSince each 400P regeneration takes about 17h, you will need to return in 17h and use all your points so more can be regenerated.` : ''}`;
+    if (points > Session.counters.points) {
+      obj.textAreaGiveaways.value = `You will need to wait ${this.esgst.modules.giveawaysTimeToEnterCalculator.ttec_getTime(Math.round((nextRefresh + (15 * Math.floor((points - Session.counters.points) / 6))) * 100) / 100)} to enter all selected giveaways for a total of ${points}P.${points > 400 ? `\n\nSince each 400P regeneration takes about 17h, you will need to return in 17h and use all your points so more can be regenerated.` : ''}`;
     } else {
       obj.textAreaGiveaways.value = 'You have enough points to enter all giveaways right now.';
     }
@@ -1014,6 +1029,26 @@ class GeneralMultiManager extends Module {
       }
     });
     await lockAndSaveDiscussions(newItems);
+  }
+
+  async mm_bookmarkDiscussions(obj, items) {
+    for (const item of items) {
+      if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`)) || !item.idbButton || item.idbButton.index !== 1) {
+        continue;
+      }
+
+      await item.idbButton.triggerCallback();
+    }
+  }
+
+  async mm_unbookmarkDiscussions(obj, items) {
+    for (const item of items) {
+      if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`)) || !item.idbButton || item.idbButton.index !== 3) {
+        continue;
+      }
+
+      await item.idbButton.triggerCallback();
+    }
   }
 
   async mm_visitDiscussions(obj, items) {
@@ -1096,7 +1131,7 @@ class GeneralMultiManager extends Module {
     }
 
     const result = await common.hideGames({ appIds, subIds, update: message => obj.progressGames.textContent = message });
-    
+
     let message = '';
     if (result.apps.length) {
       message += `The following apps were not found and therefore not hidden (they are most likely internal apps, such as demos, game editors etc): ${result.apps.join(`, `)}\n`;
@@ -1140,23 +1175,23 @@ class GeneralMultiManager extends Module {
     createTooltip(popup.title.lastElementChild, `
       How To Use
       <br>
-      <br> 
+      <br>
       1. Exit Steam.
-      <br> 
+      <br>
       2. Click "Browse..." to select a file from your computer.
-      <br> 
+      <br>
       3. Navigate to where "sharedconfig.vdf" is located and select it. The file should be located at "[YourSteamFolder]/userdata/[YourSteamId]/7/remote".
-      <br> 
+      <br>
       4. Enter the categories that you want to assign to the games, separated by a comma and followed by a space.
-      <br> 
+      <br>
       5. Click "Categorize".
-      <br> 
+      <br>
       6. If you did everything correctly, a new "sharedconfig.vdf" file will be downloaded to your computer.
-      <br> 
+      <br>
       7. Replace the old file with the new file. Make sure to make a backup of the old file, just in case.
-      <br> 
+      <br>
       8. Start Steam. You should see the games categorized as you wanted.
-      <br> 
+      <br>
     `);
     popup.open();
   }

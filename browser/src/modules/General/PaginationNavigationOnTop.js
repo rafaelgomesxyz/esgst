@@ -1,6 +1,7 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
 import { gSettings } from '../../class/Globals';
+import { DOM } from '../../class/DOM';
 
 const
   getFeatureTooltip = common.getFeatureTooltip.bind(common)
@@ -38,7 +39,7 @@ class GeneralPaginationNavigationOnTop extends Module {
     }
     this.esgst.paginationNavigation.title = getFeatureTooltip('pnot');
     this.pnot_simplify();
-    common.createElements_v2(this.esgst.mainPageHeading.querySelector(`.page__heading__breadcrumbs, .page_heading_breadcrumbs`), 'afterEnd', [this.esgst.paginationNavigation]);
+    DOM.build(this.esgst.mainPageHeading.querySelector(`.page__heading__breadcrumbs, .page_heading_breadcrumbs`), 'afterEnd', [this.esgst.paginationNavigation]);
   }
 
   pnot_simplify() {

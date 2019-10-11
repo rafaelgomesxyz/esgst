@@ -1,13 +1,24 @@
-class Shared {
+class _Shared {
   constructor() {
     /**
      * @type {import('../modules/Common').common}
      */
     this.common = null;
+
     /**
      * @type {import('./Esgst').esgst}
      */
     this.esgst = null;
+
+    /**
+     * @type {import('../components/Header').IHeader}
+     */
+    this.header = null;
+
+    /**
+     * @type {import('../components/Footer').IFooter}
+     */
+    this.footer = null;
   }
 
   add(objs) {
@@ -21,7 +32,7 @@ class Shared {
   }
 }
 
-const shared = new Shared();
+const Shared = new _Shared();
 
-export { shared };
+export { Shared, Shared as shared };
 

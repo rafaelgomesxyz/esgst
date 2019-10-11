@@ -2,6 +2,11 @@ import JSZip from 'jszip';
 import { browser } from './browser';
 
 let browserInfo = null;
+let hasAddedWebRequestListener = false;
+
+if (browser.webRequest) {
+  addWebRequestListener();
+}
 
 browser.runtime.onInstalled.addListener(async details => {
   if (details.reason === 'install') {
@@ -18,7 +23,6 @@ browser.runtime.getBrowserInfo().then(result => browserInfo = result);
 
 browser.storage.local.get('settings').then(async result => {
   /**
-   *
    * @type {object}
    * @property {boolean} activateTab_sg
    * @property {boolean} activateTab_st
@@ -35,7 +39,7 @@ browser.storage.local.get('settings').then(async result => {
       // Set the ST tab as active.
       await activateTab('steamtrades');
     }
-    // Go back to the previously active tab.  
+    // Go back to the previously active tab.
     if (currentTab && currentTab.id) {
       await updateTab(currentTab.id, {active: true});
     }
@@ -63,6 +67,33 @@ browser.storage.local.get('settings').then(async result => {
     });
   }
 });
+
+function addWebRequestListener() {
+  hasAddedWebRequestListener = true;
+
+  const webRequestFilters = {
+    types: ['xmlhttprequest'],
+    urls: [
+      '*://*.steamgifts.com/*',
+      '*://*.steamtrades.com/*',
+      '*://*.sgtools.info/*',
+      '*://*.steamcommunity.com/*',
+      '*://*.store.steampowered.com/*',
+    ],
+  };
+
+  browser.webRequest.onBeforeSendHeaders.addListener(details => {
+    const esgstCookie = details.requestHeaders.filter(header => header.name === 'Esgst-Cookie')[0];
+
+    if (esgstCookie) {
+      esgstCookie.name = 'Cookie';
+
+      return {
+        requestHeaders: details.requestHeaders,
+      };
+    }
+  }, webRequestFilters, ['blocking', 'requestHeaders']);
+}
 
 async function sendMessage(action, sender, values, sendToAll) {
   const tabs = await browser.tabs.query({ url: [`*://*.steamgifts.com/*`, `*://*.steamtrades.com/*`] });
@@ -112,185 +143,44 @@ async function doFetch(parameters, request, sender, callback) {
     parameters.body = await getZip(parameters.body, request.fileName);
   }
 
-  let domain = request.url.match(/https?:\/\/(.+?)(\/.*)?$/)[1];
-  let url = request.url.match(/(https?:\/\/.+?)(\/.*)?$/)[1];
+  if (request.manipulateCookies && (await browser.permissions.contains({ permissions: ['cookies'] }))) {
+    let esgstCookie = parameters.headers.get('Esgst-Cookie') || '';
 
-  let cookies = [];
-  let setCookies = [];
-  if (await browser.permissions.contains({ permissions: ['cookies'] })) {
-    // get no-container cookies
-    cookies = await getCookies({
-      domain: domain
+    const domain = request.url.match(/https?:\/\/(.+?)(\/.*)?$/)[1];
+
+    const tab = await browser.tabs.get(sender.tab.id);
+
+    const cookies = await browser.cookies.getAll({
+      domain,
+      storeId: tab.cookieStoreId,
     });
 
-    const cookieHeader = parameters.headers.get('Cookie');
-    if (cookieHeader) {
-      setCookies = cookieHeader
-        .split(/;\s/)
-        .map(x => {
-          const parts = x.match(/(.+?)=(.+?)/);
-          return {
-            name: parts[1],
-            url: url,
-            value: parts[2]
-          };
-        })
-        .filter(x => x && !cookies.filter(y => x.name === y.name).length);
-      for (const cookie of setCookies) {
-        await setCookie(cookie);
-      }
+    for (const cookie of cookies) {
+      esgstCookie += `${cookie.name}=${cookie.value}; `;
     }
+
+    parameters.headers.append('Esgst-Cookie', esgstCookie);
   }
 
-  if (!request.manipulateCookies) {
-    let response = null;
-    let responseText = null;
-    try {
-      response = await window.fetch(request.url, parameters);
-      responseText = request.blob
-        ? (await readZip(await response.blob()))[0].value
-        : await response.text();
-      if (!response.ok) {
-        throw responseText;
-      }
-    } catch (error) {
-      callback(JSON.stringify({ error }));
-      return;
+  let response = null;
+  let responseText = null;
+  try {
+    response = await window.fetch(request.url, parameters);
+    responseText = request.blob
+      ? (await readZip(await response.blob()))[0].value
+      : await response.text();
+    if (!response.ok) {
+      throw responseText;
     }
-    for (const cookie of setCookies) {
-      await deleteCookie({
-        name: cookie.name,
-        url: url
-      });
-    }
-    callback(JSON.stringify({
-      finalUrl: response.url,
-      redirected: response.redirected,
-      responseText: responseText
-    }));
+  } catch (error) {
+    callback(JSON.stringify({ error }));
     return;
   }
-
-  if (!(await browser.permissions.contains({ permissions: ['cookies'] }))) {
-    return;
-  }
-
-  browser.tabs.get(sender.tab.id).then(async tab => {
-    /**
-     * @property {string} tab.cookieStoreId
-     */
-    if (tab.cookieStoreId === 'firefox-default') {
-      let response = null;
-      let responseText = null;
-      try {
-        response = await window.fetch(request.url, parameters);
-        responseText = request.blob
-          ? (await readZip(await response.blob()))[0].value
-          : await response.text();
-        if (!response.ok) {
-          throw responseText;
-        }
-      } catch (error) {
-        callback(JSON.stringify({ error }));
-        return;
-      }
-      for (const cookie of setCookies) {
-        await deleteCookie({
-          name: cookie.name,
-          url: url
-        });
-      }
-      callback(JSON.stringify({
-        finalUrl: response.url,
-        redirected: response.redirected,
-        responseText: responseText
-      }));
-      return;
-    }
-
-    // get container cookies
-    let containerCookies = await getCookies({
-      domain: domain,
-      storeId: tab.cookieStoreId
-    });
-
-    // delete no-container cookies
-    for (let i = cookies.length - 1; i > -1; i--) {
-      let cookie = cookies[i];
-      await deleteCookie({
-        name: cookie.name,
-        url: url
-      });
-    }
-    // set container cookies to no-container scope
-    for (let i = containerCookies.length - 1; i > -1; i--) {
-      let cookie = containerCookies[i];
-      cookie.url = request.url;
-      /** @property {boolean} cookie.hostOnly */
-      delete cookie.hostOnly;
-      delete cookie.session;
-      delete cookie.storeId;
-      await setCookie(cookie);
-    }
-
-    // request
-    let response = null;
-    let responseText = null;
-    try {
-      response = await fetch(request.url, parameters);
-      responseText = request.blob
-        ? (await readZip(await response.blob()))[0].value
-        : await response.text();
-      if (!response.ok) {
-        throw responseText;
-      }
-    } catch (error) {
-      callback(JSON.stringify({ error }));
-      return;
-    }
-
-    // delete container cookies from no-container scope
-    for (let i = containerCookies.length - 1; i > -1; i--) {
-      let cookie = containerCookies[i];
-      await deleteCookie({
-        name: cookie.name,
-        url: url
-      });
-    }
-    // restore no-container cookies
-    for (let i = cookies.length - 1; i > -1; i--) {
-      let cookie = cookies[i];
-      cookie.url = request.url;
-      delete cookie.hostOnly;
-      delete cookie.session;
-      delete cookie.storeId;
-      await setCookie(cookie);
-    }
-
-    for (const cookie of setCookies) {
-      await deleteCookie({
-        name: cookie.name,
-        url: url
-      });
-    }
-    callback(JSON.stringify({
-      finalUrl: response.url,
-      redirected: response.redirected,
-      responseText: responseText
-    }));
-  });
-}
-
-function getCookies(details) {
-  return browser.cookies.getAll(details);
-}
-
-function setCookie(details) {
-  return browser.cookies.set(details);
-}
-
-function deleteCookie(details) {
-  return browser.cookies.remove(details);
+  callback(JSON.stringify({
+    finalUrl: response.url,
+    redirected: response.redirected,
+    responseText: responseText
+  }));
 }
 
 const locks = {};
@@ -364,7 +254,7 @@ browser.runtime.onMessage.addListener((request, sender) => {
         resolve(await browser.permissions.contains(JSON.parse(request.permissions)));
         break;
       case 'permissions_request':
-        try {        
+        try {
           resolve(await browser.permissions.request(JSON.parse(request.permissions)));
         } catch (e) {
           const tab = await browser.tabs.create({
@@ -401,6 +291,10 @@ browser.runtime.onMessage.addListener((request, sender) => {
         resolve();
         break;
       case 'fetch':
+        if (!hasAddedWebRequestListener) {
+          addWebRequestListener();
+        }
+
         parameters = JSON.parse(request.parameters);
         parameters.headers = new Headers(parameters.headers);
         // noinspection JSIgnoredPromiseFromCall

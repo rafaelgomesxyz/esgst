@@ -1,9 +1,9 @@
-import { utils } from '../lib/jsUtils';
 import { Popup } from './Popup';
 import { shared } from './Shared';
 import { gSettings } from './Globals';
 import { permissions } from './Permissions';
-import { logger } from './Logger';
+import { Logger } from './Logger';
+import { DOM } from './DOM';
 
 class Process {
   constructor(details) {
@@ -31,7 +31,7 @@ class Process {
               permissionKeys.push(key);
             }
           }
-          if (permissionKeys.length && !(await permissions.requestUi(permissionKeys, this.id))) {
+          if (permissionKeys.length && !(await permissions.requestUi([permissionKeys], this.id))) {
             return;
           }
         }
@@ -60,7 +60,7 @@ class Process {
     ];
     this.popup = new Popup(this.popupDetails);
     if (this.urls && this.urls.id && !this.urls.lockPerLoad) {
-      shared.common.createElements_v2(this.popup.description, 'afterBegin', [
+      DOM.build(this.popup.description, 'afterBegin', [
         `Items per load: `,
         ['input', { class: 'esgst-switch-input', type: 'number', value: gSettings[`${this.urls.id}_perLoad`], ref: ref => shared.common.observeNumChange(ref, `${this.urls.id}_perLoad`, true) }]
       ]);
@@ -137,7 +137,7 @@ class Process {
     }
     this.popup.setProgress('Loading more...');
     this.popup.setOverallProgress(`${this.index} of ${this.total} loaded.`);
-    this.context = this.mainContext ? shared.common.createElements_v2(this.mainContext, 'beforeEnd', this.contextHtml) : this.popup.getScrollable(this.contextHtml);
+    this.context = this.mainContext ? DOM.build(this.mainContext, 'beforeEnd', this.contextHtml) : this.popup.getScrollable(this.contextHtml);
     let i = 0;
     while (!this.isCanceled && (i < (this.urls.lockPerLoad ? this.urls.perLoad : gSettings[`${this.urls.id}_perLoad`]) || (gSettings[`es_${this.urls.id}`] && this.popup.scrollable.scrollHeight <= this.popup.scrollable.offsetHeight))) {
       let url = this.items[this.index];
@@ -145,14 +145,14 @@ class Process {
       url = url.url || url;
       try {
         const response = await shared.common.request({method: 'GET', queue: details.queue, url: url});
-        const responseHtml = utils.parseHtml(response.responseText);
+        const responseHtml = DOM.parse(response.responseText);
         await details.request(this, details, response, responseHtml);
         i += 1;
-        this.index += 1;
-        this.popup.setOverallProgress(`${this.index} of ${this.total} loaded.`);
       } catch (e) {
-        logger.error(e.stack);
+        Logger.error(e.stack);
       }
+      this.index += 1;
+      this.popup.setOverallProgress(`${this.index} of ${this.total} loaded.`);
     }
     if (!this.urls.doNotTrigger && this.index >= this.total) {
       this.popup.removeButton(0);
@@ -173,7 +173,7 @@ class Process {
     let stop = false;
     do {
       let response = await shared.common.request({method: 'GET', queue: details.queue, url: `${details.url}${details.nextPage}`});
-      let responseHtml = utils.parseHtml(response.responseText);
+      let responseHtml = DOM.parse(response.responseText);
       if (details.nextPage === backup) {
         details.lastPage = shared.esgst.modules.generalLastPageLink.lpl_getLastPage(responseHtml, false, details.discussion, details.user, details.userWon, details.group, details.groupUsers, details.groupWishlist);
         details.lastPage = details.lastPage === 999999999 ? '' : ` of ${details.lastPage}`;

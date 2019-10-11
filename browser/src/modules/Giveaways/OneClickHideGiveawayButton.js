@@ -2,6 +2,7 @@ import { Button } from '../../class/Button';
 import { Module } from '../../class/Module';
 import { common } from '../Common';
 import { gSettings } from '../../class/Globals';
+import { Session } from '../../class/Session';
 
 const
   request = common.request.bind(common),
@@ -79,7 +80,7 @@ class GiveawaysOneClickHideGiveawayButton extends Module {
 
   async ochgb_hideGiveaway(giveaway, main) {
     await request({
-      data: `xsrf_token=${this.esgst.xsrfToken}&do=hide_giveaways_by_game_id&game_id=${giveaway.gameId}`,
+      data: `xsrf_token=${Session.xsrfToken}&do=hide_giveaways_by_game_id&game_id=${giveaway.gameId}`,
       method: 'POST',
       url: '/ajax.php'
     });
@@ -90,7 +91,7 @@ class GiveawaysOneClickHideGiveawayButton extends Module {
 
   async ochgb_unhideGiveaway(giveaway, main) {
     await request({
-      data: `xsrf_token=${this.esgst.xsrfToken}&do=remove_filter&game_id=${giveaway.gameId}`,
+      data: `xsrf_token=${Session.xsrfToken}&do=remove_filter&game_id=${giveaway.gameId}`,
       method: 'POST',
       url: '/ajax.php'
     });
