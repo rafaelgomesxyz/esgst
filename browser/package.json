@@ -20,6 +20,7 @@
     "start": "./node_modules/.bin/webpack --env.development --env.withBabel --env.withWatch",
     "generate-api-doc": "./node_modules/.bin/apidoc -i ./server/app -o ./server/documentation",
     "generate-release": "./node_modules/.bin/node ./scripts/generateRelease.js",
+    "notify-issue": "./node_modules/.bin/node ./scripts/notifyIssue.js",
     "start-no-babel": "./node_modules/.bin/webpack --env.development --env.withWatch",
     "update-emojis": "./node_modules/.bin/node ./scripts/updateEmojis.js"
   },
