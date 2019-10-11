@@ -2017,7 +2017,7 @@ class Common extends Module {
 
   async runSilentBackup() {
     const button = Shared.header.addButtonContainer({
-      buttonIcon: 'fa-sign-out fa-spin',
+      buttonIcon: 'fa fa-sign-out fa-spin',
       buttonName: 'ESGST Backup',
       isActive: true,
       isNotification: true,

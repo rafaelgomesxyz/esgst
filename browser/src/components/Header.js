@@ -4,6 +4,7 @@ import { Events } from '../constants/Events';
 import { Namespaces } from '../constants/Namespaces';
 import { ISession, Session } from '../class/Session';
 import { User } from './User';
+import { Utils } from '../lib/jsUtils';
 
 class IHeader {
   constructor() {
@@ -147,7 +148,7 @@ class SgHeader extends IHeader {
             ...(params.buttonImage ? [
               ['img', { src: params.buttonImage }],
             ] : []),
-            ...(params.isActive ? [
+            ...(params.isActive && Utils.isSet(params.counter) ? [
               ['div', { class: `nav__notification ${params.isFlashing ? 'fade_infinite' : ''}` }, params.counter],
             ] : []),
           ]],
