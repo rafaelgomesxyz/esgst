@@ -5574,7 +5574,7 @@ class Common extends Module {
 
     const arrow = Shared.header.buttonContainers['esgst'].nodes.arrow;
 
-    arrow.addEventListener('click', this.toggleHeaderMenu.bind(this));
+    arrow.addEventListener('click', this.toggleHeaderMenu.bind(this), true);
   }
 
   getSelectors(endless, selectors) {
