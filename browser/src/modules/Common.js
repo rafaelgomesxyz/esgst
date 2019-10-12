@@ -5176,7 +5176,7 @@ class Common extends Module {
         games.apps[appId] = { hidden: unhide ? null : true, sgId: id };
       } else {
         api.cache.appids[appId] = 0;
-        appsNotFound.push(id);
+        appsNotFound.push(appId);
       }
     }
     for (let i = subsToFetch.length - 1; i > -1 && !obj.canceled; i--) {
@@ -5189,7 +5189,7 @@ class Common extends Module {
         games.subs[subId] = { hidden: unhide ? null : true, sgId: id };
       } else {
         api.cache.subids[subId] = 0;
-        subsNotFound.push(id);
+        subsNotFound.push(subId);
       }
     }
 
@@ -5514,6 +5514,7 @@ class Common extends Module {
       buttonName: ' ESGST',
       isDropdown: true,
       side: 'left',
+      url: 'https://www.steamgifts.com/account/settings/profile?esgst=settings',
       dropdownItems: [
         {
           description: 'Visit the GitHub page.',

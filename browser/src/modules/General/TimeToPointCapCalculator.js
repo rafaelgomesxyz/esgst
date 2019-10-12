@@ -47,7 +47,7 @@ class GeneralTimeToPointCapCalculator extends Module {
 
     const time = this.esgst.modules.giveawaysTimeToEnterCalculator.ttec_getTime(Math.round((nextRefresh + (15 * Math.floor((400 - newPoints) / 6))) * 100) / 100);
 
-    Shared.header.updatePoints(`${newPoints}P${gSettings.ttpcc_a ? ` / ${time} to 400` : ''}`, common.getFeatureTooltip('ttpcc', `${time} to 400P`));
+    Shared.header.updatePoints(`${newPoints.toLocaleString('en-US')}${gSettings.ttpcc_a ? `P / ${time} to 400` : ''}`, common.getFeatureTooltip('ttpcc', `${time} to 400P`));
   }
 }
 
