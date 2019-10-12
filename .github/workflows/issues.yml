@@ -16,4 +16,4 @@ jobs:
     - name: 'Install dependencies'
       run: cd ./browser && npm ci
     - name: 'Notify issue'
-      run: cd ./browser && npm run notify-issue payloadPath=$GITHUB_EVENT_PATH phpSessId=${{ STEAMGIFTS_PHPSESSID }} token=${{ secrets.GITHUB_ACCESS_TOKEN }}
+      run: cd ./browser && npm run notify-issue payloadPath=$GITHUB_EVENT_PATH phpSessId=${{ secrets.STEAMGIFTS_PHPSESSID }} token=${{ secrets.GITHUB_ACCESS_TOKEN }}
