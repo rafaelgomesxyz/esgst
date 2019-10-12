@@ -307,7 +307,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
       }).set;
       giveaway.elgbButton.setAttribute('title', giveaway.error);
     } else {
-      if (giveaway.points <= Session.points) {
+      if (giveaway.points <= Session.counters.points) {
         giveaway.elgbButton = new ButtonSet({
           color1: 'green',
           color2: 'grey',

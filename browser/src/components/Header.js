@@ -73,7 +73,7 @@ class IHeader {
    * @returns {number}
    */
   static extractPoints(text) {
-    return parseInt(text.match(/\d+/)[0]);
+    return parseInt(text.replace(/,/g, '').match(/\d+/)[0]);
   }
 
   /**
@@ -507,7 +507,7 @@ class SgHeader extends IHeader {
 
     const pointsNode = accountContainer.nodes.points;
 
-    if (!pointsNode || pointsNode.textContent === newPointsText) {
+    if (!pointsNode || (pointsNode.textContent === newPointsText && (!newPointsTitle || pointsNode.title === newPointsTitle))) {
       return;
     }
 
@@ -517,7 +517,7 @@ class SgHeader extends IHeader {
       pointsNode.title = newPointsTitle;
     }
 
-    pointsNode.textContent = newPointsText;
+    pointsNode.textContent = newPointsText.toLocaleString('en-US');
     Session.counters.points = IHeader.extractPoints(newPointsText);
 
     const newPoints = Session.counters.points;
