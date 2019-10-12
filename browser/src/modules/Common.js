@@ -5514,6 +5514,7 @@ class Common extends Module {
       buttonName: ' ESGST',
       isDropdown: true,
       side: 'left',
+      url: 'https://www.steamgifts.com/account/settings/profile?esgst=settings',
       dropdownItems: [
         {
           description: 'Visit the GitHub page.',
