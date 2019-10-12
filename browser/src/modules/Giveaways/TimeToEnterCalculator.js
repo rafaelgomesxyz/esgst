@@ -41,7 +41,7 @@ class GiveawaysTimeToEnterCalculator extends Module {
         nextRefresh -= 15;
       }
       giveaways.forEach(giveaway => {
-        if (!giveaway.ended && !giveaway.entered && giveaway.points > Session.points) {
+        if (!giveaway.ended && !giveaway.entered && giveaway.points > Session.counters.points) {
           if (!giveaway.ttec) {
             giveaway.ttec = createElements(giveaway.panel, (gSettings.gv && ((main && this.esgst.giveawaysPath) || (source === 'gb' && gSettings.gv_gb) || (source === 'ged' && gSettings.gv_ged) || (source === 'ge' && gSettings.gv_ge))) ? 'beforeEnd' : 'afterBegin', [{
               attributes: {
@@ -59,7 +59,7 @@ class GiveawaysTimeToEnterCalculator extends Module {
             },
             type: 'i'
           }, {
-            text: ` ${this.ttec_getTime(Math.round((nextRefresh + (15 * (Math.ceil((giveaway.points - Session.points) / 6) - 1))) * 100) / 100)}`,
+            text: ` ${this.ttec_getTime(Math.round((nextRefresh + (15 * (Math.ceil((giveaway.points - Session.counters.points) / 6) - 1))) * 100) / 100)}`,
             type: 'node'
           }]);
         } else if (giveaway.ttec) {
