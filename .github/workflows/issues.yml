@@ -12,6 +12,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: 'Debug'
-      env:
-        DATA: cat "$GITHUB_EVENT_PATH"
+      run: DATA=$(cat "$GITHUB_EVENT_PATH")
+    - name: 'Debug 2'
       run: echo $DATA
