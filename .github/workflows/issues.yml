@@ -11,6 +11,8 @@ jobs:
     name: 'Notify'
     runs-on: ubuntu-latest
     steps:
+    - name: 'Debug'
+      run: echo github
     - name: 'Checkout dev'
       uses: actions/checkout@v1
     - name: 'Install dependencies'
