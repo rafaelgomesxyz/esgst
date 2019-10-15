@@ -11,5 +11,7 @@ jobs:
     name: 'Notify'
     runs-on: ubuntu-latest
     steps:
+    - name: 'Checkout master'
+      uses: actions/checkout@v1
     - name: 'Notify issue'
       run: chmod +x ./browser/scripts/notifyIssue.sh && ./browser/scripts/notifyIssue.sh "$GITHUB_EVENT_PATH" "${{ secrets.STEAMGIFTS_PHPSESSID }}"
