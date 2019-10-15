@@ -4,7 +4,7 @@ payloadPath=$1
 steamgiftsToken=$2
 
 payload=$(cat "$payloadPath")
-permalink=$(echo $payload | perl -ne 'print $1 if /(https:\/\/.+?\/go\/comment\/[A-Za-z0-9]+)/s')
+permalink=$(echo $payload | perl -ne 'print $1 if /(https:\/\/www\.steamgifts\.com\/go\/comment\/[A-Za-z0-9]+)/s')
 
 if [ -n "$permalink" ]; then
   response=$(curl -L --url "$permalink" --cookie "PHPSESSID=$steamgiftsToken" --user-agent "Mozilla/5.0 (X11; Linux x86_64; rv:71.0) Gecko/20100101 Firefox/71.0")
@@ -13,8 +13,7 @@ if [ -n "$permalink" ]; then
   id=$(echo $permalink | perl -ne 'print $1 if /\/go\/comment\/([A-Za-z0-9]+)/s')
   match=$(echo $response | perl -ne 'print $1 if /(data-comment-id(?:(?!data-comment-id).)*?id=\"'$id'\")/s')
   commentId=$(echo $match | perl -ne 'print $1 if /data-comment-id=\"([A-Za-z0-9]+?)"/s')
-  issueNumber=$(echo $payload | perl -ne 'print $1 if /number:\s(\d+)/s')
-  echo $payload
+  issueNumber=$(echo $payload | perl -ne 'print $1 if /"number":\s(\d+)/s')
   echo $permalink
   echo $commentId
   echo $issueNumber
