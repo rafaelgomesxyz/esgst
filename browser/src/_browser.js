@@ -169,6 +169,9 @@ if (typeof browser !== 'undefined') {
     };
     for (const key in _browser.gm) {
       const old = _browser.gm[key];
+      if (!old || typeof old !== 'function') {
+        continue;
+      }
       _browser.gm[key] = (...args) =>
         new Promise((resolve, reject) => {
           try {
