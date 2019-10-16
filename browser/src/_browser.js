@@ -153,7 +153,7 @@ if (typeof browser !== 'undefined') {
     _browser.gm = {
       // @ts-ignore
       // eslint-disable-next-line no-undef
-      addValueChangeListener: GM_addValueChangeListener,
+      addValueChangeListener: typeof GM_addValueChangeListener === 'undefined' ? null : GM_addValueChangeListener,
       // @ts-ignore
       deleteValue: GM_deleteValue,
       // @ts-ignore
@@ -169,6 +169,9 @@ if (typeof browser !== 'undefined') {
     };
     for (const key in _browser.gm) {
       const old = _browser.gm[key];
+      if (!old || typeof old !== 'function') {
+        continue;
+      }
       _browser.gm[key] = (...args) =>
         new Promise((resolve, reject) => {
           try {

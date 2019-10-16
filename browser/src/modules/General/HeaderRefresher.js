@@ -431,7 +431,7 @@ class GeneralHeaderRefresher extends Module {
   }
 
   notifyPoints(firstRun, oldPoints, newPoints) {
-    if (newPoints >= 400 && gSettings.hr_fp && !firstRun) {
+    if (oldPoints < 400 && newPoints >= 400 && gSettings.hr_fp && !firstRun) {
       this.showNotification({
         msg: `You have ${newPoints}P.`,
         points: true,
