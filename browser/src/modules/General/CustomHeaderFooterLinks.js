@@ -128,7 +128,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
           continue;
         }
 
-        if ((!item.data.url || item.data.url.match(/^javascript/)) && (!item.data.url || key !== 'footer')) {
+        if (!item.data.url || item.data.url.match(/^javascript/) || (item.data.name === 'Steam' && key === 'footer')) {
           continue;
         }
 
@@ -159,7 +159,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
 
           if (!item || firstRun) {
             if (key === 'footer') {
-              if (item) {
+              if (item && item.nodes.outer.dataset.linkId) {
                 item.nodes.outer.remove();
 
                 delete Shared.footer.linkContainers[objOrId.id];
@@ -176,7 +176,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
               item.nodes.outer.dataset.linkKey = key;
               item.nodes.outer.title = Shared.common.getFeatureTooltip('chfl');
             } else {
-              if (item) {
+              if (item && item.nodes.outer.dataset.linkId) {
                 item.nodes.outer.remove();
 
                 delete Shared.header.buttonContainers[source].dropdownItems[objOrId.id];
@@ -227,7 +227,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
       for (const itemKey of Object.keys(items)) {
         const item = items[itemKey];
 
-        if (ids.indexOf(item.nodes.outer.dataset.linkId) > -1) {
+        if (!item.nodes.outer.dataset.linkId || ids.indexOf(item.nodes.outer.dataset.linkId) > -1) {
           continue;
         }
 
@@ -376,7 +376,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
       for (const itemKey of Object.keys(items)) {
         const item = items[itemKey];
 
-        if ((!item.data.url || item.data.url.match(/^javascript/)) && (!item.data.url || key !== 'footer')) {
+        if (!item.nodes.outer.dataset.linkId) {
           continue;
         }
 
@@ -726,7 +726,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
 
         const item = key === 'footer' ? Shared.footer.linkContainers[obj.id] : Shared.header.buttonContainers[source].dropdownItems[obj.id];
 
-        if (!item) {
+        if (!item || !item.nodes.outer.dataset.linkId) {
           continue;
         }
 
@@ -758,7 +758,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
 
       const item = key === 'footer' ? Shared.footer.linkContainers[id] : Shared.header.buttonContainers[source].dropdownItems[id];
 
-      if (item) {
+      if (item && item.nodes.outer.dataset.linkId) {
         item.nodes.outer.remove();
 
         if (key === 'footer') {
