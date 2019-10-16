@@ -216,9 +216,17 @@ window.interact = interact;
     }
     if (Utils.isSet(esgst.storage.discussions)) {
       esgst.discussions = JSON.parse(esgst.storage.discussions);
+    } else {
+      toSet.discussions = common.getLocalValue('discussions', '{}');
+      esgst.discussions = JSON.parse(toSet.discussions);
+      common.delLocalValue('discussions');
     }
     if (Utils.isSet(esgst.storage.trades)) {
       esgst.trades = JSON.parse(esgst.storage.trades);
+    } else {
+      toSet.trades = common.getLocalValue('trades', '{}');
+      esgst.trades = JSON.parse(toSet.trades);
+      common.delLocalValue('trades');
     }
     let cache = JSON.parse(common.getLocalValue('gdtttCache', `{"giveaways":[],"discussions":[],"tickets":[],"trades":[]}`));
     for (let type in cache) {
