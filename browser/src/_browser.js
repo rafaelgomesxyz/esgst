@@ -153,7 +153,7 @@ if (typeof browser !== 'undefined') {
     _browser.gm = {
       // @ts-ignore
       // eslint-disable-next-line no-undef
-      addValueChangeListener: GM_addValueChangeListener,
+      addValueChangeListener: typeof GM_addValueChangeListener === 'undefined' ? null : GM_addValueChangeListener,
       // @ts-ignore
       deleteValue: GM_deleteValue,
       // @ts-ignore
