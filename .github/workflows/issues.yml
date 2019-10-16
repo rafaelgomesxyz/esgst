@@ -2,7 +2,9 @@ name: 'Issues'
 
 on:
   issues:
-    types: [opened]
+    types: [opened, closed]
+  issue_comment:
+    types: [created]
 
 jobs:
   notify:
@@ -11,5 +13,7 @@ jobs:
     steps:
     - name: 'Checkout master'
       uses: actions/checkout@v1
+    - name: 'Install dependency'
+      run: npm install node-fetch
     - name: 'Notify issue'
-      run: chmod +x ./browser/scripts/notifyIssue.sh && ./browser/scripts/notifyIssue.sh "$GITHUB_EVENT_PATH" "${{ secrets.STEAMGIFTS_PHPSESSID }}"
+      run: node ./browser/scripts/notifyIssue.js payloadPath="$GITHUB_EVENT_PATH" steamgiftsToken="${{ secrets.STEAMGIFTS_PHPSESSID }}"
