@@ -260,7 +260,7 @@ class SgHeader extends IHeader {
 
       buttonContainer.dropdownItems = {};
 
-      const dropdownItemNodes = buttonContainer.nodes.absoluteDropdown.querySelectorAll('.nav__row');
+      const dropdownItemNodes = buttonContainer.nodes.absoluteDropdown.querySelectorAll('.nav__row:not(.category)');
 
       for (const dropdownItemNode of dropdownItemNodes) {
         this.parseDropdownItem(buttonContainer.dropdownItems, dropdownItemNode);
