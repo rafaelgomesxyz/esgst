@@ -5520,18 +5520,21 @@ class Common extends Module {
           description: 'Visit the GitHub page.',
           icon: 'fa fa-fw fa-github icon-grey grey',
           name: 'GitHub',
+          openInNewTab: true,
           url: 'https://github.com/rafaelgssa/esgst',
         },
         {
           description: 'Report bugs and / or make suggestions.',
           icon: 'fa fa-fw fa-bug icon-red red',
           name: 'Bugs / Suggestions',
+          openInNewTab: true,
           url: 'https://github.com/rafaelgssa/esgst/issues',
         },
         {
           description: 'Check out what\'s coming in the next versions.',
           icon: 'fa fa-fw fa-map-signs icon-blue blue',
           name: 'Milestones',
+          openInNewTab: true,
           url: 'https://github.com/rafaelgssa/esgst/milestones',
         },
         {
@@ -5544,12 +5547,14 @@ class Common extends Module {
           description: 'Visit / join the Steam group.',
           icon: 'fa fa-fw fa-steam icon-green green',
           name: 'Steam Group',
+          openInNewTab: true,
           url: 'http://steamcommunity.com/groups/esgst',
         },
         {
           description: 'Check out the changelog.',
           icon: 'fa fa-fw fa-file-text-o icon-yellow yellow',
           name: 'Changelog',
+          openInNewTab: true,
           url: 'https://github.com/rafaelgssa/esgst/releases',
         },
         {

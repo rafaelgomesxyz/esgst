@@ -51,6 +51,7 @@
  * @property {boolean} [isFlashing]
  * @property {boolean} [isNotification]
  * @property {Function} [onClick]
+ * @property {boolean} [openInNewTab]
  * @property {string} [position]
  * @property {'left' | 'right'} [side]
  * @property {string} [url]
@@ -80,5 +81,6 @@
  * @property {string} icon
  * @property {string} name
  * @property {Function} [onClick]
+ * @property {boolean} [openInNewTab]
  * @property {string} url
  */

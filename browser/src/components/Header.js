@@ -124,7 +124,7 @@ class SgHeader extends IHeader {
           ['div', { class: 'nav__relative-dropdown is-hidden' }, [
             ['div', { class: 'nav__absolute-dropdown' }],
           ]],
-          ['a', { class: 'nav__button nav__button--is-dropdown', href: params.url || null, onclick: params.onClick }, [
+          ['a', { class: 'nav__button nav__button--is-dropdown', href: params.url || null, onclick: params.onClick, target: params.openInNewTab ? '_blank' : null }, [
             ...(params.buttonIcon ? [
               ['i', { class: params.buttonIcon }],
             ] : []),
@@ -141,7 +141,7 @@ class SgHeader extends IHeader {
     } else if (params.isNotification) {
       buttonContainerNode = DOM.build(context, position, [
         ['div', { class: `nav__button-container nav__button-container--notification ${params.isActive ? 'nav__button-container--active' : 'nav__button-container--inactive'}` }, [
-          ['a', { class: 'nav__button', href: params.url, title: params.buttonName }, [
+          ['a', { class: 'nav__button', href: params.url, target: params.openInNewTab ? '_blank' : null, title: params.buttonName }, [
             ...(params.buttonIcon ? [
               ['i', { class: params.buttonIcon }],
             ] : []),
@@ -157,7 +157,7 @@ class SgHeader extends IHeader {
     } else {
       buttonContainerNode = DOM.build(context, position, [
         ['div', { class: 'nav__button-container' }, [
-          ['a', { class: 'nav__button', href: params.url }, params.buttonName],
+          ['a', { class: 'nav__button', href: params.url, target: params.openInNewTab ? '_blank' : null }, params.buttonName],
         ]],
       ]);
     }
@@ -190,7 +190,7 @@ class SgHeader extends IHeader {
     }
 
     const dropdownItemNode = DOM.build(buttonContainer.nodes.absoluteDropdown, 'beforeEnd', [
-      [params.url ? 'a' : 'div', { class: `nav__row ${params.url ? '' : 'is-clickable'}`, href: params.url || null, onclick: params.onClick }, [
+      [params.url ? 'a' : 'div', { class: `nav__row ${params.url ? '' : 'is-clickable'}`, href: params.url || null, onclick: params.onClick, target: params.openInNewTab ? '_blank' : null }, [
         ['i', { class: params.icon }],
         ['div', { class: 'nav__row__summary' }, [
           ['p', { class: 'nav__row__summary__name' }, params.name],
@@ -573,7 +573,7 @@ class StHeader extends IHeader {
           ['div', { class: 'dropdown is_hidden' }, [
             ['div'],
           ]],
-          ['a', { class: 'nav_btn nav_btn_left', href: params.url || null, onclick: params.onClick }, [
+          ['a', { class: 'nav_btn nav_btn_left', href: params.url || null, onclick: params.onClick, target: params.openInNewTab ? '_blank' : null }, [
             ...(params.buttonIcon ? [
               ['i', { class: params.buttonIcon }],
             ] : []),
@@ -595,7 +595,7 @@ class StHeader extends IHeader {
     } else if (params.isNotification) {
       buttonContainerNode = DOM.build(context, position, [
         ['div', { class: 'nav_btn_container' }, [
-          ['a', { class: 'nav_btn', href: params.url }, [
+          ['a', { class: 'nav_btn', href: params.url, target: params.openInNewTab ? '_blank' : null }, [
             ...(params.buttonIcon ? [
               ['i', { class: params.buttonIcon }],
             ] : []),
@@ -609,7 +609,7 @@ class StHeader extends IHeader {
     } else {
       buttonContainerNode = DOM.build(context, position, [
         ['div', { class: 'nav_btn_container' }, [
-          ['a', { class: 'nav_btn', href: params.url }, [
+          ['a', { class: 'nav_btn', href: params.url, target: params.openInNewTab ? '_blank' : null }, [
             ...(params.buttonIcon ? [
               ['i', { class: params.buttonIcon }],
             ] : []),
@@ -655,7 +655,7 @@ class StHeader extends IHeader {
     }
 
     const dropdownItemNode = DOM.build(buttonContainer.nodes.absoluteDropdown, 'beforeEnd', [
-      [params.url ? 'a' : 'div', { class: 'dropdown_btn', href: params.url || null, onclick: params.onClick }, [
+      [params.url ? 'a' : 'div', { class: 'dropdown_btn', href: params.url || null, onclick: params.onClick, target: params.openInNewTab ? '_blank' : null }, [
         ['i', { class: params.icon }],
         ['span', params.name],
       ]],
