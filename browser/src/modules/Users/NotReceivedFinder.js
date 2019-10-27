@@ -1,7 +1,7 @@
 import { Module } from '../../class/Module';
 import { Process } from '../../class/Process';
 import { common } from '../Common';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 import { shared } from '../../class/Shared';
 import { DOM } from '../../class/DOM';
 
@@ -90,7 +90,7 @@ class UsersNotReceivedFinder extends Module {
   }
 
   async nrf_init(key, profile, obj) {
-    if (profile.username !== gSettings.username && !obj.nrfMessage) {
+    if (profile.username !== Settings.username && !obj.nrfMessage) {
       obj.nrfMessage = createElements(obj.popup.scrollable, 'beforeBegin', [{
         attributes: {
           class: 'esgst-description'
@@ -108,7 +108,7 @@ class UsersNotReceivedFinder extends Module {
     if (savedUser) {
       obj.nrfData = savedUser[`nrf${key === 'sent' ? '' : 'Won'}`];
     }
-    if (gSettings.nrf_clearCache || !obj.nrfData) {
+    if (Settings.nrf_clearCache || !obj.nrfData) {
       obj.nrfData = {
         lastCheck: 0,
         found: 0,
@@ -155,7 +155,7 @@ class UsersNotReceivedFinder extends Module {
       obj.nrfResultsRaw += giveaway.outerHTML;
     }
     obj.popup.setOverallProgress(`${obj.nrfFound} of ${obj.nrfTotal} not received giveaways found...`);
-    if (gSettings.nrf_searchMultiple && obj.nrfKey === 'sent' && obj.nrfFound < obj.nrfTotal) {
+    if (Settings.nrf_searchMultiple && obj.nrfKey === 'sent' && obj.nrfFound < obj.nrfTotal) {
       const elements = responseHtml.getElementsByClassName('giveaway__heading__thin');
       for (const element of elements) {
         const match = element.textContent.match(/\((.+) Copies\)/);

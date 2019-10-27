@@ -1,7 +1,7 @@
 import { Module } from '../class/Module';
 import {common} from './Common';
 import { shared } from '../class/Shared';
-import { gSettings } from '../class/Globals';
+import { Settings } from '../class/Settings';
 
 const
   getUser = common.getUser.bind(common),
@@ -32,14 +32,14 @@ class Comments extends Module {
       await feature(comments, main);
     }
     if (!main || this.esgst.commentsPath || shared.common.isCurrentPath('Messages')) {
-      if (main && shared.esgst.cf && this.esgst.cf.filteredCount && gSettings[`cf_enable${this.esgst.cf.type}`]) {
+      if (main && shared.esgst.cf && this.esgst.cf.filteredCount && Settings[`cf_enable${this.esgst.cf.type}`]) {
         this.esgst.modules.commentsCommentFilters.filters_filter(this.esgst.cf, false, endless);
       }
-      if (!main && this.esgst.cfPopup && this.esgst.cfPopup.filteredCount && gSettings[`cf_enable${this.esgst.cfPopup.type}`]) {
+      if (!main && this.esgst.cfPopup && this.esgst.cfPopup.filteredCount && Settings[`cf_enable${this.esgst.cfPopup.type}`]) {
         this.esgst.modules.commentsCommentFilters.filters_filter(this.esgst.cfPopup, false, endless);
       }
     }
-    if (gSettings.ct) {
+    if (Settings.ct) {
       if (!main || shared.common.isCurrentPath('Messages')) {
         count = 0;
       } else {
@@ -53,12 +53,12 @@ class Comments extends Module {
       // noinspection JSIgnoredPromiseFromCall
       this.esgst.modules.commentsCommentTracker.ct_getComments(count, comments, null, false, false, false, main || endless || mainEndless);
     }
-    if (gSettings.rfi) {
-      if (gSettings.rfi_s && (!main || shared.common.isCurrentPath('Messages')) && (!context.getAttribute || !context.getAttribute('data-rfi'))) {
+    if (Settings.rfi) {
+      if (Settings.rfi_s && (!main || shared.common.isCurrentPath('Messages')) && (!context.getAttribute || !context.getAttribute('data-rfi'))) {
         await this.esgst.modules.commentsReplyFromInbox.rfi_getReplies(comments, main || endless || mainEndless);
       }
     }
-    if (gSettings.ged) {
+    if (Settings.ged) {
       this.esgst.ged_addIcons(comments);
     }
   }

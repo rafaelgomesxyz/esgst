@@ -1,6 +1,6 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 import { permissions } from '../../class/Permissions';
 import { Logger } from '../../class/Logger';
 
@@ -61,8 +61,8 @@ class GiveawaysRealCVCalculator extends Module {
               }
             }
             user = {
-              Username: gSettings.username,
-              SteamID64: gSettings.steamId
+              Username: Settings.username,
+              SteamID64: Settings.steamId
             };
             let users = JSON.parse(getValue('users'));
             let savedUser = users.users[user.SteamID64];

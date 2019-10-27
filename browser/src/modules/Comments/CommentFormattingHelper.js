@@ -4,7 +4,7 @@ import { Popout } from '../../class/Popout';
 import { Popup } from '../../class/Popup';
 import { EMOJIS } from '../../emojis';
 import { shared } from '../../class/Shared';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 import { permissions } from '../../class/Permissions';
 import { Logger } from '../../class/Logger';
 import { DOM } from '../../class/DOM';
@@ -400,7 +400,7 @@ class CommentsCommentFormattingHelper extends Module {
   }
 
   async init() {
-    this.savedRepliesId = `savedReplies${gSettings.cfh_sr_s ? '_st' : ''}`;
+    this.savedRepliesId = `savedReplies${Settings.cfh_sr_s ? '_st' : ''}`;
     this.esgst.endlessFeatures.push(this.cfh_setTextAreas.bind(this));
     this.esgst.cfh = {
       backup: [],
@@ -1006,7 +1006,7 @@ class CommentsCommentFormattingHelper extends Module {
         name: `Automatic Links / Images Paste Formatting: OFF`,
         callback: context => {
           this.esgst.cfh.alipf = context;
-          this.cfh_setAlipf(gSettings.cfh_pasteFormatting, true);
+          this.cfh_setAlipf(Settings.cfh_pasteFormatting, true);
         },
         onClick: () => this.cfh_setAlipf()
       }, {
@@ -1055,7 +1055,7 @@ class CommentsCommentFormattingHelper extends Module {
     ];
     for (let i = 0, n = items.length; i < n; i++) {
       let item = items[i];
-      if (!item.id || gSettings[item.id]) {
+      if (!item.id || Settings[item.id]) {
         let button = shared.common.createElements(this.esgst.cfh.panel, 'beforeEnd', [{
           attributes: {
             title: `${shared.common.getFeatureTooltip(item.id || 'cfh', item.name)}`
@@ -1103,7 +1103,7 @@ class CommentsCommentFormattingHelper extends Module {
         }
       }
     }
-    if (gSettings.cfh_cf) {
+    if (Settings.cfh_cf) {
       shared.common.createElements(this.esgst.cfh.panel, 'beforeEnd', [{
         attributes: {
           href: '/about/comment-formatting',
@@ -1118,7 +1118,7 @@ class CommentsCommentFormattingHelper extends Module {
         }]
       }]);
     }
-    if (gSettings.cfh_p && !gSettings.cfh_p_a) {
+    if (Settings.cfh_p && !Settings.cfh_p_a) {
       shared.common.createElements(this.esgst.cfh.panel, 'beforeEnd', [{
         attributes: {
           title: shared.common.getFeatureTooltip('cfh_p', 'Preview')
@@ -1183,7 +1183,7 @@ class CommentsCommentFormattingHelper extends Module {
     textArea.parentElement.insertBefore(this.esgst.cfh.panel, textArea);
     textArea.onfocus = this.cfh_addPanel.bind(this, textArea);
     textArea.onpaste = async event => {
-      if (gSettings.cfh_pasteFormatting) {
+      if (Settings.cfh_pasteFormatting) {
         let clipboard, value;
         clipboard = event.clipboardData.getData('text/plain');
         if (clipboard.match(/^https?:/)) {
@@ -1212,10 +1212,10 @@ class CommentsCommentFormattingHelper extends Module {
         this.esgst.cfh.undo.click();
       }
     };
-    if (gSettings.cfh_p) {
+    if (Settings.cfh_p) {
       this.esgst.cfh.preview.innerHTML = '';
       textArea.parentElement.insertBefore(this.esgst.cfh.preview, textArea.nextElementSibling);
-      if (gSettings.cfh_p_a) {
+      if (Settings.cfh_p_a) {
         textArea.oninput = async () => {
           DOM.build(this.esgst.cfh.preview, 'inner', await shared.common.parseMarkdown(textArea, textArea.value));
           this.cfh_formatImages(this.esgst.cfh.preview);
@@ -1256,7 +1256,7 @@ class CommentsCommentFormattingHelper extends Module {
     this.esgst.cfh.textArea.value = `${value.slice(0, start)}${text}${value.slice(end)}`;
     this.esgst.cfh.textArea.setSelectionRange(range, range);
     this.esgst.cfh.textArea.focus();
-    if (gSettings.cfh_p && gSettings.cfh_p_a) {
+    if (Settings.cfh_p && Settings.cfh_p_a) {
       DOM.build(this.esgst.cfh.preview, 'inner', await shared.common.parseMarkdown(this.esgst.cfh.textArea, this.esgst.cfh.textArea.value));
       this.cfh_formatImages(this.esgst.cfh.preview);
     }
@@ -1284,7 +1284,7 @@ class CommentsCommentFormattingHelper extends Module {
       this.esgst.cfh.textArea.setSelectionRange(end + value.indexOf(`[`) + 1, end + value.indexOf(`[`) + 1);
     }
     this.esgst.cfh.textArea.focus();
-    if (gSettings.cfh_p && gSettings.cfh_p_a) {
+    if (Settings.cfh_p && Settings.cfh_p_a) {
       DOM.build(this.esgst.cfh.preview, 'inner', await shared.common.parseMarkdown(this.esgst.cfh.textArea, this.esgst.cfh.textArea.value));
       this.cfh_formatImages(this.esgst.cfh.preview);
     }
@@ -1345,7 +1345,7 @@ class CommentsCommentFormattingHelper extends Module {
         });
       }
     }).set);
-    if (gSettings.cfh_img_remember) {
+    if (Settings.cfh_img_remember) {
       popup.description.appendChild(new ButtonSet({
         color1: 'grey',
         color2: 'grey',
@@ -1721,7 +1721,7 @@ class CommentsCommentFormattingHelper extends Module {
     descriptionArea = nameArea.nextElementSibling;
     nameArea = nameArea.lastElementChild;
     descriptionArea = descriptionArea.lastElementChild;
-    if (gSettings.cfh) {
+    if (Settings.cfh) {
       this.cfh_addPanel(descriptionArea);
     }
     popup.description.appendChild(new ButtonSet({
@@ -1794,7 +1794,7 @@ class CommentsCommentFormattingHelper extends Module {
 
   cfh_setAlipf(value, firstTime) {
     if (typeof value === 'undefined') {
-      value = !gSettings.cfh_pasteFormatting;
+      value = !Settings.cfh_pasteFormatting;
     }
     if (!firstTime) {
       shared.common.setSetting('cfh_pasteFormatting', value);

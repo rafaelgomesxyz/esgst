@@ -1,6 +1,6 @@
 import { shared } from './Shared';
 import { browser } from '../browser';
-import { gSettings } from './Globals';
+import { Settings } from './Settings';
 import { Utils } from '../lib/jsUtils';
 import { DOM } from './DOM';
 
@@ -115,7 +115,7 @@ class FetchRequest {
   }
 
   static async sendExternal(url, options) {
-    const manipulateCookies = (await shared.common.getBrowserInfo()).name === 'Firefox' && gSettings.manipulateCookies;
+    const manipulateCookies = (await shared.common.getBrowserInfo()).name === 'Firefox' && Settings.manipulateCookies;
 
     const messageOptions = {
       action: 'fetch',

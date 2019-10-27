@@ -3,7 +3,7 @@ import { Module } from '../../class/Module';
 import { Popout } from '../../class/Popout';
 import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { common } from '../Common';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 
 const
   capitalizeFirstLetter = common.capitalizeFirstLetter.bind(common),
@@ -74,7 +74,7 @@ class GiveawaysGiveawaysSorter extends Module {
     if (obj.popout) return;
 
     obj.popout = new Popout('esgst-gas-popout', obj.button, 0, true);
-    new ToggleSwitch(obj.popout.popout, this.esgst.gas.autoKey, false, 'Auto Sort', false, false, 'Automatically sorts the giveaways by the selected option when loading the page.', gSettings[this.esgst.gas.autoKey]);
+    new ToggleSwitch(obj.popout.popout, this.esgst.gas.autoKey, false, 'Auto Sort', false, false, 'Automatically sorts the giveaways by the selected option when loading the page.', Settings[this.esgst.gas.autoKey]);
     const children = [{
       attributes: {
         value: 'sortIndex_asc'
@@ -122,7 +122,7 @@ class GiveawaysGiveawaysSorter extends Module {
           type: 'option'
         });
     }
-    if (gSettings.gc && gSettings.gc_r && !this.esgst.enteredPath) {
+    if (Settings.gc && Settings.gc_r && !this.esgst.enteredPath) {
       children.push({
         attributes: {
           value: 'rating_asc'
@@ -202,7 +202,7 @@ class GiveawaysGiveawaysSorter extends Module {
         text: 'Entries - Descending',
         type: 'option'
       });
-    if (gSettings.gwc) {
+    if (Settings.gwc) {
       children.push({
         attributes: {
           value: 'chance_asc'
@@ -228,7 +228,7 @@ class GiveawaysGiveawaysSorter extends Module {
           text: 'Chance Per Point - Descending',
           type: 'option'
         });
-      if (gSettings.gwc_a) {
+      if (Settings.gwc_a) {
         children.push({
           attributes: {
             value: 'projectedChance_asc'
@@ -256,7 +256,7 @@ class GiveawaysGiveawaysSorter extends Module {
           });
       }
     }
-    if (gSettings.gwr) {
+    if (Settings.gwr) {
       children.push({
         attributes: {
           value: 'ratio_asc'
@@ -270,7 +270,7 @@ class GiveawaysGiveawaysSorter extends Module {
           text: 'Ratio - Descending',
           type: 'option'
         });
-      if (gSettings.gwr_a) {
+      if (Settings.gwr_a) {
         children.push({
           attributes: {
             value: 'projectedRatio_asc'
@@ -286,7 +286,7 @@ class GiveawaysGiveawaysSorter extends Module {
           });
       }
     }
-    if (gSettings.gptw) {
+    if (Settings.gptw) {
       children.push({
         attributes: {
           value: 'pointsToWin_asc'
@@ -305,7 +305,7 @@ class GiveawaysGiveawaysSorter extends Module {
       type: 'select',
       children
     }]);
-    options.value = gSettings[this.esgst.gas.optionKey];
+    options.value = Settings[this.esgst.gas.optionKey];
     let callback = () => saveAndSortContent(this.esgst.currentScope.giveaways, this.esgst.gas.optionKey, options);
     options.addEventListener('change', callback);
     obj.popout.popout.appendChild(new ButtonSet({

@@ -3,7 +3,7 @@ import { Checkbox } from '../../class/Checkbox';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { common } from '../Common';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 import { shared } from '../../class/Shared';
 import { DOM } from '../../class/DOM';
 import { Session } from '../../class/Session';
@@ -71,7 +71,7 @@ class GiveawaysGiveawayTemplates extends Module {
       title2: 'Creating...',
       callback1: async () => {
         const textArea = document.querySelector(`[name="description"]`);
-        if (gSettings.ngdc && (await shared.esgst.modules.giveawaysNewGiveawayDescriptionChecker.check(textArea.value))) {
+        if (Settings.ngdc && (await shared.esgst.modules.giveawaysNewGiveawayDescriptionChecker.check(textArea.value))) {
           return;
         }
         return new Promise(async resolve => {
@@ -235,10 +235,10 @@ class GiveawaysGiveawayTemplates extends Module {
     gts.input = preciseEndDateOption.nextElementSibling.nextElementSibling;
     message = gts.input.nextElementSibling;
     warning = message.nextElementSibling;
-    preciseStartCheckbox = new Checkbox(preciseStartOption, gSettings.gts_preciseStart);
-    preciseEndCheckbox = new Checkbox(preciseEndOption, gSettings.gts_preciseEnd);
-    preciseStartDateCheckbox = new Checkbox(preciseStartDateOption, gSettings.gts_preciseStartDate);
-    preciseEndDateCheckbox = new Checkbox(preciseEndDateOption, gSettings.gts_preciseEndDate);
+    preciseStartCheckbox = new Checkbox(preciseStartOption, Settings.gts_preciseStart);
+    preciseEndCheckbox = new Checkbox(preciseEndOption, Settings.gts_preciseEnd);
+    preciseStartDateCheckbox = new Checkbox(preciseStartDateOption, Settings.gts_preciseStartDate);
+    preciseEndDateCheckbox = new Checkbox(preciseEndDateOption, Settings.gts_preciseEndDate);
     preciseStartOption.addEventListener('click', () => {
       setSetting('gts_preciseStart', preciseStartCheckbox.input.checked);
     });
@@ -282,8 +282,8 @@ class GiveawaysGiveawayTemplates extends Module {
             region: document.querySelector(`[name="region_restricted"]`).value,
             whoCanEnter: document.querySelector(`[name="who_can_enter"]`).value,
             whitelist: document.querySelector(`.form__row--who-can-enter [name="whitelist"]`).value,
-            createTrain: gSettings.mgc_createTrain,
-            removeLinks: gSettings.mgc_removeLinks,
+            createTrain: Settings.mgc_createTrain,
+            removeLinks: Settings.mgc_removeLinks,
             startTime: undefined,
             endTime: undefined,
             startDate: undefined,

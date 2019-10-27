@@ -1,6 +1,6 @@
 import { Module } from '../../class/Module';
 import { shared } from '../../class/Shared';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 import { DOM } from '../../class/DOM';
 import { Session } from '../../class/Session';
 
@@ -25,7 +25,7 @@ class CommentsMultiReply extends Module {
   }
 
   mr_getButtons(context, main, source, endless) {
-    if ((!gSettings.mr || shared.common.isCurrentPath('Messages')) && (!gSettings.rfi || (!shared.common.isCurrentPath('Messages') && main))) return;
+    if ((!Settings.mr || shared.common.isCurrentPath('Messages')) && (!Settings.rfi || (!shared.common.isCurrentPath('Messages') && main))) return;
     const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .comment__actions, .esgst-es-page-${endless}.comment__actions` : '.comment__actions'}, ${endless ? `.esgst-es-page-${endless} .action_list, .esgst-es-page-${endless}.action_list` : '.action_list'}`);
     for (let i = 0, n = elements.length; i < n; ++i) {
       this.mr_addButton(elements[i], main);
@@ -93,7 +93,7 @@ class CommentsMultiReply extends Module {
 
   mr_addBox(MR) {
     let Username;
-    Username = gSettings.username;
+    Username = Settings.username;
     const items = [{
       attributes: {
         class: 'comment reply_form MRBox'
@@ -153,7 +153,7 @@ class CommentsMultiReply extends Module {
           children: [{
             attributes: {
               class: 'global__image-inner-wrap',
-              style: `background-image: url(${gSettings.avatar});`
+              style: `background-image: url(${Settings.avatar});`
             },
             type: 'div'
           }]
@@ -203,7 +203,7 @@ class CommentsMultiReply extends Module {
     MR.Box = MR.Children.firstElementChild;
     MR.Description = MR.Box.getElementsByClassName('esgst-mr-description')[0];
     MR.Cancel = MR.Box.getElementsByClassName('esgst-mr-cancel')[0];
-    if (gSettings.cfh) {
+    if (Settings.cfh) {
       shared.esgst.modules.commentsCommentFormattingHelper.cfh_addPanel(MR.Description);
     }
     MR.Description.focus();
@@ -212,7 +212,7 @@ class CommentsMultiReply extends Module {
       if (shared.esgst.sg) {
         if (id) {
           Reply = DOM.parse(Response.responseText).getElementById(id).closest('.comment');
-          if (gSettings.rfi && gSettings.rfi_s) {
+          if (Settings.rfi && Settings.rfi_s) {
             await shared.esgst.modules.commentsReplyFromInbox.rfi_saveReply(id, Reply.outerHTML, MR.url);
           }
           shared.esgst.modules.commentsReplyMentionLink.rml_addLink(MR.Container, [Reply]);
@@ -220,7 +220,7 @@ class CommentsMultiReply extends Module {
           MR.Box.remove();
           MR.Box = null;
           MR.Children.appendChild(Reply);
-          if (gSettings.qiv && (!shared.esgst.qiv.comments || !shared.esgst.qiv.comments.contains(Reply))) {
+          if (Settings.qiv && (!shared.esgst.qiv.comments || !shared.esgst.qiv.comments.contains(Reply))) {
             window.location.hash = id;
           }
         } else {
@@ -237,7 +237,7 @@ class CommentsMultiReply extends Module {
       } else {
         if (id) {
           Reply = DOM.parse(JSON.parse(Response.responseText).html).getElementById(id);
-          if (gSettings.rfi && gSettings.rfi_s) {
+          if (Settings.rfi && Settings.rfi_s) {
             await shared.esgst.modules.commentsReplyFromInbox.rfi_saveReply(id, Reply.outerHTML, MR.url);
           }
           shared.esgst.modules.commentsReplyMentionLink.rml_addLink(MR.Container, [Reply]);
@@ -245,7 +245,7 @@ class CommentsMultiReply extends Module {
           MR.Box.remove();
           MR.Box = null;
           MR.Children.appendChild(Reply);
-          if (gSettings.qiv && (!shared.esgst.qiv.comments || !shared.esgst.qiv.comments.contains(Reply))) {
+          if (Settings.qiv && (!shared.esgst.qiv.comments || !shared.esgst.qiv.comments.contains(Reply))) {
             window.location.hash = id;
           }
         } else {
@@ -326,7 +326,7 @@ class CommentsMultiReply extends Module {
         })).responseText);
         if (ResponseJSON.type === 'success' || ResponseJSON.success) {
           ResponseHTML = DOM.parse(ResponseJSON[shared.esgst.sg ? 'comment' : 'html']);
-          if (gSettings.rfi && gSettings.rfi_s) {
+          if (Settings.rfi && Settings.rfi_s) {
             let reply = MR.Comment.cloneNode(true);
             if (shared.esgst.sg) {
               shared.common.createElements(reply, 'inner', [{
@@ -370,10 +370,10 @@ class CommentsMultiReply extends Module {
               context: x
             };
           }))]);
-          if (gSettings.at) {
+          if (Settings.at) {
             shared.esgst.modules.generalAccurateTimestamp.at_getTimestamps(MR.Timestamp);
           }
-          if (gSettings.ged) {
+          if (Settings.ged) {
             await shared.esgst.ged_addIcons([{
               actions: MR.Container.getElementsByClassName(shared.esgst.sg ? 'comment__actions' : 'action_list')[0],
               displayState: DisplayState,
@@ -464,7 +464,7 @@ class CommentsMultiReply extends Module {
           };
         }))]);
       }
-      if (gSettings.rfi && gSettings.rfi_s) {
+      if (Settings.rfi && Settings.rfi_s) {
         let reply = mr.Comment.cloneNode(true);
         if (shared.esgst.sg) {
           shared.common.createElements(reply, 'inner', [{

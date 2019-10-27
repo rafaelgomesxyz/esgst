@@ -1,5 +1,5 @@
 import { Module } from '../../class/Module';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 
 class GeneralAttachedImageLoader extends Module {
   constructor() {
@@ -22,7 +22,7 @@ class GeneralAttachedImageLoader extends Module {
   }
 
   init() {
-    if (gSettings.vai) return;
+    if (Settings.vai) return;
     this.esgst.endlessFeatures.push(this.ail_getImages.bind(this));
   }
 

@@ -1,5 +1,5 @@
 import { shared } from './Shared';
-import { gSettings } from './Globals';
+import { Settings } from './Settings';
 import { DOM } from './DOM';
 
 class ToggleSwitch {
@@ -56,7 +56,7 @@ class ToggleSwitch {
       } else if (this.st) {
         key += '_st';
       }
-      setting = gSettings[key];
+      setting = Settings[key];
       if (typeof setting === 'undefined' || !setting.include) {
         setting = this.value;
       } else {

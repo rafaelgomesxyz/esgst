@@ -3,7 +3,7 @@ import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { shared, Shared } from '../../class/Shared';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 import { DOM } from '../../class/DOM';
 import { Logger } from '../../class/Logger';
 import { IHeader } from '../../components/Header';
@@ -149,7 +149,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
       const ids = [];
       const source = this.sources[key];
 
-      const objs = gSettings[`chfl_${key}`];
+      const objs = Settings[`chfl_${key}`];
 
       for (let i = objs.length - 1; i > -1; i--) {
         const objOrId = objs[i];
@@ -281,7 +281,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
     for (let key of Object.keys(this.sources)) {
       const elements = {};
 
-      for (const item of gSettings[`chfl_${key}`]) {
+      for (const item of Settings[`chfl_${key}`]) {
         if (item.id) {
           elements[item.id] = item;
         }
@@ -579,8 +579,8 @@ class GeneralCustomHeaderFooterLinks extends Module {
       if (editItem) {
         const editId = editItem.nodes.outer.dataset.linkId;
 
-        for (let i = gSettings[`chfl_${key}`].length - 1; i > -1; i--) {
-          let item = gSettings[`chfl_${key}`][i];
+        for (let i = Settings[`chfl_${key}`].length - 1; i > -1; i--) {
+          let item = Settings[`chfl_${key}`][i];
           if (item !== editId && (!item.id || item.id !== editId)) continue;
           if (item.id) {
             description.value = item.description || '';
@@ -629,7 +629,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
         url: url.value,
       };
 
-      const setting = gSettings[`chfl_${key}`];
+      const setting = Settings[`chfl_${key}`];
       const source = this.sources[key];
 
       if (editItem) {
@@ -717,7 +717,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
       event.preventDefault();
       event.stopPropagation();
 
-      for (const obj of gSettings[`chfl_${key}`]) {
+      for (const obj of Settings[`chfl_${key}`]) {
         if (!obj.id) {
           continue;
         }
@@ -786,7 +786,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
       }
       value += event.key.toLowerCase();
 
-      if (value !== gSettings.chfl_key) {
+      if (value !== Settings.chfl_key) {
         return;
       }
       event.stopPropagation();

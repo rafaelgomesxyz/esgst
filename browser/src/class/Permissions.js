@@ -1,7 +1,7 @@
 import { browser } from '../browser';
 import { Popup } from './Popup';
 import { shared } from './Shared';
-import { gSettings } from './Globals';
+import { Settings } from './Settings';
 import { DOM } from './DOM';
 
 class Permissions {
@@ -166,13 +166,13 @@ class Permissions {
     if (!result) {
       let hasChanged = false;
       for (const key of keys) {
-        if (gSettings.permissionsDenied.indexOf(key) < 0) {
-          gSettings.permissionsDenied.push(key);
+        if (Settings.permissionsDenied.indexOf(key) < 0) {
+          Settings.permissionsDenied.push(key);
           hasChanged = true;
         }
       }
       if (hasChanged) {
-        await shared.common.setSetting('permissionsDenied', gSettings.permissionsDenied);
+        await shared.common.setSetting('permissionsDenied', Settings.permissionsDenied);
       }
     }
     return result;

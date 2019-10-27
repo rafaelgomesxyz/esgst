@@ -2,7 +2,7 @@ import { ButtonSet } from '../../class/ButtonSet';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { common } from '../Common';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 import { shared } from '../../class/Shared';
 
 const
@@ -53,7 +53,7 @@ class UsersUserNotes extends Module {
     let blacklistButton, position, whitelistButton;
     if (shared.esgst.sg) {
       position = 'beforeEnd';
-      if (gSettings.un_p) {
+      if (Settings.un_p) {
         whitelistButton = profile.steamButtonContainer.getElementsByClassName('sidebar__shortcut__whitelist')[0];
         if (whitelistButton) {
           whitelistButton.addEventListener('click', this.un_open.bind(this, profile));
@@ -100,7 +100,7 @@ class UsersUserNotes extends Module {
     profile.unTextArea = createElements(profile.unPopup.scrollable, 'beforeEnd', [{
       type: 'textarea'
     }]);
-    if (gSettings.cfh) {
+    if (Settings.cfh) {
       shared.esgst.modules.commentsCommentFormattingHelper.cfh_addPanel(profile.unTextArea);
     }
     set = new ButtonSet({

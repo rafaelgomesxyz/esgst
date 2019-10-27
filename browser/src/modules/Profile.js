@@ -1,6 +1,6 @@
 import { Module } from '../class/Module';
 import {common} from './Common';
-import { gSettings } from '../class/Globals';
+import { Settings } from '../class/Settings';
 import { Logger } from '../class/Logger';
 import { shared } from '../class/Shared';
 
@@ -20,7 +20,7 @@ class Profile extends Module {
   }
 
   async init() {
-    if (gSettings.updateWhitelistBlacklist && (shared.esgst.whitelistPath || shared.esgst.blacklistPath)) {
+    if (Settings.updateWhitelistBlacklist && (shared.esgst.whitelistPath || shared.esgst.blacklistPath)) {
       const key = shared.esgst.whitelistPath ? 'whitelisted' : 'blacklisted';
       shared.esgst.endlessFeatures.push(this.getUsers.bind(this, key));
     }
@@ -121,12 +121,12 @@ class Profile extends Module {
     profile.whitelistButton = profile.steamButtonContainer.getElementsByClassName('sidebar__shortcut__whitelist')[0];
     profile.blacklistButton = profile.steamButtonContainer.getElementsByClassName('sidebar__shortcut__blacklist')[0];
     if (profile.whitelistButton) {
-      if (gSettings.updateWhitelistBlacklist) {
+      if (Settings.updateWhitelistBlacklist) {
         profile.whitelistButton.addEventListener('click', updateWhitelistBlacklist.bind(common, 'whitelisted', profile));
       }
     }
     if (profile.blacklistButton) {
-      if (gSettings.updateWhitelistBlacklist) {
+      if (Settings.updateWhitelistBlacklist) {
         profile.blacklistButton.addEventListener('click', updateWhitelistBlacklist.bind(common, 'blacklisted', profile));
       }
     }

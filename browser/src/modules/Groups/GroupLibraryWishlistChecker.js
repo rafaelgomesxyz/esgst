@@ -2,7 +2,7 @@ import { Module } from '../../class/Module';
 import { common } from '../Common';
 import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
 import { shared } from '../../class/Shared';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 import { permissions } from '../../class/Permissions';
 import { DOM } from '../../class/DOM';
 
@@ -81,7 +81,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 
       let glwc = {}, parameters;
       glwc.container = shared.esgst.sidebar.nextElementSibling;
-      if (gSettings.removeSidebarInFeaturePages) {
+      if (Settings.removeSidebarInFeaturePages) {
         shared.esgst.sidebar.remove();
       }
       glwc.container.innerHTML = '';
@@ -195,7 +195,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
       glwc.memberCount = 0;
       // noinspection JSIgnoredPromiseFromCall
 
-      if (gSettings.glwc_gn) {
+      if (Settings.glwc_gn) {
         await shared.esgst.modules.tradesHaveWantListChecker.hwlc_getGames(true);
       }
 
@@ -220,7 +220,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
           glwc.users[i].library = [];
           let elements = JSON.parse((await request({
             method: 'GET',
-            url: `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${gSettings.steamApiKey}&steamid=${glwc.users[i].steamId}&format=json`
+            url: `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${Settings.steamApiKey}&steamid=${glwc.users[i].steamId}&format=json`
           })).responseText).response.games;
           if (elements) {
             elements.forEach(element => {

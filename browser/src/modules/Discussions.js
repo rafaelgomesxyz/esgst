@@ -1,6 +1,6 @@
 import { Module } from '../class/Module';
 import {common} from './Common';
-import { gSettings } from '../class/Globals';
+import { Settings } from '../class/Settings';
 import { shared } from '../class/Shared';
 
 const
@@ -35,19 +35,19 @@ class Discussions extends Module {
       }
     }
     if (!main || this.esgst.discussionsPath) {
-      if (main && shared.esgst.df && this.esgst.df.filteredCount && gSettings[`df_enable${this.esgst.df.type}`]) {
+      if (main && shared.esgst.df && this.esgst.df.filteredCount && Settings[`df_enable${this.esgst.df.type}`]) {
         this.esgst.modules.discussionsDiscussionFilters.filters_filter(this.esgst.df, false, endless);
       }
-      if (gSettings.ds && gSettings.ds_auto) {
-        sortContent(this.esgst.scopes.main.discussions, gSettings.ds_option);
+      if (Settings.ds && Settings.ds_auto) {
+        sortContent(this.esgst.scopes.main.discussions, Settings.ds_option);
       }
     }
     if (!main || this.esgst.tradesPath) {
-      if (main && shared.esgst.tf && this.esgst.tf.filteredCount && gSettings[`tf_enable${this.esgst.tf.type}`]) {
+      if (main && shared.esgst.tf && this.esgst.tf.filteredCount && Settings[`tf_enable${this.esgst.tf.type}`]) {
         this.esgst.modules.tradesTradeFilters.filters_filter(this.esgst.tf, false, endless);
       }
     }
-    if (gSettings.mm_enableDiscussions && this.esgst.mm_enable) {
+    if (Settings.mm_enableDiscussions && this.esgst.mm_enable) {
       this.esgst.mm_enable(this.esgst.currentScope.discussions, 'Discussions');
     }
     for (const feature of this.esgst.discussionFeatures) {
@@ -153,10 +153,10 @@ class Discussions extends Module {
     switch (discussion.type) {
       case 'discussion':
         discussion.saved = this.esgst.discussions[discussion.code];
-        if (main && gSettings.df && gSettings.df_s && discussion.saved && discussion.saved.hidden) {
+        if (main && Settings.df && Settings.df_s && discussion.saved && discussion.saved.hidden) {
           discussion.outerWrap.classList.add('esgst-hidden');
           discussion.outerWrap.setAttribute('data-esgst-not-filterable', 'df');
-          if (gSettings.df_s_s) {
+          if (Settings.df_s_s) {
             shared.esgst.modules.discussionsDiscussionFilters.updateSingleCounter();
           }
           return;
@@ -174,10 +174,10 @@ class Discussions extends Module {
         break;
       case 'trade':
         discussion.saved = this.esgst.trades[discussion.code];
-        if (main && gSettings.tf && gSettings.tf_s && discussion.saved && discussion.saved.hidden) {
+        if (main && Settings.tf && Settings.tf_s && discussion.saved && discussion.saved.hidden) {
           discussion.outerWrap.classList.add('esgst-hidden');
           discussion.outerWrap.setAttribute('data-esgst-not-filterable', 'df');
-          if (gSettings.tf_s_s) {
+          if (Settings.tf_s_s) {
             shared.esgst.modules.tradesTradeFilters.updateSingleCounter();
           }
           return;
@@ -208,12 +208,12 @@ class Discussions extends Module {
       return;
     }
     discussion.authors = [discussion.author.toLowerCase()];
-    discussion.created = discussion.author === gSettings.username;
+    discussion.created = discussion.author === Settings.username;
     discussion.poll = discussion.outerWrap.querySelector('.fa-align-left');
     discussion.commentsColumn = discussion.headingColumn.nextElementSibling || discussion.headingColumn.children[1];
     if (discussion.commentsColumn) {
       discussion.comments = parseInt(discussion.commentsColumn.firstElementChild.textContent.replace(/,/g, ''));
-      if (this.esgst.giveawaysPath && gSettings.adots && gSettings.adots_index === 1 && gSettings.ns) {
+      if (this.esgst.giveawaysPath && Settings.adots && Settings.adots_index === 1 && Settings.ns) {
         discussion.commentsColumn.firstElementChild.textContent = discussion.commentsColumn.firstElementChild.textContent.replace(/\sComments/, '');
       }
     }

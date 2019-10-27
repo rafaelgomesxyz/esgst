@@ -1,7 +1,7 @@
 import { common } from '../Common';
 import { shared } from '../../class/Shared';
 import { Filters } from '../Filters';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 
 class GroupsGroupFilters extends Filters {
   constructor() {
@@ -215,65 +215,65 @@ class GroupsGroupFilters extends Filters {
   getFilters() {
     return {
       giveaways: {
-        check: gSettings.gs && gSettings.gs_giveaways,
+        check: Settings.gs && Settings.gs_giveaways,
         name: 'Giveaways',
         type: 'number'
       },
       users: {
-        check: gSettings.gs && gSettings.gs_users,
+        check: Settings.gs && Settings.gs_users,
         name: 'Users',
         type: 'number'
       },
       firstGiveaway: {
-        check: gSettings.gs && gSettings.gs_firstGiveaway,
+        check: Settings.gs && Settings.gs_firstGiveaway,
         date: true,
         name: 'First Giveaway',
         type: 'number'
       },
       lastGiveaway: {
-        check: gSettings.gs && gSettings.gs_lastGiveaway,
+        check: Settings.gs && Settings.gs_lastGiveaway,
         date: true,
         name: 'Last Giveaway',
         type: 'number'
       },
       averageEntries: {
-        check: gSettings.gs && gSettings.gs_averageEntries,
+        check: Settings.gs && Settings.gs_averageEntries,
         name: 'Average Entries',
         type: 'number'
       },
       contributors: {
-        check: gSettings.gs && gSettings.gs_contributors,
+        check: Settings.gs && Settings.gs_contributors,
         name: 'Contributors',
         type: 'number'
       },
       winners: {
-        check: gSettings.gs && gSettings.gs_winners,
+        check: Settings.gs && Settings.gs_winners,
         name: 'Winners',
         type: 'number'
       },
       creationDate: {
-        check: gSettings.gs && gSettings.gs_creationDate,
+        check: Settings.gs && Settings.gs_creationDate,
         date: true,
         name: 'Creation Date',
         type: 'number'
       },
       officialGameGroup: {
-        check: gSettings.gs && gSettings.gs_type,
+        check: Settings.gs && Settings.gs_type,
         name: 'Official Game Group',
         type: 'boolean'
       },
       open: {
-        check: gSettings.gs && gSettings.gs_type,
+        check: Settings.gs && Settings.gs_type,
         name: 'Open',
         type: 'boolean'
       },
       restricted: {
-        check: gSettings.gs && gSettings.gs_type,
+        check: Settings.gs && Settings.gs_type,
         name: 'Restricted',
         type: 'boolean'
       },
       closed: {
-        check: gSettings.gs && gSettings.gs_type,
+        check: Settings.gs && Settings.gs_type,
         name: 'Closed',
         type: 'boolean'
       }

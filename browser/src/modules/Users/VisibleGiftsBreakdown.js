@@ -1,6 +1,6 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 import { DOM } from '../../class/DOM';
 
 class UsersVisibleGiftsBreakdown extends Module {
@@ -48,10 +48,10 @@ class UsersVisibleGiftsBreakdown extends Module {
   }
 
   vgb_add(profile) {
-    const position = gSettings.vgb_index === 0 ? 'afterBegin' : 'beforeEnd';
+    const position = Settings.vgb_index === 0 ? 'afterBegin' : 'beforeEnd';
     DOM.build(profile.wonRowRight.firstElementChild.firstElementChild, position, [
       ` ${
-        gSettings.vgb_wonFormat
+        Settings.vgb_wonFormat
           .replace(/\[FCV]/, profile.wonFull)
           .replace(/\[RCV]/, profile.wonReduced)
           .replace(/\[NCV]/, profile.wonZero)
@@ -60,7 +60,7 @@ class UsersVisibleGiftsBreakdown extends Module {
     ]);
     DOM.build(profile.sentRowRight.firstElementChild.firstElementChild, position, [
       ` ${
-        gSettings.vgb_sentFormat
+        Settings.vgb_sentFormat
           .replace(/\[FCV]/, profile.sentFull)
           .replace(/\[RCV]/, profile.sentReduced)
           .replace(/\[NCV]/, profile.sentZero)

@@ -3,7 +3,7 @@ import { Popup } from '../../class/Popup';
 import { Utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { shared } from '../../class/Shared';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 import { permissions } from '../../class/Permissions';
 import { DOM } from '../../class/DOM';
 
@@ -40,7 +40,7 @@ class UsersSharedGroupChecker extends Module {
   }
 
   sgc_add(profile) {
-    if (profile.username === gSettings.username) {
+    if (profile.username === Settings.username) {
       // no point in checking which groups a user shares with themselves
       return;
     }

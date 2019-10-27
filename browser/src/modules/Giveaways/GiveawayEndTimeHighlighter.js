@@ -1,5 +1,5 @@
 import { Module } from '../../class/Module';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 
 class GiveawaysGiveawayEndTimeHighlighter extends Module {
   constructor() {
@@ -21,7 +21,7 @@ class GiveawaysGiveawayEndTimeHighlighter extends Module {
   }
 
   geth_getGiveaways(giveaways) {
-    if (!gSettings.geth_colors.length) {
+    if (!Settings.geth_colors.length) {
       return;
     }
 
@@ -31,8 +31,8 @@ class GiveawaysGiveawayEndTimeHighlighter extends Module {
       }
 
       const hoursLeft = (giveaway.endTime - Date.now()) / 3600000;
-      for (let i = gSettings.geth_colors.length - 1; i > -1; i--) {
-        const colors = gSettings.geth_colors[i];
+      for (let i = Settings.geth_colors.length - 1; i > -1; i--) {
+        const colors = Settings.geth_colors[i];
         if (hoursLeft >= parseFloat(colors.lower) && hoursLeft <= parseFloat(colors.upper)) {
           (giveaway.endTimeColumn_gv || giveaway.endTimeColumn).style.color = colors.color;
           break;

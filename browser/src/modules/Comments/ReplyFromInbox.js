@@ -1,6 +1,6 @@
 import { Module } from '../../class/Module';
 import { shared } from '../../class/Shared';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 import { Logger } from '../../class/Logger';
 import { DOM } from '../../class/DOM';
 
@@ -51,7 +51,7 @@ class CommentsReplyFromInbox extends Module {
   }
 
   init() {
-    if (gSettings.mr) return;
+    if (Settings.mr) return;
     shared.esgst.endlessFeatures.push(shared.esgst.modules.commentsMultiReply.mr_getButtons.bind(shared.esgst.modules.commentsMultiReply));
   }
 

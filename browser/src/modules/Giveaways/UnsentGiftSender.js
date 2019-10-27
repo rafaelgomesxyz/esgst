@@ -3,7 +3,7 @@ import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { common } from '../Common';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 import { permissions } from '../../class/Permissions';
 import { DOM } from '../../class/DOM';
 import { Session } from '../../class/Session';
@@ -75,16 +75,16 @@ class GiveawaysUnsentGiftSender extends Module {
   ugs_openPopup(ugs) {
     if (!ugs.popup) {
       ugs.popup = new Popup({ addScrollable: true, icon: 'fa-gift', title: `Send unsent gifts:` });
-      new ToggleSwitch(ugs.popup.description, 'ugs_checkRules', false, 'Do not send if the winner has any not activated/multiple wins.', false, false, 'The winners will be checked in real time.', gSettings.ugs_checkRules);
-      const checkMemberSwitch = new ToggleSwitch(ugs.popup.description, 'ugs_checkMember', false, 'Do not send if the winner is no longer a member of at least one of the groups for group giveaways.', false, false, 'The winners will be checked in real time.', gSettings.ugs_checkMember);
+      new ToggleSwitch(ugs.popup.description, 'ugs_checkRules', false, 'Do not send if the winner has any not activated/multiple wins.', false, false, 'The winners will be checked in real time.', Settings.ugs_checkRules);
+      const checkMemberSwitch = new ToggleSwitch(ugs.popup.description, 'ugs_checkMember', false, 'Do not send if the winner is no longer a member of at least one of the groups for group giveaways.', false, false, 'The winners will be checked in real time.', Settings.ugs_checkMember);
       const checkDifferenceSwitch = new ToggleSwitch(ugs.popup.description, 'ugs_checkDifference', false, [
         'Do not send if the winner has a gift difference lower than ',
-        ['input', { class: 'esgst-ugs-difference', step: '0.1', type: 'number', value: gSettings.ugs_difference }],
+        ['input', { class: 'esgst-ugs-difference', step: '0.1', type: 'number', value: Settings.ugs_difference }],
         '.'
-      ], false, false, 'The winners will be checked in real time.', gSettings.ugs_checkDifference);
-      new ToggleSwitch(ugs.popup.description, 'ugs_checkWhitelist', false, 'Do not send if the winner is not on your whitelist.', false, false, `You must sync your whitelist through the settings menu. Whitelisted winners get a pass for broken rules, so if this option is enabled and the winner is whitelisted, the gift will be sent regardless of whether or not the first option is enabled.`, gSettings.ugs_checkWhitelist);
-      new ToggleSwitch(ugs.popup.description, 'ugs_checkBlacklist', false, 'Do not send if the winner on your blacklist.', false, false, `You must sync your blacklist through the settings menu. If the winner is blacklisted, but is a member of one of the groups, the gift will be sent anyway.`, gSettings.ugs_checkBlacklist);
-      if (!gSettings.ugs_checkMember) {
+      ], false, false, 'The winners will be checked in real time.', Settings.ugs_checkDifference);
+      new ToggleSwitch(ugs.popup.description, 'ugs_checkWhitelist', false, 'Do not send if the winner is not on your whitelist.', false, false, `You must sync your whitelist through the settings menu. Whitelisted winners get a pass for broken rules, so if this option is enabled and the winner is whitelisted, the gift will be sent regardless of whether or not the first option is enabled.`, Settings.ugs_checkWhitelist);
+      new ToggleSwitch(ugs.popup.description, 'ugs_checkBlacklist', false, 'Do not send if the winner on your blacklist.', false, false, `You must sync your blacklist through the settings menu. If the winner is blacklisted, but is a member of one of the groups, the gift will be sent anyway.`, Settings.ugs_checkBlacklist);
+      if (!Settings.ugs_checkMember) {
         checkDifferenceSwitch.container.classList.add('esgst-hidden');
       }
       observeNumChange(checkDifferenceSwitch.name.firstElementChild, 'ugs_setDifference', true);
@@ -205,7 +205,7 @@ class GiveawaysUnsentGiftSender extends Module {
   }
 
   async ugs_start(ugs) {
-    if (gSettings.ugs_checkMember && !(await permissions.requestUi([['steamCommunity']], 'ugs'))) {
+    if (Settings.ugs_checkMember && !(await permissions.requestUi([['steamCommunity']], 'ugs'))) {
       return;
     }
 
@@ -378,7 +378,7 @@ class GiveawaysUnsentGiftSender extends Module {
       }
 
       // retrieve the groups of the giveaway
-      if (gSettings.ugs_checkMember && ugs.giveaways[giveaway.code].group) {
+      if (Settings.ugs_checkMember && ugs.giveaways[giveaway.code].group) {
         ugs.giveaways[giveaway.code].groups = [];
         let nextPage = 1;
         let pagination = null;
@@ -449,7 +449,7 @@ class GiveawaysUnsentGiftSender extends Module {
             // winner is being rerolled, cannot send gift
             winner.error = `${winner.username} is currently being rerolled.`;
           } else {
-            if (gSettings.ugs_checkRules) {
+            if (Settings.ugs_checkRules) {
               // check if winner has not activated/multiple wins
               createElements(ugs.progress, 'inner', [{
                 attributes: {
@@ -486,7 +486,7 @@ class GiveawaysUnsentGiftSender extends Module {
               }
             }
 
-            if (gSettings.ugs_checkMember && giveaway.group && !winner.error) {
+            if (Settings.ugs_checkMember && giveaway.group && !winner.error) {
               // check if winner is still a group member
               createElements(ugs.progress, 'inner', [{
                 attributes: {
@@ -535,7 +535,7 @@ class GiveawaysUnsentGiftSender extends Module {
                   continue;
                 }
 
-                if (!gSettings.ugs_checkDifference) {
+                if (!Settings.ugs_checkDifference) {
                   // no need to check gift difference, gift can be sent
                   member = true;
                   break;
@@ -557,7 +557,7 @@ class GiveawaysUnsentGiftSender extends Module {
                 })).responseText).getElementsByClassName('table__row-outer-wrap')[0];
                 if (element && element.getElementsByClassName('table__column__heading')[0].textContent === winner.username) {
                   let difference = parseFloat(element.getElementsByClassName('table__column--width-small')[2].textContent);
-                  if (difference >= gSettings.ugs_difference) {
+                  if (difference >= Settings.ugs_difference) {
                     member = true;
                     break;
                   }
@@ -570,12 +570,12 @@ class GiveawaysUnsentGiftSender extends Module {
               }
             }
 
-            if (gSettings.ugs_checkWhitelist) {
+            if (Settings.ugs_checkWhitelist) {
               // check if winner is whitelisted
               winner.error = savedUser && savedUser.whitelisted ? null : `${winner.username} is not whitelisted.`;
             }
 
-            if (gSettings.ugs_checkBlacklist && savedUser && savedUser.blacklisted && !winner.error) {
+            if (Settings.ugs_checkBlacklist && savedUser && savedUser.blacklisted && !winner.error) {
               // check if winner is blacklisted
               winner.error = `${winner.username} is blacklisted.`;
             }

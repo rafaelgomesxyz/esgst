@@ -1,7 +1,7 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
 import IntersectionObserver from 'intersection-observer-polyfill';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 import { Shared } from '../../class/Shared';
 import { DOM } from '../../class/DOM';
 import { EventDispatcher } from '../../class/EventDispatcher';
@@ -149,7 +149,7 @@ class GeneralEndlessScrolling extends Module {
     }
     let es = {};
     this.esgst.es = es;
-    es.divisors = gSettings.es_pd;
+    es.divisors = Settings.es_pd;
     es.mainContext = this.esgst.pagination.previousElementSibling;
     if (this.esgst.commentsPath && !es.mainContext.classList.contains('comments')) {
       es.mainContext = DOM.build(es.mainContext, 'afterEnd', [
@@ -161,7 +161,7 @@ class GeneralEndlessScrolling extends Module {
       es.mainContext = rows;
     }
     es.paginations = [this.esgst.paginationNavigation ? this.esgst.paginationNavigation.innerHTML : ''];
-    es.reverseScrolling = gSettings.es_r && this.esgst.discussionPath;
+    es.reverseScrolling = Settings.es_r && this.esgst.discussionPath;
     if (es.reverseScrolling) {
       if (this.esgst.currentPage === 1 && this.esgst.paginationNavigation && !this.esgst.parameters.page) {
         for (let i = 0, n = es.mainContext.children.length; i < n; ++i) {
@@ -302,7 +302,7 @@ class GeneralEndlessScrolling extends Module {
     es.isLimited = false;
     es.limitCount = 0;
     es.busy = false;
-    es.paused = gSettings.es && gSettings.es.options && gSettings.es.options.pause;
+    es.paused = Settings.es && Settings.es.options && Settings.es.options.pause;
     this.esgst.es_loadNext = this.es_loadNext.bind(this, es);
     if (es.paused) {
       // noinspection JSIgnoredPromiseFromCall
@@ -319,7 +319,7 @@ class GeneralEndlessScrolling extends Module {
     observer.observe(this.esgst.pagination);
     if (es.paused && es.reversePages) {
       this.esgst.es_loadNext();
-    } else if (gSettings.es_cl) {
+    } else if (Settings.es_cl) {
       // noinspection JSIgnoredPromiseFromCall
       this.es_continuouslyLoad(es);
     }
@@ -414,7 +414,7 @@ class GeneralEndlessScrolling extends Module {
       es.paginations.push(paginationNavigation.innerHTML);
     }
     let fragment = document.createDocumentFragment();
-    if (gSettings.cr && this.esgst.discussionPath) {
+    if (Settings.cr && this.esgst.discussionPath) {
       reverseComments(context);
     }
     let n = context.children.length;
@@ -443,7 +443,7 @@ class GeneralEndlessScrolling extends Module {
       if (!refreshAll) {
         await endless_load(es.mainContext, true, null, currentPage);
         this.es_setRemoveEntry(es.mainContext);
-        if (gSettings.ts && !gSettings.us) {
+        if (Settings.ts && !Settings.us) {
           this.esgst.modules.generalTableSorter.ts_sortTables();
         }
         es.refreshButton.addEventListener('click', this.esgst.es_refresh.bind(this));
@@ -485,7 +485,7 @@ class GeneralEndlessScrolling extends Module {
       es.observer.observe(es.mainContext.lastElementChild);
       await endless_load(es.mainContext, true, null, currentPage);
       this.es_setRemoveEntry(es.mainContext);
-      if (gSettings.ts && !gSettings.us) {
+      if (Settings.ts && !Settings.us) {
         this.esgst.modules.generalTableSorter.ts_sortTables();
       }
       es.progress.remove();
@@ -616,9 +616,9 @@ class GeneralEndlessScrolling extends Module {
     es.continuous = true;
     const wasPaused = es.paused;
     await this.es_resume(es);
-    if (gSettings.es_cl) {
+    if (Settings.es_cl) {
       es.isLimited = true;
-      es.limitCount = Math.min(10, parseInt(gSettings.es_pages));
+      es.limitCount = Math.min(10, parseInt(Settings.es_pages));
     }
     this.esgst.es_loadNext(async () => {
       es.isLimited = false;
@@ -643,16 +643,16 @@ class GeneralEndlessScrolling extends Module {
     es.pauseButton.classList.add('esgst-hidden');
     es.resumeButton.classList.remove('esgst-hidden');
     if (!firstRun) {
-      const setting = gSettings.full.es;
+      const setting = Settings.full.es;
       setting.include = setting.include.map(item => {
-        if (item !== gSettings.es) {
+        if (item !== Settings.es) {
           return item;
         }
         if (!item.options) {
           item.options = {};
         }
         item.options.pause = es.paused;
-        gSettings.es = item;
+        Settings.es = item;
         return item;
       });
       await setSetting('es', setting, true);
@@ -671,16 +671,16 @@ class GeneralEndlessScrolling extends Module {
     es.resumeButton.classList.add('esgst-hidden');
     es.pauseButton.classList.remove('esgst-hidden');
     if (!firstRun) {
-      const setting = gSettings.full.es;
+      const setting = Settings.full.es;
       setting.include = setting.include.map(item => {
-        if (item !== gSettings.es) {
+        if (item !== Settings.es) {
           return item;
         }
         if (!item.options) {
           item.options = {};
         }
         item.options.pause = es.paused;
-        gSettings.es = item;
+        Settings.es = item;
         return item;
       });
       await setSetting('es', setting, true);
@@ -701,8 +701,8 @@ class GeneralEndlessScrolling extends Module {
     let response = await request({ method: 'GET', url: `${this.esgst.searchUrl}${es.pageIndex}` });
     // noinspection JSIgnoredPromiseFromCall
     this.es_getNext(es, true, false, null, response);
-    if (this.esgst.giveawaysPath && gSettings.es_rd) {
-      if (gSettings.oadd) {
+    if (this.esgst.giveawaysPath && Settings.es_rd) {
+      if (Settings.oadd) {
         // noinspection JSIgnoredPromiseFromCall
         this.esgst.modules.discussionsOldActiveDiscussionsDesign.oadd_load(true);
       } else {
@@ -753,11 +753,11 @@ class GeneralEndlessScrolling extends Module {
       },
       type: 'i'
     }]);
-    if (gSettings.ts && !gSettings.us) {
+    if (Settings.ts && !Settings.us) {
       this.esgst.modules.generalTableSorter.ts_sortTables();
     }
-    if (this.esgst.giveawaysPath && gSettings.es_rd) {
-      if (gSettings.oadd) {
+    if (this.esgst.giveawaysPath && Settings.es_rd) {
+      if (Settings.oadd) {
         // noinspection JSIgnoredPromiseFromCall
         this.esgst.modules.discussionsOldActiveDiscussionsDesign.oadd_load(true);
       } else {

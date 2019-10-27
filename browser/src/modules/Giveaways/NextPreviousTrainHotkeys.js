@@ -1,6 +1,6 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 
 const
   createAlert = common.createAlert.bind(common)
@@ -46,8 +46,8 @@ class GiveawaysNextPreviousTrainHotkeys extends Module {
   }
 
   init() {
-    const previousRegex = new RegExp(gSettings.npth_previousRegex);
-    const nextRegex = new RegExp(gSettings.npth_nextRegex);
+    const previousRegex = new RegExp(Settings.npth_previousRegex);
+    const nextRegex = new RegExp(Settings.npth_nextRegex);
     let description, element, elements, i, n, next, previous, text;
     if (this.esgst.giveawayCommentsPath) {
       description = document.getElementsByClassName('page__description')[0];
@@ -81,7 +81,7 @@ class GiveawaysNextPreviousTrainHotkeys extends Module {
   npth_loadGiveaway(next, previous, event) {
     let referrer;
     if (!event.target.closest(`input, textarea`)) {
-      if (event.key === gSettings.npth_previousKey) {
+      if (event.key === Settings.npth_previousKey) {
         if (previous) {
           if (event.ctrlKey) {
             window.open(previous.getAttribute('href'));
@@ -100,7 +100,7 @@ class GiveawaysNextPreviousTrainHotkeys extends Module {
             createAlert('No previous link found.');
           }
         }
-      } else if (event.key === gSettings.npth_nextKey) {
+      } else if (event.key === Settings.npth_nextKey) {
         if (next) {
           if (event.ctrlKey) {
             window.open(next.getAttribute('href'));

@@ -1,6 +1,6 @@
 import { Button } from '../../class/Button';
 import { Module } from '../../class/Module';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 import { shared } from '../../class/Shared';
 import { Popup } from '../../class/Popup';
 import { FetchRequest } from '../../class/FetchRequest';
@@ -113,7 +113,7 @@ class DiscussionsImprovedDiscussionBookmarks extends Module {
       if (discussion.bookmarked) {
         await this.bookmarkDiscussion(null, context);
 
-        if (gSettings.idb_t && main && shared.esgst.discussionsPath) {
+        if (Settings.idb_t && main && shared.esgst.discussionsPath) {
           discussion.outerWrap.parentElement.insertBefore(discussion.outerWrap, discussion.outerWrap.parentElement.firstElementChild);
           discussion.isPinned = true;
         }

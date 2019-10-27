@@ -1,6 +1,6 @@
 import { Module } from '../../class/Module';
 import { shared } from '../../class/Shared';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 
 class CommentsCommentVariables extends Module {
   constructor() {
@@ -47,8 +47,8 @@ class CommentsCommentVariables extends Module {
 
   replaceVariables(obj) {
     obj.comment = obj.comment
-      .replace(this.getRegExp('username'), gSettings.username)
-      .replace(this.getRegExp('steamId'), gSettings.steamId);    
+      .replace(this.getRegExp('username'), Settings.username)
+      .replace(this.getRegExp('steamId'), Settings.steamId);    
     const creatorElement = document.querySelector(`.featured__column--width-fill.text-right a, .comment__username, .author_name`);
     if (creatorElement) {
       const creator = creatorElement.textContent;
@@ -65,7 +65,7 @@ class CommentsCommentVariables extends Module {
   }
 
   getRegExp(key) {
-    return new RegExp(gSettings[`cv_${key}`], 'gi');
+    return new RegExp(Settings[`cv_${key}`], 'gi');
   }
 }
 
