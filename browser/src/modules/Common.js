@@ -22,6 +22,7 @@ import { permissions } from '../class/Permissions';
 import { Logger } from '../class/Logger';
 import { DOM } from '../class/DOM';
 import { Session } from '../class/Session';
+import { LocalStorage } from '../class/LocalStorage';
 
 class Common extends Module {
   constructor() {
@@ -1992,12 +1993,12 @@ class Common extends Module {
 
   async checkSync(menu) {
     let currentDate = Date.now();
-    let isSyncing = this.getLocalValue('isSyncing');
+    let isSyncing = LocalStorage.get('isSyncing');
     if (menu) {
       await setSync();
     } else if (!isSyncing || currentDate - isSyncing > 1800000) {
       let parameters = '';
-      this.setLocalValue('isSyncing', currentDate);
+      LocalStorage.set('isSyncing', currentDate);
       ['Groups', 'Whitelist', 'Blacklist', 'SteamFriends', 'HiddenGames', 'Games', 'FollowedGames', 'WonGames', 'ReducedCvGames', 'NoCvGames', 'HltbTimes', 'DelistedGames', 'Giveaways', 'WonGiveaways'].forEach(key => {
         if (Settings[`autoSync${key}`] && currentDate - Settings[`lastSync${key}`] > Settings[`autoSync${key}`] * 86400000) {
           parameters += `${key}=1&`;
@@ -2010,7 +2011,7 @@ class Common extends Module {
           runSilentSync(parameters);
         }
       } else {
-        this.delLocalValue('isSyncing');
+        LocalStorage.delete('isSyncing');
       }
     }
   }
@@ -3102,9 +3103,9 @@ class Common extends Module {
 
   checkBackup() {
     let currentDate = Date.now();
-    let isBackingUp = parseInt(this.getLocalValue('isBackingUp'));
+    let isBackingUp = parseInt(LocalStorage.get('isBackingUp'));
     if ((!isBackingUp || currentDate - isBackingUp > 1800000) && currentDate - Settings.lastBackup > Settings.autoBackup_days * 86400000) {
-      this.setLocalValue('isBackingUp', currentDate);
+      LocalStorage.set('isBackingUp', currentDate);
       if (Settings.openAutoBackupNewTab) {
         window.open(`${shared.esgst.backupUrl}&autoBackupIndex=${Settings.autoBackup_index}`);
       } else {
@@ -3513,8 +3514,8 @@ class Common extends Module {
           type: 'style'
         }]);
         const revisedCss = css.replace(/!important;/g, ';').replace(/;/g, '!important;');
-        if (revisedCss !== this.getLocalValue('theme')) {
-          this.setLocalValue('theme', revisedCss);
+        if (revisedCss !== LocalStorage.get('theme')) {
+          LocalStorage.set('theme', revisedCss);
         }
         break;
       }
@@ -3529,8 +3530,8 @@ class Common extends Module {
         type: 'style'
       }]);
       const revisedCss = css.replace(/!important;/g, ';').replace(/;/g, '!important;');
-      if (revisedCss !== this.getLocalValue('customTheme')) {
-        this.setLocalValue('customTheme', revisedCss);
+      if (revisedCss !== LocalStorage.get('customTheme')) {
+        LocalStorage.set('customTheme', revisedCss);
       }
     }
   }
@@ -3994,18 +3995,6 @@ class Common extends Module {
     }
     n = Math.floor(s);
     return `${n} second${n === 1 ? '' : 's'}`;
-  }
-
-  setLocalValue(key, value) {
-    window.localStorage.setItem(`esgst_${key}`, value);
-  }
-
-  getLocalValue(key, value = undefined) {
-    return window.localStorage.getItem(`esgst_${key}`) || value;
-  }
-
-  delLocalValue(key) {
-    window.localStorage.removeItem(`esgst_${key}`);
   }
 
   closeHeaderMenu(arrow, dropdown, menu, event) {

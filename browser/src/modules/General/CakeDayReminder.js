@@ -6,6 +6,7 @@ import { shared } from '../../class/Shared';
 import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { ButtonSet } from '../../class/ButtonSet';
 import { DOM } from '../../class/DOM';
+import { LocalStorage } from '../../class/LocalStorage';
 
 class GeneralCakeDayReminder extends Module {
   constructor() {
@@ -54,7 +55,7 @@ class GeneralCakeDayReminder extends Module {
     shared.esgst.profileFeatures.push(this.addButton.bind(this));
 
     const cdrObj = {
-      cache: JSON.parse(shared.common.getLocalValue('cdrCache', '{}')),
+      cache: JSON.parse(LocalStorage.get('cdrCache', '{}')),
       currentDate: new Date(),
       elements: [
         [{ size: 'fill', value: 'User' }, { size: 'fill', value: 'When' }]
@@ -85,7 +86,7 @@ class GeneralCakeDayReminder extends Module {
     }
 
     if (cdrObj.elements.length > 1) {
-      shared.common.setLocalValue('cdrCache', JSON.stringify(cdrObj.cache));
+      LocalStorage.set('cdrCache', JSON.stringify(cdrObj.cache));
 
       const popup = new Popup({
         addScrollable: true,

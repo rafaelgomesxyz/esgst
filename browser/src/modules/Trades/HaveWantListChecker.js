@@ -3,14 +3,13 @@ import { Popup } from '../../class/Popup';
 import { common } from '../Common';
 import { shared } from '../../class/Shared';
 import { permissions } from '../../class/Permissions';
+import { LocalStorage } from '../../class/LocalStorage';
 
 const
   createElements = common.createElements.bind(common),
   createHeadingButton = common.createHeadingButton.bind(common),
-  getLocalValue = common.getLocalValue.bind(common),
   getTextNodesIn = common.getTextNodesIn.bind(common),
-  request = common.request.bind(common),
-  setLocalValue = common.setLocalValue.bind(common)
+  request = common.request.bind(common)
   ;
 
 const WHITELIST = {
@@ -416,7 +415,7 @@ class TradesHaveWantListChecker extends Module {
           type: 'node'
         }]);
       }
-      const query = getLocalValue(`hwlc_${key}`);
+      const query = LocalStorage.get(`hwlc_${key}`);
       if (query) {
         obj.sections[key].textArea.value = query;
         this.hwlc_filter(obj, key);
@@ -427,7 +426,7 @@ class TradesHaveWantListChecker extends Module {
   hwlc_filter(obj, key) {
     obj.sections[key].matches.innerHTML = '';
     const query = obj.sections[key].textArea.value;
-    setLocalValue(`hwlc_${key}`, query);
+    LocalStorage.set(`hwlc_${key}`, query);
     let found = [];
     const values = query.split(/\n/);
     for (let value of values) {

@@ -10,11 +10,7 @@ import { Namespaces } from '../../constants/Namespaces';
 import { Session } from '../../class/Session';
 import { Shared } from '../../class/Shared';
 import { Header } from '../../components/Header';
-
-const
-  getLocalValue = common.getLocalValue.bind(common),
-  setLocalValue = common.setLocalValue.bind(common)
-  ;
+import { LocalStorage } from '../../class/LocalStorage';
 
 class GeneralHeaderRefresher extends Module {
   constructor() {
@@ -209,12 +205,12 @@ class GeneralHeaderRefresher extends Module {
   }
 
   async continueRefresher() {
-    const cache = JSON.parse(getLocalValue('hrCache'));
+    const cache = JSON.parse(LocalStorage.get('hrCache'));
     const now = Date.now();
 
     if (cache.username !== Settings.username || now - cache.timestamp > Settings.hr_minutes * 60000) {
       cache.timestamp = now;
-      setLocalValue('hrCache', JSON.stringify(cache));
+      LocalStorage.set('hrCache', JSON.stringify(cache));
 
       const response = await FetchRequest.get(Shared.esgst.sg ? '/giveaways/search?type=wishlist' : '/');
 
@@ -273,7 +269,7 @@ class GeneralHeaderRefresher extends Module {
             this.wishlist = 0;
             this.newWishlist = 0;
 
-            const cache = JSON.parse(getLocalValue('hrWishlistCache', '[]'));
+            const cache = JSON.parse(LocalStorage.get('hrWishlistCache', '[]'));
             const codes = [];
             const now = Date.now();
 
@@ -299,7 +295,7 @@ class GeneralHeaderRefresher extends Module {
               }
             }
 
-            setLocalValue('hrWishlistCache', JSON.stringify(cache));
+            LocalStorage.set('hrWishlistCache', JSON.stringify(cache));
 
             await EventDispatcher.dispatch(Events.WISHLIST_UPDATED, 0, this.newWishlist, this.wishlist);
           }
@@ -463,7 +459,7 @@ class GeneralHeaderRefresher extends Module {
   }
 
   updateCache() {
-    setLocalValue('hrCache', JSON.stringify({
+    LocalStorage.set('hrCache', JSON.stringify({
       created: Session.counters.created,
       level: Session.counters.level,
       messages: Session.counters.messages,

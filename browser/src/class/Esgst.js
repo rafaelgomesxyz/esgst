@@ -1,6 +1,7 @@
 import { Parsedown } from '../lib/parsedown';
 import { modules } from '../modules';
 import { shared } from './Shared';
+import { LocalStorage } from './LocalStorage';
 
 class Esgst {
   constructor() {
@@ -1268,7 +1269,7 @@ class Esgst {
     this.markdownParser = new Parsedown;
     this.sg = window.location.hostname.match(/www.steamgifts.com/);
     this.st = window.location.hostname.match(/www.steamtrades.com/);
-    this.elgbCache = JSON.parse(this.modules.common.getLocalValue('elgbCache', `{"descriptions": {}, "timestamp": ${Date.now()}}`));
+    this.elgbCache = JSON.parse(LocalStorage.get('elgbCache', `{"descriptions": {}, "timestamp": ${Date.now()}}`));
 
     this.userPath = window.location.pathname.match(/^\/user\//);
     this.userWonPath = this.userPath && window.location.pathname.match(/\/giveaways\/won/);

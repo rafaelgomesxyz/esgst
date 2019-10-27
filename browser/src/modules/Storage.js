@@ -9,6 +9,7 @@ import { Settings } from '../class/Settings';
 import { permissions } from '../class/Permissions';
 import { CloudStorage } from './CloudStorage';
 import { persistentStorage } from '../class/PersistentStorage';
+import { LocalStorage } from '../class/LocalStorage';
 
 function getDataMenu(option, switches, type) {
   let i, m, menu, n, options, toggleSwitch;
@@ -523,7 +524,7 @@ function loadDataManagement(type, isPopup, callback) {
     }
     // noinspection JSIgnoredPromiseFromCall
     manageData(dm, dropbox, googleDrive, oneDrive, false, async () => {
-      shared.common.delLocalValue('isBackingUp');
+      LocalStorage.delete('isBackingUp');
       await shared.common.setSetting('lastBackup', Date.now());
       callback();
     });

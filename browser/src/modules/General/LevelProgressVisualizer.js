@@ -7,6 +7,7 @@ import { Logger } from '../../class/Logger';
 import { EventDispatcher } from '../../class/EventDispatcher';
 import { Events } from '../../constants/Events';
 import { Session } from '../../class/Session';
+import { LocalStorage } from '../../class/LocalStorage';
 
 const
   createElements = common.createElements.bind(common),
@@ -50,17 +51,17 @@ class GeneralLevelProgressVisualizer extends Module {
   }
 
   async getCache() {
-    if (shared.common.getLocalValue('lpvCache_v2')) {
-      shared.common.delLocalValue('lpvCache_v2');
+    if (LocalStorage.get('lpvCache_v2')) {
+      LocalStorage.delete('lpvCache_v2');
     }
-    const cache = JSON.parse(shared.common.getLocalValue('lpvCache', `{ "cv": 0, "level": 0, "v": 3 }`));
+    const cache = JSON.parse(LocalStorage.get('lpvCache', `{ "cv": 0, "level": 0, "v": 3 }`));
     const currentLevel = Session.counters.level.full;
     if (cache.v !== 3 || currentLevel !== cache.level) {
       cache.level = currentLevel;
       const response = await FetchRequest.get(`/user/${Settings.username}`);
       const element = response.html.querySelectorAll('.featured__table__row__right')[6];
       cache.cv = shared.common.round(parseFloat(JSON.parse(element.firstElementChild.lastElementChild.getAttribute('data-ui-tooltip')).rows[0].columns[1].name.replace(/[$,]/g, '')));
-      shared.common.setLocalValue('lpvCache', JSON.stringify(cache));
+      LocalStorage.set('lpvCache', JSON.stringify(cache));
     }
     return cache;
   }
