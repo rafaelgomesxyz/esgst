@@ -284,7 +284,7 @@ class GeneralQuickInboxView extends Module {
         elements[i].remove();
       }
 
-      await Shared.header.updateCounter('messages', null);
+      await Shared.header.updateCounter('messages', 0);
     });
   }
 }
