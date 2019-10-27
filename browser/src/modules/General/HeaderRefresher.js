@@ -247,41 +247,26 @@ class GeneralHeaderRefresher extends Module {
           const createdContainer = header.buttonContainers['giveawaysCreated'];
 
           if (createdContainer) {
-            const counterNode = createdContainer.nodes.counter;
-
-            await Shared.header.updateCounter('giveawaysCreated', counterNode ? counterNode.textContent : null);
+            await Shared.header.updateCounter('giveawaysCreated', createdContainer.data.counter);
           }
 
           const wonContainer = header.buttonContainers['giveawaysWon'];
 
           if (wonContainer) {
-            const counterNode = wonContainer.nodes.counter;
-
-            await Shared.header.updateCounter('giveawaysWon', counterNode ? counterNode.textContent : null, counterNode && counterNode.classList.contains('fade_infinite'));
+            await Shared.header.updateCounter('giveawaysWon', wonContainer.data.counter, wonContainer.data.isFlashing);
           }
 
           const messagesContainer = header.buttonContainers['messages'];
 
           if (messagesContainer) {
-            const counterNode = messagesContainer.nodes.counter;
-
-            await Shared.header.updateCounter('messages', counterNode ? counterNode.textContent : null);
+            await Shared.header.updateCounter('messages', messagesContainer.data.counter);
           }
 
           const accountContainer = header.buttonContainers['account'];
 
           if (accountContainer) {
-            const pointsNode = accountContainer.nodes.points;
-
-            if (pointsNode) {
-              await Shared.header.updatePoints(pointsNode.textContent);
-            }
-
-            const levelNode = accountContainer.nodes.level;
-
-            if (levelNode) {
-              await Shared.header.updateLevel(levelNode.title);
-            }
+            await Shared.header.updatePoints(accountContainer.data.points);
+            await Shared.header.updateLevel(accountContainer.data.level);
           }
 
           if (gSettings.hr_w) {
@@ -326,9 +311,7 @@ class GeneralHeaderRefresher extends Module {
           const messagesContainer = header.buttonContainers['messages'];
 
           if (messagesContainer) {
-            const counterNode = messagesContainer.nodes.counter;
-
-            await Shared.header.updateCounter('messages', counterNode ? counterNode.textContent : null);
+            await Shared.header.updateCounter('messages', messagesContainer.data.counter);
           }
 
           break;
@@ -346,10 +329,7 @@ class GeneralHeaderRefresher extends Module {
           await Shared.header.updateCounter('messages', cache.messages);
 
           await Shared.header.updatePoints(cache.points);
-          await Shared.header.updateLevel({
-            base: cache.level,
-            full: cache.fullLevel,
-          });
+          await Shared.header.updateLevel(cache.level);
 
           await EventDispatcher.dispatch(Events.WISHLIST_UPDATED, this.newWishlist, cache.newWishlist, cache.wishlist);
 
@@ -485,8 +465,7 @@ class GeneralHeaderRefresher extends Module {
   updateCache() {
     setLocalValue('hrCache', JSON.stringify({
       created: Session.counters.created,
-      fullLevel: Session.counters.level.full,
-      level: Session.counters.level.base,
+      level: Session.counters.level,
       messages: Session.counters.messages,
       newWishlist: this.newWishlist,
       points: Session.counters.points,

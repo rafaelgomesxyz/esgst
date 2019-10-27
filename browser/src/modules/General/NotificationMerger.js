@@ -61,25 +61,24 @@ class GeneralNotificationMerger extends Module {
           return;
         }
 
-        const counterNode = header.buttonContainers['messages'].nodes.counter;
-
         if (Shared.header.buttonContainers['stMessages']) {
           Shared.header.buttonContainers['stMessages'].nodes.outer.classList.remove('esgst-hidden');
 
-
-          Shared.header.updateCounter('stMessages', counterNode ? counterNode.textContent : null);
+          Shared.header.updateCounter('stMessages', header.buttonContainers['messages'].data.counter);
         } else {
           Shared.header.addButtonContainer({
             buttonIcon: 'fa fa-envelope esgst-nm-icon',
             buttonName: 'ST Messages',
             context: Shared.header.buttonContainers['messages'].nodes.outer,
-            counter: counterNode ? counterNode.textContent : '',
+            counter: header.buttonContainers['messages'].data.counter,
             isActive: true,
             isNotification: true,
             position: 'afterEnd',
             url: 'https://www.steamtrades.com/messages',
           });
         }
+
+        const counterNode = header.buttonContainers['messages'].nodes.counter;
 
         if (!counterNode) {
           Shared.header.buttonContainers['stMessages'].nodes.outer.classList.add('esgst-hidden');
@@ -106,23 +105,23 @@ class GeneralNotificationMerger extends Module {
           return;
         }
 
-        const counterNode = header.buttonContainers['messages'].nodes.counter;
-
         if (Shared.header.buttonContainers['sgMessages']) {
           Shared.header.buttonContainers['sgMessages'].nodes.outer.classList.remove('esgst-hidden');
 
-          Shared.header.updateCounter('sgMessages', counterNode ? counterNode.textContent : null);
+          Shared.header.updateCounter('sgMessages', header.buttonContainers['messages'].data.counter);
         } else {
           Shared.header.addButtonContainer({
             buttonIcon: 'fa fa-envelope esgst-nm-icon',
             buttonName: 'SG Messages ',
             context: Shared.header.buttonContainers['messages'].nodes.outer,
-            counter: counterNode ? counterNode.textContent : '',
+            counter: header.buttonContainers['messages'].data.counter,
             isActive: true,
             position: 'afterEnd',
             url: 'https://www.steamgifts.com/messages',
           });
         }
+
+        const counterNode = header.buttonContainers['messages'].nodes.counter;
 
         if (!counterNode) {
           Shared.header.buttonContainers['sgMessages'].nodes.outer.classList.add('esgst-hidden');
