@@ -13,7 +13,7 @@ import { Logger } from '../class/Logger';
 import { DOM } from '../class/DOM';
 import { LocalStorage } from '../class/LocalStorage';
 
-class Settings {
+class SettingsModule {
   constructor() {
     this.toSave = {};
     this.grantedPermissions = new Set();
@@ -3080,6 +3080,6 @@ class Settings {
   }
 }
 
-const settingsModule = new Settings();
+const settingsModule = new SettingsModule();
 
 export { settingsModule };
