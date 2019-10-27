@@ -4,6 +4,7 @@ import { shared } from '../../class/Shared';
 import { Settings } from '../../class/Settings';
 import { DOM } from '../../class/DOM';
 import { Session } from '../../class/Session';
+import { LocalStorage } from '../../class/LocalStorage';
 
 class CommentsCommentTracker extends Module {
   constructor() {
@@ -361,10 +362,10 @@ class CommentsCommentTracker extends Module {
             trades: 'ts'
           }[comment.type]}`]) {
             saved[comment.type][comment.code].visited = true;
-            let cache = JSON.parse(shared.common.getLocalValue('gdtttCache', `{"giveaways":[],"discussions":[],"tickets":[],"trades":[]}`));
+            let cache = JSON.parse(LocalStorage.get('gdtttCache', `{"giveaways":[],"discussions":[],"tickets":[],"trades":[]}`));
             if (cache[comment.type].indexOf(comment.code) < 0) {
               cache[comment.type].push(comment.code);
-              shared.common.setLocalValue('gdtttCache', JSON.stringify(cache));
+              LocalStorage.set('gdtttCache', JSON.stringify(cache));
             }
           }
           saved[comment.type][comment.code].lastUsed = Date.now();

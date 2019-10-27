@@ -9,13 +9,13 @@ import { DOM } from '../../class/DOM';
 import { Session } from '../../class/Session';
 import { EventDispatcher } from '../../class/EventDispatcher';
 import { Events } from '../../constants/Events';
+import { LocalStorage } from '../../class/LocalStorage';
 
 const
   createElements = common.createElements.bind(common),
   getFeatureTooltip = common.getFeatureTooltip.bind(common),
   getValue = common.getValue.bind(common),
   request = common.request.bind(common),
-  setLocalValue = common.setLocalValue.bind(common),
   setSetting = common.setSetting.bind(common)
   ;
 
@@ -435,7 +435,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
             descriptions: {},
             timestamp: Date.now()
           };
-          setLocalValue('elgbCache', JSON.stringify(this.esgst.elgbCache));
+          LocalStorage.set('elgbCache', JSON.stringify(this.esgst.elgbCache));
         }
         if (!this.esgst.elgbCache.descriptions[giveaway.creator]) {
           this.esgst.elgbCache.descriptions[giveaway.creator] = [];
@@ -448,7 +448,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
           description = null;
         } else {
           this.esgst.elgbCache.descriptions[giveaway.creator].push(html);
-          setLocalValue('elgbCache', JSON.stringify(this.esgst.elgbCache));
+          LocalStorage.set('elgbCache', JSON.stringify(this.esgst.elgbCache));
           if (Settings.elgb_f) {
             let text = description.textContent.replace(/[^a-zA-Z]/g, '').toLowerCase();
             if (text.match(new RegExp(`^(${this.processFilters(Settings.elgb_filters)})$`))) {

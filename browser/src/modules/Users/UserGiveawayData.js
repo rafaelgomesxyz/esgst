@@ -9,19 +9,18 @@ import { Settings } from '../../class/Settings';
 import { Logger } from '../../class/Logger';
 import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
 import { DOM } from '../../class/DOM';
+import { LocalStorage } from '../../class/LocalStorage';
 
 const
   createElements = common.createElements.bind(common),
   endless_load = common.endless_load.bind(common),
   getFeatureTooltip = common.getFeatureTooltip.bind(common),
-  getLocalValue = common.getLocalValue.bind(common),
   getPlayerAchievements = common.getPlayerAchievements.bind(common),
   getUser = common.getUser.bind(common),
   getValue = common.getValue.bind(common),
   lockAndSaveGiveaways = common.lockAndSaveGiveaways.bind(common),
   request = common.request.bind(common),
   saveUser = common.saveUser.bind(common),
-  setLocalValue = common.setLocalValue.bind(common),
   setSetting = common.setSetting.bind(common)
   ;
 
@@ -754,7 +753,7 @@ class UsersUserGiveawayData extends Module {
         obj.appsTotal--;
       }
     }
-    let gcCache = JSON.parse(getLocalValue('gcCache', `{ "apps": {}, "subs": {}, "hltb": {}, "timestamp": 0, "version": 7 }`));
+    let gcCache = JSON.parse(LocalStorage.get('gcCache', `{ "apps": {}, "subs": {}, "hltb": {}, "timestamp": 0, "version": 7 }`));
     if (gcCache.version !== 7) {
       gcCache = {
         apps: {},
@@ -796,7 +795,7 @@ class UsersUserGiveawayData extends Module {
         obj.subsTotal--;
       }
     }
-    setLocalValue('gcCache', JSON.stringify(gcCache));
+    LocalStorage.set('gcCache', JSON.stringify(gcCache));
 
     results.appendChild(obj.playtimeTable.table);
     const items = [];

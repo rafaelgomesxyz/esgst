@@ -4,6 +4,7 @@ import { Utils } from '../../lib/jsUtils';
 import { shared } from '../../class/Shared';
 import { Settings } from '../../class/Settings';
 import { DOM } from '../../class/DOM';
+import { LocalStorage } from '../../class/LocalStorage';
 
 class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
   constructor() {
@@ -300,7 +301,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
       if (details) {
         giveaway.points = details.points;
       } else if (giveaway.id) {
-        const gcCache = JSON.parse(shared.common.getLocalValue('gcCache', '{}'));
+        const gcCache = JSON.parse(LocalStorage.get('gcCache', '{}'));
         const data = gcCache && gcCache[giveaway.type] && gcCache[giveaway.type][giveaway.id];
         if (data && data.price > -1) {
           giveaway.points = data.price;

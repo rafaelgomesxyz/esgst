@@ -10,6 +10,7 @@ import { Settings } from '../../class/Settings';
 import { Logger } from '../../class/Logger';
 import { DOM } from '../../class/DOM';
 import { Session } from '../../class/Session';
+import { LocalStorage } from '../../class/LocalStorage';
 
 const
   buildGiveaway = common.buildGiveaway.bind(common),
@@ -17,18 +18,15 @@ const
   createAlert = common.createAlert.bind(common),
   createElements = common.createElements.bind(common),
   createTooltip = common.createTooltip.bind(common),
-  delLocalValue = common.delLocalValue.bind(common),
   downloadFile = common.downloadFile.bind(common),
   getFeatureNumber = common.getFeatureNumber.bind(common),
   getFeatureTooltip = common.getFeatureTooltip.bind(common),
-  getLocalValue = common.getLocalValue.bind(common),
   getUser = common.getUser.bind(common),
   lockAndSaveGiveaways = common.lockAndSaveGiveaways.bind(common),
   parseMarkdown = common.parseMarkdown.bind(common),
   request = common.request.bind(common),
   saveUser = common.saveUser.bind(common),
-  setCountdown = common.setCountdown.bind(common),
-  setLocalValue = common.setLocalValue.bind(common)
+  setCountdown = common.setCountdown.bind(common)
   ;
 
 class GiveawaysMultipleGiveawayCreator extends Module {
@@ -65,38 +63,38 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       this.mgc_addSection();
     }
     if (this.esgst.newDiscussionPath) {
-      if ((getLocalValue('mgcAttach_step1') || getLocalValue('mgcAttach_step2'))) {
-        delLocalValue('mgcAttach_step1');
-        delLocalValue('mgcAttach_step2');
+      if ((LocalStorage.get('mgcAttach_step1') || LocalStorage.get('mgcAttach_step2'))) {
+        LocalStorage.delete('mgcAttach_step1');
+        LocalStorage.delete('mgcAttach_step2');
         this.mgc_addCreateAndAttachButton();
       }
     } else if (this.esgst.editDiscussionPath) {
-      if (getLocalValue('mgcAttach_step4')) {
+      if (LocalStorage.get('mgcAttach_step4')) {
         this.mgc_editDiscussion();
       }
     } else if (this.esgst.discussionPath) {
-      if (getLocalValue('mgcAttach_step2')) {
-        delLocalValue('mgcAttach_step2');
-        setLocalValue('mgcAttach_step3', window.location.pathname.match(/\/discussion\/(.+?)\//)[1]);
+      if (LocalStorage.get('mgcAttach_step2')) {
+        LocalStorage.delete('mgcAttach_step2');
+        LocalStorage.delete('mgcAttach_step3', window.location.pathname.match(/\/discussion\/(.+?)\//)[1]);
         await request({
           data: `xsrf_token=${Session.xsrfToken}&do=close_discussion`,
           method: 'POST',
           url: shared.esgst.locationHref
         });
         window.close();
-      } else if (getLocalValue('mgcAttach_step4')) {
+      } else if (LocalStorage.get('mgcAttach_step4')) {
         document.querySelector(`form[action="/discussions/edit"]`).submit();
-      } else if (getLocalValue('mgcAttach_step5')) {
-        delLocalValue('mgcAttach_step5');
+      } else if (LocalStorage.get('mgcAttach_step5')) {
+        LocalStorage.delete('mgcAttach_step5');
         await request({
           data: `xsrf_token=${Session.xsrfToken}&do=reopen_discussion`,
           method: 'POST',
           url: shared.esgst.locationHref
         });
-        setLocalValue('mgcAttach_step6', true);
+        LocalStorage.set('mgcAttach_step6', true);
         window.location.reload();
-      } else if (getLocalValue('mgcAttach_step6')) {
-        delLocalValue('mgcAttach_step6');
+      } else if (LocalStorage.get('mgcAttach_step6')) {
+        LocalStorage.delete('mgcAttach_step6');
         new Popup({
           addScrollable: true,
           icon: 'fa-check',
@@ -397,7 +395,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       }]).firstElementChild;
       removeIcon = mgc.giveaways.nextElementSibling;
       removeIcon.addEventListener('dragenter', this.mgc_removeGiveaway.bind(this, mgc));
-      JSON.parse(getLocalValue('mgcCache', '[]')).forEach(values => {
+      JSON.parse(LocalStorage.get('mgcCache', '[]')).forEach(values => {
         this.mgc_addGiveaway(false, mgc, values);
       });
     }
@@ -1383,7 +1381,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 
   mgc_emptyGiveaways(mgc) {
     if (window.confirm('Are you sure you want to empty the creator?')) {
-      delLocalValue('mgcCache');
+      LocalStorage.delete('mgcCache');
       this.esgst.busy = false;
       mgc.datas = [];
       mgc.values = [];
@@ -1928,15 +1926,15 @@ class GiveawaysMultipleGiveawayCreator extends Module {
   mgc_completeCreation(mgc, viewButton, callback) {
     if (mgc.discussion) {
       if (mgc.created.length) {
-        delLocalValue('mgcCache');
-        setLocalValue('mgcAttach_step4', mgc.firstWagon);
+        LocalStorage.delete('mgcCache');
+        LocalStorage.set('mgcAttach_step4', mgc.firstWagon);
         window.open(`/discussion/${mgc.discussion}/`);
         viewButton.set.classList.remove('esgst-hidden');
       }
       callback();
     } else {
       if (mgc.created.length) {
-        delLocalValue('mgcCache');
+        LocalStorage.delete('mgcCache');
         viewButton.set.classList.remove('esgst-hidden');
       }
       callback();
@@ -1961,7 +1959,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     for (i = 0, n = mgc.giveaways.children.length; i < n; ++i) {
       cache.push(mgc.values[parseInt(mgc.giveaways.children[i].textContent) - 1]);
     }
-    setLocalValue('mgcCache', JSON.stringify(cache));
+    LocalStorage.set('mgcCache', JSON.stringify(cache));
   }
 
   mgc_attachDiscussion(mgc) {
@@ -2034,15 +2032,15 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 
   mgc_attachNewDiscussion(mgc, popup, callback) {
     let win;
-    setLocalValue('mgcAttach_step1', true);
+    LocalStorage.set('mgcAttach_step1', true);
     win = window.open('/discussions/new');
     window.setTimeout(() => this.mgc_checkAttached(mgc, popup, win, callback), 100);
   }
 
   mgc_checkAttached(mgc, popup, win, callback) {
     if (win.closed) {
-      mgc.discussion = getLocalValue('mgcAttach_step3');
-      delLocalValue('mgcAttach_step3');
+      mgc.discussion = LocalStorage.get('mgcAttach_step3');
+      LocalStorage.delete('mgcAttach_step3');
       mgc.discussionPanel.classList.remove('esgst-hidden');
       mgc.discussionLink.href = `/discussion/${mgc.discussion}/`;
       mgc.discussionLink.textContent = mgc.discussion;
@@ -2068,15 +2066,15 @@ class GiveawaysMultipleGiveawayCreator extends Module {
   }
 
   mgc_createAndAttachDiscussion(rows) {
-    setLocalValue('mgcAttach_step2', true);
+    LocalStorage.set('mgcAttach_step2', true);
     rows.parentElement.submit();
   }
 
   mgc_editDiscussion() {
     const description = document.querySelector(`[name=description]`);
-    description.value = description.value.replace(/\[ESGST-T(.+?)\[\/ESGST-T/g, `[$1](${getLocalValue('mgcAttach_step4')})`);
-    delLocalValue('mgcAttach_step4');
-    setLocalValue('mgcAttach_step5', true);
+    description.value = description.value.replace(/\[ESGST-T(.+?)\[\/ESGST-T/g, `[$1](${LocalStorage.get('mgcAttach_step4')})`);
+    LocalStorage.delete('mgcAttach_step4');
+    LocalStorage.set('mgcAttach_step5', true);
     document.getElementsByClassName('js__submit-form')[0].click();
   }
 

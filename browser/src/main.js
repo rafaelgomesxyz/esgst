@@ -19,6 +19,7 @@ import { DOM } from './class/DOM';
 import { Header } from './components/Header';
 import { Session } from './class/Session';
 import { Footer } from './components/Footer';
+import { LocalStorage } from './class/LocalStorage';
 
 // @ts-ignore
 window.interact = interact;
@@ -40,14 +41,14 @@ window.interact = interact;
     window.HTMLCollection.prototype[Symbol.iterator] = Array.prototype[Symbol.iterator];
   }
 
-  const theme = common.getLocalValue('theme');
+  const theme = LocalStorage.get('theme');
   if (theme) {
     const style = document.createElement('style');
     style.id = 'esgst-theme';
     style.textContent = theme;
     document.documentElement.appendChild(style);
   }
-  const customTheme = common.getLocalValue('customTheme');
+  const customTheme = LocalStorage.get('customTheme');
   if (customTheme) {
     const style = document.createElement('style');
     style.id = 'esgst-custom-theme';
@@ -136,8 +137,8 @@ window.interact = interact;
       toSet.users = JSON.stringify(esgst.users);
     }
     if (!Utils.isSet(esgst.storage[`${esgst.name}RfiCache`])) {
-      toSet[`${esgst.name}RfiCache`] = common.getLocalValue('replies', '{}');
-      common.delLocalValue('replies');
+      toSet[`${esgst.name}RfiCache`] = LocalStorage.get('replies', '{}');
+      LocalStorage.delete('replies');
     }
     if (Utils.isSet(esgst.storage.emojis)) {
       const fixed = common.fixEmojis(esgst.storage.emojis);
@@ -153,19 +154,19 @@ window.interact = interact;
     esgst.emojis = JSON.parse(toSet.emojis || esgst.storage.emojis);
     if (esgst.sg) {
       if (!Utils.isSet(esgst.storage.templates)) {
-        toSet.templates = common.getLocalValue('templates', '[]');
-        common.delLocalValue('templates');
+        toSet.templates = LocalStorage.get('templates', '[]');
+        LocalStorage.delete('templates');
       }
       if (!Utils.isSet(esgst.storage.stickiedCountries)) {
-        toSet.stickiedCountries = common.getLocalValue('stickiedCountries', '[]');
-        common.delLocalValue('stickiedCountries');
+        toSet.stickiedCountries = LocalStorage.get('stickiedCountries', '[]');
+        LocalStorage.delete('stickiedCountries');
       }
       if (Utils.isSet(esgst.storage.giveaways)) {
         esgst.giveaways = JSON.parse(esgst.storage.giveaways);
       } else {
-        toSet.giveaways = common.getLocalValue('giveaways', '{}');
+        toSet.giveaways = LocalStorage.get('giveaways', '{}');
         esgst.giveaways = JSON.parse(toSet.giveaways);
-        common.delLocalValue('giveaways');
+        LocalStorage.delete('giveaways');
       }
       if (Utils.isSet(esgst.storage.decryptedGiveaways)) {
         esgst.decryptedGiveaways = esgst.storage.decryptedGiveaways;
@@ -181,54 +182,54 @@ window.interact = interact;
       if (Utils.isSet(esgst.storage.tickets)) {
         esgst.tickets = JSON.parse(esgst.storage.tickets);
       } else {
-        toSet.tickets = common.getLocalValue('tickets', '{}');
+        toSet.tickets = LocalStorage.get('tickets', '{}');
         esgst.tickets = JSON.parse(toSet.tickets);
-        common.delLocalValue('tickets');
+        LocalStorage.delete('tickets');
       }
-      common.delLocalValue('gFix');
-      common.delLocalValue('tFix');
+      LocalStorage.delete('gFix');
+      LocalStorage.delete('tFix');
       if (Utils.isSet(esgst.storage.groups)) {
         esgst.groups = JSON.parse(esgst.storage.groups);
       } else {
-        toSet.groups = common.getLocalValue('groups', '[]');
+        toSet.groups = LocalStorage.get('groups', '[]');
         esgst.groups = JSON.parse(toSet.groups);
-        common.delLocalValue('groups');
+        LocalStorage.delete('groups');
       }
       Logger.info(`GROUP: `, esgst.groups.filter(group => group.steamId === '103582791454597143')[0]);
       if (!Utils.isSet(esgst.storage.entries)) {
-        toSet.entries = common.getLocalValue('entries', '[]');
-        common.delLocalValue('entries');
+        toSet.entries = LocalStorage.get('entries', '[]');
+        LocalStorage.delete('entries');
       }
       if (Utils.isSet(esgst.storage.rerolls)) {
         esgst.rerolls = JSON.parse(esgst.storage.rerolls);
       } else {
-        toSet.rerolls = common.getLocalValue('rerolls', '[]');
+        toSet.rerolls = LocalStorage.get('rerolls', '[]');
         esgst.rerolls = JSON.parse(toSet.rerolls);
-        common.delLocalValue('rerolls');
+        LocalStorage.delete('rerolls');
       }
       if (Utils.isSet(esgst.storage.winners)) {
         esgst.winners = JSON.parse(esgst.storage.winners);
       } else {
-        toSet.winners = common.getLocalValue('winners', '{}');
+        toSet.winners = LocalStorage.get('winners', '{}');
         esgst.winners = JSON.parse(toSet.winners);
-        common.delLocalValue('winners');
+        LocalStorage.delete('winners');
       }
     }
     if (Utils.isSet(esgst.storage.discussions)) {
       esgst.discussions = JSON.parse(esgst.storage.discussions);
     } else {
-      toSet.discussions = common.getLocalValue('discussions', '{}');
+      toSet.discussions = LocalStorage.get('discussions', '{}');
       esgst.discussions = JSON.parse(toSet.discussions);
-      common.delLocalValue('discussions');
+      LocalStorage.delete('discussions');
     }
     if (Utils.isSet(esgst.storage.trades)) {
       esgst.trades = JSON.parse(esgst.storage.trades);
     } else {
-      toSet.trades = common.getLocalValue('trades', '{}');
+      toSet.trades = LocalStorage.get('trades', '{}');
       esgst.trades = JSON.parse(toSet.trades);
-      common.delLocalValue('trades');
+      LocalStorage.delete('trades');
     }
-    let cache = JSON.parse(common.getLocalValue('gdtttCache', `{"giveaways":[],"discussions":[],"tickets":[],"trades":[]}`));
+    let cache = JSON.parse(LocalStorage.get('gdtttCache', `{"giveaways":[],"discussions":[],"tickets":[],"trades":[]}`));
     for (let type in cache) {
       if (cache.hasOwnProperty(type)) {
         let doSet = false;
@@ -248,7 +249,7 @@ window.interact = interact;
         }
       }
     }
-    common.setLocalValue('gdtttCache', `{"giveaways":[],"discussions":[],"tickets":[],"trades":[]}`);
+    LocalStorage.set('gdtttCache', `{"giveaways":[],"discussions":[],"tickets":[],"trades":[]}`);
     if (Utils.isSet(esgst.storage.games)) {
       esgst.games = JSON.parse(esgst.storage.games);
     } else {

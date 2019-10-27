@@ -6,14 +6,13 @@ import { Settings } from '../../class/Settings';
 import { permissions } from '../../class/Permissions';
 import { Logger } from '../../class/Logger';
 import { DOM } from '../../class/DOM';
+import { LocalStorage } from '../../class/LocalStorage';
 
 const
   createElements = common.createElements.bind(common),
   getFeatureTooltip = common.getFeatureTooltip.bind(common),
-  getLocalValue = common.getLocalValue.bind(common),
   lockAndSaveGames = common.lockAndSaveGames.bind(common),
-  request = common.request.bind(common),
-  setLocalValue = common.setLocalValue.bind(common)
+  request = common.request.bind(common)
   ;
 
 class GamesGameCategories extends Module {
@@ -1116,7 +1115,7 @@ class GamesGameCategories extends Module {
     let to_fetch = [];
 
     if (this.isFetchableEnabled()) {
-      gc.cache = JSON.parse(getLocalValue('gcCache', `{ "apps": {}, "subs": {}, "hltb": {}, "timestamp": 0, "version": 7 }`));
+      gc.cache = JSON.parse(LocalStorage.get('gcCache', `{ "apps": {}, "subs": {}, "hltb": {}, "timestamp": 0, "version": 7 }`));
       if (gc.cache.version !== 7) {
         gc.cache = {
           apps: {},
@@ -1228,7 +1227,7 @@ class GamesGameCategories extends Module {
           });
         }
       }
-      setLocalValue('gcCache', JSON.stringify(gc.cache));
+      LocalStorage.set('gcCache', JSON.stringify(gc.cache));
 
       for (const id of gc.apps) {
         if (gc.cache.apps[id]) {
@@ -1350,7 +1349,7 @@ class GamesGameCategories extends Module {
           }
 
           await lockAndSaveGames(shared.esgst.games);
-          setLocalValue('gcCache', JSON.stringify(gc.cache));
+          LocalStorage.set('gcCache', JSON.stringify(gc.cache));
         } catch (error) {
           Logger.warning(error.stack);
         }
@@ -1650,7 +1649,7 @@ class GamesGameCategories extends Module {
         gc.cache[type][id] = await this.gc_fake_api(gc, to_fetch, json.result, id, type, currentTime, games, currentTime);
         this.gc_addCategory(gc, gc.cache[type][id], games[type][id], id, shared.esgst.games[type][id], type, type === 'apps' ? gc.cache.hltb : null);
         await lockAndSaveGames(shared.esgst.games);
-        setLocalValue('gcCache', JSON.stringify(gc.cache));
+        LocalStorage.set('gcCache', JSON.stringify(gc.cache));
       }
     } catch (error) {
       Logger.warning(error.stack);
@@ -1846,7 +1845,7 @@ class GamesGameCategories extends Module {
         gc.cache[type][id] = categories;
         this.gc_addCategory(gc, gc.cache[type][id], games[type][id], id, shared.esgst.games[type][id], type, type === 'apps' ? gc.cache.hltb : null);
         await lockAndSaveGames(shared.esgst.games);
-        setLocalValue('gcCache', JSON.stringify(gc.cache));
+        LocalStorage.set('gcCache', JSON.stringify(gc.cache));
       } catch (error) {
         Logger.warning(error.stack);
         for (const game of games[type][id]) {

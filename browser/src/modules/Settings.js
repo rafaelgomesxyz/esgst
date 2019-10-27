@@ -11,6 +11,7 @@ import { Table } from '../class/Table';
 import { browser } from '../browser';
 import { Logger } from '../class/Logger';
 import { DOM } from '../class/DOM';
+import { LocalStorage } from '../class/LocalStorage';
 
 class Settings {
   constructor() {
@@ -518,9 +519,9 @@ class Settings {
         }
         if (feature.theme) {
           if (id === 'customTheme') {
-            shared.common.delLocalValue('customTheme');
+            LocalStorage.delete('customTheme');
           } else {
-            shared.common.delLocalValue('theme');
+            LocalStorage.delete('theme');
             await shared.common.delValue(id);
           }
           shared.common.setTheme();
@@ -578,9 +579,9 @@ class Settings {
         }
         if (feature.theme) {
           if (id === 'customTheme') {
-            shared.common.delLocalValue('customTheme');
+            LocalStorage.delete('customTheme');
           } else {
-            shared.common.delLocalValue('theme');
+            LocalStorage.delete('theme');
             await shared.common.delValue(id);
           }
           shared.common.setTheme();
@@ -638,9 +639,9 @@ class Settings {
         }
         if (feature.theme) {
           if (id === 'customTheme') {
-            shared.common.delLocalValue('customTheme');
+            LocalStorage.delete('customTheme');
           } else {
-            shared.common.delLocalValue('theme');
+            LocalStorage.delete('theme');
             await shared.common.delValue(id);
           }
           shared.common.setTheme();

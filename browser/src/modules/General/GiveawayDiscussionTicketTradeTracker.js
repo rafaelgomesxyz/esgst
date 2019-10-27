@@ -1,16 +1,15 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
 import { Settings } from '../../class/Settings';
+import { LocalStorage } from '../../class/LocalStorage';
 
 const
   createElements = common.createElements.bind(common),
   createLock = common.createLock.bind(common),
   getFeatureTooltip = common.getFeatureTooltip.bind(common),
-  getLocalValue = common.getLocalValue.bind(common),
   getValue = common.getValue.bind(common),
   getValues = common.getValues.bind(common),
   setHoverOpacity = common.setHoverOpacity.bind(common),
-  setLocalValue = common.setLocalValue.bind(common),
   setValue = common.setValue.bind(common)
   ;
 
@@ -80,10 +79,10 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
       trades: 'ts'
     }[type]}`]) {
       if (!Settings.ct) {
-        let cache = JSON.parse(getLocalValue('gdtttCache', `{"giveaways":[],"discussions":[],"tickets":[],"trades":[]}`));
+        let cache = JSON.parse(LocalStorage.get('gdtttCache', `{"giveaways":[],"discussions":[],"tickets":[],"trades":[]}`));
         if (cache[type].indexOf(code) < 0) {
           cache[type].push(code);
-          setLocalValue('gdtttCache', JSON.stringify(cache));
+          LocalStorage.set('gdtttCache', JSON.stringify(cache));
         }
         let deleteLock = await createLock('commentLock', 300);
         if (!savedComments[code]) {

@@ -7,6 +7,7 @@ import { Settings } from '../class/Settings';
 import { permissions } from '../class/Permissions';
 import { Logger } from '../class/Logger';
 import { DOM } from '../class/DOM';
+import { LocalStorage } from '../class/LocalStorage';
 
 let toSave = {};
 
@@ -837,7 +838,7 @@ async function sync(syncer) {
             hltb[game.steamId] = game;
           }
         }
-        let cache = JSON.parse(shared.common.getLocalValue('gcCache', `{ "apps": {}, "subs": {}, "hltb": {}, "timestamp": 0, "version": 7 }`));
+        let cache = JSON.parse(LocalStorage.get('gcCache', `{ "apps": {}, "subs": {}, "hltb": {}, "timestamp": 0, "version": 7 }`));
         if (cache.version !== 7) {
           cache = {
             apps: {},
@@ -848,7 +849,7 @@ async function sync(syncer) {
           };
         }
         cache.hltb = hltb;
-        shared.common.setLocalValue('gcCache', JSON.stringify(cache));
+        LocalStorage.set('gcCache', JSON.stringify(cache));
       } catch (e) {
         Logger.warning(e.stack);
       }
@@ -983,7 +984,7 @@ async function sync(syncer) {
     await shared.common.lockAndSaveSettings(toSave);
     toSave = {};
     DOM.build(syncer.progress, 'inner', ['Synced!']);
-    shared.common.delLocalValue('isSyncing');
+    LocalStorage.delete('isSyncing');
   }
   if (!syncer.isSilent) {
     updateSyncDates(syncer);

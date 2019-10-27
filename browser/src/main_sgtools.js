@@ -1,11 +1,12 @@
 import { browser } from './browser';
 import { DOM } from './class/DOM';
+import { LocalStorage } from './class/LocalStorage';
 
 let storage = null;
 let themeElement = null;
 let customThemeElement = null;
 
-const theme = getLocalValue('theme');
+const theme = LocalStorage.get('theme');
 if (theme) {
   const style = document.createElement('style');
   style.id = 'esgst-theme';
@@ -13,7 +14,7 @@ if (theme) {
   themeElement = style;
   document.documentElement.appendChild(style);
 }
-const customTheme = getLocalValue('customTheme');
+const customTheme = LocalStorage.get('customTheme');
 if (customTheme) {
   const style = document.createElement('style');
   style.id = 'esgst-custom-theme';
@@ -35,8 +36,8 @@ browser.storage.local.get(null).then(storage => {
   if (getSetting(settings.esgst_sgtools)) {
     setTheme(settings);
   } else {
-    delLocalValue('theme');
-    delLocalValue('customTheme');
+    LocalStorage.delete('theme');
+    LocalStorage.delete('customTheme');
   }
 });
 
@@ -51,8 +52,8 @@ async function setTheme(settings) {
         ['style', { id: 'esgst-theme' }, css]
       ]);
       const revisedCss = css.replace(/!important;/g, ';').replace(/;/g, '!important;');
-      if (revisedCss !== getLocalValue('theme')) {
-        setLocalValue('theme', revisedCss);
+      if (revisedCss !== LocalStorage.get('theme')) {
+        LocalStorage.set('theme', revisedCss);
       }
       break;
     }
@@ -65,8 +66,8 @@ async function setTheme(settings) {
       ['style', { id: 'esgst-custom-theme' }, css]
     ]);
     const revisedCss = css.replace(/!important;/g, ';').replace(/;/g, '!important;');
-    if (revisedCss !== getLocalValue('customTheme')) {
-      setLocalValue('customTheme', revisedCss);
+    if (revisedCss !== LocalStorage.get('customTheme')) {
+      LocalStorage.set('customTheme', revisedCss);
     }
   }
 }
@@ -142,18 +143,6 @@ function getThemeCss(theme) {
     css.pop();
   });
   return css.join('');
-}
-
-function setLocalValue(key, value) {
-  window.localStorage.setItem(`esgst_${key}`, value);
-}
-
-function getLocalValue(key, value = undefined) {
-  return window.localStorage.getItem(`esgst_${key}`) || value;
-}
-
-function delLocalValue(key) {
-  window.localStorage.removeItem(`esgst_${key}`);
 }
 
 function getSetting(variable) {
