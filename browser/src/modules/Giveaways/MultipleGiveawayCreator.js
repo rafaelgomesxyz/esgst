@@ -75,7 +75,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     } else if (this.esgst.discussionPath) {
       if (LocalStorage.get('mgcAttach_step2')) {
         LocalStorage.delete('mgcAttach_step2');
-        LocalStorage.delete('mgcAttach_step3', window.location.pathname.match(/\/discussion\/(.+?)\//)[1]);
+        LocalStorage.set('mgcAttach_step3', window.location.pathname.match(/\/discussion\/(.+?)\//)[1]);
         await request({
           data: `xsrf_token=${Session.xsrfToken}&do=close_discussion`,
           method: 'POST',
