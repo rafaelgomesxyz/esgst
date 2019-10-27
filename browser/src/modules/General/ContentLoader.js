@@ -1,5 +1,5 @@
 import { FetchRequest } from '../../class/FetchRequest';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 import { Module } from '../../class/Module';
 import { Popout } from '../../class/Popout';
 import { Popup } from '../../class/Popup';
@@ -122,19 +122,19 @@ class GeneralContentLoader extends Module {
   }
 
   init() {
-    if (gSettings.cl_gc) {
+    if (Settings.cl_gc) {
       shared.esgst.giveawayFeatures.push(this.setTriggers.bind(this, 'cl_gc'));
     }
-    if (gSettings.cl_ge) {
+    if (Settings.cl_ge) {
       shared.esgst.giveawayFeatures.push(this.setTriggers.bind(this, 'cl_ge'));
     }
-    if (gSettings.ggl) {
+    if (Settings.ggl) {
       shared.esgst.giveawayFeatures.push(this.setTriggers.bind(this, 'ggl'));
     }
-    if (gSettings.cl_gi) {
+    if (Settings.cl_gi) {
       shared.esgst.endlessFeatures.push(this.setTriggers.bind(this, 'cl_gi'));
     }
-    if (gSettings.cl_ui) {
+    if (Settings.cl_ui) {
       shared.esgst.endlessFeatures.push(this.setTriggers.bind(this, 'cl_ui'));
       shared.esgst.userFeatures.push(this.setTriggers.bind(this, 'cl_ui'));
     }
@@ -162,7 +162,7 @@ class GeneralContentLoader extends Module {
         break;
       case 'ggl':
         targetObjs = items.filter(x => x.group);
-        if (gSettings[`${id}_index`] === ON_LOAD) {
+        if (Settings[`${id}_index`] === ON_LOAD) {
           this.load(main, id, targetObjs);
         } else if (!main || (!shared.esgst.createdPath && !shared.esgst.enteredPath && !shared.esgst.wonPath)) {
           for (const targetObj of targetObjs) {
@@ -222,7 +222,7 @@ class GeneralContentLoader extends Module {
       target.classList.add('esgst-ap-avatar');
     }
 
-    switch (gSettings[`${id}_index`]) {
+    switch (Settings[`${id}_index`]) {
       case ON_HOVER_POPOUT:
         delay = 1000;
         eventType = 'mouseenter';
@@ -272,7 +272,7 @@ class GeneralContentLoader extends Module {
           }
         }
         if (triggerObj) {
-          switch (gSettings[`${id}_index`]) {
+          switch (Settings[`${id}_index`]) {
             case ON_HOVER_POPOUT:
                 triggerObj.open(target);
               break;
@@ -319,7 +319,7 @@ class GeneralContentLoader extends Module {
             context = triggerObj.popout;
 
             triggerObj.open(target);
-          } else if (gSettings[`${id}_index`] === ON_CLICK_POPUP) {
+          } else if (Settings[`${id}_index`] === ON_CLICK_POPUP) {
             triggerObj = new Popup({
               addScrollable: true,
               icon: `fa-${icon}`,
@@ -384,7 +384,7 @@ class GeneralContentLoader extends Module {
           this.load(main, id, [targetObj], triggerObj, context);
         }
 
-        if (gSettings[`${id}_index`] === ON_HOVER_POPOUT) {
+        if (Settings[`${id}_index`] === ON_HOVER_POPOUT) {
           context.onmouseenter = () => {
             if (exitTimeout) {
               window.clearTimeout(exitTimeout);
@@ -627,10 +627,10 @@ class GeneralContentLoader extends Module {
       }
     }
 
-    if (main && shared.esgst.gf && shared.esgst.gf.filteredCount && gSettings[`gf_enable${shared.esgst.gf.type}`]) {
+    if (main && shared.esgst.gf && shared.esgst.gf.filteredCount && Settings[`gf_enable${shared.esgst.gf.type}`]) {
       shared.esgst.modules.giveawaysGiveawayFilters.filters_filter(shared.esgst.gf);
     }
-    if (!main && shared.esgst.gfPopup && shared.esgst.gfPopup.filteredCount && gSettings[`gf_enable${shared.esgst.gfPopup.type}`]) {
+    if (!main && shared.esgst.gfPopup && shared.esgst.gfPopup.filteredCount && Settings[`gf_enable${shared.esgst.gfPopup.type}`]) {
       shared.esgst.modules.giveawaysGiveawayFilters.filters_filter(shared.esgst.gfPopup);
     }
 
@@ -707,7 +707,7 @@ class GeneralContentLoader extends Module {
           if (group.member) {
             className = 'esgst-ggl-member';
             numGroups += 1;
-          } else if (gSettings.ggl_m) {
+          } else if (Settings.ggl_m) {
             className = 'esgst-hidden';
           } else {
             className = '';
@@ -770,7 +770,7 @@ class GeneralContentLoader extends Module {
         if (group.member) {
           className = 'esgst-ggl-member';
           numGroups += 1;
-        } else if (gSettings.ggl_m) {
+        } else if (Settings.ggl_m) {
           className = 'esgst-hidden';
         } else {
           className = '';
@@ -790,7 +790,7 @@ class GeneralContentLoader extends Module {
             ]]
           ]);
 
-          if (gSettings.cl_gi) {
+          if (Settings.cl_gi) {
             this.setTriggers('cl_gi', panel);
           }
         }
@@ -874,7 +874,7 @@ class GeneralContentLoader extends Module {
     if (targetObj.type === 'user') {
       await shared.esgst.modules.profile.profile_load(context);
     }
-    if (gSettings.at) {
+    if (Settings.at) {
       shared.esgst.modules.generalAccurateTimestamp.at_getTimestamps(context);
     }
 

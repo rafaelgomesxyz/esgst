@@ -1,6 +1,6 @@
 import { Module } from '../../class/Module';
 import { shared } from '../../class/Shared';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 
 class CommentsCollapseExpandReplyButton extends Module {
   constructor() {
@@ -123,7 +123,7 @@ class CommentsCollapseExpandReplyButton extends Module {
         }]), permalink && reply.contains(permalink), reply, replies.children);
       }
     }
-    if (gSettings.cerb_a) {
+    if (Settings.cerb_a) {
       this.cerb_collapseAllReplies(collapse, expand);
     }
   }
@@ -139,7 +139,7 @@ class CommentsCollapseExpandReplyButton extends Module {
     });
     collapse.addEventListener('click', this.cerb_collapseReplies.bind(this, collapse, expand, replies));
     expand.addEventListener('click', this.cerb_expandReplies.bind(this, collapse, expand, replies));
-    if (gSettings.cerb_a && !permalink) {
+    if (Settings.cerb_a && !permalink) {
       collapse.classList.toggle('esgst-hidden');
       expand.classList.toggle('esgst-hidden');
     }

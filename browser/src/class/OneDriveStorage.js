@@ -1,4 +1,4 @@
-import { gSettings } from './Globals';
+import { Settings } from './Settings';
 import { shared } from './Shared';
 import { ICloudStorage } from './ICloudStorage';
 import { FetchRequest } from './FetchRequest';
@@ -31,8 +31,8 @@ class OneDriveStorage extends ICloudStorage {
       scope: 'files.readwrite',
       state: 'onedrive'
     };
-    if (gSettings.usePreferredMicrosoft) {
-      params['login_hint'] = gSettings.preferredMicrosoft;
+    if (Settings.usePreferredMicrosoft) {
+      params['login_hint'] = Settings.preferredMicrosoft;
     }
     const url = FetchRequest.addQueryParams(OneDriveStorage.AUTH_URL, params);
     await shared.common.delValue(key);
@@ -47,12 +47,12 @@ class OneDriveStorage extends ICloudStorage {
     const requestOptions = {
       anon: true,
       data,
-      fileName: gSettings.backupZip ? `${fileName}.json` : null,
+      fileName: Settings.backupZip ? `${fileName}.json` : null,
       headers: Object.assign(OneDriveStorage.getDefaultHeaders(token), {
-        'Content-Type': gSettings.backupZip ? 'application/zip' : 'text/plain'
+        'Content-Type': Settings.backupZip ? 'application/zip' : 'text/plain'
       }),
       pathParams: {
-        fileName: `${fileName}.${gSettings.backupZip ? 'zip' : 'json'}`
+        fileName: `${fileName}.${Settings.backupZip ? 'zip' : 'json'}`
       }
     };
     const response = await FetchRequest.put(OneDriveStorage.UPLOAD_URL, requestOptions);

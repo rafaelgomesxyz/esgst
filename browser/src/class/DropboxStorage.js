@@ -1,4 +1,4 @@
-import { gSettings } from './Globals';
+import { Settings } from './Settings';
 import { shared } from './Shared';
 import { ICloudStorage } from './ICloudStorage';
 import { FetchRequest } from './FetchRequest';
@@ -44,9 +44,9 @@ class DropboxStorage extends ICloudStorage {
     }
     const requestOptions = {
       data,
-      fileName: gSettings.backupZip ? `${fileName}.json` : null,
+      fileName: Settings.backupZip ? `${fileName}.json` : null,
       headers: Object.assign(DropboxStorage.getDefaultHeaders(token), {
-        'Dropbox-API-Arg': gSettings.backupZip ? `{"path": "/${fileName}.zip"}` : `{"path": "/${fileName}.json"}`,
+        'Dropbox-API-Arg': Settings.backupZip ? `{"path": "/${fileName}.zip"}` : `{"path": "/${fileName}.json"}`,
         'Content-Type': 'application/octet-stream'
       })
     };

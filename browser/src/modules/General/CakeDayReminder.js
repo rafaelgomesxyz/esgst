@@ -1,6 +1,6 @@
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 import { Table } from '../../class/Table';
 import { shared } from '../../class/Shared';
 import { ToggleSwitch } from '../../class/ToggleSwitch';
@@ -63,21 +63,21 @@ class GeneralCakeDayReminder extends Module {
     cdrObj.currentYear = cdrObj.currentDate.getFullYear();
     cdrObj.currentTime = cdrObj.currentDate.getTime();
 
-    this.checkUser(cdrObj, gSettings.steamId, {
+    this.checkUser(cdrObj, Settings.steamId, {
       cdr: {
-        a: gSettings.cdr_a,
-        aDays: parseFloat(gSettings.cdr_aDays),
-        b: gSettings.cdr_b,
-        bDays: parseFloat(gSettings.cdr_days),
-        d: gSettings.cdr_d
+        a: Settings.cdr_a,
+        aDays: parseFloat(Settings.cdr_aDays),
+        b: Settings.cdr_b,
+        bDays: parseFloat(Settings.cdr_days),
+        d: Settings.cdr_d
       },
-      registrationDate: parseInt(gSettings.registrationDate)
+      registrationDate: parseInt(Settings.registrationDate)
     });
 
     for (const steamId in shared.esgst.users.users) {
       const user = shared.esgst.users.users[steamId];
 
-      if (steamId === gSettings.steamId || (!user.cdr && !user.registrationDate)) {
+      if (steamId === Settings.steamId || (!user.cdr && !user.registrationDate)) {
         continue;
       }
 
@@ -104,7 +104,7 @@ class GeneralCakeDayReminder extends Module {
       return;
     }
 
-    const className = steamId === gSettings.steamId ? 'esgst-cdr-highlight' : '';
+    const className = steamId === Settings.steamId ? 'esgst-cdr-highlight' : '';
 
     const registrationDate = new Date(user.registrationDate * 1e3);
     registrationDate.setFullYear(cdrObj.currentYear);
@@ -166,7 +166,7 @@ class GeneralCakeDayReminder extends Module {
   }
 
   addButton(profile) {
-    if (profile.steamId === gSettings.steamId) {
+    if (profile.steamId === Settings.steamId) {
       return;
     }
 

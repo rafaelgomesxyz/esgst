@@ -1,6 +1,6 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 import { Shared } from '../../class/Shared';
 
 const
@@ -36,7 +36,7 @@ class GiveawaysQuickGiveawaySearch extends Module {
   }
 
   init() {
-    let container = createElements(Shared.header.nodes.leftNav, gSettings.qgs_index === 0 ? 'afterBegin' : 'beforeEnd', [{
+    let container = createElements(Shared.header.nodes.leftNav, Settings.qgs_index === 0 ? 'afterBegin' : 'beforeEnd', [{
       attributes: {
         class: 'esgst-qgs-container',
         title: getFeatureTooltip('qgs')
@@ -59,7 +59,7 @@ class GiveawaysQuickGiveawaySearch extends Module {
     container.addEventListener('mouseenter', this.qgs_expand.bind(this));
     container.addEventListener('mouseleave', this.qgs_collapse.bind(this));
     container.firstElementChild.addEventListener('keypress', this.qgs_trigger.bind(this));
-    if (gSettings.qgs_h && this.esgst.giveawaysPath) {
+    if (Settings.qgs_h && this.esgst.giveawaysPath) {
       document.getElementsByClassName('sidebar__search-container')[0].remove();
     }
   }

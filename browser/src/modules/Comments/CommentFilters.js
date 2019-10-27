@@ -1,6 +1,6 @@
 import { Filters } from '../Filters';
 import { shared } from '../../class/Shared';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 
 class CommentsCommentFilters extends Filters {
   constructor() {
@@ -103,7 +103,7 @@ class CommentsCommentFilters extends Filters {
   }
 
   async init() {
-    if (gSettings.cf_m && (shared.esgst.commentsPath || shared.common.isCurrentPath('Messages'))) {
+    if (Settings.cf_m && (shared.esgst.commentsPath || shared.common.isCurrentPath('Messages'))) {
       if (!shared.esgst.hasAddedFilterContainer) {
         shared.esgst.style.insertAdjacentText("beforeend", `
           .esgst-gf-container {

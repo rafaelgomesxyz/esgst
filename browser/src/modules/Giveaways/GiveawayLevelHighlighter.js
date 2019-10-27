@@ -1,5 +1,5 @@
 import { Module } from '../../class/Module';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 
 class GiveawaysGiveawayLevelHighlighter extends Module {
   constructor() {
@@ -25,7 +25,7 @@ class GiveawaysGiveawayLevelHighlighter extends Module {
       if (!giveaway.levelColumn) {
         continue;
       }
-      const { color, bgColor } = gSettings.glh_colors.filter(colors => giveaway.level >= parseInt(colors.lower) && giveaway.level <= parseInt(colors.upper))[0] || { color: undefined, bgColor: undefined };
+      const { color, bgColor } = Settings.glh_colors.filter(colors => giveaway.level >= parseInt(colors.lower) && giveaway.level <= parseInt(colors.upper))[0] || { color: undefined, bgColor: undefined };
       if (!color || !bgColor) {
         continue;
       }

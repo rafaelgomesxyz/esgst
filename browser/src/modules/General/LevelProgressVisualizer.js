@@ -1,7 +1,7 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
 import { shared, Shared } from '../../class/Shared';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 import { FetchRequest } from '../../class/FetchRequest';
 import { Logger } from '../../class/Logger';
 import { EventDispatcher } from '../../class/EventDispatcher';
@@ -57,7 +57,7 @@ class GeneralLevelProgressVisualizer extends Module {
     const currentLevel = Session.counters.level.full;
     if (cache.v !== 3 || currentLevel !== cache.level) {
       cache.level = currentLevel;
-      const response = await FetchRequest.get(`/user/${gSettings.username}`);
+      const response = await FetchRequest.get(`/user/${Settings.username}`);
       const element = response.html.querySelectorAll('.featured__table__row__right')[6];
       cache.cv = shared.common.round(parseFloat(JSON.parse(element.firstElementChild.lastElementChild.getAttribute('data-ui-tooltip')).rows[0].columns[1].name.replace(/[$,]/g, '')));
       shared.common.setLocalValue('lpvCache', JSON.stringify(cache));
@@ -93,12 +93,12 @@ class GeneralLevelProgressVisualizer extends Module {
 
       Shared.header.buttonContainers['account'].nodes.level.title = getFeatureTooltip('lpv', `${newLevel.full} (${predictedFullLevel})`);
     }
-    const barColor = gSettings.lpv_barColor;
-    const projectedBarColor = gSettings.lpv_projectedBarColor;
-    const barColorHover = gSettings.lpv_barColorHover;
-    const projectedBarColorHover = gSettings.lpv_projectedBarColorHover;
-    const barColorSelected = gSettings.lpv_barColorSelected;
-    const projectedBarColorSelected = gSettings.lpv_projectedBarColorSelected;
+    const barColor = Settings.lpv_barColor;
+    const projectedBarColor = Settings.lpv_projectedBarColor;
+    const barColorHover = Settings.lpv_barColorHover;
+    const projectedBarColorHover = Settings.lpv_projectedBarColorHover;
+    const barColorSelected = Settings.lpv_barColorSelected;
+    const projectedBarColorSelected = Settings.lpv_projectedBarColorSelected;
     this.esgst.lpvStyleArray = [{
       selector: '.esgst-lpv-container',
       rules: [{
@@ -243,7 +243,7 @@ class GeneralLevelProgressVisualizer extends Module {
   lpv_getCv() {
     Logger.info('Beginning CV calculation...');
     let cv = 0;
-    const user = this.esgst.users.users[gSettings.steamId];
+    const user = this.esgst.users.users[Settings.steamId];
     if (!user) {
       return cv;
     }

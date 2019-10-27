@@ -3,7 +3,7 @@ import { Process } from '../../class/Process';
 import { Utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { Filters } from '../Filters';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 import { shared } from '../../class/Shared';
 
 const
@@ -199,13 +199,13 @@ class TradesTradeFilters extends Filters {
   }
 
   async init() {
-    if (gSettings.tf_s) {
-      if (gSettings.tf_s_s) {
+    if (Settings.tf_s) {
+      if (Settings.tf_s_s) {
         this.addSingleButton('fa-comments');
       }
       this.esgst.tradeFeatures.push(this.tf_addButtons.bind(this));
     }
-    if (gSettings.tf_m && shared.esgst.tradesPath && !shared.esgst.editTradePath) {
+    if (Settings.tf_m && shared.esgst.tradesPath && !shared.esgst.editTradePath) {
       if (!shared.esgst.hasAddedFilterContainer) {
         shared.esgst.style.insertAdjacentText("beforeend", `
           .esgst-gf-container {
@@ -350,10 +350,10 @@ class TradesTradeFilters extends Filters {
     }]);
     await endless_load(obj.trades);
     if (!shared.esgst.tradesPath) {
-      if (gSettings.gdttt) {
+      if (Settings.gdttt) {
         await shared.esgst.modules.commentsCommentTracker.ct_addDiscussionPanels(obj.trades, true);
         await shared.esgst.modules.generalGiveawayDiscussionTicketTradeTracker.gdttt_checkVisited(obj.trades);
-      } else if (gSettings.ct) {
+      } else if (Settings.ct) {
         await shared.esgst.modules.commentsCommentTracker.ct_addDiscussionPanels(obj.trades, true);
       }
       await shared.esgst.modules.discussions.discussions_load(obj.trades);
@@ -419,17 +419,17 @@ class TradesTradeFilters extends Filters {
         type: 'boolean'
       },
       visited: {
-        check: gSettings.gdttt,
+        check: Settings.gdttt,
         name: 'Visited',
         type: 'boolean'
       },
       subscribed: {
-        check: gSettings.tds,
+        check: Settings.tds,
         name: 'Subscribed',
         type: 'boolean'
       },
       unread: {
-        check: gSettings.ct,
+        check: Settings.ct,
         name: 'Unread',
         type: 'boolean'
       },

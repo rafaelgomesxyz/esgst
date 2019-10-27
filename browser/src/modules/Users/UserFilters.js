@@ -3,7 +3,7 @@ import { Popup } from '../../class/Popup';
 import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { common } from '../Common';
 import { shared } from '../../class/Shared';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 import { Utils } from '../../lib/jsUtils';
 import { Filters } from '../Filters';
 
@@ -73,13 +73,13 @@ class UsersUserFilters extends Filters {
   }
 
   init() {
-    if (gSettings.uf_s_s) {
+    if (Settings.uf_s_s) {
       this.addSingleButton('fa-user');
     }
   }
 
   uf_add(profile, savedUser) {
-    if (profile.username !== gSettings.username) {
+    if (profile.username !== Settings.username) {
       profile.ufButton = createElements(profile.heading, 'beforeEnd', [{
         attributes: {
           class: 'esgst-uf-button',
@@ -222,10 +222,10 @@ class UsersUserFilters extends Filters {
         continue;
       }
       const uf = this.fixData(savedUser.uf);
-      if ((gSettings.uf_d && savedUser.blacklisted && !uf) || (uf && uf.discussions)) {
+      if ((Settings.uf_d && savedUser.blacklisted && !uf) || (uf && uf.discussions)) {
         discussion.outerWrap.classList.add('esgst-hidden');
         discussion.outerWrap.setAttribute('data-esgst-not-filterable', 'uf');
-        if (gSettings.uf_s_s) {
+        if (Settings.uf_s_s) {
           this.updateSingleCounter();
         }
       }
@@ -244,10 +244,10 @@ class UsersUserFilters extends Filters {
         continue;
       }
       const uf = this.fixData(savedUser.uf);
-      if ((gSettings.uf_g && savedUser.blacklisted && !uf) || (uf && uf.giveaways)) {
+      if ((Settings.uf_g && savedUser.blacklisted && !uf) || (uf && uf.giveaways)) {
         giveaway.outerWrap.classList.add('esgst-hidden');
         giveaway.outerWrap.setAttribute('data-esgst-not-filterable', 'uf');
-        if (gSettings.uf_s_s) {
+        if (Settings.uf_s_s) {
           this.updateSingleCounter();
         }
       }
@@ -263,7 +263,7 @@ class UsersUserFilters extends Filters {
         continue;
       }
       const uf = this.fixData(savedUser.uf);
-      if ((((comment.type === 'giveaways' && gSettings.uf_gp) || (comment.type !== 'giveaways' && gSettings.uf_dp)) && savedUser.blacklisted && !uf) || (uf && ((comment.type === 'giveaways' && uf.giveawayPosts) || (comment.type !== 'giveaways' && uf.discussionPosts)))) {
+      if ((((comment.type === 'giveaways' && Settings.uf_gp) || (comment.type !== 'giveaways' && Settings.uf_dp)) && savedUser.blacklisted && !uf) || (uf && ((comment.type === 'giveaways' && uf.giveawayPosts) || (comment.type !== 'giveaways' && uf.discussionPosts)))) {
         let numDescendants;
         if (comment.comment.nextElementSibling) {
           numDescendants = comment.comment.nextElementSibling.querySelectorAll(`:not(.comment--submit) > .comment__parent, .comment__child, .comment_inner`).length;
@@ -272,7 +272,7 @@ class UsersUserFilters extends Filters {
         }
         comment.comment.parentElement.classList.add('esgst-hidden');
         comment.comment.parentElement.setAttribute('data-esgst-not-filterable', 'uf');
-        if (gSettings.uf_s_s) {
+        if (Settings.uf_s_s) {
           this.updateSingleCounter(numDescendants + 1);
         }
         if (!main || shared.common.isCurrentPath('Messages')) {

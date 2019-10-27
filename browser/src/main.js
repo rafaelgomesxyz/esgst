@@ -11,7 +11,7 @@ import { esgst } from './class/Esgst';
 import { Utils } from './lib/jsUtils';
 import { addStyle } from './modules/Style';
 import { runSilentSync } from './modules/Sync';
-import { gSettings } from './class/Globals';
+import { Settings } from './class/Settings';
 import { Shared } from './class/Shared';
 import { Logger } from './class/Logger';
 import { persistentStorage } from './class/PersistentStorage';
@@ -293,19 +293,19 @@ window.interact = interact;
     common.initGlobalSettings();
 
     if (Utils.isSet(esgst.storage.filterPresets)) {
-      const presets = gSettings.gf_presets.concat(
+      const presets = Settings.gf_presets.concat(
         esgst.modules.giveawaysGiveawayFilters.filters_convert(JSON.parse(esgst.storage.filterPresets))
       );
-      gSettings.gf_presets = esgst.settings.gf_presets = presets;
+      Settings.gf_presets = esgst.settings.gf_presets = presets;
       esgst.settingsChanged = true;
       toSet.old_gf_presets = esgst.storage.filterPresets;
       toDelete.push('filterPresets');
     }
     if (Utils.isSet(esgst.storage.dfPresets)) {
-      const presets = gSettings.df_presets.concat(
+      const presets = Settings.df_presets.concat(
         esgst.modules.giveawaysGiveawayFilters.filters_convert(JSON.parse(esgst.storage.dfPresets))
       );
-      gSettings.df_presets = esgst.settings.df_presets = presets;
+      Settings.df_presets = esgst.settings.df_presets = presets;
       esgst.settingsChanged = true;
       toSet.old_df_presets = esgst.storage.dfPresets;
       toDelete.push('dfPresets');
@@ -328,9 +328,9 @@ window.interact = interact;
       {id: 'uf_s_s', side: 'left'},
       {id: 'gmf', side: 'left'}
     ].forEach(item => {
-      if (gSettings.leftButtonIds.indexOf(item.id) < 0 && gSettings.rightButtonIds.indexOf(item.id) < 0 && gSettings.leftMainPageHeadingIds.indexOf(item.id) < 0 && gSettings.rightMainPageHeadingIds.indexOf(item.id) < 0) {
-        gSettings[`${item.side}MainPageHeadingIds`].push(item.id);
-        esgst.settings[`${item.side}MainPageHeadingIds`] = gSettings[`${item.side}MainPageHeadingIds`];
+      if (Settings.leftButtonIds.indexOf(item.id) < 0 && Settings.rightButtonIds.indexOf(item.id) < 0 && Settings.leftMainPageHeadingIds.indexOf(item.id) < 0 && Settings.rightMainPageHeadingIds.indexOf(item.id) < 0) {
+        Settings[`${item.side}MainPageHeadingIds`].push(item.id);
+        esgst.settings[`${item.side}MainPageHeadingIds`] = Settings[`${item.side}MainPageHeadingIds`];
         esgst.settingsChanged = true;
       }
     });
@@ -350,106 +350,106 @@ window.interact = interact;
       delete esgst.settings.groups;
       esgst.settingsChanged = true;
     }
-    if (gSettings.gc_categories_ids && gSettings.gc_categories_ids.indexOf('gc_f') < 0) {
-      gSettings.gc_categories_ids.push('gc_f');
-      esgst.settings.gc_categories_ids = gSettings.gc_categories_ids;
+    if (Settings.gc_categories_ids && Settings.gc_categories_ids.indexOf('gc_f') < 0) {
+      Settings.gc_categories_ids.push('gc_f');
+      esgst.settings.gc_categories_ids = Settings.gc_categories_ids;
       esgst.settingsChanged = true;
     }
-    if (gSettings.gc_categories_ids && gSettings.gc_categories_ids.indexOf('gc_bvg') < 0) {
-      gSettings.gc_categories_ids.push('gc_bvg');
-      esgst.settings.gc_categories_ids = gSettings.gc_categories_ids;
+    if (Settings.gc_categories_ids && Settings.gc_categories_ids.indexOf('gc_bvg') < 0) {
+      Settings.gc_categories_ids.push('gc_bvg');
+      esgst.settings.gc_categories_ids = Settings.gc_categories_ids;
       esgst.settingsChanged = true;
     }
-    if (gSettings.gc_categories_ids && gSettings.gc_categories_ids.indexOf('gc_bd') < 0) {
-      gSettings.gc_categories_ids.push('gc_bd');
-      esgst.settings.gc_categories_ids = gSettings.gc_categories_ids;
+    if (Settings.gc_categories_ids && Settings.gc_categories_ids.indexOf('gc_bd') < 0) {
+      Settings.gc_categories_ids.push('gc_bd');
+      esgst.settings.gc_categories_ids = Settings.gc_categories_ids;
       esgst.settingsChanged = true;
     }
     ['gc_categories', 'gc_categories_gv', 'gc_categories_ids'].forEach(key => {
-      if (!gSettings[key]) {
+      if (!Settings[key]) {
         return;
       }
-      let bkpLength = gSettings[key].length;
-      gSettings[key] = Array.from(new Set(gSettings[key]));
-      if (bkpLength !== gSettings[key].length) {
-        esgst.settings[key] = gSettings[key];
+      let bkpLength = Settings[key].length;
+      Settings[key] = Array.from(new Set(Settings[key]));
+      if (bkpLength !== Settings[key].length) {
+        esgst.settings[key] = Settings[key];
         esgst.settingsChanged = true;
       }
     });
-    if (gSettings.elementOrdering !== '1') {
-      const oldLeftButtonIds = JSON.stringify(gSettings.leftButtonIds);
-      const oldRightButtonIds = JSON.stringify(gSettings.rightButtonIds);
-      const oldLeftMainPageHeadingIds = JSON.stringify(gSettings.leftMainPageHeadingIds);
-      const oldRightMainPageHeadingIds = JSON.stringify(gSettings.rightMainPageHeadingIds);
-      if (gSettings.leftButtonIds) {
-        for (let i = gSettings.leftButtonIds.length - 1; i > -1; i--) {
-          const id = gSettings.leftButtonIds[i];
-          if (!gSettings[`hideButtons_${id}_sg`]) {
-            if (gSettings.leftMainPageHeadingIds) {
-              gSettings.leftMainPageHeadingIds.push(id);
+    if (Settings.elementOrdering !== '1') {
+      const oldLeftButtonIds = JSON.stringify(Settings.leftButtonIds);
+      const oldRightButtonIds = JSON.stringify(Settings.rightButtonIds);
+      const oldLeftMainPageHeadingIds = JSON.stringify(Settings.leftMainPageHeadingIds);
+      const oldRightMainPageHeadingIds = JSON.stringify(Settings.rightMainPageHeadingIds);
+      if (Settings.leftButtonIds) {
+        for (let i = Settings.leftButtonIds.length - 1; i > -1; i--) {
+          const id = Settings.leftButtonIds[i];
+          if (!Settings[`hideButtons_${id}_sg`]) {
+            if (Settings.leftMainPageHeadingIds) {
+              Settings.leftMainPageHeadingIds.push(id);
             }
-            gSettings.leftButtonIds.splice(i, 1);
-          } else if (gSettings.rightButtonsIds && gSettings.rightButtonIds.indexOf(id) > -1) {
-            gSettings.leftButtonIds.splice(i, 1);
+            Settings.leftButtonIds.splice(i, 1);
+          } else if (Settings.rightButtonsIds && Settings.rightButtonIds.indexOf(id) > -1) {
+            Settings.leftButtonIds.splice(i, 1);
           }
         }
       }
-      if (gSettings.rightButtonIds) {
-        for (let i = gSettings.rightButtonIds.length - 1; i > -1; i--) {
-          const id = gSettings.rightButtonIds[i];
-          if (!gSettings[`hideButtons_${id}_sg`]) {
-            if (gSettings.rightMainPageHeadingIds) {
-              gSettings.rightMainPageHeadingIds.push(id);
+      if (Settings.rightButtonIds) {
+        for (let i = Settings.rightButtonIds.length - 1; i > -1; i--) {
+          const id = Settings.rightButtonIds[i];
+          if (!Settings[`hideButtons_${id}_sg`]) {
+            if (Settings.rightMainPageHeadingIds) {
+              Settings.rightMainPageHeadingIds.push(id);
             }
-            gSettings.rightButtonIds.splice(i, 1);
-          } else if (gSettings.rightButtonIds && gSettings.rightButtonIds.indexOf(id) > -1) {
-            gSettings.rightButtonIds.splice(i, 1);
+            Settings.rightButtonIds.splice(i, 1);
+          } else if (Settings.rightButtonIds && Settings.rightButtonIds.indexOf(id) > -1) {
+            Settings.rightButtonIds.splice(i, 1);
           }
         }
       }
-      if (gSettings.leftMainPageHeadingIds) {
-        for (let i = gSettings.leftMainPageHeadingIds.length - 1; i > -1; i--) {
-          const id = gSettings.leftMainPageHeadingIds[i];
-          if (!gSettings[`hideButtons_${id}_sg`]) {
-            if (gSettings.leftButtonIds) {
-              gSettings.leftButtonIds.push(id);
+      if (Settings.leftMainPageHeadingIds) {
+        for (let i = Settings.leftMainPageHeadingIds.length - 1; i > -1; i--) {
+          const id = Settings.leftMainPageHeadingIds[i];
+          if (!Settings[`hideButtons_${id}_sg`]) {
+            if (Settings.leftButtonIds) {
+              Settings.leftButtonIds.push(id);
             }
-            gSettings.leftMainPageHeadingIds.splice(i, 1);
-          } else if (gSettings.rightMainPageHeadingIds && gSettings.rightMainPageHeadingIds.indexOf(id) > -1) {
-            gSettings.leftMainPageHeadingIds.splice(i, 1);
+            Settings.leftMainPageHeadingIds.splice(i, 1);
+          } else if (Settings.rightMainPageHeadingIds && Settings.rightMainPageHeadingIds.indexOf(id) > -1) {
+            Settings.leftMainPageHeadingIds.splice(i, 1);
           }
         }
       }
-      if (gSettings.rightMainPageHeadingIds) {
-        for (let i = gSettings.rightMainPageHeadingIds.length - 1; i > -1; i--) {
-          const id = gSettings.rightMainPageHeadingIds[i];
-          if (!gSettings[`hideButtons_${id}_sg`]) {
-            if (gSettings.rightButtonIds) {
-              gSettings.rightButtonIds.push(id);
+      if (Settings.rightMainPageHeadingIds) {
+        for (let i = Settings.rightMainPageHeadingIds.length - 1; i > -1; i--) {
+          const id = Settings.rightMainPageHeadingIds[i];
+          if (!Settings[`hideButtons_${id}_sg`]) {
+            if (Settings.rightButtonIds) {
+              Settings.rightButtonIds.push(id);
             }
-            gSettings.rightMainPageHeadingIds.splice(i, 1);
-          } else if (gSettings.leftMainPageHeadingIds && gSettings.leftMainPageHeadingIds.indexOf(id) > -1) {
-            gSettings.rightMainPageHeadingIds.splice(i, 1);
+            Settings.rightMainPageHeadingIds.splice(i, 1);
+          } else if (Settings.leftMainPageHeadingIds && Settings.leftMainPageHeadingIds.indexOf(id) > -1) {
+            Settings.rightMainPageHeadingIds.splice(i, 1);
           }
         }
       }
-      gSettings.leftButtonIds = Array.from(new Set(gSettings.leftButtonIds));
-      gSettings.rightButtonIds = Array.from(new Set(gSettings.rightButtonIds));
-      gSettings.leftMainHeadingIds = Array.from(new Set(gSettings.leftMainPageHeadingIds));
-      gSettings.rightMainHeadingIds = Array.from(new Set(gSettings.rightMainPageHeadingIds));
-      if (oldLeftButtonIds !== JSON.stringify(gSettings.leftButtonIds)) {
-        esgst.settings.leftButtonIds = gSettings.leftButtonIds;
+      Settings.leftButtonIds = Array.from(new Set(Settings.leftButtonIds));
+      Settings.rightButtonIds = Array.from(new Set(Settings.rightButtonIds));
+      Settings.leftMainHeadingIds = Array.from(new Set(Settings.leftMainPageHeadingIds));
+      Settings.rightMainHeadingIds = Array.from(new Set(Settings.rightMainPageHeadingIds));
+      if (oldLeftButtonIds !== JSON.stringify(Settings.leftButtonIds)) {
+        esgst.settings.leftButtonIds = Settings.leftButtonIds;
       }
-      if (oldRightButtonIds !== JSON.stringify(gSettings.rightButtonIds)) {
-        esgst.settings.rightButtonIds = gSettings.rightButtonIds;
+      if (oldRightButtonIds !== JSON.stringify(Settings.rightButtonIds)) {
+        esgst.settings.rightButtonIds = Settings.rightButtonIds;
       }
-      if (oldLeftMainPageHeadingIds !== JSON.stringify(gSettings.leftMainHeadingIds)) {
-        esgst.settings.leftMainPageHeadingIds = gSettings.leftMainHeadingIds;
+      if (oldLeftMainPageHeadingIds !== JSON.stringify(Settings.leftMainHeadingIds)) {
+        esgst.settings.leftMainPageHeadingIds = Settings.leftMainHeadingIds;
       }
-      if (oldRightMainPageHeadingIds !== JSON.stringify(gSettings.rightMainHeadingIds)) {
-        esgst.settings.rightMainPageHeadingIds = gSettings.rightMainHeadingIds;
+      if (oldRightMainPageHeadingIds !== JSON.stringify(Settings.rightMainHeadingIds)) {
+        esgst.settings.rightMainPageHeadingIds = Settings.rightMainHeadingIds;
       }
-      gSettings.elementOrdering = esgst.settings.elementOrdering = '1';
+      Settings.elementOrdering = esgst.settings.elementOrdering = '1';
       esgst.settingsChanged = true;
     }
     if (document.readyState === 'loading') {
@@ -468,14 +468,14 @@ window.interact = interact;
       esgst.headerSize = 39;
       esgst.footerSize = 44;
     } else {
-      if (gSettings.fh) {
+      if (Settings.fh) {
         esgst.headerSize = 231;
       }
-      esgst.headerSize = gSettings.fh ? 231 : 454;
-      esgst.footerSize = gSettings.ff ? 44 : 64;
+      esgst.headerSize = Settings.fh ? 231 : 454;
+      esgst.footerSize = Settings.ff ? 44 : 64;
     }
-    esgst.pageTop = gSettings.fh ? esgst.headerSize : 5;
-    esgst.commentsTop = esgst.pageTop + (gSettings.fmph ? esgst.mainPageHeadingSize : 0) + 10;
+    esgst.pageTop = Settings.fh ? esgst.headerSize : 5;
+    esgst.commentsTop = esgst.pageTop + (Settings.fmph ? esgst.mainPageHeadingSize : 0) + 10;
 
     addStyle();
 
@@ -537,14 +537,14 @@ window.interact = interact;
     // now that all values are set esgst can begin to load
 
     /* [URLR] URL Redirector */
-    if (gSettings.urlr && window.location.pathname.match(/^\/(giveaway|discussion|support\/ticket|trade)\/.{5}$/)) {
+    if (Settings.urlr && window.location.pathname.match(/^\/(giveaway|discussion|support\/ticket|trade)\/.{5}$/)) {
       window.location.href = `${window.location.href}/`;
     }
 
     for (const key in esgst.paths) {
       for (const item of esgst.paths[key]) {
         item.pattern = item.pattern
-          .replace(/%steamId%/, gSettings.steamId);
+          .replace(/%steamId%/, Settings.steamId);
       }
     }
 
@@ -588,7 +588,7 @@ window.interact = interact;
       return;
     }
 
-    if (esgst.st && !gSettings.esgst_st) {
+    if (esgst.st && !Settings.esgst_st) {
       // esgst is not enabled for steamtrades
       return;
     }
@@ -598,10 +598,10 @@ window.interact = interact;
       // noinspection JSIgnoredPromiseFromCall
       common.checkSync();
     }
-    if (gSettings.autoBackup) {
+    if (Settings.autoBackup) {
       common.checkBackup();
     }
-    if (esgst.profilePath && gSettings.autoSync) {
+    if (esgst.profilePath && Settings.autoSync) {
       const el = document.getElementsByClassName('form__sync-default')[0];
       if (el) {
         el.addEventListener('click', () => runSilentSync(`Games=1&Groups=1`));

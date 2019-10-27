@@ -1,6 +1,6 @@
 import { Module } from '../../class/Module';
 import { shared, Shared } from '../../class/Shared';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 import { Logger } from '../../class/Logger';
 import { FetchRequest } from '../../class/FetchRequest';
 import { Popout } from '../../class/Popout';
@@ -77,7 +77,7 @@ class GeneralThreadSubscription extends Module {
 
     this.popout = new Popout('esgst-tds-popout', this.button.nodes.outer, 0, true);
 
-    this.minutes = parseInt(gSettings.tds_minutes) * 60000;
+    this.minutes = parseInt(Settings.tds_minutes) * 60000;
 
     this.startDaemon();
 
@@ -93,7 +93,7 @@ class GeneralThreadSubscription extends Module {
 
         element.parentElement.classList.add('esgst-tds-sidebar-item');
 
-        if (gSettings.tds_forums[forumCode]) {
+        if (Settings.tds_forums[forumCode]) {
           this.addUnsubscribeButton(null, forumCode, element, null, this.forumCategories[forumCode], 'forum');
         } else {
           this.addSubscribeButton(null, forumCode, element, null, this.forumCategories[forumCode], 'forum');
@@ -161,7 +161,7 @@ class GeneralThreadSubscription extends Module {
   async updatePopout() {
     this.popout.popout.innerHTML = '';
 
-    this.subscribedItems = this.subscribedItems.filter(item => typeof item.subscribed !== 'undefined' || gSettings.tds_forums[item.code]);
+    this.subscribedItems = this.subscribedItems.filter(item => typeof item.subscribed !== 'undefined' || Settings.tds_forums[item.code]);
     this.subscribedItems.sort((a, b) => a.diff > b.diff ? -1 : 1);
 
     for (const item of this.subscribedItems) {
@@ -276,7 +276,7 @@ class GeneralThreadSubscription extends Module {
       }
     }
 
-    for (const code in gSettings.tds_forums) {
+    for (const code in Settings.tds_forums) {
       const codes = [];
 
       const response = await FetchRequest.get(`/discussions${code ? `/${code}` : ''}/search?sort=new`);
@@ -287,7 +287,7 @@ class GeneralThreadSubscription extends Module {
         codes.push(element.getAttribute('href').match(/\/discussion\/(.+?)\//)[1]);
       }
 
-      const diff = codes.filter(subCode => !gSettings.tds_forums[code].includes(subCode)).length;
+      const diff = codes.filter(subCode => !Settings.tds_forums[code].includes(subCode)).length;
 
       this.subscribedItems.push({
         code,
@@ -300,7 +300,7 @@ class GeneralThreadSubscription extends Module {
     const newDiff = this.subscribedItems.filter(item => item.diff)
       .reduce((sum, currentItem) => sum + currentItem.diff, 0);
 
-    if (gSettings.tds_n && !firstRun && oldDiff !== newDiff) {
+    if (Settings.tds_n && !firstRun && oldDiff !== newDiff) {
       this.showNotification();
     }
 
@@ -331,7 +331,7 @@ class GeneralThreadSubscription extends Module {
   async subscribe(code, countOrCodes, name, type) {
     if (type === 'forum') {
       if (countOrCodes !== null) {
-        gSettings.tds_forums[code] = countOrCodes;
+        Settings.tds_forums[code] = countOrCodes;
       } else {
         const codes = [];
 
@@ -343,14 +343,14 @@ class GeneralThreadSubscription extends Module {
           codes.push(element.getAttribute('href').match(/\/discussion\/(.+?)\//)[1]);
         }
 
-        if (!gSettings.tds_forums[code]) {
-          gSettings.tds_forums[code] = [];
+        if (!Settings.tds_forums[code]) {
+          Settings.tds_forums[code] = [];
         }
 
-        gSettings.tds_forums[code] = Array.from(new Set(gSettings.tds_forums[code].concat(codes)));
+        Settings.tds_forums[code] = Array.from(new Set(Settings.tds_forums[code].concat(codes)));
       }
 
-      await shared.common.setSetting('tds_forums', gSettings.tds_forums);
+      await shared.common.setSetting('tds_forums', Settings.tds_forums);
     } else {
       const savedThread = shared.esgst[type][code] || {};
 
@@ -379,9 +379,9 @@ class GeneralThreadSubscription extends Module {
 
   async unsubscribe(code, type) {
     if (type === 'forum') {
-      delete gSettings.tds_forums[code];
+      delete Settings.tds_forums[code];
 
-      await shared.common.setSetting('tds_forums', gSettings.tds_forums);
+      await shared.common.setSetting('tds_forums', Settings.tds_forums);
     } else {
       const savedThread = shared.esgst[type][code] || {};
 

@@ -1,6 +1,6 @@
 import { common } from '../Common';
 import { Filters } from '../Filters';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 import { shared } from '../../class/Shared';
 
 class GamesGameFilters extends Filters {
@@ -386,7 +386,7 @@ class GamesGameFilters extends Filters {
   }
 
   init() {
-    if (!gSettings.gmf || !shared.common.isCurrentPath(['Community Wishlist', 'Bundle Games', 'Discussion', 'Settings - Giveaways - Filters', 'Steam - Games'])) {
+    if (!Settings.gmf || !shared.common.isCurrentPath(['Community Wishlist', 'Bundle Games', 'Discussion', 'Settings - Giveaways - Filters', 'Steam - Games'])) {
       return;
     }
 

@@ -1,7 +1,7 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
 import { shared } from '../../class/Shared';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 
 const
   createElements = common.createElements.bind(common),
@@ -67,7 +67,7 @@ class UsersProfileLinks extends Module {
   }
 
   pl_add(profile) {
-    if (profile.username !== gSettings.username) {
+    if (profile.username !== Settings.username) {
       return;
     }
     const items = [];
@@ -142,7 +142,7 @@ class UsersProfileLinks extends Module {
       let enabled = false;
       const list = [];
       for (const item of section.items) {
-        if (!gSettings[item.id]) {
+        if (!Settings[item.id]) {
           continue;
         }
         list.push({

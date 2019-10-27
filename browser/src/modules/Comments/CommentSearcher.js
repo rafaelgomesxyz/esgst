@@ -1,7 +1,7 @@
 import { Module } from '../../class/Module';
 import { Process } from '../../class/Process';
 import { shared } from '../../class/Shared';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 
 class CommentsCommentSearcher extends Module {
   constructor() {
@@ -47,9 +47,9 @@ class CommentsCommentSearcher extends Module {
             check: true,
             description: [
               `Limit search by pages, from `,
-              ['input', { class: 'esgst-switch-input', min: 'i', name: 'cs_minPage', type: 'number', value: gSettings.cs_minPage }],
+              ['input', { class: 'esgst-switch-input', min: 'i', name: 'cs_minPage', type: 'number', value: Settings.cs_minPage }],
               ' to ',
-              ['input', { class: 'esgst-switch-input', min: 'i', name: 'cs_maxPage', type: 'number', value: gSettings.cs_maxPage }],
+              ['input', { class: 'esgst-switch-input', min: 'i', name: 'cs_maxPage', type: 'number', value: Settings.cs_maxPage }],
               '.'
             ],
             id: 'cs_limitPages',
@@ -80,9 +80,9 @@ class CommentsCommentSearcher extends Module {
     obj.type = match[1];
     obj.title = shared.esgst.originalTitle.replace(/\s-\sPage\s\d+/, '');
     obj.results = 0;
-    if (gSettings.cs_limitPages) {
-      obj.requests[0].nextPage = gSettings.cs_minPage;
-      obj.requests[0].maxPage = gSettings.cs_maxPage;
+    if (Settings.cs_limitPages) {
+      obj.requests[0].nextPage = Settings.cs_minPage;
+      obj.requests[0].maxPage = Settings.cs_maxPage;
     }
   }
 

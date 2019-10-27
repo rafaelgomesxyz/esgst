@@ -1,5 +1,5 @@
 import { Module } from '../../class/Module';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 
 class GeneralShortcutKeys extends Module {
   constructor() {
@@ -102,8 +102,8 @@ class GeneralShortcutKeys extends Module {
 
   init() {
     let methods = {};
-    if (gSettings.sk_cp) {
-      methods[gSettings.sk_closePopups] = event => {
+    if (Settings.sk_cp) {
+      methods[Settings.sk_closePopups] = event => {
         if (!event.target.tagName.match(/^(INPUT|TEXTAREA)$/)) {
           let buttons = document.querySelectorAll(`.b-close, .esgst-popup-close`), i;
           for (i = buttons.length - 1; i > -1; --i) {
@@ -113,8 +113,8 @@ class GeneralShortcutKeys extends Module {
         }
       };
     }
-    if (gSettings.sk_sb) {
-      methods[gSettings.sk_searchBox] = event => {
+    if (Settings.sk_sb) {
+      methods[Settings.sk_searchBox] = event => {
         if (!event.target.tagName.match(/^(INPUT|TEXTAREA)$/)) {
           let search = document.getElementsByClassName('sidebar__search-input')[0];
           if (search) {
@@ -124,40 +124,40 @@ class GeneralShortcutKeys extends Module {
         }
       };
     }
-    if (gSettings.sk_fp) {
-      methods[gSettings.sk_firstPage] = event => {
+    if (Settings.sk_fp) {
+      methods[Settings.sk_firstPage] = event => {
         if (!event.target.tagName.match(/^(INPUT|TEXTAREA)$/) && this.esgst.paginationNavigation && this.esgst.currentPage > 1) {
           window.location.href = `${this.esgst.searchUrl}1`;
           event.preventDefault();
         }
       };
     }
-    if (gSettings.sk_pp) {
-      methods[gSettings.sk_previousPage] = event => {
+    if (Settings.sk_pp) {
+      methods[Settings.sk_previousPage] = event => {
         if (!event.target.tagName.match(/^(INPUT|TEXTAREA)$/) && this.esgst.paginationNavigation && this.esgst.currentPage > 1) {
           window.location.href = `${this.esgst.searchUrl}${this.esgst.currentPage - 1}`;
           event.preventDefault();
         }
       };
     }
-    if (gSettings.sk_np) {
-      methods[gSettings.sk_nextPage] = event => {
+    if (Settings.sk_np) {
+      methods[Settings.sk_nextPage] = event => {
         if (!event.target.tagName.match(/^(INPUT|TEXTAREA)$/) && this.esgst.paginationNavigation && this.esgst.currentPage < this.esgst.lastPage) {
           window.location.href = `${this.esgst.searchUrl}${this.esgst.currentPage + 1}`;
           event.preventDefault();
         }
       };
     }
-    if (gSettings.sk_lp) {
-      methods[gSettings.sk_lastPage] = event => {
+    if (Settings.sk_lp) {
+      methods[Settings.sk_lastPage] = event => {
         if (!event.target.tagName.match(/^(INPUT|TEXTAREA)$/) && this.esgst.paginationNavigation && this.esgst.currentPage < this.esgst.lastPage && this.esgst.lastPage !== 999999999) {
           window.location.href = `${this.esgst.searchUrl}${this.esgst.lastPage}`;
           event.preventDefault();
         }
       };
     }
-    if (gSettings.sk_tf) {
-      methods[gSettings.sk_toggleFilters] = event => {
+    if (Settings.sk_tf) {
+      methods[Settings.sk_toggleFilters] = event => {
         if (!event.target.tagName.match(/^(INPUT|TEXTAREA)$/)) {
           let toggle = document.querySelector('.esgst-gf-toggle-switch');
           if (toggle) {
@@ -167,8 +167,8 @@ class GeneralShortcutKeys extends Module {
         }
       };
     }
-    if (gSettings.sk_hg) {
-      methods[gSettings.sk_hideGame] = event => {
+    if (Settings.sk_hg) {
+      methods[Settings.sk_hideGame] = event => {
         if (!event.target.tagName.match(/^(INPUT|TEXTAREA)$/) && this.esgst.giveawayPath) {
           let button = (document.getElementsByClassName('popup--hide-games')[0].style.display && document.getElementsByClassName('popup--hide-games')[0].style.display !== 'none' && document.getElementsByClassName('js__submit-hide-games')[0]) || document.querySelector(`.esgst-ochgb, .giveaway__hide, .featured__giveaway__hide`);
           if (button) {
@@ -178,8 +178,8 @@ class GeneralShortcutKeys extends Module {
         }
       };
     }
-    if (gSettings.sk_hga) {
-      methods[gSettings.sk_hideGiveaway] = event => {
+    if (Settings.sk_hga) {
+      methods[Settings.sk_hideGiveaway] = event => {
         if (!event.target.tagName.match(/^(INPUT|TEXTAREA)$/) && this.esgst.giveawayPath) {
           let button = document.querySelector(`.esgst-gf-hide-button, .esgst-gf-unhide-button`);
           if (button) {
@@ -189,8 +189,8 @@ class GeneralShortcutKeys extends Module {
         }
       };
     }
-    if (gSettings.sk_ge) {
-      methods[gSettings.sk_giveawayEntry] = event => {
+    if (Settings.sk_ge) {
+      methods[Settings.sk_giveawayEntry] = event => {
         if (!event.target.tagName.match(/^(INPUT|TEXTAREA)$/) && this.esgst.enterGiveawayButton) {
           if (this.esgst.enterGiveawayButton.classList.contains('is-hidden')) {
             this.esgst.leaveGiveawayButton.click();
@@ -201,8 +201,8 @@ class GeneralShortcutKeys extends Module {
         }
       };
     }
-    if (gSettings.sk_c) {
-      methods[gSettings.sk_creator] = event => {
+    if (Settings.sk_c) {
+      methods[Settings.sk_creator] = event => {
         if (event.target.tagName.match(/^(INPUT|TEXTAREA)$/)) {
           let text = event.target.value;
           let end = event.target.selectionEnd;
@@ -218,16 +218,16 @@ class GeneralShortcutKeys extends Module {
         }
       };
     }
-    if (gSettings.sk_rb) {
-      methods[gSettings.sk_replyBox] = event => {
+    if (Settings.sk_rb) {
+      methods[Settings.sk_replyBox] = event => {
         if (!event.target.tagName.match(/^(INPUT|TEXTAREA)$/) && this.esgst.replyBox) {
           this.esgst.replyBox.getElementsByTagName('textarea')[0].focus();
           event.preventDefault();
         }
       };
     }
-    if (gSettings.sk_ru) {
-      methods[gSettings.sk_replyUser] = event => {
+    if (Settings.sk_ru) {
+      methods[Settings.sk_replyUser] = event => {
         if (event.target.tagName === 'TEXTAREA') {
           let text = event.target.value;
           let end = event.target.selectionEnd;
@@ -244,8 +244,8 @@ class GeneralShortcutKeys extends Module {
         }
       };
     }
-    if (gSettings.sk_sr) {
-      methods[gSettings.sk_submitReply] = event => {
+    if (Settings.sk_sr) {
+      methods[Settings.sk_submitReply] = event => {
         if (event.target.tagName === 'TEXTAREA') {
           let reply = event.target.closest(`.comment, .reply_form, .esgst-popup`);
           if (reply) {

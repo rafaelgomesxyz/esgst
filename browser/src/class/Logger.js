@@ -1,4 +1,4 @@
-import { gSettings } from './Globals';
+import { Settings } from './Settings';
 import { Popup } from './Popup';
 import { shared, Shared } from './Shared';
 import { DOM } from './DOM';
@@ -19,7 +19,7 @@ class _Logger {
     const message = this.getMessage(arguments);
     window.console.info(message);
     this.logs.push({ level: INFO, message });
-    if (gSettings.notifyLogs) {
+    if (Settings.notifyLogs) {
       this.addButton(INFO);
     }
   }
@@ -28,7 +28,7 @@ class _Logger {
     const message = this.getMessage(arguments);
     window.console.warn(message);
     this.logs.push({ level: WARNING, message });
-    if (gSettings.notifyLogs) {
+    if (Settings.notifyLogs) {
       this.addButton(WARNING);
     }
   }
@@ -37,7 +37,7 @@ class _Logger {
     const message = this.getMessage(arguments);
     window.console.error(message);
     this.logs.push({ level: ERROR, message });
-    if (gSettings.notifyLogs) {
+    if (Settings.notifyLogs) {
       this.addButton(ERROR);
     }
   }

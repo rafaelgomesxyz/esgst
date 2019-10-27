@@ -17,7 +17,7 @@ import { loadDataCleaner, loadDataManagement } from './Storage';
 import { runSilentSync, setSync } from './Sync';
 import { elementBuilder } from '../lib/SgStUtils/ElementBuilder';
 import 'bootstrap/dist/js/bootstrap';
-import { gSettings } from '../class/Globals';
+import { Settings } from '../class/Settings';
 import { permissions } from '../class/Permissions';
 import { Logger } from '../class/Logger';
 import { DOM } from '../class/DOM';
@@ -99,7 +99,7 @@ class Common extends Module {
     if (popup.minimizeItem) {
       popup.minimizeItem.classList.add('alert');
     }
-    if (gSettings.minimizePanel) {
+    if (Settings.minimizePanel) {
       this.esgst.minimizePanel.classList.add('alert');
     }
   }
@@ -194,7 +194,7 @@ class Common extends Module {
       }
     }
 
-    if (gSettings.minimizePanel) {
+    if (Settings.minimizePanel) {
       this.minimizePanel_add();
     }
 
@@ -236,7 +236,7 @@ class Common extends Module {
 
     for (const key in modules) {
       const mod = modules[key];
-      if (!mod.info || (!mod.info.endless && !gSettings[mod.info.id])) {
+      if (!mod.info || (!mod.info.endless && !Settings[mod.info.id])) {
         continue;
       }
       if (mod.info.featureMap) {
@@ -283,12 +283,12 @@ class Common extends Module {
 
     this.esgst.style.insertAdjacentText("beforeend", `
       .esgst-menu-split-fixed {
-        max-height: calc(100vh - ${this.esgst.commentsTop + 55 + (gSettings.ff ? 39 : 0)}px);
+        max-height: calc(100vh - ${this.esgst.commentsTop + 55 + (Settings.ff ? 39 : 0)}px);
         top: ${this.esgst.commentsTop + 25}px;
       }
     `);
 
-    if (gSettings.updateHiddenGames) {
+    if (Settings.updateHiddenGames) {
       const hideButton = document.getElementsByClassName('js__submit-hide-games')[0];
       if (hideButton) {
         hideButton.addEventListener('click', () => this.updateHiddenGames(this.esgst.hidingGame.id, this.esgst.hidingGame.type, false));
@@ -328,7 +328,7 @@ class Common extends Module {
     window.addEventListener('beforeunload', this.checkBusy.bind(this));
     window.addEventListener('hashchange', this.goToComment.bind(this, null, null, false));
 
-    if (shared.esgst.replyBox && gSettings.jumpToReplyBox) {
+    if (shared.esgst.replyBox && Settings.jumpToReplyBox) {
       shared.esgst.replyBox.querySelector('textarea').focus();
     }
 
@@ -505,7 +505,7 @@ class Common extends Module {
           type: 'i'
         }]
       }]);
-      if (gSettings.addNoCvGames) {
+      if (Settings.addNoCvGames) {
         // noinspection JSIgnoredPromiseFromCall
         this.addNoCvGames(games);
       } else {
@@ -653,7 +653,7 @@ class Common extends Module {
       }]);
       return { id: null, response: null, status };
     }
-    if (gSettings.ch) {
+    if (Settings.ch) {
       // noinspection JSIgnoredPromiseFromCall
       this.esgst.modules.commentsCommentHistory.ch_saveComment(id, Date.now());
     }
@@ -1010,7 +1010,7 @@ class Common extends Module {
     });
     element.addEventListener('mouseup', () => {
       if (isDragging === -1) return;
-      if (gSettings[id] || isDragging === 1) {
+      if (Settings[id] || isDragging === 1) {
         window.open(url);
       } else {
         callback();
@@ -1029,11 +1029,11 @@ class Common extends Module {
         context.parentElement.insertBefore(details.element, context);
 
         return context.previousElementSibling;
-      } else if (gSettings.leftButtonIds.indexOf(id) > -1) {
+      } else if (Settings.leftButtonIds.indexOf(id) > -1) {
         context = this.esgst.leftButtons;
-      } else if (gSettings.rightButtonIds.indexOf(id) > -1) {
+      } else if (Settings.rightButtonIds.indexOf(id) > -1) {
         context = this.esgst.rightButtons;
-      } else if (gSettings.leftMainPageHeadingIds.indexOf(id) > -1) {
+      } else if (Settings.leftMainPageHeadingIds.indexOf(id) > -1) {
         context = this.esgst.leftMainPageHeadingButtons;
       } else {
         context = this.esgst.rightMainPageHeadingButtons;
@@ -1083,7 +1083,7 @@ class Common extends Module {
       popup.open();
       await this.checkSync(true);
 
-      popup.setTitle(`All done, ${gSettings.username}! Here's some useful info on how to get started!`);
+      popup.setTitle(`All done, ${Settings.username}! Here's some useful info on how to get started!`);
 
       popup.getScrollable([
         ['div', { class: 'markdown' }, [
@@ -1111,7 +1111,7 @@ class Common extends Module {
           ]],
         ]],
       ]);
-    } else if (isUpdate && gSettings.showChangelog) {
+    } else if (isUpdate && Settings.showChangelog) {
       new Popup({
         icon: 'fa-star',
         isTemp: true,
@@ -1148,8 +1148,8 @@ class Common extends Module {
       ggiveaways = {};
       ggiveaways[giveaway.code] = giveaway;
       user = {
-        steamId: gSettings.steamId,
-        username: gSettings.username,
+        steamId: Settings.steamId,
+        username: Settings.username,
         values: {}
       };
       const savedUser = await this.getUser(null, user);
@@ -1251,7 +1251,7 @@ class Common extends Module {
       if (!item.context) {
         continue;
       }
-      for (const id of gSettings[item.id]) {
+      for (const id of Settings[item.id]) {
         const elements = (obj.mainPageHeading || obj.outerWrap).querySelectorAll(`[data-draggable-id="${id}"]`);
         for (const element of elements) {
           item.context.appendChild(element);
@@ -1295,7 +1295,7 @@ class Common extends Module {
       } else if (value.st) {
         value.id = `${value.id}_st`;
       }
-      gSettings[value.id] = value.value;
+      Settings[value.id] = value.value;
       settings[value.id] = value.value;
     }
     await this.setValue('settings', JSON.stringify(settings));
@@ -1545,25 +1545,25 @@ class Common extends Module {
       const match = key.match(/(.+?)_(sg|st|sgt)$/);
       if (match) {
         if (match[2] === shared.esgst.name) {
-          gSettings[key] = gSettings[match[1]] = shared.esgst.settings[key];
+          Settings[key] = Settings[match[1]] = shared.esgst.settings[key];
         }
       } else {
-        gSettings[key] = shared.esgst.settings[key];
+        Settings[key] = shared.esgst.settings[key];
       }
     }
     for (const key in shared.esgst.oldValues) {
       if (shared.esgst.oldValues.hasOwnProperty(key)) {
         const localKey = key.replace(new RegExp(`(.+?)_${shared.esgst.name}$`), `$1`);
-        if (!Utils.isSet(gSettings[localKey])) {
-          gSettings[key] = gSettings[localKey] = common.getSetting(key, shared.esgst.name, key.match(/^(wbc_checkBlacklist|wbc_hb_sg)$/));
+        if (!Utils.isSet(Settings[localKey])) {
+          Settings[key] = Settings[localKey] = common.getSetting(key, shared.esgst.name, key.match(/^(wbc_checkBlacklist|wbc_hb_sg)$/));
         }
       }
     }
     for (const key in shared.esgst.defaultValues) {
       if (shared.esgst.defaultValues.hasOwnProperty(key)) {
         const localKey = key.replace(new RegExp(`(.+?)_${shared.esgst.name}$`), `$1`);
-        if (!Utils.isSet(gSettings[localKey])) {
-          gSettings[key] = gSettings[localKey] = common.getSetting(key, shared.esgst.name, key.match(/^(wbc_checkBlacklist|wbc_hb_sg)$/));
+        if (!Utils.isSet(Settings[localKey])) {
+          Settings[key] = Settings[localKey] = common.getSetting(key, shared.esgst.name, key.match(/^(wbc_checkBlacklist|wbc_hb_sg)$/));
         }
       }
     }
@@ -1573,21 +1573,21 @@ class Common extends Module {
         this.dismissFeature(feature, id);
         if (feature.sg) {
           const result = this.getFeatureSetting(feature, id, 'sg');
-          gSettings[`${id}_sg`] = result.current;
-          gSettings.full[`${id}_sg`] = result.full;
+          Settings[`${id}_sg`] = result.current;
+          Settings.full[`${id}_sg`] = result.full;
         }
         if (feature.st) {
           const result = this.getFeatureSetting(feature, id, 'st');
-          gSettings[`${id}_st`] = result.current;
-          gSettings.full[`${id}_st`] = result.full;
+          Settings[`${id}_st`] = result.current;
+          Settings.full[`${id}_st`] = result.full;
         }
         if (feature.sgtools) {
           const result = this.getFeatureSetting(feature, id, 'sgtools');
-          gSettings[`${id}_sgtools`] = result.current;
-          gSettings.full[`${id}_sgtools`] = result.full;
+          Settings[`${id}_sgtools`] = result.current;
+          Settings.full[`${id}_sgtools`] = result.full;
         }
-        gSettings[id] = gSettings[`${id}_${shared.esgst.name}`];
-        gSettings.full[id] = gSettings.full[`${id}_${shared.esgst.name}`];
+        Settings[id] = Settings[`${id}_${shared.esgst.name}`];
+        Settings.full[id] = Settings.full[`${id}_${shared.esgst.name}`];
       }
     }
   }
@@ -1595,15 +1595,15 @@ class Common extends Module {
   getGlobalSetting(id, namespace = shared.esgst.name, path = '') {
     let value;
     const key = this.getGlobalSettingKey(id, namespace, path);
-    if (Utils.isSet(gSettings[key])) {
-      value = gSettings[key];
+    if (Utils.isSet(Settings[key])) {
+      value = Settings[key];
     } else {
       const feature = shared.esgst.featuresById[id];
       if (feature) {
         const result = this.getFeatureSetting(feature, id, namespace, path);
         value = result.current;
         if (namespace === shared.esgst.name) {
-          gSettings.full[id] = result.full;
+          Settings.full[id] = result.full;
         }
       } else {
         const namespaced = shared.esgst.settings[`${id}_${namespace}`];
@@ -1613,9 +1613,9 @@ class Common extends Module {
           value = this.getSetting(id, namespace);
         }
       }
-      gSettings[key] = value;
+      Settings[key] = value;
       if (namespace === shared.esgst.name) {
-        gSettings[id] = value;
+        Settings[id] = value;
       }
     }
     return value;
@@ -1623,9 +1623,9 @@ class Common extends Module {
 
   setGlobalSetting(id, value, namespace = shared.esgst.name, path = '') {
     const key = this.getGlobalSettingKey(id, namespace, path);
-    gSettings[key] = value;
+    Settings[key] = value;
     if (namespace === shared.esgst.name) {
-      gSettings[id] = value;
+      Settings[id] = value;
     }
   }
 
@@ -1652,7 +1652,7 @@ class Common extends Module {
   }
 
   getFeatureTooltip(id, title = '') {
-    if (gSettings.showFeatureNumber) {
+    if (Settings.showFeatureNumber) {
       if (title) {
         return `${title}\n\nThis element was added by ESGST${id ? ` (${this.getFeatureNumber(id).number})` : ''}`;
       }
@@ -1678,12 +1678,12 @@ class Common extends Module {
             if (result) {
               return result;
             }
-            if (feature.sg || gSettings.esgst_st || gSettings.esgst_sgtools) {
+            if (feature.sg || Settings.esgst_st || Settings.esgst_sgtools) {
               i += 1;
             }
           }
         }
-        if (type !== 'trades' || gSettings.esgst_st || gSettings.esgst_sgtools) {
+        if (type !== 'trades' || Settings.esgst_st || Settings.esgst_sgtools) {
           n += 1;
         }
       }
@@ -1710,7 +1710,7 @@ class Common extends Module {
           if (result) {
             return result;
           }
-          if (subFeature.sg || gSettings.esgst_st || gSettings.esgst_sgtools) {
+          if (subFeature.sg || Settings.esgst_st || Settings.esgst_sgtools) {
             j += 1;
           }
         }
@@ -1999,12 +1999,12 @@ class Common extends Module {
       let parameters = '';
       this.setLocalValue('isSyncing', currentDate);
       ['Groups', 'Whitelist', 'Blacklist', 'SteamFriends', 'HiddenGames', 'Games', 'FollowedGames', 'WonGames', 'ReducedCvGames', 'NoCvGames', 'HltbTimes', 'DelistedGames', 'Giveaways', 'WonGiveaways'].forEach(key => {
-        if (gSettings[`autoSync${key}`] && currentDate - gSettings[`lastSync${key}`] > gSettings[`autoSync${key}`] * 86400000) {
+        if (Settings[`autoSync${key}`] && currentDate - Settings[`lastSync${key}`] > Settings[`autoSync${key}`] * 86400000) {
           parameters += `${key}=1&`;
         }
       });
       if (parameters) {
-        if (gSettings.openAutoSyncNewTab) {
+        if (Settings.openAutoSyncNewTab) {
           window.open(`${shared.esgst.syncUrl}&autoSync=true&${parameters}`);
         } else {
           runSilentSync(parameters);
@@ -2293,7 +2293,7 @@ class Common extends Module {
   observeChange(context, id, save = null, key = 'value', event = 'change') {
     context.addEventListener(event, () => {
       let value = context[key];
-      gSettings[id] = value;
+      Settings[id] = value;
       if (save) {
         if (typeof save === 'object') {
           save[id] = value;
@@ -2305,11 +2305,11 @@ class Common extends Module {
   }
 
   observeNumChange(context, id, save = null, key = 'value') {
-    gSettings[id] = parseFloat(gSettings[id]);
+    Settings[id] = parseFloat(Settings[id]);
     context.addEventListener('change', () => {
       let value = parseFloat(context[key]);
       // noinspection JSIgnoredPromiseFromCall
-      gSettings[id] = value;
+      Settings[id] = value;
       if (save) {
         if (typeof save === 'object') {
           save[id] = value;
@@ -2331,14 +2331,14 @@ class Common extends Module {
       rows[1].innerHTML = '';
     } else {
       let preset = null;
-      if (gSettings.df && gSettings.df_m && gSettings.df_enable) {
-        let name = gSettings.df_preset;
+      if (Settings.df && Settings.df_m && Settings.df_enable) {
+        let name = Settings.df_preset;
         if (name) {
           let i;
-          for (i = gSettings.df_presets.length - 1; i > -1 && gSettings.df_presets[i].name !== name; i--) {
+          for (i = Settings.df_presets.length - 1; i > -1 && Settings.df_presets[i].name !== name; i--) {
           }
           if (i > -1) {
-            preset = gSettings.df_presets[i];
+            preset = Settings.df_presets[i];
           }
         }
       }
@@ -2376,14 +2376,14 @@ class Common extends Module {
       let response2Html = DOM.parse(response2.responseText);
       let revisedElements = [];
       let preset = null;
-      if (gSettings.df && gSettings.df_m && gSettings.df_enable) {
-        let name = gSettings.df_preset;
+      if (Settings.df && Settings.df_m && Settings.df_enable) {
+        let name = Settings.df_preset;
         if (name) {
           let i;
-          for (i = gSettings.df_presets.length - 1; i > -1 && gSettings.df_presets[i].name !== name; i--) {
+          for (i = Settings.df_presets.length - 1; i > -1 && Settings.df_presets[i].name !== name; i--) {
           }
           if (i > -1) {
-            preset = gSettings.df_presets[i];
+            preset = Settings.df_presets[i];
           }
         }
       }
@@ -2414,9 +2414,9 @@ class Common extends Module {
         }
         i -= 1;
       }
-      if (gSettings.adots) {
+      if (Settings.adots) {
         this.esgst.modules.discussionsActiveDiscussionsOnTopSidebar.adots_load(refresh);
-      } else if (gSettings.radb && !refresh) {
+      } else if (Settings.radb && !refresh) {
         this.esgst.modules.discussionsRefreshActiveDiscussionsButton.radb_addButtons();
       }
       if (refresh) {
@@ -2426,9 +2426,9 @@ class Common extends Module {
         callback();
       }
     } else {
-      if (gSettings.adots) {
+      if (Settings.adots) {
         this.esgst.modules.discussionsActiveDiscussionsOnTopSidebar.adots_load();
-      } else if (gSettings.radb && !refresh) {
+      } else if (Settings.radb && !refresh) {
         this.esgst.modules.discussionsRefreshActiveDiscussionsButton.radb_addButtons();
       }
       if (callback) {
@@ -2446,56 +2446,56 @@ class Common extends Module {
           callback: this.setSMRecentUsernameChanges.bind(this)
         },
         {
-          check: gSettings.uf,
+          check: Settings.uf,
           name: 'See list of filtered users',
           callback: this.setSMManageFilteredUsers.bind(this)
         },
         {
-          check: this.esgst.sg && gSettings.gf && gSettings.gf_s,
+          check: this.esgst.sg && Settings.gf && Settings.gf_s,
           name: 'Manage hidden giveaways',
           callback: this.setSMManageFilteredGiveaways.bind(this)
         },
         {
           click: true,
-          check: this.esgst.sg && gSettings.df && gSettings.df_s,
+          check: this.esgst.sg && Settings.df && Settings.df_s,
           name: 'Manage hidden discussions',
           callback: this.esgst.modules.discussionsDiscussionFilters.df_menu.bind(this.esgst.modules.discussionsDiscussionFilters, {})
         },
         {
           click: true,
-          check: this.esgst.st && gSettings.tf && gSettings.tf_s,
+          check: this.esgst.st && Settings.tf && Settings.tf_s,
           name: 'Manage hidden trades',
           callback: this.esgst.modules.tradesTradeFilters.tf_menu.bind(this.esgst.modules.tradesTradeFilters, {})
         },
         {
-          check: this.esgst.sg && gSettings.dt,
+          check: this.esgst.sg && Settings.dt,
           name: 'Manage discussion tags',
           callback: this.openManageDiscussionTagsPopup.bind(this)
         },
         {
-          check: this.esgst.sg && gSettings.ut,
+          check: this.esgst.sg && Settings.ut,
           name: 'Manage user tags',
           callback: this.openManageUserTagsPopup.bind(this)
         },
         {
-          check: gSettings.gt,
+          check: Settings.gt,
           name: 'Manage game tags',
           callback: this.openManageGameTagsPopup.bind(this)
         },
         {
-          check: gSettings.gpt,
+          check: Settings.gpt,
           name: 'Manage group tags',
           callback: this.openManageGroupTagsPopup.bind(this)
         },
         {
           click: true,
-          check: gSettings.wbc,
+          check: Settings.wbc,
           name: 'Manage Whitelist / Blacklist Checker caches',
           callback: this.esgst.modules.usersWhitelistBlacklistChecker.wbc_addButton.bind(this.esgst.modules.usersWhitelistBlacklistChecker, false)
         },
         {
           click: true,
-          check: gSettings.namwc,
+          check: Settings.namwc,
           name: 'Manage Not Activated / Multiple Wins Checker caches',
           callback: this.esgst.modules.usersNotActivatedMultipleWinChecker.namwc_setPopup.bind(this.esgst.modules.usersNotActivatedMultipleWinChecker)
         }
@@ -2591,7 +2591,7 @@ class Common extends Module {
               i = value;
               if (i > n) {
                 set.set.remove();
-              } else if (gSettings.es_gf && popup.scrollable.scrollHeight <= popup.scrollable.offsetHeight) {
+              } else if (Settings.es_gf && popup.scrollable.scrollHeight <= popup.scrollable.offsetHeight) {
                 set.trigger();
               }
               resolve();
@@ -2602,7 +2602,7 @@ class Common extends Module {
       popup.description.appendChild(set.set);
       popup.open();
       set.trigger();
-      if (gSettings.es_gf) {
+      if (Settings.es_gf) {
         popup.scrollable.addEventListener('scroll', () => {
           if ((popup.scrollable.scrollTop + popup.scrollable.offsetHeight) >= popup.scrollable.scrollHeight && !set.busy) {
             set.trigger();
@@ -2662,7 +2662,7 @@ class Common extends Module {
       },
       type: 'div'
     }]);
-    if (gSettings.mm) {
+    if (Settings.mm) {
       this.esgst.modules.generalMultiManager.mm(heading);
     }
     savedDiscussions = JSON.parse(this.getValue('discussions'));
@@ -2740,7 +2740,7 @@ class Common extends Module {
       },
       type: 'div'
     }]);
-    if (gSettings.mm) {
+    if (Settings.mm) {
       this.esgst.modules.generalMultiManager.mm(heading);
     }
     savedUsers = JSON.parse(this.getValue('users'));
@@ -2823,7 +2823,7 @@ class Common extends Module {
       },
       type: 'div'
     }]);
-    if (gSettings.mm) {
+    if (Settings.mm) {
       this.esgst.modules.generalMultiManager.mm(heading);
     }
     savedGames = JSON.parse(this.getValue('games'));
@@ -2948,7 +2948,7 @@ class Common extends Module {
       },
       type: 'div'
     }]);
-    if (gSettings.mm) {
+    if (Settings.mm) {
       this.esgst.modules.generalMultiManager.mm(heading);
     }
     savedGroups = JSON.parse(this.getValue('groups'));
@@ -3087,7 +3087,7 @@ class Common extends Module {
    * @returns {Promise<void>}
    */
   async updateHiddenGames(id, type, unhide) {
-    if (!gSettings.updateHiddenGames) {
+    if (!Settings.updateHiddenGames) {
       return;
     }
     const games = {
@@ -3103,10 +3103,10 @@ class Common extends Module {
   checkBackup() {
     let currentDate = Date.now();
     let isBackingUp = parseInt(this.getLocalValue('isBackingUp'));
-    if ((!isBackingUp || currentDate - isBackingUp > 1800000) && currentDate - gSettings.lastBackup > gSettings.autoBackup_days * 86400000) {
+    if ((!isBackingUp || currentDate - isBackingUp > 1800000) && currentDate - Settings.lastBackup > Settings.autoBackup_days * 86400000) {
       this.setLocalValue('isBackingUp', currentDate);
-      if (gSettings.openAutoBackupNewTab) {
-        window.open(`${shared.esgst.backupUrl}&autoBackupIndex=${gSettings.autoBackup_index}`);
+      if (Settings.openAutoBackupNewTab) {
+        window.open(`${shared.esgst.backupUrl}&autoBackupIndex=${Settings.autoBackup_index}`);
       } else {
         this.runSilentBackup();
       }
@@ -3383,15 +3383,15 @@ class Common extends Module {
   }
 
   multiChoice(choice1Color, choice1Icon, choice1Title, choice2Color, choice2Icon, choice2Title, title, onChoice1, onChoice2) {
-    if (gSettings.cfh_img_remember) {
-      if (gSettings.cfh_img_choice === 1) {
+    if (Settings.cfh_img_remember) {
+      if (Settings.cfh_img_choice === 1) {
         onChoice1();
       } else {
         onChoice2();
       }
     } else {
       let popup = new Popup({ addScrollable: true, icon: 'fa-list', isTemp: true, title: title });
-      new ToggleSwitch(popup.description, 'cfh_img_remember', false, 'Never ask again.', false, false, 'Remembers which option you choose forever.', gSettings.cfh_img_remember);
+      new ToggleSwitch(popup.description, 'cfh_img_remember', false, 'Never ask again.', false, false, 'Remembers which option you choose forever.', Settings.cfh_img_remember);
       popup.description.appendChild(new ButtonSet({
         color1: choice1Color,
         color2: '',
@@ -3401,7 +3401,7 @@ class Common extends Module {
         title2: '',
         callback1: () => {
           return new Promise(resolve => {
-            if (gSettings.cfh_img_remember) {
+            if (Settings.cfh_img_remember) {
               // noinspection JSIgnoredPromiseFromCall
               this.setSetting('cfh_img_choice', 1);
             }
@@ -3420,7 +3420,7 @@ class Common extends Module {
         title2: '',
         callback1: () => {
           return new Promise(resolve => {
-            if (gSettings.cfh_img_remember) {
+            if (Settings.cfh_img_remember) {
               // noinspection JSIgnoredPromiseFromCall
               this.setSetting('cfh_img_choice', 2);
             }
@@ -3446,7 +3446,7 @@ class Common extends Module {
     delete data.settings.syncFrequency;
     delete data.settings.username_sg;
     delete data.settings.username_st;
-    const name = `${gSettings.askFileName ? window.prompt(`Enter the name of the file:`, `esgst_settings_${new Date().toISOString().replace(/:/g, '_')}`) : `esgst_settings_${new Date().toISOString().replace(/:/g, '_')}`}.json`;
+    const name = `${Settings.askFileName ? window.prompt(`Enter the name of the file:`, `esgst_settings_${new Date().toISOString().replace(/:/g, '_')}`) : `esgst_settings_${new Date().toISOString().replace(/:/g, '_')}`}.json`;
     if (name === 'null.json') return;
     this.downloadFile(JSON.stringify(data), name);
   }
@@ -3501,7 +3501,7 @@ class Common extends Module {
     for (let i = 0, n = keys.length; i < n; i++) {
       let key = keys[i];
       if (key === 'customTheme') continue;
-      if (gSettings[key] && this.checkThemeTime(key)) {
+      if (Settings[key] && this.checkThemeTime(key)) {
         const theme = this.getValue(key, '');
         if (!theme) continue;
         const css = this.getThemeCss(JSON.parse(theme));
@@ -3519,7 +3519,7 @@ class Common extends Module {
         break;
       }
     }
-    if (gSettings.customTheme && this.checkThemeTime('customTheme')) {
+    if (Settings.customTheme && this.checkThemeTime('customTheme')) {
       const css = JSON.parse(this.getValue('customTheme', ''));
       this.esgst.customThemeElement = this.createElements(document.head, 'beforeEnd', [{
         attributes: {
@@ -3536,8 +3536,8 @@ class Common extends Module {
   }
 
   checkThemeTime(id) {
-    let startParts = gSettings[`${id}_startTime`].split(`:`),
-      endParts = gSettings[`${id}_endTime`].split(`:`),
+    let startParts = Settings[`${id}_startTime`].split(`:`),
+      endParts = Settings[`${id}_endTime`].split(`:`),
       startDate = new Date(),
       startHours = parseInt(startParts[0]),
       startMinutes = parseInt(startParts[1]),
@@ -4062,11 +4062,11 @@ class Common extends Module {
         elements[id] = this.createElements(context, 'beforeEnd', [{
           type: 'div'
         }]);
-        switches[id] = new ToggleSwitch(elements[id], id, false, option.description, false, false, option.tooltip, gSettings[id]);
+        switches[id] = new ToggleSwitch(elements[id], id, false, option.description, false, false, option.tooltip, Settings[id]);
       }
     });
     options.forEach(option => {
-      let enabled = gSettings[option.id];
+      let enabled = Settings[option.id];
       if (switches[option.id]) {
         if (option.dependencies) {
           option.dependencies.forEach(dependency => {
@@ -4942,7 +4942,7 @@ class Common extends Module {
   async getPlayerAchievements(appId, steamId) {
     const text = (await this.request({
       method: 'GET',
-      url: `http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid=${appId}&key=${gSettings.steamApiKey}&steamid=${steamId}`
+      url: `http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid=${appId}&key=${Settings.steamApiKey}&steamid=${steamId}`
     })).responseText;
     return JSON.parse(text);
   }
@@ -5000,7 +5000,7 @@ class Common extends Module {
       ? response.finalUrl.match(/(.+?)(#.+?)?$/)[1]
       : '/ajax.php';
 
-    if (obj.checked || !gSettings.rfi_c) {
+    if (obj.checked || !Settings.rfi_c) {
       const result = await this.saveComment(
         obj.context,
         obj.tradeCode,
@@ -5426,7 +5426,7 @@ class Common extends Module {
           this.lookForPopups(response);
         }
       } else {
-        const manipulateCookies = (await this.getBrowserInfo()).name === 'Firefox' && gSettings.manipulateCookies;
+        const manipulateCookies = (await this.getBrowserInfo()).name === 'Firefox' && Settings.manipulateCookies;
 
         browser.runtime.sendMessage({
           action: 'fetch',
@@ -5569,7 +5569,7 @@ class Common extends Module {
         },
       ],
       onClick: event => {
-        if (!gSettings.openSettingsInTab) {
+        if (!Settings.openSettingsInTab) {
           event.preventDefault();
           settingsModule.loadMenu(true);
         }

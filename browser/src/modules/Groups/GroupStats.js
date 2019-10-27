@@ -1,7 +1,7 @@
 import { Module } from '../../class/Module';
 import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
 import { shared } from '../../class/Shared';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 import { permissions } from '../../class/Permissions';
 import { FetchRequest } from '../../class/FetchRequest';
 import { DOM } from '../../class/DOM';
@@ -89,25 +89,25 @@ class GroupsGroupStats extends Module {
       return;
     }
 
-    if ((gSettings.gs_creationDate || gSettings.gs_type) && !(await permissions.requestUi([['steamCommunity']], 'gs', true))) {
+    if ((Settings.gs_creationDate || Settings.gs_type) && !(await permissions.requestUi([['steamCommunity']], 'gs', true))) {
       return;
     }
 
     DOM.build(document.getElementsByClassName('table__heading')[0], 'beforeEnd', [
-      gSettings.gs_sent ? ['div', { class: 'table__column--width-small text-center' }, 'Sent'] : null,
-      gSettings.gs_received ? ['div', { class: 'table__column--width-small text-center' }, 'Received'] : null,
-      gSettings.gs_giftDifference ? ['div', { class: 'table__column--width-small text-center' }, 'Gift Difference'] : null,
-      gSettings.gs_valueDifference ? ['div', { class: 'table__column--width-small text-center' }, 'Value Difference'] : null,
-      gSettings.gs_firstGiveaway ? ['div', { class: 'table__column--width-small text-center' }, 'First Giveaway'] : null,
-      gSettings.gs_lastGiveaway ? ['div', { class: 'table__column--width-small text-center' }, 'Last Giveaway'] : null,
-      gSettings.gs_averageEntries ? ['div', { class: 'table__column--width-small text-center' }, 'Average Entries'] : null,
-      gSettings.gs_contributors ? ['div', { class: 'table__column--width-small text-center' }, 'Contributors'] : null,
-      gSettings.gs_winners ? ['div', { class: 'table__column--width-small text-center' }, 'Winners'] : null,
-      gSettings.gs_giftsSent ? ['div', { class: 'table__column--width-small text-center' }, 'Gifts Sent'] : null,
-      gSettings.gs_giveaways ? ['div', { class: 'table__column--width-small text-center' }, 'Giveaways'] : null,
-      gSettings.gs_users ? ['div', { class: 'table__column--width-small text-center' }, 'Users'] : null,
-      gSettings.gs_creationDate ? ['div', { class: 'table__column--width-small text-center' }, 'Creation Date'] : null,
-      gSettings.gs_type ? ['div', { class: 'table__column--width-small text-center' }, 'Type'] : null
+      Settings.gs_sent ? ['div', { class: 'table__column--width-small text-center' }, 'Sent'] : null,
+      Settings.gs_received ? ['div', { class: 'table__column--width-small text-center' }, 'Received'] : null,
+      Settings.gs_giftDifference ? ['div', { class: 'table__column--width-small text-center' }, 'Gift Difference'] : null,
+      Settings.gs_valueDifference ? ['div', { class: 'table__column--width-small text-center' }, 'Value Difference'] : null,
+      Settings.gs_firstGiveaway ? ['div', { class: 'table__column--width-small text-center' }, 'First Giveaway'] : null,
+      Settings.gs_lastGiveaway ? ['div', { class: 'table__column--width-small text-center' }, 'Last Giveaway'] : null,
+      Settings.gs_averageEntries ? ['div', { class: 'table__column--width-small text-center' }, 'Average Entries'] : null,
+      Settings.gs_contributors ? ['div', { class: 'table__column--width-small text-center' }, 'Contributors'] : null,
+      Settings.gs_winners ? ['div', { class: 'table__column--width-small text-center' }, 'Winners'] : null,
+      Settings.gs_giftsSent ? ['div', { class: 'table__column--width-small text-center' }, 'Gifts Sent'] : null,
+      Settings.gs_giveaways ? ['div', { class: 'table__column--width-small text-center' }, 'Giveaways'] : null,
+      Settings.gs_users ? ['div', { class: 'table__column--width-small text-center' }, 'Users'] : null,
+      Settings.gs_creationDate ? ['div', { class: 'table__column--width-small text-center' }, 'Creation Date'] : null,
+      Settings.gs_type ? ['div', { class: 'table__column--width-small text-center' }, 'Type'] : null
     ]);
     this.notification = new elementBuilder.sg.notification();
     this.numGroups = 0;
@@ -136,10 +136,10 @@ class GroupsGroupStats extends Module {
   }
 
   async gs_addStatus(group, main) {
-    const response = await FetchRequest.get(`${group.url}/users/search?q=${gSettings.username}`);
+    const response = await FetchRequest.get(`${group.url}/users/search?q=${Settings.username}`);
 
     const userContext = response.html.querySelector('.table__row-inner-wrap');
-    if (!userContext || userContext.querySelector('.table__column__heading').textContent !== gSettings.username) {
+    if (!userContext || userContext.querySelector('.table__column__heading').textContent !== Settings.username) {
       return;
     }
 
@@ -156,13 +156,13 @@ class GroupsGroupStats extends Module {
     const tableColumns = userContext.querySelectorAll('.table__column--width-small');
     for (const [index, column] of  tableColumns.entries()) {
       let append = false;
-      if (index === 0 && gSettings.gs_sent) {
+      if (index === 0 && Settings.gs_sent) {
         append = true;
-      } else if (index === 1 && gSettings.gs_received) {
+      } else if (index === 1 && Settings.gs_received) {
         append = true;
-      } else if (index === 2 && gSettings.gs_giftDifference) {
+      } else if (index === 2 && Settings.gs_giftDifference) {
         append = true;
-      } else if (index === 3 && gSettings.gs_valueDifference) {
+      } else if (index === 3 && Settings.gs_valueDifference) {
         append = true;
       }
       if (append) {
@@ -175,28 +175,28 @@ class GroupsGroupStats extends Module {
       const text = row.textContent.trim();
       const element = row.nextElementSibling;
       let append = false;
-      if (text === 'First Giveaway' && gSettings.gs_firstGiveaway) {
+      if (text === 'First Giveaway' && Settings.gs_firstGiveaway) {
         const timestampElement = element.querySelector(`[data-timestamp]`);
         if (timestampElement) {
           group.firstGiveaway = parseInt(timestampElement.getAttribute('data-timestamp')) * 1e3;
         }
         append = true;
-      } else if (text === 'Last Giveaway' && gSettings.gs_lastGiveaway) {
+      } else if (text === 'Last Giveaway' && Settings.gs_lastGiveaway) {
         const timestampElement = element.querySelector(`[data-timestamp]`);
         if (timestampElement) {
           group.lastGiveaway = parseInt(timestampElement.getAttribute('data-timestamp')) * 1e3;
         }
         append = true;
-      } else if (text === 'Average Entries' && gSettings.gs_averageEntries) {
+      } else if (text === 'Average Entries' && Settings.gs_averageEntries) {
         group.averageEntries = parseInt(element.textContent.replace(/,/g, ''));
         append = true;
-      } else if (text === 'Contributors' && gSettings.gs_contributors) {
+      } else if (text === 'Contributors' && Settings.gs_contributors) {
         group.averageEntries = parseInt(element.textContent.replace(/,/g, ''));
         append = true;
-      } else if (text === 'Winners' && gSettings.gs_winners) {
+      } else if (text === 'Winners' && Settings.gs_winners) {
         group.averageEntries = parseInt(element.textContent.replace(/,/g, ''));
         append = true;
-      } else if (text === 'Gifts Sent' && gSettings.gs_giftsSent) {
+      } else if (text === 'Gifts Sent' && Settings.gs_giftsSent) {
         append = true;
       }
       if (append) {
@@ -211,10 +211,10 @@ class GroupsGroupStats extends Module {
       const text = item.textContent.trim();
       const element = item.nextElementSibling.nextElementSibling;
       let append = false;
-      if (text === 'Giveaways' && gSettings.gs_giveaways) {
+      if (text === 'Giveaways' && Settings.gs_giveaways) {
         group.giveaways = parseInt(element.textContent.replace(/,/g, ''));
         append = true;
-      } else if (text === 'Users' && gSettings.gs_users) {
+      } else if (text === 'Users' && Settings.gs_users) {
         group.users = parseInt(element.textContent.replace(/,/g, ''));
         append = true;
       }
@@ -232,10 +232,10 @@ class GroupsGroupStats extends Module {
     group.creationDate = 0;
     group.type = '-';
 
-    if (gSettings.gs_creationDate || gSettings.gs_type) {
+    if (Settings.gs_creationDate || Settings.gs_type) {
       const response = await FetchRequest.get(`https://steamcommunity.com/gid/${group.steamId}?cc=us&l=english`, { anon: true });
 
-      if (gSettings.gs_creationDate) {
+      if (Settings.gs_creationDate) {
         const groupStatLabels = response.html.querySelectorAll('.groupstat > .label');
         let date = '-';
         for (const label of groupStatLabels) {
@@ -250,7 +250,7 @@ class GroupsGroupStats extends Module {
         ]]);
       }
 
-      if (gSettings.gs_type) {
+      if (Settings.gs_type) {
         if (response.url.match(/steamcommunity\.com\/games\//)) {
           group.type = 'Official Game Group';
           group.officialGameGroup = true;
@@ -273,7 +273,7 @@ class GroupsGroupStats extends Module {
 
     DOM.build(group.container, 'afterEnd', items);
 
-    if (main && shared.esgst.gpf && shared.esgst.gpf.filteredCount && gSettings[`gpf_enable${shared.esgst.gpf.type}`]) {
+    if (main && shared.esgst.gpf && shared.esgst.gpf.filteredCount && Settings[`gpf_enable${shared.esgst.gpf.type}`]) {
       shared.esgst.modules.groupsGroupFilters.filters_filter(shared.esgst.gpf);
     }
   }

@@ -6,7 +6,7 @@ import { Popup } from '../../class/Popup';
 import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { common } from '../Common';
 import { shared } from '../../class/Shared';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 import { Logger } from '../../class/Logger';
 import { DOM } from '../../class/DOM';
 import { Session } from '../../class/Session';
@@ -226,12 +226,12 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       `);
       createTrainOption = section.firstElementChild;
       createTrainDescription = createTrainOption.lastElementChild;
-      if (gSettings.mgc_createTrain) {
+      if (Settings.mgc_createTrain) {
         createTrainDescription.classList.remove('esgst-hidden');
       }
-      this.esgst.mgc_createTrainSwitch = new ToggleSwitch(createTrainOption.firstElementChild, 'mgc_createTrain', false, 'Create train.', false, false, null, gSettings.mgc_createTrain);
+      this.esgst.mgc_createTrainSwitch = new ToggleSwitch(createTrainOption.firstElementChild, 'mgc_createTrain', false, 'Create train.', false, false, null, Settings.mgc_createTrain);
       this.esgst.mgc_createTrainSwitch.dependencies.push(createTrainDescription);
-      this.esgst.mgc_removeLinksSwitch = new ToggleSwitch(createTrainDescription.firstElementChild, 'mgc_removeLinks', false, 'Remove previous/next links from the first/last wagons.', false, false, 'Disabling this keeps the links as plain text.', gSettings.mgc_removeLinks);
+      this.esgst.mgc_removeLinksSwitch = new ToggleSwitch(createTrainDescription.firstElementChild, 'mgc_removeLinks', false, 'Remove previous/next links from the first/last wagons.', false, false, 'Disabling this keeps the links as plain text.', Settings.mgc_removeLinks);
       let generateButton = new ButtonSet({
         color1: 'green',
         color2: 'grey',
@@ -306,7 +306,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
         callback1: this.mgc_attachDiscussion.bind(this, mgc)
       });
       this.esgst.mgc_createTrainSwitch.dependencies.push(attachButton.set);
-      if (!gSettings.mgc_createTrain) {
+      if (!Settings.mgc_createTrain) {
         attachButton.set.classList.add('esgst-hidden');
       }
       viewButton = new ButtonSet({
@@ -364,7 +364,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       detach = mgc.discussionPanel.lastElementChild;
       detach.addEventListener('click', this.mgc_detachDiscussion.bind(this, mgc));
       mgc.discussionLink = detach.previousElementSibling;
-      new ToggleSwitch(mgc.discussionPanel, 'mgc_bumpLast', false, 'Only insert the bump link in the last wagon.', false, false, `If disabled, the bump link will appear on all wagons.`, gSettings.mgc_bumpLast);
+      new ToggleSwitch(mgc.discussionPanel, 'mgc_bumpLast', false, 'Only insert the bump link in the last wagon.', false, false, `If disabled, the bump link will appear on all wagons.`, Settings.mgc_bumpLast);
       mgc.giveaways = createElements(section, 'beforeEnd', [{
         attributes: {
           class: 'pinned-giveaways__outer-wrap'
@@ -737,7 +737,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
   }
 
   async mgc_getValues(edit, mgc) {
-    if (gSettings.ngdc && (await shared.esgst.modules.giveawaysNewGiveawayDescriptionChecker.check(mgc.description.value))) {
+    if (Settings.ngdc && (await shared.esgst.modules.giveawaysNewGiveawayDescriptionChecker.check(mgc.description.value))) {
       return;
     }
     let values = {
@@ -765,7 +765,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       if (!values.steam) {
         values.steam = mgc.values[mgc.editPos] && mgc.values[mgc.editPos].steam;
       }
-      if ((gSettings.mgc_createTrain && mgc.description.value.match(/\[ESGST-P|\[ESGST-N/)) || !gSettings.mgc_createTrain) {
+      if ((Settings.mgc_createTrain && mgc.description.value.match(/\[ESGST-P|\[ESGST-N/)) || !Settings.mgc_createTrain) {
         if ((mgc.discussion && mgc.description.value.match(/\[ESGST-B]/)) || !mgc.discussion) {
           this.mgc_addGiveaway(edit, mgc, values);
           this.mgc_updateCache(mgc);
@@ -982,13 +982,13 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       <div>Imported giveaways will not be automatically created, you still have to review them by clicking on the 'Create' button.</div>
       <br>
     `);
-    let groupKeys = new ToggleSwitch(popup.description, 'mgc_groupKeys', false, 'Group adjacent keys for the same game.', false, false, '', gSettings.mgc_groupKeys);
-    let groupAllKeys = new ToggleSwitch(popup.description, 'mgc_groupAllKeys', false, 'Group all keys for the same game.', false, false, '', gSettings.mgc_groupAllKeys);
+    let groupKeys = new ToggleSwitch(popup.description, 'mgc_groupKeys', false, 'Group adjacent keys for the same game.', false, false, '', Settings.mgc_groupKeys);
+    let groupAllKeys = new ToggleSwitch(popup.description, 'mgc_groupAllKeys', false, 'Group all keys for the same game.', false, false, '', Settings.mgc_groupAllKeys);
     groupKeys.exclusions.push(groupAllKeys.container);
     groupAllKeys.exclusions.push(groupKeys.container);
-    if (gSettings.mgc_groupKeys) {
+    if (Settings.mgc_groupKeys) {
       groupAllKeys.container.classList.add('esgst-hidden');
-    } else if (gSettings.mgc_groupAllKeys) {
+    } else if (Settings.mgc_groupAllKeys) {
       groupKeys.container.classList.add('esgst-hidden');
     }
     textArea = createElements(popup.scrollable, 'beforeEnd', [{
@@ -1101,7 +1101,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       let groups = giveaways[i].match(/\[groups="(.+?)"]/);
       let level = giveaways[i].match(/\[level="(.+?)"]/);
       let description = giveaways[i].match(/\[description="(.+?)"]/);
-      if (gSettings.mgc_createTrain && !((description && description[1]) || mgc.description.value || '').match(/\[ESGST-P]|\[ESGST-N]/)) {
+      if (Settings.mgc_createTrain && !((description && description[1]) || mgc.description.value || '').match(/\[ESGST-P]|\[ESGST-N]/)) {
         createAlert('The next/previous links format is missing from the description.');
         callback();
         return;
@@ -1197,7 +1197,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
           }
         }
         let toRemove = [giveaways[i]];
-        if ((gSettings.mgc_groupKeys || gSettings.mgc_groupAllKeys) && key) {
+        if ((Settings.mgc_groupKeys || Settings.mgc_groupAllKeys) && key) {
           let k = i;
           do {
             found = false;
@@ -1236,7 +1236,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
               }
             }
             k++;
-          } while ((gSettings.mgc_groupKeys && found) || (gSettings.mgc_groupAllKeys && giveaways[k + 1]));
+          } while ((Settings.mgc_groupKeys && found) || (Settings.mgc_groupAllKeys && giveaways[k + 1]));
         }
         // noinspection JSIgnoredPromiseFromCall
         this.mgc_getGiveaway(giveaways, i + 1, toRemove, mgc, n, name, popup, progress, steamInfo, textArea, values, mainCallback, callback, await request({
@@ -1347,7 +1347,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
   mgc_exportGiveaways(mgc) {
     let file, i, j, n, popup, values;
     popup = new Popup({ addScrollable: true, icon: 'fa-arrow-down', title: 'Export' });
-    new ToggleSwitch(popup.description, 'mgc_reversePosition', false, `Export keys in reverse position (before the name of the game).`, false, false, '', gSettings.mgc_reversePosition);
+    new ToggleSwitch(popup.description, 'mgc_reversePosition', false, `Export keys in reverse position (before the name of the game).`, false, false, '', Settings.mgc_reversePosition);
     popup.description.appendChild(new ButtonSet({
       color1: 'green',
       color2: '',
@@ -1367,7 +1367,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
             }
           } else {
             for (j = 2; values[j]; ++j) {
-              if (gSettings.mgc_reversePosition) {
+              if (Settings.mgc_reversePosition) {
                 file += `${values[j]} ${values[0]}\r\n`;
               } else {
                 file += `${values[0]} ${values[j]}\r\n`;
@@ -1631,7 +1631,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     viewButton.set.classList.add('esgst-hidden');
     mgc.saveGiveaways = {};
     // noinspection JSIgnoredPromiseFromCall
-    this.mgc_createGiveaway(0, mgc, mgc.giveaways.children.length, gSettings.cewgd || (gSettings.gc && gSettings.gc_gi) || gSettings.lpv || gSettings.rcvc ? this.mgc_saveGiveaways.bind(this, mgc, this.mgc_completeCreation.bind(this, mgc, viewButton, callback)) : this.mgc_completeCreation.bind(this, mgc, viewButton, callback));
+    this.mgc_createGiveaway(0, mgc, mgc.giveaways.children.length, Settings.cewgd || (Settings.gc && Settings.gc_gi) || Settings.lpv || Settings.rcvc ? this.mgc_saveGiveaways.bind(this, mgc, this.mgc_completeCreation.bind(this, mgc, viewButton, callback)) : this.mgc_completeCreation.bind(this, mgc, viewButton, callback));
   }
 
   async mgc_createGiveaway(i, mgc, n, callback) {
@@ -1647,7 +1647,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       } else {
         window.setTimeout(() => this.mgc_createGiveaway(i + 1, mgc, n, callback), 0);
       }
-    } else if (gSettings.mgc_createTrain) {
+    } else if (Settings.mgc_createTrain) {
       // noinspection JSIgnoredPromiseFromCall
       this.mgc_createTrain(0, mgc, mgc.created.length, callback);
     } else {
@@ -1705,7 +1705,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
         html: (await buildGiveaway(responseHtml, response.finalUrl)).html,
         url: response.finalUrl
       });
-      if (gSettings.cewgd || (gSettings.gc && gSettings.gc_gi) || gSettings.lpv || gSettings.rcvc) {
+      if (Settings.cewgd || (Settings.gc && Settings.gc_gi) || Settings.lpv || Settings.rcvc) {
         giveaway = (await this.esgst.modules.giveaways.giveaways_get(responseHtml, false, response.finalUrl))[0];
         if (giveaway) {
           mgc.saveGiveaways[giveaway.code] = giveaway;
@@ -1719,8 +1719,8 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 
   async mgc_saveGiveaways(mgc, callback) {
     let user = {
-      steamId: gSettings.steamId,
-      username: gSettings.username
+      steamId: Settings.steamId,
+      username: Settings.username
     };
     let ugd;
     const savedUser = await getUser(null, user);
@@ -1827,7 +1827,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       description = description.replace(/\[ESGST-P](.+?)\[\/ESGST-P](.+?)\[ESGST-N](.+?)\[\/ESGST-N]/g, replaceCallback.bind(this, i, mgc, false));
       description = description.replace(/\[ESGST-P](.+?)\[\/ESGST-P]|\[ESGST-N](.+?)\[\/ESGST-N]/g, replaceCallback.bind(this, i, mgc, true));
       description = description.replace(/\[ESGST-C](.+?)\[\/ESGST-C]/g, this.mgc_getCounter.bind(this, i, n));
-      if (mgc.discussion && (!gSettings.mgc_bumpLast || i === n - 1)) {
+      if (mgc.discussion && (!Settings.mgc_bumpLast || i === n - 1)) {
         description = description.replace(/\[ESGST-B](.+?)\[\/ESGST-B]/g, `[$1](/discussion/${mgc.discussion}/)`);
       } else {
         description = description.replace(/\[ESGST-B](.+?)\[\/ESGST-B]/g, '');
@@ -1855,7 +1855,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
         next = single ? match2 : match3;
         nextSuf = '';
       }
-      if (gSettings.mgc_removeLinks || single) {
+      if (Settings.mgc_removeLinks || single) {
         return `${nextPref}[${next}](${mgc.created[i + 1].url})${nextSuf}`;
       } else {
         return `${match1}${match2}${nextPref}[${next}](${mgc.created[i + 1].url})${nextSuf}`;
@@ -1878,7 +1878,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
         prev = match1;
         prevSuf = '';
       }
-      if (gSettings.mgc_removeLinks || single) {
+      if (Settings.mgc_removeLinks || single) {
         return `${prevPref}[${prev}](${mgc.created[i - 1].url})${prevSuf}`;
       } else {
         return `${prevPref}[${prev}](${mgc.created[i - 1].url})${prevSuf}${match2}${match3}`;
@@ -2099,7 +2099,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       children: items
     }]);
     const giveaways = await this.esgst.modules.giveaways.giveaways_get(popup.scrollable);
-    if (gSettings.mm) {
+    if (Settings.mm) {
       const heading = createElements(popup.scrollable, 'afterBegin', [{
         attributes: {
           class: 'esgst-page-heading'

@@ -1,6 +1,6 @@
 import { Module } from '../../class/Module';
 import { shared } from '../../class/Shared';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 import { DOM } from '../../class/DOM';
 
 class UsersSteamFriendsIndicator extends Module {
@@ -41,7 +41,7 @@ class UsersSteamFriendsIndicator extends Module {
       if (user.saved && user.saved.steamFriend && !user.context.parentElement.querySelector('.esgst-sfi-icon')) {
         DOM.build(user.context, 'afterEnd', [
           ['span', { class: 'esgst-sfi-icon esgst-user-icon', title: shared.common.getFeatureTooltip('sfi', `You have been friends with ${user.username} on Steam since ${shared.common.getTimestamp(user.saved.steamFriend * 1e3)}`) }, [
-            ['i', { class: `fa fa-${gSettings.sfi_icon}` }]
+            ['i', { class: `fa fa-${Settings.sfi_icon}` }]
           ]]
         ]);
       }

@@ -1,7 +1,7 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
 import { shared } from '../../class/Shared';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 import { DOM } from '../../class/DOM';
 
 class UsersLevelUpCalculator extends Module {
@@ -39,7 +39,7 @@ class UsersLevelUpCalculator extends Module {
       const cvRounded = Math.round(profile.realSentCV);
       if (cvRounded < value) {
         DOM.build(profile.levelRowRight, 'beforeEnd', [
-          ['span', { class: 'esgst-luc-value', title: shared.common.getFeatureTooltip('luc') }, `(${gSettings.luc_c ? `${profile.level} / ` : ''}~$${shared.common.round(value - cvRounded)} real CV to level ${index})`]
+          ['span', { class: 'esgst-luc-value', title: shared.common.getFeatureTooltip('luc') }, `(${Settings.luc_c ? `${profile.level} / ` : ''}~$${shared.common.round(value - cvRounded)} real CV to level ${index})`]
         ]);
         break;
       }

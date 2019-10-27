@@ -2,7 +2,7 @@ import { ButtonSet } from '../../class/ButtonSet';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { shared } from '../../class/Shared';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 
 class CommentsReceivedReplyBoxPopup extends Module {
   constructor() {
@@ -44,7 +44,7 @@ class CommentsReceivedReplyBoxPopup extends Module {
     textArea = shared.common.createElements(popup.scrollable, 'beforeEnd', [{
       type: 'textarea'
     }]);
-    if (gSettings.cfh) {
+    if (Settings.cfh) {
       shared.esgst.modules.commentsCommentFormattingHelper.cfh_addPanel(textArea);
     }
     popup.description.appendChild(new ButtonSet({

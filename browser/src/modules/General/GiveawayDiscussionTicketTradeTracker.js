@@ -1,6 +1,6 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 
 const
   createElements = common.createElements.bind(common),
@@ -73,13 +73,13 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
     let type = `${match[1]}s`;
     let code = match[2];
     let savedComments = JSON.parse(this.esgst.storage[type]);
-    if (gSettings[`gdttt_v${{
+    if (Settings[`gdttt_v${{
       giveaways: 'g',
       discussions: 'd',
       tickets: 't',
       trades: 'ts'
     }[type]}`]) {
-      if (!gSettings.ct) {
+      if (!Settings.ct) {
         let cache = JSON.parse(getLocalValue('gdtttCache', `{"giveaways":[],"discussions":[],"tickets":[],"trades":[]}`));
         if (cache[type].indexOf(code) < 0) {
           cache[type].push(code);
@@ -114,7 +114,7 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
           readComments: {}
         };
       }
-      if (gSettings.ct_s) {
+      if (Settings.ct_s) {
         comments[code].count = count;
         diffContainer.textContent = '';
       }
@@ -133,7 +133,7 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
     if (doSave) {
       let deleteLock = await createLock('commentLock', 300),
         comments = JSON.parse(getValue(type));
-      if (gSettings.ct_s) {
+      if (Settings.ct_s) {
         delete comments[code].count;
         diffContainer.textContent = `(+${count})`;
       }
@@ -180,7 +180,7 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
           let container = match.closest(`.table__row-outer-wrap, .giveaway__row-outer-wrap, .row_outer_wrap`);
           let comment = values[type][code];
           if (comment && comment.visited && container) {
-            if ((type === 'giveaways' && gSettings.gdttt_g) || type !== 'giveaways') {
+            if ((type === 'giveaways' && Settings.gdttt_g) || type !== 'giveaways') {
               container.classList.add('esgst-ct-visited');
               container.style.opacity = '0.5';
               setHoverOpacity(container, '1', '0.5');
@@ -225,7 +225,7 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
             readComments: {}
           };
         }
-        if (gSettings.ct_s) {
+        if (Settings.ct_s) {
           comments[code].count = count;
         }
         comments[code].visited = true;
@@ -266,7 +266,7 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
         }]);
         let deleteLock = await createLock('commentLock', 300);
         comments = JSON.parse(getValue(type));
-        if (gSettings.ct_s) {
+        if (Settings.ct_s) {
           delete comments[code].count;
         }
         delete comments[code].visited;
