@@ -41,7 +41,6 @@ class GiveawaysCommentEntryChecker extends Module {
       id: 'cec',
       name: 'Comment/Entry Checker',
       sg: true,
-      sgPaths: /^Giveaway($|\s-\s.+?)$/,
       type: 'giveaways'
     };
   }

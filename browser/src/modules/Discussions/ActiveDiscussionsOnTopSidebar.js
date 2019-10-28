@@ -25,7 +25,6 @@ class DiscussionsActiveDiscussionsOnTopSidebar extends Module {
         values: ['Top', 'Sidebar']
       },
       sg: true,
-      sgPaths: /^Browse\sGiveaways/,
       type: 'discussions'
     };
   }

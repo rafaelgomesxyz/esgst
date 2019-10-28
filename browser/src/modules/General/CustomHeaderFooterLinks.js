@@ -739,7 +739,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
         }
       }
 
-      await shared.common.setSetting(`chfl_${key}_${this.esgst.name}`, this.esgst.defaultValues[`chfl_${key}_${this.esgst.name}`]);
+      await shared.common.setSetting(`chfl_${key}_${this.esgst.name}`, Settings.defaultValues[`chfl_${key}_${this.esgst.name}`]);
 
       this.reorder(key);
     } catch (error) {
