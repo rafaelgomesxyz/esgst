@@ -4,7 +4,7 @@ import { Table } from '../../class/Table';
 import { Utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
-import { shared } from '../../class/Shared';
+import { Shared } from '../../class/Shared';
 import { Settings } from '../../class/Settings';
 import { DOM } from '../../class/DOM';
 
@@ -82,7 +82,7 @@ class GiveawaysCommentEntryChecker extends Module {
     if (!isPopup) {
       common.setSidebarActive('cec');
     }
-    const heading = new elementBuilder[shared.esgst.name].pageHeading({
+    const heading = new elementBuilder[Shared.esgst.name].pageHeading({
       context: container,
       position: 'afterBegin',
       breadcrumbs: [

@@ -2,7 +2,7 @@ import { Module } from '../../class/Module';
 import { Process } from '../../class/Process';
 import { common } from '../Common';
 import { Settings } from '../../class/Settings';
-import { shared } from '../../class/Shared';
+import { Shared } from '../../class/Shared';
 import { DOM } from '../../class/DOM';
 
 const
@@ -38,8 +38,8 @@ class UsersNotReceivedFinder extends Module {
   }
 
   init() {
-    shared.esgst.profileFeatures.push(this.nrf_add.bind(this, 'won'));
-    shared.esgst.profileFeatures.push(this.nrf_add.bind(this, 'sent'));
+    Shared.esgst.profileFeatures.push(this.nrf_add.bind(this, 'won'));
+    Shared.esgst.profileFeatures.push(this.nrf_add.bind(this, 'sent'));
   }
 
   nrf_add(key, profile) {

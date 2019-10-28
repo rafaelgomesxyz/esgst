@@ -5,7 +5,7 @@ import { Popup } from '../../class/Popup';
 import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { common } from '../Common';
 import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
-import { shared } from '../../class/Shared';
+import { Shared } from '../../class/Shared';
 import { Settings } from '../../class/Settings';
 import { Logger } from '../../class/Logger';
 import { DOM } from '../../class/DOM';
@@ -109,7 +109,7 @@ class GiveawaysGiveawayExtractor extends Module {
       if (Settings.ge_p) {
         this.ge_addButton(`Extract all giveaways (specify parameters)`, ['fa-gear'], true);
       }
-    } else if (shared.common.isCurrentPath('Account') && this.esgst.parameters.esgst === 'ge') {
+    } else if (Shared.common.isCurrentPath('Account') && this.esgst.parameters.esgst === 'ge') {
       this.nextRegex = new RegExp(Settings.npth_nextRegex);
 
       const parameters = getParameters();
@@ -122,7 +122,7 @@ class GiveawaysGiveawayExtractor extends Module {
         ignoreGiveawayComments: !!parameters.noGaCmt
       };
 
-      shared.esgst.customPages.ge = {
+      Shared.esgst.customPages.ge = {
         check: true,
         load: this.ge_openPopup.bind(this, ge)
       };
@@ -221,14 +221,14 @@ class GiveawaysGiveawayExtractor extends Module {
     ge.points = 0;
     ge.sgToolsCount = 0;
     ge.isDivided = !Settings.es || !Settings.es_ge || Settings.gc_gi || Settings.gc_r || Settings.gc_rm || Settings.gc_ea || Settings.gc_tc || Settings.gc_a || Settings.gc_mp || Settings.gc_sc || Settings.gc_l || Settings.gc_m || Settings.gc_dlc || Settings.gc_rd || Settings.gc_g;
-    if (shared.common.isCurrentPath('Account') && this.esgst.parameters.esgst === 'ge') {
+    if (Shared.common.isCurrentPath('Account') && this.esgst.parameters.esgst === 'ge') {
       const context = this.esgst.sidebar.nextElementSibling;
       if (Settings.removeSidebarInFeaturePages) {
         this.esgst.sidebar.remove();
       }
       context.setAttribute('data-esgst-popup', 'true');
       context.innerHTML = '';
-      new elementBuilder[shared.esgst.name].pageHeading({
+      new elementBuilder[Shared.esgst.name].pageHeading({
         context: context,
         position: 'beforeEnd',
         breadcrumbs: [
@@ -344,7 +344,7 @@ class GiveawaysGiveawayExtractor extends Module {
               text: ' giveaways extracted.',
               type: 'node'
             }]);
-            let giveaways = this.ge_getGiveaways(ge, shared.common.isCurrentPath('Account') && this.esgst.parameters.esgst === 'ge' ? ge.context : this.esgst.pageOuterWrap);
+            let giveaways = this.ge_getGiveaways(ge, Shared.common.isCurrentPath('Account') && this.esgst.parameters.esgst === 'ge' ? ge.context : this.esgst.pageOuterWrap);
             this.ge_extractGiveaways(ge, giveaways, 0, giveaways.length, this.ge_completeExtraction.bind(this, ge));
           }
         });
@@ -391,7 +391,7 @@ class GiveawaysGiveawayExtractor extends Module {
         if (total % 50 === 0) {
           ge.results.insertAdjacentHTML('beforeEnd', html);
           ge.results.lastElementChild.classList.add(`esgst-es-page-${ge.endless}`);
-          await shared.common.timeout(100);
+          await Shared.common.timeout(100);
         }
       }
       if (total % 50 !== 0) {
@@ -662,7 +662,7 @@ class GiveawaysGiveawayExtractor extends Module {
         giveaways.push(match[1]);
       }
     } else if (context === this.esgst.pageOuterWrap && this.esgst.giveawayPath) {
-      let match = shared.esgst.locationHref.match(/\/giveaway\/(.+?)\//);
+      let match = Shared.esgst.locationHref.match(/\/giveaway\/(.+?)\//);
       if (match) {
         giveaways.push(match[1]);
       }

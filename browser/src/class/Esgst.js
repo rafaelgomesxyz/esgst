@@ -1,6 +1,6 @@
 import { Parsedown } from '../lib/parsedown';
 import { modules } from '../modules';
-import { shared } from './Shared';
+import { Shared } from './Shared';
 import { LocalStorage } from './LocalStorage';
 
 class Esgst {
@@ -534,7 +534,7 @@ class Esgst {
 
 const esgst = new Esgst();
 
-shared.add({ esgst, modules });
+Shared.add({ esgst, modules });
 
 export { esgst };
 

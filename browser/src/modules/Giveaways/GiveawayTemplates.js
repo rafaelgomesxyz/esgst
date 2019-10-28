@@ -4,7 +4,7 @@ import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { common } from '../Common';
 import { Settings } from '../../class/Settings';
-import { shared } from '../../class/Shared';
+import { Shared } from '../../class/Shared';
 import { DOM } from '../../class/DOM';
 import { Session } from '../../class/Session';
 
@@ -71,7 +71,7 @@ class GiveawaysGiveawayTemplates extends Module {
       title2: 'Creating...',
       callback1: async () => {
         const textArea = document.querySelector(`[name="description"]`);
-        if (Settings.ngdc && (await shared.esgst.modules.giveawaysNewGiveawayDescriptionChecker.check(textArea.value))) {
+        if (Settings.ngdc && (await Shared.esgst.modules.giveawaysNewGiveawayDescriptionChecker.check(textArea.value))) {
           return;
         }
         return new Promise(async resolve => {

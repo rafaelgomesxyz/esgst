@@ -1,6 +1,6 @@
 import { Module } from '../class/Module';
 import { Settings } from '../class/Settings';
-import { shared } from '../class/Shared';
+import { Shared } from '../class/Shared';
 
 class Users extends Module {
   constructor() {
@@ -15,7 +15,7 @@ class Users extends Module {
   }
 
   async users_load(mainContext, main, source, endless) {
-    const elements = mainContext.querySelectorAll(shared.common.getSelectors(endless, [
+    const elements = mainContext.querySelectorAll(Shared.common.getSelectors(endless, [
       `Xa[href*='/user/']`,
       `Xa[href*='/profiles/']`
     ]));
@@ -75,7 +75,7 @@ class Users extends Module {
         sg
       };
 
-      if (shared.esgst.groupPath) {
+      if (Shared.esgst.groupPath) {
         const userRow = userObj.outerWrap.closest('.table__column--width-fill');
         if (userRow) {
           const sentRow = userRow.nextElementSibling;

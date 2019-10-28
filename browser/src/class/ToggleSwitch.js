@@ -1,4 +1,4 @@
-import { shared } from './Shared';
+import { Shared } from './Shared';
 import { Settings } from './Settings';
 import { DOM } from './DOM';
 
@@ -63,7 +63,7 @@ class ToggleSwitch {
         setting.enabled = this.value ? 1 : 0;
       }
       if (!settings) {
-        let message = shared.common.createElements(this.container, 'beforeEnd', [{
+        let message = Shared.common.createElements(this.container, 'beforeEnd', [{
           attributes: {
             class: 'esgst-description esgst-bold'
           },
@@ -76,9 +76,9 @@ class ToggleSwitch {
             type: 'i'
           }]
         }]);
-        await shared.common.setSetting(key, setting);
+        await Shared.common.setSetting(key, setting);
         message.classList.add('esgst-green');
-        shared.common.createElements(message, 'inner', [{
+        Shared.common.createElements(message, 'inner', [{
           attributes: {
             class: 'fa fa-check',
             title: 'Saved!'

@@ -2,7 +2,7 @@ import { ButtonSet } from '../../class/ButtonSet';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { ToggleSwitch } from '../../class/ToggleSwitch';
-import { shared, Shared } from '../../class/Shared';
+import { Shared } from '../../class/Shared';
 import { Settings } from '../../class/Settings';
 import { DOM } from '../../class/DOM';
 import { Logger } from '../../class/Logger';
@@ -308,7 +308,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
       });
     }
 
-    shared.common.setSetting(settings);
+    Shared.common.setSetting(settings);
   }
 
   /**
@@ -665,7 +665,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
         setting.push(item);
       }
 
-      await shared.common.setSetting(`chfl_${key}_${this.esgst.name}`, setting);
+      await Shared.common.setSetting(`chfl_${key}_${this.esgst.name}`, setting);
 
       let newItem;
 
@@ -739,7 +739,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
         }
       }
 
-      await shared.common.setSetting(`chfl_${key}_${this.esgst.name}`, Settings.defaultValues[`chfl_${key}_${this.esgst.name}`]);
+      await Shared.common.setSetting(`chfl_${key}_${this.esgst.name}`, Settings.defaultValues[`chfl_${key}_${this.esgst.name}`]);
 
       this.reorder(key);
     } catch (error) {

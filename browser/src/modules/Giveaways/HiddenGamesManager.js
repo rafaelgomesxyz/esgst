@@ -5,7 +5,7 @@ import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { common } from '../Common';
 import { Settings } from '../../class/Settings';
 import { permissions } from '../../class/Permissions';
-import { shared } from '../../class/Shared';
+import { Shared } from '../../class/Shared';
 import { DOM } from '../../class/DOM';
 import { Session } from '../../class/Session';
 
@@ -83,7 +83,7 @@ class GiveawaysHiddenGamesManager extends Module {
     new ToggleSwitch(obj.popup.scrollable, 'hgm_removeFollowed', false, 'Only remove followed games.', false, false, null, Settings.hgm_removeFollowed);
     new ToggleSwitch(obj.popup.scrollable, 'hgm_removeTagged', false, [
       'Only remove games tagged with: ',
-      ['input', { class: 'esgst-switch-input esgst-switch-input-large', placeholder: 'tag1, tag2, tag3, ...', type: 'text', value: Settings.hgm_tags.join(', '), onchange: event => { Settings.hgm_tags = Array.from(new Set(event.target.value.toLowerCase().split(/,\s*/))); shared.common.setSetting('hgm_tags', Settings.hgm_tags); } }]
+      ['input', { class: 'esgst-switch-input esgst-switch-input-large', placeholder: 'tag1, tag2, tag3, ...', type: 'text', value: Settings.hgm_tags.join(', '), onchange: event => { Settings.hgm_tags = Array.from(new Set(event.target.value.toLowerCase().split(/,\s*/))); Shared.common.setSetting('hgm_tags', Settings.hgm_tags); } }]
     ], false, false, 'Enter the tags for the games that you want to remove, separated by a comma.', Settings.hgm_removeTagged);
     new ToggleSwitch(obj.popup.scrollable, 'hgm_removeBanned', false, `Only remove banned games (requires syncing delisted games in the settings menu).`, false, false, null, Settings.hgm_removeBanned);
     obj.popup.description.appendChild(new ButtonSet({
@@ -168,7 +168,7 @@ class GiveawaysHiddenGamesManager extends Module {
       appIds.push(...Object.keys(this.esgst.games.apps).filter(x => this.esgst.games.apps[x].ignored && !this.esgst.games.apps[x].hidden));
     }
     if (Settings.hgm_addBanned) {
-      appIds.push(...shared.esgst.delistedGames.banned);
+      appIds.push(...Shared.esgst.delistedGames.banned);
     }
 
     obj.hideObj = { appIds, subIds, update: message => obj.progress.textContent = message };
@@ -273,7 +273,7 @@ class GiveawaysHiddenGamesManager extends Module {
           continue;
         }
         let game = this.esgst.games[info.type][info.id];
-        if ((!Settings.hgm_removeOwned || !game || !game.owned) && (!Settings.hgm_removeWishlisted || !game || !game.wishlisted) && (!Settings.hgm_removeFollowed || !game || !game.followed) && (!Settings.hgm_removeTagged || !game || !game.tags || !game.tags.filter(tag => Settings.hgm_tags.includes(tag.toLowerCase())).length) && (!Settings.hgm_removeBanned || shared.esgst.delistedGames.banned.indexOf(parseInt(info.id) < 0)) && (!Settings.hgm_removeTextArea || (info.type === 'apps' ? appIds : subIds).indexOf(info.id) < 0) && (Settings.hgm_removeOwned || Settings.hgm_removeWishlisted || Settings.hgm_removeFollowed || Settings.hgm_removeTagged || Settings.hgm_removeBanned || Settings.hgm_removeTextArea)) {
+        if ((!Settings.hgm_removeOwned || !game || !game.owned) && (!Settings.hgm_removeWishlisted || !game || !game.wishlisted) && (!Settings.hgm_removeFollowed || !game || !game.followed) && (!Settings.hgm_removeTagged || !game || !game.tags || !game.tags.filter(tag => Settings.hgm_tags.includes(tag.toLowerCase())).length) && (!Settings.hgm_removeBanned || Shared.esgst.delistedGames.banned.indexOf(parseInt(info.id) < 0)) && (!Settings.hgm_removeTextArea || (info.type === 'apps' ? appIds : subIds).indexOf(info.id) < 0) && (Settings.hgm_removeOwned || Settings.hgm_removeWishlisted || Settings.hgm_removeFollowed || Settings.hgm_removeTagged || Settings.hgm_removeBanned || Settings.hgm_removeTextArea)) {
           continue;
         }
         newGames[info.type][info.id] = { hidden: null };

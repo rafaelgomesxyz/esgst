@@ -1,5 +1,5 @@
 import { Popup } from './Popup';
-import { shared } from './Shared';
+import { Shared } from './Shared';
 import { Settings } from './Settings';
 import { permissions } from './Permissions';
 import { Logger } from './Logger';
@@ -21,7 +21,7 @@ class Process {
       if (details.button) {
         this.button = details.button;
       } else {
-        this.button = shared.common.createHeadingButton(details.headingButton);
+        this.button = Shared.common.createHeadingButton(details.headingButton);
       }
       this.button.addEventListener('click', async () => {
         if (this.permissions) {
@@ -62,7 +62,7 @@ class Process {
     if (this.urls && this.urls.id && !this.urls.lockPerLoad) {
       DOM.build(this.popup.description, 'afterBegin', [
         `Items per load: `,
-        ['input', { class: 'esgst-switch-input', type: 'number', value: Settings[`${this.urls.id}_perLoad`], ref: ref => shared.common.observeNumChange(ref, `${this.urls.id}_perLoad`, true) }]
+        ['input', { class: 'esgst-switch-input', type: 'number', value: Settings[`${this.urls.id}_perLoad`], ref: ref => Shared.common.observeNumChange(ref, `${this.urls.id}_perLoad`, true) }]
       ]);
     }
     this.popup.open();
@@ -144,7 +144,7 @@ class Process {
       if (!url) break;
       url = url.url || url;
       try {
-        const response = await shared.common.request({method: 'GET', queue: details.queue, url: url});
+        const response = await Shared.common.request({method: 'GET', queue: details.queue, url: url});
         const responseHtml = DOM.parse(response.responseText);
         await details.request(this, details, response, responseHtml);
         i += 1;
@@ -160,7 +160,7 @@ class Process {
     if (this.urls.restart) {
       this.index = 0;
     }
-    await shared.common.endless_load(this.context);
+    await Shared.common.endless_load(this.context);
   }
 
   async request(details) {
@@ -172,16 +172,16 @@ class Process {
     let pagination = null;
     let stop = false;
     do {
-      let response = await shared.common.request({method: 'GET', queue: details.queue, url: `${details.url}${details.nextPage}`});
+      let response = await Shared.common.request({method: 'GET', queue: details.queue, url: `${details.url}${details.nextPage}`});
       let responseHtml = DOM.parse(response.responseText);
       if (details.nextPage === backup) {
-        details.lastPage = shared.esgst.modules.generalLastPageLink.lpl_getLastPage(responseHtml, false, details.discussion, details.user, details.userWon, details.group, details.groupUsers, details.groupWishlist);
+        details.lastPage = Shared.esgst.modules.generalLastPageLink.lpl_getLastPage(responseHtml, false, details.discussion, details.user, details.userWon, details.group, details.groupUsers, details.groupWishlist);
         details.lastPage = details.lastPage === 999999999 ? '' : ` of ${details.lastPage}`;
       }
       stop = await details.request(this, details, response, responseHtml);
       details.nextPage += 1;
       pagination = responseHtml.getElementsByClassName('pagination__navigation')[0];
-    } while (!stop && !this.isCanceled && (!details.maxPage || details.nextPage <= details.maxPage) && pagination && !pagination.lastElementChild.classList.contains(shared.esgst.selectedClass));
+    } while (!stop && !this.isCanceled && (!details.maxPage || details.nextPage <= details.maxPage) && pagination && !pagination.lastElementChild.classList.contains(Shared.esgst.selectedClass));
     details.nextPage = backup;
   }
 }

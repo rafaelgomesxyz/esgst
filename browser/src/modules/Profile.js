@@ -2,7 +2,7 @@ import { Module } from '../class/Module';
 import {common} from './Common';
 import { Settings } from '../class/Settings';
 import { Logger } from '../class/Logger';
-import { shared } from '../class/Shared';
+import { Shared } from '../class/Shared';
 
 const
   checkUsernameChange = common.checkUsernameChange.bind(common),
@@ -20,9 +20,9 @@ class Profile extends Module {
   }
 
   async init() {
-    if (Settings.updateWhitelistBlacklist && (shared.esgst.whitelistPath || shared.esgst.blacklistPath)) {
-      const key = shared.esgst.whitelistPath ? 'whitelisted' : 'blacklisted';
-      shared.esgst.endlessFeatures.push(this.getUsers.bind(this, key));
+    if (Settings.updateWhitelistBlacklist && (Shared.esgst.whitelistPath || Shared.esgst.blacklistPath)) {
+      const key = Shared.esgst.whitelistPath ? 'whitelisted' : 'blacklisted';
+      Shared.esgst.endlessFeatures.push(this.getUsers.bind(this, key));
     }
     if (this.esgst.userPath) {
       await this.profile_load(document);
@@ -30,14 +30,14 @@ class Profile extends Module {
   }
 
   getUsers(key, context, main, source, endless) {
-    const elements = context.querySelectorAll(shared.common.getSelectors(endless, [
+    const elements = context.querySelectorAll(Shared.common.getSelectors(endless, [
       `X.table__remove-default:not(.is-hidden)`
     ]));
     for (const element of elements) {
       const container = element.closest('.table__row-inner-wrap');
       const heading = container.querySelector('.table__column__heading');
       const username = heading.textContent.trim();
-      element.addEventListener('click', () => shared.common.updateWhitelistBlacklist(key, { username }, null));
+      element.addEventListener('click', () => Shared.common.updateWhitelistBlacklist(key, { username }, null));
     }
   }
 

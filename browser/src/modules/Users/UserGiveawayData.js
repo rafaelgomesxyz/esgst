@@ -4,7 +4,7 @@ import { Process } from '../../class/Process';
 import { Table } from '../../class/Table';
 import { Utils } from '../../lib/jsUtils';
 import { common } from '../Common';
-import { shared } from '../../class/Shared';
+import { Shared } from '../../class/Shared';
 import { Settings } from '../../class/Settings';
 import { Logger } from '../../class/Logger';
 import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
@@ -68,10 +68,10 @@ class UsersUserGiveawayData extends Module {
 
   init() {
     if (Settings.ugd_s) {
-      shared.esgst.profileFeatures.push(this.ugd_addStats.bind(this));
+      Shared.esgst.profileFeatures.push(this.ugd_addStats.bind(this));
     }
     if (Settings.ugd_g) {
-      shared.esgst.profileFeatures.push(this.ugd_addGifts.bind(this));
+      Shared.esgst.profileFeatures.push(this.ugd_addGifts.bind(this));
     }
   }
 
@@ -171,7 +171,7 @@ class UsersUserGiveawayData extends Module {
       return;
     }
 
-    const savedUser = shared.esgst.users.users[Settings.steamId];
+    const savedUser = Shared.esgst.users.users[Settings.steamId];
 
     if (!savedUser) {
       return;
@@ -189,7 +189,7 @@ class UsersUserGiveawayData extends Module {
     for (const type of ['apps', 'subs']) {
       for (const id in giveaways.won[type]) {
         for (const code of giveaways.won[type][id]) {
-          const giveaway = shared.esgst.giveaways[code];
+          const giveaway = Shared.esgst.giveaways[code];
           if (!giveaway || !giveaway.creator || giveaway.creator.toLowerCase() !== profile.username.toLowerCase()) {
             continue;
           }
@@ -198,7 +198,7 @@ class UsersUserGiveawayData extends Module {
       }
       for (const id in giveaways.sent[type]) {
         for (const code of giveaways.sent[type][id]) {
-          const giveaway = shared.esgst.giveaways[code];
+          const giveaway = Shared.esgst.giveaways[code];
           if (!giveaway) {
             continue;
           }
@@ -410,7 +410,7 @@ class UsersUserGiveawayData extends Module {
     const n = elements.length;
     for (let i = 0; i < n; i++) {
       const giveawayObj = (
-        await shared.esgst.modules.giveaways.giveaways_getInfo(elements[i], document, obj.user.username, obj.key)
+        await Shared.esgst.modules.giveaways.giveaways_getInfo(elements[i], document, obj.user.username, obj.key)
       );
       const giveawayRaw = giveawayObj.giveaway;
       let giveaway = giveawayObj.data;
@@ -436,7 +436,7 @@ class UsersUserGiveawayData extends Module {
         if (obj.user.username === Settings.username && obj.key === 'sent') {
           const response = await common.request({ method: 'GET', url: `/giveaway/${giveaway.code}/` });
           const responseHtml = DOM.parse(response.responseText);
-          giveaway = (await shared.esgst.modules.giveaways.giveaways_get(responseHtml, false, response.finalUrl))[0];
+          giveaway = (await Shared.esgst.modules.giveaways.giveaways_get(responseHtml, false, response.finalUrl))[0];
           id = giveaway && giveaway.gameSteamId;
           if (!id) {
             continue;
@@ -455,7 +455,7 @@ class UsersUserGiveawayData extends Module {
         if (games[id].indexOf(code) < 0) {
           games[id].push(code);
         }
-        const savedGiveaway = shared.esgst.giveaways[code];
+        const savedGiveaway = Shared.esgst.giveaways[code];
         if (!savedGiveaway || !Array.isArray(savedGiveaway.winners)) {
           if (obj.key === 'sent') {
             giveaway.winners = [];
@@ -507,7 +507,7 @@ class UsersUserGiveawayData extends Module {
         if (games.hasOwnProperty(id)) {
           const game = games[id];
           for (const item of game) {
-            const giveaway = typeof item === 'string' ? obj.giveaways[item] || shared.esgst.giveaways[item] : item;
+            const giveaway = typeof item === 'string' ? obj.giveaways[item] || Shared.esgst.giveaways[item] : item;
             if (!giveaway || !Array.isArray(giveaway.winners)) {
               break;
             }

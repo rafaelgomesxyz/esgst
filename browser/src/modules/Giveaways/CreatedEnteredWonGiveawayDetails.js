@@ -1,7 +1,7 @@
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { Utils } from '../../lib/jsUtils';
-import { shared } from '../../class/Shared';
+import { Shared } from '../../class/Shared';
 import { Settings } from '../../class/Settings';
 import { DOM } from '../../class/DOM';
 import { LocalStorage } from '../../class/LocalStorage';
@@ -126,21 +126,21 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
   }
 
   init() {
-    if (shared.common.isCurrentPath('My Giveaways - Created') && Settings.cewgd_c) {
+    if (Shared.common.isCurrentPath('My Giveaways - Created') && Settings.cewgd_c) {
       this.currentId = 'cewgd_c';
       this.created = true;
-    } else if (shared.common.isCurrentPath('My Giveaways - Entered') && Settings.cewgd_e) {
+    } else if (Shared.common.isCurrentPath('My Giveaways - Entered') && Settings.cewgd_e) {
       this.currentId = 'cewgd_e';
       this.entered = true;
-    } else if (shared.common.isCurrentPath('My Giveaways - Won') && Settings.cewgd_w) {
+    } else if (Shared.common.isCurrentPath('My Giveaways - Won') && Settings.cewgd_w) {
       this.currentId = 'cewgd_w';
       this.won = true;
     }
     if (!this.currentId) {
       return;
     }
-    shared.esgst.endlessFeatures.push(this.addHeading.bind(this));
-    shared.esgst.giveawayFeatures.push((...args) => this.getGiveaways(...args));
+    Shared.esgst.endlessFeatures.push(this.addHeading.bind(this));
+    Shared.esgst.giveawayFeatures.push((...args) => this.getGiveaways(...args));
   }
 
   addHeading(context, main, source, endless) {
@@ -148,7 +148,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
       return;
     }
     const tableHeading = context.querySelector(
-      shared.common.getSelectors(endless, [
+      Shared.common.getSelectors(endless, [
         'X.table__heading'
       ])
     );
@@ -190,20 +190,20 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
       promises.push(this.getGiveaway(giveaway, now));
     }
     await Promise.all(promises);
-    await shared.common.lockAndSaveGiveaways(this.giveaways);
-    if (main && shared.esgst.gf && shared.esgst.gf.filteredCount && Settings[`gf_enable${shared.esgst.gf.type}`]) {
-      shared.esgst.modules.giveawaysGiveawayFilters.filters_filter(shared.esgst.gf);
+    await Shared.common.lockAndSaveGiveaways(this.giveaways);
+    if (main && Shared.esgst.gf && Shared.esgst.gf.filteredCount && Settings[`gf_enable${Shared.esgst.gf.type}`]) {
+      Shared.esgst.modules.giveawaysGiveawayFilters.filters_filter(Shared.esgst.gf);
     }
-    if (!main && shared.esgst.gfPopup && shared.esgst.gfPopup.filteredCount && Settings[`gf_enable${shared.esgst.gfPopup.type}`]) {
-      shared.esgst.modules.giveawaysGiveawayFilters.filters_filter(shared.esgst.gfPopup);
+    if (!main && Shared.esgst.gfPopup && Shared.esgst.gfPopup.filteredCount && Settings[`gf_enable${Shared.esgst.gfPopup.type}`]) {
+      Shared.esgst.modules.giveawaysGiveawayFilters.filters_filter(Shared.esgst.gfPopup);
     }
   }
 
   async getGiveaway(giveaway, now) {
-    const details = shared.esgst.giveaways[giveaway.code];
+    const details = Shared.esgst.giveaways[giveaway.code];
     let shouldUpdateWinners = false;
     if (!giveaway.deleted && details && details.gameSteamId && Array.isArray(details.winners)) {
-      shouldUpdateWinners = details.v !== shared.esgst.CURRENT_GIVEAWAY_VERSION || !details.winners.length || details.winners.filter(x => x.status !== 'Received' && x.status !== 'Not Received').length > 0;
+      shouldUpdateWinners = details.v !== Shared.esgst.CURRENT_GIVEAWAY_VERSION || !details.winners.length || details.winners.filter(x => x.status !== 'Received' && x.status !== 'Not Received').length > 0;
     }
     if ((this.created || this.won) && shouldUpdateWinners) {
       await this.fetchWinners(giveaway, now);
@@ -215,12 +215,12 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
   }
 
   async fetchDetails(giveaway, now) {
-    const response = await shared.common.request({
+    const response = await Shared.common.request({
       method: 'GET',
       url: giveaway.url
     });
     const responseHtml = DOM.parse(response.responseText);
-    const giveaways = await shared.esgst.modules.giveaways.giveaways_get(responseHtml, false, response.finalUrl);
+    const giveaways = await Shared.esgst.modules.giveaways.giveaways_get(responseHtml, false, response.finalUrl);
     if (giveaways.length > 0) {
       const details = giveaways[0];
       details.lastUpdate = now;
@@ -236,13 +236,13 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
     let details = null;
     let pagination = null;
     do {
-      const response = await shared.common.request({
+      const response = await Shared.common.request({
         method: 'GET',
         url: `${giveaway.url}/winners/search?page=${nextPage}`
       });
       const responseHtml = DOM.parse(response.responseText);
       if (!details) {
-        const giveaways = await shared.esgst.modules.giveaways.giveaways_get(responseHtml, false, response.finalUrl);
+        const giveaways = await Shared.esgst.modules.giveaways.giveaways_get(responseHtml, false, response.finalUrl);
         if (giveaways.length > 0) {
           details = giveaways[0];
           details.winners = [];
@@ -286,7 +286,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
       }
     }
     if (giveaway.id) {
-      const savedGame = shared.esgst.games[giveaway.type][giveaway.id];
+      const savedGame = Shared.esgst.games[giveaway.type][giveaway.id];
       if (savedGame) {
         const keys = ['hidden', 'ignored', 'noCV', 'owned', 'previouslyEntered', 'previouslyWon', 'reducedCV', 'wishlisted'];
         for (const key of keys) {
@@ -463,16 +463,16 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
     if (giveaway.gwcContext) {
       giveaway.chancePerPoint = Math.round(giveaway.chance / Math.max(1, giveaway.points) * 100) / 100;
       giveaway.projectedChancePerPoint = Math.round(giveaway.projectedChance / Math.max(1, giveaway.points) * 100) / 100;
-      giveaway.gwcContext.title = shared.common.getFeatureTooltip('gwc', `Giveaway Winning Chance (${giveaway.chancePerPoint}% per point)`);
+      giveaway.gwcContext.title = Shared.common.getFeatureTooltip('gwc', `Giveaway Winning Chance (${giveaway.chancePerPoint}% per point)`);
     }
     if (giveaway.gptwContext) {
-      shared.esgst.modules.giveawaysGiveawayPointsToWin.gptw_addPoint(giveaway);
+      Shared.esgst.modules.giveawaysGiveawayPointsToWin.gptw_addPoint(giveaway);
     }
     if (Settings.cgb) {
-      shared.esgst.modules.giveawaysCustomGiveawayBackground.color([giveaway]);
+      Shared.esgst.modules.giveawaysCustomGiveawayBackground.color([giveaway]);
     }
     if (giveaway.group && Settings.cl && Settings.ggl) {
-      shared.esgst.modules.generalContentLoader.loadGiveawayGroups(true, 'ggl', [giveaway]);
+      Shared.esgst.modules.generalContentLoader.loadGiveawayGroups(true, 'ggl', [giveaway]);
     }
   }
 
@@ -519,7 +519,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
       );
     }
     popup.open();
-    shared.common.endless_load(popup.getScrollable(html));
+    Shared.common.endless_load(popup.getScrollable(html));
   }
 }
 

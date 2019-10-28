@@ -1,4 +1,4 @@
-import { shared } from '../class/Shared';
+import { Shared } from '../class/Shared';
 import { Settings } from '../class/Settings';
 
 function addStyle() {
@@ -1998,7 +1998,7 @@ function addStyle() {
     border-radius: 4px;
   }
 
-  .esgst-gf-shared.esgst-popup-scrollable {
+  .esgst-gf-Shared.esgst-popup-scrollable {
     min-width: 650px;
   }
 
@@ -2696,7 +2696,7 @@ function addStyle() {
     display: none;
   }
 `;
-  if (shared.esgst.sg) {
+  if (Shared.esgst.sg) {
     style += `
     .esgst-settings-menu-feature {
       align-self: flex-start;
@@ -2729,17 +2729,17 @@ function addStyle() {
     }
   `;
   }
-  shared.esgst.style = shared.common.createElements(document.head, 'beforeEnd', [{
+  Shared.esgst.style = Shared.common.createElements(document.head, 'beforeEnd', [{
     attributes: {
       id: 'esgst-style'
     },
     text: style,
     type: 'style'
   }]);
-  shared.esgst.theme = document.getElementById('esgst-theme');
-  shared.esgst.customThemeElement = document.getElementById('esgst-custom-theme');
+  Shared.esgst.theme = document.getElementById('esgst-theme');
+  Shared.esgst.customThemeElement = document.getElementById('esgst-custom-theme');
   // noinspection JSIgnoredPromiseFromCall
-  shared.common.setTheme();
+  Shared.common.setTheme();
 }
 
 export { addStyle };

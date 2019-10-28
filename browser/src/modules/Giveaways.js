@@ -1,6 +1,6 @@
 import { Module } from '../class/Module';
 import {common} from './Common';
-import { shared } from '../class/Shared';
+import { Shared } from '../class/Shared';
 import { Settings } from '../class/Settings';
 import { DOM } from '../class/DOM';
 
@@ -39,7 +39,7 @@ class Giveaways extends Module {
     if (this.esgst.gas && Settings[this.esgst.gas.autoKey]) {
       sortContent(this.esgst.currentScope.giveaways, Settings[this.esgst.gas.optionKey]);
     }
-    if (main && shared.esgst.gf && this.esgst.gf.filteredCount && Settings[`gf_enable${this.esgst.gf.type}`]) {
+    if (main && Shared.esgst.gf && this.esgst.gf.filteredCount && Settings[`gf_enable${this.esgst.gf.type}`]) {
       this.esgst.modules.giveawaysGiveawayFilters.filters_filter(this.esgst.gf, false, endless);
     }
     if (!main && this.esgst.gfPopup && this.esgst.gfPopup.filteredCount && Settings[`gf_enable${this.esgst.gfPopup.type}`]) {
@@ -54,13 +54,13 @@ class Giveaways extends Module {
     let giveaway, giveaways, i, mainContext, matches, query;
     giveaways = [];
     if (!hr && main && (this.esgst.createdPath || this.esgst.enteredPath || this.esgst.wonPath || this.esgst.archivePath)) {
-      query = shared.common.getSelectors(endless, [
+      query = Shared.common.getSelectors(endless, [
         'X.giveaway__row-outer-wrap',
         'X.featured__outer-wrap--giveaway',
         `.table:not(.table--summary) X.table__row-outer-wrap`
       ]);
     } else {
-      query = shared.common.getSelectors(endless, [
+      query = Shared.common.getSelectors(endless, [
         'X.giveaway__row-outer-wrap',
         'X.featured__outer-wrap--giveaway'
       ]);
@@ -103,11 +103,11 @@ class Giveaways extends Module {
         keys = ['owned', 'wishlisted', 'followed', 'hidden', 'ignored', 'previouslyEntered', 'previouslyWon', 'reducedCV', 'noCV', 'banned', 'removed'];
         for (i = 0, n = keys.length; i < n; ++i) {
           key = keys[i];
-          if (key === 'banned' && shared.esgst.delistedGames.banned.indexOf(parseInt(giveaway.id)) > -1) {
+          if (key === 'banned' && Shared.esgst.delistedGames.banned.indexOf(parseInt(giveaway.id)) > -1) {
             giveaway[key] = true;
-          } else if (key === 'removed' && (shared.esgst.delistedGames.removed.indexOf(parseInt(giveaway.id)) > -1 || shared.esgst.games[giveaway.type][giveaway.id].removed)) {
+          } else if (key === 'removed' && (Shared.esgst.delistedGames.removed.indexOf(parseInt(giveaway.id)) > -1 || Shared.esgst.games[giveaway.type][giveaway.id].removed)) {
             giveaway[key] = true;
-          } else if (shared.esgst.games[giveaway.type][giveaway.id][key === 'previouslyEntered' ? 'entered' : (key === 'previouslyWon' ? 'won' : key)]) {
+          } else if (Shared.esgst.games[giveaway.type][giveaway.id][key === 'previouslyEntered' ? 'entered' : (key === 'previouslyWon' ? 'won' : key)]) {
             giveaway[key] = true;
           }
         }
@@ -278,7 +278,7 @@ class Giveaways extends Module {
         giveaway.outerWrap.classList.add('esgst-hidden');
         giveaway.outerWrap.setAttribute('data-esgst-not-filterable', 'gf');
         if (Settings.gf_s_s) {
-          shared.esgst.modules.giveawaysGiveawayFilters.updateSingleCounter();
+          Shared.esgst.modules.giveawaysGiveawayFilters.updateSingleCounter();
         }
       }
     }
@@ -571,7 +571,7 @@ class Giveaways extends Module {
         regionRestricted: !!giveaway.regionRestricted,
         group: !!giveaway.group,
         whitelist: !!giveaway.whitelist,
-        v: shared.esgst.CURRENT_GIVEAWAY_VERSION
+        v: Shared.esgst.CURRENT_GIVEAWAY_VERSION
       }
     };
   }
@@ -579,7 +579,7 @@ class Giveaways extends Module {
   giveaways_reorder(giveaway) {
     if (giveaway.columns || giveaway.gvIcons) {
       for (const id of (giveaway.gvIcons ? Settings.giveawayColumns_gv : Settings.giveawayColumns)) {
-        if (id === 'startTime' && shared.common.isCurrentPath('Archive')) {
+        if (id === 'startTime' && Shared.common.isCurrentPath('Archive')) {
           continue;
         }
         const elements = giveaway.outerWrap.querySelectorAll(`[data-draggable-id="${id}"]`);

@@ -1,6 +1,6 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
-import { shared } from '../../class/Shared';
+import { Shared } from '../../class/Shared';
 import { Settings } from '../../class/Settings';
 
 const
@@ -62,8 +62,8 @@ class UsersProfileLinks extends Module {
   }
 
   init() {
-    if (!shared.esgst.userPath) return;
-    shared.esgst.profileFeatures.push(this.pl_add.bind(this));
+    if (!Shared.esgst.userPath) return;
+    Shared.esgst.profileFeatures.push(this.pl_add.bind(this));
   }
 
   pl_add(profile) {
@@ -113,9 +113,9 @@ class UsersProfileLinks extends Module {
         name: 'Steam'
       }
     ];
-    for (const id in shared.esgst.users.users) {
-      if (shared.esgst.users.users.hasOwnProperty(id)) {
-        const user = shared.esgst.users.users[id];
+    for (const id in Shared.esgst.users.users) {
+      if (Shared.esgst.users.users.hasOwnProperty(id)) {
+        const user = Shared.esgst.users.users[id];
         if (user.whitelisted) {
           sections[0].items[0].count += 1;
         } else if (user.blacklisted) {
@@ -123,9 +123,9 @@ class UsersProfileLinks extends Module {
         }
       }
     }
-    for (const id in shared.esgst.games.apps) {
-      if (shared.esgst.games.apps.hasOwnProperty(id)) {
-        const game = shared.esgst.games.apps[id];
+    for (const id in Shared.esgst.games.apps) {
+      if (Shared.esgst.games.apps.hasOwnProperty(id)) {
+        const game = Shared.esgst.games.apps[id];
         if (game.owned) {
           sections[1].items[0].count += 1;
         } else if (game.wishlisted) {
@@ -133,7 +133,7 @@ class UsersProfileLinks extends Module {
         }
       }
     }
-    for (const group of shared.esgst.groups) {
+    for (const group of Shared.esgst.groups) {
       if (group.member) {
         sections[1].items[1].count += 1
       }
@@ -196,7 +196,7 @@ class UsersProfileLinks extends Module {
           children: list
         });
     }
-    createElements(shared.esgst.sidebar.getElementsByClassName('sidebar__navigation')[0], 'afterEnd', items);
+    createElements(Shared.esgst.sidebar.getElementsByClassName('sidebar__navigation')[0], 'afterEnd', items);
   }
 }
 

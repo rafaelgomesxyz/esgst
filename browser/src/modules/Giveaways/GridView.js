@@ -3,7 +3,7 @@ import 'jquery-ui/ui/widgets/slider';
 import { Module } from '../../class/Module';
 import { Popout } from '../../class/Popout';
 import { common } from '../Common';
-import { shared } from '../../class/Shared';
+import { Shared } from '../../class/Shared';
 import { Settings } from '../../class/Settings';
 import { DOM } from '../../class/DOM';
 
@@ -101,7 +101,7 @@ class GiveawaysGridView extends Module {
     if ((!main || !this.esgst.giveawaysPath) && (main || ((source !== 'gb' || !Settings.gv_gb) && (source !== 'ged' || !Settings.gv_ged) && (source !== 'ge' || !Settings.gv_ge)))) return;
     giveaways.forEach(giveaway => {
       giveaway.grid = true;
-      let popup = giveaway.outerWrap.closest('.esgst-popup-scrollable') || (shared.common.isCurrentPath('Account') && this.esgst.parameters.esgst);
+      let popup = giveaway.outerWrap.closest('.esgst-popup-scrollable') || (Shared.common.isCurrentPath('Account') && this.esgst.parameters.esgst);
       if (popup) {
         giveaway.outerWrap.parentElement.parentElement.classList.add('esgst-gv-view');
         giveaway.outerWrap.parentElement.style.display = 'inline-block';

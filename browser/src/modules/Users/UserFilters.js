@@ -2,7 +2,7 @@ import { ButtonSet } from '../../class/ButtonSet';
 import { Popup } from '../../class/Popup';
 import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { common } from '../Common';
-import { shared } from '../../class/Shared';
+import { Shared } from '../../class/Shared';
 import { Settings } from '../../class/Settings';
 import { Utils } from '../../lib/jsUtils';
 import { Filters } from '../Filters';
@@ -215,7 +215,7 @@ class UsersUserFilters extends Filters {
 
   async filterDiscussions(discussions) {
     for (const discussion of discussions) {
-      const savedUser = await shared.common.getUser(shared.esgst.users, {
+      const savedUser = await Shared.common.getUser(Shared.esgst.users, {
         username: discussion.author
       });
       if (!savedUser) {
@@ -233,11 +233,11 @@ class UsersUserFilters extends Filters {
   }
 
   async filterGiveaways(giveaways, main) {
-    if (!shared.esgst.giveawaysPath || !main) {
+    if (!Shared.esgst.giveawaysPath || !main) {
       return;
     }
     for (const giveaway of giveaways) {
-      const savedUser = await shared.common.getUser(shared.esgst.users, {
+      const savedUser = await Shared.common.getUser(Shared.esgst.users, {
         username: giveaway.creator
       });
       if (!savedUser) {
@@ -256,7 +256,7 @@ class UsersUserFilters extends Filters {
 
   async filterComments(comments, main) {
     for (const comment of comments) {
-      const savedUser = await shared.common.getUser(shared.esgst.users, {
+      const savedUser = await Shared.common.getUser(Shared.esgst.users, {
         username: comment.author
       });
       if (!savedUser) {
@@ -275,7 +275,7 @@ class UsersUserFilters extends Filters {
         if (Settings.uf_s_s) {
           this.updateSingleCounter(numDescendants + 1);
         }
-        if (!main || shared.common.isCurrentPath('Messages')) {
+        if (!main || Shared.common.isCurrentPath('Messages')) {
           const commentsContainer = comment.comment.closest('.comments');
           if (!commentsContainer.querySelectorAll(`.comment:not([data-esgst-not-filterable])`).length) {
             commentsContainer.previousElementSibling.classList.add('esgst-hidden');

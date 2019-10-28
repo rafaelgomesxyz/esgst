@@ -1,5 +1,5 @@
 import { Settings } from '../class/Settings';
-import { shared } from '../class/Shared';
+import { Shared } from '../class/Shared';
 import { DropboxStorage } from '../class/DropboxStorage';
 import { GoogleDriveStorage } from '../class/GoogleDriveStorage';
 import { OneDriveStorage } from '../class/OneDriveStorage';
@@ -126,7 +126,7 @@ class CloudStorage {
       }
 
       if (!dm.autoBackup) {
-        shared.common.createFadeMessage(dm.message, `Data ${dm.pastTense} with success!`);
+        Shared.common.createFadeMessage(dm.message, `Data ${dm.pastTense} with success!`);
       }
     } catch (error) {
       window.alert(`An error occurred when uploading the file.\n\n${error.message}`);
@@ -203,7 +203,7 @@ class CloudStorage {
       const item = DOM.build(filesContainer, 'beforeEnd', [
         ['div', { class: 'esgst-clickable esgst-restore-entry' }, [
           ['span'],
-          ['span', `${file.name} - ${shared.common.convertBytes(file.size)}`],
+          ['span', `${file.name} - ${Shared.common.convertBytes(file.size)}`],
           ['i', { class: 'fa fa-times-circle', title: 'Delete file' }]
         ]]
       ]);
@@ -211,7 +211,7 @@ class CloudStorage {
       checkbox.onEnabled = () => selectedFiles[file.id] = { item };
       checkbox.onDisabled = () => delete selectedFiles[file.id];
       item.firstElementChild.nextElementSibling.addEventListener('click', () => {
-        shared.common.createConfirmation('Are you sure you want to restore the selected data?', async () => {
+        Shared.common.createConfirmation('Are you sure you want to restore the selected data?', async () => {
           isCanceled = false;
 
           popup.close();
@@ -238,11 +238,11 @@ class CloudStorage {
             return;
           }
 
-          shared.esgst.modules.manageData(dm, false, false, false, false, callback);
+          Shared.esgst.modules.manageData(dm, false, false, false, false, callback);
         });
       });
       item.lastElementChild.addEventListener('click', () => {
-        shared.common.createConfirmation(`WARNING: Are you sure you want to delete this file?`, async () => {
+        Shared.common.createConfirmation(`WARNING: Are you sure you want to delete this file?`, async () => {
           const tempPopup = new Popup({
             icon: 'fa-circle-o-notch fa-spin',
             isTemp: true,
@@ -290,7 +290,7 @@ class CloudStorage {
             return;
           }
 
-          shared.common.createConfirmation(`WARNING: Are you sure you want to delete the selected files?`, async () => {
+          Shared.common.createConfirmation(`WARNING: Are you sure you want to delete the selected files?`, async () => {
             const tempPopup = new Popup({
               icon: 'fa-circle-o-notch fa-spin',
               isTemp: true,

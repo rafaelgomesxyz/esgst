@@ -6,7 +6,7 @@ import { ToggleSwitch } from '../class/ToggleSwitch';
 import { Utils } from '../lib/jsUtils';
 import { common } from './Common';
 import { Settings } from '../class/Settings';
-import { shared } from '../class/Shared';
+import { Shared } from '../class/Shared';
 import { SYNC_KEYS } from './Sync';
 import { Logger } from '../class/Logger';
 import { Session } from '../class/Session';
@@ -30,7 +30,7 @@ class Filters extends Module {
   getFilters(popup) {}
 
   addSingleButton(icon) {
-    this.singleButton = shared.common.createHeadingButton({ id: `${this.id}_s_s`, icons: [icon], title: 'Hide / unhide items filtered by single filters temporarily' });
+    this.singleButton = Shared.common.createHeadingButton({ id: `${this.id}_s_s`, icons: [icon], title: 'Hide / unhide items filtered by single filters temporarily' });
     this.singleButton.classList.add('esgst-hidden');
     DOM.build(this.singleButton, 'afterBegin', [['span']]);
     this.singleSwitch = new ToggleSwitch(this.singleButton.firstElementChild, null, true, '', false, false, null, true);
@@ -310,8 +310,8 @@ class Filters extends Module {
       }]
     }]);
 
-    if (!obj.popup && !shared.esgst.hasAddedFilterContainer) {
-      shared.esgst.hasAddedFilterContainer = true;
+    if (!obj.popup && !Shared.esgst.hasAddedFilterContainer) {
+      Shared.esgst.hasAddedFilterContainer = true;
 
       this.esgst.commentsTop += 23;
     }
@@ -981,7 +981,7 @@ class Filters extends Module {
     for (const key of usedFilters) {
       const filter = obj.filters[key];
       if (filter.category && (!Settings.gc || !Settings[filter.category])) {
-        warnings.push(`"${filter.name}" requires "${shared.common.getFeatureName(null, filter.category)}" to be enabled in the settings menu.`);
+        warnings.push(`"${filter.name}" requires "${Shared.common.getFeatureName(null, filter.category)}" to be enabled in the settings menu.`);
       } else if (filter.sync) {
         for (const syncKey of filter.sync) {
           if (now - Settings[`lastSync${syncKey}`] > 2592000000) {

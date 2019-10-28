@@ -3,7 +3,7 @@ import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { Utils } from '../../lib/jsUtils';
-import { shared } from '../../class/Shared';
+import { Shared } from '../../class/Shared';
 import { Settings } from '../../class/Settings';
 import { DOM } from '../../class/DOM';
 
@@ -32,15 +32,15 @@ class UsersUserSuspensionChecker extends Module {
   }
 
   init() {
-    if (!shared.esgst.mainPageHeading) {
+    if (!Shared.esgst.mainPageHeading) {
       return;
     }
-    shared.esgst.uscButton = shared.common.createHeadingButton({
+    Shared.esgst.uscButton = Shared.common.createHeadingButton({
       id: 'usc',
       icons: ['fa-user', 'fa-ban', 'fa-question-circle'],
       title: 'Check users for suspensions'
     });
-    this.addButton(shared.esgst.uscButton);
+    this.addButton(Shared.esgst.uscButton);
   }
 
   addButton(button) {
@@ -58,7 +58,7 @@ class UsersUserSuspensionChecker extends Module {
     if (uscObj.username) {
       checkSingleSwitch = new ToggleSwitch(uscObj.options, 'usc_checkSingle', false, `Only check ${uscObj.username  || 'current user'}.`, false, false, `If disabled, all users in the current page will be checked.`, Settings.usc_checkSingle);
     }
-    const mmFeature = shared.common.getFeatureNumber('mm');
+    const mmFeature = Shared.common.getFeatureNumber('mm');
     const checkSelectedSwitch = new ToggleSwitch(uscObj.options, 'usc_checkSelected', false, 'Only check selected.', false, false, `Use ${mmFeature.number} ${mmFeature.name} to select the users that you want to check. Then click the button 'Check Suspensions' in the Multi-Manager popout and you will be redirected here.`, Settings.usc_checkSelected);
     let checkAllSwitch;
     let checkPagesSwitch;
@@ -73,12 +73,12 @@ class UsersUserSuspensionChecker extends Module {
       ], false, false, null, Settings.usc_checkPages);
       const minPage = checkPagesSwitch.name.firstElementChild;
       const maxPage = minPage.nextElementSibling;
-      const lastPage = shared.esgst.modules.generalLastPageLink.lpl_getLastPage(document, true);
+      const lastPage = Shared.esgst.modules.generalLastPageLink.lpl_getLastPage(document, true);
       if (lastPage !== 999999999) {
         maxPage.setAttribute('max', lastPage);
       }
-      shared.common.observeNumChange(minPage, 'usc_minPage', true);
-      shared.common.observeNumChange(maxPage, 'usc_maxPage', true);
+      Shared.common.observeNumChange(minPage, 'usc_minPage', true);
+      Shared.common.observeNumChange(maxPage, 'usc_maxPage', true);
     }
     if (checkSingleSwitch || checkAllSwitch || checkPagesSwitch) {
       if (checkSingleSwitch) {
@@ -168,7 +168,7 @@ class UsersUserSuspensionChecker extends Module {
     }).set);
     uscObj.progress = DOM.build(popup.description, 'beforeEnd', [['div']]);
     uscObj.results = DOM.build(popup.scrollable, 'beforeEnd', [['div']]);
-    shared.common.createResults(uscObj.results, uscObj, [{
+    Shared.common.createResults(uscObj.results, uscObj, [{
       Icon: 'fa fa-times-circle esgst-red',
       Description: `Suspended: `,
       Key: 'suspended'
@@ -185,7 +185,7 @@ class UsersUserSuspensionChecker extends Module {
       if (button.getAttribute('data-mm')) {
         if (!Settings.usc_checkSelected) {
           if (Settings.usc_checkSingle && checkSingleSwitch) {
-            let element = shared.common.createElements(checkSingleSwitch.container, 'afterBegin', [{
+            let element = Shared.common.createElements(checkSingleSwitch.container, 'afterBegin', [{
               attributes: {
                 class: 'esgst-bold esgst-red'
               },
@@ -194,7 +194,7 @@ class UsersUserSuspensionChecker extends Module {
             }]);
             window.setTimeout(() => element.remove(), 5000);
           } else if (Settings.usc_checkAll) {
-            let element = shared.common.createElements(checkAllSwitch.container, 'afterBegin', [{
+            let element = Shared.common.createElements(checkAllSwitch.container, 'afterBegin', [{
               attributes: {
                 class: 'esgst-bold esgst-red'
               },
@@ -203,7 +203,7 @@ class UsersUserSuspensionChecker extends Module {
             }]);
             window.setTimeout(() => element.remove(), 5000);
           } else if (Settings.usc_checkPages) {
-            let element = shared.common.createElements(checkPagesSwitch.container, 'afterBegin', [{
+            let element = Shared.common.createElements(checkPagesSwitch.container, 'afterBegin', [{
               attributes: {
                 class: 'esgst-bold esgst-red'
               },
@@ -212,7 +212,7 @@ class UsersUserSuspensionChecker extends Module {
             }]);
             window.setTimeout(() => element.remove(), 5000);
           }
-          let element = shared.common.createElements(checkSelectedSwitch.container, 'afterBegin', [{
+          let element = Shared.common.createElements(checkSelectedSwitch.container, 'afterBegin', [{
             attributes: {
               class: 'esgst-bold esgst-red'
             },
@@ -243,9 +243,9 @@ class UsersUserSuspensionChecker extends Module {
       await this.checkUsers(uscObj);
     } else {
       if (Settings.usc_checkSelected) {
-        uscObj.users = Array.from(shared.esgst.mmWbcUsers);
+        uscObj.users = Array.from(Shared.esgst.mmWbcUsers);
       } else if (!Settings.usc_checkPages) {
-        const elements = shared.esgst.pageOuterWrap.querySelectorAll(`a[href*="/user/"]`);
+        const elements = Shared.esgst.pageOuterWrap.querySelectorAll(`a[href*="/user/"]`);
         for (const element of elements) {
           const match = element.getAttribute('href').match(/\/user\/(.+)/);
           if (!match) {
@@ -274,7 +274,7 @@ class UsersUserSuspensionChecker extends Module {
     for (i = 0, n = uscObj.users.length; i < n && !uscObj.canceled; i++) {
       uscObj.progress.innerHTML = `${i} of ${n} users checked...`;
       const username = uscObj.users[i];
-      const html = DOM.parse((await shared.common.request({
+      const html = DOM.parse((await Shared.common.request({
         method: 'GET',
         url: `/user/${username}`
       })).responseText);
@@ -322,19 +322,19 @@ class UsersUserSuspensionChecker extends Module {
     }
     do {
       let html;
-      if (nextPage === shared.esgst.currentPage) {
-        html = shared.esgst.pageOuterWrap;
+      if (nextPage === Shared.esgst.currentPage) {
+        html = Shared.esgst.pageOuterWrap;
       } else {
-        html = DOM.parse((await shared.common.request({
+        html = DOM.parse((await Shared.common.request({
           method: 'GET',
-          url: `${shared.esgst.searchUrl}${nextPage}`
+          url: `${Shared.esgst.searchUrl}${nextPage}`
         })).responseText);
       }
       if (uscObj.canceled) {
         return;
       }
       if (!uscObj.lastPage) {
-        uscObj.lastPage = shared.esgst.modules.generalLastPageLink.lpl_getLastPage(html, true);
+        uscObj.lastPage = Shared.esgst.modules.generalLastPageLink.lpl_getLastPage(html, true);
         uscObj.lastPage = uscObj.lastPage === 999999999 ? '' : ` of ${uscObj.lastPage}`;
       }
       DOM.build(uscObj.progress, 'inner', [

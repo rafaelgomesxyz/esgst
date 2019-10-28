@@ -4,7 +4,7 @@ import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { common } from '../Common';
 import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
-import { shared, Shared } from '../../class/Shared';
+import { Shared } from '../../class/Shared';
 import { Settings } from '../../class/Settings';
 import { DOM } from '../../class/DOM';
 
@@ -212,14 +212,14 @@ class GiveawaysGiveawayBookmarks extends Module {
         }
       }
     }
-    if (shared.common.isCurrentPath('Account') && this.esgst.parameters.esgst === 'gb') {
+    if (Shared.common.isCurrentPath('Account') && this.esgst.parameters.esgst === 'gb') {
       const context = this.esgst.sidebar.nextElementSibling;
       if (Settings.removeSidebarInFeaturePages) {
         this.esgst.sidebar.remove();
       }
       context.innerHTML = '';
       context.setAttribute('data-esgst-popup', 'true');
-      new elementBuilder[shared.esgst.name].pageHeading({
+      new elementBuilder[Shared.esgst.name].pageHeading({
         context: context,
         position: 'beforeEnd',
         breadcrumbs: [
@@ -246,7 +246,7 @@ class GiveawaysGiveawayBookmarks extends Module {
             addScrollable: 'left',
             isTemp: true
           });
-          new elementBuilder[shared.esgst.name].pageHeading({
+          new elementBuilder[Shared.esgst.name].pageHeading({
             context: popup.description,
             position: 'afterBegin',
             breadcrumbs: [
