@@ -1,7 +1,7 @@
 import { Module } from '../class/Module';
 import {common} from './Common';
 import { Settings } from '../class/Settings';
-import { shared } from '../class/Shared';
+import { Shared } from '../class/Shared';
 
 const
   getUser = common.getUser.bind(common),
@@ -35,7 +35,7 @@ class Discussions extends Module {
       }
     }
     if (!main || this.esgst.discussionsPath) {
-      if (main && shared.esgst.df && this.esgst.df.filteredCount && Settings[`df_enable${this.esgst.df.type}`]) {
+      if (main && Shared.esgst.df && this.esgst.df.filteredCount && Settings[`df_enable${this.esgst.df.type}`]) {
         this.esgst.modules.discussionsDiscussionFilters.filters_filter(this.esgst.df, false, endless);
       }
       if (Settings.ds && Settings.ds_auto) {
@@ -43,7 +43,7 @@ class Discussions extends Module {
       }
     }
     if (!main || this.esgst.tradesPath) {
-      if (main && shared.esgst.tf && this.esgst.tf.filteredCount && Settings[`tf_enable${this.esgst.tf.type}`]) {
+      if (main && Shared.esgst.tf && this.esgst.tf.filteredCount && Settings[`tf_enable${this.esgst.tf.type}`]) {
         this.esgst.modules.tradesTradeFilters.filters_filter(this.esgst.tf, false, endless);
       }
     }
@@ -157,7 +157,7 @@ class Discussions extends Module {
           discussion.outerWrap.classList.add('esgst-hidden');
           discussion.outerWrap.setAttribute('data-esgst-not-filterable', 'df');
           if (Settings.df_s_s) {
-            shared.esgst.modules.discussionsDiscussionFilters.updateSingleCounter();
+            Shared.esgst.modules.discussionsDiscussionFilters.updateSingleCounter();
           }
           return;
         }
@@ -178,7 +178,7 @@ class Discussions extends Module {
           discussion.outerWrap.classList.add('esgst-hidden');
           discussion.outerWrap.setAttribute('data-esgst-not-filterable', 'df');
           if (Settings.tf_s_s) {
-            shared.esgst.modules.tradesTradeFilters.updateSingleCounter();
+            Shared.esgst.modules.tradesTradeFilters.updateSingleCounter();
           }
           return;
         }

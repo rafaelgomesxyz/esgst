@@ -4,7 +4,7 @@ import { Popup } from '../../class/Popup';
 import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { common } from '../Common';
 import { Settings } from '../../class/Settings';
-import { shared } from '../../class/Shared';
+import { Shared } from '../../class/Shared';
 import { DOM } from '../../class/DOM';
 import { Session } from '../../class/Session';
 
@@ -48,9 +48,9 @@ class UsersWhitelistBlacklistManager extends Module {
   }
 
   init() {
-    if (!shared.esgst.whitelistPath && !shared.esgst.blacklistPath) return;
+    if (!Shared.esgst.whitelistPath && !Shared.esgst.blacklistPath) return;
     let wbm = {};
-    if (shared.esgst.whitelistPath) {
+    if (Shared.esgst.whitelistPath) {
       wbm.key = 'whitelist';
       wbm.name = 'Whitelist';
     } else {
@@ -208,10 +208,10 @@ class UsersWhitelistBlacklistManager extends Module {
     if (wbm.isCanceled) return;
     if (Settings.wbm_useCache) {
       let steamId;
-      for (steamId in shared.esgst.users.users) {
-        if (shared.esgst.users.users.hasOwnProperty(steamId)) {
-          if (shared.esgst.users.users[steamId][`${wbm.key}ed`]) {
-            list.push(shared.esgst.users.users[steamId].id);
+      for (steamId in Shared.esgst.users.users) {
+        if (Shared.esgst.users.users.hasOwnProperty(steamId)) {
+          if (Shared.esgst.users.users[steamId][`${wbm.key}ed`]) {
+            list.push(Shared.esgst.users.users[steamId].id);
           }
         }
       }
@@ -252,9 +252,9 @@ class UsersWhitelistBlacklistManager extends Module {
     if (wbm.isCanceled) return;
     if (Settings.wbm_useCache) {
       let steamId;
-      for (steamId in shared.esgst.users.users) {
-        if (shared.esgst.users.users.hasOwnProperty(steamId)) {
-          let user = shared.esgst.users.users[steamId];
+      for (steamId in Shared.esgst.users.users) {
+        if (Shared.esgst.users.users.hasOwnProperty(steamId)) {
+          let user = Shared.esgst.users.users[steamId];
           if (user[`${wbm.key}ed`]) {
             if (Settings.wbm_clearTags) {
               if (user.tags) {
@@ -295,9 +295,9 @@ class UsersWhitelistBlacklistManager extends Module {
         if (Settings.wbm_clearTags) {
           let steamId, username;
           username = element.closest('.table__row-inner-wrap').getElementsByClassName('table__column__heading')[0].textContent;
-          steamId = shared.esgst.users.steamIds[username];
+          steamId = Shared.esgst.users.steamIds[username];
           if (steamId) {
-            let user = shared.esgst.users.users[steamId];
+            let user = Shared.esgst.users.users[steamId];
             if (user.tags) {
               let j;
               for (j = user.tags.length - 1; j > -1 && Settings.wbm_tags.indexOf(user.tags[j]) < 0; --j) {

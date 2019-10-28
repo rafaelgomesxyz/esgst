@@ -1,6 +1,6 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
-import { shared } from '../../class/Shared';
+import { Shared } from '../../class/Shared';
 import { Settings } from '../../class/Settings';
 import { DOM } from '../../class/DOM';
 import { Session } from '../../class/Session';
@@ -50,7 +50,7 @@ class TradesTradeBumper extends Module {
   }
 
   init() {
-    if (shared.esgst.locationHref.match(new RegExp(`\\/trades\\/search\\?user=${Settings.steamId}`))) {
+    if (Shared.esgst.locationHref.match(new RegExp(`\\/trades\\/search\\?user=${Settings.steamId}`))) {
       const button = createHeadingButton({
         id: 'tb',
         icons: ['fa-chevron-circle-up'],
@@ -104,7 +104,7 @@ class TradesTradeBumper extends Module {
   }
 
   async tb_autoBumpTrades(button) {
-    if (shared.esgst.locationHref.match(new RegExp(`\\/trades\\/search\\?user=${Settings.steamId}`))) {
+    if (Shared.esgst.locationHref.match(new RegExp(`\\/trades\\/search\\?user=${Settings.steamId}`))) {
       // noinspection JSIgnoredPromiseFromCall
       this.tb_getTrades(button, document);
     } else {

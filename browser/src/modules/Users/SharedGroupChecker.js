@@ -2,7 +2,7 @@ import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { Utils } from '../../lib/jsUtils';
 import { common } from '../Common';
-import { shared } from '../../class/Shared';
+import { Shared } from '../../class/Shared';
 import { Settings } from '../../class/Settings';
 import { permissions } from '../../class/Permissions';
 import { DOM } from '../../class/DOM';
@@ -182,9 +182,9 @@ class UsersSharedGroupChecker extends Module {
       const avatar = element.getElementsByClassName('avatarMedium')[0].firstElementChild.firstElementChild.getAttribute('src');
       const steamId = element.querySelector('.steamLink').getAttribute('href').match(/\d+/)[0];
       let i;
-      for (i = shared.esgst.groups.length - 1; i > -1 && shared.esgst.groups[i].steamId !== steamId; i--) {
+      for (i = Shared.esgst.groups.length - 1; i > -1 && Shared.esgst.groups[i].steamId !== steamId; i--) {
       }
-      if (!isLoggedIn && (i < 0 || !shared.esgst.groups[i].member)) {
+      if (!isLoggedIn && (i < 0 || !Shared.esgst.groups[i].member)) {
         continue;
       }
       (element.getElementsByClassName('pubGroup')[0] ? publicGroups : privateGroups).push({

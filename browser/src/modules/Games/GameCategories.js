@@ -1,7 +1,7 @@
 import { Module } from '../../class/Module';
 import { Utils } from '../../lib/jsUtils';
 import { common } from '../Common';
-import { shared, Shared } from '../../class/Shared';
+import { Shared } from '../../class/Shared';
 import { Settings } from '../../class/Settings';
 import { permissions } from '../../class/Permissions';
 import { Logger } from '../../class/Logger';
@@ -1035,8 +1035,8 @@ class GamesGameCategories extends Module {
       return;
     }
 
-    shared.esgst.gameFeatures.push(this.gc_games.bind(this));
-    shared.esgst.gcToFetch = { apps: {}, subs: {} };
+    Shared.esgst.gameFeatures.push(this.gc_games.bind(this));
+    Shared.esgst.gcToFetch = { apps: {}, subs: {} };
   }
 
   gc_games(games, main, source, endless) {
@@ -1118,13 +1118,13 @@ class GamesGameCategories extends Module {
 
     // Show categories that do not need to be fetched.
     for (const id of gc.apps) {
-      this.gc_addCategory(gc, null, games.apps[id], id, shared.esgst.games.apps[id], 'apps', gc.cache.hltb, this.isFetchableEnabled());
+      this.gc_addCategory(gc, null, games.apps[id], id, Shared.esgst.games.apps[id], 'apps', gc.cache.hltb, this.isFetchableEnabled());
     }
     for (const id of gc.subs) {
-      this.gc_addCategory(gc, null, games.subs[id], id, shared.esgst.games.subs[id], 'subs', null, this.isFetchableEnabled());
+      this.gc_addCategory(gc, null, games.subs[id], id, Shared.esgst.games.subs[id], 'subs', null, this.isFetchableEnabled());
     }
-    for (const scopeKey in shared.esgst.scopes) {
-      const scope = shared.esgst.scopes[scopeKey];
+    for (const scopeKey in Shared.esgst.scopes) {
+      const scope = Shared.esgst.scopes[scopeKey];
       for (const giveaway of scope.giveaways) {
         this.gc_addBorders(giveaway);
       }
@@ -1171,7 +1171,7 @@ class GamesGameCategories extends Module {
             } else {
               // Game is up to date.
 
-              this.gc_addCategory(gc, gc.cache.apps[id], games.apps[id], id, shared.esgst.games.apps[id], 'apps', gc.cache.hltb);
+              this.gc_addCategory(gc, gc.cache.apps[id], games.apps[id], id, Shared.esgst.games.apps[id], 'apps', gc.cache.hltb);
               continue;
             }
           } else if (now - gc.cache.apps[id].lastCheck > 2592000000) {
@@ -1186,7 +1186,7 @@ class GamesGameCategories extends Module {
         }
         if (games.apps[id] && games.apps[id].filter(item => !item.container.classList.contains('esgst-hidden'))[0]) {
           if (priority > 2) {
-            this.gc_addCategory(gc, gc.cache.apps[id], games.apps[id], id, shared.esgst.games.apps[id], 'apps', gc.cache.hltb, false, true);
+            this.gc_addCategory(gc, gc.cache.apps[id], games.apps[id], id, Shared.esgst.games.apps[id], 'apps', gc.cache.hltb, false, true);
           }
           to_fetch.push({
             id,
@@ -1220,7 +1220,7 @@ class GamesGameCategories extends Module {
             } else {
               // Game is up to date.
 
-              this.gc_addCategory(gc, gc.cache.subs[id], games.subs[id], id, shared.esgst.games.subs[id], 'subs', gc.cache.hltb);
+              this.gc_addCategory(gc, gc.cache.subs[id], games.subs[id], id, Shared.esgst.games.subs[id], 'subs', gc.cache.hltb);
               continue;
             }
           } else if (now - gc.cache.subs[id].lastCheck > 2592000000) {
@@ -1235,7 +1235,7 @@ class GamesGameCategories extends Module {
         }
         if (games.subs[id] && games.subs[id].filter(item => !item.container.classList.contains('esgst-hidden'))[0]) {
           if (priority > 2) {
-            this.gc_addCategory(gc, gc.cache.subs[id], games.subs[id], id, shared.esgst.games.subs[id], 'subs', gc.cache.hltb, false, true);
+            this.gc_addCategory(gc, gc.cache.subs[id], games.subs[id], id, Shared.esgst.games.subs[id], 'subs', gc.cache.hltb, false, true);
           }
           to_fetch.push({
             id,
@@ -1366,13 +1366,13 @@ class GamesGameCategories extends Module {
             }
           }
 
-          await lockAndSaveGames(shared.esgst.games);
+          await lockAndSaveGames(Shared.esgst.games);
           LocalStorage.set('gcCache', JSON.stringify(gc.cache));
         } catch (error) {
           Logger.warning(error.stack);
         }
 
-        const lockObj = await shared.common.createLock('gc', 100, {});
+        const lockObj = await Shared.common.createLock('gc', 100, {});
 
         for (const item of to_fetch) {
           if (item.found) {
@@ -1380,12 +1380,12 @@ class GamesGameCategories extends Module {
             if (Settings.gc_dlc_b && categories.dlc && categories.base && gc.cache.apps[categories.base]) {
               categories.freeBase = gc.cache.apps[categories.base].free;
             }
-            this.gc_addCategory(gc, gc.cache[item.type][item.id], games[item.type][item.id], item.id, shared.esgst.games[item.type][item.id], item.type, item.type === 'apps' ? gc.cache.hltb : null);
+            this.gc_addCategory(gc, gc.cache[item.type][item.id], games[item.type][item.id], item.id, Shared.esgst.games[item.type][item.id], item.type, item.type === 'apps' ? gc.cache.hltb : null);
           } else {
             await this.gc_getCategories(gc, now, games, item.id, item.type, to_fetch);
           }
           this.updateIndexes();
-          await shared.common.updateLock(lockObj.lock);
+          await Shared.common.updateLock(lockObj.lock);
         }
 
         lockObj.deleteLock();
@@ -1394,8 +1394,8 @@ class GamesGameCategories extends Module {
 
     // add categories
     let categories = ['achievements', 'dlc', 'dlcOwned', 'dlcFree', 'dlcNonFree', 'genres', 'hltb', 'linux', 'mac', 'singleplayer', 'multiplayer', 'package', 'rating', 'reviews', 'learning', 'removed', 'banned', 'steamCloud', 'tradingCards', 'earlyAccess', 'releaseDate'];
-    for (const scopeKey in shared.esgst.scopes) {
-      const scope = shared.esgst.scopes[scopeKey];
+    for (const scopeKey in Shared.esgst.scopes) {
+      const scope = Shared.esgst.scopes[scopeKey];
       const items = scope.giveaways.concat(scope.games.map(game => game.game));
       for (const item of items) {
         const loading = item.outerWrap.querySelector(`.esgst-gc-loading:not([data-esgst-to-fetch])`);
@@ -1440,14 +1440,14 @@ class GamesGameCategories extends Module {
       }
     }
     if (!filtersChanged) {
-      if (main && shared.esgst.gf && shared.esgst.gf.filteredCount && Settings[`gf_enable${shared.esgst.gf.type}`]) {
-        shared.esgst.modules.giveawaysGiveawayFilters.filters_filter(shared.esgst.gf, false, endless);
+      if (main && Shared.esgst.gf && Shared.esgst.gf.filteredCount && Settings[`gf_enable${Shared.esgst.gf.type}`]) {
+        Shared.esgst.modules.giveawaysGiveawayFilters.filters_filter(Shared.esgst.gf, false, endless);
       }
-      if (!main && shared.esgst.gfPopup && shared.esgst.gfPopup.filteredCount && Settings[`gf_enable${shared.esgst.gfPopup.type}`]) {
-        shared.esgst.modules.giveawaysGiveawayFilters.filters_filter(shared.esgst.gfPopup);
+      if (!main && Shared.esgst.gfPopup && Shared.esgst.gfPopup.filteredCount && Settings[`gf_enable${Shared.esgst.gfPopup.type}`]) {
+        Shared.esgst.modules.giveawaysGiveawayFilters.filters_filter(Shared.esgst.gfPopup);
       }
-      if (main && shared.esgst.gmf && shared.esgst.gmf.filteredCount && Settings[`gmf_enable${shared.esgst.gmf.type}`]) {
-        shared.esgst.modules.gamesGameFilters.filters_filter(shared.esgst.gmf, false, endless);
+      if (main && Shared.esgst.gmf && Shared.esgst.gmf.filteredCount && Settings[`gmf_enable${Shared.esgst.gmf.type}`]) {
+        Shared.esgst.modules.gamesGameFilters.filters_filter(Shared.esgst.gmf, false, endless);
       }
     }
   }
@@ -1552,24 +1552,24 @@ class GamesGameCategories extends Module {
       tradingCards: data.trading_cards ? 1 : 0
     };
     if (data.alias) {
-      if (!shared.esgst.games[type][id]) {
-        shared.esgst.games[type][id] = {};
+      if (!Shared.esgst.games[type][id]) {
+        Shared.esgst.games[type][id] = {};
       }
-      shared.esgst.games[type][id].alias = data.alias;
+      Shared.esgst.games[type][id].alias = data.alias;
     }
     if (type === 'apps' && data.subs) {
-      if (!shared.esgst.games.apps[id]) {
-        shared.esgst.games.apps[id] = {};
+      if (!Shared.esgst.games.apps[id]) {
+        Shared.esgst.games.apps[id] = {};
       }
-      shared.esgst.games.apps[id].subs = null;
-      shared.esgst.games.apps[id].packages = data.subs;
+      Shared.esgst.games.apps[id].subs = null;
+      Shared.esgst.games.apps[id].packages = data.subs;
     }
     if (type === 'subs' && data.apps) {
-      if (!shared.esgst.games.subs[id]) {
-        shared.esgst.games.subs[id] = {};
+      if (!Shared.esgst.games.subs[id]) {
+        Shared.esgst.games.subs[id] = {};
       }
-      shared.esgst.games.subs[id].apps = data.apps;
-      for (const appId of shared.esgst.games.subs[id].apps) {
+      Shared.esgst.games.subs[id].apps = data.apps;
+      for (const appId of Shared.esgst.games.subs[id].apps) {
         if (!gc.cache.apps[appId] || !to_fetch.filter(x => x.type === 'apps' && x.id == appId)[0]) {
           if (games) {
             await this.gc_getCategories(gc, current_time, games, appId, 'apps', to_fetch);
@@ -1610,7 +1610,7 @@ class GamesGameCategories extends Module {
     } else {
       categories.ratingType = '?';
     }
-    if (type === 'apps' && !categories.removed && shared.esgst.delistedGames.removed.indexOf(parseInt(id)) >= 0) {
+    if (type === 'apps' && !categories.removed && Shared.esgst.delistedGames.removed.indexOf(parseInt(id)) >= 0) {
       categories.removed = 1;
     }
     if (Settings.gc_dlc_b && categories.dlc && categories.base) {
@@ -1665,8 +1665,8 @@ class GamesGameCategories extends Module {
           throw `Adult game: ${type}/${id}. The learning category can only be retrieved locally if the user is logged in.`;
         }
         gc.cache[type][id] = await this.gc_fake_api(gc, to_fetch, json.result, id, type, currentTime, games, currentTime);
-        this.gc_addCategory(gc, gc.cache[type][id], games[type][id], id, shared.esgst.games[type][id], type, type === 'apps' ? gc.cache.hltb : null);
-        await lockAndSaveGames(shared.esgst.games);
+        this.gc_addCategory(gc, gc.cache[type][id], games[type][id], id, Shared.esgst.games[type][id], type, type === 'apps' ? gc.cache.hltb : null);
+        await lockAndSaveGames(Shared.esgst.games);
         LocalStorage.set('gcCache', JSON.stringify(gc.cache));
       }
     } catch (error) {
@@ -1703,24 +1703,24 @@ class GamesGameCategories extends Module {
           data = responseJson[id].data;
           if (data) {
             if (data.steam_appid && id != data.steam_appid) {
-              if (!shared.esgst.games[type][id]) {
-                shared.esgst.games[type][id] = {};
+              if (!Shared.esgst.games[type][id]) {
+                Shared.esgst.games[type][id] = {};
               }
-              shared.esgst.games[type][id].alias = data.steam_appid;
+              Shared.esgst.games[type][id].alias = data.steam_appid;
             }
             if (type === 'apps' && data.packages) {
-              if (!shared.esgst.games.apps[id]) {
-                shared.esgst.games.apps[id] = {};
+              if (!Shared.esgst.games.apps[id]) {
+                Shared.esgst.games.apps[id] = {};
               }
-              shared.esgst.games.apps[id].subs = null;
-              shared.esgst.games.apps[id].packages = data.packages.map(x => parseInt(x));
+              Shared.esgst.games.apps[id].subs = null;
+              Shared.esgst.games.apps[id].packages = data.packages.map(x => parseInt(x));
             }
             if (type === 'subs' && data.apps) {
-              if (!shared.esgst.games.subs[id]) {
-                shared.esgst.games.subs[id] = {};
+              if (!Shared.esgst.games.subs[id]) {
+                Shared.esgst.games.subs[id] = {};
               }
-              shared.esgst.games.subs[id].apps = data.apps.map(x => parseInt(x.id));
-              for (const appId of shared.esgst.games.subs[id].apps) {
+              Shared.esgst.games.subs[id].apps = data.apps.map(x => parseInt(x.id));
+              for (const appId of Shared.esgst.games.subs[id].apps) {
                 if (!gc.cache.apps[appId] || !to_fetch.filter(x => x.type === 'apps' && x.id == appId)[0]) {
                   await this.gc_getCategories(gc, currentTime, games, appId, 'apps', to_fetch);
                 }
@@ -1790,7 +1790,7 @@ class GamesGameCategories extends Module {
           }
         }
         if ((typeof id !== 'string' || !id.match(/^SteamBundle/)) && (Settings.gc_lg || Settings.gc_r || Settings.gc_rm || Settings.gc_g_udt)) {
-          if (Settings.gc_rm && !Settings.gc_lg && !Settings.gc_r && !Settings.gc_g_udt && type === 'apps' && shared.esgst.delistedGames.removed.indexOf(parseInt(id)) > -1) {
+          if (Settings.gc_rm && !Settings.gc_lg && !Settings.gc_r && !Settings.gc_g_udt && type === 'apps' && Shared.esgst.delistedGames.removed.indexOf(parseInt(id)) > -1) {
             categories.removed = 1;
           } else {
             let response = await request({
@@ -1861,15 +1861,15 @@ class GamesGameCategories extends Module {
           }
         }
         gc.cache[type][id] = categories;
-        this.gc_addCategory(gc, gc.cache[type][id], games[type][id], id, shared.esgst.games[type][id], type, type === 'apps' ? gc.cache.hltb : null);
-        await lockAndSaveGames(shared.esgst.games);
+        this.gc_addCategory(gc, gc.cache[type][id], games[type][id], id, Shared.esgst.games[type][id], type, type === 'apps' ? gc.cache.hltb : null);
+        await lockAndSaveGames(Shared.esgst.games);
         LocalStorage.set('gcCache', JSON.stringify(gc.cache));
       } catch (error) {
         Logger.warning(error.stack);
         for (const game of games[type][id]) {
           const panel = game.container.getElementsByClassName('esgst-gc-panel')[0];
           if (panel && !panel.getAttribute('data-gcReady')) {
-            if (Settings.gc_il && !shared.esgst.giveawayPath) {
+            if (Settings.gc_il && !Shared.esgst.giveawayPath) {
               panel.previousElementSibling.style.display = 'inline-block';
               panel.classList.add('esgst-gc-panel-inline');
             }
@@ -1914,7 +1914,7 @@ class GamesGameCategories extends Module {
       }
       this.queueIndexes.total -= 1;
     }
-    for (const game of shared.esgst.currentScope.games) {
+    for (const game of Shared.esgst.currentScope.games) {
       const panel = game.game.container.getElementsByClassName('esgst-gc-panel')[0];
       if (panel && !panel.getAttribute('data-gcReady')) {
         const loading = panel.getElementsByClassName('esgst-gc-loading')[0];
@@ -1931,15 +1931,15 @@ class GamesGameCategories extends Module {
       total: savedGame.apps.length
     };
     for (const id of savedGame.apps) {
-      const game = shared.esgst.games.apps[id];
+      const game = Shared.esgst.games.apps[id];
       if (!game) {
         continue;
       }
-      if (game.owned || (game.alias && Utils.getProperty(shared.esgst.games.apps, [game.alias, 'owned']))) {
+      if (game.owned || (game.alias && Utils.getProperty(Shared.esgst.games.apps, [game.alias, 'owned']))) {
         count.num += 1;
       }
       if (!savedGame.wishlisted) {
-        savedGame.wishlisted = game.wishlisted || (game.alias && Utils.getProperty(shared.esgst.games.apps, [game.alias, 'wishlisted']));
+        savedGame.wishlisted = game.wishlisted || (game.alias && Utils.getProperty(Shared.esgst.games.apps, [game.alias, 'wishlisted']));
       }
     }
     if (count.num === count.total) {
@@ -1958,10 +1958,10 @@ class GamesGameCategories extends Module {
     if (savedGame) {
       savedGame = Object.assign({}, savedGame);
       if (type === 'apps') {
-        if (!savedGame.owned && savedGame.alias && Utils.getProperty(shared.esgst.games.apps, [savedGame.alias, 'owned'])) {
+        if (!savedGame.owned && savedGame.alias && Utils.getProperty(Shared.esgst.games.apps, [savedGame.alias, 'owned'])) {
           savedGame.owned = true;
         }
-        if (!savedGame.wishlisted && savedGame.alias && Utils.getProperty(shared.esgst.games.apps, [savedGame.alias, 'wishlisted'])) {
+        if (!savedGame.wishlisted && savedGame.alias && Utils.getProperty(Shared.esgst.games.apps, [savedGame.alias, 'wishlisted'])) {
           savedGame.wishlisted = true;
         }
       } else if (type === 'subs' && savedGame.apps) {
@@ -1976,7 +1976,7 @@ class GamesGameCategories extends Module {
     name = cache ? cache.name : games[0].name;
     encodedName = encodeURIComponent(name.replace(/\.\.\.$/, ''));
     elements = [];
-    let categories = shared.esgst.gc_categories_ids;
+    let categories = Shared.esgst.gc_categories_ids;
     for (i = 0, n = categories.length; i < n; ++i) {
       category = categories[i];
       if (Settings[category]) {
@@ -2182,7 +2182,7 @@ class GamesGameCategories extends Module {
             count = 0;
             if (savedGame && savedGame.apps) {
               for (const id of savedGame.apps) {
-                if (shared.esgst.games.apps[id] && shared.esgst.games.apps[id].ignored) {
+                if (Shared.esgst.games.apps[id] && Shared.esgst.games.apps[id].ignored) {
                   count += 1;
                 }
               }
@@ -2335,7 +2335,7 @@ class GamesGameCategories extends Module {
                   class: 'esgst-gc esgst-gc-won',
                   ['data-draggable-id']: 'gc_pw',
                   href: `https://www.steamgifts.com/user/${Settings.username}/giveaways/won/search?q=${encodedName}`,
-                  title: getFeatureTooltip('gc_pw', savedGame.won > 1 ? `You previously won this game on ${shared.common.getTimestamp(savedGame.won)}` : 'Previously Won'),
+                  title: getFeatureTooltip('gc_pw', savedGame.won > 1 ? `You previously won this game on ${Shared.common.getTimestamp(savedGame.won)}` : 'Previously Won'),
                 },
                 text: Settings.gc_pw_s ? (Settings.gc_pw_s_i ? '' : 'PW') : Settings.gc_pwLabel,
                 type: 'a',
@@ -2361,7 +2361,7 @@ class GamesGameCategories extends Module {
                   price = parseInt(points[1]);
                 }
               }
-              user = shared.esgst.users.users[Settings.steamId];
+              user = Shared.esgst.users.users[Settings.steamId];
               if (user) {
                 giveaways = user.giveaways;
                 if (giveaways) {
@@ -2373,7 +2373,7 @@ class GamesGameCategories extends Module {
                     let currentDate = Date.now();
                     let numGiveaways;
                     for (j = 0, numGiveaways = giveaways.length; j < numGiveaways; ++j) {
-                      giveaway = shared.esgst.giveaways[giveaways[j]];
+                      giveaway = Shared.esgst.giveaways[giveaways[j]];
                       if (giveaway) {
                         if (Array.isArray(giveaway.winners)) {
                           if (giveaway.winners.length > 0) {
@@ -2536,7 +2536,7 @@ class GamesGameCategories extends Module {
             }
             break;
           case 'gc_bd':
-            if (type === 'apps' && shared.esgst.delistedGames.banned.indexOf(parseInt(id)) > -1) {
+            if (type === 'apps' && Shared.esgst.delistedGames.banned.indexOf(parseInt(id)) > -1) {
               elements.push({
                 attributes: {
                   class: 'esgst-gc esgst-gc-banned',
@@ -2770,8 +2770,8 @@ class GamesGameCategories extends Module {
             if (cache && cache.dlc) {
               let baseOwned;
               if (Settings.gc_dlc_o) {
-                if (cache.base && shared.esgst.games.apps[cache.base]) {
-                  baseOwned = shared.esgst.games.apps[cache.base].owned;
+                if (cache.base && Shared.esgst.games.apps[cache.base]) {
+                  baseOwned = Shared.esgst.games.apps[cache.base].owned;
                 }
               }
               const children = [];
@@ -3186,12 +3186,12 @@ class GamesGameCategories extends Module {
       });
     }
     let cannotCheckOwnership = false;
-    if ((!savedGame || !savedGame.owned) && ((cache && (cache.dlc || cache.learning === 1)) || (type === 'apps' && shared.esgst.delistedGames.banned.indexOf(parseInt(id)) > -1) || (type === 'subs' && !packageCount))) {
+    if ((!savedGame || !savedGame.owned) && ((cache && (cache.dlc || cache.learning === 1)) || (type === 'apps' && Shared.esgst.delistedGames.banned.indexOf(parseInt(id)) > -1) || (type === 'subs' && !packageCount))) {
       cannotCheckOwnership = true;
     }
     for (i = 0, n = games.length; i < n; ++i) {
       let currentElements = [...elements];
-      const button = (games[i].elgbButton && games[i].elgbButton.firstElementChild) || shared.esgst.enterGiveawayButton;
+      const button = (games[i].elgbButton && games[i].elgbButton.firstElementChild) || Shared.esgst.enterGiveawayButton;
       if (button && cannotCheckOwnership && Settings.gc_e) {
         button.title = 'ESGST cannot check ownership of this game';
         button.style.color = Settings.gc_e_color;
@@ -3200,18 +3200,18 @@ class GamesGameCategories extends Module {
         button.style.backgroundImage = 'none';
       }
       if (games[i].container.classList.contains('esgst-hidden')) {
-        if (!shared.esgst.gcToFetch[type][id]) {
-          shared.esgst.gcToFetch[type][id] = [];
+        if (!Shared.esgst.gcToFetch[type][id]) {
+          Shared.esgst.gcToFetch[type][id] = [];
         }
-        if (shared.esgst.gcToFetch[type][id].indexOf(games[i]) < 0) {
-          shared.esgst.gcToFetch[type][id].push(games[i]);
+        if (Shared.esgst.gcToFetch[type][id].indexOf(games[i]) < 0) {
+          Shared.esgst.gcToFetch[type][id].push(games[i]);
         }
         continue;
       }
-      if (shared.esgst.gcToFetch[type][id]) {
-        shared.esgst.gcToFetch[type][id] = shared.esgst.gcToFetch[type][id].filter(item => item !== games[i]);
-        if (!shared.esgst.gcToFetch[type][id].length) {
-          delete shared.esgst.gcToFetch[type][id];
+      if (Shared.esgst.gcToFetch[type][id]) {
+        Shared.esgst.gcToFetch[type][id] = Shared.esgst.gcToFetch[type][id].filter(item => item !== games[i]);
+        if (!Shared.esgst.gcToFetch[type][id].length) {
+          delete Shared.esgst.gcToFetch[type][id];
         }
       }
       const oldElements = games[i].container.querySelectorAll('.esgst-gc');
@@ -3220,7 +3220,7 @@ class GamesGameCategories extends Module {
       }
       panel = games[i].container.getElementsByClassName('esgst-gc-panel')[0];
       if (panel && !panel.getAttribute('data-gcReady')) {
-        if (Settings.gc_il && !shared.esgst.giveawayPath) {
+        if (Settings.gc_il && !Shared.esgst.giveawayPath) {
           panel.previousElementSibling.style.display = 'inline-block';
           panel.classList.add('esgst-gc-panel-inline');
         }
@@ -3273,7 +3273,7 @@ class GamesGameCategories extends Module {
           panel.setAttribute('data-gcReady', 1);
         }
         games[i].gcPanel = panel;
-        shared.esgst.modules.giveaways.giveaways_reorder(games[i]);
+        Shared.esgst.modules.giveaways.giveaways_reorder(games[i]);
       }
     }
   }

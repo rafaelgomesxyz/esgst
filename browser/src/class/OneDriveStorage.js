@@ -1,5 +1,5 @@
 import { Settings } from './Settings';
-import { shared } from './Shared';
+import { Shared } from './Shared';
 import { ICloudStorage } from './ICloudStorage';
 import { FetchRequest } from './FetchRequest';
 
@@ -35,8 +35,8 @@ class OneDriveStorage extends ICloudStorage {
       params['login_hint'] = Settings.preferredMicrosoft;
     }
     const url = FetchRequest.addQueryParams(OneDriveStorage.AUTH_URL, params);
-    await shared.common.delValue(key);
-    shared.common.openSmallWindow(url);
+    await Shared.common.delValue(key);
+    Shared.common.openSmallWindow(url);
     return (await OneDriveStorage.getToken(key));
   }
 

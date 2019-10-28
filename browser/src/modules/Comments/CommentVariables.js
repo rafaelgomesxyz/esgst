@@ -1,5 +1,5 @@
 import { Module } from '../../class/Module';
-import { shared } from '../../class/Shared';
+import { Shared } from '../../class/Shared';
 import { Settings } from '../../class/Settings';
 
 class CommentsCommentVariables extends Module {
@@ -38,11 +38,11 @@ class CommentsCommentVariables extends Module {
   }
 
   init() {
-    if (shared.esgst.replyBox) {
-      shared.common.addReplyButton(shared.esgst.replyBox);
+    if (Shared.esgst.replyBox) {
+      Shared.common.addReplyButton(Shared.esgst.replyBox);
     }
 
-    shared.esgst.triggerFunctions.onBeforeCommentSubmit.push(this.replaceVariables.bind(this));
+    Shared.esgst.triggerFunctions.onBeforeCommentSubmit.push(this.replaceVariables.bind(this));
   }
 
   replaceVariables(obj) {

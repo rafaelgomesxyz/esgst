@@ -5,7 +5,7 @@ import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { common } from '../Common';
-import { shared } from '../../class/Shared';
+import { Shared } from '../../class/Shared';
 import { Settings } from '../../class/Settings';
 import { Logger } from '../../class/Logger';
 import { DOM } from '../../class/DOM';
@@ -79,7 +79,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
         await request({
           data: `xsrf_token=${Session.xsrfToken}&do=close_discussion`,
           method: 'POST',
-          url: shared.esgst.locationHref
+          url: Shared.esgst.locationHref
         });
         window.close();
       } else if (LocalStorage.get('mgcAttach_step4')) {
@@ -89,7 +89,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
         await request({
           data: `xsrf_token=${Session.xsrfToken}&do=reopen_discussion`,
           method: 'POST',
-          url: shared.esgst.locationHref
+          url: Shared.esgst.locationHref
         });
         LocalStorage.set('mgcAttach_step6', true);
         window.location.reload();
@@ -735,7 +735,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
   }
 
   async mgc_getValues(edit, mgc) {
-    if (Settings.ngdc && (await shared.esgst.modules.giveawaysNewGiveawayDescriptionChecker.check(mgc.description.value))) {
+    if (Settings.ngdc && (await Shared.esgst.modules.giveawaysNewGiveawayDescriptionChecker.check(mgc.description.value))) {
       return;
     }
     let values = {

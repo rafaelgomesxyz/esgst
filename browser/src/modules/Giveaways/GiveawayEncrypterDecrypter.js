@@ -4,7 +4,7 @@ import { Popup } from '../../class/Popup';
 import { Utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
-import { shared, Shared } from '../../class/Shared';
+import { Shared } from '../../class/Shared';
 import { Settings } from '../../class/Settings';
 import { DOM } from '../../class/DOM';
 
@@ -74,7 +74,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
     let ged = {
       newGiveaways: []
     };
-    if (shared.common.isCurrentPath('Account') && this.esgst.parameters.esgst === 'ged') {
+    if (Shared.common.isCurrentPath('Account') && this.esgst.parameters.esgst === 'ged') {
       // noinspection JSIgnoredPromiseFromCall
       this.ged_openPopup(ged);
     } else {
@@ -119,7 +119,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
       ged.container = ged.context = createElements(ged.popup, 'beforeEnd', [{ type: 'div' }]);
       ged.context.setAttribute('data-esgst-popup', true);
     }
-    new elementBuilder[shared.esgst.name].pageHeading({
+    new elementBuilder[Shared.esgst.name].pageHeading({
       context: ged.popup.description || ged.popup,
       position: 'afterBegin',
       breadcrumbs: [

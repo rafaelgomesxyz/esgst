@@ -1,5 +1,5 @@
 import { Module } from '../../class/Module';
-import { shared } from '../../class/Shared';
+import { Shared } from '../../class/Shared';
 import { Settings } from '../../class/Settings';
 import { Logger } from '../../class/Logger';
 import { DOM } from '../../class/DOM';
@@ -52,7 +52,7 @@ class CommentsReplyFromInbox extends Module {
 
   init() {
     if (Settings.mr) return;
-    shared.esgst.endlessFeatures.push(shared.esgst.modules.commentsMultiReply.mr_getButtons.bind(shared.esgst.modules.commentsMultiReply));
+    Shared.esgst.endlessFeatures.push(Shared.esgst.modules.commentsMultiReply.mr_getButtons.bind(Shared.esgst.modules.commentsMultiReply));
   }
 
   async rfi_saveReply(id, reply, url, edit) {
@@ -61,7 +61,7 @@ class CommentsReplyFromInbox extends Module {
     if (url) {
       source = url.match(/\/comment\/(.+)/)[1];
     }
-    saved = JSON.parse(shared.common.getValue(`${shared.esgst.name}RfiCache`, '{}'));
+    saved = JSON.parse(Shared.common.getValue(`${Shared.esgst.name}RfiCache`, '{}'));
     if (edit) {
       for (const key in saved) {
         if (saved.hasOwnProperty(key)) {
@@ -83,27 +83,27 @@ class CommentsReplyFromInbox extends Module {
         timestamp: Date.now()
       });
     }
-    await shared.common.setValue(`${shared.esgst.name}RfiCache`, JSON.stringify(saved));
+    await Shared.common.setValue(`${Shared.esgst.name}RfiCache`, JSON.stringify(saved));
   }
 
   async rfi_getReplies(comments, endless) {
     let children, comment, i, id, j, key, n, numReplies, saved, edited = false;
-    saved = JSON.parse(shared.common.getValue(`${shared.esgst.name}RfiCache`, '{}'));
+    saved = JSON.parse(Shared.common.getValue(`${Shared.esgst.name}RfiCache`, '{}'));
     for (i = 0, n = comments.length; i < n; ++i) {
       comment = comments[i];
       id = comment.id;
       if (id && saved[id]) {
         children = comment.comment.closest(`.comment, .comment_outer`).querySelector(`.comment__children, .comment_children`);
         for (j = 0, numReplies = saved[id].length; j < numReplies; ++j) {
-          const dateElement = shared.common.createElements(children, 'beforeEnd', [{
+          const dateElement = Shared.common.createElements(children, 'beforeEnd', [{
             context: DOM.parse(saved[id][j].reply).body.firstElementChild
           }]).querySelector(`[data-timestamp]`);
           if (dateElement) {
-            dateElement.textContent = shared.common.getTimeSince(saved[id][j].timestamp);
+            dateElement.textContent = Shared.common.getTimeSince(saved[id][j].timestamp);
           }
         }
         children.setAttribute('data-rfi', true);
-        await shared.common.endless_load(children, false, null, false, endless);
+        await Shared.common.endless_load(children, false, null, false, endless);
         children.removeAttribute('data-rfi');
       }
     }
@@ -124,7 +124,7 @@ class CommentsReplyFromInbox extends Module {
       }
     }
     if (edited) {
-      await shared.common.setValue(`${shared.esgst.name}RfiCache`, JSON.stringify(saved));
+      await Shared.common.setValue(`${Shared.esgst.name}RfiCache`, JSON.stringify(saved));
     }
   }
 }

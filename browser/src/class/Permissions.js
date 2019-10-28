@@ -1,6 +1,6 @@
 import { browser } from '../browser';
 import { Popup } from './Popup';
-import { shared } from './Shared';
+import { Shared } from './Shared';
 import { Settings } from './Settings';
 import { DOM } from './DOM';
 
@@ -172,7 +172,7 @@ class Permissions {
         }
       }
       if (hasChanged) {
-        await shared.common.setSetting('permissionsDenied', Settings.permissionsDenied);
+        await Shared.common.setSetting('permissionsDenied', Settings.permissionsDenied);
       }
     }
     return result;
@@ -259,7 +259,7 @@ class Permissions {
       combos.push(permissions.concat(origins).join(` + `));
     }
 
-    return `${messageKey && shared.esgst.featuresById[messageKey] ? `${shared.esgst.featuresById[messageKey].name} says: ` : ''} ${isOptional ? `If you want to perform this action faster, please go to the "Permissions" section of the settings menu and grant permissions for one (or all) of the combos: ${combos.join(' OR ')}` : `No permission to perform this action. Please go to the "Permissions" section of the settings menu and grant permissions for one (or all) of the combos: ${combos.join(' OR ')}`}`;
+    return `${messageKey && Shared.esgst.featuresById[messageKey] ? `${Shared.esgst.featuresById[messageKey].name} says: ` : ''} ${isOptional ? `If you want to perform this action faster, please go to the "Permissions" section of the settings menu and grant permissions for one (or all) of the combos: ${combos.join(' OR ')}` : `No permission to perform this action. Please go to the "Permissions" section of the settings menu and grant permissions for one (or all) of the combos: ${combos.join(' OR ')}`}`;
   }
 }
 

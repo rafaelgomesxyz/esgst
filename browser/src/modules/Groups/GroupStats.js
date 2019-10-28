@@ -1,6 +1,6 @@
 import { Module } from '../../class/Module';
 import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
-import { shared } from '../../class/Shared';
+import { Shared } from '../../class/Shared';
 import { Settings } from '../../class/Settings';
 import { permissions } from '../../class/Permissions';
 import { FetchRequest } from '../../class/FetchRequest';
@@ -85,7 +85,7 @@ class GroupsGroupStats extends Module {
   }
 
   async init() {
-    if (!shared.common.isCurrentPath('Steam - Groups')) {
+    if (!Shared.common.isCurrentPath('Steam - Groups')) {
       return;
     }
 
@@ -111,8 +111,8 @@ class GroupsGroupStats extends Module {
     ]);
     this.notification = new elementBuilder.sg.notification();
     this.numGroups = 0;
-    shared.esgst.mainPageHeading.parentElement.insertBefore(this.notification.notification, shared.esgst.pagination.previousElementSibling);
-    shared.esgst.groupFeatures.push(this.gs_getGroups.bind(this));
+    Shared.esgst.mainPageHeading.parentElement.insertBefore(this.notification.notification, Shared.esgst.pagination.previousElementSibling);
+    Shared.esgst.groupFeatures.push(this.gs_getGroups.bind(this));
   }
 
   gs_getGroups(groups, main) {
@@ -273,8 +273,8 @@ class GroupsGroupStats extends Module {
 
     DOM.build(group.container, 'afterEnd', items);
 
-    if (main && shared.esgst.gpf && shared.esgst.gpf.filteredCount && Settings[`gpf_enable${shared.esgst.gpf.type}`]) {
-      shared.esgst.modules.groupsGroupFilters.filters_filter(shared.esgst.gpf);
+    if (main && Shared.esgst.gpf && Shared.esgst.gpf.filteredCount && Settings[`gpf_enable${Shared.esgst.gpf.type}`]) {
+      Shared.esgst.modules.groupsGroupFilters.filters_filter(Shared.esgst.gpf);
     }
   }
 }

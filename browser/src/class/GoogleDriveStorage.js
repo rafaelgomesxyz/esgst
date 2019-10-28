@@ -1,5 +1,5 @@
 import { Settings } from './Settings';
-import { shared } from './Shared';
+import { Shared } from './Shared';
 import { ICloudStorage } from './ICloudStorage';
 import { FetchRequest } from './FetchRequest';
 
@@ -37,8 +37,8 @@ class GoogleDriveStorage extends ICloudStorage {
       params['login_hint'] = Settings.preferredGoogle;
     }
     const url = FetchRequest.addQueryParams(GoogleDriveStorage.AUTH_URL, params);
-    await shared.common.delValue(key);
-    shared.common.openSmallWindow(url);
+    await Shared.common.delValue(key);
+    Shared.common.openSmallWindow(url);
     return (await GoogleDriveStorage.getToken(key));
   }
 

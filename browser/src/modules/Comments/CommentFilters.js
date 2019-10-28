@@ -1,5 +1,5 @@
 import { Filters } from '../Filters';
-import { shared } from '../../class/Shared';
+import { Shared } from '../../class/Shared';
 import { Settings } from '../../class/Settings';
 
 class CommentsCommentFilters extends Filters {
@@ -103,16 +103,16 @@ class CommentsCommentFilters extends Filters {
   }
 
   async init() {
-    if (Settings.cf_m && (shared.esgst.commentsPath || shared.common.isCurrentPath('Messages'))) {
-      if (!shared.esgst.hasAddedFilterContainer) {
-        shared.esgst.style.insertAdjacentText("beforeend", `
+    if (Settings.cf_m && (Shared.esgst.commentsPath || Shared.common.isCurrentPath('Messages'))) {
+      if (!Shared.esgst.hasAddedFilterContainer) {
+        Shared.esgst.style.insertAdjacentText("beforeend", `
           .esgst-gf-container {
-            top: ${shared.esgst.commentsTop - 5}px;
+            top: ${Shared.esgst.commentsTop - 5}px;
           }
         `);
       }
-      shared.common.createHeadingButton({
-        element: this.filters_addContainer(shared.esgst.mainPageHeading),
+      Shared.common.createHeadingButton({
+        element: this.filters_addContainer(Shared.esgst.mainPageHeading),
         id: 'cf'
       });
     }

@@ -34,5 +34,5 @@ class _Shared {
 
 const Shared = new _Shared();
 
-export { Shared, Shared as shared };
+export { Shared };
 

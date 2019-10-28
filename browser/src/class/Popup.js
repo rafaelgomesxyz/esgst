@@ -1,5 +1,5 @@
 import { ButtonSet } from './ButtonSet';
-import { shared } from './Shared';
+import { Shared } from './Shared';
 import { Settings } from './Settings';
 import { DOM } from './DOM';
 
@@ -24,7 +24,7 @@ class Popup {
             ['div', { class: 'esgst-popup-description' }],
             ['div', { class: `esgst-popup-scrollable ${details.addScrollable === 'left' ? 'esgst-text-left' : ''}` }, details.scrollableContent],
             ['div', { class: 'esgst-popup-actions' }, [
-              ['a', { class: 'esgst-hidden', href: shared.esgst.settingsUrl }, 'Settings'],
+              ['a', { class: 'esgst-hidden', href: Shared.esgst.settingsUrl }, 'Settings'],
               ['a', { class: 'esgst-popup-close' }, 'Close']
             ]]
           ]]
@@ -55,7 +55,7 @@ class Popup {
         settings.addEventListener('click', event => {
           if (!Settings.openSettingsInTab) {
             event.preventDefault();
-            shared.esgst.modules.settingsModule.loadMenu(true);
+            Shared.esgst.modules.settingsModule.loadMenu(true);
           }
         });
       }
@@ -82,21 +82,21 @@ class Popup {
           },
           type: 'input'
         });
-        let input = shared.common.createElements(this.description, 'beforeEnd', items);
+        let input = Shared.common.createElements(this.description, 'beforeEnd', items);
         input.addEventListener('keydown', this.triggerButton.bind(this, 0));
         this.textInputs.push(input);
       });
     }
     if (details.options) {
-      this.description.appendChild(shared.common.createOptions(details.options));
+      this.description.appendChild(Shared.common.createOptions(details.options));
       let inputs = this.description.lastElementChild.getElementsByTagName('input');
       for (let input of inputs) {
         switch (input.getAttribute('type')) {
           case 'number':
-            shared.common.observeNumChange(input, input.getAttribute('name'), true);
+            Shared.common.observeNumChange(input, input.getAttribute('name'), true);
             break;
           case 'text':
-            shared.common.observeChange(input, input.getAttribute('name'), true);
+            Shared.common.observeChange(input, input.getAttribute('name'), true);
             break;
           default:
             break;
@@ -112,28 +112,28 @@ class Popup {
       });
     }
     if (details.addProgress) {
-      this.progress = shared.common.createElements(this.description, 'beforeEnd', [{
+      this.progress = Shared.common.createElements(this.description, 'beforeEnd', [{
         type: 'div'
       }]);
-      this.overallProgress = shared.common.createElements(this.description, 'beforeEnd', [{
+      this.overallProgress = Shared.common.createElements(this.description, 'beforeEnd', [{
         type: 'div'
       }]);
     }
-    this.id = shared.common.addScope(details.name, this.popup);
+    this.id = Shared.common.addScope(details.name, this.popup);
   }
 
   open(callback) {
-    shared.common.setCurrentScope(this.id);
+    Shared.common.setCurrentScope(this.id);
     this.isOpen = true;
     let n = 9999 + document.querySelectorAll(`.esgst-popup-layer:not(.esgst-hidden), .esgst-popout:not(.esgst-hidden)`).length;
-    if (shared.esgst.openPopups > 0) {
-      const highestN = parseInt(shared.esgst.popups[shared.esgst.openPopups - 1].popup.style.zIndex || 0);
+    if (Shared.esgst.openPopups > 0) {
+      const highestN = parseInt(Shared.esgst.popups[Shared.esgst.openPopups - 1].popup.style.zIndex || 0);
       if (n <= highestN) {
         n = highestN + 1;
       }
     }
-    shared.esgst.openPopups += 1;
-    shared.esgst.popups.push(this);
+    Shared.esgst.openPopups += 1;
+    Shared.esgst.popups.push(this);
     this.layer.classList.remove('esgst-hidden');
     this.layer.style.zIndex = n;
     if (this.textInputs) {
@@ -145,14 +145,14 @@ class Popup {
   }
 
   close(byUser) {
-    shared.common.resetCurrentScope();
+    Shared.common.resetCurrentScope();
     if (this.temp) {
-      shared.common.removeScope(this.id);
+      Shared.common.removeScope(this.id);
       this.layer.remove();
     } else {
       this.layer.classList.add('esgst-hidden');
       if (Settings.minimizePanel) {
-        shared.common.minimizePanel_addItem(this);
+        Shared.common.minimizePanel_addItem(this);
       }
     }
     if (byUser && this.onCloseByUser) {
@@ -161,8 +161,8 @@ class Popup {
     if (this.onClose) {
       this.onClose();
     }
-    shared.esgst.openPopups -= 1;
-    shared.esgst.popups.pop();
+    Shared.esgst.openPopups -= 1;
+    Shared.esgst.popups.pop();
     this.isOpen = false;
   }
 
@@ -185,7 +185,7 @@ class Popup {
   }
 
   setScrollable(html) {
-    shared.common.createElements(this.scrollable, 'beforeEnd', [{
+    Shared.common.createElements(this.scrollable, 'beforeEnd', [{
       type: 'div',
       children: html
     }]);
@@ -198,7 +198,7 @@ class Popup {
   }
 
   setError(message) {
-    shared.common.createElements(this.progress, 'inner', [{
+    Shared.common.createElements(this.progress, 'inner', [{
       attributes: {
         class: 'fa fa-times-circle'
       },
@@ -213,7 +213,7 @@ class Popup {
     if (this.progressMessage) {
       this.progressMessage.textContent = message;
     } else {
-      shared.common.createElements(this.progress, 'inner', [{
+      Shared.common.createElements(this.progress, 'inner', [{
         attributes: {
           class: 'fa fa-circle-o-notch fa-spin'
         },
@@ -257,7 +257,7 @@ class Popup {
   setDone(temp) {
     this.temp = temp;
     if (Settings.minimizePanel && !this.isOpen) {
-      shared.common.minimizePanel_alert(this);
+      Shared.common.minimizePanel_alert(this);
     }
   }
 

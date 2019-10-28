@@ -4,7 +4,7 @@ import { Process } from '../../class/Process';
 import { Utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { Settings } from '../../class/Settings';
-import { shared } from '../../class/Shared';
+import { Shared } from '../../class/Shared';
 
 const
   checkMissingDiscussions = common.checkMissingDiscussions.bind(common),
@@ -288,10 +288,10 @@ class DiscussionsDiscussionFilters extends Filters {
       this.esgst.discussionFeatures.push(this.df_addButtons.bind(this));
     }
     if (Settings.df_m && this.esgst.discussionsPath && !this.esgst.editDiscussionPath) {
-      if (!shared.esgst.hasAddedFilterContainer) {
-        shared.esgst.style.insertAdjacentText("beforeend", `
+      if (!Shared.esgst.hasAddedFilterContainer) {
+        Shared.esgst.style.insertAdjacentText("beforeend", `
           .esgst-gf-container {
-            top: ${shared.esgst.commentsTop - 5}px;
+            top: ${Shared.esgst.commentsTop - 5}px;
           }
         `);
       }

@@ -1,4 +1,4 @@
-import { shared } from './Shared';
+import { Shared } from './Shared';
 import { Utils } from '../lib/jsUtils';
 import { IHeader } from '../components/Header';
 import { generalCustomHeaderFooterLinks } from '../modules/General/CustomHeaderFooterLinks';
@@ -38,7 +38,7 @@ class PersistentStorage {
         }
       }
       if (!isRestoring) {
-        shared.esgst.settingsChanged = true;
+        Shared.esgst.settingsChanged = true;
       }
     }
 
@@ -54,7 +54,7 @@ class PersistentStorage {
       }
 
       if (!isRestoring) {
-        shared.esgst.settingsChanged = true;
+        Shared.esgst.settingsChanged = true;
       }
     }
 
@@ -106,7 +106,7 @@ class PersistentStorage {
       }
 
       if (!isRestoring) {
-        shared.esgst.settingsChanged = true;
+        Shared.esgst.settingsChanged = true;
       }
     }
 
@@ -116,7 +116,7 @@ class PersistentStorage {
       }
 
       if (!isRestoring) {
-        shared.esgst.settingsChanged = true;
+        Shared.esgst.settingsChanged = true;
       }
     }
 
@@ -130,12 +130,12 @@ class PersistentStorage {
       }
 
       if (!isRestoring) {
-        shared.esgst.settingsChanged = true;
+        Shared.esgst.settingsChanged = true;
       }
     }
 
     if (!isRestoring) {
-      shared.common.setValue('v', this.currentVersion);
+      Shared.common.setValue('v', this.currentVersion);
     }
   }
 }

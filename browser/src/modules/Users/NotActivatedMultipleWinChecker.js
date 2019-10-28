@@ -4,7 +4,7 @@ import { Popup } from '../../class/Popup';
 import { Utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { Settings } from '../../class/Settings';
-import { shared } from '../../class/Shared';
+import { Shared } from '../../class/Shared';
 import { permissions } from '../../class/Permissions';
 import { DOM } from '../../class/DOM';
 
@@ -119,10 +119,10 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 
   init() {
     if (Settings.namwc_h) {
-      shared.esgst.userFeatures.push(this.namwc_getUsers.bind(this));
+      Shared.esgst.userFeatures.push(this.namwc_getUsers.bind(this));
     }
 
-    if (!shared.esgst.winnersPath) return;
+    if (!Shared.esgst.winnersPath) return;
 
     this.namwc_setPopup({
       button: createHeadingButton({
@@ -311,7 +311,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
     } else if (obj.user) {
       users.push(obj.user.username);
     } else {
-      let elements = shared.esgst.pageOuterWrap.querySelectorAll(`a[href*="/user/"]`);
+      let elements = Shared.esgst.pageOuterWrap.querySelectorAll(`a[href*="/user/"]`);
       for (let element of elements) {
         let match = element.getAttribute('href').match(/\/user\/(.+)/);
         if (!match) continue;

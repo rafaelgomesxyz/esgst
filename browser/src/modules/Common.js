@@ -9,7 +9,7 @@ import { Module } from '../class/Module';
 import { Popout } from '../class/Popout';
 import { Popup } from '../class/Popup';
 import { Scope } from '../class/Scope';
-import { shared, Shared } from '../class/Shared';
+import { Shared } from '../class/Shared';
 import { ToggleSwitch } from '../class/ToggleSwitch';
 import { Utils } from '../lib/jsUtils';
 import { settingsModule } from './Settings';
@@ -168,7 +168,7 @@ class Common extends Module {
         let textArea;
         DOM.build(document.body, 'inner', [
           ['textarea', { ref: ref => textArea = ref }],
-          ['button', { onclick: () => Function('"use strict";' + textArea.value + '').call(shared) }, 'Debug']
+          ['button', { onclick: () => Function('"use strict";' + textArea.value + '').call(Shared) }, 'Debug']
         ]);
         return;
       } else if (this.esgst.parameters.esgst === 'settings') {
@@ -271,7 +271,7 @@ class Common extends Module {
     const customPage = this.esgst.customPages[this.esgst.parameters.esgst];
     if (customPage && customPage.check) {
       await customPage.load();
-    } else if (!shared.esgst.parameters.esgst || shared.esgst.parameters.esgst !== 'ge') {
+    } else if (!Shared.esgst.parameters.esgst || Shared.esgst.parameters.esgst !== 'ge') {
       await this.endless_load(document, !this.esgst.parameters.esgst);
     }
 
@@ -329,8 +329,8 @@ class Common extends Module {
     window.addEventListener('beforeunload', this.checkBusy.bind(this));
     window.addEventListener('hashchange', this.goToComment.bind(this, null, null, false));
 
-    if (shared.esgst.replyBox && Settings.jumpToReplyBox) {
-      shared.esgst.replyBox.querySelector('textarea').focus();
+    if (Shared.esgst.replyBox && Settings.jumpToReplyBox) {
+      Shared.esgst.replyBox.querySelector('textarea').focus();
     }
 
     for (const key in this.esgst.documentEvents) {
@@ -382,7 +382,7 @@ class Common extends Module {
       this.esgst.hiddenClass = 'is_hidden';
       this.esgst.selectedClass = 'is_selected';
     }
-    const pageMatch = shared.esgst.locationHref.match(/page=(\d+)/);
+    const pageMatch = Shared.esgst.locationHref.match(/page=(\d+)/);
     if (pageMatch) {
       this.esgst.currentPage = parseInt(pageMatch[1]);
     } else {
@@ -968,9 +968,9 @@ class Common extends Module {
 
   getFeaturesById() {
     const features = {};
-    for (const type in shared.esgst.features) {
-      for (const id in shared.esgst.features[type].features) {
-        const feature = shared.esgst.features[type].features[id];
+    for (const type in Shared.esgst.features) {
+      for (const id in Shared.esgst.features[type].features) {
+        const feature = Shared.esgst.features[type].features[id];
         this.getFeatureById(feature, id, features);
       }
     }
@@ -1025,7 +1025,7 @@ class Common extends Module {
     let context = details.context;
     const id = details.orderId || details.id;
     if (!context) {
-      if (id === 'gmf' && shared.esgst.discussionPath) {
+      if (id === 'gmf' && Shared.esgst.discussionPath) {
         context = document.querySelector('.page__heading__breadcrumbs');
         context.parentElement.insertBefore(details.element, context);
 
@@ -1143,7 +1143,7 @@ class Common extends Module {
       title: 'Please wait... ESGST is adding this giveaway to the storage...'
     });
     popup.open();
-    const giveawaysres = await this.esgst.modules.giveaways.giveaways_get(document, true, shared.esgst.locationHref);
+    const giveawaysres = await this.esgst.modules.giveaways.giveaways_get(document, true, Shared.esgst.locationHref);
     if (giveawaysres.length) {
       giveaway = giveawaysres[0];
       ggiveaways = {};
@@ -1697,7 +1697,7 @@ class Common extends Module {
       });
       if (parameters) {
         if (Settings.openAutoSyncNewTab) {
-          window.open(`${shared.esgst.syncUrl}&autoSync=true&${parameters}`);
+          window.open(`${Shared.esgst.syncUrl}&autoSync=true&${parameters}`);
         } else {
           runSilentSync(parameters);
         }
@@ -2196,7 +2196,7 @@ class Common extends Module {
     const context = this.esgst.sidebar.nextElementSibling;
     context.setAttribute('data-esgst-popup', true);
     context.innerHTML = '';
-    this.esgst.mainPageHeading = new elementBuilder[shared.esgst.name].pageHeading({
+    this.esgst.mainPageHeading = new elementBuilder[Shared.esgst.name].pageHeading({
       context,
       position: 'beforeEnd',
       breadcrumbs: [
@@ -2798,7 +2798,7 @@ class Common extends Module {
     if ((!isBackingUp || currentDate - isBackingUp > 1800000) && currentDate - Settings.lastBackup > Settings.autoBackup_days * 86400000) {
       LocalStorage.set('isBackingUp', currentDate);
       if (Settings.openAutoBackupNewTab) {
-        window.open(`${shared.esgst.backupUrl}&autoBackupIndex=${Settings.autoBackup_index}`);
+        window.open(`${Shared.esgst.backupUrl}&autoBackupIndex=${Settings.autoBackup_index}`);
       } else {
         this.runSilentBackup();
       }
@@ -2934,7 +2934,7 @@ class Common extends Module {
       let filtered = [];
       for (let key in users.users) {
         if (users.users.hasOwnProperty(key)) {
-          const data = shared.esgst.modules.usersUserFilters.fixData(users.users[key].uf);
+          const data = Shared.esgst.modules.usersUserFilters.fixData(users.users[key].uf);
           if (data && (data.giveawayPosts || data.giveaways || data.discussionPosts || data.discussions)) {
             filtered.push(users.users[key]);
           }
@@ -3129,7 +3129,7 @@ class Common extends Module {
   async exportSettings() {
     //** @type {EsgstSettings} */
     let settings = JSON.parse(this.getValue('settings', '{}'));
-    let data = { settings, v: shared.esgst.storage.v };
+    let data = { settings, v: Shared.esgst.storage.v };
 
     delete data.settings.avatar;
     delete data.settings.lastSync;
@@ -4430,7 +4430,7 @@ class Common extends Module {
         }
       }
       for (const url of (separator.match(/url(-prefix)?\(.+?\)/g) || [])) {
-        if (shared.esgst.locationHref.match(url.match(/\("(.+?)"\)/)[1])) {
+        if (Shared.esgst.locationHref.match(url.match(/\("(.+?)"\)/)[1])) {
           check = true;
           break;
         }
@@ -4762,7 +4762,7 @@ class Common extends Module {
       description: context.querySelector(`[name="description"]`),
       parentId: context.querySelector(`[name="parent_id"]`),
       tradeCode: (context.querySelector(`[name="trade_code"]`) || { value: '' }).value,
-      url: this.esgst.sg ? shared.esgst.locationHref.match(/(.+?)(#.+?)?$/)[1] : '/ajax.php'
+      url: this.esgst.sg ? Shared.esgst.locationHref.match(/(.+?)(#.+?)?$/)[1] : '/ajax.php'
     };
     const container = context.getElementsByClassName(this.esgst.sg
       ? 'align-button-container'
@@ -4959,7 +4959,7 @@ class Common extends Module {
   isCurrentPath(nameOrNames) {
     if (Array.isArray(nameOrNames)) {
       for (const name of nameOrNames) {
-        if (shared.esgst.currentPaths.indexOf(name) > -1) {
+        if (Shared.esgst.currentPaths.indexOf(name) > -1) {
           return true;
         }
       }
@@ -4967,7 +4967,7 @@ class Common extends Module {
       return false;
     }
 
-    return shared.esgst.currentPaths.indexOf(nameOrNames) > -1;
+    return Shared.esgst.currentPaths.indexOf(nameOrNames) > -1;
   }
 
   getBrowserInfo() {
@@ -5062,7 +5062,7 @@ class Common extends Module {
   continueRequest(details) {
     return new Promise(async (resolve, reject) => {
       let isLocal = details.url.match(/^\//) || details.url.match(new RegExp(window.location.hostname));
-      details.url = details.url.replace(/^\//, `https://${window.location.hostname}/`).replace(/^https?:/, shared.esgst.locationHref.match(/^http:/) ? 'http:' : 'https:');
+      details.url = details.url.replace(/^\//, `https://${window.location.hostname}/`).replace(/^https?:/, Shared.esgst.locationHref.match(/^http:/) ? 'http:' : 'https:');
       if (isLocal) {
         const requestOptions =  {
           body: details.data,
@@ -5307,9 +5307,9 @@ class Common extends Module {
   }
 
   getLevelFromCv(cv) {
-    for (const [index, value] of shared.esgst.cvLevels.entries()) {
+    for (const [index, value] of Shared.esgst.cvLevels.entries()) {
       if (cv < value) {
-        const prevValue = shared.esgst.cvLevels[index - 1];
+        const prevValue = Shared.esgst.cvLevels[index - 1];
         return this.round((index - 1) + ((cv - prevValue) / (value - prevValue)));
       }
     }
@@ -5327,11 +5327,11 @@ class Common extends Module {
       if (!Utils.isSet(change.newValue)) {
         continue;
       }
-      shared.esgst.storage[key] = change.newValue;
+      Shared.esgst.storage[key] = change.newValue;
       try {
-        shared.esgst[key] = JSON.parse(shared.esgst.storage[key]);
+        Shared.esgst[key] = JSON.parse(Shared.esgst.storage[key]);
       } catch (e) {
-        shared.esgst[key] = shared.esgst.storage[key];
+        Shared.esgst[key] = Shared.esgst.storage[key];
       }
     }
   }
@@ -5340,7 +5340,7 @@ class Common extends Module {
 // Singleton
 const common = new Common();
 
-shared.add({ common });
+Shared.add({ common });
 
 export { common };
 

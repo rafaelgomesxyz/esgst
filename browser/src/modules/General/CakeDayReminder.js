@@ -2,7 +2,7 @@ import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { Settings } from '../../class/Settings';
 import { Table } from '../../class/Table';
-import { shared } from '../../class/Shared';
+import { Shared } from '../../class/Shared';
 import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { ButtonSet } from '../../class/ButtonSet';
 import { DOM } from '../../class/DOM';
@@ -52,7 +52,7 @@ class GeneralCakeDayReminder extends Module {
   }
 
   async init() {
-    shared.esgst.profileFeatures.push(this.addButton.bind(this));
+    Shared.esgst.profileFeatures.push(this.addButton.bind(this));
 
     const cdrObj = {
       cache: JSON.parse(LocalStorage.get('cdrCache', '{}')),
@@ -75,8 +75,8 @@ class GeneralCakeDayReminder extends Module {
       registrationDate: parseInt(Settings.registrationDate)
     });
 
-    for (const steamId in shared.esgst.users.users) {
-      const user = shared.esgst.users.users[steamId];
+    for (const steamId in Shared.esgst.users.users) {
+      const user = Shared.esgst.users.users[steamId];
 
       if (steamId === Settings.steamId || (!user.cdr && !user.registrationDate)) {
         continue;
@@ -96,7 +96,7 @@ class GeneralCakeDayReminder extends Module {
       });
       popup.scrollable.appendChild(new Table(cdrObj.elements).table);
       popup.open();
-      await shared.common.endless_load(popup.scrollable);
+      await Shared.common.endless_load(popup.scrollable);
     }
   }
 
@@ -172,7 +172,7 @@ class GeneralCakeDayReminder extends Module {
     }
 
     const button = DOM.build(profile.heading, 'beforeEnd', [
-      ['a', { title: shared.common.getFeatureTooltip('cdr', `Get notified about ${profile.username}'s cake day`) }, [
+      ['a', { title: Shared.common.getFeatureTooltip('cdr', `Get notified about ${profile.username}'s cake day`) }, [
         ['i', { class: 'fa fa-gift' }]
       ]]
     ]);
@@ -191,7 +191,7 @@ class GeneralCakeDayReminder extends Module {
         username: profile.username,
         values: {}
       };
-      const savedUser = await shared.common.getUser(shared.esgst.users, user);
+      const savedUser = await Shared.common.getUser(Shared.esgst.users, user);
       if (savedUser && savedUser.cdr) {
         user.values.cdr = savedUser.cdr;
       } else {
@@ -237,7 +237,7 @@ class GeneralCakeDayReminder extends Module {
           } else {
             user.values.cdr = null;
           }
-          await shared.common.saveUser(null, null, user);
+          await Shared.common.saveUser(null, null, user);
           popup.close();
         }
       }).set);

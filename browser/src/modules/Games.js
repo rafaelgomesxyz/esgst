@@ -1,7 +1,7 @@
 import { Module } from '../class/Module';
 import {common} from './Common';
 import { Settings } from '../class/Settings';
-import { shared } from '../class/Shared';
+import { Shared } from '../class/Shared';
 import { DOM } from '../class/DOM';
 
 const
@@ -129,14 +129,14 @@ class Games extends Module {
           type = info.type;
           game.id = id;
           game.type = type;
-          if (shared.esgst.games && shared.esgst.games[game.type][game.id]) {
+          if (Shared.esgst.games && Shared.esgst.games[game.type][game.id]) {
             const keys = ['owned', 'wishlisted', 'followed', 'hidden', 'ignored', 'previouslyEntered', 'previouslyWon', 'reducedCV', 'noCV', 'banned', 'removed'];
             for (const key of keys) {
-              if (key === 'banned' && shared.esgst.delistedGames.banned.indexOf(parseInt(game.id)) > -1) {
+              if (key === 'banned' && Shared.esgst.delistedGames.banned.indexOf(parseInt(game.id)) > -1) {
                 game[key] = true;
-              } else if (key === 'removed' && (shared.esgst.delistedGames.removed.indexOf(parseInt(game.id)) > -1 || shared.esgst.games[game.type][game.id].removed)) {
+              } else if (key === 'removed' && (Shared.esgst.delistedGames.removed.indexOf(parseInt(game.id)) > -1 || Shared.esgst.games[game.type][game.id].removed)) {
                 game[key] = true;
-              } else if (shared.esgst.games[game.type][game.id][key === 'previouslyEntered' ? 'entered' : (key === 'previouslyWon' ? 'won' : key)]) {
+              } else if (Shared.esgst.games[game.type][game.id][key === 'previouslyEntered' ? 'entered' : (key === 'previouslyWon' ? 'won' : key)]) {
                 game[key] = true;
               }
             }
@@ -233,18 +233,18 @@ class Games extends Module {
       if (this.esgst.games && this.esgst.games[x.type][x.id]) {
         const keys = ['owned', 'wishlisted', 'followed', 'hidden', 'ignored', 'previouslyEntered', 'previouslyWon', 'reducedCV', 'noCV', 'banned', 'removed'];
         for (const key of keys) {
-          if (key === 'banned' && shared.esgst.delistedGames.banned.indexOf(parseInt(x.id)) > -1) {
+          if (key === 'banned' && Shared.esgst.delistedGames.banned.indexOf(parseInt(x.id)) > -1) {
             x[key] = true;
-          } else if (key === 'removed' && (shared.esgst.delistedGames.removed.indexOf(parseInt(x.id)) > -1 || shared.esgst.games[x.type][x.id].removed)) {
+          } else if (key === 'removed' && (Shared.esgst.delistedGames.removed.indexOf(parseInt(x.id)) > -1 || Shared.esgst.games[x.type][x.id].removed)) {
             x[key] = true;
-          } else if (shared.esgst.games[x.type][x.id][key === 'previouslyEntered' ? 'entered' : (key === 'previouslyWon' ? 'won' : key)]) {
+          } else if (Shared.esgst.games[x.type][x.id][key === 'previouslyEntered' ? 'entered' : (key === 'previouslyWon' ? 'won' : key)]) {
             x[key] = true;
           }
         }
       }
       return x;
     });
-    if (main && shared.esgst.gf && this.esgst.gf.filteredCount && Settings[`gf_enable${this.esgst.gf.type}`]) {
+    if (main && Shared.esgst.gf && this.esgst.gf.filteredCount && Settings[`gf_enable${this.esgst.gf.type}`]) {
       this.esgst.modules.giveawaysGiveawayFilters.filters_filter(this.esgst.gf);
     }
     lockAndSaveGames(games);

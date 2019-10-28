@@ -1,5 +1,5 @@
 import { Module } from '../../class/Module';
-import { shared } from '../../class/Shared';
+import { Shared } from '../../class/Shared';
 
 class CommentsReplyBoxOnTop extends Module {
   constructor() {
@@ -19,25 +19,25 @@ class CommentsReplyBoxOnTop extends Module {
   }
 
   init() {
-    let element = shared.esgst.mainPageHeading;
-    if (!shared.esgst.replyBox) {
-      if (shared.esgst.st && shared.esgst.userPath) {
+    let element = Shared.esgst.mainPageHeading;
+    if (!Shared.esgst.replyBox) {
+      if (Shared.esgst.st && Shared.esgst.userPath) {
         let review = document.getElementsByClassName('notification yellow')[0];
         if (!review) return;
         element.parentElement.insertBefore(review, element.nextElementSibling);
       }
       return;
     }
-    let box = shared.common.createElements(element, 'afterEnd', [{
+    let box = Shared.common.createElements(element, 'afterEnd', [{
       attributes: {
         class: 'esgst-rbot'
       },
       type: 'div'
     }]);
-    box.appendChild(shared.esgst.replyBox);
-    let button = box.getElementsByClassName(shared.esgst.cancelButtonClass)[0];
+    box.appendChild(Shared.esgst.replyBox);
+    let button = box.getElementsByClassName(Shared.esgst.cancelButtonClass)[0];
     if (!button) return;
-    button.addEventListener('click', () => window.setTimeout(box.appendChild.bind(box, shared.esgst.replyBox), 0));
+    button.addEventListener('click', () => window.setTimeout(box.appendChild.bind(box, Shared.esgst.replyBox), 0));
   }
 }
 

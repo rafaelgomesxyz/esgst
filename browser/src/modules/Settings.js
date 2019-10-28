@@ -1,6 +1,6 @@
 import { ButtonSet } from '../class/ButtonSet';
 import { Popup } from '../class/Popup';
-import { shared } from '../class/Shared';
+import { Shared } from '../class/Shared';
 import { ToggleSwitch } from '../class/ToggleSwitch';
 import { Utils } from '../lib/jsUtils';
 import { setSync } from './Sync';
@@ -26,7 +26,7 @@ class SettingsModule {
     if (match) {
       const id = key.replace(match[0], '');
       const namespace = match[1];
-      const feature = shared.esgst.featuresById[id];
+      const feature = Shared.esgst.featuresById[id];
       if (feature) {
         this.toSave[key] = value ? 1 : 0;
         Settings[id] = Settings[key] = value ? 1 : 0;
@@ -60,17 +60,17 @@ class SettingsModule {
       Container = popup.description;
       Context = popup.scrollable;
     } else {
-      Context = Container = shared.esgst.sidebar.nextElementSibling;
+      Context = Container = Shared.esgst.sidebar.nextElementSibling;
       Container.innerHTML = '';
     }
 
-    const input = DOM.build(isPopup ? Container : shared.esgst.sidebar, 'afterBegin', [
+    const input = DOM.build(isPopup ? Container : Shared.esgst.sidebar, 'afterBegin', [
       ['div', { class: 'sidebar__search-container' }, [
         ['input', { class: 'sidebar__search-input', type: 'text', placeholder: 'Search...' }]
       ]]
     ]).firstElementChild;
     if (isPopup && Settings.scb) {
-      shared.esgst.modules.generalSearchClearButton.getInputs(Container);
+      Shared.esgst.modules.generalSearchClearButton.getInputs(Container);
     }
 
     let newIndicators = null;
@@ -115,7 +115,7 @@ class SettingsModule {
       title1: 'Dismiss All New',
       title2: 'Dismissing',
       callback1: async () => {
-        await shared.common.setSetting('dismissedOptions', shared.esgst.toDismiss);
+        await Shared.common.setSetting('dismissedOptions', Shared.esgst.toDismiss);
         for (let i = newIndicators.length - 1; i > -1; i--) {
           newIndicators[i].remove();
         }
@@ -138,131 +138,131 @@ class SettingsModule {
         icons: ['fa-sign-in esgst-rotate-90'],
         position: 'afterBegin',
         title: 'Restore data',
-        onclick: () => shared.esgst.modules.loadDataManagement('import', true)
+        onclick: () => Shared.esgst.modules.loadDataManagement('import', true)
       },
       {
         check: true,
         icons: ['fa-sign-out esgst-rotate-270'],
         position: 'afterBegin',
         title: 'Backup data',
-        onclick: () => shared.esgst.modules.loadDataManagement('export', true)
+        onclick: () => Shared.esgst.modules.loadDataManagement('export', true)
       },
       {
         check: true,
         icons: ['fa-trash'],
         position: 'afterBegin',
         title: 'Delete data',
-        onclick: () => shared.esgst.modules.loadDataManagement('delete', true)
+        onclick: () => Shared.esgst.modules.loadDataManagement('delete', true)
       },
       {
         check: true,
         icons: ['fa-gear', 'fa-arrow-circle-down'],
         position: 'afterBegin',
         title: `Download settings (downloads your settings to your computer without your personal data so you can easily share them with other users)`,
-        onclick: () => shared.common.exportSettings()
+        onclick: () => Shared.common.exportSettings()
       },
       {
         check: true,
         icons: ['fa-paint-brush'],
         position: 'afterBegin',
         title: 'Clean old data',
-        onclick: () => shared.esgst.modules.loadDataCleaner(true)
+        onclick: () => Shared.esgst.modules.loadDataCleaner(true)
       },
       {
-        check: !shared.esgst.parameters.esgst,
+        check: !Shared.esgst.parameters.esgst,
         icons: ['fa-user', 'fa-history'],
         position: 'afterBegin',
         title: 'View recent username changes',
-        onclick: event => shared.common.setSMRecentUsernameChanges()
+        onclick: event => Shared.common.setSMRecentUsernameChanges()
       },
       {
-        check: !shared.esgst.parameters.esgst && Settings.uf,
+        check: !Shared.esgst.parameters.esgst && Settings.uf,
         icons: ['fa-user', 'fa-eye-slash'],
         position: 'afterBegin',
         title: 'See list of filtered users',
-        onclick: event => shared.common.setSMManageFilteredUsers()
+        onclick: event => Shared.common.setSMManageFilteredUsers()
       },
       {
-        check: !shared.esgst.parameters.esgst && shared.esgst.sg && Settings.gf && Settings.gf_s,
+        check: !Shared.esgst.parameters.esgst && Shared.esgst.sg && Settings.gf && Settings.gf_s,
         icons: ['fa-gift', 'fa-eye-slash'],
         position: 'afterBegin',
         title: 'Manage hidden giveaways',
-        onclick: event => shared.common.setSMManageFilteredGiveaways()
+        onclick: event => Shared.common.setSMManageFilteredGiveaways()
       },
       {
-        check: !shared.esgst.parameters.esgst && shared.esgst.sg && Settings.df && Settings.df_s,
+        check: !Shared.esgst.parameters.esgst && Shared.esgst.sg && Settings.df && Settings.df_s,
         icons: ['fa-comments', 'fa-eye-slash'],
         position: 'afterBegin',
         title: 'Manage hidden discussions',
-        onclick: event => shared.esgst.modules.discussionsDiscussionFilters.df_menu({}, event.currentTarget)
+        onclick: event => Shared.esgst.modules.discussionsDiscussionFilters.df_menu({}, event.currentTarget)
       },
       {
-        check: !shared.esgst.parameters.esgst && shared.esgst.st && Settings.tf && Settings.tf_s,
+        check: !Shared.esgst.parameters.esgst && Shared.esgst.st && Settings.tf && Settings.tf_s,
         icons: ['fa-retweet', 'fa-eye-slash'],
         position: 'afterBegin',
         title: 'Manage hidden trades',
-        onclick: event => shared.esgst.modules.tradesTradeFilters.tf_menu({}, event.currentTarget)
+        onclick: event => Shared.esgst.modules.tradesTradeFilters.tf_menu({}, event.currentTarget)
       },
       {
-        check: !shared.esgst.parameters.esgst && shared.esgst.sg && Settings.dt,
+        check: !Shared.esgst.parameters.esgst && Shared.esgst.sg && Settings.dt,
         icons: ['fa-comments', 'fa-tags'],
         position: 'afterBegin',
         title: 'Manage discussion tags',
-        onclick: () => shared.common.openManageDiscussionTagsPopup()
+        onclick: () => Shared.common.openManageDiscussionTagsPopup()
       },
       {
-        check: !shared.esgst.parameters.esgst && shared.esgst.sg && Settings.ut,
+        check: !Shared.esgst.parameters.esgst && Shared.esgst.sg && Settings.ut,
         icons: ['fa-user', 'fa-tags'],
         position: 'afterBegin',
         title: 'Manage user tags',
-        onclick: () => shared.common.openManageUserTagsPopup()
+        onclick: () => Shared.common.openManageUserTagsPopup()
       },
       {
-        check: !shared.esgst.parameters.esgst && Settings.gt,
+        check: !Shared.esgst.parameters.esgst && Settings.gt,
         icons: ['fa-gamepad', 'fa-tags'],
         position: 'afterBegin',
         title: 'Manage game tags',
-        onclick: () => shared.common.openManageGameTagsPopup()
+        onclick: () => Shared.common.openManageGameTagsPopup()
       },
       {
-        check: !shared.esgst.parameters.esgst && Settings.gpt,
+        check: !Shared.esgst.parameters.esgst && Settings.gpt,
         icons: ['fa-users', 'fa-tags'],
         position: 'afterBegin',
         title: 'Manage group tags',
-        onclick: () => shared.common.openManageGroupTagsPopup()
+        onclick: () => Shared.common.openManageGroupTagsPopup()
       },
       {
-        check: !shared.esgst.parameters.esgst && Settings.wbc,
+        check: !Shared.esgst.parameters.esgst && Settings.wbc,
         icons: ['fa-heart', 'fa-ban', 'fa-cog'],
         position: 'afterBegin',
         title: 'Manage Whitelist / Blacklist Checker caches',
-        ref: button => shared.esgst.modules.usersWhitelistBlacklistChecker.wbc_addButton(false, button)
+        ref: button => Shared.esgst.modules.usersWhitelistBlacklistChecker.wbc_addButton(false, button)
       },
       {
-        check: !shared.esgst.parameters.esgst && Settings.namwc,
+        check: !Shared.esgst.parameters.esgst && Settings.namwc,
         icons: ['fa-trophy', 'fa-cog'],
         position: 'afterBegin',
         title: 'Manage Not Activated / Multiple Wins Checker caches',
-        ref: button => shared.esgst.modules.usersNotActivatedMultipleWinChecker.namwc_setPopup(button)
+        ref: button => Shared.esgst.modules.usersNotActivatedMultipleWinChecker.namwc_setPopup(button)
       }
     ].filter(x => x.check).reverse();
-    const heading = new elementBuilder[shared.esgst.name].pageHeading({
+    const heading = new elementBuilder[Shared.esgst.name].pageHeading({
       context: Container,
       position: 'afterBegin',
       breadcrumbs: [
         {
           name: 'ESGST',
-          url: shared.esgst.settingsUrl
+          url: Shared.esgst.settingsUrl
         },
         {
           name: 'Settings',
-          url: shared.esgst.settingsUrl
+          url: Shared.esgst.settingsUrl
         }
       ],
       buttons: items
     }).pageHeading;
     if (!isPopup) {
-      shared.esgst.mainPageHeading = heading;
+      Shared.esgst.mainPageHeading = heading;
     }
 
     input.addEventListener('input', event => this.filterSm(event));
@@ -286,7 +286,7 @@ class SettingsModule {
       callback1: async () => {
         await permissions.request(Array.from(this.grantedPermissions));
         await permissions.remove(Array.from(this.deniedPermissions));
-        await shared.common.lockAndSaveSettings(this.toSave);
+        await Shared.common.lockAndSaveSettings(this.toSave);
         this.toSave = {};
         if (isPopup) {
           popup.close();
@@ -299,8 +299,8 @@ class SettingsModule {
     let SMMenu = Context.getElementsByClassName('esgst-settings-menu')[0];
     let i, type;
     i = 1;
-    for (type in shared.esgst.features) {
-      if (shared.esgst.features.hasOwnProperty(type)) {
+    for (type in Shared.esgst.features) {
+      if (Shared.esgst.features.hasOwnProperty(type)) {
         if (type !== 'trades' || Settings.esgst_st || Settings.esgst_sgtools) {
           let id, j, section, title, isNew = false;
           title = type.replace(/^./, m => {
@@ -308,13 +308,13 @@ class SettingsModule {
           });
           section = this.createMenuSection(SMMenu, null, i, title, type);
           j = 1;
-          for (id in shared.esgst.features[type].features) {
-            if (shared.esgst.features[type].features.hasOwnProperty(id)) {
+          for (id in Shared.esgst.features[type].features) {
+            if (Shared.esgst.features[type].features.hasOwnProperty(id)) {
               if (id === 'common') {
                 continue;
               }
               let feature, ft;
-              feature = shared.esgst.features[type].features[id];
+              feature = Shared.esgst.features[type].features[id];
               if (!feature.sg && (((feature.sgtools && !Settings.esgst_sgtools) || (feature.st && !Settings.esgst_st)) && id !== 'esgst')) {
                 continue;
               }
@@ -329,7 +329,7 @@ class SettingsModule {
             }
           }
           if (isNew) {
-            shared.common.createElements(section.firstElementChild.lastElementChild, 'afterBegin', [{
+            Shared.common.createElements(section.firstElementChild.lastElementChild, 'afterBegin', [{
               attributes: {
                 class: 'esgst-bold esgst-red esgst-new-indicator',
                 title: 'There is a new feature/option in this section'
@@ -389,8 +389,8 @@ class SettingsModule {
       // noinspection JSIgnoredPromiseFromCall
       this.preSave('steamApiKey', SMAPIKey.value);
     });
-    if (shared.esgst.parameters.esgst === 'settings' && shared.esgst.parameters.id) {
-      this.loadFeatureDetails(shared.esgst.parameters.id, popup && popup.scrollable.offsetTop);
+    if (Shared.esgst.parameters.esgst === 'settings' && Shared.esgst.parameters.id) {
+      this.loadFeatureDetails(Shared.esgst.parameters.id, popup && popup.scrollable.offsetTop);
     }
     if (isPopup) {
       popup.open();
@@ -442,11 +442,11 @@ class SettingsModule {
         return;
       }
     }
-    const feature = shared.esgst.featuresById[id];
+    const feature = Shared.esgst.featuresById[id];
     if (!feature) {
       return;
     }
-    const url = `${shared.esgst.settingsUrl}&id=${id}`;
+    const url = `${Shared.esgst.settingsUrl}&id=${id}`;
     const items = [{
       check: true,
       content: [...(Array.isArray(feature.name) ? feature.name : [feature.name])],
@@ -479,7 +479,7 @@ class SettingsModule {
                 addScrollable: true,
                 icon: 'fa-exclamation',
                 isTemp: true,
-                title: `This feature conflicts with ${shared.common.getFeatureName(null, conflictId)}. While that feature is enabled, this feature cannot be enabled.`
+                title: `This feature conflicts with ${Shared.common.getFeatureName(null, conflictId)}. While that feature is enabled, this feature cannot be enabled.`
               }).open();
               return;
             }
@@ -491,9 +491,9 @@ class SettingsModule {
         }
         if (feature.theme) {
           if (id === 'customTheme') {
-            shared.common.setTheme();
+            Shared.common.setTheme();
           } else {
-            shared.common.updateTheme(id);
+            Shared.common.updateTheme(id);
           }
         }
       };
@@ -507,9 +507,9 @@ class SettingsModule {
             LocalStorage.delete('customTheme');
           } else {
             LocalStorage.delete('theme');
-            await shared.common.delValue(id);
+            await Shared.common.delValue(id);
           }
-          shared.common.setTheme();
+          Shared.common.setTheme();
         }
       };
     }
@@ -532,7 +532,7 @@ class SettingsModule {
                 addScrollable: true,
                 icon: 'fa-exclamation',
                 isTemp: true,
-                title: `This feature conflicts with ${shared.common.getFeatureName(null, conflictId)}. While that feature is enabled, this feature cannot be enabled.`
+                title: `This feature conflicts with ${Shared.common.getFeatureName(null, conflictId)}. While that feature is enabled, this feature cannot be enabled.`
               }).open();
               return;
             }
@@ -544,9 +544,9 @@ class SettingsModule {
         }
         if (feature.theme) {
           if (id === 'customTheme') {
-            shared.common.setTheme();
+            Shared.common.setTheme();
           } else {
-            shared.common.updateTheme(id);
+            Shared.common.updateTheme(id);
           }
         }
       };
@@ -560,9 +560,9 @@ class SettingsModule {
             LocalStorage.delete('customTheme');
           } else {
             LocalStorage.delete('theme');
-            await shared.common.delValue(id);
+            await Shared.common.delValue(id);
           }
-          shared.common.setTheme();
+          Shared.common.setTheme();
         }
       };
     }
@@ -585,7 +585,7 @@ class SettingsModule {
                 addScrollable: true,
                 icon: 'fa-exclamation',
                 isTemp: true,
-                title: `This feature conflicts with ${shared.common.getFeatureName(null, conflictId)}. While that feature is enabled, this feature cannot be enabled.`
+                title: `This feature conflicts with ${Shared.common.getFeatureName(null, conflictId)}. While that feature is enabled, this feature cannot be enabled.`
               }).open();
               return;
             }
@@ -597,9 +597,9 @@ class SettingsModule {
         }
         if (feature.theme) {
           if (id === 'customTheme') {
-            shared.common.setTheme();
+            Shared.common.setTheme();
           } else {
-            shared.common.updateTheme(id);
+            Shared.common.updateTheme(id);
           }
         }
       };
@@ -613,9 +613,9 @@ class SettingsModule {
             LocalStorage.delete('customTheme');
           } else {
             LocalStorage.delete('theme');
-            await shared.common.delValue(id);
+            await Shared.common.delValue(id);
           }
-          shared.common.setTheme();
+          Shared.common.setTheme();
         }
       };
     }
@@ -628,7 +628,7 @@ class SettingsModule {
       items.push({
         check: true,
         content: [
-          ['div', { class: 'markdown' }, JSON.parse(JSON.stringify(feature.description).replace(/\[id=(.+?)]/g, shared.common.getFeatureName.bind(shared.common)))]
+          ['div', { class: 'markdown' }, JSON.parse(JSON.stringify(feature.description).replace(/\[id=(.+?)]/g, Shared.common.getFeatureName.bind(Shared.common)))]
         ],
         name: typeof feature.description === 'string' ? 'Description' : 'What does it do?'
       });
@@ -652,7 +652,7 @@ class SettingsModule {
           ['br'],
           ['p', [
             `To sync these now, click `,
-            ['a', { class: 'table__column__secondary-link', href: `${shared.esgst.syncUrl}&autoSync=true&${feature.syncKeys.map(x => `${x}=1`).join('&')}`, target: '_blank' }, 'here'],
+            ['a', { class: 'table__column__secondary-link', href: `${Shared.esgst.syncUrl}&autoSync=true&${feature.syncKeys.map(x => `${x}=1`).join('&')}`, target: '_blank' }, 'here'],
             '.'
           ]]
         ],
@@ -664,13 +664,13 @@ class SettingsModule {
       context.style.maxHeight = `${context.closest('.esgst-menu-layer').offsetHeight - 24}px`;
     }
     context.innerHTML = 'Click on a feature/option to manage it here.';
-    shared.common.createFormRows(context, 'beforeEnd', { items });
+    Shared.common.createFormRows(context, 'beforeEnd', { items });
   }
 
   setElementOrderingSection(context) {
     const obj = {
       elementOrdering: true,
-      outerWrap: shared.common.createElements(context, 'beforeEnd', [{
+      outerWrap: Shared.common.createElements(context, 'beforeEnd', [{
         attributes: {
           class: 'esgst-element-ordering-container'
         },
@@ -679,7 +679,7 @@ class SettingsModule {
     };
     const obj_gv = {
       elementOrdering: true,
-      outerWrap: shared.common.createElements(context, 'beforeEnd', [{
+      outerWrap: Shared.common.createElements(context, 'beforeEnd', [{
         attributes: {
           class: 'esgst-element-ordering-container'
         },
@@ -913,7 +913,7 @@ class SettingsModule {
           type: 'div'
         });
       }
-      const section = shared.common.createElements((item.isGridView ? obj_gv : obj).outerWrap, 'beforeEnd', [{
+      const section = Shared.common.createElements((item.isGridView ? obj_gv : obj).outerWrap, 'beforeEnd', [{
         text: `${item.name}${item.isGridView ? ` (Grid View)` : ''}`,
         type: 'strong'
       }, item.tooltip ? {
@@ -939,13 +939,13 @@ class SettingsModule {
         callback1: this.resetElementOrdering.bind(this, item.id, obj, obj_gv)
       }).set, section);
       (item.isGridView ? obj_gv : obj)[item.key] = section;
-      section.addEventListener('dragenter', shared.common.draggable_enter.bind(shared.common, {
+      section.addEventListener('dragenter', Shared.common.draggable_enter.bind(Shared.common, {
         context: section,
         item: {
           outerWrap: section
         }
       }));
-      shared.common.draggable_set({
+      Shared.common.draggable_set({
         context: section,
         id: item.id,
         item: {
@@ -972,7 +972,7 @@ class SettingsModule {
             type: 'div'
           });
         }
-        const section_gv = shared.common.createElements(obj_gv.outerWrap, 'beforeEnd', [{
+        const section_gv = Shared.common.createElements(obj_gv.outerWrap, 'beforeEnd', [{
           text: `${item.name} (Grid View)`,
           type: 'strong'
         }, {
@@ -992,13 +992,13 @@ class SettingsModule {
           callback1: this.resetElementOrdering.bind(this, `${item.id}_gv`, obj, obj_gv)
         }).set, section_gv);
         obj_gv[item.key] = section_gv;
-        section_gv.addEventListener('dragenter', shared.common.draggable_enter.bind(shared.common, {
+        section_gv.addEventListener('dragenter', Shared.common.draggable_enter.bind(Shared.common, {
           context: section_gv,
           item: {
             outerWrap: section_gv
           }
         }));
-        shared.common.draggable_set({
+        Shared.common.draggable_set({
           context: section_gv,
           id: `${item.id}_gv`,
           item: {
@@ -1012,16 +1012,16 @@ class SettingsModule {
         });
       }
     }
-    shared.esgst.modules.giveaways.giveaways_reorder(obj);
-    shared.esgst.modules.giveaways.giveaways_reorder(obj_gv);
-    shared.common.reorderButtons(obj);
+    Shared.esgst.modules.giveaways.giveaways_reorder(obj);
+    Shared.esgst.modules.giveaways.giveaways_reorder(obj_gv);
+    Shared.common.reorderButtons(obj);
   }
 
   async resetElementOrdering(id, obj, obj_gv) {
     this.preSave(id, Settings.defaultValues[id]);
-    shared.esgst.modules.giveaways.giveaways_reorder(obj);
-    shared.esgst.modules.giveaways.giveaways_reorder(obj_gv);
-    shared.common.reorderButtons(obj);
+    Shared.esgst.modules.giveaways.giveaways_reorder(obj);
+    Shared.esgst.modules.giveaways.giveaways_reorder(obj_gv);
+    Shared.common.reorderButtons(obj);
   }
 
   async setPermissionsSection(context) {
@@ -1076,17 +1076,17 @@ class SettingsModule {
   getSMFeature(feature, id, number, popup) {
     const menu = document.createElement('div');
     menu.id = `esgst_${id}`;
-    shared.common.createElements(menu, 'beforeEnd', [{
+    Shared.common.createElements(menu, 'beforeEnd', [{
       attributes: {
         class: 'esgst-sm-small-number esgst-form-heading-number'
       },
       text: `${number}.`,
       type: 'div'
     }]);
-    let isMainNew = Settings.dismissedOptions.indexOf(id) < 0 && !Utils.isSet(shared.esgst.settings[`${id}_sg`]) && !Utils.isSet(shared.esgst.settings[`${id}_st`]) && !Utils.isSet(shared.esgst.settings[`${id}_sgtools`]);
+    let isMainNew = Settings.dismissedOptions.indexOf(id) < 0 && !Utils.isSet(Shared.esgst.settings[`${id}_sg`]) && !Utils.isSet(Shared.esgst.settings[`${id}_st`]) && !Utils.isSet(Shared.esgst.settings[`${id}_sgtools`]);
     if (isMainNew) {
       feature.isNew = true;
-      shared.common.createElements(menu.firstElementChild, 'afterEnd', [{
+      Shared.common.createElements(menu.firstElementChild, 'afterEnd', [{
         attributes: {
           class: 'esgst-bold esgst-red esgst-clickable esgst-new-indicator',
           title: 'This is a new feature/option. Click to dismiss.'
@@ -1120,7 +1120,7 @@ class SettingsModule {
                 addScrollable: true,
                 icon: 'fa-exclamation',
                 isTemp: true,
-                title: `This feature conflicts with ${shared.common.getFeatureName(null, conflictId)}. While that feature is enabled, this feature cannot be enabled.`
+                title: `This feature conflicts with ${Shared.common.getFeatureName(null, conflictId)}. While that feature is enabled, this feature cannot be enabled.`
               }).open();
               return;
             }
@@ -1140,11 +1140,11 @@ class SettingsModule {
           isExpanded = true;
         }
         if (feature.dependencies) {
-          shared.common.createConfirmation([
+          Shared.common.createConfirmation([
             `This feature depends on the following features to work properly: `,
             ['br'],
             ['br'],
-            ...feature.dependencies.map(x => `"${shared.common.getFeatureName(null, x)}"::ESGST::["br"]::ESGST::`).join('').split(`::ESGST::`).filter(x => x).map(x => JSON.parse(x)),
+            ...feature.dependencies.map(x => `"${Shared.common.getFeatureName(null, x)}"::ESGST::["br"]::ESGST::`).join('').split(`::ESGST::`).filter(x => x).map(x => JSON.parse(x)),
             ['br'],
             'Would you like ESGST to automatically enable these features now if they\'re not already enabled?'
           ], () => this.enableDependencies(feature.dependencies, 'sg'));
@@ -1185,7 +1185,7 @@ class SettingsModule {
                 addScrollable: true,
                 icon: 'fa-exclamation',
                 isTemp: true,
-                title: `This feature conflicts with ${shared.common.getFeatureName(null, conflictId)}. While that feature is enabled, this feature cannot be enabled.`
+                title: `This feature conflicts with ${Shared.common.getFeatureName(null, conflictId)}. While that feature is enabled, this feature cannot be enabled.`
               }).open();
               return;
             }
@@ -1205,11 +1205,11 @@ class SettingsModule {
           isExpanded = true;
         }
         if (feature.dependencies) {
-          shared.common.createConfirmation([
+          Shared.common.createConfirmation([
             `This feature depends on the following features to work properly: `,
             ['br'],
             ['br'],
-            ...feature.dependencies.map(x => `"${shared.common.getFeatureName(null, x)}"::ESGST::["br"]::ESGST::`).join('').split(`::ESGST::`).filter(x => x).map(x => JSON.parse(x)),
+            ...feature.dependencies.map(x => `"${Shared.common.getFeatureName(null, x)}"::ESGST::["br"]::ESGST::`).join('').split(`::ESGST::`).filter(x => x).map(x => JSON.parse(x)),
             ['br'],
             'Would you like ESGST to automatically enable these features now if they\'re not already enabled?'
           ], () => this.enableDependencies(feature.dependencies, 'st'));
@@ -1250,7 +1250,7 @@ class SettingsModule {
                 addScrollable: true,
                 icon: 'fa-exclamation',
                 isTemp: true,
-                title: `This feature conflicts with ${shared.common.getFeatureName(null, conflictId)}. While that feature is enabled, this feature cannot be enabled.`
+                title: `This feature conflicts with ${Shared.common.getFeatureName(null, conflictId)}. While that feature is enabled, this feature cannot be enabled.`
               }).open();
               return;
             }
@@ -1270,11 +1270,11 @@ class SettingsModule {
           isExpanded = true;
         }
         if (feature.dependencies) {
-          shared.common.createConfirmation([
+          Shared.common.createConfirmation([
             `This feature depends on the following features to work properly: `,
             ['br'],
             ['br'],
-            ...feature.dependencies.map(x => `"${shared.common.getFeatureName(null, x)}"::ESGST::["br"]::ESGST::`).join('').split(`::ESGST::`).filter(x => x).map(x => JSON.parse(x)),
+            ...feature.dependencies.map(x => `"${Shared.common.getFeatureName(null, x)}"::ESGST::["br"]::ESGST::`).join('').split(`::ESGST::`).filter(x => x).map(x => JSON.parse(x)),
             ['br'],
             'Would you like ESGST to automatically enable these features now if they\'re not already enabled?'
           ], () => this.enableDependencies(feature.dependencies, 'sgt'));
@@ -1327,7 +1327,7 @@ class SettingsModule {
       }
       isMainNew = isMainNew || isNew;
       if (isNew) {
-        shared.common.createElements(menu.firstElementChild, 'afterEnd', [{
+        Shared.common.createElements(menu.firstElementChild, 'afterEnd', [{
           attributes: {
             class: 'esgst-bold esgst-red esgst-new-indicator',
             title: 'There is a new feature/option in this section'
@@ -1342,7 +1342,7 @@ class SettingsModule {
         }]);
       }
       if (Settings.makeSectionsCollapsible) {
-        collapseButton = shared.common.createElements(menu, 'afterBegin', [{
+        collapseButton = Shared.common.createElements(menu, 'afterBegin', [{
           attributes: {
             class: 'esgst-clickable',
             style: `margin-right: 5px;`
@@ -1445,7 +1445,7 @@ class SettingsModule {
             ['i', { class: 'fa fa-question-circle', title: `If you enter genres here, a genre category will only appear if the game has the listed genre. Separate genres with a comma, for example: Genre1, Genre2` }]
           ]]
         ]).firstElementChild;
-        shared.common.observeChange(input.firstElementChild, 'gc_g_filters', this.toSave);
+        Shared.common.observeChange(input.firstElementChild, 'gc_g_filters', this.toSave);
         items.push(input);
         items.push(this.addGcMenuPanel());
       }
@@ -1460,13 +1460,13 @@ class SettingsModule {
             ['input', { type: 'text', value: Settings[`${ID}Label`] }]
           ]]
         ]).firstElementChild;
-        shared.common.createTooltip(input.firstElementChild.nextElementSibling, `The name of the icon must be any name in this page: <a href="https://fontawesome.com/v4.7.0/icons/">https://fontawesome.com/v4.7.0/icons/</a>`);
+        Shared.common.createTooltip(input.firstElementChild.nextElementSibling, `The name of the icon must be any name in this page: <a href="https://fontawesome.com/v4.7.0/icons/">https://fontawesome.com/v4.7.0/icons/</a>`);
         let icon = input.firstElementChild;
         let label = input.lastElementChild;
-        shared.common.observeChange(icon, `${ID}Icon`, this.toSave);
-        shared.common.observeChange(label, `${ID}Label`, this.toSave);
+        Shared.common.observeChange(icon, `${ID}Icon`, this.toSave);
+        Shared.common.observeChange(label, `${ID}Label`, this.toSave);
         if (ID === 'gc_rd') {
-          shared.common.createElements(input, 'beforeEnd', [{
+          Shared.common.createElements(input, 'beforeEnd', [{
             attributes: {
               class: 'fa fa-question-circle',
               title: `Enter the date format here, using the following keywords:\n\nDD - Day\nMM - Month in numbers (i.e. 1)\nMon - Month in short name (i.e. Jan)\nMonth - Month in full name (i.e. January)\nYYYY - Year`
@@ -1538,17 +1538,17 @@ class SettingsModule {
         }
         let input,
           value = '',
-          context = shared.common.createElements(containerr, 'beforeEnd', [{
+          context = Shared.common.createElements(containerr, 'beforeEnd', [{
             type: 'div',
             children
           }]);
         input = context.firstElementChild;
         if (item.play) {
-          input.nextElementSibling.addEventListener('click', async () => (await shared.esgst.modules.generalHeaderRefresher.createPlayer(Settings[item.id] || shared.esgst.modules.generalHeaderRefresher.getDefaultSound())).play());
+          input.nextElementSibling.addEventListener('click', async () => (await Shared.esgst.modules.generalHeaderRefresher.createPlayer(Settings[item.id] || Shared.esgst.modules.generalHeaderRefresher.getDefaultSound())).play());
         }
         if (typeof Settings[item.id] === 'undefined' && Settings.dismissedOptions.indexOf(item.id) < 0) {
           Feature.isNew = true;
-          shared.common.createElements(context, 'afterBegin', [{
+          Shared.common.createElements(context, 'afterBegin', [{
             attributes: {
               class: 'esgst-bold esgst-red esgst-clickable esgst-new-indicator',
               title: 'This is a new feature/option. Click to dismiss.'
@@ -1618,31 +1618,31 @@ class SettingsModule {
       ]).firstElementChild;
       let startTime = containerr.firstElementChild;
       let endTime = startTime.nextElementSibling;
-      shared.common.observeChange(startTime, `${ID}_startTime`, this.toSave);
-      shared.common.observeChange(endTime, `${ID}_endTime`, this.toSave);
+      Shared.common.observeChange(startTime, `${ID}_startTime`, this.toSave);
+      Shared.common.observeChange(endTime, `${ID}_endTime`, this.toSave);
       if (ID === 'customTheme') {
         let textArea = containerr.lastElementChild;
-        const value = shared.common.getValue(ID);
+        const value = Shared.common.getValue(ID);
         if (value) {
           textArea.value = JSON.parse(value);
         }
         textArea.addEventListener('change', async () => {
-          await shared.common.setValue(ID, JSON.stringify(textArea.value));
+          await Shared.common.setValue(ID, JSON.stringify(textArea.value));
           // noinspection JSIgnoredPromiseFromCall
-          shared.common.setTheme();
+          Shared.common.setTheme();
         });
       } else {
         let version = containerr.lastElementChild,
           button = version.previousElementSibling;
         // noinspection JSIgnoredPromiseFromCall
-        shared.common.setThemeVersion(ID, version);
+        Shared.common.setThemeVersion(ID, version);
         button.addEventListener('click', async () => {
           if (!(await permissions.requestUi([['userStyles']], 'settings'))) {
             return;
           }
 
           let url = await this.getThemeUrl(ID, Feature.theme);
-          shared.common.createElements(button, 'inner', [{
+          Shared.common.createElements(button, 'inner', [{
             attributes: {
               class: 'fa fa-circle-o-notch fa-spin'
             },
@@ -1651,16 +1651,16 @@ class SettingsModule {
             text: ' Updating...',
             type: 'node'
           }]);
-          let theme = JSON.stringify((await shared.common.request({ method: 'GET', url })).responseText);
-          await shared.common.setValue(ID, theme);
-          shared.common.createElements(button, 'inner', [{
+          let theme = JSON.stringify((await Shared.common.request({ method: 'GET', url })).responseText);
+          await Shared.common.setValue(ID, theme);
+          Shared.common.createElements(button, 'inner', [{
             text: 'Update',
             type: 'node'
           }]);
           // noinspection JSIgnoredPromiseFromCall
-          shared.common.setThemeVersion(ID, version, theme);
+          Shared.common.setThemeVersion(ID, version, theme);
           // noinspection JSIgnoredPromiseFromCall
-          shared.common.setTheme();
+          Shared.common.setTheme();
         });
       }
       items.push(containerr);
@@ -1683,7 +1683,7 @@ class SettingsModule {
           ]]
         ]).firstElementChild;
         select.firstElementChild.selectedIndex = selectedIndex;
-        shared.common.observeNumChange(select.firstElementChild, `${ID}${currentKey}`, this.toSave, 'selectedIndex');
+        Shared.common.observeNumChange(select.firstElementChild, `${ID}${currentKey}`, this.toSave, 'selectedIndex');
         items.push(select);
       }
     }
@@ -1714,7 +1714,7 @@ class SettingsModule {
         binary += String.fromCharCode(bytes[i]);
       }
       let string = window.btoa(binary);
-      (await shared.esgst.modules.generalHeaderRefresher.createPlayer(string)).play();
+      (await Shared.esgst.modules.generalHeaderRefresher.createPlayer(string)).play();
       // noinspection JSIgnoredPromiseFromCall
       this.preSave(`${id}_sound`, string);
       popup.close();
@@ -1759,7 +1759,7 @@ class SettingsModule {
 
   addGwcColorSetting(colors, id, key, panel, background) {
     let bgColor, color, i, lower, n, remove, setting, upper;
-    setting = shared.common.createElements(panel, 'beforeEnd', [{
+    setting = Shared.common.createElements(panel, 'beforeEnd', [{
       type: 'div',
       children: [{
         text: `From: `,
@@ -1872,7 +1872,7 @@ class SettingsModule {
         ]]
       ]]
     ]).firstElementChild;
-    shared.common.draggable_set({
+    Shared.common.draggable_set({
       addTrash: true,
       context: panel.firstElementChild,
       id: 'ul_links',
@@ -1928,7 +1928,7 @@ class SettingsModule {
         ['input', { onchange: event => { link.url = event.currentTarget.value; this.preSave(id, Settings[id]); setting.setAttribute('data-draggable-obj', JSON.stringify(link)); }, type: 'text', value: link.url }]
       ]]
     ]);
-    shared.common.draggable_set({
+    Shared.common.draggable_set({
       addTrash: true,
       context: panel.firstElementChild,
       id: 'ul_links',
@@ -1971,7 +1971,7 @@ class SettingsModule {
   }
 
   addGcRatingColorSetting(colors, panel) {
-    let setting = shared.common.createElements(panel, 'beforeEnd', [{
+    let setting = Shared.common.createElements(panel, 'beforeEnd', [{
       type: 'div',
       children: [{
         text: `From: `,
@@ -2040,7 +2040,7 @@ class SettingsModule {
     let bgColor = color.nextElementSibling;
     let icon = bgColor.nextElementSibling;
     let tooltip = icon.nextElementSibling;
-    shared.common.createTooltip(tooltip, `The name of the icon can be any name from <a href="https://fontawesome.com/v4.7.0/icons/">FontAwesome</a> or any text. For example, if you want to use alt symbols like ▲ (Alt + 3 + 0) and ▼ (Alt + 3 + 1), you can.`);
+    Shared.common.createTooltip(tooltip, `The name of the icon can be any name from <a href="https://fontawesome.com/v4.7.0/icons/">FontAwesome</a> or any text. For example, if you want to use alt symbols like ▲ (Alt + 3 + 0) and ▼ (Alt + 3 + 1), you can.`);
     let remove = tooltip.nextElementSibling;
     lower.addEventListener('change', () => {
       colors.lower = lower.value;
@@ -2107,7 +2107,7 @@ class SettingsModule {
 
   addGcColorSetting(colorSetting, panel) {
     let bgColor, color, genre, i, n, remove, setting;
-    setting = shared.common.createElements(panel, 'beforeEnd', [{
+    setting = Shared.common.createElements(panel, 'beforeEnd', [{
       type: 'div',
       children: [{
         text: 'For genre ',
@@ -2188,7 +2188,7 @@ class SettingsModule {
       ]]
     ]).firstElementChild;
     button = panel.firstElementChild;
-    shared.common.createTooltip(shared.common.createElements(panel, 'beforeEnd', [{
+    Shared.common.createTooltip(Shared.common.createElements(panel, 'beforeEnd', [{
       attributes: {
         class: 'fa fa-question-circle'
       },
@@ -2226,7 +2226,7 @@ class SettingsModule {
 
   addGcAltSetting(altSetting, panel) {
     let color, bgColor, i, icon, label, n, name, remove, setting, steamId;
-    setting = shared.common.createElements(panel, 'beforeEnd', [{
+    setting = Shared.common.createElements(panel, 'beforeEnd', [{
       type: 'div',
       children: [{
         text: 'For account with Steam ID ',
@@ -2561,12 +2561,12 @@ class SettingsModule {
       ],
       addScrollable: true
     });
-    obj.popup.onClose = resolve.bind(shared.common, url);
+    obj.popup.onClose = resolve.bind(Shared.common, url);
     let context = obj.popup.getScrollable([
       ['div', { class: 'esgst-sm-colors' }]
     ]).firstElementChild;
     obj.options[key].forEach(option => {
-      option.select = shared.common.createElements(context, 'beforeEnd', [{
+      option.select = Shared.common.createElements(context, 'beforeEnd', [{
         type: 'div',
         children: [{
           text: `${option.name} `,
@@ -2576,7 +2576,7 @@ class SettingsModule {
         }]
       }]).lastElementChild;
       (option.options || binaryOptions).forEach(subOption => {
-        shared.common.createElements(option.select, 'beforeEnd', [{
+        Shared.common.createElements(option.select, 'beforeEnd', [{
           attributes: {
             value: subOption.id
           },
@@ -2601,7 +2601,7 @@ class SettingsModule {
   }
 
   createMenuSection(context, html, number, title, type) {
-    let section = shared.common.createElements(context, 'beforeEnd', [{
+    let section = Shared.common.createElements(context, 'beforeEnd', [{
       attributes: {
         class: 'esgst-form-row',
         id: `esgst_${type}`,
@@ -2645,7 +2645,7 @@ class SettingsModule {
     }]);
     if (Settings.makeSectionsCollapsible && !title.match(/Backup|Restore|Delete/)) {
       let button, containerr, isExpanded;
-      button = shared.common.createElements(section.firstElementChild, 'afterBegin', [{
+      button = Shared.common.createElements(section.firstElementChild, 'afterBegin', [{
         attributes: {
           class: 'esgst-clickable',
           style: `margin-right: 5px;`
@@ -2686,7 +2686,7 @@ class SettingsModule {
     if (!collapseButton) {
       return;
     }
-    shared.common.createElements(collapseButton, 'inner', [{
+    Shared.common.createElements(collapseButton, 'inner', [{
       attributes: {
         class: 'fa fa-plus-square',
         title: 'Expand section'
@@ -2701,7 +2701,7 @@ class SettingsModule {
     if (!collapseButton) {
       return;
     }
-    shared.common.createElements(collapseButton, 'inner', [{
+    Shared.common.createElements(collapseButton, 'inner', [{
       attributes: {
         class: 'fa fa-minus-square',
         title: 'Collapse section'
@@ -2714,17 +2714,17 @@ class SettingsModule {
   filterSm(event) {
     let collapse, element, expand, found, id, type, typeFound, value;
     value = event.currentTarget.value.toLowerCase().trim().replace(/[.*+?^${}()|[\]\\]/g, `\\$&`);
-    for (type in shared.esgst.features) {
-      if (shared.esgst.features.hasOwnProperty(type)) {
+    for (type in Shared.esgst.features) {
+      if (Shared.esgst.features.hasOwnProperty(type)) {
         found = false;
         typeFound = false;
-        for (id in shared.esgst.features[type].features) {
-          if (shared.esgst.features[type].features.hasOwnProperty(id)) {
-            this.unfadeSmFeatures(shared.esgst.features[type].features[id], id);
-            found = this.filterSmFeature(shared.esgst.features[type].features[id], id, value);
+        for (id in Shared.esgst.features[type].features) {
+          if (Shared.esgst.features[type].features.hasOwnProperty(id)) {
+            this.unfadeSmFeatures(Shared.esgst.features[type].features[id], id);
+            found = this.filterSmFeature(Shared.esgst.features[type].features[id], id, value);
             if (found) {
               typeFound = true;
-              this.unhideSmFeature(shared.esgst.features[type].features[id], id);
+              this.unhideSmFeature(Shared.esgst.features[type].features[id], id);
             }
           }
         }
@@ -2833,7 +2833,7 @@ class SettingsModule {
 
   enableDependencies(ids, namespace) {
     for (const id of ids) {
-      const feature = shared.esgst.featuresById[id];
+      const feature = Shared.esgst.featuresById[id];
       if (feature && feature[`${namespace}Switch`]) {
         feature[`${namespace}Switch`].enable();
       }

@@ -1,7 +1,7 @@
 import { common } from '../Common';
 import { Filters } from '../Filters';
 import { Settings } from '../../class/Settings';
-import { shared } from '../../class/Shared';
+import { Shared } from '../../class/Shared';
 
 class GamesGameFilters extends Filters {
   constructor() {
@@ -386,20 +386,20 @@ class GamesGameFilters extends Filters {
   }
 
   init() {
-    if (!Settings.gmf || !shared.common.isCurrentPath(['Community Wishlist', 'Bundle Games', 'Discussion', 'Settings - Giveaways - Filters', 'Steam - Games'])) {
+    if (!Settings.gmf || !Shared.common.isCurrentPath(['Community Wishlist', 'Bundle Games', 'Discussion', 'Settings - Giveaways - Filters', 'Steam - Games'])) {
       return;
     }
 
-    if (!shared.esgst.hasAddedFilterContainer) {
-      shared.esgst.style.insertAdjacentText("beforeend", `
+    if (!Shared.esgst.hasAddedFilterContainer) {
+      Shared.esgst.style.insertAdjacentText("beforeend", `
         .esgst-gf-container {
-          top: ${shared.esgst.commentsTop - 5}px;
+          top: ${Shared.esgst.commentsTop - 5}px;
         }
       `);
     }
 
-    shared.common.createHeadingButton({
-      element: this.filters_addContainer(shared.esgst.discussionPath ? document.querySelector('.page__heading') : shared.esgst.mainPageHeading),
+    Shared.common.createHeadingButton({
+      element: this.filters_addContainer(Shared.esgst.discussionPath ? document.querySelector('.page__heading') : Shared.esgst.mainPageHeading),
       id: 'gmf'
     });
   }
@@ -423,7 +423,7 @@ class GamesGameFilters extends Filters {
       },
       releaseDate: {
         category: 'gc_rd',
-        check: !shared.esgst.parameters.release_date_min && !shared.esgst.parameters.release_date_max,
+        check: !Shared.esgst.parameters.release_date_min && !Shared.esgst.parameters.release_date_max,
         date: true,
         name: 'Release Date',
         type: 'number'

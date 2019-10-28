@@ -1,4 +1,4 @@
-import { shared } from './Shared';
+import { Shared } from './Shared';
 
 class ButtonSet {
   constructor(details) {
@@ -19,7 +19,7 @@ class ButtonSet {
     if (details.tooltip) {
       this.set.title = details.tooltip;
     }
-    shared.common.createElements(this.set, 'inner', [{
+    Shared.common.createElements(this.set, 'inner', [{
       attributes: {
         class: `${classes[details.color1]} btn_action ${details.color1}`
       },

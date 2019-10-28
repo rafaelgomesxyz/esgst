@@ -1,6 +1,6 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
-import { shared } from '../../class/Shared';
+import { Shared } from '../../class/Shared';
 import { permissions } from '../../class/Permissions';
 
 const
@@ -111,7 +111,7 @@ class UsersUsernameHistory extends Module {
     box = button.nextElementSibling;
     list = box.lastElementChild;
     button.addEventListener('click', this.uh_toggle.bind(this, box, profile, list));
-    shared.esgst.documentEvents.click.add(this.uh_close.bind(this, box, container));
+    Shared.esgst.documentEvents.click.add(this.uh_close.bind(this, box, container));
   }
 
   async uh_toggle(box, profile, list) {

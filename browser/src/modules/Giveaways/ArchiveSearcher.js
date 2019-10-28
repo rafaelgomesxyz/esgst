@@ -3,7 +3,7 @@ import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { common } from '../Common';
 import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
-import { shared } from '../../class/Shared';
+import { Shared } from '../../class/Shared';
 import { Settings } from '../../class/Settings';
 import { permissions } from '../../class/Permissions';
 import { DOM } from '../../class/DOM';
@@ -104,7 +104,7 @@ class GiveawaysArchiveSearcher extends Module {
       context.setAttribute('data-esgst-popup', 'true');
       context.innerHTML = '';
     }
-    new elementBuilder[shared.esgst.name].pageHeading({
+    new elementBuilder[Shared.esgst.name].pageHeading({
       context: container,
       position: 'afterBegin',
       breadcrumbs: [

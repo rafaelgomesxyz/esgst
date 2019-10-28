@@ -1,7 +1,7 @@
 import { Button } from '../../class/Button';
 import { common } from '../Common';
 import { Filters } from '../Filters';
-import { shared } from '../../class/Shared';
+import { Shared } from '../../class/Shared';
 import { Settings } from '../../class/Settings';
 
 const
@@ -800,10 +800,10 @@ class GiveawaysGiveawayFilters extends Filters {
       this.esgst.giveawayFeatures.push(this.gf_getGiveaways.bind(this));
     }
     if (Settings.gf_m && (this.esgst.giveawaysPath || this.esgst.createdPath || this.esgst.enteredPath || this.esgst.wonPath || this.esgst.groupPath || this.esgst.userPath)) {
-      if (!shared.esgst.hasAddedFilterContainer) {
-        shared.esgst.style.insertAdjacentText("beforeend", `
+      if (!Shared.esgst.hasAddedFilterContainer) {
+        Shared.esgst.style.insertAdjacentText("beforeend", `
           .esgst-gf-container {
-            top: ${shared.esgst.commentsTop - 5}px;
+            top: ${Shared.esgst.commentsTop - 5}px;
           }
         `);
       }
@@ -832,7 +832,7 @@ class GiveawaysGiveawayFilters extends Filters {
             value: parseInt(inputs[key].value)
           });
         }
-        shared.common.setSetting(settings);
+        Shared.common.setSetting(settings);
       });
     }
   }
@@ -1098,7 +1098,7 @@ class GiveawaysGiveawayFilters extends Filters {
         name: 'Winners',
         type: 'string'
       },
-      ...shared.esgst.modules.gamesGameFilters.getFilters()
+      ...Shared.esgst.modules.gamesGameFilters.getFilters()
     };
   }
 }

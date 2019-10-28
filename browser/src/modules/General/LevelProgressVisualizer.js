@@ -1,6 +1,6 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
-import { shared, Shared } from '../../class/Shared';
+import { Shared } from '../../class/Shared';
 import { Settings } from '../../class/Settings';
 import { FetchRequest } from '../../class/FetchRequest';
 import { Logger } from '../../class/Logger';
@@ -60,7 +60,7 @@ class GeneralLevelProgressVisualizer extends Module {
       cache.level = currentLevel;
       const response = await FetchRequest.get(`/user/${Settings.username}`);
       const element = response.html.querySelectorAll('.featured__table__row__right')[6];
-      cache.cv = shared.common.round(parseFloat(JSON.parse(element.firstElementChild.lastElementChild.getAttribute('data-ui-tooltip')).rows[0].columns[1].name.replace(/[$,]/g, '')));
+      cache.cv = Shared.common.round(parseFloat(JSON.parse(element.firstElementChild.lastElementChild.getAttribute('data-ui-tooltip')).rows[0].columns[1].name.replace(/[$,]/g, '')));
       LocalStorage.set('lpvCache', JSON.stringify(cache));
     }
     return cache;
@@ -82,7 +82,7 @@ class GeneralLevelProgressVisualizer extends Module {
     const cache = await this.getCache();
     const cv = this.lpv_getCv();
     if (cv > 0) {
-      const predictedFullLevel = shared.common.getLevelFromCv(cache.cv + cv);
+      const predictedFullLevel = Shared.common.getLevelFromCv(cache.cv + cv);
       Logger.info(`Current CV: ${cache.cv}`);
       Logger.info(`CV to gain: ${cv}`);
       Logger.info(`Predicted level: ${predictedFullLevel}`);

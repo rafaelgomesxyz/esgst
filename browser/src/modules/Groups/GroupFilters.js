@@ -1,5 +1,5 @@
 import { common } from '../Common';
-import { shared } from '../../class/Shared';
+import { Shared } from '../../class/Shared';
 import { Filters } from '../Filters';
 import { Settings } from '../../class/Settings';
 
@@ -196,18 +196,18 @@ class GroupsGroupFilters extends Filters {
   }
 
   async init() {
-    if (!shared.common.isCurrentPath('Steam - Groups')) {
+    if (!Shared.common.isCurrentPath('Steam - Groups')) {
       return;
     }
-    if (!shared.esgst.hasAddedFilterContainer) {
-      shared.esgst.style.insertAdjacentText("beforeend", `
+    if (!Shared.esgst.hasAddedFilterContainer) {
+      Shared.esgst.style.insertAdjacentText("beforeend", `
         .esgst-gf-container {
-          top: ${shared.esgst.commentsTop - 5}px;
+          top: ${Shared.esgst.commentsTop - 5}px;
         }
       `);
     }
     common.createHeadingButton({
-      element: this.filters_addContainer(shared.esgst.mainPageHeading),
+      element: this.filters_addContainer(Shared.esgst.mainPageHeading),
       id: 'gpf'
     });
   }

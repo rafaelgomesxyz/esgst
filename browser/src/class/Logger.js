@@ -1,6 +1,6 @@
 import { Settings } from './Settings';
 import { Popup } from './Popup';
-import { shared, Shared } from './Shared';
+import { Shared } from './Shared';
 import { DOM } from './DOM';
 
 const INFO = 'info';
@@ -65,7 +65,7 @@ class _Logger {
     });
 
     this.button.nodes.outer.classList.add('esgst-logs', `esgst-logs-${level}`);
-    this.button.nodes.buttonIcon.title = shared.common.getFeatureTooltip('notifyLogs', 'View logs');
+    this.button.nodes.buttonIcon.title = Shared.common.getFeatureTooltip('notifyLogs', 'View logs');
 
     this.button.nodes.outer.addEventListener('click', this.showPopup.bind(this));
     this.currentMaxLevel = level;
