@@ -291,7 +291,7 @@ window.interact = interact;
 
     persistentStorage.upgrade(esgst.settings, esgst.storage.v);
 
-    common.initGlobalSettings();
+    Settings.init();
 
     if (Utils.isSet(esgst.storage.filterPresets)) {
       const presets = Settings.gf_presets.concat(

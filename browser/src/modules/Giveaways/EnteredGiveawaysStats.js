@@ -14,14 +14,12 @@ class GiveawaysEnteredGiveawaysStats extends Module {
       features: {
         egs_e: {
           name: 'Include ended giveaways in the stats.',
-          sgPaths: 'My Giveaways - Entered',
           sg: true
         }
       },
       id: 'egs',
       name: 'Entered Giveaways Stats',
       sg: true,
-      sgPaths: 'My Giveaways - Entered',
       type: 'giveaways'
     };
   }

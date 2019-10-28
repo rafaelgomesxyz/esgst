@@ -3,6 +3,7 @@ import dateFns_format from 'date-fns/format';
 import dateFns_differenceInHours from 'date-fns/differenceInHours';
 import dateFns_isSameYear from 'date-fns/isSameYear';
 import { Settings } from '../../class/Settings';
+import { Shared } from '../../class/Shared';
 
 class GeneralAccurateTimestamp extends Module {
   constructor() {
@@ -29,6 +30,10 @@ class GeneralAccurateTimestamp extends Module {
         ]]
       ],
       features: {
+        at_g: {
+          name: 'Enable for giveaways in the main page.',
+          sg: true,
+        },
         at_t: {
           name: 'Apply format to SteamGifts\' date tooltips.',
           sg: true
@@ -50,6 +55,10 @@ class GeneralAccurateTimestamp extends Module {
   }
 
   init() {
+    if (Shared.esgst.giveawaysPath && !Settings.at_g) {
+      return;
+    }
+
     if (Settings.at_t) {
       const script = document.createElement('script');
       script.textContent = `

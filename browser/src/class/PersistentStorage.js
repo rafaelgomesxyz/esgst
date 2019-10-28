@@ -4,14 +4,16 @@ import { IHeader } from '../components/Header';
 import { generalCustomHeaderFooterLinks } from '../modules/General/CustomHeaderFooterLinks';
 
 class PersistentStorage {
-  constructor() { }
+  constructor() {
+    this.currentVersion = 6;
+  }
 
   upgrade(settings, version, isRestoring) {
     if (!Utils.isSet(settings)) {
       return;
     }
 
-    if (version === shared.esgst.CURRENT_STORAGE_VERSION) {
+    if (version === this.currentVersion) {
       return;
     }
 
@@ -118,8 +120,22 @@ class PersistentStorage {
       }
     }
 
+    if (version < 6) {
+      for (const key of Object.keys(settings)) {
+        if (Utils.is(settings[key], 'object') && Utils.isSet(settings[key].enabled)) {
+          settings[key] = settings[key].enabled ? 1 : 0;
+        } else if (settings[key] === true || settings[key] === false) {
+          settings[key] = settings[key] ? 1 : 0;
+        }
+      }
+
+      if (!isRestoring) {
+        shared.esgst.settingsChanged = true;
+      }
+    }
+
     if (!isRestoring) {
-      shared.common.setValue('v', shared.esgst.CURRENT_STORAGE_VERSION);
+      shared.common.setValue('v', this.currentVersion);
     }
   }
 }

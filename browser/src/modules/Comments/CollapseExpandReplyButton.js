@@ -28,7 +28,6 @@ class CommentsCollapseExpandReplyButton extends Module {
       id: 'cerb',
       name: 'Collapse/Expand Reply Button',
       sg: true,
-      sgPaths: /^(Giveaway\s-\sComments|Discussion|Ticket|Trade)$/,
       st: true,
       type: 'comments'
     };

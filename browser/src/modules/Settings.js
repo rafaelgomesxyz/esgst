@@ -28,19 +28,8 @@ class SettingsModule {
       const namespace = match[1];
       const feature = shared.esgst.featuresById[id];
       if (feature) {
-        let setting;
-        if (typeof value === 'object') {
-          setting = value;
-          Settings.full[key] = setting;
-        } else {
-          setting = Settings.full[key] || shared.common.getFeaturePath(null, id, namespace);
-          setting.enabled = value ? 1 : 0;
-        }
-        const globalInclude = setting.include.filter(x => x.pattern === '.*')[0];
-        if (globalInclude) {
-          globalInclude.enabled = setting.enabled;
-        }
-        this.toSave[key] = setting;
+        this.toSave[key] = value ? 1 : 0;
+        Settings[id] = Settings[key] = value ? 1 : 0;
         return;
       }
     }
@@ -472,7 +461,7 @@ class SettingsModule {
     }];
     let sgContext, stContext, sgtoolsContext;
     if (feature.sg) {
-      const value = (Settings.full[`${id}_sg`] || shared.common.getFeaturePath(feature, id, 'sg')).enabled;
+      const value = Settings[`${id}_sg`];
       sgContext = DOM.build([['div']]).firstElementChild;
       const sgSwitch = new ToggleSwitch(sgContext, null, true, Settings.esgst_st || Settings.esgst_sgtools ? 'SteamGifts' : '', true, false, null, value);
       feature.sgFeatureSwitch = sgSwitch;
@@ -484,8 +473,7 @@ class SettingsModule {
         }
         if (feature.conflicts) {
           for (const conflictId of feature.conflicts) {
-            const setting = Settings.full[`${conflictId}_sg`];
-            if (typeof setting === 'object' ? setting.enabled : setting) {
+            if (Settings[`${conflictId}_sg`]) {
               sgSwitch.disable(true);
               new Popup({
                 addScrollable: true,
@@ -508,9 +496,6 @@ class SettingsModule {
             shared.common.updateTheme(id);
           }
         }
-        DOM.build(document.querySelector('#esgst-paths-sg'), 'inner', [
-          this.openPathsPopup(feature, id, 'sg')
-        ]);
       };
       sgSwitch.onDisabled = async () => {
         this.preSave(`${id}_sg`, false);
@@ -526,13 +511,10 @@ class SettingsModule {
           }
           shared.common.setTheme();
         }
-        DOM.build(document.querySelector('#esgst-paths-sg'), 'inner', [
-          this.openPathsPopup(feature, id, 'sg')
-        ]);
       };
     }
     if (feature.st && (Settings.esgst_st || id === 'esgst')) {
-      const value = (Settings.full[`${id}_st`] || shared.common.getFeaturePath(feature, id, 'st')).enabled;
+      const value = Settings[`${id}_st`];
       stContext = DOM.build([['div']]).firstElementChild;
       const stSwitch = new ToggleSwitch(stContext, null, true, 'SteamTrades', false, true, null, value);
       feature.stFeatureSwitch = stSwitch;
@@ -544,8 +526,7 @@ class SettingsModule {
         }
         if (feature.conflicts) {
           for (const conflictId of feature.conflicts) {
-            const setting = Settings.full[`${conflictId}_st`];
-            if (typeof setting === 'object' ? setting.enabled : setting) {
+            if (Settings[`${conflictId}_st`]) {
               stSwitch.disable(true);
               new Popup({
                 addScrollable: true,
@@ -568,9 +549,6 @@ class SettingsModule {
             shared.common.updateTheme(id);
           }
         }
-        DOM.build(document.querySelector('#esgst-paths-st'), 'inner', [
-          this.openPathsPopup(feature, id, 'st')
-        ]);
       };
       stSwitch.onDisabled = async () => {
         this.preSave(`${id}_st`, false);
@@ -586,13 +564,10 @@ class SettingsModule {
           }
           shared.common.setTheme();
         }
-        DOM.build(document.querySelector('#esgst-paths-st'), 'inner', [
-          this.openPathsPopup(feature, id, 'st')
-        ]);
       };
     }
     if (feature.sgtools && (Settings.esgst_sgtools || id === 'esgst')) {
-      const value = (Settings.full[`${id}_sgtools`] || shared.common.getFeaturePath(feature, id, 'sgtools')).enabled;
+      const value = Settings[`${id}_sgtools`];
       sgtoolsContext = DOM.build([['div']]).firstElementChild;
       const sgtoolsSwitch = new ToggleSwitch(sgtoolsContext, null, true, 'SGTools', true, false, null, value);
       feature.sgtoolsFeatureSwitch = sgtoolsSwitch;
@@ -604,8 +579,7 @@ class SettingsModule {
         }
         if (feature.conflicts) {
           for (const conflictId of feature.conflicts) {
-            const setting = Settings.full[`${conflictId}_sgtools`];
-            if (typeof setting === 'object' ? setting.enabled : setting) {
+            if (Settings[`${conflictId}_sgtools`]) {
               sgtoolsSwitch.disable(true);
               new Popup({
                 addScrollable: true,
@@ -628,9 +602,6 @@ class SettingsModule {
             shared.common.updateTheme(id);
           }
         }
-        DOM.build(document.querySelector('#esgst-paths-sgtools'), 'inner', [
-          this.openPathsPopup(feature, id, 'sgtools')
-        ]);
       };
       sgtoolsSwitch.onDisabled = async () => {
         this.preSave(`${id}_sgtools`, false);
@@ -646,9 +617,6 @@ class SettingsModule {
           }
           shared.common.setTheme();
         }
-        DOM.build(document.querySelector('#esgst-paths-sgtools'), 'inner', [
-          this.openPathsPopup(feature, id, 'sgtools')
-        ]);
       };
     }
     items.push({
@@ -689,39 +657,6 @@ class SettingsModule {
           ]]
         ],
         name: 'Sync Requirements'
-      });
-    }
-    if (feature.sg && (!feature.sgPaths || typeof feature.sgPaths !== 'string')) {
-      items.push({
-        check: true,
-        content: [
-          this.openPathsPopup(feature, id, 'sg')
-        ],
-        // @ts-ignore
-        id: 'esgst-paths-sg',
-        name: 'Where to run it on SteamGifts?'
-      });
-    }
-    if (feature.st && Settings.esgst_st && (!feature.stPaths || typeof feature.stPaths !== 'string')) {
-      items.push({
-        check: true,
-        content: [
-          this.openPathsPopup(feature, id, 'st')
-        ],
-        // @ts-ignore
-        id: 'esgst-paths-st',
-        name: 'Where to run it on SteamTrades?'
-      });
-    }
-    if (feature.sgtools && Settings.esgst_sgtools && (!feature.sgtoolsPaths || typeof feature.sgtoolsPaths !== 'string')) {
-      items.push({
-        check: true,
-        content: [
-          this.openPathsPopup(feature, id, 'sgtools')
-        ],
-        // @ts-ignore
-        id: 'esgst-paths-sgtools',
-        name: 'Where to run it on SGTools?'
       });
     }
     const context = document.querySelector('.esgst-settings-menu-feature');
@@ -1083,7 +1018,7 @@ class SettingsModule {
   }
 
   async resetElementOrdering(id, obj, obj_gv) {
-    this.preSave(id, shared.esgst.defaultValues[id]);
+    this.preSave(id, Settings.defaultValues[id]);
     shared.esgst.modules.giveaways.giveaways_reorder(obj);
     shared.esgst.modules.giveaways.giveaways_reorder(obj_gv);
     shared.common.reorderButtons(obj);
@@ -1128,177 +1063,6 @@ class SettingsModule {
     }
   }
 
-  openPathsPopup(feature, id, name) {
-    feature.id = id;
-    let obj = {
-      exclude: { extend: this.addPath.bind(this) },
-      excludeItems: [],
-      include: { extend: this.addPath.bind(this) },
-      includeItems: [],
-      name: name
-    };
-    const context = DOM.build([
-      ['div', { class: 'esgst-bold' }, [
-        `Run it here: `,
-        ['i', { class: 'fa fa-question-circle', title: `Select the places where you want the feature to run. If you cannot find the place you want, select "Custom" and enter the place manually (you have to use regular expressions).` }]
-      ]],
-      ['div', obj.include],
-      ['div', { class: 'esgst-button-group' }, [
-        new ButtonSet({
-          color1: 'grey',
-          color2: '',
-          icon1: 'fa-plus-circle',
-          icon2: '',
-          title1: 'Add New',
-          title2: '',
-          callback1: () => obj.include.extend(feature, 'include', obj, { enabled: 1, pattern: '' }, true)
-        }).set
-      ]],
-      ['div', { class: 'esgst-bold' }, [
-        `Do NOT run it here: `,
-        ['i', { class: 'fa fa-question-circle', title: `Select the places where you don't want the feature to run. If you cannot find the place you want, select "Custom" and enter the place manually (you have to use regular expressions).` }]
-      ]],
-      ['div', obj.exclude],
-      ['div', { class: 'esgst-button-group' }, [
-        new ButtonSet({
-          color1: 'grey',
-          color2: '',
-          icon1: 'fa-plus-circle',
-          icon2: '',
-          title1: 'Add New',
-          title2: '',
-          callback1: () => obj.exclude.extend(feature, 'exclude', obj, { enabled: 1, pattern: '' }, true)
-        }).set
-      ]]
-    ]);
-    obj.setting = Settings.full[`${id}_${obj.name}`] || shared.common.getFeaturePath(feature, id, obj.name);
-    obj.setting.include.forEach(path => obj.include.extend(feature, 'include', obj, path));
-    obj.setting.exclude.forEach(path => obj.exclude.extend(feature, 'exclude', obj, path));
-    return context;
-  }
-
-  addPath(context, feature, key, obj, path, userAdded) {
-    let item = {};
-    item.container = shared.common.createElements(context, 'beforeEnd', [{
-      type: 'div'
-    }]);
-    item.switch = new ToggleSwitch(item.container, null, true, '', false, false, null, path.enabled);
-    let found = false;
-    item.switch.onChange = () => {
-      this.savePaths(feature.id, obj);
-    };
-    item.select = DOM.build(item.container, 'beforeEnd', [
-      ['select', { class: 'esgst-switch-input esgst-switch-input-large' }, [
-        ...(shared.esgst.paths[obj.name].filter(x => !feature[`${obj.name}Paths`] || x.name === 'Everywhere' || x.name.match(feature[`${obj.name}Paths`])).map(x =>
-          ['option', Object.assign({ value: x.pattern }, x.pattern === path.pattern && (found = true) ? { selected: true } : null), x.name]
-        )),
-        feature[`${obj.name}Paths`] ? null : ['option', Object.assign({ value: 'custom' }, found ? null : { selected: true }), 'Custom']
-      ]]
-    ]);
-    item.input = DOM.build(item.container, 'beforeEnd', [
-      ['input', Object.assign({ class: 'esgst-switch-input esgst-switch-input-large', type: 'text' }, item.select.value === 'custom' ? null : { disabled: true })]
-    ]);
-    item.select.addEventListener('change', () => {
-      if (item.select.value === 'custom') {
-        item.input.disabled = false;
-        item.input.value = '';
-      } else {
-        item.input.disabled = true;
-        item.input.value = item.select.value;
-      }
-      this.savePaths(feature.id, obj);
-    });
-    item.input.value = path.pattern;
-    item.input.addEventListener('input', () => {
-      this.validatePathRegex(item);
-      this.savePaths(feature.id, obj);
-    });
-    shared.common.createElements(item.container, 'beforeEnd', [{
-      attributes: {
-        class: 'fa fa-times-circle esgst-clickable',
-        title: 'Remove'
-      },
-      type: 'i'
-    }]).addEventListener('click', () => this.removePath(feature, item, key, obj));
-    item.invalid = shared.common.createElements(item.container, 'beforeEnd', [{
-      attributes: {
-        class: 'fa fa-exclamation esgst-hidden esgst-red',
-        title: 'Invalid Regular Expression'
-      },
-      type: 'i'
-    }]);
-    obj[`${key}Items`].push(item);
-    if (key === 'include' && feature.includeOptions) {
-      item.options = [];
-      const optionsContainer = shared.common.createElements(item.container, 'beforeEnd', [{
-        attributes: {
-          class: 'esgst-form-row-indent'
-        },
-        type: 'div'
-      }]);
-      for (const option of feature.includeOptions) {
-        const optionObj = {
-          id: option.id,
-          switch: new ToggleSwitch(optionsContainer, null, true, option.name, false, false, null, !!(path.options && path.options[option.id]))
-        };
-        optionObj.switch.onChange = () => this.savePaths(feature.id, obj);
-        item.options.push(optionObj);
-      }
-    }
-    if (userAdded) {
-      this.savePaths(feature.id, obj);
-    }
-  }
-
-  removePath(feature, item, key, obj) {
-    let i = obj[`${key}Items`].length - 1;
-    if (i === 0 && key === 'include') {
-      window.alert('At least 1 place is required!');
-      return;
-    }
-    while (i > -1 && obj[`${key}Items`][i].input.value !== item.input.value) i--;
-    if (i > -1) {
-      obj[`${key}Items`].splice(i, 1);
-    }
-    item.container.remove();
-    this.savePaths(feature.id, obj);
-  }
-
-  validatePathRegex(item) {
-    item.invalid.classList.add('esgst-hidden');
-    try {
-      new RegExp(item.input.value);
-    } catch (error) {
-      Logger.warning(error.stack);
-      item.invalid.classList.remove('esgst-hidden');
-    }
-  }
-
-  async savePaths(id, obj) {
-    obj.setting.include = [];
-    obj.setting.exclude = [];
-    for (const item of obj.includeItems) {
-      const setting = {
-        enabled: item.switch.value ? 1 : 0,
-        pattern: item.input.value
-      };
-      if (item.options) {
-        setting.options = {};
-        for (const option of item.options) {
-          setting.options[option.id] = option.switch.value ? 1 : 0;
-        }
-      }
-      obj.setting.include.push(setting);
-    }
-    for (const item of obj.excludeItems) {
-      obj.setting.exclude.push({
-        enabled: item.switch.value ? 1 : 0,
-        pattern: item.input.value
-      });
-    }
-    this.preSave(`${id}_${obj.name}`, obj.setting);
-  }
-
   dismissNewOption(id, event) {
     event.currentTarget.remove();
     const dismissedOptions = Settings.dismissedOptions;
@@ -1335,7 +1099,7 @@ class SettingsModule {
     let sgContext, stContext, sgtoolsContext;
     let collapseButton, isExpanded, subMenu;
     if (feature.sg) {
-      const value = (Settings.full[`${id}_sg`] || shared.common.getFeaturePath(feature, id, 'sg')).enabled;
+      const value = Settings[`${id}_sg`];
       if (value) {
         isHidden = false;
       }
@@ -1350,8 +1114,7 @@ class SettingsModule {
         }
         if (feature.conflicts) {
           for (const conflictId of feature.conflicts) {
-            const setting = Settings.full[`${conflictId}_sg`];
-            if (typeof setting === 'object' ? setting.enabled : setting) {
+            if (Settings[`${conflictId}_sg`]) {
               sgSwitch.disable(true);
               new Popup({
                 addScrollable: true,
@@ -1401,7 +1164,7 @@ class SettingsModule {
       };
     }
     if (feature.st && (Settings.esgst_st || id === 'esgst')) {
-      const value = (Settings.full[`${id}_st`] || shared.common.getFeaturePath(feature, id, 'st')).enabled;
+      const value = Settings[`${id}_st`];
       if (value) {
         isHidden = false;
       }
@@ -1416,8 +1179,7 @@ class SettingsModule {
         }
         if (feature.conflicts) {
           for (const conflictId of feature.conflicts) {
-            const setting = Settings.full[`${conflictId}_st`];
-            if (typeof setting === 'object' ? setting.enabled : setting) {
+            if (Settings[`${conflictId}_st`]) {
               stSwitch.disable(true);
               new Popup({
                 addScrollable: true,
@@ -1467,7 +1229,7 @@ class SettingsModule {
       };
     }
     if (feature.sgtools && (Settings.esgst_sgtools || id === 'esgst')) {
-      const value = (Settings.full[`${id}_sgtools`] || shared.common.getFeaturePath(feature, id, 'sgtools')).enabled;
+      const value = Settings[`${id}_sgtools`];
       if (value) {
         isHidden = false;
       }
@@ -1482,8 +1244,7 @@ class SettingsModule {
         }
         if (feature.conflicts) {
           for (const conflictId of feature.conflicts) {
-            const setting = Settings.full[`${conflictId}_sgtools`];
-            if (typeof setting === 'object' ? setting.enabled : setting) {
+            if (Settings[`${conflictId}_sgtools`]) {
               sgtoolsSwitch.disable(true);
               new Popup({
                 addScrollable: true,
@@ -1614,7 +1375,7 @@ class SettingsModule {
   }
 
   resetColor(hexInput, alphaInput, id, colorId) {
-    const color = Utils.rgba2Hex(shared.esgst.defaultValues[`${id}_${colorId}`]);
+    const color = Utils.rgba2Hex(Settings.defaultValues[`${id}_${colorId}`]);
     hexInput.value = color.hex;
     alphaInput.value = color.alpha;
     this.preSave(`${id}_${colorId}`, Utils.hex2Rgba(hexInput.value, alphaInput.value));
@@ -2094,7 +1855,7 @@ class SettingsModule {
         ['div', { class: 'form__saving-button esgst-sm-colors-default', onclick: () => this.addUlMenuItem(id, panel) }, [
           ['span', 'Add Link']
         ]],
-        ['div', { class: 'form__saving-button esgst-sm-colors-default', onclick: () => { this.preSave(id, shared.esgst.defaultValues[id]); panel.firstElementChild.innerHTML = ''; this.addUlMenuItems(id, panel); } }, [
+        ['div', { class: 'form__saving-button esgst-sm-colors-default', onclick: () => { this.preSave(id, Settings.defaultValues[id]); panel.firstElementChild.innerHTML = ''; this.addUlMenuItems(id, panel); } }, [
           ['span', 'Reset']
         ]],
         ['div', { class: 'form__saving-button esgst-sm-colors-default', title: `This will merge your list with the default list, meaning that any new items in the default list will be added to your list. Also, if you previously deleted an item from the default list, it will come back.`, onclick: () => this.mergeValues(id, panel, this.addUlMenuItems.bind(this)) }, [
@@ -2128,7 +1889,7 @@ class SettingsModule {
 
   mergeValues(id, panel, callback) {
     const setting = Settings[id];
-    for (const item of shared.esgst.defaultValues[id]) {
+    for (const item of Settings.defaultValues[id]) {
       const itemString = JSON.stringify(item);
       if (!setting.filter(x => JSON.stringify(x) === itemString)[0]) {
         setting.push(item);
