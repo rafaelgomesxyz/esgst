@@ -6,6 +6,13 @@ class _Settings {
     this.settings = {};
 
     this.defaultValues = {
+      es_paused_g_sg: false,
+      es_paused_d_sg: false,
+      es_paused_c_sg: false,
+      es_paused_c_st: false,
+      es_paused_l_sg: false,
+      es_paused_l_st: false,
+      es_paused_t_st: false,
       es_g_sg: true,
       es_d_sg: true,
       es_c_sg: true,
