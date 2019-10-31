@@ -67,7 +67,7 @@ class UsersProfileLinks extends Module {
   }
 
   pl_add(profile) {
-    if (profile.username !== Settings.username) {
+    if (profile.username !== Settings.get('username')) {
       return;
     }
     const items = [];
@@ -142,7 +142,7 @@ class UsersProfileLinks extends Module {
       let enabled = false;
       const list = [];
       for (const item of section.items) {
-        if (!Settings[item.id]) {
+        if (!Settings.get(item.id)) {
           continue;
         }
         list.push({

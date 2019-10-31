@@ -122,7 +122,7 @@ class CommentsCollapseExpandReplyButton extends Module {
         }]), permalink && reply.contains(permalink), reply, replies.children);
       }
     }
-    if (Settings.cerb_a) {
+    if (Settings.get('cerb_a')) {
       this.cerb_collapseAllReplies(collapse, expand);
     }
   }
@@ -138,7 +138,7 @@ class CommentsCollapseExpandReplyButton extends Module {
     });
     collapse.addEventListener('click', this.cerb_collapseReplies.bind(this, collapse, expand, replies));
     expand.addEventListener('click', this.cerb_expandReplies.bind(this, collapse, expand, replies));
-    if (Settings.cerb_a && !permalink) {
+    if (Settings.get('cerb_a') && !permalink) {
       collapse.classList.toggle('esgst-hidden');
       expand.classList.toggle('esgst-hidden');
     }

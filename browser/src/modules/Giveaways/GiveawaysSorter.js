@@ -74,7 +74,7 @@ class GiveawaysGiveawaysSorter extends Module {
     if (obj.popout) return;
 
     obj.popout = new Popout('esgst-gas-popout', obj.button, 0, true);
-    new ToggleSwitch(obj.popout.popout, this.esgst.gas.autoKey, false, 'Auto Sort', false, false, 'Automatically sorts the giveaways by the selected option when loading the page.', Settings[this.esgst.gas.autoKey]);
+    new ToggleSwitch(obj.popout.popout, this.esgst.gas.autoKey, false, 'Auto Sort', false, false, 'Automatically sorts the giveaways by the selected option when loading the page.', Settings.get(this.esgst.gas.autoKey));
     const children = [{
       attributes: {
         value: 'sortIndex_asc'
@@ -122,7 +122,7 @@ class GiveawaysGiveawaysSorter extends Module {
           type: 'option'
         });
     }
-    if (Settings.gc && Settings.gc_r && !this.esgst.enteredPath) {
+    if (Settings.get('gc') && Settings.get('gc_r') && !this.esgst.enteredPath) {
       children.push({
         attributes: {
           value: 'rating_asc'
@@ -202,7 +202,7 @@ class GiveawaysGiveawaysSorter extends Module {
         text: 'Entries - Descending',
         type: 'option'
       });
-    if (Settings.gwc) {
+    if (Settings.get('gwc')) {
       children.push({
         attributes: {
           value: 'chance_asc'
@@ -228,7 +228,7 @@ class GiveawaysGiveawaysSorter extends Module {
           text: 'Chance Per Point - Descending',
           type: 'option'
         });
-      if (Settings.gwc_a) {
+      if (Settings.get('gwc_a')) {
         children.push({
           attributes: {
             value: 'projectedChance_asc'
@@ -256,7 +256,7 @@ class GiveawaysGiveawaysSorter extends Module {
           });
       }
     }
-    if (Settings.gwr) {
+    if (Settings.get('gwr')) {
       children.push({
         attributes: {
           value: 'ratio_asc'
@@ -270,7 +270,7 @@ class GiveawaysGiveawaysSorter extends Module {
           text: 'Ratio - Descending',
           type: 'option'
         });
-      if (Settings.gwr_a) {
+      if (Settings.get('gwr_a')) {
         children.push({
           attributes: {
             value: 'projectedRatio_asc'
@@ -286,7 +286,7 @@ class GiveawaysGiveawaysSorter extends Module {
           });
       }
     }
-    if (Settings.gptw) {
+    if (Settings.get('gptw')) {
       children.push({
         attributes: {
           value: 'pointsToWin_asc'
@@ -305,7 +305,7 @@ class GiveawaysGiveawaysSorter extends Module {
       type: 'select',
       children
     }]);
-    options.value = Settings[this.esgst.gas.optionKey];
+    options.value = Settings.get(this.esgst.gas.optionKey);
     let callback = () => saveAndSortContent(this.esgst.currentScope.giveaways, this.esgst.gas.optionKey, options);
     options.addEventListener('change', callback);
     obj.popout.popout.appendChild(new ButtonSet({

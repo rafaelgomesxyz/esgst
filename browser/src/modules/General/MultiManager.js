@@ -99,7 +99,7 @@ class GeneralMultiManager extends Module {
     this.esgst.mm_enable = this.mm_enable.bind(this, obj);
     this.esgst.mm_disable = this.mm_disable.bind(this, obj);
     obj.button.addEventListener('click', this.mm_openPopout.bind(this, obj, items, itemsKey));
-    if (Settings.mm_enableGames) {
+    if (Settings.get('mm_enableGames')) {
       this.esgst.gameFeatures.push(this.mm_getGames.bind(this));
     }
   }
@@ -147,7 +147,7 @@ class GeneralMultiManager extends Module {
         }]
       }]);
       obj.counterElements[key] = heading.lastElementChild;
-      let toggleSwitch = new ToggleSwitch(heading.firstElementChild, `mm_enable${key}`, true, '', false, false, null, Settings[`mm_enable${key}`]);
+      let toggleSwitch = new ToggleSwitch(heading.firstElementChild, `mm_enable${key}`, true, '', false, false, null, Settings.get(`mm_enable${key}`));
       toggleSwitch.onEnabled = this.mm_enable.bind(this, obj, itemsKey === key ? items : null, key);
       toggleSwitch.onDisabled = this.mm_disable.bind(this, obj, itemsKey === key ? items : null, key);
       this.mm_setSection(obj, createElements(obj.sections, 'beforeEnd', [{
@@ -156,7 +156,7 @@ class GeneralMultiManager extends Module {
       if (this.esgst.sg) {
         heading.addEventListener('click', this.mm_changeActiveSection.bind(this, obj, i));
       }
-      if (Settings[`mm_enable${key}`]) {
+      if (Settings.get(`mm_enable${key}`)) {
         activeIndex = i;
       }
     });
@@ -355,7 +355,7 @@ class GeneralMultiManager extends Module {
             title1: 'Replace', title2: ''
           },
           {
-            check: Settings.gf && Settings.gf_s,
+            check: Settings.get('gf') && Settings.get('gf_s'),
             color1: 'green', color2: 'grey',
             icon1: 'fa-eye-slash', icon2: 'fa-circle-o-notch fa-spin',
             title1: 'Hide', title2: '',
@@ -363,21 +363,21 @@ class GeneralMultiManager extends Module {
             callback1: this.mm_hideGiveaways.bind(this, obj, items)
           },
           {
-            check: Settings.gb,
+            check: Settings.get('gb'),
             color1: 'green', color2: 'grey',
             icon1: 'fa-bookmark', icon2: 'fa-circle-o-notch fa-spin',
             title1: 'Bookmark', title2: '',
             callback1: this.mm_bookmarkGiveaways.bind(this, obj, items)
           },
           {
-            check: Settings.gb,
+            check: Settings.get('gb'),
             color1: 'green', color2: 'grey',
             icon1: 'fa-bookmark-o', icon2: 'fa-circle-o-notch fa-spin',
             title1: 'Unbookmark', title2: '',
             callback1: this.mm_unbookmarkGiveaways.bind(this, obj, items)
           },
           {
-            check: Settings.ttec,
+            check: Settings.get('ttec'),
             color1: 'green', color2: 'grey',
             icon1: 'fa-clock-o', icon2: 'fa-circle-o-notch fa-spin',
             title1: 'Calculate', title2: '',
@@ -386,7 +386,7 @@ class GeneralMultiManager extends Module {
         ],
         [
           {
-            check: Settings.ged,
+            check: Settings.get('ged'),
             color1: 'green', color2: 'grey',
             icon1: 'fa-puzzle-piece', icon2: 'fa-circle-o-notch fa-spin',
             title1: 'Encrypted', title2: '',
@@ -398,7 +398,7 @@ class GeneralMultiManager extends Module {
         [],
         [
           {
-            check: Settings.df && Settings.df_s,
+            check: Settings.get('df') && Settings.get('df_s'),
             color1: 'green', color2: 'grey',
             icon1: 'fa-eye-slash', icon2: 'fa-circle-o-notch fa-spin',
             title1: 'Hide', title2: '',
@@ -420,14 +420,14 @@ class GeneralMultiManager extends Module {
             callback1: this.mm_unbookmarkDiscussions.bind(this, obj, items)
           },
           {
-            check: Settings.gdttt,
+            check: Settings.get('gdttt'),
             color1: 'green', color2: 'grey',
             icon1: 'fa-check', icon2: 'fa-circle-o-notch fa-spin',
             title1: 'Visit', title2: '',
             callback1: this.mm_visitDiscussions.bind(this, obj, items)
           },
           {
-            check: Settings.gdttt,
+            check: Settings.get('gdttt'),
             color1: 'green', color2: 'grey',
             icon1: 'fa-times', icon2: 'fa-circle-o-notch fa-spin',
             title1: 'Unvisit', title2: '',
@@ -440,14 +440,14 @@ class GeneralMultiManager extends Module {
         [],
         [
           {
-            check: Settings.ut,
+            check: Settings.get('ut'),
             color1: 'green', color2: 'grey',
             icon1: 'fa-tags', icon2: 'fa-circle-o-notch fa-spin',
             title1: 'Tag', title2: '',
             callback1: this.esgst.modules.usersUserTags.tags_openMmPopup.bind(this.esgst.modules.usersUserTags, obj, items)
           },
           {
-            check: Settings.wbc,
+            check: Settings.get('wbc'),
             color1: 'green', color2: 'grey',
             icon1: 'fa-question-circle', icon2: 'fa-circle-o-notch fa-spin',
             title1: 'Check WL/BL', title2: '',
@@ -455,7 +455,7 @@ class GeneralMultiManager extends Module {
             callback1: this.mm_selectWbcUsers.bind(this, obj, items, 'wbc')
           },
           {
-            check: Settings.usc,
+            check: Settings.get('usc'),
             color1: 'green', color2: 'grey',
             icon1: 'fa-question-circle', icon2: 'fa-circle-o-notch fa-spin',
             title1: 'Check Susp.', title2: '',
@@ -469,7 +469,7 @@ class GeneralMultiManager extends Module {
         [],
         [
           {
-            check: Settings.gt,
+            check: Settings.get('gt'),
             color1: 'green', color2: 'grey',
             icon1: 'fa-tags', icon2: 'fa-circle-o-notch fa-spin',
             title1: 'Tag', title2: '',
@@ -497,7 +497,7 @@ class GeneralMultiManager extends Module {
         [],
         [
           {
-            check: Settings.gpt,
+            check: Settings.get('gpt'),
             color1: 'green', color2: 'grey',
             icon1: 'fa-tags', icon2: 'fa-circle-o-notch fa-spin',
             title1: 'Tag', title2: '',
@@ -688,7 +688,7 @@ class GeneralMultiManager extends Module {
         type: 'textarea'
       }]
     }]).firstElementChild;
-    if (Settings.cfh) {
+    if (Settings.get('cfh')) {
       this.esgst.modules.commentsCommentFormattingHelper.cfh_addPanel(obj[`textArea${key}`]);
     }
     obj[`message${key}`] = createElements(context, 'beforeEnd', [{
@@ -853,7 +853,7 @@ class GeneralMultiManager extends Module {
 
   async mm_getSearchReplaceUrlRequest(obj, details, response, responseHtml) {
     let replaceValue, searchValue;
-    if (Settings.mm_useRegExp) {
+    if (Settings.get('mm_useRegExp')) {
       try {
         let parts = obj.popup.getTextInputValue(0).match(/^\/(.+)\/(.*)$/);
         searchValue = new RegExp(parts[1], parts[2]);
@@ -870,7 +870,7 @@ class GeneralMultiManager extends Module {
       name = obj.items[obj.index].name,
       url = obj.items[obj.index].url;
     if (description) {
-      let match = Settings.mm_useRegExp ? description.value.match(searchValue) : description.value.includes(searchValue);
+      let match = Settings.get('mm_useRegExp') ? description.value.match(searchValue) : description.value.includes(searchValue);
       if (match) {
         const idContext = description.previousElementSibling;
         let responseJson = JSON.parse((await request({
@@ -1059,7 +1059,7 @@ class GeneralMultiManager extends Module {
         visited: true,
         lastUsed: Date.now()
       };
-      if (Settings.ct_s) {
+      if (Settings.get('ct_s')) {
         newItems[item.code].count = item.count;
       }
       item.gdtttButton.callbacks[0]();
@@ -1097,7 +1097,7 @@ class GeneralMultiManager extends Module {
   }
 
   async mm_hideGames(obj, items) {
-    if (Settings.permissionsDenied.indexOf('revadike') < 0) {
+    if (Settings.get('permissionsDenied').indexOf('revadike') < 0) {
       await permissions.requestUi([['revadike']], 'mm', false, true);
     }
 

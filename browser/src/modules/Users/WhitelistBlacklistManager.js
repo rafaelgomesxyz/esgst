@@ -68,11 +68,11 @@ class UsersWhitelistBlacklistManager extends Module {
   wbm_openPopup(wbm) {
     if (!wbm.popup) {
       wbm.popup = new Popup({ addScrollable: true, icon: 'fa-gear', title: `Manage ${wbm.name}:` });
-      new ToggleSwitch(wbm.popup.description, 'wbm_useCache', false, 'Use cache.', false, false, `Uses the cache created the last time you synced your whitelist/blacklist. This speeds up the process, but could lead to incomplete results if your cache isn't up-to-date.`, Settings.wbm_useCache);
+      new ToggleSwitch(wbm.popup.description, 'wbm_useCache', false, 'Use cache.', false, false, `Uses the cache created the last time you synced your whitelist/blacklist. This speeds up the process, but could lead to incomplete results if your cache isn't up-to-date.`, Settings.get('wbm_useCache'));
       new ToggleSwitch(wbm.popup.description, 'wbm_clearTags', false, [
         `Only clear users who are tagged with these specific tags (separate with comma): `,
-        ['input', { class: 'esgst-switch-input esgst-switch-input-large', type: 'text', value: Settings.wbm_tags.join(`, `) }]
-      ], false, false, 'Uses the User Tags database to remove only users with the specified tags.', Settings.wbm_clearTags).name.firstElementChild.addEventListener('change', event => {
+        ['input', { class: 'esgst-switch-input esgst-switch-input-large', type: 'text', value: Settings.get('wbm_tags').join(`, `) }]
+      ], false, false, 'Uses the User Tags database to remove only users with the specified tags.', Settings.get('wbm_clearTags')).name.firstElementChild.addEventListener('change', event => {
         const element = event.currentTarget;
         let tags = element.value.replace(/(,\s*)+/g, formatTags).split(`, `);
         setSetting('wbm_tags', tags);
@@ -206,7 +206,7 @@ class UsersWhitelistBlacklistManager extends Module {
 
   async wbm_exportList(wbm, list, nextPage, callback) {
     if (wbm.isCanceled) return;
-    if (Settings.wbm_useCache) {
+    if (Settings.get('wbm_useCache')) {
       let steamId;
       for (steamId in Shared.esgst.users.users) {
         if (Shared.esgst.users.users.hasOwnProperty(steamId)) {
@@ -250,16 +250,16 @@ class UsersWhitelistBlacklistManager extends Module {
 
   async wbm_clearList(wbm, list, nextPage, callback) {
     if (wbm.isCanceled) return;
-    if (Settings.wbm_useCache) {
+    if (Settings.get('wbm_useCache')) {
       let steamId;
       for (steamId in Shared.esgst.users.users) {
         if (Shared.esgst.users.users.hasOwnProperty(steamId)) {
           let user = Shared.esgst.users.users[steamId];
           if (user[`${wbm.key}ed`]) {
-            if (Settings.wbm_clearTags) {
+            if (Settings.get('wbm_clearTags')) {
               if (user.tags) {
                 let i;
-                for (i = user.tags.length - 1; i > -1 && Settings.wbm_tags.indexOf(user.tags[i]) < 0; --i) {
+                for (i = user.tags.length - 1; i > -1 && Settings.get('wbm_tags').indexOf(user.tags[i]) < 0; --i) {
                 }
                 if (i > -1) {
                   list.push(user.id);
@@ -292,7 +292,7 @@ class UsersWhitelistBlacklistManager extends Module {
       elements = responseHtml.querySelectorAll(`[name="child_user_id"]`);
       for (i = 0, n = elements.length; i < n; ++i) {
         element = elements[i];
-        if (Settings.wbm_clearTags) {
+        if (Settings.get('wbm_clearTags')) {
           let steamId, username;
           username = element.closest('.table__row-inner-wrap').getElementsByClassName('table__column__heading')[0].textContent;
           steamId = Shared.esgst.users.steamIds[username];
@@ -300,7 +300,7 @@ class UsersWhitelistBlacklistManager extends Module {
             let user = Shared.esgst.users.users[steamId];
             if (user.tags) {
               let j;
-              for (j = user.tags.length - 1; j > -1 && Settings.wbm_tags.indexOf(user.tags[j]) < 0; --j) {
+              for (j = user.tags.length - 1; j > -1 && Settings.get('wbm_tags').indexOf(user.tags[j]) < 0; --j) {
               }
               if (j > -1) {
                 list.push(element.value);

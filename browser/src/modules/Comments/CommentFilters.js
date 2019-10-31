@@ -103,7 +103,7 @@ class CommentsCommentFilters extends Filters {
   }
 
   async init() {
-    if (Settings.cf_m && (Shared.esgst.commentsPath || Shared.common.isCurrentPath('Messages'))) {
+    if (Settings.get('cf_m') && (Shared.esgst.commentsPath || Shared.common.isCurrentPath('Messages'))) {
       if (!Shared.esgst.hasAddedFilterContainer) {
         Shared.esgst.style.insertAdjacentText("beforeend", `
           .esgst-gf-container {

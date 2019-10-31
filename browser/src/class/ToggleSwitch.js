@@ -56,7 +56,7 @@ class ToggleSwitch {
       } else if (this.st) {
         key += '_st';
       }
-      setting = Settings[key];
+      setting = Settings.get(key);
       if (typeof setting === 'undefined' || !setting.include) {
         setting = this.value;
       } else {

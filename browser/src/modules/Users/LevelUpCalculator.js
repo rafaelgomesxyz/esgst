@@ -39,7 +39,7 @@ class UsersLevelUpCalculator extends Module {
       const cvRounded = Math.round(profile.realSentCV);
       if (cvRounded < value) {
         DOM.build(profile.levelRowRight, 'beforeEnd', [
-          ['span', { class: 'esgst-luc-value', title: Shared.common.getFeatureTooltip('luc') }, `(${Settings.luc_c ? `${profile.level} / ` : ''}~$${Shared.common.round(value - cvRounded)} real CV to level ${index})`]
+          ['span', { class: 'esgst-luc-value', title: Shared.common.getFeatureTooltip('luc') }, `(${Settings.get('luc_c') ? `${profile.level} / ` : ''}~$${Shared.common.round(value - cvRounded)} real CV to level ${index})`]
         ]);
         break;
       }

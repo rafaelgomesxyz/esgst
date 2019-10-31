@@ -44,9 +44,9 @@ class DropboxStorage extends ICloudStorage {
     }
     const requestOptions = {
       data,
-      fileName: Settings.backupZip ? `${fileName}.json` : null,
+      fileName: Settings.get('backupZip') ? `${fileName}.json` : null,
       headers: Object.assign(DropboxStorage.getDefaultHeaders(token), {
-        'Dropbox-API-Arg': Settings.backupZip ? `{"path": "/${fileName}.zip"}` : `{"path": "/${fileName}.json"}`,
+        'Dropbox-API-Arg': Settings.get('backupZip') ? `{"path": "/${fileName}.zip"}` : `{"path": "/${fileName}.json"}`,
         'Content-Type': 'application/octet-stream'
       })
     };

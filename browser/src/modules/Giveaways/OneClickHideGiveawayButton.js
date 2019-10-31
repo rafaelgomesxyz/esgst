@@ -102,7 +102,7 @@ class GiveawaysOneClickHideGiveawayButton extends Module {
 
   ochgb_completeProcess(giveaway, key, main) {
     if (main && this.esgst.giveawayPath) return;
-    if (Settings.ochgb_f) {
+    if (Settings.get('ochgb_f')) {
       for (let i = 0, n = this.esgst.currentScope.giveaways.length; i < n; i++) {
         if (this.esgst.currentScope.giveaways[i].gameId === giveaway.gameId) {
           this.esgst.currentScope.giveaways[i][key]();

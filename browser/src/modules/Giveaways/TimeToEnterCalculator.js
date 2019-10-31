@@ -43,7 +43,7 @@ class GiveawaysTimeToEnterCalculator extends Module {
       giveaways.forEach(giveaway => {
         if (!giveaway.ended && !giveaway.entered && giveaway.points > Session.counters.points) {
           if (!giveaway.ttec) {
-            giveaway.ttec = createElements(giveaway.panel, (Settings.gv && ((main && this.esgst.giveawaysPath) || (source === 'gb' && Settings.gv_gb) || (source === 'ged' && Settings.gv_ged) || (source === 'ge' && Settings.gv_ge))) ? 'beforeEnd' : 'afterBegin', [{
+            giveaway.ttec = createElements(giveaway.panel, (Settings.get('gv') && ((main && this.esgst.giveawaysPath) || (source === 'gb' && Settings.get('gv_gb')) || (source === 'ged' && Settings.get('gv_ged')) || (source === 'ge' && Settings.get('gv_ge')))) ? 'beforeEnd' : 'afterBegin', [{
               attributes: {
                 class: `${this.esgst.giveawayPath ? 'featured__column' : ''} esgst-ttec`,
                 ['data-draggable-id']: 'ttec',

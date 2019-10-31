@@ -47,8 +47,8 @@ class CommentsCommentVariables extends Module {
 
   replaceVariables(obj) {
     obj.comment = obj.comment
-      .replace(this.getRegExp('username'), Settings.username)
-      .replace(this.getRegExp('steamId'), Settings.steamId);    
+      .replace(this.getRegExp('username'), Settings.get('username'))
+      .replace(this.getRegExp('steamId'), Settings.get('steamId'));    
     const creatorElement = document.querySelector(`.featured__column--width-fill.text-right a, .comment__username, .author_name`);
     if (creatorElement) {
       const creator = creatorElement.textContent;
@@ -65,7 +65,7 @@ class CommentsCommentVariables extends Module {
   }
 
   getRegExp(key) {
-    return new RegExp(Settings[`cv_${key}`], 'gi');
+    return new RegExp(Settings.get(`cv_${key}`), 'gi');
   }
 }
 

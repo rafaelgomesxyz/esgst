@@ -126,13 +126,13 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
   }
 
   init() {
-    if (Shared.common.isCurrentPath('My Giveaways - Created') && Settings.cewgd_c) {
+    if (Shared.common.isCurrentPath('My Giveaways - Created') && Settings.get('cewgd_c')) {
       this.currentId = 'cewgd_c';
       this.created = true;
-    } else if (Shared.common.isCurrentPath('My Giveaways - Entered') && Settings.cewgd_e) {
+    } else if (Shared.common.isCurrentPath('My Giveaways - Entered') && Settings.get('cewgd_e')) {
       this.currentId = 'cewgd_e';
       this.entered = true;
-    } else if (Shared.common.isCurrentPath('My Giveaways - Won') && Settings.cewgd_w) {
+    } else if (Shared.common.isCurrentPath('My Giveaways - Won') && Settings.get('cewgd_w')) {
       this.currentId = 'cewgd_w';
       this.won = true;
     }
@@ -156,22 +156,22 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
       return;
     }
     const items = [];
-    if (Settings[`${this.currentId}_t`]) {
+    if (Settings.get(`${this.currentId}_t`)) {
       items.push(
         ['div', { class: 'table__column--width-small text-center esgst-cewgd-heading' }, 'Type']
       );
     }
-    if (Settings[`${this.currentId}_l`]) {
+    if (Settings.get(`${this.currentId}_l`)) {
       items.push(
         ['div', { class: 'table__column--width-small text-center esgst-cewgd-heading' }, 'Level']
       );
     }
-    if (this.created && Settings[`${this.currentId}_w`]) {
+    if (this.created && Settings.get(`${this.currentId}_w`)) {
       items.push(
         ['div', { class: 'table__column--width-small text-center esgst-cewgd-heading' }, `Winner(s)`]
       );
     }
-    if (this.won && Settings[`${this.currentId}_e`]) {
+    if (this.won && Settings.get(`${this.currentId}_e`)) {
       items.push(
         ['div', { class: 'table__column--width-small text-center esgst-cewgd-heading' }, 'Entries']
       );
@@ -191,10 +191,10 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
     }
     await Promise.all(promises);
     await Shared.common.lockAndSaveGiveaways(this.giveaways);
-    if (main && Shared.esgst.gf && Shared.esgst.gf.filteredCount && Settings[`gf_enable${Shared.esgst.gf.type}`]) {
+    if (main && Shared.esgst.gf && Shared.esgst.gf.filteredCount && Settings.get(`gf_enable${Shared.esgst.gf.type}`)) {
       Shared.esgst.modules.giveawaysGiveawayFilters.filters_filter(Shared.esgst.gf);
     }
-    if (!main && Shared.esgst.gfPopup && Shared.esgst.gfPopup.filteredCount && Settings[`gf_enable${Shared.esgst.gfPopup.type}`]) {
+    if (!main && Shared.esgst.gfPopup && Shared.esgst.gfPopup.filteredCount && Settings.get(`gf_enable${Shared.esgst.gfPopup.type}`)) {
       Shared.esgst.modules.giveawaysGiveawayFilters.filters_filter(Shared.esgst.gfPopup);
     }
   }
@@ -207,7 +207,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
     }
     if ((this.created || this.won) && shouldUpdateWinners) {
       await this.fetchWinners(giveaway, now);
-    } else if (now - ((details && details.lastUpdate) || 0) <= 604800000 && (giveaway.deleted || (details && details.gameSteamId && (!this.won || details.creator !== Settings.username)))) {
+    } else if (now - ((details && details.lastUpdate) || 0) <= 604800000 && (giveaway.deleted || (details && details.gameSteamId && (!this.won || details.creator !== Settings.get('username'))))) {
       this.addDetails(giveaway, details);
     } else {
       await this.fetchDetails(giveaway, now);
@@ -310,12 +310,12 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
     }
 
     const headingItems = [];
-    if (Settings[`${this.currentId}_p`]) {
+    if (Settings.get(`${this.currentId}_p`)) {
       headingItems.push(
         ['span', ` (${details ? giveaway.points || 0 : '?'}P)`]
       );
     }
-    if (giveaway.id && Settings[`${this.currentId}_sl`]) {
+    if (giveaway.id && Settings.get(`${this.currentId}_sl`)) {
       headingItems.push(
         ['a', { class: 'giveaway__icon', href: `http://store.steampowered.com/${giveaway.type.slice(0, -1)}/${giveaway.id}`, target: '_blank' }, [
           ['i', { class: 'fa fa-steam'}]
@@ -379,7 +379,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
     }
 
     const columnItems = [];
-    if (Settings[`${this.currentId}_t`]) {
+    if (Settings.get(`${this.currentId}_t`)) {
       let type;
       if (giveaway.deleted) {
         type = 'Deleted'
@@ -420,12 +420,12 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
         ['div', { class: 'table__column--width-small text-center' }, type]
       );
     }
-    if (Settings[`${this.currentId}_l`]) {
+    if (Settings.get(`${this.currentId}_l`)) {
       columnItems.push(
         ['div', { class: 'table__column--width-small text-center' }, details && Utils.isSet(giveaway.level) ? giveaway.level : '-']
       );
     }
-    if (this.created && Settings[`${this.currentId}_w`]) {
+    if (this.created && Settings.get(`${this.currentId}_w`)) {
       let winners;
       const numWinners = (details && details.winners && details.winners.length) || 0;
       if (numWinners > 0) {
@@ -453,7 +453,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
         ['div', { class: 'table__column--width-small text-center' }, winners]
       );
     }
-    if (this.won && Settings[`${this.currentId}_e`]) {
+    if (this.won && Settings.get(`${this.currentId}_e`)) {
       columnItems.push(
         ['div', { class: 'table__column--width-small text-center' }, details && Utils.isSet(giveaway.entries) ? giveaway.entries : '-']
       );
@@ -468,10 +468,10 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
     if (giveaway.gptwContext) {
       Shared.esgst.modules.giveawaysGiveawayPointsToWin.gptw_addPoint(giveaway);
     }
-    if (Settings.cgb) {
+    if (Settings.get('cgb')) {
       Shared.esgst.modules.giveawaysCustomGiveawayBackground.color([giveaway]);
     }
-    if (giveaway.group && Settings.cl && Settings.ggl) {
+    if (giveaway.group && Settings.get('cl') && Settings.get('ggl')) {
       Shared.esgst.modules.generalContentLoader.loadGiveawayGroups(true, 'ggl', [giveaway]);
     }
   }

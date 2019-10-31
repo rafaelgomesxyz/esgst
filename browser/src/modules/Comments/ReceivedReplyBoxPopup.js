@@ -44,7 +44,7 @@ class CommentsReceivedReplyBoxPopup extends Module {
     textArea = Shared.common.createElements(popup.scrollable, 'beforeEnd', [{
       type: 'textarea'
     }]);
-    if (Settings.cfh) {
+    if (Settings.get('cfh')) {
       Shared.esgst.modules.commentsCommentFormattingHelper.cfh_addPanel(textArea);
     }
     popup.description.appendChild(new ButtonSet({

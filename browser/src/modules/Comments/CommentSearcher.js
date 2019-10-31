@@ -47,9 +47,9 @@ class CommentsCommentSearcher extends Module {
             check: true,
             description: [
               `Limit search by pages, from `,
-              ['input', { class: 'esgst-switch-input', min: 'i', name: 'cs_minPage', type: 'number', value: Settings.cs_minPage }],
+              ['input', { class: 'esgst-switch-input', min: 'i', name: 'cs_minPage', type: 'number', value: Settings.get('cs_minPage') }],
               ' to ',
-              ['input', { class: 'esgst-switch-input', min: 'i', name: 'cs_maxPage', type: 'number', value: Settings.cs_maxPage }],
+              ['input', { class: 'esgst-switch-input', min: 'i', name: 'cs_maxPage', type: 'number', value: Settings.get('cs_maxPage') }],
               '.'
             ],
             id: 'cs_limitPages',
@@ -80,9 +80,9 @@ class CommentsCommentSearcher extends Module {
     obj.type = match[1];
     obj.title = Shared.esgst.originalTitle.replace(/\s-\sPage\s\d+/, '');
     obj.results = 0;
-    if (Settings.cs_limitPages) {
-      obj.requests[0].nextPage = Settings.cs_minPage;
-      obj.requests[0].maxPage = Settings.cs_maxPage;
+    if (Settings.get('cs_limitPages')) {
+      obj.requests[0].nextPage = Settings.get('cs_minPage');
+      obj.requests[0].maxPage = Settings.get('cs_maxPage');
     }
   }
 

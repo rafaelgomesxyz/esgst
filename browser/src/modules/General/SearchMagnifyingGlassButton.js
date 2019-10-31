@@ -32,7 +32,7 @@ class GeneralSearchMagnifyingGlassButton extends Module {
       button.addEventListener('click', () => {
         let value = input.value.trim();
         if (value) {
-          if (Settings.as && value.match(/"|id:/)) {
+          if (Settings.get('as') && value.match(/"|id:/)) {
             this.esgst.modules.giveawaysArchiveSearcher.as_openPage(input);
           } else {
             window.location.href = `${this.esgst.searchUrl.replace(/page=/, '')}q=${value}`;

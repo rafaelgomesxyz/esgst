@@ -67,10 +67,10 @@ class UsersUserGiveawayData extends Module {
   }
 
   init() {
-    if (Settings.ugd_s) {
+    if (Settings.get('ugd_s')) {
       Shared.esgst.profileFeatures.push(this.ugd_addStats.bind(this));
     }
-    if (Settings.ugd_g) {
+    if (Settings.get('ugd_g')) {
       Shared.esgst.profileFeatures.push(this.ugd_addGifts.bind(this));
     }
   }
@@ -100,7 +100,7 @@ class UsersUserGiveawayData extends Module {
       ['div', { class: 'esgst-ugd featured__table__row', title: getFeatureTooltip('ugd') }, [
         ['div', { class: 'featured__table__row__left' }, [
           'Won Games Playtime > ',
-          ['input', { class: 'esgst-ugd-input', min: '0', step: '0.1', type: 'number', value: Settings.ugd_playtime }],
+          ['input', { class: 'esgst-ugd-input', min: '0', step: '0.1', type: 'number', value: Settings.get('ugd_playtime') }],
           ' hours'
         ]],
         ['div', { class: 'featured__table__row__right' }]
@@ -108,7 +108,7 @@ class UsersUserGiveawayData extends Module {
       ['div', { class: 'esgst-ugd featured__table__row', title: getFeatureTooltip('ugd') }, [
         ['div', { class: 'featured__table__row__left' }, [
           'Won Games Achievements > ',
-          ['input', { class: 'esgst-ugd-input', max: '100', min: '0', step: '0.1', type: 'number', value: Settings.ugd_achievements }],
+          ['input', { class: 'esgst-ugd-input', max: '100', min: '0', step: '0.1', type: 'number', value: Settings.get('ugd_achievements') }],
           ' %'
         ]],
         ['div', { class: 'featured__table__row__right' }]
@@ -131,12 +131,12 @@ class UsersUserGiveawayData extends Module {
   }
 
   ugd_calculatePlaytime(playtimeDisplay, playtimeInput, ugdCache, firstRun) {
-    Settings['ugd_playtime'] = parseFloat(playtimeInput.value);
+    Settings.set('ugd_playtime', parseFloat(playtimeInput.value));
     let playtimes = 0;
     for (const key in ugdCache.playtimes) {
       if (ugdCache.playtimes.hasOwnProperty(key)) {
         const playtime = ugdCache.playtimes[key];
-        if ((playtime[1] / 60) > Settings.ugd_playtime) {
+        if ((playtime[1] / 60) > Settings.get('ugd_playtime')) {
           playtimes += 1;
         }
       }
@@ -144,17 +144,17 @@ class UsersUserGiveawayData extends Module {
     const totalPlaytimes = Object.keys(ugdCache.playtimes).length;
     playtimeDisplay.textContent = `${playtimes}/${totalPlaytimes} (${totalPlaytimes > 0 ? Math.round(playtimes / totalPlaytimes * 10000) / 100 : 0}%)`;
     if (!firstRun) {
-      setSetting('ugd_playtime', Settings.ugd_playtime);
+      setSetting('ugd_playtime', Settings.get('ugd_playtime'));
     }
   }
 
   ugd_calculateAchievements(achievementsDisplay, achievementsInput, ugdCache, firstRun) {
-    Settings['ugd_achievements'] = parseFloat(achievementsInput.value);
+    Settings.set('ugd_achievements', parseFloat(achievementsInput.value));
     let achievements = 0;
     for (const key in ugdCache.achievements) {
       if (ugdCache.achievements.hasOwnProperty(key)) {
         const achievement = ugdCache.achievements[key];
-        if (parseFloat(achievement.match(/\((.+?)%\)/)[1]) > Settings.ugd_achievements) {
+        if (parseFloat(achievement.match(/\((.+?)%\)/)[1]) > Settings.get('ugd_achievements')) {
           achievements += 1;
         }
       }
@@ -162,16 +162,16 @@ class UsersUserGiveawayData extends Module {
     const totalAchievements = Object.keys(ugdCache.achievements).length;
     achievementsDisplay.textContent = `${achievements}/${totalAchievements} (${totalAchievements > 0 ? Math.round(achievements / totalAchievements * 10000) / 100 : 0}%)`;
     if (!firstRun) {
-      setSetting('ugd_achievements', Settings.ugd_achievements);
+      setSetting('ugd_achievements', Settings.get('ugd_achievements'));
     }
   }
 
   ugd_addGifts(profile) {
-    if (profile.username === Settings.username) {
+    if (profile.username === Settings.get('username')) {
       return;
     }
 
-    const savedUser = Shared.esgst.users.users[Settings.steamId];
+    const savedUser = Shared.esgst.users.users[Settings.get('steamId')];
 
     if (!savedUser) {
       return;
@@ -294,7 +294,7 @@ class UsersUserGiveawayData extends Module {
       ],
       id: 'ugd',
       permissions: {
-        steamApi: () => key === 'won' && (Settings.ugd_getPlaytime || Settings.ugd_getAchievements),
+        steamApi: () => key === 'won' && (Settings.get('ugd_getPlaytime') || Settings.get('ugd_getAchievements')),
         steamStore: () => true
       }
     };
@@ -310,7 +310,7 @@ class UsersUserGiveawayData extends Module {
     const savedUser = await getUser(null, obj.user);
     obj.ugdCache = savedUser && savedUser.ugdCache;
     obj.userGiveaways = await this.ugd_getUserGiveaways(savedUser);
-    if (obj.popup && Settings.ugd_clearCache) {
+    if (obj.popup && Settings.get('ugd_clearCache')) {
       obj.userGiveaways[obj.key] = null;
       if (obj.key === 'won') {
         obj.ugdCache = null;
@@ -417,7 +417,7 @@ class UsersUserGiveawayData extends Module {
       const endTime = giveaway.endTime;
 
       // giveaway has not ended yet or does not have winners, so cannot store it
-      if ((endTime >= currentTime || giveaway.numWinners < 1) && (obj.user.username !== Settings.username || obj.key !== 'sent')) {
+      if ((endTime >= currentTime || giveaway.numWinners < 1) && (obj.user.username !== Settings.get('username') || obj.key !== 'sent')) {
         continue;
       }
 
@@ -433,7 +433,7 @@ class UsersUserGiveawayData extends Module {
 
       let id = giveaway.gameSteamId;
       if (!id) {
-        if (obj.user.username === Settings.username && obj.key === 'sent') {
+        if (obj.user.username === Settings.get('username') && obj.key === 'sent') {
           const response = await common.request({ method: 'GET', url: `/giveaway/${giveaway.code}/` });
           const responseHtml = DOM.parse(response.responseText);
           giveaway = (await Shared.esgst.modules.giveaways.giveaways_get(responseHtml, false, response.finalUrl))[0];
@@ -567,7 +567,7 @@ class UsersUserGiveawayData extends Module {
       obj.lists.username = {
         name: [
           'Winners',
-          obj.user.username === Settings.username
+          obj.user.username === Settings.get('username')
             ? null
             : ['i', { class: 'fa fa-question-circle', title: 'This list might not be 100% accurate if the user has giveaways for more than 3 copies that you cannot access.' }]
         ],
@@ -671,8 +671,8 @@ class UsersUserGiveawayData extends Module {
 
     if (
       obj.key !== 'won' ||
-      (!Settings.ugd_getPlaytime && !Settings.ugd_getAchievements) ||
-      !Settings.steamApiKey
+      (!Settings.get('ugd_getPlaytime') && !Settings.get('ugd_getAchievements')) ||
+      !Settings.get('steamApiKey')
     ) {
       await this.ugd_complete(obj, results);
       await saveUser(null, null, obj.user);
@@ -692,10 +692,10 @@ class UsersUserGiveawayData extends Module {
         'Gifter'
       ]
     ]);
-    if (!Settings.ugd_getPlaytime) {
+    if (!Settings.get('ugd_getPlaytime')) {
       obj.playtimeTable.hideColumns(2, 3);
     }
-    if (!Settings.ugd_getAchievements) {
+    if (!Settings.get('ugd_getAchievements')) {
       obj.playtimeTable.hideColumns(4);
     }
 
@@ -704,9 +704,9 @@ class UsersUserGiveawayData extends Module {
     if (
       !obj.ugdCache ||
       (currentTime - obj.ugdCache.lastCheck) > 604800000 ||
-      (Settings.ugd_getPlaytime && !Object.keys(obj.ugdCache.playtimes).length) ||
-      (Settings.ugd_getAchievements && !Object.keys(obj.ugdCache.achievements).length) ||
-      Settings.ugd_forceUpdate
+      (Settings.get('ugd_getPlaytime') && !Object.keys(obj.ugdCache.playtimes).length) ||
+      (Settings.get('ugd_getAchievements') && !Object.keys(obj.ugdCache.achievements).length) ||
+      Settings.get('ugd_forceUpdate')
     ) {
       obj.isUpdating = true;
       if (!obj.ugdCache) {
@@ -719,13 +719,13 @@ class UsersUserGiveawayData extends Module {
     }
 
     obj.playtimes = null;
-    if (Settings.ugd_getPlaytime && obj.isUpdating) {
+    if (Settings.get('ugd_getPlaytime') && obj.isUpdating) {
       obj.popup.setProgress('Retrieving playtime stats...');
       obj.ugdCache.playtimes = {};
       try {
         const response = await request({
           method: 'GET',
-          url: `https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${Settings.steamApiKey}&steamid=${obj.user.steamId}&format=json`
+          url: `https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${Settings.get('steamApiKey')}&steamid=${obj.user.steamId}&format=json`
         });
         const responseText = response.responseText;
         obj.playtimes = JSON.parse(responseText).response.games;
@@ -737,7 +737,7 @@ class UsersUserGiveawayData extends Module {
         return;
       }
     }
-    if (Settings.ugd_getAchievements && obj.isUpdating) {
+    if (Settings.get('ugd_getAchievements') && obj.isUpdating) {
       obj.ugdCache.achievements = {};
     }
 
@@ -799,7 +799,7 @@ class UsersUserGiveawayData extends Module {
 
     results.appendChild(obj.playtimeTable.table);
     const items = [];
-    if (Settings.ugd_getPlaytime) {
+    if (Settings.get('ugd_getPlaytime')) {
       items.push({
         attributes: {
           class: 'esgst-bold'
@@ -808,7 +808,7 @@ class UsersUserGiveawayData extends Module {
         type: 'div'
       });
     }
-    if (Settings.ugd_getAchievements) {
+    if (Settings.get('ugd_getAchievements')) {
       items.push({
         attributes: {
           class: 'esgst-bold'
@@ -845,7 +845,7 @@ class UsersUserGiveawayData extends Module {
     let timeForever = '0';
     let achievementsAttributes = null;
     let achievements = '?';
-    if (Settings.ugd_getPlaytime && (i > -1 || obj.ugdCache.playtimes[appId])) {
+    if (Settings.get('ugd_getPlaytime') && (i > -1 || obj.ugdCache.playtimes[appId])) {
       if (obj.isUpdating) {
         const game = obj.playtimes[i];
         timestamp2Weeks = game.playtime_2weeks || 0;
@@ -871,7 +871,7 @@ class UsersUserGiveawayData extends Module {
     }
     let count = 0;
     let total = 0;
-    if (Settings.ugd_getAchievements) {
+    if (Settings.get('ugd_getAchievements')) {
       let achievementsData = obj.ugdCache && obj.ugdCache.achievements[appId];
       if (obj.isUpdating) {
         obj.popup.setProgress(`Retrieving achievement stats for ${giveaway.gameName || packageId} (${packageId ? `${obj.subsTotal} packages` : obj.appsTotal} left)...`);

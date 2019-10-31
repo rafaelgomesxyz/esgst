@@ -81,7 +81,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 
       let glwc = {}, parameters;
       glwc.container = Shared.esgst.sidebar.nextElementSibling;
-      if (Settings.removeSidebarInFeaturePages) {
+      if (Settings.get('removeSidebarInFeaturePages')) {
         Shared.esgst.sidebar.remove();
       }
       glwc.container.innerHTML = '';
@@ -195,7 +195,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
       glwc.memberCount = 0;
       // noinspection JSIgnoredPromiseFromCall
 
-      if (Settings.glwc_gn) {
+      if (Settings.get('glwc_gn')) {
         await Shared.esgst.modules.tradesHaveWantListChecker.hwlc_getGames(true);
       }
 
@@ -220,7 +220,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
           glwc.users[i].library = [];
           let elements = JSON.parse((await request({
             method: 'GET',
-            url: `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${Settings.steamApiKey}&steamid=${glwc.users[i].steamId}&format=json`
+            url: `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${Settings.get('steamApiKey')}&steamid=${glwc.users[i].steamId}&format=json`
           })).responseText).response.games;
           if (elements) {
             elements.forEach(element => {

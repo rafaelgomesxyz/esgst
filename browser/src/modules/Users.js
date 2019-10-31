@@ -128,7 +128,7 @@ class Users extends Module {
         this.esgst.uscButton.classList.remove('esgst-hidden');
         this.esgst.uscButton.parentElement.classList.remove('esgst-hidden');
       }
-      if (Settings.mm_enableUsers && this.esgst.mm_enable) {
+      if (Settings.get('mm_enableUsers') && this.esgst.mm_enable) {
         this.esgst.mm_enable(this.esgst.currentScope.users, 'Users');
       }
     }

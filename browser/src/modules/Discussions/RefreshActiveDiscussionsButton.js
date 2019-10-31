@@ -34,7 +34,7 @@ class DiscussionsRefreshActiveDiscussionsButton extends Module {
     for (i = elements.length - 1; i > -1; --i) {
       createElements(elements[i], 'beforeBegin', [{
         attributes: {
-          class: `esgst-radb-button${Settings.oadd ? '' : ' homepage_heading'}`,
+          class: `esgst-radb-button${Settings.get('oadd') ? '' : ' homepage_heading'}`,
           title: getFeatureTooltip('radb', 'Refresh active discussions/deals')
         },
         type: 'div',
@@ -47,7 +47,7 @@ class DiscussionsRefreshActiveDiscussionsButton extends Module {
       }]).addEventListener('click', event => {
         let icon = event.currentTarget.firstElementChild;
         icon.classList.add('fa-spin');
-        if (Settings.oadd) {
+        if (Settings.get('oadd')) {
           // noinspection JSIgnoredPromiseFromCall
           this.esgst.modules.discussionsOldActiveDiscussionsDesign.oadd_load(true, () => {
             icon.classList.remove('fa-spin');

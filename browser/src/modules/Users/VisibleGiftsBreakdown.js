@@ -48,10 +48,10 @@ class UsersVisibleGiftsBreakdown extends Module {
   }
 
   vgb_add(profile) {
-    const position = Settings.vgb_index === 0 ? 'afterBegin' : 'beforeEnd';
+    const position = Settings.get('vgb_index') === 0 ? 'afterBegin' : 'beforeEnd';
     DOM.build(profile.wonRowRight.firstElementChild.firstElementChild, position, [
       ` ${
-        Settings.vgb_wonFormat
+        Settings.get('vgb_wonFormat')
           .replace(/\[FCV]/, profile.wonFull)
           .replace(/\[RCV]/, profile.wonReduced)
           .replace(/\[NCV]/, profile.wonZero)
@@ -60,7 +60,7 @@ class UsersVisibleGiftsBreakdown extends Module {
     ]);
     DOM.build(profile.sentRowRight.firstElementChild.firstElementChild, position, [
       ` ${
-        Settings.vgb_sentFormat
+        Settings.get('vgb_sentFormat')
           .replace(/\[FCV]/, profile.sentFull)
           .replace(/\[RCV]/, profile.sentReduced)
           .replace(/\[NCV]/, profile.sentZero)

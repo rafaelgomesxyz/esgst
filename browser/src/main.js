@@ -294,19 +294,21 @@ window.interact = interact;
     Settings.init();
 
     if (Utils.isSet(esgst.storage.filterPresets)) {
-      const presets = Settings.gf_presets.concat(
+      const presets = Settings.get('gf_presets').concat(
         esgst.modules.giveawaysGiveawayFilters.filters_convert(JSON.parse(esgst.storage.filterPresets))
       );
-      Settings.gf_presets = esgst.settings.gf_presets = presets;
+      Settings.set('gf_presets', presets);
+      esgst.settings.gf_presets = presets;
       esgst.settingsChanged = true;
       toSet.old_gf_presets = esgst.storage.filterPresets;
       toDelete.push('filterPresets');
     }
     if (Utils.isSet(esgst.storage.dfPresets)) {
-      const presets = Settings.df_presets.concat(
+      const presets = Settings.get('df_presets').concat(
         esgst.modules.giveawaysGiveawayFilters.filters_convert(JSON.parse(esgst.storage.dfPresets))
       );
-      Settings.df_presets = esgst.settings.df_presets = presets;
+      Settings.set('df_presets', presets);
+      esgst.settings.df_presets = presets;
       esgst.settingsChanged = true;
       toSet.old_df_presets = esgst.storage.dfPresets;
       toDelete.push('dfPresets');
@@ -329,9 +331,9 @@ window.interact = interact;
       {id: 'uf_s_s', side: 'left'},
       {id: 'gmf', side: 'left'}
     ].forEach(item => {
-      if (Settings.leftButtonIds.indexOf(item.id) < 0 && Settings.rightButtonIds.indexOf(item.id) < 0 && Settings.leftMainPageHeadingIds.indexOf(item.id) < 0 && Settings.rightMainPageHeadingIds.indexOf(item.id) < 0) {
-        Settings[`${item.side}MainPageHeadingIds`].push(item.id);
-        esgst.settings[`${item.side}MainPageHeadingIds`] = Settings[`${item.side}MainPageHeadingIds`];
+      if (Settings.get('leftButtonIds').indexOf(item.id) < 0 && Settings.get('rightButtonIds').indexOf(item.id) < 0 && Settings.get('leftMainPageHeadingIds').indexOf(item.id) < 0 && Settings.get('rightMainPageHeadingIds').indexOf(item.id) < 0) {
+        Settings.get(`${item.side}MainPageHeadingIds`).push(item.id);
+        esgst.settings[`${item.side}MainPageHeadingIds`] = Settings.get(`${item.side}MainPageHeadingIds`);
         esgst.settingsChanged = true;
       }
     });
@@ -351,106 +353,107 @@ window.interact = interact;
       delete esgst.settings.groups;
       esgst.settingsChanged = true;
     }
-    if (Settings.gc_categories_ids && Settings.gc_categories_ids.indexOf('gc_f') < 0) {
-      Settings.gc_categories_ids.push('gc_f');
-      esgst.settings.gc_categories_ids = Settings.gc_categories_ids;
+    if (Settings.get('gc_categories_ids') && Settings.get('gc_categories_ids').indexOf('gc_f') < 0) {
+      Settings.get('gc_categories_ids').push('gc_f');
+      esgst.settings.gc_categories_ids = Settings.get('gc_categories_ids');
       esgst.settingsChanged = true;
     }
-    if (Settings.gc_categories_ids && Settings.gc_categories_ids.indexOf('gc_bvg') < 0) {
-      Settings.gc_categories_ids.push('gc_bvg');
-      esgst.settings.gc_categories_ids = Settings.gc_categories_ids;
+    if (Settings.get('gc_categories_ids') && Settings.get('gc_categories_ids').indexOf('gc_bvg') < 0) {
+      Settings.get('gc_categories_ids').push('gc_bvg');
+      esgst.settings.gc_categories_ids = Settings.get('gc_categories_ids');
       esgst.settingsChanged = true;
     }
-    if (Settings.gc_categories_ids && Settings.gc_categories_ids.indexOf('gc_bd') < 0) {
-      Settings.gc_categories_ids.push('gc_bd');
-      esgst.settings.gc_categories_ids = Settings.gc_categories_ids;
+    if (Settings.get('gc_categories_ids') && Settings.get('gc_categories_ids').indexOf('gc_bd') < 0) {
+      Settings.get('gc_categories_ids').push('gc_bd');
+      esgst.settings.gc_categories_ids = Settings.get('gc_categories_ids');
       esgst.settingsChanged = true;
     }
     ['gc_categories', 'gc_categories_gv', 'gc_categories_ids'].forEach(key => {
-      if (!Settings[key]) {
+      if (!Settings.get(key)) {
         return;
       }
-      let bkpLength = Settings[key].length;
-      Settings[key] = Array.from(new Set(Settings[key]));
-      if (bkpLength !== Settings[key].length) {
-        esgst.settings[key] = Settings[key];
+      let bkpLength = Settings.get(key).length;
+      Settings.set(key, Array.from(new Set(Settings.get(key))));
+      if (bkpLength !== Settings.get(key).length) {
+        esgst.settings[key] = Settings.get(key);
         esgst.settingsChanged = true;
       }
     });
-    if (Settings.elementOrdering !== '1') {
-      const oldLeftButtonIds = JSON.stringify(Settings.leftButtonIds);
-      const oldRightButtonIds = JSON.stringify(Settings.rightButtonIds);
-      const oldLeftMainPageHeadingIds = JSON.stringify(Settings.leftMainPageHeadingIds);
-      const oldRightMainPageHeadingIds = JSON.stringify(Settings.rightMainPageHeadingIds);
-      if (Settings.leftButtonIds) {
-        for (let i = Settings.leftButtonIds.length - 1; i > -1; i--) {
-          const id = Settings.leftButtonIds[i];
-          if (!Settings[`hideButtons_${id}_sg`]) {
-            if (Settings.leftMainPageHeadingIds) {
-              Settings.leftMainPageHeadingIds.push(id);
+    if (Settings.get('elementOrdering') !== '1') {
+      const oldLeftButtonIds = JSON.stringify(Settings.get('leftButtonIds'));
+      const oldRightButtonIds = JSON.stringify(Settings.get('rightButtonIds'));
+      const oldLeftMainPageHeadingIds = JSON.stringify(Settings.get('leftMainPageHeadingIds'));
+      const oldRightMainPageHeadingIds = JSON.stringify(Settings.get('rightMainPageHeadingIds'));
+      if (Settings.get('leftButtonIds')) {
+        for (let i = Settings.get('leftButtonIds').length - 1; i > -1; i--) {
+          const id = Settings.get('leftButtonIds')[i];
+          if (!Settings.get(`hideButtons_${id}_sg`)) {
+            if (Settings.get('leftMainPageHeadingIds')) {
+              Settings.get('leftMainPageHeadingIds').push(id);
             }
-            Settings.leftButtonIds.splice(i, 1);
-          } else if (Settings.rightButtonsIds && Settings.rightButtonIds.indexOf(id) > -1) {
-            Settings.leftButtonIds.splice(i, 1);
+            Settings.get('leftButtonIds').splice(i, 1);
+          } else if (Settings.get('rightButtonsIds') && Settings.get('rightButtonIds').indexOf(id) > -1) {
+            Settings.get('leftButtonIds').splice(i, 1);
           }
         }
       }
-      if (Settings.rightButtonIds) {
-        for (let i = Settings.rightButtonIds.length - 1; i > -1; i--) {
-          const id = Settings.rightButtonIds[i];
-          if (!Settings[`hideButtons_${id}_sg`]) {
-            if (Settings.rightMainPageHeadingIds) {
-              Settings.rightMainPageHeadingIds.push(id);
+      if (Settings.get('rightButtonIds')) {
+        for (let i = Settings.get('rightButtonIds').length - 1; i > -1; i--) {
+          const id = Settings.get('rightButtonIds')[i];
+          if (!Settings.get(`hideButtons_${id}_sg`)) {
+            if (Settings.get('rightMainPageHeadingIds')) {
+              Settings.get('rightMainPageHeadingIds').push(id);
             }
-            Settings.rightButtonIds.splice(i, 1);
-          } else if (Settings.rightButtonIds && Settings.rightButtonIds.indexOf(id) > -1) {
-            Settings.rightButtonIds.splice(i, 1);
+            Settings.get('rightButtonIds').splice(i, 1);
+          } else if (Settings.get('rightButtonIds') && Settings.get('rightButtonIds').indexOf(id) > -1) {
+            Settings.get('rightButtonIds').splice(i, 1);
           }
         }
       }
-      if (Settings.leftMainPageHeadingIds) {
-        for (let i = Settings.leftMainPageHeadingIds.length - 1; i > -1; i--) {
-          const id = Settings.leftMainPageHeadingIds[i];
-          if (!Settings[`hideButtons_${id}_sg`]) {
-            if (Settings.leftButtonIds) {
-              Settings.leftButtonIds.push(id);
+      if (Settings.get('leftMainPageHeadingIds')) {
+        for (let i = Settings.get('leftMainPageHeadingIds').length - 1; i > -1; i--) {
+          const id = Settings.get('leftMainPageHeadingIds')[i];
+          if (!Settings.get(`hideButtons_${id}_sg`)) {
+            if (Settings.get('leftButtonIds')) {
+              Settings.get('leftButtonIds').push(id);
             }
-            Settings.leftMainPageHeadingIds.splice(i, 1);
-          } else if (Settings.rightMainPageHeadingIds && Settings.rightMainPageHeadingIds.indexOf(id) > -1) {
-            Settings.leftMainPageHeadingIds.splice(i, 1);
+            Settings.get('leftMainPageHeadingIds').splice(i, 1);
+          } else if (Settings.get('rightMainPageHeadingIds') && Settings.get('rightMainPageHeadingIds').indexOf(id) > -1) {
+            Settings.get('leftMainPageHeadingIds').splice(i, 1);
           }
         }
       }
-      if (Settings.rightMainPageHeadingIds) {
-        for (let i = Settings.rightMainPageHeadingIds.length - 1; i > -1; i--) {
-          const id = Settings.rightMainPageHeadingIds[i];
-          if (!Settings[`hideButtons_${id}_sg`]) {
-            if (Settings.rightButtonIds) {
-              Settings.rightButtonIds.push(id);
+      if (Settings.get('rightMainPageHeadingIds')) {
+        for (let i = Settings.get('rightMainPageHeadingIds').length - 1; i > -1; i--) {
+          const id = Settings.get('rightMainPageHeadingIds')[i];
+          if (!Settings.get(`hideButtons_${id}_sg`)) {
+            if (Settings.get('rightButtonIds')) {
+              Settings.get('rightButtonIds').push(id);
             }
-            Settings.rightMainPageHeadingIds.splice(i, 1);
-          } else if (Settings.leftMainPageHeadingIds && Settings.leftMainPageHeadingIds.indexOf(id) > -1) {
-            Settings.rightMainPageHeadingIds.splice(i, 1);
+            Settings.get('rightMainPageHeadingIds').splice(i, 1);
+          } else if (Settings.get('leftMainPageHeadingIds') && Settings.get('leftMainPageHeadingIds').indexOf(id) > -1) {
+            Settings.get('rightMainPageHeadingIds').splice(i, 1);
           }
         }
       }
-      Settings.leftButtonIds = Array.from(new Set(Settings.leftButtonIds));
-      Settings.rightButtonIds = Array.from(new Set(Settings.rightButtonIds));
-      Settings.leftMainHeadingIds = Array.from(new Set(Settings.leftMainPageHeadingIds));
-      Settings.rightMainHeadingIds = Array.from(new Set(Settings.rightMainPageHeadingIds));
-      if (oldLeftButtonIds !== JSON.stringify(Settings.leftButtonIds)) {
-        esgst.settings.leftButtonIds = Settings.leftButtonIds;
+      Settings.set('leftButtonIds', Array.from(new Set(Settings.get('leftButtonIds'))));
+      Settings.set('rightButtonIds', Array.from(new Set(Settings.get('rightButtonIds'))));
+      Settings.set('leftMainHeadingIds', Array.from(new Set(Settings.get('leftMainPageHeadingIds'))));
+      Settings.set('rightMainHeadingIds', Array.from(new Set(Settings.get('rightMainPageHeadingIds'))));
+      if (oldLeftButtonIds !== JSON.stringify(Settings.get('leftButtonIds'))) {
+        esgst.settings.leftButtonIds = Settings.get('leftButtonIds');
       }
-      if (oldRightButtonIds !== JSON.stringify(Settings.rightButtonIds)) {
-        esgst.settings.rightButtonIds = Settings.rightButtonIds;
+      if (oldRightButtonIds !== JSON.stringify(Settings.get('rightButtonIds'))) {
+        esgst.settings.rightButtonIds = Settings.get('rightButtonIds');
       }
-      if (oldLeftMainPageHeadingIds !== JSON.stringify(Settings.leftMainHeadingIds)) {
-        esgst.settings.leftMainPageHeadingIds = Settings.leftMainHeadingIds;
+      if (oldLeftMainPageHeadingIds !== JSON.stringify(Settings.get('leftMainHeadingIds'))) {
+        esgst.settings.leftMainPageHeadingIds = Settings.get('leftMainHeadingIds');
       }
-      if (oldRightMainPageHeadingIds !== JSON.stringify(Settings.rightMainHeadingIds)) {
-        esgst.settings.rightMainPageHeadingIds = Settings.rightMainHeadingIds;
+      if (oldRightMainPageHeadingIds !== JSON.stringify(Settings.get('rightMainHeadingIds'))) {
+        esgst.settings.rightMainPageHeadingIds = Settings.get('rightMainHeadingIds');
       }
-      Settings.elementOrdering = esgst.settings.elementOrdering = '1';
+      Settings.set('elementOrdering', '1');
+      esgst.settings.elementOrdering = '1';
       esgst.settingsChanged = true;
     }
     if (document.readyState === 'loading') {
@@ -469,14 +472,14 @@ window.interact = interact;
       esgst.headerSize = 39;
       esgst.footerSize = 44;
     } else {
-      if (Settings.fh) {
+      if (Settings.get('fh')) {
         esgst.headerSize = 231;
       }
-      esgst.headerSize = Settings.fh ? 231 : 454;
-      esgst.footerSize = Settings.ff ? 44 : 64;
+      esgst.headerSize = Settings.get('fh') ? 231 : 454;
+      esgst.footerSize = Settings.get('ff') ? 44 : 64;
     }
-    esgst.pageTop = Settings.fh ? esgst.headerSize : 5;
-    esgst.commentsTop = esgst.pageTop + (Settings.fmph ? esgst.mainPageHeadingSize : 0) + 10;
+    esgst.pageTop = Settings.get('fh') ? esgst.headerSize : 5;
+    esgst.commentsTop = esgst.pageTop + (Settings.get('fmph') ? esgst.mainPageHeadingSize : 0) + 10;
 
     addStyle();
 
@@ -538,14 +541,14 @@ window.interact = interact;
     // now that all values are set esgst can begin to load
 
     /* [URLR] URL Redirector */
-    if (Settings.urlr && window.location.pathname.match(/^\/(giveaway|discussion|support\/ticket|trade)\/.{5}$/)) {
+    if (Settings.get('urlr') && window.location.pathname.match(/^\/(giveaway|discussion|support\/ticket|trade)\/.{5}$/)) {
       window.location.href = `${window.location.href}/`;
     }
 
     for (const key in esgst.paths) {
       for (const item of esgst.paths[key]) {
         item.pattern = item.pattern
-          .replace(/%steamId%/, Settings.steamId);
+          .replace(/%steamId%/, Settings.get('steamId'));
       }
     }
 
@@ -589,7 +592,7 @@ window.interact = interact;
       return;
     }
 
-    if (esgst.st && !Settings.esgst_st) {
+    if (esgst.st && !Settings.get('esgst_st')) {
       // esgst is not enabled for steamtrades
       return;
     }
@@ -599,10 +602,10 @@ window.interact = interact;
       // noinspection JSIgnoredPromiseFromCall
       common.checkSync();
     }
-    if (Settings.autoBackup) {
+    if (Settings.get('autoBackup')) {
       common.checkBackup();
     }
-    if (esgst.profilePath && Settings.autoSync) {
+    if (esgst.profilePath && Settings.get('autoSync')) {
       const el = document.getElementsByClassName('form__sync-default')[0];
       if (el) {
         el.addEventListener('click', () => runSilentSync(`Games=1&Groups=1`));

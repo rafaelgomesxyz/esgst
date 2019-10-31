@@ -113,7 +113,7 @@ class DiscussionsImprovedDiscussionBookmarks extends Module {
       if (discussion.bookmarked) {
         await this.bookmarkDiscussion(null, context);
 
-        if (Settings.idb_t && main && Shared.esgst.discussionsPath) {
+        if (Settings.get('idb_t') && main && Shared.esgst.discussionsPath) {
           discussion.outerWrap.parentElement.insertBefore(discussion.outerWrap, discussion.outerWrap.parentElement.firstElementChild);
           discussion.isPinned = true;
         }

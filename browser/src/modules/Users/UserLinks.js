@@ -29,7 +29,7 @@ class UsersUserLinks extends Module {
     const iconRegex = /^fa-(.+?)($|\s)/;
     const imageRegex = /^(https?:\/\/.+?)($|\s)/;
     const textRegex = /^(.+?)($|\s(fa-|https?:\/\/))/;
-    for (const link of Settings.ul_links) {
+    for (const link of Settings.get('ul_links')) {
       const children = [];
       let label = link.label;
       while (label) {

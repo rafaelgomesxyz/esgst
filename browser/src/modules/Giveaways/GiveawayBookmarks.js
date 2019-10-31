@@ -104,7 +104,7 @@ class GiveawaysGiveawayBookmarks extends Module {
     // noinspection JSIgnoredPromiseFromCall
     this.gb_addButton(button);
 
-    if (Settings.gb_ue && this.esgst.enterGiveawayButton) {
+    if (Settings.get('gb_ue') && this.esgst.enterGiveawayButton) {
       this.esgst.enterGiveawayButton.onclick = () => {
         let giveaway = this.esgst.scopes.main.giveaways[0];
         if (giveaway && giveaway.gbButton) {
@@ -112,7 +112,7 @@ class GiveawaysGiveawayBookmarks extends Module {
             // noinspection JSIgnoredPromiseFromCall
             giveaway.gbButton.change(giveaway.gbButton.callbacks[2]);
           }
-          if (!Settings.gb_se) {
+          if (!Settings.get('gb_se')) {
             giveaway.gbButton.button.classList.add('esgst-hidden');
           }
         }
@@ -131,7 +131,7 @@ class GiveawaysGiveawayBookmarks extends Module {
   gb_addButton(button) {
     let i, n;
     let bookmarked = [], endingSoon = 1, started = 0, ending = 0;
-    if (Settings.gb_h && button) {
+    if (Settings.get('gb_h') && button) {
       button.nodes.outer.classList.add('esgst-gb-highlighted');
     }
     const toSave = {};
@@ -145,7 +145,7 @@ class GiveawaysGiveawayBookmarks extends Module {
           }
           if (Date.now() >= giveaway.endTime || !giveaway.endTime) {
             if (giveaway.started) {
-              if (Settings.gb_u) {
+              if (Settings.get('gb_u')) {
                 delete giveaway.bookmarked;
                 toSave[key] = { bookmarked: null };
               } else {
@@ -154,14 +154,14 @@ class GiveawaysGiveawayBookmarks extends Module {
             } else {
               bookmarked.push(giveaway);
               ++started;
-              if (Settings.gb_h && button) {
+              if (Settings.get('gb_h') && button) {
                 button.nodes.outer.classList.add('started');
               }
             }
           } else {
             bookmarked.push(giveaway);
             if (giveaway.started) {
-              endingSoon = giveaway.endTime - Date.now() - (Settings.gb_hours * 3600000);
+              endingSoon = giveaway.endTime - Date.now() - (Settings.get('gb_hours') * 3600000);
               if (endingSoon <= 0) {
                 ++ending;
               }
@@ -207,14 +207,14 @@ class GiveawaysGiveawayBookmarks extends Module {
       }
       if (button) {
         button.nodes.outer.classList.remove('esgst-hidden');
-        if (Settings.gb_h && ending > 0) {
+        if (Settings.get('gb_h') && ending > 0) {
           button.nodes.outer.classList.add('ending');
         }
       }
     }
     if (Shared.common.isCurrentPath('Account') && this.esgst.parameters.esgst === 'gb') {
       const context = this.esgst.sidebar.nextElementSibling;
-      if (Settings.removeSidebarInFeaturePages) {
+      if (Settings.get('removeSidebarInFeaturePages')) {
         this.esgst.sidebar.remove();
       }
       context.innerHTML = '';
@@ -239,7 +239,7 @@ class GiveawaysGiveawayBookmarks extends Module {
     }
     if (button) {
       button.nodes.outer.addEventListener('click', () => {
-        if (Settings.gb_t) {
+        if (Settings.get('gb_t')) {
           window.open(`https://www.steamgifts.com/account/settings/profile?esgst=gb`);
         } else {
           const popup = new Popup({
@@ -290,7 +290,7 @@ class GiveawaysGiveawayBookmarks extends Module {
             i = value;
             if (i > n) {
               set.set.remove();
-            } else if (Settings.es_gb && context.scrollHeight <= context.offsetHeight) {
+            } else if (Settings.get('es_gb') && context.scrollHeight <= context.offsetHeight) {
               set.trigger();
             }
             resolve();
@@ -327,25 +327,25 @@ class GiveawaysGiveawayBookmarks extends Module {
         type: 'node'
       }]
     }]);
-    if (Settings.gas || (Settings.gf && Settings.gf_m) || Settings.mm) {
+    if (Settings.get('gas') || (Settings.get('gf') && Settings.get('gf_m')) || Settings.get('mm')) {
       let heading = createElements(context, 'beforeBegin', [{
         attributes: {
           class: 'page__heading'
         },
         type: 'div'
       }]);
-      if (Settings.gas) {
+      if (Settings.get('gas')) {
         this.esgst.modules.giveawaysGiveawaysSorter.init(heading);
       }
-      if (Settings.gf && Settings.gf_m) {
+      if (Settings.get('gf') && Settings.get('gf_m')) {
         heading.appendChild(this.esgst.modules.giveawaysGiveawayFilters.filters_addContainer(heading, 'Gb'));
       }
-      if (Settings.mm) {
+      if (Settings.get('mm')) {
         this.esgst.modules.generalMultiManager.mm(heading);
       }
     }
     set.trigger();
-    if (Settings.es_gb) {
+    if (Settings.get('es_gb')) {
       context.addEventListener('scroll', () => {
         if ((context.scrollTop + context.offsetHeight) >= context.scrollHeight && !set.busy) {
           set.trigger();
@@ -571,7 +571,7 @@ class GiveawaysGiveawayBookmarks extends Module {
             window.setTimeout(() => this.gb_loadGiveaways(++i, n, bookmarked, gbGiveaways, info, popup, callback), 0);
           }
         } else {
-          if (Settings.gb_ui) {
+          if (Settings.get('gb_ui')) {
             let deleteLock = await createLock('giveawayLock', 300);
             let giveaways = JSON.parse(getValue('giveaways'));
             if (giveaways[bookmarked[i].code]) {
@@ -593,7 +593,7 @@ class GiveawaysGiveawayBookmarks extends Module {
   gb_getGiveaways(giveaways, main) {
     giveaways.forEach(giveaway => {
       if (main && this.esgst.wonPath) return;
-      if ((!main || !this.esgst.archivePath) && giveaway.creator !== Settings.username && giveaway.url && !giveaway.gbButton) {
+      if ((!main || !this.esgst.archivePath) && giveaway.creator !== Settings.get('username') && giveaway.url && !giveaway.gbButton) {
         giveaway.gbButton = new Button(giveaway.headingName, 'beforeBegin', {
           callbacks: [this.gb_bookmarkGiveaway.bind(this, giveaway, main), null, this.gb_unbookmarkGiveaway.bind(this, giveaway, main), null],
           className: 'esgst-gb-button',
@@ -603,7 +603,7 @@ class GiveawaysGiveawayBookmarks extends Module {
           titles: ['Bookmark giveaway', 'Bookmarking giveaway...', 'Unbookmark giveaway', 'Unbookmarking giveaway...']
         });
         giveaway.gbButton.button.setAttribute('data-draggable-id', 'gb');
-        if ((giveaway.entered || (this.esgst.enteredPath && main)) && !Settings.gb_se) {
+        if ((giveaway.entered || (this.esgst.enteredPath && main)) && !Settings.get('gb_se')) {
           giveaway.gbButton.button.classList.add('esgst-hidden');
         }
       }

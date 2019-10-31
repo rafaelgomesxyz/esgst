@@ -118,7 +118,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
   }
 
   init() {
-    if (Settings.namwc_h) {
+    if (Settings.get('namwc_h')) {
       Shared.esgst.userFeatures.push(this.namwc_getUsers.bind(this));
     }
 
@@ -139,7 +139,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
         let results = user.saved.namwc.results;
         let highlight = null;
         let icon = null;
-        if (results.activated && (results.notMultiple || Settings.namwc_h_m)) {
+        if (results.activated && (results.notMultiple || Settings.get('namwc_h_m'))) {
           highlight = 'positive';
           icon = 'fa-thumbs-up';
         } else if (results.unknown) {
@@ -149,9 +149,9 @@ class UsersNotActivatedMultipleWinChecker extends Module {
           highlight = 'negative';
           icon = 'fa-thumbs-down';
         }
-        if (((highlight === 'positive' || highlight === 'unknown') && !Settings.namwc_h_f) || highlight === 'negative') {
+        if (((highlight === 'positive' || highlight === 'unknown') && !Settings.get('namwc_h_f')) || highlight === 'negative') {
           let title = `${user.username} has ${results.unknown ? '?' : Array.isArray(results.notActivated) ? results.notActivated.length : results.notActivated} not activated wins and ${Array.isArray(results.multiple) ? results.multiple.length : results.multiple} multiple wins (last checked ${getTimestamp(user.saved.namwc.lastCheck)})`;
-          if (Settings.namwc_h_i || (Settings.wbh && (Settings.wbh_w || Settings.wbh_b))) {
+          if (Settings.get('namwc_h_i') || (Settings.get('wbh') && (Settings.get('wbh_w') || Settings.get('wbh_b')))) {
             createElements(user.context, 'beforeBegin', [{
               attributes: {
                 class: 'esgst-namwc-icon esgst-user-icon',
@@ -277,7 +277,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
   }
 
   async namwc_start(obj) {
-    if (Settings.ust && !(await permissions.requestUi([['googleWebApp']], 'namwc'))) {
+    if (Settings.get('ust') && !(await permissions.requestUi([['googleWebApp']], 'namwc'))) {
       return;
     }
 
@@ -316,7 +316,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
         let match = element.getAttribute('href').match(/\/user\/(.+)/);
         if (!match) continue;
         let username = match[1];
-        if (users.indexOf(username) > -1 || username === Settings.username || username !== element.textContent || element.closest('.markdown')) continue;
+        if (users.indexOf(username) > -1 || username === Settings.get('username') || username !== element.textContent || element.closest('.markdown')) continue;
         users.push(username);
         if (users.length > 25) break;
       }
@@ -354,13 +354,13 @@ class UsersNotActivatedMultipleWinChecker extends Module {
             results: {}
           };
         }
-        if (Settings.namwc_clearCache) {
+        if (Settings.get('namwc_clearCache')) {
           user.values.namwc.lastCheck = 0;
         }
         if (Date.now() - user.values.namwc.lastCheck > 6.048 * 1e8) {
-          if (Settings.namwc_checkNotActivated) {
+          if (Settings.get('namwc_checkNotActivated')) {
             await this.namwc_checkNotActivated(obj, user);
-          } else if (Settings.namwc_checkMultiple) {
+          } else if (Settings.get('namwc_checkMultiple')) {
             await this.namwc_checkMultiple(obj, user);
           } else {
             await this.namwc_checkNotActivated(obj, user);
@@ -414,7 +414,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
       return;
     }
 
-    if (!Settings.ust || obj.isMenu) {
+    if (!Settings.get('ust') || obj.isMenu) {
       obj.button.classList.remove('esgst-busy');
       obj.popup.progress.innerHTML = '';
       obj.popup.setDone();

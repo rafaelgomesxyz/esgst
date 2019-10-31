@@ -149,7 +149,7 @@ class UsersSentWonRatio extends Module {
           attributes: {
             ['data-ui-tooltip']: JSON.stringify(cvTooltip)
           },
-          text: Settings.vrcv ? `${cvRatio} / ${realCVRatio.toLocaleString('en')}` : cvRatio,
+          text: Settings.get('vrcv') ? `${cvRatio} / ${realCVRatio.toLocaleString('en')}` : cvRatio,
           type: 'span'
         }, {
           text: `)`,

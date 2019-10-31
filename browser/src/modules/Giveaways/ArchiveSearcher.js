@@ -70,7 +70,7 @@ class GiveawaysArchiveSearcher extends Module {
       query = match[2];
       isAppId = true;
     }
-    if (Settings.as_t) {
+    if (Settings.get('as_t')) {
       window.location.href = `?esgst=as&query=${encodeURIComponent(query)}${isAppId ? `&isAppId=true` : ''}`;
     } else {
       this.as_init({query, isAppId, isPopup: true});

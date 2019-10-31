@@ -16,7 +16,7 @@ class Giveaways_addToStorage extends Module {
   }
 
   init() {
-    if ((Settings.lpv || Settings.cewgd || (Settings.gc && Settings.gc_gi)) && this.esgst.giveawayPath && document.referrer === `https://www.steamgifts.com/giveaways/new`) {
+    if ((Settings.get('lpv') || Settings.get('cewgd') || (Settings.get('gc') && Settings.get('gc_gi'))) && this.esgst.giveawayPath && document.referrer === `https://www.steamgifts.com/giveaways/new`) {
       addGiveawayToStorage();
     }
   }

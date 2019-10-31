@@ -61,8 +61,8 @@ class GiveawaysRealCVCalculator extends Module {
               }
             }
             user = {
-              Username: Settings.username,
-              SteamID64: Settings.steamId
+              Username: Settings.get('username'),
+              SteamID64: Settings.get('steamId')
             };
             let users = JSON.parse(getValue('users'));
             let savedUser = users.users[user.SteamID64];

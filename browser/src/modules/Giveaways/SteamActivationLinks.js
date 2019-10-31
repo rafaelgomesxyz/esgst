@@ -59,14 +59,14 @@ class GiveawaysSteamActivationLinks extends Module {
         if (!context.contains(button)) {
           window.clearInterval(interval);
           interval = null;
-          if (Settings.sal) {
+          if (Settings.get('sal')) {
             const element = context.querySelector(`[data-clipboard-text]`);
             const match = element.getAttribute('data-clipboard-text').match(/^[\d\w]{5}(-[\d\w]{5}){2,}$/);
             if (match) {
               this.sal_addLink(element, match[0]);
             }
           }
-          if (Settings.ef) {
+          if (Settings.get('ef')) {
             this.esgst.modules.generalElementFilters.ef_hideElements(context);
           }
         }
@@ -93,7 +93,7 @@ class GiveawaysSteamActivationLinks extends Module {
       link = createElements(element, 'afterEnd', [{
         type: 'span'
       }]);
-      switch (Settings.sal_index) {
+      switch (Settings.get('sal_index')) {
         case 0:
           createElements(link, 'beforeEnd', [{
             attributes: {

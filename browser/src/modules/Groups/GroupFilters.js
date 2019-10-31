@@ -215,65 +215,65 @@ class GroupsGroupFilters extends Filters {
   getFilters() {
     return {
       giveaways: {
-        check: Settings.gs && Settings.gs_giveaways,
+        check: Settings.get('gs') && Settings.get('gs_giveaways'),
         name: 'Giveaways',
         type: 'number'
       },
       users: {
-        check: Settings.gs && Settings.gs_users,
+        check: Settings.get('gs') && Settings.get('gs_users'),
         name: 'Users',
         type: 'number'
       },
       firstGiveaway: {
-        check: Settings.gs && Settings.gs_firstGiveaway,
+        check: Settings.get('gs') && Settings.get('gs_firstGiveaway'),
         date: true,
         name: 'First Giveaway',
         type: 'number'
       },
       lastGiveaway: {
-        check: Settings.gs && Settings.gs_lastGiveaway,
+        check: Settings.get('gs') && Settings.get('gs_lastGiveaway'),
         date: true,
         name: 'Last Giveaway',
         type: 'number'
       },
       averageEntries: {
-        check: Settings.gs && Settings.gs_averageEntries,
+        check: Settings.get('gs') && Settings.get('gs_averageEntries'),
         name: 'Average Entries',
         type: 'number'
       },
       contributors: {
-        check: Settings.gs && Settings.gs_contributors,
+        check: Settings.get('gs') && Settings.get('gs_contributors'),
         name: 'Contributors',
         type: 'number'
       },
       winners: {
-        check: Settings.gs && Settings.gs_winners,
+        check: Settings.get('gs') && Settings.get('gs_winners'),
         name: 'Winners',
         type: 'number'
       },
       creationDate: {
-        check: Settings.gs && Settings.gs_creationDate,
+        check: Settings.get('gs') && Settings.get('gs_creationDate'),
         date: true,
         name: 'Creation Date',
         type: 'number'
       },
       officialGameGroup: {
-        check: Settings.gs && Settings.gs_type,
+        check: Settings.get('gs') && Settings.get('gs_type'),
         name: 'Official Game Group',
         type: 'boolean'
       },
       open: {
-        check: Settings.gs && Settings.gs_type,
+        check: Settings.get('gs') && Settings.get('gs_type'),
         name: 'Open',
         type: 'boolean'
       },
       restricted: {
-        check: Settings.gs && Settings.gs_type,
+        check: Settings.get('gs') && Settings.get('gs_type'),
         name: 'Restricted',
         type: 'boolean'
       },
       closed: {
-        check: Settings.gs && Settings.gs_type,
+        check: Settings.get('gs') && Settings.get('gs_type'),
         name: 'Closed',
         type: 'boolean'
       }

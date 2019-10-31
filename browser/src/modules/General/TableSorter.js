@@ -41,7 +41,7 @@ class GeneralTableSorter extends Module {
     for (let i = 0, n = tables.length; i < n; ++i) {
       this.ts_setTable(tables[i]);
     }
-    if (!endless && !Settings.us) {
+    if (!endless && !Settings.get('us')) {
       this.ts_sortTables();
     }
   }

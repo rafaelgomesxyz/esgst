@@ -51,7 +51,7 @@ class CommentsReplyFromInbox extends Module {
   }
 
   init() {
-    if (Settings.mr) return;
+    if (Settings.get('mr')) return;
     Shared.esgst.endlessFeatures.push(Shared.esgst.modules.commentsMultiReply.mr_getButtons.bind(Shared.esgst.modules.commentsMultiReply));
   }
 

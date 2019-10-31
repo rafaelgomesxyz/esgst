@@ -101,7 +101,7 @@ class Tags extends Module {
       }
     }
     this.esgst[`${this.id}Tags`] = Utils.sortArray(this.esgst[`${this.id}Tags`], true, 'count').map(x => x.tag);
-    if (Settings[`${this.id}_s`]) {
+    if (Settings.get(`${this.id}_s`)) {
       this.esgst.documentEvents.keydown.add(this.tags_navigateSuggestions.bind(this));
       this.esgst.documentEvents.click.add(this.tags_closeSuggestions.bind(this));
     }
@@ -157,7 +157,7 @@ class Tags extends Module {
   async tags_addButtons(items) {
     items = items.all || items;
     for (const item of items) {
-      const obj = {item, key: this.id, colorSetting: Settings[`${this.id}_colors`]};
+      const obj = {item, key: this.id, colorSetting: Settings.get(`${this.id}_colors`)};
       if (!item.container.getElementsByClassName('esgst-tag-button')[0]) {
         createElements(item.tagContext, item.tagPosition, [{
           attributes: {
@@ -322,7 +322,7 @@ class Tags extends Module {
       type: 'i'
     }]).addEventListener('click', this.tags_showTagList.bind(this, obj));
     const children = [];
-    if (Settings[`${obj.key}_s`]) {
+    if (Settings.get(`${obj.key}_s`)) {
       obj.suggestions = createElements(obj.popup.description, 'beforeEnd', [{
         attributes: {
           class: 'esgst-tag-suggestions esgst-hidden'
@@ -563,7 +563,7 @@ class Tags extends Module {
     obj.tags.innerHTML = '';
     const tags = obj.input.value.replace(/(,\s*)+/g, formatTags).split(`, `).filter(x => x);
     if (tags.length) {
-      if (Settings[`${obj.key}_s`]) {
+      if (Settings.get(`${obj.key}_s`)) {
         if (obj.input.value.slice(-1).match(/\s|,/)) {
           this.tags_hideSuggestions(obj.suggestions);
         } else {
@@ -594,7 +594,7 @@ class Tags extends Module {
       for (const tag of tags) {
         this.tags_createTag(obj, tag);
       }
-    } else if (Settings[`${obj.key}_s`]) {
+    } else if (Settings.get(`${obj.key}_s`)) {
       this.tags_hideSuggestions(obj.suggestions);
     }
   }

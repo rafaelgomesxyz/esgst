@@ -47,7 +47,7 @@ class GamesEnteredGameHighlighter extends Module {
         DOM.build((game.container.closest('.poll') && game.container.querySelector('.table__column__heading')) || game.headingName, 'beforeBegin', [
           ['a', { 'data-draggable-id': 'egh', class: 'esgst-egh-button esgst-clickable', title: Shared.common.getFeatureTooltip('egh', `You have entered ${count} giveaways for this game before. Click to unhighlight it (will restart the counter to 0).`), onclick: this.egh_unhighlightGame.bind(this, game.id, game.type) }, [
             ['i', { class: 'fa fa-star esgst-egh-icon' }, ],
-            Settings.egh_c ? ` ${count}` : null
+            Settings.get('egh_c') ? ` ${count}` : null
           ]]
         ]);
       }

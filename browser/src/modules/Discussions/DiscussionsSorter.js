@@ -46,7 +46,7 @@ class DiscussionsDiscussionsSorter extends Module {
   ds_openPopout(obj) {
     if (obj.popout) return;
     obj.popout = new Popout('esgst-ds-popout', obj.button, 0, true);
-    new ToggleSwitch(obj.popout.popout, 'ds_auto', false, 'Auto Sort', false, false, 'Automatically sorts the discussions by the selected option when loading the page.', Settings.ds_auto);
+    new ToggleSwitch(obj.popout.popout, 'ds_auto', false, 'Auto Sort', false, false, 'Automatically sorts the discussions by the selected option when loading the page.', Settings.get('ds_auto'));
     let options = createElements(obj.popout.popout, 'beforeEnd', [{
       type: 'select',
       children: [{
@@ -117,7 +117,7 @@ class DiscussionsDiscussionsSorter extends Module {
         type: 'option'
       }]
     }]);
-    options.value = Settings.ds_option;
+    options.value = Settings.get('ds_option');
     let callback = saveAndSortContent.bind(common, this.esgst.scopes.main.discussions, 'ds_option', options);
     options.addEventListener('change', callback);
     obj.popout.popout.appendChild(new ButtonSet({

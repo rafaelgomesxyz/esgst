@@ -53,7 +53,7 @@ class Popup {
       if (!details.settings) {
         settings.classList.remove('esgst-hidden');
         settings.addEventListener('click', event => {
-          if (!Settings.openSettingsInTab) {
+          if (!Settings.get('openSettingsInTab')) {
             event.preventDefault();
             Shared.esgst.modules.settingsModule.loadMenu(true);
           }
@@ -151,7 +151,7 @@ class Popup {
       this.layer.remove();
     } else {
       this.layer.classList.add('esgst-hidden');
-      if (Settings.minimizePanel) {
+      if (Settings.get('minimizePanel')) {
         Shared.common.minimizePanel_addItem(this);
       }
     }
@@ -256,7 +256,7 @@ class Popup {
    */
   setDone(temp) {
     this.temp = temp;
-    if (Settings.minimizePanel && !this.isOpen) {
+    if (Settings.get('minimizePanel') && !this.isOpen) {
       Shared.common.minimizePanel_alert(this);
     }
   }

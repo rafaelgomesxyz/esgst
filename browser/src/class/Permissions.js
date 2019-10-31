@@ -166,13 +166,13 @@ class Permissions {
     if (!result) {
       let hasChanged = false;
       for (const key of keys) {
-        if (Settings.permissionsDenied.indexOf(key) < 0) {
-          Settings.permissionsDenied.push(key);
+        if (Settings.get('permissionsDenied').indexOf(key) < 0) {
+          Settings.get('permissionsDenied').push(key);
           hasChanged = true;
         }
       }
       if (hasChanged) {
-        await Shared.common.setSetting('permissionsDenied', Settings.permissionsDenied);
+        await Shared.common.setSetting('permissionsDenied', Settings.get('permissionsDenied'));
       }
     }
     return result;

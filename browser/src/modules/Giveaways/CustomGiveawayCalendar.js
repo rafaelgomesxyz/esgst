@@ -61,8 +61,8 @@ class GiveawaysCustomGiveawayCalendar extends Module {
           altFormat: "M d, yy",
           altTimeFormat: "h:mm tt",
           beforeShowDay: t,
-          dateFormat: "${Settings.cgc_dateFormat}",
-          firstDay: "${Settings.cgc_index_0}",
+          dateFormat: "${Settings.get('cgc_dateFormat')}",
+          firstDay: "${Settings.get('cgc_index_0')}",
           maxDate: new Date((new Date).getTime() + 2592e6 - 36e5),
           maxDateTime: new Date((new Date).getTime() + 2592e6 - 36e5),
           minDate: new Date,
@@ -70,7 +70,7 @@ class GiveawaysCustomGiveawayCalendar extends Module {
           numberOfMonths: 1,
           selectOtherMonths: !0,
           showOtherMonths: !0,
-          timeFormat: "${Settings.cgc_timeFormat}",
+          timeFormat: "${Settings.get('cgc_timeFormat')}",
           onSelect: function() {
             s()
           },
@@ -95,8 +95,8 @@ class GiveawaysCustomGiveawayCalendar extends Module {
           altFormat: "M d, yy",
           altTimeFormat: "h:mm tt",
           beforeShowDay: t,
-          dateFormat: "${Settings.cgc_dateFormat}",
-          firstDay: "${Settings.cgc_index_0}",
+          dateFormat: "${Settings.get('cgc_dateFormat')}",
+          firstDay: "${Settings.get('cgc_index_0')}",
           maxDate: new Date((new Date).getTime() + 2592e6),
           maxDateTime: new Date((new Date).getTime() + 2592e6),
           minDate: new Date((new Date).getTime() + 36e5),
@@ -104,7 +104,7 @@ class GiveawaysCustomGiveawayCalendar extends Module {
           numberOfMonths: 1,
           selectOtherMonths: !0,
           showOtherMonths: !0,
-          timeFormat: "${Settings.cgc_timeFormat}",
+          timeFormat: "${Settings.get('cgc_timeFormat')}",
           onSelect: function() {
             i()
           },

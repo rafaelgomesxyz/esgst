@@ -386,7 +386,7 @@ class GamesGameFilters extends Filters {
   }
 
   init() {
-    if (!Settings.gmf || !Shared.common.isCurrentPath(['Community Wishlist', 'Bundle Games', 'Discussion', 'Settings - Giveaways - Filters', 'Steam - Games'])) {
+    if (!Settings.get('gmf') || !Shared.common.isCurrentPath(['Community Wishlist', 'Bundle Games', 'Discussion', 'Settings - Giveaways - Filters', 'Steam - Games'])) {
       return;
     }
 

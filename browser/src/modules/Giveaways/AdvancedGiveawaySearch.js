@@ -37,7 +37,7 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
     if (this.esgst.giveawaysPath) {
       query += `.sidebar__search-container, `;
     }
-    if (Settings.qgs) {
+    if (Settings.get('qgs')) {
       query += `.esgst-qgs-container, `;
     }
     if (!query) return;
@@ -70,7 +70,7 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
         obj.input.value = decodeURIComponent(match[1]);
       }
     }
-    if (!qgs && ((Settings.adots && Settings.adots_index === 0) || !Settings.adots)) {
+    if (!qgs && ((Settings.get('adots') && Settings.get('adots_index') === 0) || !Settings.get('adots'))) {
       obj.panel = createElements(context, 'afterEnd', [{
         attributes: {
           class: 'esgst-ags-panel'
@@ -209,7 +209,7 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
       }]),
         filter = new Checkbox(
           element,
-          Settings[details.key]
+          Settings.get(details.key)
         ).input;
       observeChange(filter, details.key, true, 'checked', 'click');
       obj.filters.push({
@@ -248,7 +248,7 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
         }]
       }]),
         filter = element.firstElementChild.firstElementChild;
-      filter.value = Settings[details.key];
+      filter.value = Settings.get(details.key);
       observeNumChange(filter, details.key, true);
       obj.filters.push({
         filter: filter,
@@ -305,10 +305,10 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
         }]
       }]);
       let maxFilter = element.lastElementChild.lastElementChild;
-      maxFilter.value = Settings[details.maxKey];
+      maxFilter.value = Settings.get(details.maxKey);
       observeNumChange(maxFilter, details.maxKey, true);
       let minFilter = element.firstElementChild.lastElementChild;
-      minFilter.value = Settings[details.minKey];
+      minFilter.value = Settings.get(details.minKey);
       observeNumChange(minFilter, details.minKey, true);
       if (details.type === 'input') {
         maxFilter.addEventListener('keypress',
@@ -333,7 +333,7 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
 
   ags_searchQuery(obj) {
     let url;
-    if (Settings.ags_app || Settings.ags_sub) {
+    if (Settings.get('ags_app') || Settings.get('ags_sub')) {
       url = `https://www.steamgifts.com/giveaways/search?q=`;
     } else {
       url = `https://www.steamgifts.com/giveaways/search?q=${encodeURIComponent(obj.input.value)}`;

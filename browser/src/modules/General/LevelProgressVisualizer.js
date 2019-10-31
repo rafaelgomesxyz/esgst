@@ -58,7 +58,7 @@ class GeneralLevelProgressVisualizer extends Module {
     const currentLevel = Session.counters.level.full;
     if (cache.v !== 3 || currentLevel !== cache.level) {
       cache.level = currentLevel;
-      const response = await FetchRequest.get(`/user/${Settings.username}`);
+      const response = await FetchRequest.get(`/user/${Settings.get('username')}`);
       const element = response.html.querySelectorAll('.featured__table__row__right')[6];
       cache.cv = Shared.common.round(parseFloat(JSON.parse(element.firstElementChild.lastElementChild.getAttribute('data-ui-tooltip')).rows[0].columns[1].name.replace(/[$,]/g, '')));
       LocalStorage.set('lpvCache', JSON.stringify(cache));
@@ -94,12 +94,12 @@ class GeneralLevelProgressVisualizer extends Module {
 
       Shared.header.buttonContainers['account'].nodes.level.title = getFeatureTooltip('lpv', `${newLevel.full} (${predictedFullLevel})`);
     }
-    const barColor = Settings.lpv_barColor;
-    const projectedBarColor = Settings.lpv_projectedBarColor;
-    const barColorHover = Settings.lpv_barColorHover;
-    const projectedBarColorHover = Settings.lpv_projectedBarColorHover;
-    const barColorSelected = Settings.lpv_barColorSelected;
-    const projectedBarColorSelected = Settings.lpv_projectedBarColorSelected;
+    const barColor = Settings.get('lpv_barColor');
+    const projectedBarColor = Settings.get('lpv_projectedBarColor');
+    const barColorHover = Settings.get('lpv_barColorHover');
+    const projectedBarColorHover = Settings.get('lpv_projectedBarColorHover');
+    const barColorSelected = Settings.get('lpv_barColorSelected');
+    const projectedBarColorSelected = Settings.get('lpv_projectedBarColorSelected');
     this.esgst.lpvStyleArray = [{
       selector: '.esgst-lpv-container',
       rules: [{
@@ -244,7 +244,7 @@ class GeneralLevelProgressVisualizer extends Module {
   lpv_getCv() {
     Logger.info('Beginning CV calculation...');
     let cv = 0;
-    const user = this.esgst.users.users[Settings.steamId];
+    const user = this.esgst.users.users[Settings.get('steamId')];
     if (!user) {
       return cv;
     }

@@ -59,7 +59,7 @@ class Games extends Module {
         games.subs[id].forEach(game => this.esgst.modules.giveaways.giveaways_reorder(game));
       }
     }
-    if (main && this.esgst.gmf && this.esgst.gmf.filteredCount && Settings[`gmf_enable${this.esgst.gmf.type}`]) {
+    if (main && this.esgst.gmf && this.esgst.gmf.filteredCount && Settings.get(`gmf_enable${this.esgst.gmf.type}`)) {
       this.esgst.modules.gamesGameFilters.filters_filter(this.esgst.gmf, false, endless);
     }
   }
@@ -141,7 +141,7 @@ class Games extends Module {
               }
             }
           }
-          if (Settings.updateHiddenGames && window.location.pathname.match(/^\/account\/settings\/giveaways\/filters/) && main) {
+          if (Settings.get('updateHiddenGames') && window.location.pathname.match(/^\/account\/settings\/giveaways\/filters/) && main) {
             const removeButton = game.container.getElementsByClassName('table__remove-default')[0];
             if (removeButton) {
               removeButton.addEventListener('click', updateHiddenGames.bind(common, id, type, true));
@@ -244,7 +244,7 @@ class Games extends Module {
       }
       return x;
     });
-    if (main && Shared.esgst.gf && this.esgst.gf.filteredCount && Settings[`gf_enable${this.esgst.gf.type}`]) {
+    if (main && Shared.esgst.gf && this.esgst.gf.filteredCount && Settings.get(`gf_enable${this.esgst.gf.type}`)) {
       this.esgst.modules.giveawaysGiveawayFilters.filters_filter(this.esgst.gf);
     }
     lockAndSaveGames(games);

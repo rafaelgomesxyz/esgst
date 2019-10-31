@@ -190,7 +190,7 @@ class GeneralHeaderRefresher extends Module {
 
     this.startRefresher();
 
-    if (!Settings.hr_b) {
+    if (!Settings.get('hr_b')) {
       window.addEventListener('focus', this.startRefresher.bind(this));
       window.addEventListener('blur', () => window.clearTimeout(this.refresher));
     }
@@ -201,14 +201,14 @@ class GeneralHeaderRefresher extends Module {
 
     await this.refreshHeader(response.html);
 
-    this.refresher = window.setTimeout(() => this.continueRefresher(), Settings.hr_minutes * 60000);
+    this.refresher = window.setTimeout(() => this.continueRefresher(), Settings.get('hr_minutes') * 60000);
   }
 
   async continueRefresher() {
     const cache = JSON.parse(LocalStorage.get('hrCache'));
     const now = Date.now();
 
-    if (cache.username !== Settings.username || now - cache.timestamp > Settings.hr_minutes * 60000) {
+    if (cache.username !== Settings.get('username') || now - cache.timestamp > Settings.get('hr_minutes') * 60000) {
       cache.timestamp = now;
       LocalStorage.set('hrCache', JSON.stringify(cache));
 
@@ -216,14 +216,14 @@ class GeneralHeaderRefresher extends Module {
 
       await this.refreshHeader(response.html);
 
-      this.refresher = window.setTimeout(() => this.continueRefresher(), Settings.hr_minutes * 60000);
+      this.refresher = window.setTimeout(() => this.continueRefresher(), Settings.get('hr_minutes') * 60000);
     } else {
       await this.refreshHeader(null, cache);
 
       this.wishlist = cache.wishlist;
       this.newWishlist = cache.newWishlist;
 
-      this.refresher = window.setTimeout(() => this.continueRefresher(), Settings.hr_minutes * 60000);
+      this.refresher = window.setTimeout(() => this.continueRefresher(), Settings.get('hr_minutes') * 60000);
     }
   }
 
@@ -265,7 +265,7 @@ class GeneralHeaderRefresher extends Module {
             await Shared.header.updateLevel(accountContainer.data.level);
           }
 
-          if (Settings.hr_w) {
+          if (Settings.get('hr_w')) {
             this.wishlist = 0;
             this.newWishlist = 0;
 
@@ -278,7 +278,7 @@ class GeneralHeaderRefresher extends Module {
             for (const giveaway of giveaways) {
               codes.push(giveaway.code);
 
-              if (giveaway && giveaway.level <= Session.counters.level.base && !giveaway.pinned && !giveaway.entered && (!Shared.esgst.giveaways[giveaway.code] || (!Shared.esgst.giveaways[giveaway.code].visited && !Shared.esgst.giveaways[giveaway.code].hidden)) && (!Settings.hr_w_h || giveaway.endTime - now < Settings.hr_w_hours * 3600000)) {
+              if (giveaway && giveaway.level <= Session.counters.level.base && !giveaway.pinned && !giveaway.entered && (!Shared.esgst.giveaways[giveaway.code] || (!Shared.esgst.giveaways[giveaway.code].visited && !Shared.esgst.giveaways[giveaway.code].hidden)) && (!Settings.get('hr_w_h') || giveaway.endTime - now < Settings.get('hr_w_hours') * 3600000)) {
                 this.wishlist += 1;
 
                 if (cache.indexOf(giveaway.code) < 0) {
@@ -348,15 +348,15 @@ class GeneralHeaderRefresher extends Module {
   }
 
   notifyWon(firstRun, oldWon, newWon, delivered) {
-    if (delivered && Settings.hr_g) {
-      if (Settings.hr_g_n && !firstRun) {
+    if (delivered && Settings.get('hr_g')) {
+      if (Settings.get('hr_g_n') && !firstRun) {
         this.showNotification({
           msg: 'You have new gifts delivered.',
           won: true,
         });
       }
 
-      this.deliveredTitle = Settings.hr_g_format;
+      this.deliveredTitle = Settings.get('hr_g_format');
     } else {
       this.deliveredTitle = null;
     }
@@ -367,7 +367,7 @@ class GeneralHeaderRefresher extends Module {
   notifyMessages(firstRun, oldMessages, newMessages) {
     const difference = newMessages - oldMessages;
 
-    if (newMessages > 0 && Settings.hr_m) {
+    if (newMessages > 0 && Settings.get('hr_m')) {
       const canvas = document.createElement('canvas');
       const image = new Image();
 
@@ -393,7 +393,7 @@ class GeneralHeaderRefresher extends Module {
 
       image.src = Shared.esgst[`${Shared.esgst.name}Icon`];
 
-      if (difference > 0 && Settings.hr_m_n && !firstRun) {
+      if (difference > 0 && Settings.get('hr_m_n') && !firstRun) {
         this.showNotification({
           inbox: true,
           msg: `You have ${difference} new messages.`,
@@ -407,27 +407,27 @@ class GeneralHeaderRefresher extends Module {
   }
 
   notifyPoints(firstRun, oldPoints, newPoints) {
-    if (oldPoints < 400 && newPoints >= 400 && Settings.hr_fp && !firstRun) {
+    if (oldPoints < 400 && newPoints >= 400 && Settings.get('hr_fp') && !firstRun) {
       this.showNotification({
         msg: `You have ${newPoints}P.`,
         points: true,
       });
     }
 
-    this.pointsTitle = Settings.hr_p ? `${Settings.hr_p_format.replace(/#/, newPoints)}` : null;
+    this.pointsTitle = Settings.get('hr_p') ? `${Settings.get('hr_p_format').replace(/#/, newPoints)}` : null;
 
     this.notifyTitleChange();
   }
 
   notifyWishlist(firstRun, oldWishlist, newWishlist, wishlist) {
-    if (newWishlist && Settings.hr_w && Settings.hr_w_n && !firstRun) {
+    if (newWishlist && Settings.get('hr_w') && Settings.get('hr_w_n') && !firstRun) {
       this.showNotification({
-        msg: Settings.hr_w_h ? `You have ${newWishlist} new wishlist giveaways ending in ${Settings.hr_w_hours} hours.` : `You have ${newWishlist} new wishlist giveaways.`,
+        msg: Settings.get('hr_w_h') ? `You have ${newWishlist} new wishlist giveaways ending in ${Settings.get('hr_w_hours')} hours.` : `You have ${newWishlist} new wishlist giveaways.`,
         wishlist: true,
       });
     }
 
-    this.wishlistTitle = wishlist && Settings.hr_w ? `${Settings.hr_w_format.replace(/#/, wishlist)}` : null;
+    this.wishlistTitle = wishlist && Settings.get('hr_w') ? `${Settings.get('hr_w_format').replace(/#/, wishlist)}` : null;
 
     this.notifyTitleChange();
   }
@@ -480,15 +480,15 @@ class GeneralHeaderRefresher extends Module {
       return;
     }
 
-    if ((details.won && Settings.hr_g_n_s) || (details.inbox && Settings.hr_m_n_s) || (details.points && Settings.hr_fp_s) || (details.wishlist && Settings.hr_w_n_s)) {
+    if ((details.won && Settings.get('hr_g_n_s')) || (details.inbox && Settings.get('hr_m_n_s')) || (details.points && Settings.get('hr_fp_s')) || (details.wishlist && Settings.get('hr_w_n_s'))) {
       try {
         if (!this.audioContext) {
           this.audioContext = new AudioContext();
 
-          this.wonPlayer = await this.createPlayer(Settings.hr_g_n_s_sound || this.getDefaultSound());
-          this.messagesPlayer = await this.createPlayer(Settings.hr_m_n_s_sound || this.getDefaultSound());
-          this.pointsPlayer = await this.createPlayer(Settings.hr_fp_s_sound || this.getDefaultSound());
-          this.wishlistPlayer = await this.createPlayer(Settings.hr_w_n_s_sound || this.getDefaultSound());
+          this.wonPlayer = await this.createPlayer(Settings.get('hr_g_n_s_sound') || this.getDefaultSound());
+          this.messagesPlayer = await this.createPlayer(Settings.get('hr_m_n_s_sound') || this.getDefaultSound());
+          this.pointsPlayer = await this.createPlayer(Settings.get('hr_fp_s_sound') || this.getDefaultSound());
+          this.wishlistPlayer = await this.createPlayer(Settings.get('hr_w_n_s_sound') || this.getDefaultSound());
         }
 
         if (details.won && this.wonPlayer) {
@@ -514,18 +514,18 @@ class GeneralHeaderRefresher extends Module {
     const notification = new Notification('ESGST Notification', {
       body: details.msg,
       icon: 'https://dl.dropboxusercontent.com/s/lr3t3bxrxfxylqe/esgstIcon.ico?raw=1',
-      requireInteraction: !!Settings.hr_c,
+      requireInteraction: !!Settings.get('hr_c'),
       tag: details.msg,
     });
 
     notification.onclick = () => {
-      if (Settings.hr_a) {
+      if (Settings.get('hr_a')) {
         browser.runtime.sendMessage({
           action: 'tabs',
-          any: !!Settings.hr_a_a,
+          any: !!Settings.get('hr_a_a'),
           inbox_sg: Shared.esgst.sg && !!details.inbox,
           inbox_st: Shared.esgst.st && !!details.inbox,
-          refresh: !!Settings.hr_a_r,
+          refresh: !!Settings.get('hr_a_r'),
           wishlist: !!details.wishlist,
           won: !!details.won,
         });

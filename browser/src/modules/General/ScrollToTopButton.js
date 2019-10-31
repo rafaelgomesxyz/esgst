@@ -37,7 +37,7 @@ class GeneralScrollToTopButton extends Module {
 
   init() {
     let button;
-    switch (Settings.sttb_index) {
+    switch (Settings.get('sttb_index')) {
       case 0:
         button = createElements(document.body, 'beforeEnd', [{
           attributes: {
@@ -81,7 +81,7 @@ class GeneralScrollToTopButton extends Module {
       }
     }
     button.addEventListener('click', animateScroll.bind(common, 0, () => {
-      if (Settings.es && this.esgst.es.paginations) {
+      if (Settings.get('es') && this.esgst.es.paginations) {
         this.esgst.modules.generalEndlessScrolling.es_changePagination(this.esgst.es, this.esgst.es.reverseScrolling ? this.esgst.es.paginations.length : 1);
       }
     }));
