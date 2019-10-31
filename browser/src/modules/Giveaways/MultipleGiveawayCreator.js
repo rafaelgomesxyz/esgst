@@ -1481,7 +1481,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
       if (values.region === '1') {
         regionRestricted = `Yes (`;
         values.countries.split(/\s/).forEach(id => {
-          Logger.info(id, mgc.countryNames[id]);
+          //Logger.info(id, mgc.countryNames[id]);
           regionRestricted += `${mgc.countryNames[id].match(/.+\s(.+)$/)[1]}, `;
         });
         regionRestricted = `${regionRestricted.slice(0, -2)})`;

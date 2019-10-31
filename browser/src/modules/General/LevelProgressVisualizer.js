@@ -83,9 +83,9 @@ class GeneralLevelProgressVisualizer extends Module {
     const cv = this.lpv_getCv();
     if (cv > 0) {
       const predictedFullLevel = Shared.common.getLevelFromCv(cache.cv + cv);
-      Logger.info(`Current CV: ${cache.cv}`);
-      Logger.info(`CV to gain: ${cv}`);
-      Logger.info(`Predicted level: ${predictedFullLevel}`);
+      //Logger.info(`Current CV: ${cache.cv}`);
+      //Logger.info(`CV to gain: ${cv}`);
+      //Logger.info(`Predicted level: ${predictedFullLevel}`);
       const predictedLevel = Math.trunc(predictedFullLevel);
       const predictedPercentage = Math.trunc(round(predictedFullLevel - predictedLevel) * 100);
       const predictedProgress = Math.trunc(Math.min(100, predictedPercentage) * (fullButtonWidth / 100));
@@ -242,7 +242,7 @@ class GeneralLevelProgressVisualizer extends Module {
   }
 
   lpv_getCv() {
-    Logger.info('Beginning CV calculation...');
+    //Logger.info('Beginning CV calculation...');
     let cv = 0;
     const user = this.esgst.users.users[Settings.get('steamId')];
     if (!user) {
@@ -309,21 +309,21 @@ class GeneralLevelProgressVisualizer extends Module {
             }
             if (realValue > 0) {
               cv += realValue;
-              Logger.info(`Adding ${realValue} CV from: http://store.steampowered.com/${type.slice(0, -1)}/${id}${game && game.name ? ` (${game.name})` : ''}`);
-              Logger.info(`Total CV: ${cv}`);
+              //Logger.info(`Adding ${realValue} CV from: http://store.steampowered.com/${type.slice(0, -1)}/${id}${game && game.name ? ` (${game.name})` : ''}`);
+              //Logger.info(`Total CV: ${cv}`);
             }
           } else if (open > 0) {
             value *= open;
             if (value > 0) {
               cv += value;
-              Logger.info(`Adding ${value} CV from: http://store.steampowered.com/${type.slice(0, -1)}/${id}${game && game.name ? ` (${game.name})` : ''}`);
-              Logger.info(`Total CV: ${cv}`);
+              //Logger.info(`Adding ${value} CV from: http://store.steampowered.com/${type.slice(0, -1)}/${id}${game && game.name ? ` (${game.name})` : ''}`);
+              //Logger.info(`Total CV: ${cv}`);
             }
           }
         }
       }
     }
-    Logger.info('CV calculation ended...');
+    //Logger.info('CV calculation ended...');
     return cv;
   }
 }

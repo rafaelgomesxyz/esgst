@@ -572,8 +572,6 @@ class PersistentStorage {
       }
 
       await Shared.common.setValue('v', this.currentVersion);
-    } else {
-      window.console.log('Nothing to upgrade...');
     }
   }
 }
