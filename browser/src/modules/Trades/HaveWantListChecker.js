@@ -197,7 +197,7 @@ class TradesHaveWantListChecker extends Module {
         Shared.esgst.appList = appList;
       }
     } catch (error) {
-      console.log(error);
+      window.console.log(error);
 
       window.alert('Could not retrieve list of Steam games. Games will not be identified by name.');
     }

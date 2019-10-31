@@ -56,7 +56,7 @@ class CommentsReplyFromInbox extends Module {
   }
 
   async rfi_saveReply(id, reply, url, edit) {
-    Logger.info(id, reply, url, edit);
+    //Logger.info(id, reply, url, edit);
     let i, n, source, saved;
     if (url) {
       source = url.match(/\/comment\/(.+)/)[1];

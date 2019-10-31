@@ -1128,7 +1128,7 @@ async function syncGames(altAccount, syncer, apiResponse, storeResponse) {
       `Unable to sync through the Steam store. Check if you are logged in to Steam on your current browser session. If you are, try again later. Some games may not be available through the Steam API (if you have a Steam API key set).`
     );
   }
-  Logger.info(hasApi, hasStore);
+  //Logger.info(hasApi, hasStore);
   if ((!hasApi || !Settings.get('fallbackSteamApi')) && !hasStore) {
     return;
   }

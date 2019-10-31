@@ -122,7 +122,7 @@ class Common extends Module {
    * @returns {Promise<void>}
    */
   async loadFeatures(modules) {
-    Logger.info(this.esgst.games.apps[269650]);
+    //Logger.info(this.esgst.games.apps[269650]);
     if (this.isCurrentPath('Account')) {
       this.createSidebarNavigation(this.esgst.sidebar, 'beforeEnd', {
         name: 'ESGST',
@@ -4367,7 +4367,7 @@ class Common extends Module {
   }
 
   createConfirmation(message, onYes, onNo, event) {
-    Logger.info(message);
+    //Logger.info(message);
     let callback, popup;
     callback = onNo;
     popup = new Popup({ addScrollable: true, icon: 'fa-question', isTemp: true, title: message });
@@ -5296,14 +5296,14 @@ class Common extends Module {
   setCurrentScope(id) {
     this.esgst.currentScope = this.esgst.scopes[id];
     this.esgst.scopeHistory.push(id);
-    Logger.info(`Current scope: `, this.esgst.currentScope.id);
+    //Logger.info(`Current scope: `, this.esgst.currentScope.id);
   }
 
   resetCurrentScope() {
     this.esgst.scopeHistory.pop();
     const id = this.esgst.scopeHistory[this.esgst.scopeHistory.length - 1];
     this.esgst.currentScope = this.esgst.scopes[id];
-    Logger.info(`Current scope: `, this.esgst.currentScope.id);
+    //Logger.info(`Current scope: `, this.esgst.currentScope.id);
   }
 
   getLevelFromCv(cv) {
