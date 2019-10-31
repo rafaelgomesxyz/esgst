@@ -29,12 +29,13 @@ class SettingsModule {
       const feature = Shared.esgst.featuresById[id];
       if (feature) {
         this.toSave[key] = value ? 1 : 0;
-        Settings[id] = Settings[key] = value ? 1 : 0;
+        Settings.set(id, value ? 1 : 0);
+        Settings.set(key, value ? 1 : 0);
         return;
       }
     }
     this.toSave[key] = value;
-    Settings[key] = value;
+    Settings.set(key, value);
   }
 
   preSavePermissions(permissionKeys) {
@@ -69,7 +70,7 @@ class SettingsModule {
         ['input', { class: 'sidebar__search-input', type: 'text', placeholder: 'Search...' }]
       ]]
     ]).firstElementChild;
-    if (isPopup && Settings.scb) {
+    if (isPopup && Settings.get('scb')) {
       Shared.esgst.modules.generalSearchClearButton.getInputs(Container);
     }
 
@@ -176,70 +177,70 @@ class SettingsModule {
         onclick: event => Shared.common.setSMRecentUsernameChanges()
       },
       {
-        check: !Shared.esgst.parameters.esgst && Settings.uf,
+        check: !Shared.esgst.parameters.esgst && Settings.get('uf'),
         icons: ['fa-user', 'fa-eye-slash'],
         position: 'afterBegin',
         title: 'See list of filtered users',
         onclick: event => Shared.common.setSMManageFilteredUsers()
       },
       {
-        check: !Shared.esgst.parameters.esgst && Shared.esgst.sg && Settings.gf && Settings.gf_s,
+        check: !Shared.esgst.parameters.esgst && Shared.esgst.sg && Settings.get('gf') && Settings.get('gf_s'),
         icons: ['fa-gift', 'fa-eye-slash'],
         position: 'afterBegin',
         title: 'Manage hidden giveaways',
         onclick: event => Shared.common.setSMManageFilteredGiveaways()
       },
       {
-        check: !Shared.esgst.parameters.esgst && Shared.esgst.sg && Settings.df && Settings.df_s,
+        check: !Shared.esgst.parameters.esgst && Shared.esgst.sg && Settings.get('df') && Settings.get('df_s'),
         icons: ['fa-comments', 'fa-eye-slash'],
         position: 'afterBegin',
         title: 'Manage hidden discussions',
         onclick: event => Shared.esgst.modules.discussionsDiscussionFilters.df_menu({}, event.currentTarget)
       },
       {
-        check: !Shared.esgst.parameters.esgst && Shared.esgst.st && Settings.tf && Settings.tf_s,
+        check: !Shared.esgst.parameters.esgst && Shared.esgst.st && Settings.get('tf') && Settings.get('tf_s'),
         icons: ['fa-retweet', 'fa-eye-slash'],
         position: 'afterBegin',
         title: 'Manage hidden trades',
         onclick: event => Shared.esgst.modules.tradesTradeFilters.tf_menu({}, event.currentTarget)
       },
       {
-        check: !Shared.esgst.parameters.esgst && Shared.esgst.sg && Settings.dt,
+        check: !Shared.esgst.parameters.esgst && Shared.esgst.sg && Settings.get('dt'),
         icons: ['fa-comments', 'fa-tags'],
         position: 'afterBegin',
         title: 'Manage discussion tags',
         onclick: () => Shared.common.openManageDiscussionTagsPopup()
       },
       {
-        check: !Shared.esgst.parameters.esgst && Shared.esgst.sg && Settings.ut,
+        check: !Shared.esgst.parameters.esgst && Shared.esgst.sg && Settings.get('ut'),
         icons: ['fa-user', 'fa-tags'],
         position: 'afterBegin',
         title: 'Manage user tags',
         onclick: () => Shared.common.openManageUserTagsPopup()
       },
       {
-        check: !Shared.esgst.parameters.esgst && Settings.gt,
+        check: !Shared.esgst.parameters.esgst && Settings.get('gt'),
         icons: ['fa-gamepad', 'fa-tags'],
         position: 'afterBegin',
         title: 'Manage game tags',
         onclick: () => Shared.common.openManageGameTagsPopup()
       },
       {
-        check: !Shared.esgst.parameters.esgst && Settings.gpt,
+        check: !Shared.esgst.parameters.esgst && Settings.get('gpt'),
         icons: ['fa-users', 'fa-tags'],
         position: 'afterBegin',
         title: 'Manage group tags',
         onclick: () => Shared.common.openManageGroupTagsPopup()
       },
       {
-        check: !Shared.esgst.parameters.esgst && Settings.wbc,
+        check: !Shared.esgst.parameters.esgst && Settings.get('wbc'),
         icons: ['fa-heart', 'fa-ban', 'fa-cog'],
         position: 'afterBegin',
         title: 'Manage Whitelist / Blacklist Checker caches',
         ref: button => Shared.esgst.modules.usersWhitelistBlacklistChecker.wbc_addButton(false, button)
       },
       {
-        check: !Shared.esgst.parameters.esgst && Settings.namwc,
+        check: !Shared.esgst.parameters.esgst && Settings.get('namwc'),
         icons: ['fa-trophy', 'fa-cog'],
         position: 'afterBegin',
         title: 'Manage Not Activated / Multiple Wins Checker caches',
@@ -301,7 +302,7 @@ class SettingsModule {
     i = 1;
     for (type in Shared.esgst.features) {
       if (Shared.esgst.features.hasOwnProperty(type)) {
-        if (type !== 'trades' || Settings.esgst_st || Settings.esgst_sgtools) {
+        if (type !== 'trades' || Settings.get('esgst_st') || Settings.get('esgst_sgtools')) {
           let id, j, section, title, isNew = false;
           title = type.replace(/^./, m => {
             return m.toUpperCase()
@@ -315,7 +316,7 @@ class SettingsModule {
               }
               let feature, ft;
               feature = Shared.esgst.features[type].features[id];
-              if (!feature.sg && (((feature.sgtools && !Settings.esgst_sgtools) || (feature.st && !Settings.esgst_st)) && id !== 'esgst')) {
+              if (!feature.sg && (((feature.sgtools && !Settings.get('esgst_sgtools')) || (feature.st && !Settings.get('esgst_st'))) && id !== 'esgst')) {
                 continue;
               }
               ft = this.getSMFeature(feature, id, j, popup);
@@ -381,7 +382,7 @@ class SettingsModule {
       }]
     }], i, 'Steam API Key', 'steam_api_key');
     SMAPIKey = /** @type {HTMLInputElement} */ Context.getElementsByClassName('esgst-steam-api-key')[0];
-    let key = Settings.steamApiKey;
+    let key = Settings.get('steamApiKey');
     if (key) {
       SMAPIKey.value = key;
     }
@@ -461,9 +462,9 @@ class SettingsModule {
     }];
     let sgContext, stContext, sgtoolsContext;
     if (feature.sg) {
-      const value = Settings[`${id}_sg`];
+      const value = Settings.get(`${id}_sg`);
       sgContext = DOM.build([['div']]).firstElementChild;
-      const sgSwitch = new ToggleSwitch(sgContext, null, true, Settings.esgst_st || Settings.esgst_sgtools ? 'SteamGifts' : '', true, false, null, value);
+      const sgSwitch = new ToggleSwitch(sgContext, null, true, Settings.get('esgst_st') || Settings.get('esgst_sgtools') ? 'SteamGifts' : '', true, false, null, value);
       feature.sgFeatureSwitch = sgSwitch;
       sgSwitch.onEnabled = () => {
         if (feature.extensionOnly && browser.gm) {
@@ -473,7 +474,7 @@ class SettingsModule {
         }
         if (feature.conflicts) {
           for (const conflictId of feature.conflicts) {
-            if (Settings[`${conflictId}_sg`]) {
+            if (Settings.get(`${conflictId}_sg`)) {
               sgSwitch.disable(true);
               new Popup({
                 addScrollable: true,
@@ -513,8 +514,8 @@ class SettingsModule {
         }
       };
     }
-    if (feature.st && (Settings.esgst_st || id === 'esgst')) {
-      const value = Settings[`${id}_st`];
+    if (feature.st && (Settings.get('esgst_st') || id === 'esgst')) {
+      const value = Settings.get(`${id}_st`);
       stContext = DOM.build([['div']]).firstElementChild;
       const stSwitch = new ToggleSwitch(stContext, null, true, 'SteamTrades', false, true, null, value);
       feature.stFeatureSwitch = stSwitch;
@@ -526,7 +527,7 @@ class SettingsModule {
         }
         if (feature.conflicts) {
           for (const conflictId of feature.conflicts) {
-            if (Settings[`${conflictId}_st`]) {
+            if (Settings.get(`${conflictId}_st`)) {
               stSwitch.disable(true);
               new Popup({
                 addScrollable: true,
@@ -566,8 +567,8 @@ class SettingsModule {
         }
       };
     }
-    if (feature.sgtools && (Settings.esgst_sgtools || id === 'esgst')) {
-      const value = Settings[`${id}_sgtools`];
+    if (feature.sgtools && (Settings.get('esgst_sgtools') || id === 'esgst')) {
+      const value = Settings.get(`${id}_sgtools`);
       sgtoolsContext = DOM.build([['div']]).firstElementChild;
       const sgtoolsSwitch = new ToggleSwitch(sgtoolsContext, null, true, 'SGTools', true, false, null, value);
       feature.sgtoolsFeatureSwitch = sgtoolsSwitch;
@@ -579,7 +580,7 @@ class SettingsModule {
         }
         if (feature.conflicts) {
           for (const conflictId of feature.conflicts) {
-            if (Settings[`${conflictId}_sgtools`]) {
+            if (Settings.get(`${conflictId}_sgtools`)) {
               sgtoolsSwitch.disable(true);
               new Popup({
                 addScrollable: true,
@@ -1065,7 +1066,7 @@ class SettingsModule {
 
   dismissNewOption(id, event) {
     event.currentTarget.remove();
-    const dismissedOptions = Settings.dismissedOptions;
+    const dismissedOptions = Settings.get('dismissedOptions');
     if (dismissedOptions.indexOf(id) < 0) {
       dismissedOptions.push(id);
       // noinspection JSIgnoredPromiseFromCall
@@ -1083,7 +1084,7 @@ class SettingsModule {
       text: `${number}.`,
       type: 'div'
     }]);
-    let isMainNew = Settings.dismissedOptions.indexOf(id) < 0 && !Utils.isSet(Shared.esgst.settings[`${id}_sg`]) && !Utils.isSet(Shared.esgst.settings[`${id}_st`]) && !Utils.isSet(Shared.esgst.settings[`${id}_sgtools`]);
+    let isMainNew = Settings.get('dismissedOptions').indexOf(id) < 0 && !Utils.isSet(Shared.esgst.settings[`${id}_sg`]) && !Utils.isSet(Shared.esgst.settings[`${id}_st`]) && !Utils.isSet(Shared.esgst.settings[`${id}_sgtools`]);
     if (isMainNew) {
       feature.isNew = true;
       Shared.common.createElements(menu.firstElementChild, 'afterEnd', [{
@@ -1099,12 +1100,12 @@ class SettingsModule {
     let sgContext, stContext, sgtoolsContext;
     let collapseButton, isExpanded, subMenu;
     if (feature.sg) {
-      const value = Settings[`${id}_sg`];
+      const value = Settings.get(`${id}_sg`);
       if (value) {
         isHidden = false;
       }
       sgContext = DOM.build([['div']]).firstElementChild;
-      const sgSwitch = new ToggleSwitch(sgContext, null, true, Settings.esgst_st || Settings.esgst_sgtools ? `[SG]` : '', true, false, null, value);
+      const sgSwitch = new ToggleSwitch(sgContext, null, true, Settings.get('esgst_st') || Settings.get('esgst_sgtools') ? `[SG]` : '', true, false, null, value);
       feature.sgSwitch = sgSwitch;
       sgSwitch.onEnabled = () => {
         if (feature.extensionOnly && browser.gm) {
@@ -1114,7 +1115,7 @@ class SettingsModule {
         }
         if (feature.conflicts) {
           for (const conflictId of feature.conflicts) {
-            if (Settings[`${conflictId}_sg`]) {
+            if (Settings.get(`${conflictId}_sg`)) {
               sgSwitch.disable(true);
               new Popup({
                 addScrollable: true,
@@ -1163,8 +1164,8 @@ class SettingsModule {
         }
       };
     }
-    if (feature.st && (Settings.esgst_st || id === 'esgst')) {
-      const value = Settings[`${id}_st`];
+    if (feature.st && (Settings.get('esgst_st') || id === 'esgst')) {
+      const value = Settings.get(`${id}_st`);
       if (value) {
         isHidden = false;
       }
@@ -1179,7 +1180,7 @@ class SettingsModule {
         }
         if (feature.conflicts) {
           for (const conflictId of feature.conflicts) {
-            if (Settings[`${conflictId}_st`]) {
+            if (Settings.get(`${conflictId}_st`)) {
               stSwitch.disable(true);
               new Popup({
                 addScrollable: true,
@@ -1228,8 +1229,8 @@ class SettingsModule {
         }
       };
     }
-    if (feature.sgtools && (Settings.esgst_sgtools || id === 'esgst')) {
-      const value = Settings[`${id}_sgtools`];
+    if (feature.sgtools && (Settings.get('esgst_sgtools') || id === 'esgst')) {
+      const value = Settings.get(`${id}_sgtools`);
       if (value) {
         isHidden = false;
       }
@@ -1244,7 +1245,7 @@ class SettingsModule {
         }
         if (feature.conflicts) {
           for (const conflictId of feature.conflicts) {
-            if (Settings[`${conflictId}_sgtools`]) {
+            if (Settings.get(`${conflictId}_sgtools`)) {
               sgtoolsSwitch.disable(true);
               new Popup({
                 addScrollable: true,
@@ -1313,7 +1314,7 @@ class SettingsModule {
           continue;
         }
         const subFt = feature.features[subId];
-        if (!subFt.sg && (((subFt.sgtools && !Settings.esgst_sgtools) || (subFt.st && !Settings.esgst_st)) && id !== 'esgst')) {
+        if (!subFt.sg && (((subFt.sgtools && !Settings.get('esgst_sgtools')) || (subFt.st && !Settings.get('esgst_st'))) && id !== 'esgst')) {
           continue;
         }
         const subFeature = this.getSMFeature(subFt, subId, i, popup);
@@ -1341,7 +1342,7 @@ class SettingsModule {
           }]
         }]);
       }
-      if (Settings.makeSectionsCollapsible) {
+      if (Settings.get('makeSectionsCollapsible')) {
         collapseButton = Shared.common.createElements(menu, 'afterBegin', [{
           attributes: {
             class: 'esgst-clickable',
@@ -1350,13 +1351,13 @@ class SettingsModule {
           type: 'span',
           children: [{
             attributes: {
-              class: `fa fa-${Settings[`collapse_${id}`] ? 'plus' : 'minus'}-square`,
-              title: `${Settings[`collapse_${id}`] ? 'Expand' : 'Collapse'} options`
+              class: `fa fa-${Settings.get(`collapse_${id}`) ? 'plus' : 'minus'}-square`,
+              title: `${Settings.get(`collapse_${id}`) ? 'Expand' : 'Collapse'} options`
             },
             type: 'i'
           }]
         }]);
-        if (Settings[`collapse_${id}`]) {
+        if (Settings.get(`collapse_${id}`)) {
           subMenu.classList.add('esgst-hidden');
           isExpanded = false;
         } else {
@@ -1365,7 +1366,7 @@ class SettingsModule {
         this.collapseButtons.push({ collapseButton, id, subMenu });
         collapseButton.addEventListener('click', () => isExpanded = this.collapseOrExpandSection(collapseButton, id, subMenu, isExpanded));
       }
-    } else if (Settings.makeSectionsCollapsible) {
+    } else if (Settings.get('makeSectionsCollapsible')) {
       menu.style.marginLeft = '20px';
     }
     return {
@@ -1414,7 +1415,7 @@ class SettingsModule {
       }
       const children = [];
       for (const id in Feature.colors) {
-        const color = Utils.rgba2Hex(Settings[`${ID}_${id}`]);
+        const color = Utils.rgba2Hex(Settings.get(`${ID}_${id}`));
         children.push(
           ['strong', `${Feature.colors[id]}: `],
           ['br'],
@@ -1441,7 +1442,7 @@ class SettingsModule {
         const input = DOM.build([
           ['div', { class: 'esgst-sm-colors' }, [
             `Only show the following genres: `,
-            ['input', { type: 'text', value: Settings.gc_g_filters }],
+            ['input', { type: 'text', value: Settings.get('gc_g_filters') }],
             ['i', { class: 'fa fa-question-circle', title: `If you enter genres here, a genre category will only appear if the game has the listed genre. Separate genres with a comma, for example: Genre1, Genre2` }]
           ]]
         ]).firstElementChild;
@@ -1453,11 +1454,11 @@ class SettingsModule {
         const input = DOM.build([
           ['div', { class: 'esgst-sm-colors' }, [
             `Icon: `,
-            ['input', { type: 'text', value: Settings[`${ID}Icon`] }],
+            ['input', { type: 'text', value: Settings.get(`${ID}Icon`) }],
             ['i', { class: 'esgst-clickable fa fa-question-circle' }],
             ['br'],
             `Label: `,
-            ['input', { type: 'text', value: Settings[`${ID}Label`] }]
+            ['input', { type: 'text', value: Settings.get(`${ID}Label`) }]
           ]]
         ]).firstElementChild;
         Shared.common.createTooltip(input.firstElementChild.nextElementSibling, `The name of the icon must be any name in this page: <a href="https://fontawesome.com/v4.7.0/icons/">https://fontawesome.com/v4.7.0/icons/</a>`);
@@ -1515,7 +1516,7 @@ class SettingsModule {
         } else {
           attributes.class = 'esgst-switch-input esgst-switch-input-large';
           attributes.type = attributes.type || 'text';
-          attributes.value = Settings[item.id];
+          attributes.value = Settings.get(item.id);
           children.push({
             text: item.prefix || '',
             type: 'node'
@@ -1544,9 +1545,9 @@ class SettingsModule {
           }]);
         input = context.firstElementChild;
         if (item.play) {
-          input.nextElementSibling.addEventListener('click', async () => (await Shared.esgst.modules.generalHeaderRefresher.createPlayer(Settings[item.id] || Shared.esgst.modules.generalHeaderRefresher.getDefaultSound())).play());
+          input.nextElementSibling.addEventListener('click', async () => (await Shared.esgst.modules.generalHeaderRefresher.createPlayer(Settings.get(item.id) || Shared.esgst.modules.generalHeaderRefresher.getDefaultSound())).play());
         }
-        if (typeof Settings[item.id] === 'undefined' && Settings.dismissedOptions.indexOf(item.id) < 0) {
+        if (typeof Settings.get(item.id) === 'undefined' && Settings.get('dismissedOptions').indexOf(item.id) < 0) {
           Feature.isNew = true;
           Shared.common.createElements(context, 'afterBegin', [{
             attributes: {
@@ -1596,9 +1597,9 @@ class SettingsModule {
     } else if (Feature.theme) {
       const children = [
         'Enabled from ',
-        ['input', { type: 'text', value: Settings[`${ID}_startTime`] }],
+        ['input', { type: 'text', value: Settings.get(`${ID}_startTime`) }],
         ' to ',
-        ['input', { type: 'text', value: Settings[`${ID}_endTime`] }],
+        ['input', { type: 'text', value: Settings.get(`${ID}_endTime`) }],
         ['i', { class: 'fa fa-question-circle', title: `You can specify here what time of the day you want the theme to be enabled. Use the HH:MM format.` }],
         ['br']
       ];
@@ -1669,7 +1670,7 @@ class SettingsModule {
       const [key, options] = Array.isArray(Feature.options) ? ['_index_*', Feature.options] : ['_index', [Feature.options]];
       for (const [index, option] of options.entries()) {
         const currentKey = key.replace(/\*/, index);
-        const selectedIndex = Settings[`${ID}${currentKey}`];
+        const selectedIndex = Settings.get(`${ID}${currentKey}`);
         const children = [];
         for (const value of option.values) {
           children.push(
@@ -1737,8 +1738,8 @@ class SettingsModule {
       ]]
     ]).firstElementChild;
     const button = panel.firstElementChild;
-    for (let i = 0, n = Settings[id].length; i < n; ++i) {
-      this.addGwcColorSetting(Settings[id][i], id, key, panel, background);
+    for (let i = 0, n = Settings.get(id).length; i < n; ++i) {
+      this.addGwcColorSetting(Settings.get(id)[i], id, key, panel, background);
     }
     button.addEventListener('click', () => {
       const colors = {
@@ -1749,7 +1750,7 @@ class SettingsModule {
       if (background) {
         colors.bgColor = '';
       }
-      const setting = Settings[id];
+      const setting = Settings.get(id);
       setting.push(colors);
       this.preSave(id, setting);
       this.addGwcColorSetting(colors, id, key, panel, background);
@@ -1818,25 +1819,25 @@ class SettingsModule {
     }
     lower.addEventListener('change', () => {
       colors.lower = lower.value;
-      this.preSave(id, Settings[id]);
+      this.preSave(id, Settings.get(id));
     });
     upper.addEventListener('change', () => {
       colors.upper = upper.value;
-      this.preSave(id, Settings[id]);
+      this.preSave(id, Settings.get(id));
     });
     color.addEventListener('change', () => {
       colors.color = color.value;
-      this.preSave(id, Settings[id]);
+      this.preSave(id, Settings.get(id));
     });
     if (bgColor) {
       bgColor.addEventListener('change', () => {
         colors.bgColor = bgColor.value;
-        this.preSave(id, Settings[id]);
+        this.preSave(id, Settings.get(id));
       });
     }
     remove.addEventListener('click', () => {
       if (window.confirm('Are you sure you want to delete this setting?')) {
-        const gwcsetting = Settings[id];
+        const gwcsetting = Settings.get(id);
         for (i = 0, n = gwcsetting.length; i < n && gwcsetting[i] !== colors; ++i) {
         }
         if (i < n) {
@@ -1888,7 +1889,7 @@ class SettingsModule {
   }
 
   mergeValues(id, panel, callback) {
-    const setting = Settings[id];
+    const setting = Settings.get(id);
     for (const item of Settings.defaultValues[id]) {
       const itemString = JSON.stringify(item);
       if (!setting.filter(x => JSON.stringify(x) === itemString)[0]) {
@@ -1903,7 +1904,7 @@ class SettingsModule {
   }
 
   addUlMenuItems(id, panel) {
-    for (const [i, link] of Settings[id].entries()) {
+    for (const [i, link] of Settings.get(id).entries()) {
       this.addUlLink(i, id, link, panel);
     }
   }
@@ -1913,7 +1914,7 @@ class SettingsModule {
       label: '',
       url: ''
     };
-    const setting = Settings[id];
+    const setting = Settings.get(id);
     setting.push(link);
     this.preSave(id, setting);
     this.addUlLink(setting.length - 1, id, link, panel);
@@ -1923,9 +1924,9 @@ class SettingsModule {
     const setting = DOM.build(panel.firstElementChild, 'beforeEnd', [
       ['div', { 'data-draggable-id': i, 'data-draggable-obj': JSON.stringify(link) }, [
         `Label: `,
-        ['input', { onchange: event => { link.label = event.currentTarget.value; this.preSave(id, Settings[id]); setting.setAttribute('data-draggable-obj', JSON.stringify(link)); }, type: 'text', value: link.label }],
+        ['input', { onchange: event => { link.label = event.currentTarget.value; this.preSave(id, Settings.get(id)); setting.setAttribute('data-draggable-obj', JSON.stringify(link)); }, type: 'text', value: link.label }],
         `URL: `,
-        ['input', { onchange: event => { link.url = event.currentTarget.value; this.preSave(id, Settings[id]); setting.setAttribute('data-draggable-obj', JSON.stringify(link)); }, type: 'text', value: link.url }]
+        ['input', { onchange: event => { link.url = event.currentTarget.value; this.preSave(id, Settings.get(id)); setting.setAttribute('data-draggable-obj', JSON.stringify(link)); }, type: 'text', value: link.url }]
       ]]
     ]);
     Shared.common.draggable_set({
@@ -1951,8 +1952,8 @@ class SettingsModule {
       ]]
     ]).firstElementChild;
     let button = panel.firstElementChild;
-    for (let i = 0, n = Settings.gc_r_colors.length; i < n; ++i) {
-      this.addGcRatingColorSetting(Settings.gc_r_colors[i], panel);
+    for (let i = 0, n = Settings.get('gc_r_colors').length; i < n; ++i) {
+      this.addGcRatingColorSetting(Settings.get('gc_r_colors')[i], panel);
     }
     button.addEventListener('click', () => {
       let colors = {
@@ -1962,7 +1963,7 @@ class SettingsModule {
         lower: '',
         upper: ''
       };
-      const setting = Settings.gc_r_colors;
+      const setting = Settings.get('gc_r_colors');
       setting.push(colors);
       this.preSave('gc_r_colors', setting);
       this.addGcRatingColorSetting(colors, panel);
@@ -2044,28 +2045,28 @@ class SettingsModule {
     let remove = tooltip.nextElementSibling;
     lower.addEventListener('change', () => {
       colors.lower = lower.value;
-      this.preSave('gc_r_colors', Settings.gc_r_colors);
+      this.preSave('gc_r_colors', Settings.get('gc_r_colors'));
     });
     upper.addEventListener('change', () => {
       colors.upper = upper.value;
-      this.preSave('gc_r_colors', Settings.gc_r_colors);
+      this.preSave('gc_r_colors', Settings.get('gc_r_colors'));
     });
     color.addEventListener('change', () => {
       colors.color = color.value;
-      this.preSave('gc_r_colors', Settings.gc_r_colors);
+      this.preSave('gc_r_colors', Settings.get('gc_r_colors'));
     });
     bgColor.addEventListener('change', () => {
       colors.bgColor = bgColor.value;
-      this.preSave('gc_r_colors', Settings.gc_r_colors);
+      this.preSave('gc_r_colors', Settings.get('gc_r_colors'));
     });
     icon.addEventListener('change', () => {
       colors.icon = icon.value;
-      this.preSave('gc_r_colors', Settings.gc_r_colors);
+      this.preSave('gc_r_colors', Settings.get('gc_r_colors'));
     });
     remove.addEventListener('click', () => {
       if (window.confirm('Are you sure you want to delete this setting?')) {
         let i, n;
-        const colorSetting = Settings.gc_r_colors;
+        const colorSetting = Settings.get('gc_r_colors');
         for (i = 0, n = colorSetting.length; i < n && colorSetting[i] !== colors; ++i) {
         }
         if (i < n) {
@@ -2088,8 +2089,8 @@ class SettingsModule {
       ]]
     ]).firstElementChild;
     button = panel.firstElementChild;
-    for (i = 0, n = Settings.gc_g_colors.length; i < n; ++i) {
-      this.addGcColorSetting(Settings.gc_g_colors[i], panel);
+    for (i = 0, n = Settings.get('gc_g_colors').length; i < n; ++i) {
+      this.addGcColorSetting(Settings.get('gc_g_colors')[i], panel);
     }
     button.addEventListener('click', () => {
       colorSetting = {
@@ -2097,7 +2098,7 @@ class SettingsModule {
         color: '#ffffff',
         genre: ''
       };
-      const gcgcolors = Settings.gc_g_colors;
+      const gcgcolors = Settings.get('gc_g_colors');
       gcgcolors.push(colorSetting);
       this.preSave('gc_g_colors', gcgcolors);
       this.addGcColorSetting(colorSetting, panel);
@@ -2153,25 +2154,25 @@ class SettingsModule {
     remove = bgColor.nextElementSibling;
     genre.addEventListener('change', () => {
       colorSetting.genre = genre.value;
-      this.preSave('gc_g_colors', Settings.gc_g_colors);
+      this.preSave('gc_g_colors', Settings.get('gc_g_colors'));
     });
     color.addEventListener('change', () => {
       colorSetting.color = color.value;
-      this.preSave('gc_g_colors', Settings.gc_g_colors);
+      this.preSave('gc_g_colors', Settings.get('gc_g_colors'));
     });
     bgColor.addEventListener('change', () => {
       colorSetting.bgColor = bgColor.value;
-      this.preSave('gc_g_colors', Settings.gc_g_colors);
+      this.preSave('gc_g_colors', Settings.get('gc_g_colors'));
     });
     remove.addEventListener('click', () => {
       if (window.confirm('Are you sure you want to delete this setting?')) {
-        const gcgcolors = Settings.gc_g_colors;
+        const gcgcolors = Settings.get('gc_g_colors');
         for (i = 0, n = gcgcolors.length; i < n && gcgcolors[i] !== colorSetting; ++i) {
         }
         if (i < n) {
           gcgcolors.splice(i, 1);
-          Settings.gc_g_colors = gcgcolors;
-          this.preSave('gc_g_colors', Settings.gc_g_colors);
+          Settings.set('gc_g_colors', gcgcolors);
+          this.preSave('gc_g_colors', Settings.get('gc_g_colors'));
           setting.remove();
         }
       }
@@ -2200,8 +2201,8 @@ class SettingsModule {
     <br/>
     <div>You must fill the fields relative to your settings. For example, if you have simplified version enabled with icons, you must fill the "icon" field. If you don't have simplified version enabled, you must fill the "label" field. The current text in the fields are simply placeholders.</div>
   `);
-    for (i = 0, n = Settings.gc_o_altAccounts.length; i < n; ++i) {
-      this.addGcAltSetting(Settings.gc_o_altAccounts[i], panel);
+    for (i = 0, n = Settings.get('gc_o_altAccounts').length; i < n; ++i) {
+      this.addGcAltSetting(Settings.get('gc_o_altAccounts')[i], panel);
     }
     button.addEventListener('click', () => {
       altSetting = {
@@ -2216,7 +2217,7 @@ class SettingsModule {
         name: '',
         steamId: ''
       };
-      const gcoalt = Settings.gc_o_altAccounts;
+      const gcoalt = Settings.get('gc_o_altAccounts');
       gcoalt.push(altSetting);
       this.preSave('gc_o_altAccounts', gcoalt);
       this.addGcAltSetting(altSetting, panel);
@@ -2311,31 +2312,31 @@ class SettingsModule {
     remove = label.nextElementSibling;
     steamId.addEventListener('change', () => {
       altSetting.steamId = steamId.value;
-      this.preSave('gc_o_altAccounts', Settings.gc_o_altAccounts);
+      this.preSave('gc_o_altAccounts', Settings.get('gc_o_altAccounts'));
     });
     name.addEventListener('change', () => {
       altSetting.name = name.value;
-      this.preSave('gc_o_altAccounts', Settings.gc_o_altAccounts);
+      this.preSave('gc_o_altAccounts', Settings.get('gc_o_altAccounts'));
     });
     color.addEventListener('change', () => {
       altSetting.color = color.value;
-      this.preSave('gc_o_altAccounts', Settings.gc_o_altAccounts);
+      this.preSave('gc_o_altAccounts', Settings.get('gc_o_altAccounts'));
     });
     bgColor.addEventListener('change', () => {
       altSetting.bgColor = bgColor.value;
-      this.preSave('gc_o_altAccounts', Settings.gc_o_altAccounts);
+      this.preSave('gc_o_altAccounts', Settings.get('gc_o_altAccounts'));
     });
     icon.addEventListener('change', () => {
       altSetting.icon = icon.value;
-      this.preSave('gc_o_altAccounts', Settings.gc_o_altAccounts);
+      this.preSave('gc_o_altAccounts', Settings.get('gc_o_altAccounts'));
     });
     label.addEventListener('change', () => {
       altSetting.label = label.value;
-      this.preSave('gc_o_altAccounts', Settings.gc_o_altAccounts);
+      this.preSave('gc_o_altAccounts', Settings.get('gc_o_altAccounts'));
     });
     remove.addEventListener('click', () => {
       if (window.confirm('Are you sure you want to delete this setting?')) {
-        const gcoalt = Settings.gc_o_altAccounts;
+        const gcoalt = Settings.get('gc_o_altAccounts');
         for (i = 0, n = gcoalt.length; i < n && gcoalt[i] !== altSetting; ++i) {
         }
         if (i < n) {
@@ -2643,7 +2644,7 @@ class SettingsModule {
         children: html
       }]
     }]);
-    if (Settings.makeSectionsCollapsible && !title.match(/Backup|Restore|Delete/)) {
+    if (Settings.get('makeSectionsCollapsible') && !title.match(/Backup|Restore|Delete/)) {
       let button, containerr, isExpanded;
       button = Shared.common.createElements(section.firstElementChild, 'afterBegin', [{
         attributes: {
@@ -2653,14 +2654,14 @@ class SettingsModule {
         type: 'span',
         children: [{
           attributes: {
-            class: `fa fa-${Settings[`collapse_${type}`] ? 'plus' : 'minus'}-square`,
-            title: `${Settings[`collapse_${type}`] ? 'Expand' : 'Collapse'} section`
+            class: `fa fa-${Settings.get(`collapse_${type}`) ? 'plus' : 'minus'}-square`,
+            title: `${Settings.get(`collapse_${type}`) ? 'Expand' : 'Collapse'} section`
           },
           type: 'i'
         }]
       }]);
       containerr = section.lastElementChild;
-      if (Settings[`collapse_${type}`]) {
+      if (Settings.get(`collapse_${type}`)) {
         containerr.classList.add('esgst-hidden');
         isExpanded = false;
       } else {

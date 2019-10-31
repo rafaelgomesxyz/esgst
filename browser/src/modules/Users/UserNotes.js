@@ -53,7 +53,7 @@ class UsersUserNotes extends Module {
     let blacklistButton, position, whitelistButton;
     if (Shared.esgst.sg) {
       position = 'beforeEnd';
-      if (Settings.un_p) {
+      if (Settings.get('un_p')) {
         whitelistButton = profile.steamButtonContainer.getElementsByClassName('sidebar__shortcut__whitelist')[0];
         if (whitelistButton) {
           whitelistButton.addEventListener('click', this.un_open.bind(this, profile));
@@ -100,7 +100,7 @@ class UsersUserNotes extends Module {
     profile.unTextArea = createElements(profile.unPopup.scrollable, 'beforeEnd', [{
       type: 'textarea'
     }]);
-    if (Settings.cfh) {
+    if (Settings.get('cfh')) {
       Shared.esgst.modules.commentsCommentFormattingHelper.cfh_addPanel(profile.unTextArea);
     }
     set = new ButtonSet({

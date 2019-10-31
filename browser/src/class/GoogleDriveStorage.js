@@ -33,8 +33,8 @@ class GoogleDriveStorage extends ICloudStorage {
       scope: `https://www.googleapis.com/auth/drive.appdata`,
       state: 'google-drive'
     };
-    if (Settings.usePreferredGoogle) {
-      params['login_hint'] = Settings.preferredGoogle;
+    if (Settings.get('usePreferredGoogle')) {
+      params['login_hint'] = Settings.get('preferredGoogle');
     }
     const url = FetchRequest.addQueryParams(GoogleDriveStorage.AUTH_URL, params);
     await Shared.common.delValue(key);
@@ -47,7 +47,7 @@ class GoogleDriveStorage extends ICloudStorage {
       token = await GoogleDriveStorage.authenticate();
     }
     const metadataRequestOptions = {
-      data: Settings.backupZip ? `{ "name": "${fileName}.zip", "parents": ["appDataFolder"]}` : `{"name": "${fileName}.json", "parents": ["appDataFolder"] }`,
+      data: Settings.get('backupZip') ? `{ "name": "${fileName}.zip", "parents": ["appDataFolder"]}` : `{"name": "${fileName}.json", "parents": ["appDataFolder"] }`,
       headers: Object.assign(GoogleDriveStorage.getDefaultHeaders(token), {
         'Content-Type': 'application/json'
       })
@@ -58,9 +58,9 @@ class GoogleDriveStorage extends ICloudStorage {
     }
     const requestOptions = {
       data,
-      fileName: Settings.backupZip ? `${fileName}.json` : null,
+      fileName: Settings.get('backupZip') ? `${fileName}.json` : null,
       headers: Object.assign(GoogleDriveStorage.getDefaultHeaders(token), {
-        'Content-Type': Settings.backupZip ? 'application/zip' : 'text/plain'
+        'Content-Type': Settings.get('backupZip') ? 'application/zip' : 'text/plain'
       }),
       pathParams: {
         fileId: metadataResponse.json.id

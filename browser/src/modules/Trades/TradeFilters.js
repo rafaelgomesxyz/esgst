@@ -199,13 +199,13 @@ class TradesTradeFilters extends Filters {
   }
 
   async init() {
-    if (Settings.tf_s) {
-      if (Settings.tf_s_s) {
+    if (Settings.get('tf_s')) {
+      if (Settings.get('tf_s_s')) {
         this.addSingleButton('fa-comments');
       }
       this.esgst.tradeFeatures.push(this.tf_addButtons.bind(this));
     }
-    if (Settings.tf_m && Shared.esgst.tradesPath && !Shared.esgst.editTradePath) {
+    if (Settings.get('tf_m') && Shared.esgst.tradesPath && !Shared.esgst.editTradePath) {
       if (!Shared.esgst.hasAddedFilterContainer) {
         Shared.esgst.style.insertAdjacentText("beforeend", `
           .esgst-gf-container {
@@ -350,10 +350,10 @@ class TradesTradeFilters extends Filters {
     }]);
     await endless_load(obj.trades);
     if (!Shared.esgst.tradesPath) {
-      if (Settings.gdttt) {
+      if (Settings.get('gdttt')) {
         await Shared.esgst.modules.commentsCommentTracker.ct_addDiscussionPanels(obj.trades, true);
         await Shared.esgst.modules.generalGiveawayDiscussionTicketTradeTracker.gdttt_checkVisited(obj.trades);
-      } else if (Settings.ct) {
+      } else if (Settings.get('ct')) {
         await Shared.esgst.modules.commentsCommentTracker.ct_addDiscussionPanels(obj.trades, true);
       }
       await Shared.esgst.modules.discussions.discussions_load(obj.trades);
@@ -419,17 +419,17 @@ class TradesTradeFilters extends Filters {
         type: 'boolean'
       },
       visited: {
-        check: Settings.gdttt,
+        check: Settings.get('gdttt'),
         name: 'Visited',
         type: 'boolean'
       },
       subscribed: {
-        check: Settings.tds,
+        check: Settings.get('tds'),
         name: 'Subscribed',
         type: 'boolean'
       },
       unread: {
-        check: Settings.ct,
+        check: Settings.get('ct'),
         name: 'Unread',
         type: 'boolean'
       },

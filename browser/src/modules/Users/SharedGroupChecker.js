@@ -40,7 +40,7 @@ class UsersSharedGroupChecker extends Module {
   }
 
   sgc_add(profile) {
-    if (profile.username === Settings.username) {
+    if (profile.username === Settings.get('username')) {
       // no point in checking which groups a user shares with themselves
       return;
     }

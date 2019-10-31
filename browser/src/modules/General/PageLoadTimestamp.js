@@ -34,8 +34,8 @@ class GeneralPageLoadTimestamp extends Module {
   }
 
   init() {
-    const timestamp = dateFns_format(Date.now(), (Settings.plt_format || `MMM dd, yyyy, HH:mm:ss`));
-    switch (Settings.plt_index) {
+    const timestamp = dateFns_format(Date.now(), (Settings.get('plt_format') || `MMM dd, yyyy, HH:mm:ss`));
+    switch (Settings.get('plt_index')) {
       case 0:
         if (this.esgst.sidebar) {
           DOM.build(this.esgst.sidebar, 'afterBegin', [

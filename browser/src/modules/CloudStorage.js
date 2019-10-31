@@ -14,7 +14,7 @@ class CloudStorage {
   static get ONEDRIVE() { return 2; }
 
   static async manage(service, data, dm, callback) {
-    if (dm.type === 'export' || (data && Settings.exportBackup)) {
+    if (dm.type === 'export' || (data && Settings.get('exportBackup'))) {
       await CloudStorage.backup(service, data, dm, callback);
     } else {
       await CloudStorage.restore(service, dm, callback);
@@ -23,7 +23,7 @@ class CloudStorage {
 
   static async backup(service, data, dm, callback) {
     const defaultFileName = `esgst_data_${new Date().toISOString().replace(/:/g, '_')}`;
-    const fileName = Settings.askFileName ? window.prompt(`Enter the name of the file:`, defaultFileName) : defaultFileName;
+    const fileName = Settings.get('askFileName') ? window.prompt(`Enter the name of the file:`, defaultFileName) : defaultFileName;
 
     if (fileName === null) {
       if (callback) {
@@ -61,7 +61,7 @@ class CloudStorage {
           break;
       }
 
-      if (Settings.deleteOldBackups) {
+      if (Settings.get('deleteOldBackups')) {
         let files = null;
 
         try {
@@ -80,7 +80,7 @@ class CloudStorage {
           const now = Date.now();
           const fileIds = [];
           for (const file of files) {
-            if (now - new Date(file.date).getTime() > Settings.deleteOldBackups_days * 86400000) {
+            if (now - new Date(file.date).getTime() > Settings.get('deleteOldBackups_days') * 86400000) {
               fileIds.push(file.id);
             }
           }

@@ -36,16 +36,16 @@ class Giveaways extends Module {
       await feature(giveaways, main, source);
     }
     giveaways.forEach(giveaway => this.giveaways_reorder(giveaway));
-    if (this.esgst.gas && Settings[this.esgst.gas.autoKey]) {
-      sortContent(this.esgst.currentScope.giveaways, Settings[this.esgst.gas.optionKey]);
+    if (this.esgst.gas && Settings.get(this.esgst.gas.autoKey)) {
+      sortContent(this.esgst.currentScope.giveaways, Settings.get(this.esgst.gas.optionKey));
     }
-    if (main && Shared.esgst.gf && this.esgst.gf.filteredCount && Settings[`gf_enable${this.esgst.gf.type}`]) {
+    if (main && Shared.esgst.gf && this.esgst.gf.filteredCount && Settings.get(`gf_enable${this.esgst.gf.type}`)) {
       this.esgst.modules.giveawaysGiveawayFilters.filters_filter(this.esgst.gf, false, endless);
     }
-    if (!main && this.esgst.gfPopup && this.esgst.gfPopup.filteredCount && Settings[`gf_enable${this.esgst.gfPopup.type}`]) {
+    if (!main && this.esgst.gfPopup && this.esgst.gfPopup.filteredCount && Settings.get(`gf_enable${this.esgst.gfPopup.type}`)) {
       this.esgst.modules.giveawaysGiveawayFilters.filters_filter(this.esgst.gfPopup);
     }
-    if (Settings.mm_enableGiveaways && this.esgst.mm_enable) {
+    if (Settings.get('mm_enableGiveaways') && this.esgst.mm_enable) {
       this.esgst.mm_enable(this.esgst.currentScope.giveaways, 'Giveaways');
     }
   }
@@ -236,7 +236,7 @@ class Giveaways extends Module {
     } else if (userPath && !userWonPath && main && !ged) {
       giveaway.creator = ((mainUrl && common.getPath(mainUrl)) || window.location.pathname).match(/^\/user\/(.+?)(\/.*)?$/)[1];
     } else if (createdPath && main) {
-      giveaway.creator = Settings.username;
+      giveaway.creator = Settings.get('username');
     }
     if (giveaway.creator) {
       giveaway.creators.push(giveaway.creator.toLowerCase());
@@ -271,13 +271,13 @@ class Giveaways extends Module {
         giveaway.awaitingFeedback = !giveaway.received && !giveaway.notReceived;
       }
     }
-    giveaway.created = giveaway.creator === Settings.username;
-    if (Settings.gf && Settings.gf_s && main) {
+    giveaway.created = giveaway.creator === Settings.get('username');
+    if (Settings.get('gf') && Settings.get('gf_s') && main) {
       let savedGiveaway = this.esgst.giveaways[giveaway.code];
       if ((giveawaysPath || groupPath) && savedGiveaway && savedGiveaway.hidden && savedGiveaway.code && savedGiveaway.endTime && savedGiveaway.endTime > Date.now()) {
         giveaway.outerWrap.classList.add('esgst-hidden');
         giveaway.outerWrap.setAttribute('data-esgst-not-filterable', 'gf');
-        if (Settings.gf_s_s) {
+        if (Settings.get('gf_s_s')) {
           Shared.esgst.modules.giveawaysGiveawayFilters.updateSingleCounter();
         }
       }
@@ -299,7 +299,7 @@ class Giveaways extends Module {
     }
     giveaway.extraPanel = DOM.build(giveaway.summary, 'beforeEnd', [['div']]);
     giveaway.panel = giveaway.innerWrap.getElementsByClassName('esgst-giveaway-panel')[0];
-    if (!giveaway.panel && (Settings.gwc || Settings.gwr || Settings.gptw || Settings.gp || Settings.elgb || Settings.cewgd)) {
+    if (!giveaway.panel && (Settings.get('gwc') || Settings.get('gwr') || Settings.get('gptw') || Settings.get('gp') || Settings.get('elgb') || Settings.get('cewgd'))) {
       if (giveaway.links) {
         giveaway.panelFlexbox = DOM.build(giveaway.links, 'afterEnd', [
           ['div', { class: 'esgst-panel-flexbox' }]
@@ -328,7 +328,7 @@ class Giveaways extends Module {
             type: 'div'
           }]);
         }
-      } else if ((enteredPath || (wonPath && Settings.cewgd && Settings.cewgd_w && Settings.cewgd_w_e)) && (Settings.gwc || Settings.gwr || Settings.gptw)) {
+      } else if ((enteredPath || (wonPath && Settings.get('cewgd') && Settings.get('cewgd_w') && Settings.get('cewgd_w_e'))) && (Settings.get('gwc') || Settings.get('gwr') || Settings.get('gptw'))) {
         giveaway.panel = createElements(giveaway.innerWrap.firstElementChild.nextElementSibling, 'afterEnd', [{
           attributes: {
             class: 'table__column--width-small text-center esgst-giveaway-panel'
@@ -357,7 +357,7 @@ class Giveaways extends Module {
     }
     giveaway.elgbPanel = giveaway.panel;
     if (!giveaway.entriesLink) {
-      let ct = giveaway.panel || (Settings.gm_enable && createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling);
+      let ct = giveaway.panel || (Settings.get('gm_enable') && createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling);
       if (ct.nextElementSibling) {
         giveaway.entries = parseInt(ct.nextElementSibling.textContent.replace(/,/g, ''));
       }
@@ -411,7 +411,7 @@ class Giveaways extends Module {
     giveaway.enterable = giveaway.outerWrap.getAttribute('data-enterable');
     giveaway.currentlyEnterable = giveaway.outerWrap.getAttribute('data-currently-enterable');
     if (main) {
-      if (Settings.gr && giveaway.creator === Settings.username && (Settings.gr_a || (giveaway.ended && (giveaway.entries === 0 || giveaway.entries < giveaway.copies))) && (!Settings.gr_r || !this.esgst.giveaways[giveaway.code] || !this.esgst.giveaways[giveaway.code].recreated) && !giveaway.heading.getElementsByClassName('esgst-gr-button')[0]) {
+      if (Settings.get('gr') && giveaway.creator === Settings.get('username') && (Settings.get('gr_a') || (giveaway.ended && (giveaway.entries === 0 || giveaway.entries < giveaway.copies))) && (!Settings.get('gr_r') || !this.esgst.giveaways[giveaway.code] || !this.esgst.giveaways[giveaway.code].recreated) && !giveaway.heading.getElementsByClassName('esgst-gr-button')[0]) {
         let button = createElements(giveaway.headingName, 'beforeBegin', [{
           attributes: {
             class: 'esgst-gr-button',
@@ -445,7 +445,7 @@ class Giveaways extends Module {
         }]);
         hideButton = temp.nextElementSibling;
         hideButton.addEventListener('click', hideGame.bind(common, hideButton, giveaway.gameId, giveaway.name, giveaway.id, giveaway.type));
-      } else if (Settings.updateHiddenGames) {
+      } else if (Settings.get('updateHiddenGames')) {
         hideButton.addEventListener('click', () => {
           this.esgst.hidingGame = {
             id: giveaway.id,
@@ -578,7 +578,7 @@ class Giveaways extends Module {
 
   giveaways_reorder(giveaway) {
     if (giveaway.columns || giveaway.gvIcons) {
-      for (const id of (giveaway.gvIcons ? Settings.giveawayColumns_gv : Settings.giveawayColumns)) {
+      for (const id of (giveaway.gvIcons ? Settings.get('giveawayColumns_gv') : Settings.get('giveawayColumns'))) {
         if (id === 'startTime' && Shared.common.isCurrentPath('Archive')) {
           continue;
         }
@@ -607,7 +607,7 @@ class Giveaways extends Module {
       }
     }
     if (giveaway.panel) {
-      for (const id of (giveaway.gvIcons ? Settings.giveawayPanel_gv : Settings.giveawayPanel)) {
+      for (const id of (giveaway.gvIcons ? Settings.get('giveawayPanel_gv') : Settings.get('giveawayPanel'))) {
         const elements = giveaway.outerWrap.querySelectorAll(`[data-draggable-id="${id}"]`);
         for (const element of elements) {
           giveaway.panel.appendChild(element);
@@ -630,7 +630,7 @@ class Giveaways extends Module {
       }
     }
     if (giveaway.heading) {
-      for (const id of (giveaway.gvIcons ? Settings.giveawayHeading_gv : Settings.giveawayHeading)) {
+      for (const id of (giveaway.gvIcons ? Settings.get('giveawayHeading_gv') : Settings.get('giveawayHeading'))) {
         const elements = giveaway.outerWrap.querySelectorAll(`[data-draggable-id="${id}"]`);
         for (const element of elements) {
           giveaway.heading.appendChild(element);
@@ -652,7 +652,7 @@ class Giveaways extends Module {
       }
     }
     if (giveaway.links) {
-      for (const id of (giveaway.gvIcons ? Settings.giveawayLinks_gv : Settings.giveawayLinks)) {
+      for (const id of (giveaway.gvIcons ? Settings.get('giveawayLinks_gv') : Settings.get('giveawayLinks'))) {
         const elements = giveaway.outerWrap.querySelectorAll(`[data-draggable-id="${id}"]`);
         for (const element of elements) {
           giveaway.links.appendChild(element);
@@ -674,7 +674,7 @@ class Giveaways extends Module {
       }
     }
     if (giveaway.extraPanel) {
-      for (const id of (giveaway.gvIcons ? Settings.giveawayExtraPanel_gv : Settings.giveawayExtraPanel)) {
+      for (const id of (giveaway.gvIcons ? Settings.get('giveawayExtraPanel_gv') : Settings.get('giveawayExtraPanel'))) {
         const elements = giveaway.outerWrap.querySelectorAll(`[data-draggable-id="${id}"]`);
         for (const element of elements) {
           giveaway.extraPanel.appendChild(element);
@@ -696,7 +696,7 @@ class Giveaways extends Module {
       }
     }
     if (giveaway.gcPanel) {
-      for (const id of (giveaway.gvIcons ? Settings.gc_categories_gv : Settings.gc_categories)) {
+      for (const id of (giveaway.gvIcons ? Settings.get('gc_categories_gv') : Settings.get('gc_categories'))) {
         const elements = giveaway.outerWrap.querySelectorAll(`[data-draggable-id="${id}"]`);
         for (const element of elements) {
           giveaway.gcPanel.appendChild(element);

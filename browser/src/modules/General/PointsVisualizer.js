@@ -42,9 +42,9 @@ class GeneralPointsVisualizer extends Module {
     const progress = Math.trunc(percentage * (fullButtonWidth / 100)); // 186px is the width of the button
     const firstBar = `${progress}px`;
     const secondBar = `${Math.max(0, progress - mainButtonWidth)}px`; // 157px is the width of the button without the arrow
-    const barColor = Settings.pv_barColor;
-    const barColorHover = Settings.pv_barColorHover;
-    const barColorSelected = Settings.pv_barColorSelected;
+    const barColor = Settings.get('pv_barColor');
+    const barColorHover = Settings.get('pv_barColorHover');
+    const barColorSelected = Settings.get('pv_barColorSelected');
     this.esgst.pvStyleArray = [{
       selector: '.esgst-lpv-container',
       rules: [{

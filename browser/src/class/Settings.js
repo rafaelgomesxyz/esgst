@@ -852,6 +852,14 @@ class _Settings {
     }
   }
 
+  set(key, value) {
+    this.settings[key] = value;
+  }
+
+  get(key) {
+    return this.settings[key];
+  }
+
   getSetting(id) {
     let value = this.settings[id];
 

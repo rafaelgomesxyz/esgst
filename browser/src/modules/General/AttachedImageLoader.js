@@ -22,7 +22,7 @@ class GeneralAttachedImageLoader extends Module {
   }
 
   init() {
-    if (Settings.vai) return;
+    if (Settings.get('vai')) return;
     this.esgst.endlessFeatures.push(this.ail_getImages.bind(this));
   }
 

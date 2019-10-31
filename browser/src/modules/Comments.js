@@ -32,14 +32,14 @@ class Comments extends Module {
       await feature(comments, main);
     }
     if (!main || this.esgst.commentsPath || Shared.common.isCurrentPath('Messages')) {
-      if (main && Shared.esgst.cf && this.esgst.cf.filteredCount && Settings[`cf_enable${this.esgst.cf.type}`]) {
+      if (main && Shared.esgst.cf && this.esgst.cf.filteredCount && Settings.get(`cf_enable${this.esgst.cf.type}`)) {
         this.esgst.modules.commentsCommentFilters.filters_filter(this.esgst.cf, false, endless);
       }
-      if (!main && this.esgst.cfPopup && this.esgst.cfPopup.filteredCount && Settings[`cf_enable${this.esgst.cfPopup.type}`]) {
+      if (!main && this.esgst.cfPopup && this.esgst.cfPopup.filteredCount && Settings.get(`cf_enable${this.esgst.cfPopup.type}`)) {
         this.esgst.modules.commentsCommentFilters.filters_filter(this.esgst.cfPopup, false, endless);
       }
     }
-    if (Settings.ct) {
+    if (Settings.get('ct')) {
       if (!main || Shared.common.isCurrentPath('Messages')) {
         count = 0;
       } else {
@@ -53,12 +53,12 @@ class Comments extends Module {
       // noinspection JSIgnoredPromiseFromCall
       this.esgst.modules.commentsCommentTracker.ct_getComments(count, comments, null, false, false, false, main || endless || mainEndless);
     }
-    if (Settings.rfi) {
-      if (Settings.rfi_s && (!main || Shared.common.isCurrentPath('Messages')) && (!context.getAttribute || !context.getAttribute('data-rfi'))) {
+    if (Settings.get('rfi')) {
+      if (Settings.get('rfi_s') && (!main || Shared.common.isCurrentPath('Messages')) && (!context.getAttribute || !context.getAttribute('data-rfi'))) {
         await this.esgst.modules.commentsReplyFromInbox.rfi_getReplies(comments, main || endless || mainEndless);
       }
     }
-    if (Settings.ged) {
+    if (Settings.get('ged')) {
       this.esgst.ged_addIcons(comments);
     }
   }

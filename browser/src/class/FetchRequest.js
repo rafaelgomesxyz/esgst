@@ -115,7 +115,7 @@ class FetchRequest {
   }
 
   static async sendExternal(url, options) {
-    const manipulateCookies = (await Shared.common.getBrowserInfo()).name === 'Firefox' && Settings.manipulateCookies;
+    const manipulateCookies = (await Shared.common.getBrowserInfo()).name === 'Firefox' && Settings.get('manipulateCookies');
 
     const messageOptions = {
       action: 'fetch',

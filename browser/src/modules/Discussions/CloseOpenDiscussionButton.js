@@ -38,7 +38,7 @@ class DiscussionsCloseOpenDiscussionButton extends Module {
 
   codb_addButtons(discussions) {
     for (const discussion of discussions) {
-      if (discussion.author === Settings.username && !discussion.heading.parentElement.getElementsByClassName('esgst-codb-button')[0]) {
+      if (discussion.author === Settings.get('username') && !discussion.heading.parentElement.getElementsByClassName('esgst-codb-button')[0]) {
         if (discussion.closed) {
           discussion.closed.remove();
           discussion.closed = true;

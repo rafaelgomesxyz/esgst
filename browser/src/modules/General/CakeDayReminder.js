@@ -64,21 +64,21 @@ class GeneralCakeDayReminder extends Module {
     cdrObj.currentYear = cdrObj.currentDate.getFullYear();
     cdrObj.currentTime = cdrObj.currentDate.getTime();
 
-    this.checkUser(cdrObj, Settings.steamId, {
+    this.checkUser(cdrObj, Settings.get('steamId'), {
       cdr: {
-        a: Settings.cdr_a,
-        aDays: parseFloat(Settings.cdr_aDays),
-        b: Settings.cdr_b,
-        bDays: parseFloat(Settings.cdr_days),
-        d: Settings.cdr_d
+        a: Settings.get('cdr_a'),
+        aDays: parseFloat(Settings.get('cdr_aDays')),
+        b: Settings.get('cdr_b'),
+        bDays: parseFloat(Settings.get('cdr_days')),
+        d: Settings.get('cdr_d')
       },
-      registrationDate: parseInt(Settings.registrationDate)
+      registrationDate: parseInt(Settings.get('registrationDate'))
     });
 
     for (const steamId in Shared.esgst.users.users) {
       const user = Shared.esgst.users.users[steamId];
 
-      if (steamId === Settings.steamId || (!user.cdr && !user.registrationDate)) {
+      if (steamId === Settings.get('steamId') || (!user.cdr && !user.registrationDate)) {
         continue;
       }
 
@@ -105,7 +105,7 @@ class GeneralCakeDayReminder extends Module {
       return;
     }
 
-    const className = steamId === Settings.steamId ? 'esgst-cdr-highlight' : '';
+    const className = steamId === Settings.get('steamId') ? 'esgst-cdr-highlight' : '';
 
     const registrationDate = new Date(user.registrationDate * 1e3);
     registrationDate.setFullYear(cdrObj.currentYear);
@@ -167,7 +167,7 @@ class GeneralCakeDayReminder extends Module {
   }
 
   addButton(profile) {
-    if (profile.steamId === Settings.steamId) {
+    if (profile.steamId === Settings.get('steamId')) {
       return;
     }
 

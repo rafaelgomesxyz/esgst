@@ -11,7 +11,7 @@ class DiscussionPanels extends Module {
   }
 
   init() {
-    if ((Settings.ct && (this.esgst.giveawaysPath || this.esgst.discussionsPath)) || (Settings.gdttt && (this.esgst.giveawaysPath || this.esgst.discussionsPath || this.esgst.discussionsTicketsTradesPath)) || (Settings.ust && this.esgst.ticketsPath)) {
+    if ((Settings.get('ct') && (this.esgst.giveawaysPath || this.esgst.discussionsPath)) || (Settings.get('gdttt') && (this.esgst.giveawaysPath || this.esgst.discussionsPath || this.esgst.discussionsTicketsTradesPath)) || (Settings.get('ust') && this.esgst.ticketsPath)) {
       this.esgst.endlessFeatures.push(this.esgst.modules.commentsCommentTracker.ct_addDiscussionPanels.bind(this.esgst.modules.commentsCommentTracker));
     }
   }

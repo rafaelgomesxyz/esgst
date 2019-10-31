@@ -62,7 +62,7 @@ class Process {
     if (this.urls && this.urls.id && !this.urls.lockPerLoad) {
       DOM.build(this.popup.description, 'afterBegin', [
         `Items per load: `,
-        ['input', { class: 'esgst-switch-input', type: 'number', value: Settings[`${this.urls.id}_perLoad`], ref: ref => Shared.common.observeNumChange(ref, `${this.urls.id}_perLoad`, true) }]
+        ['input', { class: 'esgst-switch-input', type: 'number', value: Settings.get(`${this.urls.id}_perLoad`), ref: ref => Shared.common.observeNumChange(ref, `${this.urls.id}_perLoad`, true) }]
       ]);
     }
     this.popup.open();
@@ -75,7 +75,7 @@ class Process {
       if (!this.urls.doNotTrigger) {
         this.popup.triggerButton(0);
       }
-      if (Settings[`es_${this.urls.id}`]) {
+      if (Settings.get(`es_${this.urls.id}`)) {
         this.popup.scrollable.addEventListener('scroll', () => {
           if (this.popup.scrollable.scrollTop + this.popup.scrollable.offsetHeight >= this.popup.scrollable.scrollHeight && !this.popup.isButtonBusy(0)) {
             this.popup.triggerButton(0);
@@ -139,7 +139,7 @@ class Process {
     this.popup.setOverallProgress(`${this.index} of ${this.total} loaded.`);
     this.context = this.mainContext ? DOM.build(this.mainContext, 'beforeEnd', this.contextHtml) : this.popup.getScrollable(this.contextHtml);
     let i = 0;
-    while (!this.isCanceled && (i < (this.urls.lockPerLoad ? this.urls.perLoad : Settings[`${this.urls.id}_perLoad`]) || (Settings[`es_${this.urls.id}`] && this.popup.scrollable.scrollHeight <= this.popup.scrollable.offsetHeight))) {
+    while (!this.isCanceled && (i < (this.urls.lockPerLoad ? this.urls.perLoad : Settings.get(`${this.urls.id}_perLoad`)) || (Settings.get(`es_${this.urls.id}`) && this.popup.scrollable.scrollHeight <= this.popup.scrollable.offsetHeight))) {
       let url = this.items[this.index];
       if (!url) break;
       url = url.url || url;

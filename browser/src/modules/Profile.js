@@ -20,7 +20,7 @@ class Profile extends Module {
   }
 
   async init() {
-    if (Settings.updateWhitelistBlacklist && (Shared.esgst.whitelistPath || Shared.esgst.blacklistPath)) {
+    if (Settings.get('updateWhitelistBlacklist') && (Shared.esgst.whitelistPath || Shared.esgst.blacklistPath)) {
       const key = Shared.esgst.whitelistPath ? 'whitelisted' : 'blacklisted';
       Shared.esgst.endlessFeatures.push(this.getUsers.bind(this, key));
     }
@@ -121,12 +121,12 @@ class Profile extends Module {
     profile.whitelistButton = profile.steamButtonContainer.getElementsByClassName('sidebar__shortcut__whitelist')[0];
     profile.blacklistButton = profile.steamButtonContainer.getElementsByClassName('sidebar__shortcut__blacklist')[0];
     if (profile.whitelistButton) {
-      if (Settings.updateWhitelistBlacklist) {
+      if (Settings.get('updateWhitelistBlacklist')) {
         profile.whitelistButton.addEventListener('click', updateWhitelistBlacklist.bind(common, 'whitelisted', profile));
       }
     }
     if (profile.blacklistButton) {
-      if (Settings.updateWhitelistBlacklist) {
+      if (Settings.get('updateWhitelistBlacklist')) {
         profile.blacklistButton.addEventListener('click', updateWhitelistBlacklist.bind(common, 'blacklisted', profile));
       }
     }

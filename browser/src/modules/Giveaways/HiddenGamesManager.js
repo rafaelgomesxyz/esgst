@@ -74,18 +74,18 @@ class GiveawaysHiddenGamesManager extends Module {
     obj.textArea = DOM.build(obj.popup.description, 'afterBegin', [
       ['textarea', { class: 'esgst-textarea-small', placeholder: `https://store.steampowered.com/app/400\nhttps://store.steampowered.com/sub/1280` }],
     ]);
-    new ToggleSwitch(obj.popup.scrollable, 'hgm_addOwned', false, 'Add all owned games.', false, false, null, Settings.hgm_addOwned);
-    new ToggleSwitch(obj.popup.scrollable, 'hgm_addIgnored', false, 'Add all ignored games.', false, false, null, Settings.hgm_addIgnored);
-    new ToggleSwitch(obj.popup.scrollable, 'hgm_addBanned', false, `Add all banned games (requires syncing delisted games in the settings menu).`, false, false, null, Settings.hgm_addBanned);
-    new ToggleSwitch(obj.popup.scrollable, 'hgm_removeTextArea', false, 'Only remove games from text area.', false, false, null, Settings.hgm_removeTextArea);
-    new ToggleSwitch(obj.popup.scrollable, 'hgm_removeOwned', false, 'Only remove owned games.', false, false, null, Settings.hgm_removeOwned);
-    new ToggleSwitch(obj.popup.scrollable, 'hgm_removeWishlisted', false, 'Only remove wishlisted games.', false, false, null, Settings.hgm_removeWishlisted);
-    new ToggleSwitch(obj.popup.scrollable, 'hgm_removeFollowed', false, 'Only remove followed games.', false, false, null, Settings.hgm_removeFollowed);
+    new ToggleSwitch(obj.popup.scrollable, 'hgm_addOwned', false, 'Add all owned games.', false, false, null, Settings.get('hgm_addOwned'));
+    new ToggleSwitch(obj.popup.scrollable, 'hgm_addIgnored', false, 'Add all ignored games.', false, false, null, Settings.get('hgm_addIgnored'));
+    new ToggleSwitch(obj.popup.scrollable, 'hgm_addBanned', false, `Add all banned games (requires syncing delisted games in the settings menu).`, false, false, null, Settings.get('hgm_addBanned'));
+    new ToggleSwitch(obj.popup.scrollable, 'hgm_removeTextArea', false, 'Only remove games from text area.', false, false, null, Settings.get('hgm_removeTextArea'));
+    new ToggleSwitch(obj.popup.scrollable, 'hgm_removeOwned', false, 'Only remove owned games.', false, false, null, Settings.get('hgm_removeOwned'));
+    new ToggleSwitch(obj.popup.scrollable, 'hgm_removeWishlisted', false, 'Only remove wishlisted games.', false, false, null, Settings.get('hgm_removeWishlisted'));
+    new ToggleSwitch(obj.popup.scrollable, 'hgm_removeFollowed', false, 'Only remove followed games.', false, false, null, Settings.get('hgm_removeFollowed'));
     new ToggleSwitch(obj.popup.scrollable, 'hgm_removeTagged', false, [
       'Only remove games tagged with: ',
-      ['input', { class: 'esgst-switch-input esgst-switch-input-large', placeholder: 'tag1, tag2, tag3, ...', type: 'text', value: Settings.hgm_tags.join(', '), onchange: event => { Settings.hgm_tags = Array.from(new Set(event.target.value.toLowerCase().split(/,\s*/))); Shared.common.setSetting('hgm_tags', Settings.hgm_tags); } }]
-    ], false, false, 'Enter the tags for the games that you want to remove, separated by a comma.', Settings.hgm_removeTagged);
-    new ToggleSwitch(obj.popup.scrollable, 'hgm_removeBanned', false, `Only remove banned games (requires syncing delisted games in the settings menu).`, false, false, null, Settings.hgm_removeBanned);
+      ['input', { class: 'esgst-switch-input esgst-switch-input-large', placeholder: 'tag1, tag2, tag3, ...', type: 'text', value: Settings.get('hgm_tags').join(', '), onchange: event => { Settings.set('hgm_tags', Array.from(new Set(event.target.value.toLowerCase().split(/,\s*/)))); Shared.common.setSetting('hgm_tags', Settings.get('hgm_tags')); } }]
+    ], false, false, 'Enter the tags for the games that you want to remove, separated by a comma.', Settings.get('hgm_removeTagged'));
+    new ToggleSwitch(obj.popup.scrollable, 'hgm_removeBanned', false, `Only remove banned games (requires syncing delisted games in the settings menu).`, false, false, null, Settings.get('hgm_removeBanned'));
     obj.popup.description.appendChild(new ButtonSet({
       color1: 'green',
       color2: 'grey',
@@ -127,7 +127,7 @@ class GiveawaysHiddenGamesManager extends Module {
       return;
     }
 
-    if (Settings.permissionsDenied.indexOf('revadike') < 0) {
+    if (Settings.get('permissionsDenied').indexOf('revadike') < 0) {
       await permissions.requestUi([['revadike']], 'hgm', false, true);
     }
 
@@ -161,13 +161,13 @@ class GiveawaysHiddenGamesManager extends Module {
           }
         }
       });
-    if (Settings.hgm_addOwned) {
+    if (Settings.get('hgm_addOwned')) {
       appIds.push(...Object.keys(this.esgst.games.apps).filter(x => this.esgst.games.apps[x].owned && !this.esgst.games.apps[x].hidden));
     }
-    if (Settings.hgm_addIgnored) {
+    if (Settings.get('hgm_addIgnored')) {
       appIds.push(...Object.keys(this.esgst.games.apps).filter(x => this.esgst.games.apps[x].ignored && !this.esgst.games.apps[x].hidden));
     }
-    if (Settings.hgm_addBanned) {
+    if (Settings.get('hgm_addBanned')) {
       appIds.push(...Shared.esgst.delistedGames.banned);
     }
 
@@ -273,7 +273,7 @@ class GiveawaysHiddenGamesManager extends Module {
           continue;
         }
         let game = this.esgst.games[info.type][info.id];
-        if ((!Settings.hgm_removeOwned || !game || !game.owned) && (!Settings.hgm_removeWishlisted || !game || !game.wishlisted) && (!Settings.hgm_removeFollowed || !game || !game.followed) && (!Settings.hgm_removeTagged || !game || !game.tags || !game.tags.filter(tag => Settings.hgm_tags.includes(tag.toLowerCase())).length) && (!Settings.hgm_removeBanned || Shared.esgst.delistedGames.banned.indexOf(parseInt(info.id) < 0)) && (!Settings.hgm_removeTextArea || (info.type === 'apps' ? appIds : subIds).indexOf(info.id) < 0) && (Settings.hgm_removeOwned || Settings.hgm_removeWishlisted || Settings.hgm_removeFollowed || Settings.hgm_removeTagged || Settings.hgm_removeBanned || Settings.hgm_removeTextArea)) {
+        if ((!Settings.get('hgm_removeOwned') || !game || !game.owned) && (!Settings.get('hgm_removeWishlisted') || !game || !game.wishlisted) && (!Settings.get('hgm_removeFollowed') || !game || !game.followed) && (!Settings.get('hgm_removeTagged') || !game || !game.tags || !game.tags.filter(tag => Settings.get('hgm_tags').includes(tag.toLowerCase())).length) && (!Settings.get('hgm_removeBanned') || Shared.esgst.delistedGames.banned.indexOf(parseInt(info.id) < 0)) && (!Settings.get('hgm_removeTextArea') || (info.type === 'apps' ? appIds : subIds).indexOf(info.id) < 0) && (Settings.get('hgm_removeOwned') || Settings.get('hgm_removeWishlisted') || Settings.get('hgm_removeFollowed') || Settings.get('hgm_removeTagged') || Settings.get('hgm_removeBanned') || Settings.get('hgm_removeTextArea'))) {
           continue;
         }
         newGames[info.type][info.id] = { hidden: null };

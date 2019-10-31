@@ -78,7 +78,7 @@ class Groups extends Module {
       this.esgst.currentScope.groups.push(group);
       groups.push(group);
     }
-    if (main && this.esgst.gpf && this.esgst.gpf.filteredCount && Settings[`gpf_enable${this.esgst.gpf.type}`]) {
+    if (main && this.esgst.gpf && this.esgst.gpf.filteredCount && Settings.get(`gpf_enable${this.esgst.gpf.type}`)) {
       this.esgst.modules.groupsGroupFilters.filters_filter(this.esgst.gpf, false, endless);
     }
     for (const feature of this.esgst.groupFeatures) {

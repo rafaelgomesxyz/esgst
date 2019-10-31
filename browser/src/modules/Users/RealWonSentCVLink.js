@@ -42,7 +42,7 @@ class UsersRealWonSentCVLink extends Module {
     let sentUrl, wonUrl;
     wonUrl = `http://www.sgtools.info/won/${profile.username}`;
     sentUrl = `http://www.sgtools.info/sent/${profile.username}`;
-    if (Settings.rwscvl_r) {
+    if (Settings.get('rwscvl_r')) {
       wonUrl += '/newestfirst';
       sentUrl += '/newestfirst';
     }

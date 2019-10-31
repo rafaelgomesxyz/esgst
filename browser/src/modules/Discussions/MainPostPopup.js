@@ -51,7 +51,7 @@ class DiscussionsMainPostPopup extends Module {
     } while (Sibling);
     this.esgst.mainPageHeading.parentElement.insertBefore(MPPPost, this.esgst.mainPageHeading);
     let Hidden;
-    if (Settings.mpp_r) {
+    if (Settings.get('mpp_r')) {
       let discussion = JSON.parse(this.esgst.storage.discussions)[window.location.pathname.match(/^\/discussion\/(.+?)\//)[1]];
       if (discussion) {
         if (discussion.readComments && discussion.readComments['']) {

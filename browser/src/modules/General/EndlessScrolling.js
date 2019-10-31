@@ -165,15 +165,15 @@ class GeneralEndlessScrolling extends Module {
   init() {
     let es = {};
 
-    if (Shared.esgst.giveawaysPath && Settings.es_g) {
+    if (Shared.esgst.giveawaysPath && Settings.get('es_g')) {
       es.id = 'g';
-    } else if (Shared.esgst.discussionsPath && Settings.es_d) {
+    } else if (Shared.esgst.discussionsPath && Settings.get('es_d')) {
       es.id = 'd';
-    } else if (Shared.esgst.commentsPath && Settings.es_c) {
+    } else if (Shared.esgst.commentsPath && Settings.get('es_c')) {
       es.id = 'c';
-    } else if (Shared.esgst.tradesPath && Settings.es_t) {
+    } else if (Shared.esgst.tradesPath && Settings.get('es_t')) {
       es.id = 't';
-    } else if (!Shared.esgst.giveawaysPath && !Shared.esgst.discussionsPath && !Shared.esgst.commentsPath && !Shared.esgst.tradesPath && Settings.es_l) {
+    } else if (!Shared.esgst.giveawaysPath && !Shared.esgst.discussionsPath && !Shared.esgst.commentsPath && !Shared.esgst.tradesPath && Settings.get('es_l')) {
       es.id = 'l';
     } else {
       return;
@@ -186,7 +186,7 @@ class GeneralEndlessScrolling extends Module {
       this.esgst.itemsPerPage = parseInt(this.esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.textContent.replace(/,/g, '')) - parseInt(this.esgst.pagination.firstElementChild.firstElementChild.textContent.replace(/,/g, '')) + 1;
     }
     this.esgst.es = es;
-    es.divisors = Settings.es_pd;
+    es.divisors = Settings.get('es_pd');
     es.mainContext = this.esgst.pagination.previousElementSibling;
     if (this.esgst.commentsPath && !es.mainContext.classList.contains('comments')) {
       es.mainContext = DOM.build(es.mainContext, 'afterEnd', [
@@ -198,7 +198,7 @@ class GeneralEndlessScrolling extends Module {
       es.mainContext = rows;
     }
     es.paginations = [this.esgst.paginationNavigation ? this.esgst.paginationNavigation.innerHTML : ''];
-    es.reverseScrolling = Settings.es_r && this.esgst.discussionPath;
+    es.reverseScrolling = Settings.get('es_r') && this.esgst.discussionPath;
     if (es.reverseScrolling) {
       if (this.esgst.currentPage === 1 && this.esgst.paginationNavigation && !this.esgst.parameters.page) {
         for (let i = 0, n = es.mainContext.children.length; i < n; ++i) {
@@ -339,7 +339,7 @@ class GeneralEndlessScrolling extends Module {
     es.isLimited = false;
     es.limitCount = 0;
     es.busy = false;
-    es.paused = Settings[`es_paused_${es.id}_${Shared.esgst.name}`];
+    es.paused = Settings.get(`es_paused_${es.id}_${Shared.esgst.name}`);
     this.esgst.es_loadNext = this.es_loadNext.bind(this, es);
     if (es.paused) {
       // noinspection JSIgnoredPromiseFromCall
@@ -356,7 +356,7 @@ class GeneralEndlessScrolling extends Module {
     observer.observe(this.esgst.pagination);
     if (es.paused && es.reversePages) {
       this.esgst.es_loadNext();
-    } else if (Settings.es_cl) {
+    } else if (Settings.get('es_cl')) {
       // noinspection JSIgnoredPromiseFromCall
       this.es_continuouslyLoad(es);
     }
@@ -451,7 +451,7 @@ class GeneralEndlessScrolling extends Module {
       es.paginations.push(paginationNavigation.innerHTML);
     }
     let fragment = document.createDocumentFragment();
-    if (Settings.cr && this.esgst.discussionPath) {
+    if (Settings.get('cr') && this.esgst.discussionPath) {
       reverseComments(context);
     }
     let n = context.children.length;
@@ -480,7 +480,7 @@ class GeneralEndlessScrolling extends Module {
       if (!refreshAll) {
         await endless_load(es.mainContext, true, null, currentPage);
         this.es_setRemoveEntry(es.mainContext);
-        if (Settings.ts && !Settings.us) {
+        if (Settings.get('ts') && !Settings.get('us')) {
           this.esgst.modules.generalTableSorter.ts_sortTables();
         }
         es.refreshButton.addEventListener('click', this.esgst.es_refresh.bind(this));
@@ -522,7 +522,7 @@ class GeneralEndlessScrolling extends Module {
       es.observer.observe(es.mainContext.lastElementChild);
       await endless_load(es.mainContext, true, null, currentPage);
       this.es_setRemoveEntry(es.mainContext);
-      if (Settings.ts && !Settings.us) {
+      if (Settings.get('ts') && !Settings.get('us')) {
         this.esgst.modules.generalTableSorter.ts_sortTables();
       }
       es.progress.remove();
@@ -653,9 +653,9 @@ class GeneralEndlessScrolling extends Module {
     es.continuous = true;
     const wasPaused = es.paused;
     await this.es_resume(es);
-    if (Settings.es_cl) {
+    if (Settings.get('es_cl')) {
       es.isLimited = true;
-      es.limitCount = Math.min(10, parseInt(Settings.es_pages));
+      es.limitCount = Math.min(10, parseInt(Settings.get('es_pages')));
     }
     this.esgst.es_loadNext(async () => {
       es.isLimited = false;
@@ -714,8 +714,8 @@ class GeneralEndlessScrolling extends Module {
     let response = await request({ method: 'GET', url: `${this.esgst.searchUrl}${es.pageIndex}` });
     // noinspection JSIgnoredPromiseFromCall
     this.es_getNext(es, true, false, null, response);
-    if (this.esgst.giveawaysPath && Settings.es_rd) {
-      if (Settings.oadd) {
+    if (this.esgst.giveawaysPath && Settings.get('es_rd')) {
+      if (Settings.get('oadd')) {
         // noinspection JSIgnoredPromiseFromCall
         this.esgst.modules.discussionsOldActiveDiscussionsDesign.oadd_load(true);
       } else {
@@ -766,11 +766,11 @@ class GeneralEndlessScrolling extends Module {
       },
       type: 'i'
     }]);
-    if (Settings.ts && !Settings.us) {
+    if (Settings.get('ts') && !Settings.get('us')) {
       this.esgst.modules.generalTableSorter.ts_sortTables();
     }
-    if (this.esgst.giveawaysPath && Settings.es_rd) {
-      if (Settings.oadd) {
+    if (this.esgst.giveawaysPath && Settings.get('es_rd')) {
+      if (Settings.get('oadd')) {
         // noinspection JSIgnoredPromiseFromCall
         this.esgst.modules.discussionsOldActiveDiscussionsDesign.oadd_load(true);
       } else {

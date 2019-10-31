@@ -19,7 +19,7 @@ class _Logger {
     const message = this.getMessage(arguments);
     window.console.info(message);
     this.logs.push({ level: INFO, message });
-    if (Settings.notifyLogs) {
+    if (Settings.get('notifyLogs')) {
       this.addButton(INFO);
     }
   }
@@ -28,7 +28,7 @@ class _Logger {
     const message = this.getMessage(arguments);
     window.console.warn(message);
     this.logs.push({ level: WARNING, message });
-    if (Settings.notifyLogs) {
+    if (Settings.get('notifyLogs')) {
       this.addButton(WARNING);
     }
   }
@@ -37,7 +37,7 @@ class _Logger {
     const message = this.getMessage(arguments);
     window.console.error(message);
     this.logs.push({ level: ERROR, message });
-    if (Settings.notifyLogs) {
+    if (Settings.get('notifyLogs')) {
       this.addButton(ERROR);
     }
   }

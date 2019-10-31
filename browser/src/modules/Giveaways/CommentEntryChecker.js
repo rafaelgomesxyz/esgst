@@ -55,7 +55,7 @@ class GiveawaysCommentEntryChecker extends Module {
 
     DOM.build(this.esgst.sidebarGroups[0].navigation, 'beforeEnd', [
       ['li', { class: 'sidebar__navigation__item', id: 'cec' }, [
-        ['a', { class: 'sidebar__navigation__item__link', href: `${this.esgst.path.replace(/\/entries/, '')}/entries?esgst=cec`, onclick: event => !Settings.cec_t && !event.preventDefault() && this.cec_openPopup(true) }, [
+        ['a', { class: 'sidebar__navigation__item__link', href: `${this.esgst.path.replace(/\/entries/, '')}/entries?esgst=cec`, onclick: event => !Settings.get('cec_t') && !event.preventDefault() && this.cec_openPopup(true) }, [
           ['div', { class: 'sidebar__navigation__item__name' }, 'Comments vs Entries'],
           ['div', { class: 'sidebar__navigation__item__underline' }]
         ]]

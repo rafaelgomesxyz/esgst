@@ -143,7 +143,7 @@ class Popout {
     if (!this.isDynamicHeight) {
       this.popout.style.height = `${newHeight}px`;
     }
-    if (Settings.qiv && Shared.esgst.qiv.popout === this && Shared.esgst.qiv.comments) {
+    if (Settings.get('qiv') && Shared.esgst.qiv.popout === this && Shared.esgst.qiv.comments) {
       Shared.esgst.qiv.comments.style.maxHeight = `${newHeight - Shared.esgst.qiv.comments.offsetTop}px`;
     }
     popoutHeight = this.popout.offsetHeight;

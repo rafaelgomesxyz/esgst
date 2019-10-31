@@ -45,7 +45,7 @@ class UsersUserSuspensionChecker extends Module {
 
   addButton(button) {
     const uscObj = {};
-    if (window.location.pathname.match(new RegExp(`^/user/(?!${Settings.username})`))) {
+    if (window.location.pathname.match(new RegExp(`^/user/(?!${Settings.get('username')})`))) {
       uscObj.username = document.getElementsByClassName('featured__heading__medium')[0].textContent;
     }
     const popup = new Popup({
@@ -56,21 +56,21 @@ class UsersUserSuspensionChecker extends Module {
     uscObj.options = DOM.build(popup.description, 'beforeEnd', [['div']]);
     let checkSingleSwitch;
     if (uscObj.username) {
-      checkSingleSwitch = new ToggleSwitch(uscObj.options, 'usc_checkSingle', false, `Only check ${uscObj.username  || 'current user'}.`, false, false, `If disabled, all users in the current page will be checked.`, Settings.usc_checkSingle);
+      checkSingleSwitch = new ToggleSwitch(uscObj.options, 'usc_checkSingle', false, `Only check ${uscObj.username  || 'current user'}.`, false, false, `If disabled, all users in the current page will be checked.`, Settings.get('usc_checkSingle'));
     }
     const mmFeature = Shared.common.getFeatureNumber('mm');
-    const checkSelectedSwitch = new ToggleSwitch(uscObj.options, 'usc_checkSelected', false, 'Only check selected.', false, false, `Use ${mmFeature.number} ${mmFeature.name} to select the users that you want to check. Then click the button 'Check Suspensions' in the Multi-Manager popout and you will be redirected here.`, Settings.usc_checkSelected);
+    const checkSelectedSwitch = new ToggleSwitch(uscObj.options, 'usc_checkSelected', false, 'Only check selected.', false, false, `Use ${mmFeature.number} ${mmFeature.name} to select the users that you want to check. Then click the button 'Check Suspensions' in the Multi-Manager popout and you will be redirected here.`, Settings.get('usc_checkSelected'));
     let checkAllSwitch;
     let checkPagesSwitch;
     if (!window.location.pathname.match(/^\/(discussions|users|archive)/)) {
-      checkAllSwitch = new ToggleSwitch(uscObj.options, 'usc_checkAll', false, 'Check all pages.', false, false, `If disabled, only the current page will be checked.`, Settings.usc_checkAll);
+      checkAllSwitch = new ToggleSwitch(uscObj.options, 'usc_checkAll', false, 'Check all pages.', false, false, `If disabled, only the current page will be checked.`, Settings.get('usc_checkAll'));
       checkPagesSwitch = new ToggleSwitch(uscObj.options, 'usc_checkPages', false, [
         'Check only pages from ',
-        ['input', { class: 'esgst-switch-input', min: '1', type: 'number', value: Settings.usc_minPage }],
+        ['input', { class: 'esgst-switch-input', min: '1', type: 'number', value: Settings.get('usc_minPage') }],
         ' to ',
-        ['input', { class: 'esgst-switch-input', min: '1', type: 'number', value: Settings.usc_maxPage }],
+        ['input', { class: 'esgst-switch-input', min: '1', type: 'number', value: Settings.get('usc_maxPage') }],
         '.'
-      ], false, false, null, Settings.usc_checkPages);
+      ], false, false, null, Settings.get('usc_checkPages'));
       const minPage = checkPagesSwitch.name.firstElementChild;
       const maxPage = minPage.nextElementSibling;
       const lastPage = Shared.esgst.modules.generalLastPageLink.lpl_getLastPage(document, true);
@@ -90,7 +90,7 @@ class UsersUserSuspensionChecker extends Module {
         }
         checkSingleSwitch.exclusions.push(checkSelectedSwitch.container);
         checkSelectedSwitch.exclusions.push(checkSingleSwitch.container);
-        if (Settings.usc_checkSingle) {
+        if (Settings.get('usc_checkSingle')) {
           if (checkAllSwitch) {
             checkAllSwitch.container.classList.add('esgst-hidden');
           }
@@ -98,7 +98,7 @@ class UsersUserSuspensionChecker extends Module {
             checkPagesSwitch.container.classList.add('esgst-hidden');
           }
           checkSelectedSwitch.container.classList.add('esgst-hidden');
-        } else if (Settings.usc_checkSelected) {
+        } else if (Settings.get('usc_checkSelected')) {
           checkSingleSwitch.container.classList.add('esgst-hidden');
         }
       }
@@ -111,7 +111,7 @@ class UsersUserSuspensionChecker extends Module {
         }
         checkSelectedSwitch.exclusions.push(checkAllSwitch.container);
         checkAllSwitch.exclusions.push(checkSelectedSwitch.container);
-        if (Settings.usc_checkAll) {
+        if (Settings.get('usc_checkAll')) {
           if (checkSingleSwitch) {
             checkSingleSwitch.container.classList.add('esgst-hidden');
           }
@@ -119,7 +119,7 @@ class UsersUserSuspensionChecker extends Module {
             checkPagesSwitch.container.classList.add('esgst-hidden');
           }
           checkSelectedSwitch.container.classList.add('esgst-hidden');
-        } else if (Settings.usc_checkSelected) {
+        } else if (Settings.get('usc_checkSelected')) {
           checkAllSwitch.container.classList.add('esgst-hidden');
         }
       }
@@ -132,7 +132,7 @@ class UsersUserSuspensionChecker extends Module {
         }
         checkSelectedSwitch.exclusions.push(checkPagesSwitch.container);
         checkPagesSwitch.exclusions.push(checkSelectedSwitch.container);
-        if (Settings.usc_checkPages) {
+        if (Settings.get('usc_checkPages')) {
           if (checkSingleSwitch) {
             checkSingleSwitch.container.classList.add('esgst-hidden');
           }
@@ -140,7 +140,7 @@ class UsersUserSuspensionChecker extends Module {
             checkAllSwitch.container.classList.add('esgst-hidden');
           }
           checkSelectedSwitch.container.classList.add('esgst-hidden');
-        } else if (Settings.usc_checkSelected) {
+        } else if (Settings.get('usc_checkSelected')) {
           checkPagesSwitch.container.classList.add('esgst-hidden');
         }
       }
@@ -183,8 +183,8 @@ class UsersUserSuspensionChecker extends Module {
     }]);
     button.addEventListener('click', () => {
       if (button.getAttribute('data-mm')) {
-        if (!Settings.usc_checkSelected) {
-          if (Settings.usc_checkSingle && checkSingleSwitch) {
+        if (!Settings.get('usc_checkSelected')) {
+          if (Settings.get('usc_checkSingle') && checkSingleSwitch) {
             let element = Shared.common.createElements(checkSingleSwitch.container, 'afterBegin', [{
               attributes: {
                 class: 'esgst-bold esgst-red'
@@ -193,7 +193,7 @@ class UsersUserSuspensionChecker extends Module {
               type: 'span'
             }]);
             window.setTimeout(() => element.remove(), 5000);
-          } else if (Settings.usc_checkAll) {
+          } else if (Settings.get('usc_checkAll')) {
             let element = Shared.common.createElements(checkAllSwitch.container, 'afterBegin', [{
               attributes: {
                 class: 'esgst-bold esgst-red'
@@ -202,7 +202,7 @@ class UsersUserSuspensionChecker extends Module {
               type: 'span'
             }]);
             window.setTimeout(() => element.remove(), 5000);
-          } else if (Settings.usc_checkPages) {
+          } else if (Settings.get('usc_checkPages')) {
             let element = Shared.common.createElements(checkPagesSwitch.container, 'afterBegin', [{
               attributes: {
                 class: 'esgst-bold esgst-red'
@@ -238,13 +238,13 @@ class UsersUserSuspensionChecker extends Module {
     uscObj.noneUsers.innerHTML = '';
     uscObj.users = [];
     uscObj.canceled = false;
-    if (uscObj.username && Settings.usc_checkSingle) {
+    if (uscObj.username && Settings.get('usc_checkSingle')) {
       uscObj.users.push(uscObj.username);
       await this.checkUsers(uscObj);
     } else {
-      if (Settings.usc_checkSelected) {
+      if (Settings.get('usc_checkSelected')) {
         uscObj.users = Array.from(Shared.esgst.mmWbcUsers);
-      } else if (!Settings.usc_checkPages) {
+      } else if (!Settings.get('usc_checkPages')) {
         const elements = Shared.esgst.pageOuterWrap.querySelectorAll(`a[href*="/user/"]`);
         for (const element of elements) {
           const match = element.getAttribute('href').match(/\/user\/(.+)/);
@@ -252,13 +252,13 @@ class UsersUserSuspensionChecker extends Module {
             continue;
           }
           const username = match[1];
-          if (uscObj.users.indexOf(username) > -1 || username === Settings.username || username !== element.textContent || element.closest('.markdown')) {
+          if (uscObj.users.indexOf(username) > -1 || username === Settings.get('username') || username !== element.textContent || element.closest('.markdown')) {
             continue;
           }
           uscObj.users.push(username);
         }
       }
-      if ((Settings.usc_checkAll || Settings.usc_checkPages) && ((((uscObj.username && !Settings.usc_checkSingle) || !uscObj.username) && !window.location.pathname.match(/^\/(discussions|users|archive)/)))) {
+      if ((Settings.get('usc_checkAll') || Settings.get('usc_checkPages')) && ((((uscObj.username && !Settings.get('usc_checkSingle')) || !uscObj.username) && !window.location.pathname.match(/^\/(discussions|users|archive)/)))) {
         await this.getUsers(uscObj);
       }
       uscObj.users = Utils.sortArray(uscObj.users);
@@ -313,9 +313,9 @@ class UsersUserSuspensionChecker extends Module {
     }
     let pagination = null;
     let nextPage;
-    if (Settings.usc_checkPages) {
-      nextPage = Settings.usc_minPage;
-      uscObj.lastPage = `of ${Settings.usc_maxPage}`;
+    if (Settings.get('usc_checkPages')) {
+      nextPage = Settings.get('usc_minPage');
+      uscObj.lastPage = `of ${Settings.get('usc_maxPage')}`;
     } else {
       nextPage = 1;
       uscObj.lastPage = '';
@@ -346,14 +346,14 @@ class UsersUserSuspensionChecker extends Module {
         const match = element.getAttribute('href').match(/\/user\/(.+)/);
         if (match) {
           const username = match[1];
-          if ((uscObj.users.indexOf(username) < 0) && (username !== Settings.username) && (username === element.textContent) && !element.closest('.markdown')) {
+          if ((uscObj.users.indexOf(username) < 0) && (username !== Settings.get('username')) && (username === element.textContent) && !element.closest('.markdown')) {
             uscObj.users.push(username);
           }
         }
       }
       pagination = html.querySelector('.pagination__navigation');
       nextPage += 1;
-    } while (!uscObj.canceled && pagination && !pagination.lastElementChild.classList.contains('is-selected') && (!Settings.usc_checkPages || nextPage <= Settings.usc_maxPage));
+    } while (!uscObj.canceled && pagination && !pagination.lastElementChild.classList.contains('is-selected') && (!Settings.get('usc_checkPages') || nextPage <= Settings.get('usc_maxPage')));
   }
 }
 

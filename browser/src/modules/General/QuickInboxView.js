@@ -52,7 +52,7 @@ class GeneralQuickInboxView extends Module {
     EventDispatcher.subscribe(Events.HEADER_REFRESHED, () => {
       this.qiv();
 
-      if (this.esgst.qiv.popout && Session.counters.messages > 0 && Settings.qiv_p) {
+      if (this.esgst.qiv.popout && Session.counters.messages > 0 && Settings.get('qiv_p')) {
         this.esgst.qiv.nextPage = 1;
         this.qiv_addMarkReadButton();
         this.qiv_scroll(false, true);
@@ -73,7 +73,7 @@ class GeneralQuickInboxView extends Module {
       };
     }
 
-    if (first && Settings.qiv_p) {
+    if (first && Settings.get('qiv_p')) {
       this.esgst.qiv.popout = new Popout('esgst-qiv-popout', null, 1000);
       this.esgst.qiv.popout.onClose = this.qiv_removeNew.bind(this);
       if (Session.counters.messages > 0) {

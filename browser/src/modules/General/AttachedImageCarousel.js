@@ -62,7 +62,7 @@ class GeneralAttachedImageCarousel extends Module {
       let image = button.nextElementSibling.firstElementChild;
       let url = image.getAttribute('src');
       let index = this.esgst.attachedImages.length;
-      if (!Settings.aic_b) {
+      if (!Settings.get('aic_b')) {
         image.addEventListener('click', this.aic_openCarousel.bind(this, index));
       }
       let comment = button.closest('.comment');
@@ -108,7 +108,7 @@ class GeneralAttachedImageCarousel extends Module {
     let attachedImage, height, image, n, panel;
     n = this.esgst.attachedImages.length;
     attachedImage = this.esgst.attachedImages[i];
-    if (Settings.ail) {
+    if (Settings.get('ail')) {
       attachedImage.image.setAttribute('src', attachedImage.url);
     }
     const items = [{
