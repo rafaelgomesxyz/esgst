@@ -1244,7 +1244,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
 
   if (!space) {
     if (dm.type === 'import') {
-      persistentStorage.upgrade(dm.data.settings, dm.data.v, true);
+      await persistentStorage.upgrade(dm.data, dm.data.v, true);
     } else if (dm.type === 'export') {
       data.v = Shared.esgst.storage.v;
     }
