@@ -34,7 +34,6 @@ class Esgst {
     this.cvLevels = [0, 0.01, 25, 50, 100, 250, 500, 1000, 2000, 3000, 5000];
 
     this.currentPaths = undefined;
-    this.settingsChanged = undefined;
     this.winners = undefined;
     this.emojis = undefined;
     this.uscButton = undefined;

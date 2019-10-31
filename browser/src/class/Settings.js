@@ -809,25 +809,25 @@ class _Settings {
   }
 
   init() {
-    this.settings = Shared.esgst.settings;
+    const settings = Shared.esgst.settings;
 
-    for (const key of Object.keys(this.settings)) {
+    for (const key of Object.keys(settings)) {
       const match = key.match(/(.+?)_(sg|st|sgt)$/);
 
       if (match) {
         if (match[2] === Shared.esgst.name) {
-          this[key] = this[match[1]] = this.settings[key];
+          this.settings[key] = this.settings[match[1]] = settings[key];
         }
       } else {
-        this[key] = this.settings[key];
+        this.settings[key] = settings[key];
       }
     }
 
     for (const key of Object.keys(this.oldValues).concat(Object.keys(this.defaultValues))) {
       const localKey = key.replace(new RegExp(`(.+?)_${Shared.esgst.name}$`), '$1');
 
-      if (!Utils.isSet(this[localKey])) {
-        this[key] = this[localKey] = this.getSetting(key);
+      if (!Utils.isSet(this.settings[localKey])) {
+        this.settings[key] = this.settings[localKey] = this.getSetting(key);
       }
     }
 
@@ -837,18 +837,18 @@ class _Settings {
       Shared.common.dismissFeature(feature, id);
 
       if (feature.sg) {
-        this[`${id}_sg`] = this.getSetting(`${id}_sg`);
+        this.settings[`${id}_sg`] = this.getSetting(`${id}_sg`);
       }
 
       if (feature.st) {
-        this[`${id}_st`] = this.getSetting(`${id}_st`);
+        this.settings[`${id}_st`] = this.getSetting(`${id}_st`);
       }
 
       if (feature.sgtools) {
-        this[`${id}_sgtools`] = this.getSetting(`${id}_sgtools`);
+        this.settings[`${id}_sgtools`] = this.getSetting(`${id}_sgtools`);
       }
 
-      this[id] = this[`${id}_${Shared.esgst.name}`];
+      this.settings[id] = this.settings[`${id}_${Shared.esgst.name}`];
     }
   }
 
@@ -861,7 +861,7 @@ class _Settings {
   }
 
   getSetting(id) {
-    let value = this.settings[id];
+    let value = Shared.esgst.settings[id];
 
     if (typeof value === 'undefined') {
       const oldId = this.oldValues[id];
@@ -869,14 +869,14 @@ class _Settings {
       if (typeof oldId === 'function') {
         value = oldId();
       } else if (typeof oldId !== 'undefined') {
-        value = this.settings[oldId];
+        value = Shared.esgst.settings[oldId];
       }
       
       if (typeof value === 'undefined') {
         let defaultValue = this.defaultValues[id];
 
         if (typeof defaultValue === 'undefined') {
-          defaultValue = this.settings[`enableByDefault_${Shared.esgst.name}`] || 0;
+          defaultValue = Shared.esgst.settings[`enableByDefault_${Shared.esgst.name}`] || 0;
         }
 
         value = defaultValue;
