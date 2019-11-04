@@ -1244,7 +1244,21 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
 
   if (!space) {
     if (dm.type === 'import') {
+      const stringified = [];
+
+      for (const key of Object.keys(dm.data)) {
+        if (Utils.is(dm.data[key], 'object') || Array.isArray(dm.data[key])) {
+          dm.data[key] = JSON.stringify(dm.data[key]);
+
+          stringified.push(key);
+        }
+      }
+
       await persistentStorage.upgrade(dm.data, dm.data.v, true);
+
+      for (const key of stringified) {
+        dm.data[key] = JSON.parse(dm.data[key]);
+      }
     } else if (dm.type === 'export') {
       data.v = Shared.esgst.storage.v;
     }
