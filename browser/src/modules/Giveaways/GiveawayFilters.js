@@ -488,6 +488,16 @@ class GiveawaysGiveawayFilters extends Filters {
               name: 'Previously Won',
               sg: true
             },
+            gf_bookmarked: {
+              dependencies: ['gb'],
+              description: [
+                ['ul', [
+                  ['li', 'Allows you to filter giveaways that you have bookmarked.']
+                ]]
+              ],
+              name: 'Bookmarked',
+              sg: true
+            },
             gf_fullCV: {
               description: [
                 ['ul', [
@@ -1078,6 +1088,11 @@ class GiveawaysGiveawayFilters extends Filters {
       sgTools: {
         check: Settings.get('ge'),
         name: 'SGTools',
+        type: 'boolean'
+      },
+      bookmarked: {
+        check: Settings.get('gb'),
+        name: 'Bookmarked',
         type: 'boolean'
       },
       groups: {
