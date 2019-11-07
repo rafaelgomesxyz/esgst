@@ -594,12 +594,13 @@ class GiveawaysGiveawayBookmarks extends Module {
     giveaways.forEach(giveaway => {
       if (main && this.esgst.wonPath) return;
       if ((!main || !this.esgst.archivePath) && giveaway.creator !== Settings.get('username') && giveaway.url && !giveaway.gbButton) {
+        giveaway.bookmarked = this.esgst.giveaways[giveaway.code] && this.esgst.giveaways[giveaway.code].bookmarked;
         giveaway.gbButton = new Button(giveaway.headingName, 'beforeBegin', {
           callbacks: [this.gb_bookmarkGiveaway.bind(this, giveaway, main), null, this.gb_unbookmarkGiveaway.bind(this, giveaway, main), null],
           className: 'esgst-gb-button',
           icons: ['fa-bookmark-o esgst-clickable', 'fa-circle-o-notch fa-spin', 'fa-bookmark', 'fa-circle-o-notch fa-spin'],
           id: 'gb',
-          index: this.esgst.giveaways[giveaway.code] && this.esgst.giveaways[giveaway.code].bookmarked ? 2 : 0,
+          index: giveaway.bookmarked ? 2 : 0,
           titles: ['Bookmark giveaway', 'Bookmarking giveaway...', 'Unbookmark giveaway', 'Unbookmarking giveaway...']
         });
         giveaway.gbButton.button.setAttribute('data-draggable-id', 'gb');
@@ -621,6 +622,7 @@ class GiveawaysGiveawayBookmarks extends Module {
     giveaways[giveaway.code].name = giveaway.name;
     giveaways[giveaway.code].started = giveaway.started;
     giveaways[giveaway.code].bookmarked = true;
+    giveaway.bookmarked = true;
     await setValue('giveaways', JSON.stringify(giveaways));
     deleteLock();
     return true;
@@ -632,6 +634,7 @@ class GiveawaysGiveawayBookmarks extends Module {
     if (giveaways[giveaway.code]) {
       delete giveaways[giveaway.code].bookmarked;
     }
+    delete giveaway.bookmarked;
     await setValue('giveaways', JSON.stringify(giveaways));
     deleteLock();
     return true;
