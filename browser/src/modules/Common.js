@@ -4801,7 +4801,7 @@ class Common extends Module {
       if (isUsingRevadike) {
         obj.update && obj.update('Updating API cache...');
 
-        api = { cache: JSON.parse((await this.request({ method: 'GET', url: `https://revadike.ga/sgdb.json` })).responseText), lastUpdate: Date.now() };
+        api = { cache: JSON.parse((await this.request({ method: 'GET', url: `https://revadike.com/sgdb.json` })).responseText), lastUpdate: Date.now() };
       } else {
         api = { cache: { appids: {}, subids: {} }, lastUpdate: Date.now() };
       }

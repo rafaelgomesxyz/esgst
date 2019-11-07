@@ -81,7 +81,7 @@ class Permissions {
           mm: 'Optional for Multi Manager to hide games.',
           sync: 'Optional to hide games when syncing.'
         },
-        values: [`*://*.revadike.ga/*`]
+        values: [`*://*.revadike.com/*`]
       },
       steamApi: {
         isOrigin: true,

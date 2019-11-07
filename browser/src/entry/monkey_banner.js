@@ -25,7 +25,7 @@
 // @connect rafaelgssa.com
 // @connect isthereanydeal.com
 // @connect raw.githubusercontent.com
-// @connect revadike.ga
+// @connect revadike.com
 // @connect script.google.com
 // @connect script.googleusercontent.com
 // @connect steam-tracker.com
