@@ -291,7 +291,7 @@ browser.runtime.onMessage.addListener((request, sender) => {
         resolve();
         break;
       case 'fetch':
-        if (!hasAddedWebRequestListener) {
+        if (!hasAddedWebRequestListener && browser.webRequest) {
           addWebRequestListener();
         }
 
