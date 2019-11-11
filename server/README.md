@@ -1,3 +1,3 @@
 # Documentation
 
-https://rafaelgssa.com/ESGST
+https://rafaelgssa.github.io/esgst/
