@@ -1,4 +1,5 @@
 const Connection = require('../../class/Connection');
+const CustomError = require('../../class/CustomError');
 const Utils = require('../../class/Utils');
 const Game = require('./Game');
 
@@ -113,6 +114,7 @@ class Rcv {
           result,
         });
     } catch (err) {
+      console.log(`GET /games/rcv failed with params ${JSON.stringify(req.params)} and query ${JSON.stringify(req.query)}: ${err.message}`);
       if (!err.status) {
         err.status = 500;
         err.message = CustomError.COMMON_MESSAGES.internal;
@@ -221,19 +223,19 @@ class Rcv {
         conditions.push(`(${ids.map(id => `g_tr.${type}_id = ${connection.escape(id)}`).join(' OR ')})`);
       }
       if (params.date_equal) {
-        conditions.push(`g_tr.effective_date = ${connection.escape(new Date(`${params.date_equal}T00:00:00.000Z`).getTime() / 1e3)}`);
+        conditions.push(`g_tr.effective_date = ${connection.escape(Math.trunc(new Date(`${params.date_equal}T00:00:00.000Z`).getTime() / 1e3))}`);
       }
       if (params.date_after) {
-        conditions.push(`g_tr.effective_date > ${connection.escape(new Date(`${params.date_after}T00:00:00.000Z`).getTime() / 1e3)}`);
+        conditions.push(`g_tr.effective_date > ${connection.escape(Math.trunc(new Date(`${params.date_after}T00:00:00.000Z`).getTime() / 1e3))}`);
       }
       if (params.date_after_or_equal) {
-        conditions.push(`g_tr.effective_date >= ${connection.escape(new Date(`${params.date_after_or_equal}T00:00:00.000Z`).getTime() / 1e3)}`);
+        conditions.push(`g_tr.effective_date >= ${connection.escape(Math.trunc(new Date(`${params.date_after_or_equal}T00:00:00.000Z`).getTime() / 1e3))}`);
       }
       if (params.date_before) {
-        conditions.push(`g_tr.effective_date < ${connection.escape(new Date(`${params.date_before}T00:00:00.000Z`).getTime() / 1e3)}`);
+        conditions.push(`g_tr.effective_date < ${connection.escape(Math.trunc(new Date(`${params.date_before}T00:00:00.000Z`).getTime() / 1e3))}`);
       }
       if (params.date_before_or_equal) {
-        conditions.push(`g_tr.effective_date <= ${connection.escape(new Date(`${params.date_before_or_equal}T00:00:00.000Z`).getTime() / 1e3)}`);
+        conditions.push(`g_tr.effective_date <= ${connection.escape(Math.trunc(new Date(`${params.date_before_or_equal}T00:00:00.000Z`).getTime() / 1e3))}`);
       }
       const rows = await connection.query(`
         SELECT ${[

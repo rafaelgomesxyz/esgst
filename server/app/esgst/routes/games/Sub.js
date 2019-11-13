@@ -78,9 +78,9 @@ class Sub {
       GROUP BY g_s.sub_id
     `);
     const subs = [];    
-    const now = Date.now() / 1e3;
+    const now = Math.trunc(Date.now() / 1e3);
     for (const row of rows) {
-      const lastUpdate = (new Date(parseInt(row.last_update) * 1e3)).getTime() / 1e3;
+      const lastUpdate = Math.trunc((new Date(parseInt(row.last_update) * 1e3)).getTime() / 1e3);
       const differenceInSeconds = now - lastUpdate;
       if (differenceInSeconds < 60 * 60 * 24 * 7) {
         const sub = {
@@ -97,6 +97,9 @@ class Sub {
         }
         if (Utils.isSet(columns.price)) {
           sub.price = row.price;
+        }
+        if (Utils.isSet(columns.release_date)) {
+          sub.release_date = Utils.isSet(row.release_date) ? Utils.formatDate(parseInt(row.release_date) * 1e3) : null;
         }
         if (Utils.isSet(columns.apps)) {
           sub.apps = row.apps ? row.apps.split(',').map(appId => parseInt(appId)) : [];
@@ -115,9 +118,12 @@ class Sub {
   static async fetch(connection, subId) {
     const apiUrl = `https://store.steampowered.com/api/packagedetails?packageids=${subId}&filters=apps,basic,name,price,release_date&cc=us&l=en`;
     const apiResponse = await Request.get(apiUrl);
-    const apiData = apiResponse.json && apiResponse.json[subId] && apiResponse.json[subId].data;
-    if (!apiData) {
+    if (!apiResponse || !apiResponse.json || !apiResponse.json[subId]) {
       throw new CustomError(CustomError.COMMON_MESSAGES.steam, 500);
+    }
+    const apiData = apiResponse.json[subId].success ? apiResponse.json[subId].data : null;
+    if (!apiData) {
+      return;
     }
     const storeUrl = `https://store.steampowered.com/sub/${subId}?cc=us&l=en`;
     const storeConfig = {
@@ -135,8 +141,8 @@ class Sub {
       released: !releaseDate.coming_soon,
       removed: !storeResponse.url.match(new RegExp(`store\.steampowered\.com.*?\/sub\/${subId}`)),
       price: parseInt((apiData.price && apiData.price.initial) || 0),
-      release_date: releaseDate.date ? ((new Date(`${releaseDate.date} UTC`)).getTime() / 1e3) : null,
-      last_update: Date.now() / 1e3,
+      release_date: releaseDate.date ? Math.trunc((new Date(`${releaseDate.date} UTC`)).getTime() / 1e3) : null,
+      last_update: Math.trunc(Date.now() / 1e3),
     };
     const apps = apiData.apps ? apiData.apps.map(item => parseInt(item.id)) : [];
     await connection.beginTransaction();

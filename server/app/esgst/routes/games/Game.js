@@ -38,10 +38,10 @@ class Game {
       res.status(200)
         .json({
           error: null,
-          result,
+          result: result ? result : null,
         });
     } catch (err) {
-      console.log(err);
+      console.log(`GET /game failed with params ${JSON.stringify(req.params)} and query ${JSON.stringify(req.query)}: ${err.message}`);
       if (connection.inTransaction) {
         await connection.rollback();
       }

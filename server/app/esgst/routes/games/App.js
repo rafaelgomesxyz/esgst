@@ -155,9 +155,9 @@ class App {
       GROUP BY g_a.app_id
     `);
     const apps = [];
-    const now = Date.now() / 1e3;
+    const now = Math.trunc(Date.now() / 1e3);
     for (const row of rows) {
-      const lastUpdate = (new Date(parseInt(row.last_update) * 1e3)).getTime() / 1e3;
+      const lastUpdate = Math.trunc((new Date(parseInt(row.last_update) * 1e3)).getTime() / 1e3);
       const differenceInSeconds = now - lastUpdate;
       if (differenceInSeconds < 60 * 60 * 24 * 7 && (Utils.isSet(row.rating) || row.removed || differenceInSeconds < 60 * 60 * 24)) {
         const app = {
@@ -215,7 +215,7 @@ class App {
           } : null;
         }
         if (Utils.isSet(columns.release_date)) {
-          app.release_date = Utils.formatDate(parseInt(row.release_date) * 1e3);
+          app.release_date = Utils.isSet(row.release_date) ? Utils.formatDate(parseInt(row.release_date) * 1e3) : null;
         }
         if (Utils.isSet(columns.genres)) {
           app.genres = row.genres ? row.genres.split(',') : [];
@@ -224,7 +224,7 @@ class App {
           app.tags = row.tags ? row.tags.split(',') : [];
         }
         if (Utils.isSet(columns.base)) {
-          app.base = row.base;
+          app.base = Utils.isSet(row.base) ? row.base : null;
         }
         if (Utils.isSet(columns.dlcs)) {
           app.dlcs = row.dlcs ? row.dlcs.split(',').map(dlcId => parseInt(dlcId)) : [];
@@ -249,12 +249,12 @@ class App {
   static async fetch(connection, appId) {
     const apiUrl = `https://store.steampowered.com/api/appdetails?appids=${appId}&filters=achievements,basic,categories,genres,metacritic,name,packages,platforms,price_overview,release_date&cc=us&l=en`;
     const apiResponse = await Request.get(apiUrl);
-    const apiData = apiResponse.json && apiResponse.json[appId] && apiResponse.json[appId].data;
-    if (!apiData) {
+    if (!apiResponse || !apiResponse.json || !apiResponse.json[appId]) {
       throw new CustomError(CustomError.COMMON_MESSAGES.steam, 500);
     }
-    if (apiData.type !== 'game' && apiData.type !== 'dlc') {
-      throw new CustomError('Item requested is not a game.', 400);
+    const apiData = apiResponse.json[appId].success ? apiResponse.json[appId].data : null;
+    if (!apiData || (apiData.type !== 'game' && apiData.type !== 'dlc')) {
+      return;
     }
     const storeUrl = `https://store.steampowered.com/app/${appId}?cc=us&l=en`;
     const storeConfig = {
@@ -269,7 +269,7 @@ class App {
     const isStoreResponseOk = !!storeResponse.html.querySelector('.apphub_AppName');
     const releaseDate = apiData.release_date;
     const removed = !storeResponse.url.match(new RegExp(`store\.steampowered\.com.*?\/app\/${appId}`));
-    const categories = apiData.categories.map(category => category.description.toLowerCase());
+    const categories = apiData.categories ? apiData.categories.map(category => category.description.toLowerCase()) : [];
     const platforms = apiData.platforms;
     const metacritic = apiData.metacritic;
     let rating = null;
@@ -299,8 +299,8 @@ class App {
       metacritic_id: metacritic ? metacritic.url.replace(/https:\/\/www\.metacritic\.com\/game\/pc\/|\?.+/, '') : null,
       rating_percentage: rating ? parseInt(rating[1]) : null,
       rating_count: rating ? parseInt(rating[2]) : null,
-      release_date: releaseDate.date ? ((new Date(`${releaseDate.date} UTC`)).getTime() / 1e3) : null,
-      last_update: Date.now() / 1e3,
+      release_date: releaseDate.date ? Math.trunc(((new Date(`${releaseDate.date} UTC`)).getTime() / 1e3)) : null,
+      last_update: Math.trunc(Date.now() / 1e3),
     };
     const genres = [];
     if (apiData.genres) {

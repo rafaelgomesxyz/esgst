@@ -24,13 +24,13 @@ async function doRcvSgCronJob() {
  * @param {import('mysql').Connection} connection 
  */
 async function updateRcvSg(connection) {
-  const addedDate = Date.now() / 1e3;
+  const addedDate = Math.trunc(Date.now() / 1e3);
   let page = 0;
   let ended = false;
   do {
     await Utils.timeout(1);
     page += 1;    
-    console.log(`Updating RCV games (page ${page}...)`);
+    console.log(`Updating RCV games from SG (page ${page}...)`);
     const url = `https://www.steamgifts.com/bundle-games/search?page=${page}`;
     const response = await Request.get(url);
     if (!response.html) {
@@ -54,7 +54,7 @@ async function updateRcvSg(connection) {
       const type = matches[1];
       const id = parseInt(matches[2]);
       const name = element.querySelector('.table__column__heading').textContent;
-      const effectiveDate = (new Date(`${element.querySelector('.table__column--width-small').textContent} UTC`)).getTime() / 1e3;
+      const effectiveDate = Math.trunc((new Date(`${element.querySelector('.table__column--width-small').textContent} UTC`)).getTime() / 1e3);
       names[type].push({ id, name });
       rcv[type].push({ id, effectiveDate });
     }
