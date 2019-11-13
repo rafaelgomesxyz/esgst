@@ -1,7 +1,7 @@
 import { Button } from '../../class/Button';
 import { Module } from '../../class/Module';
-import { gSettings } from '../../class/Globals';
-import { shared } from '../../class/Shared';
+import { Settings } from '../../class/Settings';
+import { Shared } from '../../class/Shared';
 import { Popup } from '../../class/Popup';
 import { FetchRequest } from '../../class/FetchRequest';
 import { Session } from '../../class/Session';
@@ -39,8 +39,8 @@ class DiscussionsImprovedDiscussionBookmarks extends Module {
   init() {
     const highlightedDiscussions = {};
 
-    for (const code in shared.esgst.discussions) {
-      const discussion = shared.esgst.discussions[code];
+    for (const code in Shared.esgst.discussions) {
+      const discussion = Shared.esgst.discussions[code];
 
       if (discussion.highlighted) {
         highlightedDiscussions[code] = {
@@ -74,7 +74,7 @@ class DiscussionsImprovedDiscussionBookmarks extends Module {
                 popup.setProgress(`${current++} of ${numHighlightedDiscussions} discussions transferred...`);
               }
 
-              await shared.common.lockAndSaveDiscussions(highlightedDiscussions)
+              await Shared.common.lockAndSaveDiscussions(highlightedDiscussions)
 
               popup.close();
             }
@@ -87,7 +87,7 @@ class DiscussionsImprovedDiscussionBookmarks extends Module {
             title1: 'Delete',
             title2: 'Deleting...',
             callback1: async () => {
-              await shared.common.lockAndSaveDiscussions(highlightedDiscussions)
+              await Shared.common.lockAndSaveDiscussions(highlightedDiscussions)
 
               popup.close();
             }
@@ -97,7 +97,7 @@ class DiscussionsImprovedDiscussionBookmarks extends Module {
       popup.open();
     }
 
-    shared.esgst.discussionFeatures.push(this.addButtons.bind(this));
+    Shared.esgst.discussionFeatures.push(this.addButtons.bind(this));
   }
 
   async addButtons(discussions, main) {
@@ -106,14 +106,14 @@ class DiscussionsImprovedDiscussionBookmarks extends Module {
         continue;
       }
 
-      const context = main && shared.esgst.discussionPath ? discussion.heading : discussion.outerWrap;
+      const context = main && Shared.esgst.discussionPath ? discussion.heading : discussion.outerWrap;
 
       let index = 0;
 
       if (discussion.bookmarked) {
         await this.bookmarkDiscussion(null, context);
 
-        if (gSettings.idb_t && main && shared.esgst.discussionsPath) {
+        if (Settings.get('idb_t') && main && Shared.esgst.discussionsPath) {
           discussion.outerWrap.parentElement.insertBefore(discussion.outerWrap, discussion.outerWrap.parentElement.firstElementChild);
           discussion.isPinned = true;
         }

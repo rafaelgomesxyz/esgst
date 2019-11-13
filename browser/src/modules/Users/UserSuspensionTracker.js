@@ -2,7 +2,7 @@ import { Checkbox } from '../../class/Checkbox';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { common } from '../Common';
-import { shared } from '../../class/Shared';
+import { Shared } from '../../class/Shared';
 import { permissions } from '../../class/Permissions';
 import { DOM } from '../../class/DOM';
 
@@ -63,22 +63,22 @@ class UsersUserSuspensionTracker extends Module {
   }
 
   init() {
-    if (shared.esgst.ticketsPath) {
-      shared.esgst.ustButton = createHeadingButton({
+    if (Shared.esgst.ticketsPath) {
+      Shared.esgst.ustButton = createHeadingButton({
         id: 'ust',
         icons: ['fa-paper-plane'],
         title: 'Send selected tickets to the User Suspension Tracker database'
       });
-      shared.esgst.ustButton.addEventListener('click', this.ust_sendAll.bind(this));
-    } else if (shared.esgst.ticketPath && document.getElementsByClassName('table__column--width-fill')[1].textContent.trim().match(/Did\sNot\sActivate\sPrevious\sWins\sThis\sMonth|Other|Multiple\sWins\sfor\sthe\sSame\sGame|Not\sActivating\sWon\sGift/)) {
+      Shared.esgst.ustButton.addEventListener('click', this.ust_sendAll.bind(this));
+    } else if (Shared.esgst.ticketPath && document.getElementsByClassName('table__column--width-fill')[1].textContent.trim().match(/Did\sNot\sActivate\sPrevious\sWins\sThis\sMonth|Other|Multiple\sWins\sfor\sthe\sSame\sGame|Not\sActivating\sWon\sGift/)) {
       const authorElement = document.querySelector('.comment__username');
       const closeElement = document.querySelector(`.notification [href*="/user/"]`);
       if (authorElement && closeElement && authorElement.textContent.trim() !== closeElement.textContent.trim()) {
         let code, tickets;
         code = window.location.pathname.match(/\/ticket\/(.+?)\//)[1];
-        tickets = JSON.parse(shared.esgst.storage.tickets);
+        tickets = JSON.parse(Shared.esgst.storage.tickets);
         if (!tickets[code] || !tickets[code].sent) {
-          shared.esgst.ustButton = createElements(document.getElementsByClassName('page__heading')[0].lastElementChild, 'beforeBegin', [{
+          Shared.esgst.ustButton = createElements(document.getElementsByClassName('page__heading')[0].lastElementChild, 'beforeBegin', [{
             attributes: {
               class: 'esgst-heading-button',
               title: `${getFeatureTooltip('ust', 'Send ticket to the User Suspension Tracker database')}`
@@ -91,7 +91,7 @@ class UsersUserSuspensionTracker extends Module {
               type: 'i'
             }]
           }]);
-          shared.esgst.ustButton.addEventListener('click', this.ust_send.bind(this));
+          Shared.esgst.ustButton.addEventListener('click', this.ust_send.bind(this));
         }
       }
     }
@@ -102,8 +102,8 @@ class UsersUserSuspensionTracker extends Module {
       return;
     }
 
-    shared.esgst.ustButton.removeEventListener('click', this.ust_sendAll);
-    createElements(shared.esgst.ustButton, 'inner', [{
+    Shared.esgst.ustButton.removeEventListener('click', this.ust_sendAll);
+    createElements(Shared.esgst.ustButton, 'inner', [{
       attributes: {
         class: 'fa fa-circle-o-notch fa-spin'
       },
@@ -146,15 +146,15 @@ class UsersUserSuspensionTracker extends Module {
     }
     await setValue('tickets', JSON.stringify(tickets));
     if (n === this.numTickets) {
-      shared.esgst.ustButton.remove();
+      Shared.esgst.ustButton.remove();
     } else {
-      createElements(shared.esgst.ustButton, 'inner', [{
+      createElements(Shared.esgst.ustButton, 'inner', [{
         attributes: {
           class: 'fa fa-paper-plane'
         },
         type: 'i'
       }]);
-      shared.esgst.ustButton.addEventListener('click', this.ust_sendAll.bind(this));
+      Shared.esgst.ustButton.addEventListener('click', this.ust_sendAll.bind(this));
     }
     new Popup({
       addScrollable: true,
@@ -180,9 +180,9 @@ class UsersUserSuspensionTracker extends Module {
       return;
     }
 
-    let code = shared.esgst.locationHref.match(/\/ticket\/(.+?)\//)[1];
-    shared.esgst.ustButton.removeEventListener('click', this.ust_send);
-    createElements(shared.esgst.ustButton, 'inner', [{
+    let code = Shared.esgst.locationHref.match(/\/ticket\/(.+?)\//)[1];
+    Shared.esgst.ustButton.removeEventListener('click', this.ust_send);
+    createElements(Shared.esgst.ustButton, 'inner', [{
       attributes: {
         class: 'fa fa-circle-o-notch fa-spin'
       },
@@ -191,7 +191,7 @@ class UsersUserSuspensionTracker extends Module {
     let error = JSON.parse(
       (await request({
         data: `${code}=${encodeURIComponent(DOM.parse(
-          (await request({ method: 'GET', url: shared.esgst.locationHref })).responseText
+          (await request({ method: 'GET', url: Shared.esgst.locationHref })).responseText
         ).getElementsByClassName('sidebar')[0].nextElementSibling.innerHTML.replace(/\n|\r|\r\n|\s{2,}/g, '').trim())}`,
         method: 'POST',
         url: `https://script.google.com/macros/s/AKfycbwdKNormCJs-hEKV0GVwawgWj1a26oVtPylgmxOOvNk1Gf17A/exec`
@@ -206,7 +206,7 @@ class UsersUserSuspensionTracker extends Module {
       }
       tickets[code].sent = 1;
       await setValue('tickets', JSON.stringify(tickets));
-      shared.esgst.ustButton.remove();
+      Shared.esgst.ustButton.remove();
       new Popup({
         addScrollable: true,
         icon: '',
@@ -214,13 +214,13 @@ class UsersUserSuspensionTracker extends Module {
         title: `Ticket sent! It will be analyzed and, if accepted, added to the database in 48 hours at most.`
       }).open();
     } else {
-      createElements(shared.esgst.ustButton, 'inner', [{
+      createElements(Shared.esgst.ustButton, 'inner', [{
         attributes: {
           class: 'fa fa-paper-plane'
         },
         type: 'i'
       }]);
-      shared.esgst.ustButton.addEventListener('click', this.ust_send.bind(this));
+      Shared.esgst.ustButton.addEventListener('click', this.ust_send.bind(this));
       new Popup({
         addScrollable: true,
         icon: '',

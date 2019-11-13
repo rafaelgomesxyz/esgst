@@ -1,6 +1,6 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
-import { shared } from '../../class/Shared';
+import { Shared } from '../../class/Shared';
 import { DOM } from '../../class/DOM';
 
 class GiveawaysVisibleInviteOnlyGiveaways extends Module {
@@ -25,7 +25,7 @@ class GiveawaysVisibleInviteOnlyGiveaways extends Module {
   }
 
   viog_display(giveaways) {
-    if (!shared.esgst.userPath) {
+    if (!Shared.esgst.userPath) {
       return;
     }
     for (const giveaway of giveaways) {

@@ -1,7 +1,7 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
 import IntersectionObserver from 'intersection-observer-polyfill';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 import { Shared } from '../../class/Shared';
 import { DOM } from '../../class/DOM';
 import { EventDispatcher } from '../../class/EventDispatcher';
@@ -60,6 +60,28 @@ class GeneralEndlessScrolling extends Module {
         ]]
       ],
       features: {
+        es_g: {
+          name: 'Enable for giveaways.',
+          sg: true,
+        },
+        es_d: {
+          name: 'Enable for discussions.',
+          sg: true,
+        },
+        es_c: {
+          name: 'Enable for comments.',
+          sg: true,
+          st: true,
+        },
+        es_l: {
+          name: 'Enable for lists.',
+          sg: true,
+          sg: true,
+        },
+        es_t: {
+          name: 'Enable for trades.',
+          sg: true,
+        },
         es_ch: {
           name: 'Enable for Comment History.',
           sg: true
@@ -141,15 +163,30 @@ class GeneralEndlessScrolling extends Module {
   }
 
   init() {
+    let es = {};
+
+    if (Shared.esgst.giveawaysPath && Settings.get('es_g')) {
+      es.id = 'g';
+    } else if (Shared.esgst.discussionsPath && Settings.get('es_d')) {
+      es.id = 'd';
+    } else if (Shared.esgst.commentsPath && Settings.get('es_c')) {
+      es.id = 'c';
+    } else if (Shared.esgst.tradesPath && Settings.get('es_t')) {
+      es.id = 't';
+    } else if (!Shared.esgst.giveawaysPath && !Shared.esgst.discussionsPath && !Shared.esgst.commentsPath && !Shared.esgst.tradesPath && Settings.get('es_l')) {
+      es.id = 'l';
+    } else {
+      return;
+    }
+
     if (!this.esgst.mainPageHeading || !this.esgst.pagination) return;
     if (this.esgst.pagination.classList.contains('pagination--no-results')) {
       this.esgst.itemsPerPage = 50;
     } else {
       this.esgst.itemsPerPage = parseInt(this.esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.textContent.replace(/,/g, '')) - parseInt(this.esgst.pagination.firstElementChild.firstElementChild.textContent.replace(/,/g, '')) + 1;
     }
-    let es = {};
     this.esgst.es = es;
-    es.divisors = gSettings.es_pd;
+    es.divisors = Settings.get('es_pd');
     es.mainContext = this.esgst.pagination.previousElementSibling;
     if (this.esgst.commentsPath && !es.mainContext.classList.contains('comments')) {
       es.mainContext = DOM.build(es.mainContext, 'afterEnd', [
@@ -161,7 +198,7 @@ class GeneralEndlessScrolling extends Module {
       es.mainContext = rows;
     }
     es.paginations = [this.esgst.paginationNavigation ? this.esgst.paginationNavigation.innerHTML : ''];
-    es.reverseScrolling = gSettings.es_r && this.esgst.discussionPath;
+    es.reverseScrolling = Settings.get('es_r') && this.esgst.discussionPath;
     if (es.reverseScrolling) {
       if (this.esgst.currentPage === 1 && this.esgst.paginationNavigation && !this.esgst.parameters.page) {
         for (let i = 0, n = es.mainContext.children.length; i < n; ++i) {
@@ -302,7 +339,7 @@ class GeneralEndlessScrolling extends Module {
     es.isLimited = false;
     es.limitCount = 0;
     es.busy = false;
-    es.paused = gSettings.es && gSettings.es.options && gSettings.es.options.pause;
+    es.paused = Settings.get(`es_paused_${es.id}_${Shared.esgst.name}`);
     this.esgst.es_loadNext = this.es_loadNext.bind(this, es);
     if (es.paused) {
       // noinspection JSIgnoredPromiseFromCall
@@ -319,7 +356,7 @@ class GeneralEndlessScrolling extends Module {
     observer.observe(this.esgst.pagination);
     if (es.paused && es.reversePages) {
       this.esgst.es_loadNext();
-    } else if (gSettings.es_cl) {
+    } else if (Settings.get('es_cl')) {
       // noinspection JSIgnoredPromiseFromCall
       this.es_continuouslyLoad(es);
     }
@@ -414,7 +451,7 @@ class GeneralEndlessScrolling extends Module {
       es.paginations.push(paginationNavigation.innerHTML);
     }
     let fragment = document.createDocumentFragment();
-    if (gSettings.cr && this.esgst.discussionPath) {
+    if (Settings.get('cr') && this.esgst.discussionPath) {
       reverseComments(context);
     }
     let n = context.children.length;
@@ -443,7 +480,7 @@ class GeneralEndlessScrolling extends Module {
       if (!refreshAll) {
         await endless_load(es.mainContext, true, null, currentPage);
         this.es_setRemoveEntry(es.mainContext);
-        if (gSettings.ts && !gSettings.us) {
+        if (Settings.get('ts') && !Settings.get('us')) {
           this.esgst.modules.generalTableSorter.ts_sortTables();
         }
         es.refreshButton.addEventListener('click', this.esgst.es_refresh.bind(this));
@@ -485,7 +522,7 @@ class GeneralEndlessScrolling extends Module {
       es.observer.observe(es.mainContext.lastElementChild);
       await endless_load(es.mainContext, true, null, currentPage);
       this.es_setRemoveEntry(es.mainContext);
-      if (gSettings.ts && !gSettings.us) {
+      if (Settings.get('ts') && !Settings.get('us')) {
         this.esgst.modules.generalTableSorter.ts_sortTables();
       }
       es.progress.remove();
@@ -616,9 +653,9 @@ class GeneralEndlessScrolling extends Module {
     es.continuous = true;
     const wasPaused = es.paused;
     await this.es_resume(es);
-    if (gSettings.es_cl) {
+    if (Settings.get('es_cl')) {
       es.isLimited = true;
-      es.limitCount = Math.min(10, parseInt(gSettings.es_pages));
+      es.limitCount = Math.min(10, parseInt(Settings.get('es_pages')));
     }
     this.esgst.es_loadNext(async () => {
       es.isLimited = false;
@@ -643,19 +680,7 @@ class GeneralEndlessScrolling extends Module {
     es.pauseButton.classList.add('esgst-hidden');
     es.resumeButton.classList.remove('esgst-hidden');
     if (!firstRun) {
-      const setting = gSettings.full.es;
-      setting.include = setting.include.map(item => {
-        if (item !== gSettings.es) {
-          return item;
-        }
-        if (!item.options) {
-          item.options = {};
-        }
-        item.options.pause = es.paused;
-        gSettings.es = item;
-        return item;
-      });
-      await setSetting('es', setting, true);
+      await setSetting(`es_paused_${es.id}_${Shared.esgst.name}`, es.paused);
     }
     es.continuous = false;
     createElements(es.continuousButton, 'inner', [{
@@ -671,19 +696,7 @@ class GeneralEndlessScrolling extends Module {
     es.resumeButton.classList.add('esgst-hidden');
     es.pauseButton.classList.remove('esgst-hidden');
     if (!firstRun) {
-      const setting = gSettings.full.es;
-      setting.include = setting.include.map(item => {
-        if (item !== gSettings.es) {
-          return item;
-        }
-        if (!item.options) {
-          item.options = {};
-        }
-        item.options.pause = es.paused;
-        gSettings.es = item;
-        return item;
-      });
-      await setSetting('es', setting, true);
+      await setSetting(`es_paused_${es.id}_${Shared.esgst.name}`, es.paused);
     }
     if (this.esgst.pagination.getAttribute('data-esgst-intersecting')) {
       this.esgst.es_loadNext(null, true);
@@ -701,8 +714,8 @@ class GeneralEndlessScrolling extends Module {
     let response = await request({ method: 'GET', url: `${this.esgst.searchUrl}${es.pageIndex}` });
     // noinspection JSIgnoredPromiseFromCall
     this.es_getNext(es, true, false, null, response);
-    if (this.esgst.giveawaysPath && gSettings.es_rd) {
-      if (gSettings.oadd) {
+    if (this.esgst.giveawaysPath && Settings.get('es_rd')) {
+      if (Settings.get('oadd')) {
         // noinspection JSIgnoredPromiseFromCall
         this.esgst.modules.discussionsOldActiveDiscussionsDesign.oadd_load(true);
       } else {
@@ -753,11 +766,11 @@ class GeneralEndlessScrolling extends Module {
       },
       type: 'i'
     }]);
-    if (gSettings.ts && !gSettings.us) {
+    if (Settings.get('ts') && !Settings.get('us')) {
       this.esgst.modules.generalTableSorter.ts_sortTables();
     }
-    if (this.esgst.giveawaysPath && gSettings.es_rd) {
-      if (gSettings.oadd) {
+    if (this.esgst.giveawaysPath && Settings.get('es_rd')) {
+      if (Settings.get('oadd')) {
         // noinspection JSIgnoredPromiseFromCall
         this.esgst.modules.discussionsOldActiveDiscussionsDesign.oadd_load(true);
       } else {

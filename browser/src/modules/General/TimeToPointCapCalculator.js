@@ -1,6 +1,6 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 import { EventDispatcher } from '../../class/EventDispatcher';
 import { Events } from '../../constants/Events';
 import { Session } from '../../class/Session';
@@ -47,7 +47,9 @@ class GeneralTimeToPointCapCalculator extends Module {
 
     const time = this.esgst.modules.giveawaysTimeToEnterCalculator.ttec_getTime(Math.round((nextRefresh + (15 * Math.floor((400 - newPoints) / 6))) * 100) / 100);
 
-    Shared.header.updatePoints(`${newPoints.toLocaleString('en-US')}${gSettings.ttpcc_a ? `P / ${time} to 400` : ''}`, common.getFeatureTooltip('ttpcc', `${time} to 400P`));
+    const pointsNode = Shared.header.buttonContainers['account'].nodes.points;
+    pointsNode.textContent = `${newPoints.toLocaleString('en-US')}${Settings.get('ttpcc_a') ? `P / ${time} to 400` : ''}`;
+    pointsNode.title = common.getFeatureTooltip('ttpcc', `${time} to 400P`);
   }
 }
 

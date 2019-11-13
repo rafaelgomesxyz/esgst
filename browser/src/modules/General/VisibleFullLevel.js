@@ -27,7 +27,8 @@ class GeneralVisibleFullLevel extends Module {
   }
 
   async update(oldLevel, newLevel) {
-    await Shared.header.updateLevel(`Lvl ${newLevel.full}`);
+    const levelNode = Shared.header.buttonContainers['account'].nodes.level;
+    levelNode.textContent = `Lvl ${newLevel.full}`;
   }
 }
 

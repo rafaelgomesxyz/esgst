@@ -4,8 +4,8 @@ import { Table } from '../../class/Table';
 import { Utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
-import { shared } from '../../class/Shared';
-import { gSettings } from '../../class/Globals';
+import { Shared } from '../../class/Shared';
+import { Settings } from '../../class/Settings';
 import { DOM } from '../../class/DOM';
 
 const
@@ -41,7 +41,6 @@ class GiveawaysCommentEntryChecker extends Module {
       id: 'cec',
       name: 'Comment/Entry Checker',
       sg: true,
-      sgPaths: /^Giveaway($|\s-\s.+?)$/,
       type: 'giveaways'
     };
   }
@@ -56,7 +55,7 @@ class GiveawaysCommentEntryChecker extends Module {
 
     DOM.build(this.esgst.sidebarGroups[0].navigation, 'beforeEnd', [
       ['li', { class: 'sidebar__navigation__item', id: 'cec' }, [
-        ['a', { class: 'sidebar__navigation__item__link', href: `${this.esgst.path.replace(/\/entries/, '')}/entries?esgst=cec`, onclick: event => !gSettings.cec_t && !event.preventDefault() && this.cec_openPopup(true) }, [
+        ['a', { class: 'sidebar__navigation__item__link', href: `${this.esgst.path.replace(/\/entries/, '')}/entries?esgst=cec`, onclick: event => !Settings.get('cec_t') && !event.preventDefault() && this.cec_openPopup(true) }, [
           ['div', { class: 'sidebar__navigation__item__name' }, 'Comments vs Entries'],
           ['div', { class: 'sidebar__navigation__item__underline' }]
         ]]
@@ -83,7 +82,7 @@ class GiveawaysCommentEntryChecker extends Module {
     if (!isPopup) {
       common.setSidebarActive('cec');
     }
-    const heading = new elementBuilder[shared.esgst.name].pageHeading({
+    const heading = new elementBuilder[Shared.esgst.name].pageHeading({
       context: container,
       position: 'afterBegin',
       breadcrumbs: [

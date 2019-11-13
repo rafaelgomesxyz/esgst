@@ -1,6 +1,6 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 
 const
   createElements = common.createElements.bind(common),
@@ -45,20 +45,20 @@ class GiveawaysGiveawayPointsToWin extends Module {
   }
 
   init() {
-    if (!this.esgst.enteredPath && (!this.esgst.wonPath || !gSettings.cewgd || !gSettings.cewgd_w || !gSettings.cewgd_w_e)) return;
+    if (!this.esgst.enteredPath && (!this.esgst.wonPath || !Settings.get('cewgd') || !Settings.get('cewgd_w') || !Settings.get('cewgd_w_e'))) return;
     this.esgst.endlessFeatures.push(this.esgst.modules.giveawaysGiveawayWinningChance.gwc_addHeading.bind(this));
   }
 
   gptw_addPoints(giveaways, main, source) {
     for (const giveaway of giveaways) {
-      if (giveaway.sgTools || (main && (this.esgst.createdPath || (this.esgst.wonPath && (!gSettings.cewgd || !gSettings.cewgd_w || !gSettings.cewgd_w_e)) || this.esgst.newGiveawayPath || this.esgst.archivePath))) {
+      if (giveaway.sgTools || (main && (this.esgst.createdPath || (this.esgst.wonPath && (!Settings.get('cewgd') || !Settings.get('cewgd_w') || !Settings.get('cewgd_w_e'))) || this.esgst.newGiveawayPath || this.esgst.archivePath))) {
         continue;
       }
-      if (((!giveaway.inviteOnly || ((!main || (!this.esgst.giveawayPath && !this.esgst.enteredPath && (!this.esgst.wonPath || !gSettings.cewgd || !gSettings.cewgd_w || !gSettings.cewgd_w_e))) && main && !giveaway.ended && !giveaway.id)) && giveaway.inviteOnly) || giveaway.innerWrap.getElementsByClassName('esgst-gptw')[0]) {
+      if (((!giveaway.inviteOnly || ((!main || (!this.esgst.giveawayPath && !this.esgst.enteredPath && (!this.esgst.wonPath || !Settings.get('cewgd') || !Settings.get('cewgd_w') || !Settings.get('cewgd_w_e')))) && main && !giveaway.ended && !giveaway.id)) && giveaway.inviteOnly) || giveaway.innerWrap.getElementsByClassName('esgst-gptw')[0]) {
         continue;
       }
       if (giveaway.started) {
-        giveaway.gptwContext = createElements(giveaway.panel, (gSettings.gv && ((main && this.esgst.giveawaysPath) || (source === 'gb' && gSettings.gv_gb) || (source === 'ged' && gSettings.gv_ged) || (source === 'ge' && gSettings.gv_ge))) ? 'afterBegin' : 'beforeEnd', [{
+        giveaway.gptwContext = createElements(giveaway.panel, (Settings.get('gv') && ((main && this.esgst.giveawaysPath) || (source === 'gb' && Settings.get('gv_gb')) || (source === 'ged' && Settings.get('gv_ged')) || (source === 'ge' && Settings.get('gv_ge')))) ? 'afterBegin' : 'beforeEnd', [{
           attributes: {
             class: `${this.esgst.giveawayPath ? 'featured__column' : ''} esgst-gptw`,
             ['data-draggable-id']: 'gptw',
@@ -74,11 +74,11 @@ class GiveawaysGiveawayPointsToWin extends Module {
   }
 
   gptw_addPoint(giveaway) {
-    const entries = giveaway.entered || giveaway.ended || giveaway.created || !gSettings.gptw_e ? giveaway.entries : giveaway.entries + 1;
+    const entries = giveaway.entered || giveaway.ended || giveaway.created || !Settings.get('gptw_e') ? giveaway.entries : giveaway.entries + 1;
     giveaway.pointsToWin = Math.round((giveaway.points || 0) / giveaway.copies * entries * 100) / 100;
     giveaway.gptwContext.setAttribute('data-pointsToWin', giveaway.pointsToWin);
     let color = null;
-    for (const colors of gSettings.gptw_colors) {
+    for (const colors of Settings.get('gptw_colors')) {
       if (giveaway.pointsToWin >= parseFloat(colors.lower) && giveaway.pointsToWin <= parseFloat(colors.upper)) {
         color = colors.color;
         break;

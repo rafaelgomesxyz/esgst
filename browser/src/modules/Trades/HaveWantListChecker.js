@@ -1,16 +1,15 @@
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { common } from '../Common';
-import { shared } from '../../class/Shared';
+import { Shared } from '../../class/Shared';
 import { permissions } from '../../class/Permissions';
+import { LocalStorage } from '../../class/LocalStorage';
 
 const
   createElements = common.createElements.bind(common),
   createHeadingButton = common.createHeadingButton.bind(common),
-  getLocalValue = common.getLocalValue.bind(common),
   getTextNodesIn = common.getTextNodesIn.bind(common),
-  request = common.request.bind(common),
-  setLocalValue = common.setLocalValue.bind(common)
+  request = common.request.bind(common)
   ;
 
 const WHITELIST = {
@@ -39,7 +38,7 @@ class TradesHaveWantListChecker extends Module {
   }
 
   init() {
-    if (!shared.esgst.tradePath) {
+    if (!Shared.esgst.tradePath) {
       return;
     }
     let obj = {
@@ -72,9 +71,9 @@ class TradesHaveWantListChecker extends Module {
       await this.hwlc_getGames();
       obj.games = {};
       // noinspection JSIgnoredPromiseFromCall
-      this.hwlc_addGames(obj, 'have', shared.esgst.appList);
+      this.hwlc_addGames(obj, 'have', Shared.esgst.appList);
       // noinspection JSIgnoredPromiseFromCall
-      this.hwlc_addGames(obj, 'want', shared.esgst.appList);
+      this.hwlc_addGames(obj, 'want', Shared.esgst.appList);
     }, 1000);
   }
 
@@ -174,7 +173,7 @@ class TradesHaveWantListChecker extends Module {
   }
 
   async hwlc_getGames(convertToObj) {
-    if (shared.esgst.appList) {
+    if (Shared.esgst.appList) {
       return;
     }
 
@@ -188,17 +187,17 @@ class TradesHaveWantListChecker extends Module {
 
       if (convertToObj) {
         // eslint-disable-next-line require-atomic-updates
-        shared.esgst.appList = {};
+        Shared.esgst.appList = {};
 
         for (const app of appList.applist.apps) {
-          shared.esgst.appList[app.appid] = app.name;
+          Shared.esgst.appList[app.appid] = app.name;
         }
       } else {
         // eslint-disable-next-line require-atomic-updates
-        shared.esgst.appList = appList;
+        Shared.esgst.appList = appList;
       }
     } catch (error) {
-      console.log(error);
+      window.console.log(error);
 
       window.alert('Could not retrieve list of Steam games. Games will not be identified by name.');
     }
@@ -319,8 +318,8 @@ class TradesHaveWantListChecker extends Module {
         };
         return game;
       }
-      if (key === 'have' && shared.esgst.games.apps[game.id]) {
-        if (shared.esgst.games.apps[game.id].owned) {
+      if (key === 'have' && Shared.esgst.games.apps[game.id]) {
+        if (Shared.esgst.games.apps[game.id].owned) {
           game.owned = true;
           game.html = {
             type: 'li',
@@ -339,7 +338,7 @@ class TradesHaveWantListChecker extends Module {
             }]
           };
           return game;
-        } else if (shared.esgst.games.apps[game.id].wishlisted) {
+        } else if (Shared.esgst.games.apps[game.id].wishlisted) {
           game.wishlisted = true;
           game.html = {
             type: 'li',
@@ -416,7 +415,7 @@ class TradesHaveWantListChecker extends Module {
           type: 'node'
         }]);
       }
-      const query = getLocalValue(`hwlc_${key}`);
+      const query = LocalStorage.get(`hwlc_${key}`);
       if (query) {
         obj.sections[key].textArea.value = query;
         this.hwlc_filter(obj, key);
@@ -427,7 +426,7 @@ class TradesHaveWantListChecker extends Module {
   hwlc_filter(obj, key) {
     obj.sections[key].matches.innerHTML = '';
     const query = obj.sections[key].textArea.value;
-    setLocalValue(`hwlc_${key}`, query);
+    LocalStorage.set(`hwlc_${key}`, query);
     let found = [];
     const values = query.split(/\n/);
     for (let value of values) {

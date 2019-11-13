@@ -1,5 +1,5 @@
-import { shared } from './Shared';
-import { gSettings } from './Globals';
+import { Shared } from './Shared';
+import { Settings } from './Settings';
 
 class Popout {
   constructor(className = '', context = null, hoverSpeed = 1000, onClick = false, popout = null, onOpen = null) {
@@ -12,7 +12,7 @@ class Popout {
     this.onFirstOpen = null;
     this.hasOpened = false;
     this.context = context;
-    this.popout = popout || shared.common.createElements(document.body, 'beforeEnd', [{
+    this.popout = popout || Shared.common.createElements(document.body, 'beforeEnd', [{
       attributes: {
         class: className
       },
@@ -86,8 +86,8 @@ class Popout {
     this.isFixed = isFixed;
     this.popout.classList.remove('esgst-hidden');
     let n = 9999 + document.querySelectorAll(`.esgst-popup:not(.esgst-hidden), .esgst-popout:not(.esgst-hidden)`).length;
-    if (shared.esgst.openPopups > 0) {
-      const highestN = parseInt(shared.esgst.popups[shared.esgst.openPopups - 1].popup.style.zIndex || 0);
+    if (Shared.esgst.openPopups > 0) {
+      const highestN = parseInt(Shared.esgst.popups[Shared.esgst.openPopups - 1].popup.style.zIndex || 0);
       if (n <= highestN) {
         n = highestN + 1;
       }
@@ -143,8 +143,8 @@ class Popout {
     if (!this.isDynamicHeight) {
       this.popout.style.height = `${newHeight}px`;
     }
-    if (gSettings.qiv && shared.esgst.qiv.popout === this && shared.esgst.qiv.comments) {
-      shared.esgst.qiv.comments.style.maxHeight = `${newHeight - shared.esgst.qiv.comments.offsetTop}px`;
+    if (Settings.get('qiv') && Shared.esgst.qiv.popout === this && Shared.esgst.qiv.comments) {
+      Shared.esgst.qiv.comments.style.maxHeight = `${newHeight - Shared.esgst.qiv.comments.offsetTop}px`;
     }
     popoutHeight = this.popout.offsetHeight;
     popoutWidth = this.popout.offsetWidth;

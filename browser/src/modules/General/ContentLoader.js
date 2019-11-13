@@ -1,9 +1,9 @@
 import { FetchRequest } from '../../class/FetchRequest';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 import { Module } from '../../class/Module';
 import { Popout } from '../../class/Popout';
 import { Popup } from '../../class/Popup';
-import { shared } from '../../class/Shared';
+import { Shared } from '../../class/Shared';
 import { Logger } from '../../class/Logger';
 import { DOM } from '../../class/DOM';
 
@@ -122,21 +122,21 @@ class GeneralContentLoader extends Module {
   }
 
   init() {
-    if (gSettings.cl_gc) {
-      shared.esgst.giveawayFeatures.push(this.setTriggers.bind(this, 'cl_gc'));
+    if (Settings.get('cl_gc')) {
+      Shared.esgst.giveawayFeatures.push(this.setTriggers.bind(this, 'cl_gc'));
     }
-    if (gSettings.cl_ge) {
-      shared.esgst.giveawayFeatures.push(this.setTriggers.bind(this, 'cl_ge'));
+    if (Settings.get('cl_ge')) {
+      Shared.esgst.giveawayFeatures.push(this.setTriggers.bind(this, 'cl_ge'));
     }
-    if (gSettings.ggl) {
-      shared.esgst.giveawayFeatures.push(this.setTriggers.bind(this, 'ggl'));
+    if (Settings.get('ggl')) {
+      Shared.esgst.giveawayFeatures.push(this.setTriggers.bind(this, 'ggl'));
     }
-    if (gSettings.cl_gi) {
-      shared.esgst.endlessFeatures.push(this.setTriggers.bind(this, 'cl_gi'));
+    if (Settings.get('cl_gi')) {
+      Shared.esgst.endlessFeatures.push(this.setTriggers.bind(this, 'cl_gi'));
     }
-    if (gSettings.cl_ui) {
-      shared.esgst.endlessFeatures.push(this.setTriggers.bind(this, 'cl_ui'));
-      shared.esgst.userFeatures.push(this.setTriggers.bind(this, 'cl_ui'));
+    if (Settings.get('cl_ui')) {
+      Shared.esgst.endlessFeatures.push(this.setTriggers.bind(this, 'cl_ui'));
+      Shared.esgst.userFeatures.push(this.setTriggers.bind(this, 'cl_ui'));
     }
   }
 
@@ -146,7 +146,7 @@ class GeneralContentLoader extends Module {
     switch (id) {
       case 'cl_gc':
         targetObjs = items.filter(x => x.regionRestricted);
-        if (!main || (!shared.esgst.createdPath && !shared.esgst.enteredPath && !shared.esgst.wonPath)) {
+        if (!main || (!Shared.esgst.createdPath && !Shared.esgst.enteredPath && !Shared.esgst.wonPath)) {
           for (const targetObj of targetObjs) {
             this.setTrigger(main, id, targetObj, targetObj.regionRestricted);
           }
@@ -154,7 +154,7 @@ class GeneralContentLoader extends Module {
         break;
       case 'cl_ge':
         targetObjs = items.filter(x => x.entriesLink);
-        if (!main || (!shared.esgst.createdPath && !shared.esgst.enteredPath && !shared.esgst.wonPath)) {
+        if (!main || (!Shared.esgst.createdPath && !Shared.esgst.enteredPath && !Shared.esgst.wonPath)) {
           for (const targetObj of targetObjs) {
             this.setTrigger(main, id, targetObj, targetObj.entriesLink);
           }
@@ -162,9 +162,9 @@ class GeneralContentLoader extends Module {
         break;
       case 'ggl':
         targetObjs = items.filter(x => x.group);
-        if (gSettings[`${id}_index`] === ON_LOAD) {
+        if (Settings.get(`${id}_index`) === ON_LOAD) {
           this.load(main, id, targetObjs);
-        } else if (!main || (!shared.esgst.createdPath && !shared.esgst.enteredPath && !shared.esgst.wonPath)) {
+        } else if (!main || (!Shared.esgst.createdPath && !Shared.esgst.enteredPath && !Shared.esgst.wonPath)) {
           for (const targetObj of targetObjs) {
             this.setTrigger(main, id, targetObj, targetObj.group);
           }
@@ -178,7 +178,7 @@ class GeneralContentLoader extends Module {
             this.setTrigger(main, id, {}, targetObj.oldElement);
           }
         } else {
-          const selectors = shared.common.getSelectors(endless, [
+          const selectors = Shared.common.getSelectors(endless, [
             'X.global__image-outer-wrap--avatar-small',
             'X.giveaway_image_avatar',
             'X.table_image_avatar',
@@ -222,7 +222,7 @@ class GeneralContentLoader extends Module {
       target.classList.add('esgst-ap-avatar');
     }
 
-    switch (gSettings[`${id}_index`]) {
+    switch (Settings.get(`${id}_index`)) {
       case ON_HOVER_POPOUT:
         delay = 1000;
         eventType = 'mouseenter';
@@ -266,13 +266,13 @@ class GeneralContentLoader extends Module {
       event.preventDefault();
       enterTimeout = window.setTimeout(async () => {
         if (id === 'cl_gi' || id === 'cl_ui') {
-          triggerObj = shared.esgst.apPopouts[targetObj.id];
+          triggerObj = Shared.esgst.apPopouts[targetObj.id];
           if (triggerObj) {
             context = triggerObj.popout;
           }
         }
         if (triggerObj) {
-          switch (gSettings[`${id}_index`]) {
+          switch (Settings.get(`${id}_index`)) {
             case ON_HOVER_POPOUT:
                 triggerObj.open(target);
               break;
@@ -315,11 +315,11 @@ class GeneralContentLoader extends Module {
           }
 
           if (id === 'cl_gi' || id === 'cl_ui') {
-            shared.esgst.apPopouts[targetObj.id] = triggerObj = new Popout('esgst-ap-popout', undefined, undefined, onClick);
+            Shared.esgst.apPopouts[targetObj.id] = triggerObj = new Popout('esgst-ap-popout', undefined, undefined, onClick);
             context = triggerObj.popout;
 
             triggerObj.open(target);
-          } else if (gSettings[`${id}_index`] === ON_CLICK_POPUP) {
+          } else if (Settings.get(`${id}_index`) === ON_CLICK_POPUP) {
             triggerObj = new Popup({
               addScrollable: true,
               icon: `fa-${icon}`,
@@ -384,7 +384,7 @@ class GeneralContentLoader extends Module {
           this.load(main, id, [targetObj], triggerObj, context);
         }
 
-        if (gSettings[`${id}_index`] === ON_HOVER_POPOUT) {
+        if (Settings.get(`${id}_index`) === ON_HOVER_POPOUT) {
           context.onmouseenter = () => {
             if (exitTimeout) {
               window.clearTimeout(exitTimeout);
@@ -567,7 +567,7 @@ class GeneralContentLoader extends Module {
             ['div', { class: 'table__row-inner-wrap' }, [
               ['div', [
                 entry.avatar
-                  ? ['a', { class: 'table_image_avatar', href: `/user/${entry.name}`, style: `background-image:url(http://cdn.edgecast.steamstatic.com/steamcommunity/public/images/avatars/${entry.avatar}_medium.jpg)` }]
+                  ? ['a', { class: 'table_image_avatar', href: `/user/${entry.name}`, style: `background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/${entry.avatar}_medium.jpg)` }]
                   : ['div', { class: 'table_image_avatar_missing' }]
               ]],
               ['div', { class: 'table__column--width-fill' }, [
@@ -580,7 +580,7 @@ class GeneralContentLoader extends Module {
 
       loadingElement.remove();
 
-      await shared.common.endless_load(currentRows);
+      await Shared.common.endless_load(currentRows);
 
       triggerObj.custom.rows.appendChild(currentRows);
 
@@ -627,30 +627,30 @@ class GeneralContentLoader extends Module {
       }
     }
 
-    if (main && shared.esgst.gf && shared.esgst.gf.filteredCount && gSettings[`gf_enable${shared.esgst.gf.type}`]) {
-      shared.esgst.modules.giveawaysGiveawayFilters.filters_filter(shared.esgst.gf);
+    if (main && Shared.esgst.gf && Shared.esgst.gf.filteredCount && Settings.get(`gf_enable${Shared.esgst.gf.type}`)) {
+      Shared.esgst.modules.giveawaysGiveawayFilters.filters_filter(Shared.esgst.gf);
     }
-    if (!main && shared.esgst.gfPopup && shared.esgst.gfPopup.filteredCount && gSettings[`gf_enable${shared.esgst.gfPopup.type}`]) {
-      shared.esgst.modules.giveawaysGiveawayFilters.filters_filter(shared.esgst.gfPopup);
+    if (!main && Shared.esgst.gfPopup && Shared.esgst.gfPopup.filteredCount && Settings.get(`gf_enable${Shared.esgst.gfPopup.type}`)) {
+      Shared.esgst.modules.giveawaysGiveawayFilters.filters_filter(Shared.esgst.gfPopup);
     }
 
     await Promise.all([
-      shared.common.lockAndSaveGiveaways(giveawaysToSave),
-      shared.common.lockAndSaveGroups(groupsToSave)
+      Shared.common.lockAndSaveGiveaways(giveawaysToSave),
+      Shared.common.lockAndSaveGroups(groupsToSave)
     ]);
   }
 
   async fetchGiveawayGroups(giveaway, triggerObj, context, giveawaysToSave, groupsToSave) {
     let groups;
 
-    const found = shared.esgst.giveaways[giveaway.code]
-      && Array.isArray(shared.esgst.giveaways[giveaway.code].groups)
-      && shared.esgst.giveaways[giveaway.code].groups.length
-      && !shared.esgst.giveaways[giveaway.code].groups.filter(x =>
-        !shared.esgst.groups.filter(y => x === y.code)[0]
+    const found = Shared.esgst.giveaways[giveaway.code]
+      && Array.isArray(Shared.esgst.giveaways[giveaway.code].groups)
+      && Shared.esgst.giveaways[giveaway.code].groups.length
+      && !Shared.esgst.giveaways[giveaway.code].groups.filter(x =>
+        !Shared.esgst.groups.filter(y => x === y.code)[0]
       )[0];
     if (found) {
-      groups = shared.esgst.giveaways[giveaway.code].groups;
+      groups = Shared.esgst.giveaways[giveaway.code].groups;
     } else {
       groups = [];
 
@@ -703,11 +703,11 @@ class GeneralContentLoader extends Module {
         for (const code of groups) {
           let className;
 
-          const group = shared.esgst.groups.filter(x => x.code === code)[0] || groupsToSave[code];
+          const group = Shared.esgst.groups.filter(x => x.code === code)[0] || groupsToSave[code];
           if (group.member) {
             className = 'esgst-ggl-member';
             numGroups += 1;
-          } else if (gSettings.ggl_m) {
+          } else if (Settings.get('ggl_m')) {
             className = 'esgst-hidden';
           } else {
             className = '';
@@ -720,7 +720,7 @@ class GeneralContentLoader extends Module {
                 ['div', { class: 'table__row-inner-wrap' }, [
                   ['div', [
                     group.avatar
-                      ? ['a', { class: 'table_image_avatar', href: `/group/${group.code}/`, style: `background-image:url(http://cdn.edgecast.steamstatic.com/steamcommunity/public/images/avatars/${group.avatar}_medium.jpg)` }]
+                      ? ['a', { class: 'table_image_avatar', href: `/group/${group.code}/`, style: `background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/${group.avatar}_medium.jpg)` }]
                       : ['div', { class: 'table_image_avatar_missing' }]
                   ]],
                   ['div', { class: 'table__column--width-fill' }, [
@@ -742,7 +742,7 @@ class GeneralContentLoader extends Module {
           if (triggerObj.custom.searchBox) {
             triggerObj.custom.searchBox.classList.remove('esgst-hidden');
           }
-          shared.common.endless_load(table);
+          Shared.common.endless_load(table);
         }
       } else {
         DOM.build(context.lastElementChild, 'inner', [
@@ -756,7 +756,7 @@ class GeneralContentLoader extends Module {
         ['div', { class: 'esgst-ggl-panel', 'data-draggable-id': 'ggl' }]
       ]);
 
-      shared.esgst.modules.giveaways.giveaways_reorder(giveaway);
+      Shared.esgst.modules.giveaways.giveaways_reorder(giveaway);
 
       giveaway.groups = [];
       giveaway.groupNames = [];
@@ -766,11 +766,11 @@ class GeneralContentLoader extends Module {
       for (const code of groups) {
         let className;
 
-        const group = shared.esgst.groups.filter(x => x.code === code)[0] || groupsToSave[code];
+        const group = Shared.esgst.groups.filter(x => x.code === code)[0] || groupsToSave[code];
         if (group.member) {
           className = 'esgst-ggl-member';
           numGroups += 1;
-        } else if (gSettings.ggl_m) {
+        } else if (Settings.get('ggl_m')) {
           className = 'esgst-hidden';
         } else {
           className = '';
@@ -784,13 +784,13 @@ class GeneralContentLoader extends Module {
           DOM.build(panel, 'beforeEnd', [
             ['div', { class: className }, [
               group.avatar
-                ? ['a', { class: 'table_image_avatar', href: `/group/${group.code}/`, style: `background-image:url(http://cdn.edgecast.steamstatic.com/steamcommunity/public/images/avatars/${group.avatar}_medium.jpg)` }]
+                ? ['a', { class: 'table_image_avatar', href: `/group/${group.code}/`, style: `background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/${group.avatar}_medium.jpg)` }]
                 : ['div', { class: 'table_image_avatar_missing' }],
               ['a', { href: `/group/${group.code}/` }, group.name]
             ]]
           ]);
 
-          if (gSettings.cl_gi) {
+          if (Settings.get('cl_gi')) {
             this.setTriggers('cl_gi', panel);
           }
         }
@@ -872,10 +872,10 @@ class GeneralContentLoader extends Module {
     }
 
     if (targetObj.type === 'user') {
-      await shared.esgst.modules.profile.profile_load(context);
+      await Shared.esgst.modules.profile.profile_load(context);
     }
-    if (gSettings.at) {
-      shared.esgst.modules.generalAccurateTimestamp.at_getTimestamps(context);
+    if (Settings.get('at')) {
+      Shared.esgst.modules.generalAccurateTimestamp.at_getTimestamps(context);
     }
 
     triggerObj.reposition();

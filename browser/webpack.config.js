@@ -113,7 +113,7 @@ function getWebExtensionManifest(env, browserName) {
       '*://*.rafaelgssa.com/*',
       '*://*.isthereanydeal.com/*',
       '*://*.raw.githubusercontent.com/*',
-      '*://*.revadike.ga/*',
+      '*://*.revadike.com/*',
       '*://*.script.google.com/*',
       '*://*.script.googleusercontent.com/*',
       '*://*.steam-tracker.com/*',

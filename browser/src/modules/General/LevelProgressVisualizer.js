@@ -1,12 +1,13 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
-import { shared, Shared } from '../../class/Shared';
-import { gSettings } from '../../class/Globals';
+import { Shared } from '../../class/Shared';
+import { Settings } from '../../class/Settings';
 import { FetchRequest } from '../../class/FetchRequest';
 import { Logger } from '../../class/Logger';
 import { EventDispatcher } from '../../class/EventDispatcher';
 import { Events } from '../../constants/Events';
 import { Session } from '../../class/Session';
+import { LocalStorage } from '../../class/LocalStorage';
 
 const
   createElements = common.createElements.bind(common),
@@ -50,17 +51,17 @@ class GeneralLevelProgressVisualizer extends Module {
   }
 
   async getCache() {
-    if (shared.common.getLocalValue('lpvCache_v2')) {
-      shared.common.delLocalValue('lpvCache_v2');
+    if (LocalStorage.get('lpvCache_v2')) {
+      LocalStorage.delete('lpvCache_v2');
     }
-    const cache = JSON.parse(shared.common.getLocalValue('lpvCache', `{ "cv": 0, "level": 0, "v": 3 }`));
+    const cache = JSON.parse(LocalStorage.get('lpvCache', `{ "cv": 0, "level": 0, "v": 3 }`));
     const currentLevel = Session.counters.level.full;
     if (cache.v !== 3 || currentLevel !== cache.level) {
       cache.level = currentLevel;
-      const response = await FetchRequest.get(`/user/${gSettings.username}`);
+      const response = await FetchRequest.get(`/user/${Settings.get('username')}`);
       const element = response.html.querySelectorAll('.featured__table__row__right')[6];
-      cache.cv = shared.common.round(parseFloat(JSON.parse(element.firstElementChild.lastElementChild.getAttribute('data-ui-tooltip')).rows[0].columns[1].name.replace(/[$,]/g, '')));
-      shared.common.setLocalValue('lpvCache', JSON.stringify(cache));
+      cache.cv = Shared.common.round(parseFloat(JSON.parse(element.firstElementChild.lastElementChild.getAttribute('data-ui-tooltip')).rows[0].columns[1].name.replace(/[$,]/g, '')));
+      LocalStorage.set('lpvCache', JSON.stringify(cache));
     }
     return cache;
   }
@@ -81,10 +82,10 @@ class GeneralLevelProgressVisualizer extends Module {
     const cache = await this.getCache();
     const cv = this.lpv_getCv();
     if (cv > 0) {
-      const predictedFullLevel = shared.common.getLevelFromCv(cache.cv + cv);
-      Logger.info(`Current CV: ${cache.cv}`);
-      Logger.info(`CV to gain: ${cv}`);
-      Logger.info(`Predicted level: ${predictedFullLevel}`);
+      const predictedFullLevel = Shared.common.getLevelFromCv(cache.cv + cv);
+      //Logger.info(`Current CV: ${cache.cv}`);
+      //Logger.info(`CV to gain: ${cv}`);
+      //Logger.info(`Predicted level: ${predictedFullLevel}`);
       const predictedLevel = Math.trunc(predictedFullLevel);
       const predictedPercentage = Math.trunc(round(predictedFullLevel - predictedLevel) * 100);
       const predictedProgress = Math.trunc(Math.min(100, predictedPercentage) * (fullButtonWidth / 100));
@@ -93,12 +94,12 @@ class GeneralLevelProgressVisualizer extends Module {
 
       Shared.header.buttonContainers['account'].nodes.level.title = getFeatureTooltip('lpv', `${newLevel.full} (${predictedFullLevel})`);
     }
-    const barColor = gSettings.lpv_barColor;
-    const projectedBarColor = gSettings.lpv_projectedBarColor;
-    const barColorHover = gSettings.lpv_barColorHover;
-    const projectedBarColorHover = gSettings.lpv_projectedBarColorHover;
-    const barColorSelected = gSettings.lpv_barColorSelected;
-    const projectedBarColorSelected = gSettings.lpv_projectedBarColorSelected;
+    const barColor = Settings.get('lpv_barColor');
+    const projectedBarColor = Settings.get('lpv_projectedBarColor');
+    const barColorHover = Settings.get('lpv_barColorHover');
+    const projectedBarColorHover = Settings.get('lpv_projectedBarColorHover');
+    const barColorSelected = Settings.get('lpv_barColorSelected');
+    const projectedBarColorSelected = Settings.get('lpv_projectedBarColorSelected');
     this.esgst.lpvStyleArray = [{
       selector: '.esgst-lpv-container',
       rules: [{
@@ -241,9 +242,9 @@ class GeneralLevelProgressVisualizer extends Module {
   }
 
   lpv_getCv() {
-    Logger.info('Beginning CV calculation...');
+    //Logger.info('Beginning CV calculation...');
     let cv = 0;
-    const user = this.esgst.users.users[gSettings.steamId];
+    const user = this.esgst.users.users[Settings.get('steamId')];
     if (!user) {
       return cv;
     }
@@ -308,21 +309,21 @@ class GeneralLevelProgressVisualizer extends Module {
             }
             if (realValue > 0) {
               cv += realValue;
-              Logger.info(`Adding ${realValue} CV from: http://store.steampowered.com/${type.slice(0, -1)}/${id}${game && game.name ? ` (${game.name})` : ''}`);
-              Logger.info(`Total CV: ${cv}`);
+              //Logger.info(`Adding ${realValue} CV from: http://store.steampowered.com/${type.slice(0, -1)}/${id}${game && game.name ? ` (${game.name})` : ''}`);
+              //Logger.info(`Total CV: ${cv}`);
             }
           } else if (open > 0) {
             value *= open;
             if (value > 0) {
               cv += value;
-              Logger.info(`Adding ${value} CV from: http://store.steampowered.com/${type.slice(0, -1)}/${id}${game && game.name ? ` (${game.name})` : ''}`);
-              Logger.info(`Total CV: ${cv}`);
+              //Logger.info(`Adding ${value} CV from: http://store.steampowered.com/${type.slice(0, -1)}/${id}${game && game.name ? ` (${game.name})` : ''}`);
+              //Logger.info(`Total CV: ${cv}`);
             }
           }
         }
       }
     }
-    Logger.info('CV calculation ended...');
+    //Logger.info('CV calculation ended...');
     return cv;
   }
 }

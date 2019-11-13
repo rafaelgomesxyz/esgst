@@ -1,4 +1,4 @@
-import { shared } from './class/Shared';
+import { Shared } from './class/Shared';
 import { Utils } from './lib/jsUtils';
 
 let _browser = null;
@@ -82,7 +82,7 @@ if (typeof browser !== 'undefined') {
               _browser.gm.xmlHttpRequest({
                 binary: !!obj.fileName,
                 data: obj.fileName
-                  ? await shared.common.getZip(parameters.body, obj.fileName, 'binarystring')
+                  ? await Shared.common.getZip(parameters.body, obj.fileName, 'binarystring')
                   : parameters.body,
                 headers: parameters.headers,
                 method: parameters.method,
@@ -90,7 +90,7 @@ if (typeof browser !== 'undefined') {
                 url: obj.url,
                 onload: async response => {
                   if (obj.blob) {
-                    response.responseText = (await shared.common.readZip(response.responseText))[0].value;
+                    response.responseText = (await Shared.common.readZip(response.responseText))[0].value;
                   }
                   resolve(response);
                 },
@@ -228,7 +228,7 @@ if (typeof browser !== 'undefined') {
         timestamp: Date.now(),
         uuid: lock.uuid
       }));
-      await shared.common.timeout(lock.threshold / 2);
+      await Shared.common.timeout(lock.threshold / 2);
       locked = JSON.parse(await _browser.gm.getValue(lock.key, '{}'));
       if (!locked || locked.uuid !== lock.uuid) {
         if (!lock.lockOrDie) {
@@ -242,7 +242,7 @@ if (typeof browser !== 'undefined') {
     }
 
     if (!lock.lockOrDie) {
-      await shared.common.timeout(lock.threshold / 3);
+      await Shared.common.timeout(lock.threshold / 3);
       return _browser.gm.doLock(lock);
     }
 

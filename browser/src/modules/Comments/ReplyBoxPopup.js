@@ -1,7 +1,7 @@
 import { ButtonSet } from '../../class/ButtonSet';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
-import { shared } from '../../class/Shared';
+import { Shared } from '../../class/Shared';
 
 class CommentsReplyBoxPopup extends Module {
   constructor() {
@@ -26,11 +26,11 @@ class CommentsReplyBoxPopup extends Module {
   }
 
   init() {
-    if (!shared.esgst.replyBox) return;
+    if (!Shared.esgst.replyBox) return;
 
-    let button = shared.common.createHeadingButton({ id: 'rbp', icons: ['fa-comment'], title: 'Add a comment' });
+    let button = Shared.common.createHeadingButton({ id: 'rbp', icons: ['fa-comment'], title: 'Add a comment' });
     let popup = new Popup({ addScrollable: true, icon: 'fa-comment', title: `Add a comment:` });
-    popup.textArea = shared.common.createElements(popup.scrollable, 'beforeEnd', [{
+    popup.textArea = Shared.common.createElements(popup.scrollable, 'beforeEnd', [{
       attributes: {
         name: 'description'
       },
@@ -45,11 +45,11 @@ class CommentsReplyBoxPopup extends Module {
       title2: 'Saving...',
       callback1: async () => {
         popup.progress.innerHTML = '';
-        await shared.common.saveComment(null, shared.esgst.sg ? '' : document.querySelector(`[name="trade_code"]`).value, '', popup.textArea.value, shared.esgst.sg ? shared.esgst.locationHref.match(/(.+?)(#.+?)?$/)[1] : '/ajax.php', popup.progress, true);
+        await Shared.common.saveComment(null, Shared.esgst.sg ? '' : document.querySelector(`[name="trade_code"]`).value, '', popup.textArea.value, Shared.esgst.sg ? Shared.esgst.locationHref.match(/(.+?)(#.+?)?$/)[1] : '/ajax.php', popup.progress, true);
 
       }
     }).set);
-    popup.progress = shared.common.createElements(popup.description, 'beforeEnd', [{ type: 'div' }]);
+    popup.progress = Shared.common.createElements(popup.description, 'beforeEnd', [{ type: 'div' }]);
     button.addEventListener('click', popup.open.bind(popup, popup.textArea.focus.bind(popup.textArea)));
   }
 }

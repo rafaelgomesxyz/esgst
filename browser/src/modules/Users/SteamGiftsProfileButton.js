@@ -1,6 +1,6 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
-import { shared } from '../../class/Shared';
+import { Shared } from '../../class/Shared';
 
 const
   createElements = common.createElements.bind(common),
@@ -28,8 +28,8 @@ class UsersSteamGiftsProfileButton extends Module {
   }
 
   init() {
-    if (!shared.esgst.userPath) return;
-    shared.esgst.profileFeatures.push(this.sgpb_add.bind(this));
+    if (!Shared.esgst.userPath) return;
+    Shared.esgst.profileFeatures.push(this.sgpb_add.bind(this));
   }
 
   sgpb_add(profile) {
@@ -55,7 +55,7 @@ class UsersSteamGiftsProfileButton extends Module {
           type: 'i',
           children: [{
             attributes: {
-              src: shared.esgst.sgIcon
+              src: Shared.esgst.sgIcon
             },
             type: 'img'
           }]

@@ -1,7 +1,7 @@
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { common } from '../Common';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 
 const
   createHeadingButton = common.createHeadingButton.bind(common)
@@ -51,7 +51,7 @@ class DiscussionsMainPostPopup extends Module {
     } while (Sibling);
     this.esgst.mainPageHeading.parentElement.insertBefore(MPPPost, this.esgst.mainPageHeading);
     let Hidden;
-    if (gSettings.mpp_r) {
+    if (Settings.get('mpp_r')) {
       let discussion = JSON.parse(this.esgst.storage.discussions)[window.location.pathname.match(/^\/discussion\/(.+?)\//)[1]];
       if (discussion) {
         if (discussion.readComments && discussion.readComments['']) {

@@ -1,8 +1,8 @@
 import { ButtonSet } from '../../class/ButtonSet';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
-import { shared } from '../../class/Shared';
-import { gSettings } from '../../class/Globals';
+import { Shared } from '../../class/Shared';
+import { Settings } from '../../class/Settings';
 
 class CommentsReceivedReplyBoxPopup extends Module {
   constructor() {
@@ -25,8 +25,8 @@ class CommentsReceivedReplyBoxPopup extends Module {
   }
 
   init() {
-    if (!shared.esgst.wonPath) return;
-    shared.esgst.giveawayFeatures.push(this.rrbp_addEvent.bind(this));
+    if (!Shared.esgst.wonPath) return;
+    Shared.esgst.giveawayFeatures.push(this.rrbp_addEvent.bind(this));
   }
 
   rrbp_addEvent(giveaways) {
@@ -41,11 +41,11 @@ class CommentsReceivedReplyBoxPopup extends Module {
   rrbp_openPopup(giveaway) {
     let popup, progress, textArea;
     popup = new Popup({ addScrollable: true, icon: 'fa-comment', title: `Add a comment:` });
-    textArea = shared.common.createElements(popup.scrollable, 'beforeEnd', [{
+    textArea = Shared.common.createElements(popup.scrollable, 'beforeEnd', [{
       type: 'textarea'
     }]);
-    if (gSettings.cfh) {
-      shared.esgst.modules.commentsCommentFormattingHelper.cfh_addPanel(textArea);
+    if (Settings.get('cfh')) {
+      Shared.esgst.modules.commentsCommentFormattingHelper.cfh_addPanel(textArea);
     }
     popup.description.appendChild(new ButtonSet({
       color1: 'green',
@@ -56,11 +56,11 @@ class CommentsReceivedReplyBoxPopup extends Module {
       title2: 'Saving...',
       callback1: async () => {
         progress.innerHTML = '';
-        await shared.common.saveComment(null, '', '', textArea.value, giveaway.url, progress);
+        await Shared.common.saveComment(null, '', '', textArea.value, giveaway.url, progress);
         popup.close();
       }
     }).set);
-    progress = shared.common.createElements(popup.description, 'beforeEnd', [{ type: 'div' }]);
+    progress = Shared.common.createElements(popup.description, 'beforeEnd', [{ type: 'div' }]);
     popup.open(() => {
       textArea.focus();
     });

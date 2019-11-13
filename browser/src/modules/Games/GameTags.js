@@ -1,5 +1,5 @@
 import { Tags } from '../Tags';
-import { shared } from '../../class/Shared';
+import { Shared } from '../../class/Shared';
 
 class GamesGameTags extends Tags {
   constructor() {
@@ -43,7 +43,7 @@ class GamesGameTags extends Tags {
   }
 
   init() {
-    shared.esgst.gameFeatures.push(this.tags_addButtons.bind(this));
+    Shared.esgst.gameFeatures.push(this.tags_addButtons.bind(this));
     // noinspection JSIgnoredPromiseFromCall
     this.tags_getTags();
   }

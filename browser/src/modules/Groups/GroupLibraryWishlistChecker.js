@@ -1,8 +1,8 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
 import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
-import { shared } from '../../class/Shared';
-import { gSettings } from '../../class/Globals';
+import { Shared } from '../../class/Shared';
+import { Settings } from '../../class/Settings';
 import { permissions } from '../../class/Permissions';
 import { DOM } from '../../class/DOM';
 
@@ -58,11 +58,11 @@ class GroupsGroupLibraryWishlistChecker extends Module {
   }
 
   async init() {
-    if (shared.esgst.whitelistPath || shared.esgst.blacklistPath || shared.esgst.groupPath) {
+    if (Shared.esgst.whitelistPath || Shared.esgst.blacklistPath || Shared.esgst.groupPath) {
       let parameters;
-      if (shared.esgst.whitelistPath) {
+      if (Shared.esgst.whitelistPath) {
         parameters = `url=account/manage/whitelist`;
-      } else if (shared.esgst.blacklistPath) {
+      } else if (Shared.esgst.blacklistPath) {
         parameters = `url=account/manage/blacklist`;
       } else {
         parameters = `url=${window.location.pathname.match(/\/(group\/(.+?)\/(.+?))(\/.*)?$/)[1]}/users&id=${document.querySelector(`[href*="/gid/"]`).getAttribute('href').match(/\d+/)[0]}`;
@@ -74,25 +74,25 @@ class GroupsGroupLibraryWishlistChecker extends Module {
       }).addEventListener('click', () => {
         window.open(`https://www.steamgifts.com/account/settings/profile?esgst=glwc&${parameters}`);
       });
-    } else if (shared.common.isCurrentPath('Account') && shared.esgst.parameters.esgst === 'glwc') {
+    } else if (Shared.common.isCurrentPath('Account') && Shared.esgst.parameters.esgst === 'glwc') {
       if (!(await permissions.requestUi([['steamApi', 'steamCommunity', 'steamStore']], 'glwc', true))) {
         return;
       }
 
       let glwc = {}, parameters;
-      glwc.container = shared.esgst.sidebar.nextElementSibling;
-      if (gSettings.removeSidebarInFeaturePages) {
-        shared.esgst.sidebar.remove();
+      glwc.container = Shared.esgst.sidebar.nextElementSibling;
+      if (Settings.get('removeSidebarInFeaturePages')) {
+        Shared.esgst.sidebar.remove();
       }
       glwc.container.innerHTML = '';
       glwc.container.setAttribute('data-esgst-popup', true);
-      new elementBuilder[shared.esgst.name].pageHeading({
+      new elementBuilder[Shared.esgst.name].pageHeading({
         context: glwc.container,
         position: 'beforeEnd',
         breadcrumbs: [
           {
             name: 'ESGST',
-            url: shared.esgst.settingsUrl
+            url: Shared.esgst.settingsUrl
           },
           {
             name: 'Group Library/Wishlist Checker',
@@ -179,7 +179,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
         text: `Retrieving Steam ids (${i + 1} of ${n})...`,
         type: 'span'
       }]);
-      let steamId = shared.esgst.users.steamIds[glwc.users[i].username];
+      let steamId = Shared.esgst.users.steamIds[glwc.users[i].username];
       if (steamId) {
         glwc.users[i].steamId = steamId;
         window.setTimeout(() => this.glwc_getSteamIds(glwc, ++i, n), 0);
@@ -195,8 +195,8 @@ class GroupsGroupLibraryWishlistChecker extends Module {
       glwc.memberCount = 0;
       // noinspection JSIgnoredPromiseFromCall
 
-      if (gSettings.glwc_gn) {
-        await shared.esgst.modules.tradesHaveWantListChecker.hwlc_getGames(true);
+      if (Settings.get('glwc_gn')) {
+        await Shared.esgst.modules.tradesHaveWantListChecker.hwlc_getGames(true);
       }
 
       this.glwc_getGames(glwc, 0, glwc.users.length);
@@ -220,7 +220,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
           glwc.users[i].library = [];
           let elements = JSON.parse((await request({
             method: 'GET',
-            url: `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${gSettings.steamApiKey}&steamid=${glwc.users[i].steamId}&format=json`
+            url: `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${Settings.get('steamApiKey')}&steamid=${glwc.users[i].steamId}&format=json`
           })).responseText).response.games;
           if (elements) {
             elements.forEach(element => {
@@ -230,8 +230,8 @@ class GroupsGroupLibraryWishlistChecker extends Module {
                 name: `${element.appid}`
               };
 
-              if (shared.esgst.appList) {
-                const name = shared.esgst.appList[element.appid];
+              if (Shared.esgst.appList) {
+                const name = Shared.esgst.appList[element.appid];
 
                 if (name) {
                   game.name = name;
@@ -267,8 +267,8 @@ class GroupsGroupLibraryWishlistChecker extends Module {
             } else {
               game.logo = `https://steamcdn-a.akamaihd.net/steam/apps/${id}/header.jpg`;
 
-              if (shared.esgst.appList) {
-                const name = shared.esgst.appList[item.appid];
+              if (Shared.esgst.appList) {
+                const name = Shared.esgst.appList[item.appid];
 
                 if (name) {
                   game.name = name;
@@ -528,7 +528,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
             }]
           }]
         }]).firstElementChild.lastElementChild.firstElementChild, users.join(`, `), true);
-        popout.onFirstOpen = () => shared.common.endless_load(popout.popout);
+        popout.onFirstOpen = () => Shared.common.endless_load(popout.popout);
       }
     } else {
       createElements(libraryResults, 'inner', [{
@@ -625,7 +625,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
           }]
         }]
       }]).firstElementChild.lastElementChild.firstElementChild, users.join(`, `), true);
-      popout.onFirstOpen = () => shared.common.endless_load(popout.popout);
+      popout.onFirstOpen = () => Shared.common.endless_load(popout.popout);
     }
     libraryInput.addEventListener('input', () => {
       const value = libraryInput.value.toLowerCase();
@@ -709,7 +709,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
               }]
             }]);
             const popout = createTooltip(librarySearch.firstElementChild.firstElementChild.lastElementChild.firstElementChild, users.join(`, `), true);
-            popout.onFirstOpen = () => shared.common.endless_load(popout.popout);
+            popout.onFirstOpen = () => Shared.common.endless_load(popout.popout);
           } else {
             createElements(librarySearch, 'inner', [{
               text: 'Nothing found...',
@@ -796,7 +796,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
                   }]
                 }]
               }]).firstElementChild.lastElementChild.firstElementChild, users.join(`, `), true);
-              popout.onFirstOpen = () => shared.common.endless_load(popout.popout);
+              popout.onFirstOpen = () => Shared.common.endless_load(popout.popout);
               j += 1;
             }
           }
@@ -896,7 +896,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
               }]
             }]);
             const popout = createTooltip(wishlistSearch.firstElementChild.firstElementChild.lastElementChild.firstElementChild, users.join(`, `), true);
-            popout.onFirstOpen = () => shared.common.endless_load(popout.popout);
+            popout.onFirstOpen = () => Shared.common.endless_load(popout.popout);
           } else {
             createElements(wishlistSearch, 'inner', [{
               text: 'Nothing found...',
@@ -983,7 +983,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
                   }]
                 }]
               }]).firstElementChild.lastElementChild.firstElementChild, users.join(`, `), true);
-              popout.onFirstOpen = () => shared.common.endless_load(popout.popout);
+              popout.onFirstOpen = () => Shared.common.endless_load(popout.popout);
               j += 1;
             }
           }

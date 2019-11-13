@@ -1,7 +1,7 @@
 import { Module } from '../../class/Module';
 import { Process } from '../../class/Process';
-import { shared } from '../../class/Shared';
-import { gSettings } from '../../class/Globals';
+import { Shared } from '../../class/Shared';
+import { Settings } from '../../class/Settings';
 
 class CommentsCommentSearcher extends Module {
   constructor() {
@@ -27,7 +27,7 @@ class CommentsCommentSearcher extends Module {
   }
 
   init() {
-    if (!shared.esgst.commentsPath || (shared.esgst.giveawayPath && document.getElementsByClassName('table--summary')[0])) return;
+    if (!Shared.esgst.commentsPath || (Shared.esgst.giveawayPath && document.getElementsByClassName('table--summary')[0])) return;
     new Process({
       headingButton: {
         id: 'cs',
@@ -47,9 +47,9 @@ class CommentsCommentSearcher extends Module {
             check: true,
             description: [
               `Limit search by pages, from `,
-              ['input', { class: 'esgst-switch-input', min: 'i', name: 'cs_minPage', type: 'number', value: gSettings.cs_minPage }],
+              ['input', { class: 'esgst-switch-input', min: 'i', name: 'cs_minPage', type: 'number', value: Settings.get('cs_minPage') }],
               ' to ',
-              ['input', { class: 'esgst-switch-input', min: 'i', name: 'cs_maxPage', type: 'number', value: gSettings.cs_maxPage }],
+              ['input', { class: 'esgst-switch-input', min: 'i', name: 'cs_maxPage', type: 'number', value: Settings.get('cs_maxPage') }],
               '.'
             ],
             id: 'cs_limitPages',
@@ -62,8 +62,8 @@ class CommentsCommentSearcher extends Module {
       init: this.cs_init.bind(this),
       requests: [
         {
-          source: shared.esgst.discussionPath,
-          url: shared.esgst.searchUrl,
+          source: Shared.esgst.discussionPath,
+          url: Shared.esgst.searchUrl,
           request: this.cs_request.bind(this)
         }
       ]
@@ -78,11 +78,11 @@ class CommentsCommentSearcher extends Module {
     let match = window.location.pathname.match(/^\/(giveaway|discussion|support\/ticket|trade)\/(.+?)\//);
     obj.code = match[2];
     obj.type = match[1];
-    obj.title = shared.esgst.originalTitle.replace(/\s-\sPage\s\d+/, '');
+    obj.title = Shared.esgst.originalTitle.replace(/\s-\sPage\s\d+/, '');
     obj.results = 0;
-    if (gSettings.cs_limitPages) {
-      obj.requests[0].nextPage = gSettings.cs_minPage;
-      obj.requests[0].maxPage = gSettings.cs_maxPage;
+    if (Settings.get('cs_limitPages')) {
+      obj.requests[0].nextPage = Settings.get('cs_minPage');
+      obj.requests[0].maxPage = Settings.get('cs_maxPage');
     }
   }
 
@@ -98,7 +98,7 @@ class CommentsCommentSearcher extends Module {
     let context = obj.popup.getScrollable();
     for (let i = 0, n = elements.length; i < n; i++) {
       let element = elements[i];
-      if (shared.esgst.sg) {
+      if (Shared.esgst.sg) {
         element.firstElementChild.classList.remove('comment__parent');
         element.firstElementChild.classList.add('comment__child');
       }
@@ -115,7 +115,7 @@ class CommentsCommentSearcher extends Module {
       if (parent) {
         parent = parent.cloneNode(true);
         parent.lastElementChild.remove();
-        shared.common.createElements(parent, 'beforeEnd', [{
+        Shared.common.createElements(parent, 'beforeEnd', [{
           attributes: {
             class: 'comment__children comment_children'
           },
@@ -128,8 +128,8 @@ class CommentsCommentSearcher extends Module {
           context: parent
         });
       } else {
-        if (shared.esgst.st) {
-          shared.common.createElements(element.getElementsByClassName('action_list')[0].firstElementChild, 'afterEnd', [{
+        if (Shared.esgst.st) {
+          Shared.common.createElements(element.getElementsByClassName('action_list')[0].firstElementChild, 'afterEnd', [{
             attributes: {
               href: `/${obj.type}/${obj.code}/`
             },
@@ -137,7 +137,7 @@ class CommentsCommentSearcher extends Module {
             type: 'a'
           }]);
         }
-        if (shared.esgst.sg) {
+        if (Shared.esgst.sg) {
           items[0].children.push({
             attributes: {
               class: 'comments__entity'
@@ -169,12 +169,12 @@ class CommentsCommentSearcher extends Module {
         });
       }
       if (obj.usernames.indexOf(element.querySelector(`.comment__username, .author_name`).textContent.trim().toLowerCase()) > -1) {
-        shared.common.createElements(context, 'beforeEnd', items);
+        Shared.common.createElements(context, 'beforeEnd', items);
         obj.results += 1;
       }
     }
     obj.popup.setOverallProgress(`${obj.results} results found.`);
-    await shared.common.endless_load(context);
+    await Shared.common.endless_load(context);
   }
 }
 
