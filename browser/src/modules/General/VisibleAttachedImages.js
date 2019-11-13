@@ -1,5 +1,5 @@
 import { Module } from '../../class/Module';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 
 class GeneralVisibleAttachedImages extends Module {
   constructor() {
@@ -37,7 +37,7 @@ class GeneralVisibleAttachedImages extends Module {
       let button = buttons[i];
       let image = button.nextElementSibling.firstElementChild;
       let url = image.getAttribute('src');
-      if (url && gSettings.vai_gifv) {
+      if (url && Settings.get('vai_gifv')) {
         url = url.replace(/\.gifv/, '.gif');
         image.setAttribute('src', url);
       }

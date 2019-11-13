@@ -1,27 +1,28 @@
 import { ButtonSet } from '../class/ButtonSet';
 import { Popup } from '../class/Popup';
-import { shared } from '../class/Shared';
+import { Shared } from '../class/Shared';
 import { ToggleSwitch } from '../class/ToggleSwitch';
 import { Utils } from '../lib/jsUtils';
 import { settingsModule } from './Settings';
 import { elementBuilder } from '../lib/SgStUtils/ElementBuilder';
-import { gSettings } from '../class/Globals';
+import { Settings } from '../class/Settings';
 import { permissions } from '../class/Permissions';
 import { CloudStorage } from './CloudStorage';
 import { persistentStorage } from '../class/PersistentStorage';
+import { LocalStorage } from '../class/LocalStorage';
 
 function getDataMenu(option, switches, type) {
   let i, m, menu, n, options, toggleSwitch;
   menu = document.createElement('div');
-  switches[option.key] = toggleSwitch = new ToggleSwitch(menu, `${type}_${option.key}`, false, option.name, false, false, null, gSettings[`${type}_${option.key}`]);
-  switches[option.key].size = shared.common.createElements(switches[option.key].name, 'beforeEnd', [{
+  switches[option.key] = toggleSwitch = new ToggleSwitch(menu, `${type}_${option.key}`, false, option.name, false, false, null, Settings.get(`${type}_${option.key}`));
+  switches[option.key].size = Shared.common.createElements(switches[option.key].name, 'beforeEnd', [{
     attributes: {
       class: 'esgst-bold'
     },
     type: 'span'
   }]);
   if (option.name === 'Main') {
-    shared.common.createElements(switches[option.key].name, 'beforeEnd', [{
+    Shared.common.createElements(switches[option.key].name, 'beforeEnd', [{
       attributes: {
         class: 'fa fa-question-circle',
         title: `Main data is the data that is needed by other sub-options. Because of that dependency, when deleting main data not all data may be deleted, but if you delete another sub-option first and then delete main data, all data that was required exclusively by that sub-option will be deleted.`
@@ -30,7 +31,7 @@ function getDataMenu(option, switches, type) {
     }]);
   }
   if (option.options) {
-    options = shared.common.createElements(menu, 'beforeEnd', [{
+    options = Shared.common.createElements(menu, 'beforeEnd', [{
       attributes: {
         class: 'esgst-form-row-indent SMFeatures esgst-hidden'
       },
@@ -38,7 +39,7 @@ function getDataMenu(option, switches, type) {
     }]);
     const optionSwitches = {};
     if (option.options.length > 1) {
-      const group = shared.common.createElements(options, 'beforeEnd', [{
+      const group = Shared.common.createElements(options, 'beforeEnd', [{
         attributes: {
           class: 'esgst-button-group'
         },
@@ -55,7 +56,7 @@ function getDataMenu(option, switches, type) {
         icon2: 'fa-circle-o-notch fa-spin',
         title1: 'All',
         title2: '',
-        callback1: shared.common.selectSwitches.bind(shared.common, optionSwitches, 'enable', group)
+        callback1: Shared.common.selectSwitches.bind(Shared.common, optionSwitches, 'enable', group)
       }).set);
       group.appendChild(new ButtonSet({
         color1: 'grey',
@@ -64,7 +65,7 @@ function getDataMenu(option, switches, type) {
         icon2: 'fa-circle-o-notch fa-spin',
         title1: 'None',
         title2: '',
-        callback1: shared.common.selectSwitches.bind(shared.common, optionSwitches, 'disable', group)
+        callback1: Shared.common.selectSwitches.bind(Shared.common, optionSwitches, 'disable', group)
       }).set);
       group.appendChild(new ButtonSet({
         color1: 'grey',
@@ -73,7 +74,7 @@ function getDataMenu(option, switches, type) {
         icon2: 'fa-circle-o-notch fa-spin',
         title1: 'Inverse',
         title2: '',
-        callback1: shared.common.selectSwitches.bind(shared.common, optionSwitches, 'toggle', group)
+        callback1: Shared.common.selectSwitches.bind(Shared.common, optionSwitches, 'toggle', group)
       }).set);
     }
     for (i = 0, n = option.options.length; i < n; ++i) {
@@ -82,7 +83,7 @@ function getDataMenu(option, switches, type) {
       options.appendChild(m);
       toggleSwitch.dependencies.push(m);
     }
-    if (gSettings[`${type}_${option.key}`]) {
+    if (Settings.get(`${type}_${option.key}`)) {
       options.classList.remove('esgst-hidden');
     }
   }
@@ -128,7 +129,7 @@ async function loadImportFile(dm, dropbox, googleDrive, oneDrive, space, callbac
         dm.reader.readAsText(file);
       }
     } else {
-      shared.common.createFadeMessage(dm.warning, 'No file was loaded!');
+      Shared.common.createFadeMessage(dm.warning, 'No file was loaded!');
       callback();
     }
   }
@@ -138,25 +139,25 @@ async function readImportFile(dm, dropbox, googleDrive, oneDrive, space, isZip, 
   try {
     if (dm.reader) {
       dm.data = JSON.parse(isZip
-        ? (await shared.common.readZip(dm.reader.result))[0].value
+        ? (await Shared.common.readZip(dm.reader.result))[0].value
         : dm.reader.result
       );
     }
-    shared.common.createConfirmation('Are you sure you want to restore the selected data?', manageData.bind(null, dm, dropbox, googleDrive, oneDrive, space, callback), callback);
+    Shared.common.createConfirmation('Are you sure you want to restore the selected data?', manageData.bind(null, dm, dropbox, googleDrive, oneDrive, space, callback), callback);
   } catch (error) {
-    shared.common.createFadeMessage(dm.warning, 'Cannot parse file!');
+    Shared.common.createFadeMessage(dm.warning, 'Cannot parse file!');
     callback();
   }
 }
 
 function confirmDataDeletion(dm, dropbox, googleDrive, oneDrive, space, callback) {
-  shared.common.createConfirmation('Are you sure you want to delete the selected data?', manageData.bind(null, dm, dropbox, googleDrive, oneDrive, space, callback), callback);
+  Shared.common.createConfirmation('Are you sure you want to delete the selected data?', manageData.bind(null, dm, dropbox, googleDrive, oneDrive, space, callback), callback);
 }
 
 function loadDataManagement(type, isPopup, callback) {
   let containerr, context, group1, group2, i, n, onClick, option, prep, section, title1, title2;
   let dm = {
-    autoBackup: callback && shared.esgst.parameters.autoBackup,
+    autoBackup: callback && Shared.esgst.parameters.autoBackup,
     type: type
   };
   dm[type] = true;
@@ -194,29 +195,29 @@ function loadDataManagement(type, isPopup, callback) {
       containerr = popup.description;
       context = popup.scrollable;
     } else {
-      context = containerr = shared.esgst.sidebar.nextElementSibling;
+      context = containerr = Shared.esgst.sidebar.nextElementSibling;
       context.setAttribute('data-esgst-popup', 'true');
       context.innerHTML = '';
     }
     containerr.classList.add('esgst-text-left');
-    const heading = new elementBuilder[shared.esgst.name].pageHeading({
+    const heading = new elementBuilder[Shared.esgst.name].pageHeading({
       context: containerr,
       position: 'afterBegin',
       breadcrumbs: [
         {
           name: 'ESGST',
-          url: shared.esgst.settingsUrl
+          url: Shared.esgst.settingsUrl
         },
         {
           name: title1,
-          url: shared.esgst[`${title1.toLowerCase()}Url`]
+          url: Shared.esgst[`${title1.toLowerCase()}Url`]
         }
       ]
     }).pageHeading;
     if (!isPopup) {
-      shared.esgst.mainPageHeading = heading;
+      Shared.esgst.mainPageHeading = heading;
     }
-    dm.computerSpace = shared.common.createElements(containerr, 'beforeEnd', [{
+    dm.computerSpace = Shared.common.createElements(containerr, 'beforeEnd', [{
       type: 'div',
       children: [{
         text: `Total: `,
@@ -508,7 +509,7 @@ function loadDataManagement(type, isPopup, callback) {
   ];
   if (dm.autoBackup) {
     let dropbox, googleDrive, oneDrive;
-    switch (gSettings.autoBackup_index) {
+    switch (Settings.get('autoBackup_index')) {
       case 0:
         break;
       case 1:
@@ -523,8 +524,8 @@ function loadDataManagement(type, isPopup, callback) {
     }
     // noinspection JSIgnoredPromiseFromCall
     manageData(dm, dropbox, googleDrive, oneDrive, false, async () => {
-      shared.common.delLocalValue('isBackingUp');
-      await shared.common.setSetting('lastBackup', Date.now());
+      LocalStorage.delete('isBackingUp');
+      await Shared.common.setSetting('lastBackup', Date.now());
       callback();
     });
   } else {
@@ -536,13 +537,13 @@ function loadDataManagement(type, isPopup, callback) {
     }
     if (type === 'import' || type === 'delete') {
       if (type === 'import') {
-        dm.input = shared.common.createElements(containerr, 'beforeEnd', [{
+        dm.input = Shared.common.createElements(containerr, 'beforeEnd', [{
           attributes: {
             type: 'file'
           },
           type: 'input'
         }]);
-        new ToggleSwitch(containerr, 'importAndMerge', false, 'Merge', false, false, 'Merges the current data with the backup instead of replacing it.', gSettings.importAndMerge);
+        new ToggleSwitch(containerr, 'importAndMerge', false, 'Merge', false, false, 'Merges the current data with the backup instead of replacing it.', Settings.get('importAndMerge'));
       }
       let select = new ToggleSwitch(containerr, 'exportBackup', false, [
         'Backup to ',
@@ -552,46 +553,46 @@ function loadDataManagement(type, isPopup, callback) {
           ['option', 'Google Drive'],
           ['option', 'OneDrive']
         ]]
-      ], false, false, 'Backs up the current data to one of the selected places before restoring another backup.', gSettings.exportBackup).name.firstElementChild;
-      select.selectedIndex = gSettings.exportBackupIndex;
+      ], false, false, 'Backs up the current data to one of the selected places before restoring another backup.', Settings.get('exportBackup')).name.firstElementChild;
+      select.selectedIndex = Settings.get('exportBackupIndex');
       select.addEventListener('change', () => {
         // noinspection JSIgnoredPromiseFromCall
-        shared.common.setSetting('exportBackupIndex', select.selectedIndex);
+        Shared.common.setSetting('exportBackupIndex', select.selectedIndex);
       });
     }
     if (type === 'export') {
       const input = new ToggleSwitch(containerr, 'deleteOldBackups', false, [
         'Delete backups older than ',
-        ['input', { class: 'esgst-switch-input', type: 'number', value: gSettings.deleteOldBackups_days }],
+        ['input', { class: 'esgst-switch-input', type: 'number', value: Settings.get('deleteOldBackups_days') }],
         ' days when backing up to the cloud.'
-      ], false, false, '', gSettings.deleteOldBackups).name.firstElementChild;
-      shared.common.observeNumChange(input, 'deleteOldBackups_days', true);
+      ], false, false, '', Settings.get('deleteOldBackups')).name.firstElementChild;
+      Shared.common.observeNumChange(input, 'deleteOldBackups_days', true);
     }
     if (type === 'import' || type === 'export') {
-      shared.common.observeChange(new ToggleSwitch(containerr, 'usePreferredGoogle', false, [
+      Shared.common.observeChange(new ToggleSwitch(containerr, 'usePreferredGoogle', false, [
         `Use preferred Google account: `,
         ['input', { class: 'esgst-switch-input esgst-switch-input-large', placeholder: 'example@gmail.com', type: 'text' }],
-        ['span', { class: 'esgst-bold esgst-clickable', onclick: () => window.alert(gSettings.preferredGoogle || 'No email address defined') }, 'Reveal']
-      ], false, false, `With this option enabled, you will not be prompted to select an account when restoring/backing up to Google Drive. The account associated with the email address entered here will be automatically selected if you're already logged in. For security purposes, the email address will not be visible if you re-open the menu. After that, you have to click on "Reveal" to see it.`, gSettings.usePreferredGoogle).name.firstElementChild, 'preferredGoogle', true);
-      shared.common.observeChange(new ToggleSwitch(containerr, 'usePreferredMicrosoft', false, [
+        ['span', { class: 'esgst-bold esgst-clickable', onclick: () => window.alert(Settings.get('preferredGoogle') || 'No email address defined') }, 'Reveal']
+      ], false, false, `With this option enabled, you will not be prompted to select an account when restoring/backing up to Google Drive. The account associated with the email address entered here will be automatically selected if you're already logged in. For security purposes, the email address will not be visible if you re-open the menu. After that, you have to click on "Reveal" to see it.`, Settings.get('usePreferredGoogle')).name.firstElementChild, 'preferredGoogle', true);
+      Shared.common.observeChange(new ToggleSwitch(containerr, 'usePreferredMicrosoft', false, [
         `Use preferred Microsoft account: `,
         ['input', { class: 'esgst-switch-input esgst-switch-input-large', placeholder: 'example@outlook.com', type: 'text' }],
-        ['span', { class: 'esgst-bold esgst-clickable', onclick: () => window.alert(gSettings.preferredMicrosoft || 'No email address defined') }, 'Reveal']
-      ], false, false, `With this option enabled, you will not be prompted to select an account when restoring/backing up to OneDrive. The account associated with the email address entered here will be automatically selected if you're already logged in. For security purposes, the email address will not be visible if you re-open the menu. After that, you have to click on "Reveal" to see it.`, gSettings.usePreferredMicrosoft).name.firstElementChild, 'preferredMicrosoft', true);
+        ['span', { class: 'esgst-bold esgst-clickable', onclick: () => window.alert(Settings.get('preferredMicrosoft') || 'No email address defined') }, 'Reveal']
+      ], false, false, `With this option enabled, you will not be prompted to select an account when restoring/backing up to OneDrive. The account associated with the email address entered here will be automatically selected if you're already logged in. For security purposes, the email address will not be visible if you re-open the menu. After that, you have to click on "Reveal" to see it.`, Settings.get('usePreferredMicrosoft')).name.firstElementChild, 'preferredMicrosoft', true);
     }
-    dm.message = shared.common.createElements(containerr, 'beforeEnd', [{
+    dm.message = Shared.common.createElements(containerr, 'beforeEnd', [{
       attributes: {
         class: 'esgst-description'
       },
       type: 'div'
     }]);
-    dm.warning = shared.common.createElements(containerr, 'beforeEnd', [{
+    dm.warning = Shared.common.createElements(containerr, 'beforeEnd', [{
       attributes: {
         class: 'esgst-description esgst-warning'
       },
       type: 'div'
     }]);
-    group1 = shared.common.createElements(containerr, 'beforeEnd', [{
+    group1 = Shared.common.createElements(containerr, 'beforeEnd', [{
       attributes: {
         class: 'esgst-button-group'
       },
@@ -608,7 +609,7 @@ function loadDataManagement(type, isPopup, callback) {
       icon2: 'fa-circle-o-notch fa-spin',
       title1: 'All',
       title2: '',
-      callback1: shared.common.selectSwitches.bind(shared.common, dm.switches, 'enable', group1)
+      callback1: Shared.common.selectSwitches.bind(Shared.common, dm.switches, 'enable', group1)
     }).set);
     group1.appendChild(new ButtonSet({
       color1: 'grey',
@@ -617,7 +618,7 @@ function loadDataManagement(type, isPopup, callback) {
       icon2: 'fa-circle-o-notch fa-spin',
       title1: 'None',
       title2: '',
-      callback1: shared.common.selectSwitches.bind(shared.common, dm.switches, 'disable', group1)
+      callback1: Shared.common.selectSwitches.bind(Shared.common, dm.switches, 'disable', group1)
     }).set);
     group1.appendChild(new ButtonSet({
       color1: 'grey',
@@ -626,9 +627,9 @@ function loadDataManagement(type, isPopup, callback) {
       icon2: 'fa-circle-o-notch fa-spin',
       title1: 'Inverse',
       title2: '',
-      callback1: shared.common.selectSwitches.bind(shared.common, dm.switches, 'toggle', group1)
+      callback1: Shared.common.selectSwitches.bind(Shared.common, dm.switches, 'toggle', group1)
     }).set);
-    group2 = shared.common.createElements(containerr, 'beforeEnd', [{
+    group2 = Shared.common.createElements(containerr, 'beforeEnd', [{
       attributes: {
         class: 'esgst-button-group'
       },
@@ -649,7 +650,7 @@ function loadDataManagement(type, isPopup, callback) {
         return new Promise(async resolve => {
           if (dm.type !== 'export') {
             let result;
-            switch (gSettings.exportBackupIndex) {
+            switch (Settings.get('exportBackupIndex')) {
               case 0:
                 result = true;
                 break;
@@ -755,11 +756,11 @@ function loadDataManagement(type, isPopup, callback) {
     if (isPopup) {
       popup.open();
     }
-    if (gSettings[`calculate${shared.common.capitalizeFirstLetter(type)}`]) {
+    if (Settings.get(`calculate${Shared.common.capitalizeFirstLetter(type)}`)) {
       getDataSizes(dm);
     }
-    if (shared.esgst.parameters.esgst === 'backup' && shared.esgst.parameters.autoBackupIndex) {
-      switch (parseInt(shared.esgst.parameters.autoBackupIndex)) {
+    if (Shared.esgst.parameters.esgst === 'backup' && Shared.esgst.parameters.autoBackupIndex) {
+      switch (parseInt(Shared.esgst.parameters.autoBackupIndex)) {
         case 0:
           computerButton.trigger();
           break;
@@ -790,63 +791,63 @@ function loadDataCleaner(isPopup) {
     context = popup.scrollable;
     popup.open();
   } else {
-    containerr = shared.esgst.sidebar.nextElementSibling;
+    containerr = Shared.esgst.sidebar.nextElementSibling;
     containerr.innerHTML = '';
     context = containerr;
     context.setAttribute('data-esgst-popup', 'true');
   }
-  const heading = new elementBuilder[shared.esgst.name].pageHeading({
+  const heading = new elementBuilder[Shared.esgst.name].pageHeading({
     context: containerr,
     position: 'afterBegin',
     breadcrumbs: [{
       name: 'ESGST',
-      url: shared.esgst.settingsUrl
+      url: Shared.esgst.settingsUrl
     }, {
       name: 'Clean',
-      url: shared.esgst.cleanUrl
+      url: Shared.esgst.cleanUrl
     }]
   }).pageHeading;
   if (!isPopup) {
-    shared.esgst.mainPageHeading = heading;
+    Shared.esgst.mainPageHeading = heading;
   }
-  shared.common.createElements(context, 'beforeEnd', [{
+  Shared.common.createElements(context, 'beforeEnd', [{
     attributes: {
       class: 'esgst-bold esgst-description esgst-red'
     },
     text: 'Make sure to backup your data before using the cleaner.',
     type: 'div'
   }]);
-  shared.common.observeNumChange(new ToggleSwitch(context, 'cleanDiscussions', false, [
+  Shared.common.observeNumChange(new ToggleSwitch(context, 'cleanDiscussions', false, [
     'Discussions data older than ',
-    ['input', { class: 'esgst-switch-input', type: 'text', value: gSettings.cleanDiscussions_days }],
+    ['input', { class: 'esgst-switch-input', type: 'text', value: Settings.get('cleanDiscussions_days') }],
     ' days.'
-  ], false, false, `Discussions data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, gSettings.cleanDiscussions).name.firstElementChild, 'cleanDiscussions_days', true);
-  shared.common.observeNumChange(new ToggleSwitch(context, 'cleanEntries', false, [
+  ], false, false, `Discussions data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, Settings.get('cleanDiscussions')).name.firstElementChild, 'cleanDiscussions_days', true);
+  Shared.common.observeNumChange(new ToggleSwitch(context, 'cleanEntries', false, [
     'Entries data older than ',
-    ['input', { class: 'esgst-switch-input', type: 'text', value: gSettings.cleanEntries_days }],
+    ['input', { class: 'esgst-switch-input', type: 'text', value: Settings.get('cleanEntries_days') }],
     ' days.'
-  ], false, false, '', gSettings.cleanEntries).name.firstElementChild, 'cleanEntries_days', true);
-  shared.common.observeNumChange(new ToggleSwitch(context, 'cleanGiveaways', false, [
+  ], false, false, '', Settings.get('cleanEntries')).name.firstElementChild, 'cleanEntries_days', true);
+  Shared.common.observeNumChange(new ToggleSwitch(context, 'cleanGiveaways', false, [
     'Giveaways data older than ',
-    ['input', { class: 'esgst-switch-input', type: 'text', value: gSettings.cleanGiveaways_days }],
+    ['input', { class: 'esgst-switch-input', type: 'text', value: Settings.get('cleanGiveaways_days') }],
     ' days.'
-  ], false, false, `Some giveaways data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, gSettings.cleanGiveaways).name.firstElementChild, 'cleanGiveaways_days', true);
-  shared.common.observeNumChange(new ToggleSwitch(context, 'cleanSgCommentHistory', false, [
+  ], false, false, `Some giveaways data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, Settings.get('cleanGiveaways')).name.firstElementChild, 'cleanGiveaways_days', true);
+  Shared.common.observeNumChange(new ToggleSwitch(context, 'cleanSgCommentHistory', false, [
     'SteamGifts comment history data older than ',
-    ['input', { class: 'esgst-switch-input', type: 'text', value: gSettings.cleanSgCommentHistory_days }],
+    ['input', { class: 'esgst-switch-input', type: 'text', value: Settings.get('cleanSgCommentHistory_days') }],
     ' days.'
-  ], false, false, '', gSettings.cleanSgCommentHistory).name.firstElementChild, 'cleanSgCommentHistory_days', true);
-  shared.common.observeNumChange(new ToggleSwitch(context, 'cleanTickets', false, [
+  ], false, false, '', Settings.get('cleanSgCommentHistory')).name.firstElementChild, 'cleanSgCommentHistory_days', true);
+  Shared.common.observeNumChange(new ToggleSwitch(context, 'cleanTickets', false, [
     'Tickets data older than ',
-    ['input', { class: 'esgst-switch-input', type: 'text', value: gSettings.cleanTickets_days }],
+    ['input', { class: 'esgst-switch-input', type: 'text', value: Settings.get('cleanTickets_days') }],
     ' days.'
-  ], false, false, `Tickets data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, gSettings.cleanTickets).name.firstElementChild, 'cleanTickets_days', true);
-  shared.common.observeNumChange(new ToggleSwitch(context, 'cleanTrades', false, [
+  ], false, false, `Tickets data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, Settings.get('cleanTickets')).name.firstElementChild, 'cleanTickets_days', true);
+  Shared.common.observeNumChange(new ToggleSwitch(context, 'cleanTrades', false, [
     'Trades data older than ',
-    ['input', { class: 'esgst-switch-input', type: 'text', value: gSettings.cleanTrades_days }],
+    ['input', { class: 'esgst-switch-input', type: 'text', value: Settings.get('cleanTrades_days') }],
     ' days.'
-  ], false, false, `Trades data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, gSettings.cleanTrades).name.firstElementChild, 'cleanTrades_days' , true);
-  new ToggleSwitch(context, 'cleanDuplicates', false, 'Duplicate data.', false, false, 'Cleans up any duplicate data it finds.', gSettings.cleanDuplicates);
+  ], false, false, `Trades data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, Settings.get('cleanTrades')).name.firstElementChild, 'cleanTrades_days' , true);
+  new ToggleSwitch(context, 'cleanDuplicates', false, 'Duplicate data.', false, false, 'Cleans up any duplicate data it finds.', Settings.get('cleanDuplicates'));
   context.appendChild(new ButtonSet({
     color1: 'green',
     color2: 'grey',
@@ -1121,21 +1122,21 @@ function loadDataCleaner(isPopup) {
       const oldSize = await manageData(dm, false, false, false, true);
       let currentTime = Date.now();
       let toSave = {};
-      if (gSettings.cleanDiscussions) {
-        let days = gSettings.cleanDiscussions_days * 86400000;
-        toSave.discussions = JSON.parse(shared.common.getValue('discussions', '{}'));
+      if (Settings.get('cleanDiscussions')) {
+        let days = Settings.get('cleanDiscussions_days') * 86400000;
+        toSave.discussions = JSON.parse(Shared.common.getValue('discussions', '{}'));
         for (let code in toSave.discussions) {
           if (toSave.discussions.hasOwnProperty(code)) {
             let item = toSave.discussions[code];
-            if (item.author !== gSettings.username && item.lastUsed && currentTime - item.lastUsed > days) {
+            if (item.author !== Settings.get('username') && item.lastUsed && currentTime - item.lastUsed > days) {
               delete toSave.discussions[code];
             }
           }
         }
       }
-      if (gSettings.cleanEntries) {
-        let days = gSettings.cleanEntries_days * 86400000;
-        let items = JSON.parse(shared.common.getValue('entries', '[]'));
+      if (Settings.get('cleanEntries')) {
+        let days = Settings.get('cleanEntries_days') * 86400000;
+        let items = JSON.parse(Shared.common.getValue('entries', '[]'));
         toSave.entries = [];
         items.forEach(item => {
           if (currentTime - item.timestamp <= days) {
@@ -1143,21 +1144,21 @@ function loadDataCleaner(isPopup) {
           }
         });
       }
-      if (gSettings.cleanGiveaways) {
-        let days = gSettings.cleanGiveaways_days * 86400000;
-        toSave.giveaways = JSON.parse(shared.common.getValue('giveaways', '{}'));
+      if (Settings.get('cleanGiveaways')) {
+        let days = Settings.get('cleanGiveaways_days') * 86400000;
+        toSave.giveaways = JSON.parse(Shared.common.getValue('giveaways', '{}'));
         for (let code in toSave.giveaways) {
           if (toSave.giveaways.hasOwnProperty(code)) {
             let item = toSave.giveaways[code];
-            if (item.creator !== gSettings.username && ((item.endTime && currentTime - item.endTime > days) || (item.lastUsed && currentTime - item.lastUsed > days))) {
+            if (item.creator !== Settings.get('username') && ((item.endTime && currentTime - item.endTime > days) || (item.lastUsed && currentTime - item.lastUsed > days))) {
               delete toSave.giveaways[code];
             }
           }
         }
       }
-      if (gSettings.cleanSgCommentHistory) {
-        let days = gSettings.cleanSgCommentHistory_days * 86400000;
-        let items = JSON.parse(shared.common.getValue('sgCommentHistory', '[]'));
+      if (Settings.get('cleanSgCommentHistory')) {
+        let days = Settings.get('cleanSgCommentHistory_days') * 86400000;
+        let items = JSON.parse(Shared.common.getValue('sgCommentHistory', '[]'));
         toSave.sgCommentHistory = [];
         items.forEach(item => {
           if (currentTime - item.timestamp <= days) {
@@ -1165,32 +1166,32 @@ function loadDataCleaner(isPopup) {
           }
         });
       }
-      if (gSettings.cleanTickets) {
-        let days = gSettings.cleanTickets_days * 86400000;
-        toSave.tickets = JSON.parse(shared.common.getValue('tickets', '{}'));
+      if (Settings.get('cleanTickets')) {
+        let days = Settings.get('cleanTickets_days') * 86400000;
+        toSave.tickets = JSON.parse(Shared.common.getValue('tickets', '{}'));
         for (let code in toSave.tickets) {
           if (toSave.tickets.hasOwnProperty(code)) {
             let item = toSave.tickets[code];
-            if (item.author !== gSettings.username && item.lastUsed && currentTime - item.lastUsed > days) {
+            if (item.author !== Settings.get('username') && item.lastUsed && currentTime - item.lastUsed > days) {
               delete toSave.tickets[code];
             }
           }
         }
       }
-      if (gSettings.cleanTrades) {
-        let days = gSettings.cleanTrades_days * 86400000;
-        toSave.trades = JSON.parse(shared.common.getValue('trades', '{}'));
+      if (Settings.get('cleanTrades')) {
+        let days = Settings.get('cleanTrades_days') * 86400000;
+        toSave.trades = JSON.parse(Shared.common.getValue('trades', '{}'));
         for (let code in toSave.trades) {
           if (toSave.trades.hasOwnProperty(code)) {
             let item = toSave.trades[code];
-            if (item.author !== gSettings.username && item.lastUsed && currentTime - item.lastUsed > days) {
+            if (item.author !== Settings.get('username') && item.lastUsed && currentTime - item.lastUsed > days) {
               delete toSave.trades[code];
             }
           }
         }
       }
-      if (gSettings.cleanDuplicates) {
-        toSave.users = JSON.parse(shared.common.getValue('users', `{"steamIds":{},"users":{}}`));
+      if (Settings.get('cleanDuplicates')) {
+        toSave.users = JSON.parse(Shared.common.getValue('users', `{"steamIds":{},"users":{}}`));
         for (let id in toSave.users.users) {
           if (toSave.users.users.hasOwnProperty(id)) {
             let giveaways = toSave.users.users[id].giveaways;
@@ -1213,7 +1214,7 @@ function loadDataCleaner(isPopup) {
           toSave[key] = JSON.stringify(toSave[key]);
         }
       }
-      await shared.common.setValues(toSave);
+      await Shared.common.setValues(toSave);
       const newSize = await manageData(dm, false, false, false, true);
       const successPopup = new Popup({
         icon: 'fa-check',
@@ -1222,10 +1223,10 @@ function loadDataCleaner(isPopup) {
           ['br'],
           ['br'],
           `Size before cleaning: `,
-          ['span', { class: 'esgst-bold' }, shared.common.convertBytes(oldSize)],
+          ['span', { class: 'esgst-bold' }, Shared.common.convertBytes(oldSize)],
           ['br'],
           `Size after cleaning: `,
-          ['span', { class: 'esgst-bold' }, shared.common.convertBytes(newSize)],
+          ['span', { class: 'esgst-bold' }, Shared.common.convertBytes(newSize)],
           ['br'],
           ['br'],
           `${Math.round((100 - (newSize / oldSize * 100)) * 100) / 100}% reduction`
@@ -1243,16 +1244,30 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
 
   if (!space) {
     if (dm.type === 'import') {
-      persistentStorage.upgrade(dm.data.settings, dm.data.v, true);
+      const stringified = [];
+
+      for (const key of Object.keys(dm.data)) {
+        if (Utils.is(dm.data[key], 'object') || Array.isArray(dm.data[key])) {
+          dm.data[key] = JSON.stringify(dm.data[key]);
+
+          stringified.push(key);
+        }
+      }
+
+      await persistentStorage.upgrade(dm.data, dm.data.v, true);
+
+      for (const key of stringified) {
+        dm.data[key] = JSON.parse(dm.data[key]);
+      }
     } else if (dm.type === 'export') {
-      data.v = shared.esgst.storage.v;
+      data.v = Shared.esgst.storage.v;
     }
   }
 
   for (let i = 0, n = dm.options.length; i < n; i++) {
     let option = dm.options[i];
     let optionKey = option.key;
-    if (!option.check || (!dm.autoBackup && !space && !gSettings[`${dm.type}_${optionKey}`])) {
+    if (!option.check || (!dm.autoBackup && !space && !Settings.get(`${dm.type}_${optionKey}`))) {
       continue;
     }
     let values = null;
@@ -1261,32 +1276,32 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
     switch (optionKey) {
       case 'decryptedGiveaways':
       case 'settings':
-        data[optionKey] = JSON.parse(shared.common.getValue(optionKey, '{}'));
+        data[optionKey] = JSON.parse(Shared.common.getValue(optionKey, '{}'));
         if (!space) {
           if (dm.import) {
             let newData = dm.data[optionKey];
             if (newData) {
-              if (gSettings.importAndMerge) {
+              if (Settings.get('importAndMerge')) {
                 mergedData = data[optionKey];
                 for (let newDataKey in newData) {
                   if (newData.hasOwnProperty(newDataKey)) {
                     mergedData[newDataKey] = newData[newDataKey];
                   }
                 }
-                await shared.common.setValue(optionKey, JSON.stringify(mergedData));
+                await Shared.common.setValue(optionKey, JSON.stringify(mergedData));
               } else {
-                await shared.common.setValue(optionKey, JSON.stringify(newData));
+                await Shared.common.setValue(optionKey, JSON.stringify(newData));
               }
             }
           } else if (dm.delete) {
-            await shared.common.delValue(optionKey);
+            await Shared.common.delValue(optionKey);
           }
         }
         if (!dm.autoBackup) {
-          let size = `{"${optionKey}":${shared.common.getValue(optionKey, '{}')}}`.length;
+          let size = `{"${optionKey}":${Shared.common.getValue(optionKey, '{}')}}`.length;
           totalSize += size;
           if (dm.switches) {
-            dm.switches[optionKey].size.textContent = shared.common.convertBytes(size);
+            dm.switches[optionKey].size.textContent = Shared.common.convertBytes(size);
           }
         }
         break;
@@ -1334,7 +1349,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
           };
         }
         data[optionKey] = {};
-        mergedData = JSON.parse(shared.common.getValue(optionKey, '{}'));
+        mergedData = JSON.parse(Shared.common.getValue(optionKey, '{}'));
         sizes = {
           ct: 0,
           df: 0,
@@ -1362,7 +1377,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
             let toExport = false;
             for (let value in values) {
               if (values.hasOwnProperty(value)) {
-                if (gSettings[`${dm.type}_${optionKey}_${value}`]) {
+                if (Settings.get(`${dm.type}_${optionKey}_${value}`)) {
                   toDelete += 1;
                 }
                 for (let j = 0, numValues = values[value].length; j < numValues; ++j) {
@@ -1372,7 +1387,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                     if (value !== 'main') {
                       foundSub += 1;
                     }
-                    if (dm.autoBackup || gSettings[`${dm.type}_${optionKey}_${value}`] || value === 'main') {
+                    if (dm.autoBackup || Settings.get(`${dm.type}_${optionKey}_${value}`) || value === 'main') {
                       newData[valueKey] = mergedDataValue;
                       if (value !== 'main') {
                         toExport = true;
@@ -1382,7 +1397,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                     sizes[value] += size;
                     sizes.total += size;
                     found = value;
-                    if (!space && dm.delete && gSettings[`${dm.type}_${optionKey}_${value}`] && value !== 'main') {
+                    if (!space && dm.delete && Settings.get(`${dm.type}_${optionKey}_${value}`) && value !== 'main') {
                       deletedSub += 1;
                       delete mergedData[mergedDataKey][valueKey];
                     }
@@ -1394,14 +1409,14 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
               sizes[found] -= 1;
               sizes.total -= 1;
             }
-            if (dm.autoBackup || toExport || gSettings[`${dm.type}_${optionKey}_main`]) {
+            if (dm.autoBackup || toExport || Settings.get(`${dm.type}_${optionKey}_main`)) {
               data[optionKey][mergedDataKey] = newData;
               mainFound = true;
             }
             let size = `"${mergedDataKey}":{},`.length;
             sizes.main += size;
             sizes.total += size;
-            if (!space && dm.delete && ((gSettings[`${dm.type}_${optionKey}_main`] && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
+            if (!space && dm.delete && ((Settings.get(`${dm.type}_${optionKey}_main`) && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
               delete mergedData[mergedDataKey];
             }
           }
@@ -1417,8 +1432,8 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                   }
                   for (let value in values) {
                     if (values.hasOwnProperty(value)) {
-                      if (gSettings[`${dm.type}_${optionKey}_${value}`]) {
-                        if (gSettings.importAndMerge) {
+                      if (Settings.get(`${dm.type}_${optionKey}_${value}`)) {
+                        if (Settings.get('importAndMerge')) {
                           for (let j = 0, numValues = values[value].length; j < numValues; ++j) {
                             let valueKey = values[value][j];
                             switch (valueKey) {
@@ -1464,10 +1479,10 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                   }
                 }
               }
-              await shared.common.setValue(optionKey, JSON.stringify(mergedData));
+              await Shared.common.setValue(optionKey, JSON.stringify(mergedData));
             }
           } else if (dm.delete) {
-            await shared.common.setValue(optionKey, JSON.stringify(mergedData));
+            await Shared.common.setValue(optionKey, JSON.stringify(mergedData));
           }
         }
         if (mainFound) {
@@ -1482,19 +1497,19 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
             for (let value in values) {
               if (values.hasOwnProperty(value)) {
                 if (dm.switches[`${optionKey}_${value}`]) {
-                  dm.switches[`${optionKey}_${value}`].size.textContent = shared.common.convertBytes(sizes[value]);
+                  dm.switches[`${optionKey}_${value}`].size.textContent = Shared.common.convertBytes(sizes[value]);
                 }
               }
             }
-            dm.switches[optionKey].size.textContent = shared.common.convertBytes(sizes.total);
+            dm.switches[optionKey].size.textContent = Shared.common.convertBytes(sizes.total);
           }
           totalSize += sizes.total;
         }
         break;
       case 'themes':
         data.themes = {};
-        for (const themeId of Object.keys(shared.esgst.features.themes.features)) {
-          const theme = shared.common.getValue(themeId);
+        for (const themeId of Object.keys(Shared.esgst.features.themes.features)) {
+          const theme = Shared.common.getValue(themeId);
           if (theme) {
             data.themes[themeId] = theme;
           }
@@ -1503,7 +1518,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
           if (dm.import) {
             let newData = dm.data.themes;
             if (newData) {
-              if (gSettings.importAndMerge) {
+              if (Settings.get('importAndMerge')) {
                 for (const themeId in newData) {
                   data.themes[themeId] = newData[themeId];
                 }
@@ -1511,12 +1526,12 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                 data.themes = newData;
               }
               for (const themeId in data.themes) {
-                await shared.common.setValue(themeId, data.themes[themeId]);
+                await Shared.common.setValue(themeId, data.themes[themeId]);
               }
             }
           } else if (dm.delete) {
             for (const themeId in data.themes) {
-              await shared.common.delValue(themeId);
+              await Shared.common.delValue(themeId);
             }
             data.themes = {};
           }
@@ -1525,39 +1540,39 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
           let size = JSON.stringify(data.themes).length;
           totalSize += size;
           if (dm.switches) {
-            dm.switches[optionKey].size.textContent = shared.common.convertBytes(size);
+            dm.switches[optionKey].size.textContent = Shared.common.convertBytes(size);
           }
         }
         break;
       case 'emojis':
-        data.emojis = JSON.parse(shared.common.getValue('emojis', '[]'));
+        data.emojis = JSON.parse(Shared.common.getValue('emojis', '[]'));
         if (!space) {
           if (dm.import) {
             let newData = JSON.stringify(dm.data.emojis);
             if (newData) {
-              if (gSettings.importAndMerge) {
-                await shared.common.setValue('emojis', JSON.stringify(
+              if (Settings.get('importAndMerge')) {
+                await Shared.common.setValue('emojis', JSON.stringify(
                   Array.from(
                     new Set(
                       data.emojis.concat(
-                        JSON.parse(shared.common.fixEmojis(newData))
+                        JSON.parse(Shared.common.fixEmojis(newData))
                       )
                     )
                   )
                 ));
               } else {
-                await shared.common.setValue('emojis', shared.common.fixEmojis(newData));
+                await Shared.common.setValue('emojis', Shared.common.fixEmojis(newData));
               }
             }
           } else if (dm.delete) {
-            await shared.common.delValue('emojis');
+            await Shared.common.delValue('emojis');
           }
         }
         if (!dm.autoBackup) {
-          let size = `{"${optionKey}":${shared.common.getValue(optionKey, `"[]"`)}}`.length;
+          let size = `{"${optionKey}":${Shared.common.getValue(optionKey, `"[]"`)}}`.length;
           totalSize += size;
           if (dm.switches) {
-            dm.switches[optionKey].size.textContent = shared.common.convertBytes(size);
+            dm.switches[optionKey].size.textContent = Shared.common.convertBytes(size);
           }
         }
         break;
@@ -1565,12 +1580,12 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
       case 'templates':
       case 'savedReplies':
       case 'savedReplies_st':
-        data[optionKey] = JSON.parse(shared.common.getValue(optionKey, '[]'));
+        data[optionKey] = JSON.parse(Shared.common.getValue(optionKey, '[]'));
         if (!space) {
           if (dm.import) {
             let newData = dm.data[optionKey];
             if (newData) {
-              if (gSettings.importAndMerge) {
+              if (Settings.get('importAndMerge')) {
                 let dataKey = optionKey === 'entries' ? 'timestamp' : 'name';
                 mergedData = data[optionKey];
                 for (let j = 0, numNew = newData.length; j < numNew; ++j) {
@@ -1587,20 +1602,20 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                 if (optionKey === 'entries') {
                   mergedData = Utils.sortArray(mergedData, false, 'timestamp');
                 }
-                await shared.common.setValue(optionKey, JSON.stringify(mergedData));
+                await Shared.common.setValue(optionKey, JSON.stringify(mergedData));
               } else {
-                await shared.common.setValue(optionKey, JSON.stringify(newData));
+                await Shared.common.setValue(optionKey, JSON.stringify(newData));
               }
             }
           } else if (dm.delete) {
-            await shared.common.delValue(optionKey);
+            await Shared.common.delValue(optionKey);
           }
         }
         if (!dm.autoBackup) {
-          let size = `{"${optionKey}":${shared.common.getValue(optionKey, '[]')}}`.length;
+          let size = `{"${optionKey}":${Shared.common.getValue(optionKey, '[]')}}`.length;
           totalSize += size;
           if (dm.switches) {
-            dm.switches[optionKey].size.textContent = shared.common.convertBytes(size);
+            dm.switches[optionKey].size.textContent = Shared.common.convertBytes(size);
           }
         }
         break;
@@ -1615,7 +1630,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
           apps: {},
           subs: {}
         };
-        mergedData = JSON.parse(shared.common.getValue('games', `{"apps":{},"subs":{}}`));
+        mergedData = JSON.parse(Shared.common.getValue('games', `{"apps":{},"subs":{}}`));
         sizes = {
           egh: 0,
           gt: 0,
@@ -1635,7 +1650,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
             let toExport = false;
             for (let value in values) {
               if (values.hasOwnProperty(value)) {
-                if (gSettings[`${dm.type}_games_${value}`]) {
+                if (Settings.get(`${dm.type}_games_${value}`)) {
                   toDelete += 1;
                 }
                 for (let j = 0, numValues = values[value].length; j < numValues; ++j) {
@@ -1645,7 +1660,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                     if (value !== 'main') {
                       foundSub += 1;
                     }
-                    if (dm.autoBackup || gSettings[`${dm.type}_games_${value}`] || value === 'main') {
+                    if (dm.autoBackup || Settings.get(`${dm.type}_games_${value}`) || value === 'main') {
                       newData[valueKey] = newDataValue;
                       if (value !== 'main') {
                         toExport = true;
@@ -1655,7 +1670,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                     sizes[value] += size;
                     sizes.total += size;
                     found = value;
-                    if (!space && dm.delete && gSettings[`${dm.type}_games_${value}`] && value !== 'main') {
+                    if (!space && dm.delete && Settings.get(`${dm.type}_games_${value}`) && value !== 'main') {
                       deletedSub += 1;
                       delete mergedDataValue[valueKey];
                     }
@@ -1667,14 +1682,14 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
               sizes[found] -= 1;
               sizes.total -= 1;
             }
-            if (dm.autoBackup || toExport || gSettings[`${dm.type}_${optionKey}_main`]) {
+            if (dm.autoBackup || toExport || Settings.get(`${dm.type}_${optionKey}_main`)) {
               data.games.apps[mergedDataKey] = newData;
               mainFound = true;
             }
             let size = `"${mergedDataKey}":{},`.length;
             sizes.main += size;
             sizes.total += size;
-            if (!space && dm.delete && ((gSettings[`${dm.type}_${optionKey}_main`] && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
+            if (!space && dm.delete && ((Settings.get(`${dm.type}_${optionKey}_main`) && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
               delete mergedData.apps[mergedDataKey];
             }
           }
@@ -1695,7 +1710,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
             let toExport = false;
             for (let value in values) {
               if (values.hasOwnProperty(value)) {
-                if (gSettings[`${dm.type}_games_${value}`]) {
+                if (Settings.get(`${dm.type}_games_${value}`)) {
                   toDelete += 1;
                 }
                 for (let j = 0, numValues = values[value].length; j < numValues; ++j) {
@@ -1705,7 +1720,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                     if (value !== 'main') {
                       foundSub += 1;
                     }
-                    if (dm.autoBackup || gSettings[`${dm.type}_games_${value}`] || value === 'main') {
+                    if (dm.autoBackup || Settings.get(`${dm.type}_games_${value}`) || value === 'main') {
                       newData[valueKey] = newDataValue;
                       if (value !== 'main') {
                         toExport = true;
@@ -1715,7 +1730,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                     sizes[value] += size;
                     sizes.total += size;
                     found = value;
-                    if (!space && dm.delete && gSettings[`${dm.type}_games_${value}`] && value !== 'main') {
+                    if (!space && dm.delete && Settings.get(`${dm.type}_games_${value}`) && value !== 'main') {
                       deletedSub += 1;
                       delete mergedDataValue[valueKey];
                     }
@@ -1727,14 +1742,14 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
               sizes[found] -= 1;
               sizes.total -= 1;
             }
-            if (dm.autoBackup || toExport || gSettings[`${dm.type}_${optionKey}_main`]) {
+            if (dm.autoBackup || toExport || Settings.get(`${dm.type}_${optionKey}_main`)) {
               data.games.subs[mergedDataKey] = newData;
               mainFound = true;
             }
             let size = `"${mergedDataKey}":{},`.length;
             sizes.main += size;
             sizes.total += size;
-            if (!space && dm.delete && ((gSettings[`${dm.type}_${optionKey}_main`] && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
+            if (!space && dm.delete && ((Settings.get(`${dm.type}_${optionKey}_main`) && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
               delete mergedData.subs[mergedDataKey];
             }
           }
@@ -1755,11 +1770,11 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                   }
                   let mergedDataValue = mergedData.apps[newDataKey];
                   for (let value in values) {
-                    if (gSettings[`${dm.type}_games_${value}`]) {
+                    if (Settings.get(`${dm.type}_games_${value}`)) {
                       for (let j = 0, numValues = values[value].length; j < numValues; ++j) {
                         let valueKey = values[value][j];
                         if (typeof newDataValue[valueKey] !== 'undefined') {
-                          if (gSettings.importAndMerge) {
+                          if (Settings.get('importAndMerge')) {
                             switch (valueKey) {
                               case 'entered':
                                 mergedDataValue.entered = true;
@@ -1807,11 +1822,11 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                   }
                   let mergedDataValue = mergedData.subs[newDataKey];
                   for (let value in values) {
-                    if (gSettings[`${dm.type}_games_${value}`]) {
+                    if (Settings.get(`${dm.type}_games_${value}`)) {
                       for (let j = 0, numValues = values[value].length; j < numValues; ++j) {
                         let valueKey = values[value][j];
                         if (typeof newDataValue[valueKey] !== 'undefined') {
-                          if (gSettings.importAndMerge) {
+                          if (Settings.get('importAndMerge')) {
                             switch (valueKey) {
                               case 'entered':
                                 mergedDataValue.entered = true;
@@ -1851,10 +1866,10 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                   }
                 }
               }
-              await shared.common.setValue('games', JSON.stringify(mergedData));
+              await Shared.common.setValue('games', JSON.stringify(mergedData));
             }
           } else if (dm.delete) {
-            await shared.common.setValue('games', JSON.stringify(mergedData));
+            await Shared.common.setValue('games', JSON.stringify(mergedData));
           }
         }
         if (!dm.autoBackup) {
@@ -1865,11 +1880,11 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
             for (let value in values) {
               if (values.hasOwnProperty(value)) {
                 if (dm.switches[`${optionKey}_${value}`]) {
-                  dm.switches[`${optionKey}_${value}`].size.textContent = shared.common.convertBytes(sizes[value]);
+                  dm.switches[`${optionKey}_${value}`].size.textContent = Shared.common.convertBytes(sizes[value]);
                 }
               }
             }
-            dm.switches[optionKey].size.textContent = shared.common.convertBytes(sizes.total);
+            dm.switches[optionKey].size.textContent = Shared.common.convertBytes(sizes.total);
           }
           totalSize += sizes.total;
         }
@@ -1880,7 +1895,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
           gpt: ['tags'],
           sgg: ['stickied']
         };
-        mergedData = JSON.parse(shared.common.getValue(optionKey, '[]'));
+        mergedData = JSON.parse(Shared.common.getValue(optionKey, '[]'));
         if (!Array.isArray(mergedData)) {
           let temp = [];
           for (let key in mergedData) {
@@ -1907,7 +1922,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
           let toExport = false;
           for (let value in values) {
             if (values.hasOwnProperty(value)) {
-              if (gSettings[`${dm.type}_${optionKey}_${value}`]) {
+              if (Settings.get(`${dm.type}_${optionKey}_${value}`)) {
                 toDelete += 1;
               }
               for (let k = 0, numValues = values[value].length; k < numValues; ++k) {
@@ -1918,7 +1933,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                     if (value !== 'main') {
                       foundSub += 1;
                     }
-                    if (dm.autoBackup || gSettings[`${dm.type}_${optionKey}_${value}`] || value === 'main') {
+                    if (dm.autoBackup || Settings.get(`${dm.type}_${optionKey}_${value}`) || value === 'main') {
                       newData[valueKey] = mergedDataValue;
                       if (value !== 'main') {
                         toExport = true;
@@ -1928,7 +1943,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                     sizes[value] += size;
                     sizes.total += size;
                     found = value;
-                    if (!space && dm.delete && gSettings[`${dm.type}_${optionKey}_${value}`] && value !== 'main') {
+                    if (!space && dm.delete && Settings.get(`${dm.type}_${optionKey}_${value}`) && value !== 'main') {
                       deletedSub += 1;
                       delete mergedData[j][valueKey];
                     }
@@ -1941,14 +1956,14 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
             sizes[found] -= 1;
             sizes.total -= 1;
           }
-          if (dm.autoBackup || toExport || gSettings[`${dm.type}_${optionKey}_main`]) {
+          if (dm.autoBackup || toExport || Settings.get(`${dm.type}_${optionKey}_main`)) {
             data[optionKey].push(newData);
             mainFound = true;
           }
           let size = `{},`.length;
           sizes.main += size;
           sizes.total += size;
-          if (!space && dm.delete && ((gSettings[`${dm.type}_${optionKey}_main`] && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
+          if (!space && dm.delete && ((Settings.get(`${dm.type}_${optionKey}_main`) && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
             mergedData.pop();
           }
         }
@@ -1982,7 +1997,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                 }
                 for (let value in values) {
                   if (values.hasOwnProperty(value)) {
-                    if (gSettings[`${dm.type}_${optionKey}_${value}`]) {
+                    if (Settings.get(`${dm.type}_${optionKey}_${value}`)) {
                       for (let k = 0, numValues = values[value].length; k < numValues; ++k) {
                         let valueKey = values[value][k];
                         switch (valueKey) {
@@ -2008,10 +2023,10 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                   }
                 }
               }
-              await shared.common.setValue(optionKey, JSON.stringify(mergedData));
+              await Shared.common.setValue(optionKey, JSON.stringify(mergedData));
             }
           } else if (dm.delete) {
-            await shared.common.setValue(optionKey, JSON.stringify(mergedData));
+            await Shared.common.setValue(optionKey, JSON.stringify(mergedData));
           }
         }
         if (!dm.autoBackup) {
@@ -2022,23 +2037,23 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
             for (let value in values) {
               if (values.hasOwnProperty(value)) {
                 if (dm.switches[`${optionKey}_${value}`]) {
-                  dm.switches[`${optionKey}_${value}`].size.textContent = shared.common.convertBytes(sizes[value]);
+                  dm.switches[`${optionKey}_${value}`].size.textContent = Shared.common.convertBytes(sizes[value]);
                 }
               }
             }
-            dm.switches[optionKey].size.textContent = shared.common.convertBytes(sizes.total);
+            dm.switches[optionKey].size.textContent = Shared.common.convertBytes(sizes.total);
           }
           totalSize += sizes.total;
         }
         break;
       case 'rerolls':
       case 'stickiedCountries':
-        data[optionKey] = JSON.parse(shared.common.getValue(optionKey, '[]'));
+        data[optionKey] = JSON.parse(Shared.common.getValue(optionKey, '[]'));
         if (!space) {
           if (dm.import) {
             let newData = dm.data[optionKey];
             if (newData) {
-              if (gSettings.importAndMerge) {
+              if (Settings.get('importAndMerge')) {
                 mergedData = data[optionKey];
                 for (let j = 0, numNew = newData.length; j < numNew; ++j) {
                   let newDataValue = newData[j];
@@ -2046,30 +2061,30 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                     mergedData.push(newDataValue);
                   }
                 }
-                await shared.common.setValue(optionKey, JSON.stringify(mergedData));
+                await Shared.common.setValue(optionKey, JSON.stringify(mergedData));
               } else {
-                await shared.common.setValue(optionKey, JSON.stringify(newData));
+                await Shared.common.setValue(optionKey, JSON.stringify(newData));
               }
             }
           } else if (dm.delete) {
-            await shared.common.delValue(optionKey);
+            await Shared.common.delValue(optionKey);
           }
         }
         if (!dm.autoBackup) {
-          let size = `{"${optionKey}":${shared.common.getValue(optionKey, '[]')}}`.length;
+          let size = `{"${optionKey}":${Shared.common.getValue(optionKey, '[]')}}`.length;
           totalSize += size;
           if (dm.switches) {
-            dm.switches[optionKey].size.textContent = shared.common.convertBytes(size);
+            dm.switches[optionKey].size.textContent = Shared.common.convertBytes(size);
           }
         }
         break;
       case 'sgCommentHistory':
-        data[optionKey] = JSON.parse(shared.common.getValue(optionKey, '[]'));
+        data[optionKey] = JSON.parse(Shared.common.getValue(optionKey, '[]'));
         if (!space) {
           if (dm.import) {
             let newData = dm.data[optionKey];
             if (newData) {
-              if (gSettings.importAndMerge) {
+              if (Settings.get('importAndMerge')) {
                 mergedData = [];
                 let oldData = data[optionKey];
                 let j = 0;
@@ -2110,20 +2125,20 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                   }
                   k += 1;
                 }
-                await shared.common.setValue(optionKey, JSON.stringify(mergedData));
+                await Shared.common.setValue(optionKey, JSON.stringify(mergedData));
               } else {
-                await shared.common.setValue(optionKey, JSON.stringify(newData));
+                await Shared.common.setValue(optionKey, JSON.stringify(newData));
               }
             }
           } else if (dm.delete) {
-            await shared.common.delValue(optionKey);
+            await Shared.common.delValue(optionKey);
           }
         }
         if (!dm.autoBackup) {
-          let size = `{"${optionKey}":${shared.common.getValue(optionKey, '[]')}}`.length;
+          let size = `{"${optionKey}":${Shared.common.getValue(optionKey, '[]')}}`.length;
           totalSize += size;
           if (dm.switches) {
-            dm.switches[optionKey].size.textContent = shared.common.convertBytes(size);
+            dm.switches[optionKey].size.textContent = Shared.common.convertBytes(size);
           }
         }
         break;
@@ -2143,7 +2158,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
           steamIds: {},
           users: {}
         };
-        mergedData = JSON.parse(shared.common.getValue('users', `{"steamIds":{},"users":{}}`));
+        mergedData = JSON.parse(Shared.common.getValue('users', `{"steamIds":{},"users":{}}`));
         sizes = {
           cdr: 0,
           giveaways: 0,
@@ -2169,7 +2184,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
             let toExport = false;
             for (let value in values) {
               if (values.hasOwnProperty(value)) {
-                if (gSettings[`${dm.type}_users_${value}`]) {
+                if (Settings.get(`${dm.type}_users_${value}`)) {
                   toDelete += 1;
                 }
                 for (let j = 0, numValues = values[value].length; j < numValues; ++j) {
@@ -2178,7 +2193,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                     if (value !== 'main') {
                       foundSub += 1;
                     }
-                    if (dm.autoBackup || gSettings[`${dm.type}_users_${value}`] || value === 'main') {
+                    if (dm.autoBackup || Settings.get(`${dm.type}_users_${value}`) || value === 'main') {
                       newData[valueKey] = mergedDataValue[valueKey];
                       if (value !== 'main') {
                         toExport = true;
@@ -2188,7 +2203,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                     sizes[value] += size;
                     sizes.total += size;
                     found = value;
-                    if (!space && dm.delete && gSettings[`${dm.type}_users_${value}`] && value !== 'main') {
+                    if (!space && dm.delete && Settings.get(`${dm.type}_users_${value}`) && value !== 'main') {
                       deletedSub += 1;
                       delete mergedDataValue[valueKey];
                     }
@@ -2209,7 +2224,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
             if (username) {
               size += `"username":"${username}","${username}":"${mergedDataKey}",`.length;
             }
-            if (dm.autoBackup || toExport || gSettings[`${dm.type}_${optionKey}_main`]) {
+            if (dm.autoBackup || toExport || Settings.get(`${dm.type}_${optionKey}_main`)) {
               if (id) {
                 newData.id = id;
               }
@@ -2224,7 +2239,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
             size += `"${mergedDataKey}":{},`.length;
             sizes.main += size;
             sizes.total += size;
-            if (!space && dm.delete && ((gSettings[`${dm.type}_${optionKey}_main`] && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
+            if (!space && dm.delete && ((Settings.get(`${dm.type}_${optionKey}_main`) && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
               delete mergedData.steamIds[mergedDataValue.username];
               delete mergedData.users[mergedDataKey];
             }
@@ -2255,11 +2270,11 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                   let mergedDataValue = mergedData.users[newDataKey];
                   for (let value in values) {
                     if (values.hasOwnProperty(value)) {
-                      if (gSettings[`${dm.type}_users_${value}`]) {
+                      if (Settings.get(`${dm.type}_users_${value}`)) {
                         for (let j = 0, numValues = values[value].length; j < numValues; ++j) {
                           let valueKey = values[value][j];
                           if (newDataValue[valueKey]) {
-                            if (gSettings.importAndMerge) {
+                            if (Settings.get('importAndMerge')) {
                               switch (valueKey) {
                                 case 'whitelisted':
                                 case 'whitelistedDate':
@@ -2269,7 +2284,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                                   mergedDataValue[valueKey] = newDataValue[valueKey];
                                   break;
                                 case 'notes':
-                                  mergedDataValue.notes = shared.common.removeDuplicateNotes(mergedDataValue.notes ? `${mergedDataValue.notes}\n\n${newDataValue.notes}` : newDataValue.notes);
+                                  mergedDataValue.notes = Shared.common.removeDuplicateNotes(mergedDataValue.notes ? `${mergedDataValue.notes}\n\n${newDataValue.notes}` : newDataValue.notes);
                                   break;
                                 case 'tags':
                                   if (mergedDataValue.tags) {
@@ -2318,10 +2333,10 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                   }
                 }
               }
-              await shared.common.setValue('users', JSON.stringify(mergedData));
+              await Shared.common.setValue('users', JSON.stringify(mergedData));
             }
           } else if (dm.delete) {
-            await shared.common.setValue('users', JSON.stringify(mergedData));
+            await Shared.common.setValue('users', JSON.stringify(mergedData));
           }
         }
         if (!dm.autoBackup) {
@@ -2332,22 +2347,22 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
             for (const value in values) {
               if (values.hasOwnProperty(value)) {
                 if (dm.switches[`${optionKey}_${value}`]) {
-                  dm.switches[`${optionKey}_${value}`].size.textContent = shared.common.convertBytes(sizes[value]);
+                  dm.switches[`${optionKey}_${value}`].size.textContent = Shared.common.convertBytes(sizes[value]);
                 }
               }
             }
-            dm.switches[optionKey].size.textContent = shared.common.convertBytes(sizes.total);
+            dm.switches[optionKey].size.textContent = Shared.common.convertBytes(sizes.total);
           }
           totalSize += sizes.total;
         }
         break;
       case 'winners':
-        data.winners = JSON.parse(shared.common.getValue('winners', '{}'));
+        data.winners = JSON.parse(Shared.common.getValue('winners', '{}'));
         if (!space) {
           if (dm.import) {
             let newData = dm.data.winners;
             if (newData) {
-              if (gSettings.importAndMerge) {
+              if (Settings.get('importAndMerge')) {
                 mergedData = data.winners;
                 for (let newDataKey in newData) {
                   if (newData.hasOwnProperty(newDataKey)) {
@@ -2362,20 +2377,20 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
                     }
                   }
                 }
-                await shared.common.setValue('winners', JSON.stringify(mergedData));
+                await Shared.common.setValue('winners', JSON.stringify(mergedData));
               } else {
-                await shared.common.setValue('winners', JSON.stringify(newData));
+                await Shared.common.setValue('winners', JSON.stringify(newData));
               }
             }
           } else if (dm.delete) {
-            await shared.common.delValue('winners');
+            await Shared.common.delValue('winners');
           }
         }
         if (!dm.autoBackup) {
-          let size = `{"${optionKey}":${shared.common.getValue(optionKey, '{}')}}`.length;
+          let size = `{"${optionKey}":${Shared.common.getValue(optionKey, '{}')}}`.length;
           totalSize += size;
           if (dm.switches) {
-            dm.switches[optionKey].size.textContent = shared.common.convertBytes(size);
+            dm.switches[optionKey].size.textContent = Shared.common.convertBytes(size);
           }
         }
         break;
@@ -2384,7 +2399,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
     }
   }
   if (!dm.autoBackup && dm.computerSpaceCount) {
-    dm.computerSpaceCount.textContent = shared.common.convertBytes(totalSize);
+    dm.computerSpaceCount.textContent = Shared.common.convertBytes(totalSize);
   }
   if (space) {
     if (space.close) {
@@ -2392,31 +2407,31 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
     }
     return totalSize;
   } else {
-    if (dm.type === 'export' || gSettings.exportBackup) {
-      if (dropbox || (dm.type !== 'export' && gSettings.exportBackupIndex === 1)) {
+    if (dm.type === 'export' || Settings.get('exportBackup')) {
+      if (dropbox || (dm.type !== 'export' && Settings.get('exportBackupIndex') === 1)) {
         CloudStorage.manage(CloudStorage.DROPBOX, data, dm, callback);
-      } else if (googleDrive || (dm.type !== 'export' && gSettings.exportBackupIndex === 2)) {
+      } else if (googleDrive || (dm.type !== 'export' && Settings.get('exportBackupIndex') === 2)) {
         CloudStorage.manage(CloudStorage.GOOGLEDRIVE, data, dm, callback);
-      } else if (oneDrive || (dm.type !== 'export' && gSettings.exportBackupIndex === 3)) {
+      } else if (oneDrive || (dm.type !== 'export' && Settings.get('exportBackupIndex') === 3)) {
         CloudStorage.manage(CloudStorage.ONEDRIVE, data, dm, callback);
       } else {
-        const name = `${gSettings.askFileName ? window.prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, '_')}`) : `esgst_data_${new Date().toISOString().replace(/:/g, '_')}`}`;
+        const name = `${Settings.get('askFileName') ? window.prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, '_')}`) : `esgst_data_${new Date().toISOString().replace(/:/g, '_')}`}`;
         if (name === 'null') {
           callback();
           return;
         }
-        if (gSettings.backupZip) {
-          await shared.common.downloadZip(data, `${name}.json`, `${name}.zip`);
+        if (Settings.get('backupZip')) {
+          await Shared.common.downloadZip(data, `${name}.json`, `${name}.zip`);
         } else {
-          shared.common.downloadFile(JSON.stringify(data), `${name}.json`);
+          Shared.common.downloadFile(JSON.stringify(data), `${name}.json`);
         }
         if (!dm.autoBackup) {
-          shared.common.createFadeMessage(dm.message, `Data ${dm.pastTense} with success!`);
+          Shared.common.createFadeMessage(dm.message, `Data ${dm.pastTense} with success!`);
         }
         callback();
       }
     } else {
-      shared.common.createFadeMessage(dm.message, `Data ${dm.pastTense} with success!`);
+      Shared.common.createFadeMessage(dm.message, `Data ${dm.pastTense} with success!`);
       callback();
     }
   }

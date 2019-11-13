@@ -1,6 +1,6 @@
-import { gSettings } from './Globals';
+import { Settings } from './Settings';
 import { Popup } from './Popup';
-import { shared, Shared } from './Shared';
+import { Shared } from './Shared';
 import { DOM } from './DOM';
 
 const INFO = 'info';
@@ -19,7 +19,7 @@ class _Logger {
     const message = this.getMessage(arguments);
     window.console.info(message);
     this.logs.push({ level: INFO, message });
-    if (gSettings.notifyLogs) {
+    if (Settings.get('notifyLogs')) {
       this.addButton(INFO);
     }
   }
@@ -28,7 +28,7 @@ class _Logger {
     const message = this.getMessage(arguments);
     window.console.warn(message);
     this.logs.push({ level: WARNING, message });
-    if (gSettings.notifyLogs) {
+    if (Settings.get('notifyLogs')) {
       this.addButton(WARNING);
     }
   }
@@ -37,7 +37,7 @@ class _Logger {
     const message = this.getMessage(arguments);
     window.console.error(message);
     this.logs.push({ level: ERROR, message });
-    if (gSettings.notifyLogs) {
+    if (Settings.get('notifyLogs')) {
       this.addButton(ERROR);
     }
   }
@@ -65,7 +65,7 @@ class _Logger {
     });
 
     this.button.nodes.outer.classList.add('esgst-logs', `esgst-logs-${level}`);
-    this.button.nodes.buttonIcon.title = shared.common.getFeatureTooltip('notifyLogs', 'View logs');
+    this.button.nodes.buttonIcon.title = Shared.common.getFeatureTooltip('notifyLogs', 'View logs');
 
     this.button.nodes.outer.addEventListener('click', this.showPopup.bind(this));
     this.currentMaxLevel = level;

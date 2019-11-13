@@ -1,6 +1,6 @@
 import { Module } from '../../class/Module';
-import { shared, Shared } from '../../class/Shared';
-import { gSettings } from '../../class/Globals';
+import { Shared } from '../../class/Shared';
+import { Settings } from '../../class/Settings';
 import { Logger } from '../../class/Logger';
 import { FetchRequest } from '../../class/FetchRequest';
 import { Popout } from '../../class/Popout';
@@ -77,11 +77,11 @@ class GeneralThreadSubscription extends Module {
 
     this.popout = new Popout('esgst-tds-popout', this.button.nodes.outer, 0, true);
 
-    this.minutes = parseInt(gSettings.tds_minutes) * 60000;
+    this.minutes = parseInt(Settings.get('tds_minutes')) * 60000;
 
     this.startDaemon();
 
-    if (shared.esgst.discussionsPath || shared.esgst.discussionPath) {
+    if (Shared.esgst.discussionsPath || Shared.esgst.discussionPath) {
       const forumCodes = Object.keys(this.forumCategories);
 
       for (const forumCode of forumCodes) {
@@ -93,7 +93,7 @@ class GeneralThreadSubscription extends Module {
 
         element.parentElement.classList.add('esgst-tds-sidebar-item');
 
-        if (gSettings.tds_forums[forumCode]) {
+        if (Settings.get('tds_forums')[forumCode]) {
           this.addUnsubscribeButton(null, forumCode, element, null, this.forumCategories[forumCode], 'forum');
         } else {
           this.addSubscribeButton(null, forumCode, element, null, this.forumCategories[forumCode], 'forum');
@@ -101,7 +101,7 @@ class GeneralThreadSubscription extends Module {
       }
     }
 
-    if (!shared.esgst.commentsPath) {
+    if (!Shared.esgst.commentsPath) {
       return;
     }
 
@@ -112,11 +112,11 @@ class GeneralThreadSubscription extends Module {
     const context = document.querySelector('.page__heading, .page_heading');
     const name = context.querySelector('h1').textContent.trim();
 
-    const heading = shared.esgst.mainPageHeading.querySelector('.page__heading__breadcrumbs, .page_heading_breadcrumbs').firstElementChild;
+    const heading = Shared.esgst.mainPageHeading.querySelector('.page__heading__breadcrumbs, .page_heading_breadcrumbs').firstElementChild;
     const count = parseInt(heading.textContent.replace(/,/g, '').match(/\d+/)[0]);
 
-    if (shared.esgst.discussionPath || shared.esgst.tradePath) {
-      const savedThread = shared.esgst[type][code];
+    if (Shared.esgst.discussionPath || Shared.esgst.tradePath) {
+      const savedThread = Shared.esgst[type][code];
 
       if (savedThread && typeof savedThread.subscribed !== 'undefined') {
         this.addUnsubscribeButton(null, code, context, count, name, type);
@@ -139,7 +139,7 @@ class GeneralThreadSubscription extends Module {
 
     event.target.remove();
 
-    await shared.common.notifyTds(this.subscribedItems);
+    await Shared.common.notifyTds(this.subscribedItems);
   }
 
   async unsubscribeItem(element, item) {
@@ -151,7 +151,7 @@ class GeneralThreadSubscription extends Module {
 
     element.remove();
 
-    await shared.common.notifyTds(this.subscribedItems);
+    await Shared.common.notifyTds(this.subscribedItems);
 
     if (this.popout.isOpen) {
       this.popout.reposition();
@@ -161,7 +161,7 @@ class GeneralThreadSubscription extends Module {
   async updatePopout() {
     this.popout.popout.innerHTML = '';
 
-    this.subscribedItems = this.subscribedItems.filter(item => typeof item.subscribed !== 'undefined' || gSettings.tds_forums[item.code]);
+    this.subscribedItems = this.subscribedItems.filter(item => typeof item.subscribed !== 'undefined' || Settings.get('tds_forums')[item.code]);
     this.subscribedItems.sort((a, b) => a.diff > b.diff ? -1 : 1);
 
     for (const item of this.subscribedItems) {
@@ -225,15 +225,15 @@ class GeneralThreadSubscription extends Module {
   async runDaemon(firstRun) {
     //Logger.info('Running TDS daemon...');
 
-    await shared.common.updateLock(this.lockObj.lock);
+    await Shared.common.updateLock(this.lockObj.lock);
 
     const oldDiff = this.subscribedItems.filter(item => item.diff)
       .reduce((sum, currentItem) => sum + currentItem.diff, 0);
 
     this.subscribedItems = [];
 
-    for (const code in shared.esgst.discussions) {
-      const discussion = shared.esgst.discussions[code];
+    for (const code in Shared.esgst.discussions) {
+      const discussion = Shared.esgst.discussions[code];
 
       if (typeof discussion.subscribed !== 'undefined') {
         this.subscribedItems.push({
@@ -247,8 +247,8 @@ class GeneralThreadSubscription extends Module {
       }
     }
 
-    for (const code in shared.esgst.trades) {
-      const trade = shared.esgst.trades[code];
+    for (const code in Shared.esgst.trades) {
+      const trade = Shared.esgst.trades[code];
 
       if (typeof trade.subscribed !== 'undefined') {
         this.subscribedItems.push({
@@ -276,7 +276,7 @@ class GeneralThreadSubscription extends Module {
       }
     }
 
-    for (const code in gSettings.tds_forums) {
+    for (const code in Settings.get('tds_forums')) {
       const codes = [];
 
       const response = await FetchRequest.get(`/discussions${code ? `/${code}` : ''}/search?sort=new`);
@@ -287,7 +287,7 @@ class GeneralThreadSubscription extends Module {
         codes.push(element.getAttribute('href').match(/\/discussion\/(.+?)\//)[1]);
       }
 
-      const diff = codes.filter(subCode => !gSettings.tds_forums[code].includes(subCode)).length;
+      const diff = codes.filter(subCode => !Settings.get('tds_forums')[code].includes(subCode)).length;
 
       this.subscribedItems.push({
         code,
@@ -300,11 +300,11 @@ class GeneralThreadSubscription extends Module {
     const newDiff = this.subscribedItems.filter(item => item.diff)
       .reduce((sum, currentItem) => sum + currentItem.diff, 0);
 
-    if (gSettings.tds_n && !firstRun && oldDiff !== newDiff) {
+    if (Settings.get('tds_n') && !firstRun && oldDiff !== newDiff) {
       this.showNotification();
     }
 
-    shared.common.notifyTds(this.subscribedItems);
+    Shared.common.notifyTds(this.subscribedItems);
 
     this.updateButton();
 
@@ -312,7 +312,7 @@ class GeneralThreadSubscription extends Module {
   }
 
   async startDaemon() {
-    this.lockObj = await shared.common.createLock('tdsLock', 300, {
+    this.lockObj = await Shared.common.createLock('tdsLock', 300, {
       lockOrDie: true,
       timeout: this.minutes + 15000
     });
@@ -320,7 +320,7 @@ class GeneralThreadSubscription extends Module {
     if (!this.lockObj.wasLocked) {
       //Logger.info('TDS Daemon already running....');
 
-      this.updateItems(await shared.common.getTds());
+      this.updateItems(await Shared.common.getTds());
 
       return;
     }
@@ -331,7 +331,9 @@ class GeneralThreadSubscription extends Module {
   async subscribe(code, countOrCodes, name, type) {
     if (type === 'forum') {
       if (countOrCodes !== null) {
-        gSettings.tds_forums[code] = countOrCodes;
+        const forums = Settings.get('tds_forums');
+        forums[code] = countOrCodes;
+        Settings.set('tds_forums', forums);
       } else {
         const codes = [];
 
@@ -343,16 +345,20 @@ class GeneralThreadSubscription extends Module {
           codes.push(element.getAttribute('href').match(/\/discussion\/(.+?)\//)[1]);
         }
 
-        if (!gSettings.tds_forums[code]) {
-          gSettings.tds_forums[code] = [];
+        if (!Settings.get('tds_forums')[code]) {
+          const forums = Settings.get('tds_forums');
+          forums[code] = [];
+          Settings.set('tds_forums', forums);
         }
 
-        gSettings.tds_forums[code] = Array.from(new Set(gSettings.tds_forums[code].concat(codes)));
+        const forums = Settings.get('tds_forums');
+        forums[code] = Array.from(new Set(Settings.get('tds_forums')[code].concat(codes)));
+        Settings.set('tds_forums', forums);
       }
 
-      await shared.common.setSetting('tds_forums', gSettings.tds_forums);
+      await Shared.common.setSetting('tds_forums', Settings.get('tds_forums'));
     } else {
-      const savedThread = shared.esgst[type][code] || {};
+      const savedThread = Shared.esgst[type][code] || {};
 
       if (!savedThread.readComments) {
         savedThread.readComments = {};
@@ -364,11 +370,11 @@ class GeneralThreadSubscription extends Module {
 
       switch (type) {
         case 'discussions':
-          await shared.common.lockAndSaveDiscussions({ [code]: savedThread });
+          await Shared.common.lockAndSaveDiscussions({ [code]: savedThread });
 
           break;
         case 'trades':
-          await shared.common.lockAndSaveTrades({ [code]: savedThread });
+          await Shared.common.lockAndSaveTrades({ [code]: savedThread });
 
           break;
       }
@@ -379,22 +385,22 @@ class GeneralThreadSubscription extends Module {
 
   async unsubscribe(code, type) {
     if (type === 'forum') {
-      delete gSettings.tds_forums[code];
+      delete Settings.get('tds_forums')[code];
 
-      await shared.common.setSetting('tds_forums', gSettings.tds_forums);
+      await Shared.common.setSetting('tds_forums', Settings.get('tds_forums'));
     } else {
-      const savedThread = shared.esgst[type][code] || {};
+      const savedThread = Shared.esgst[type][code] || {};
 
       savedThread.subscribed = null;
       savedThread.lastUsed = Date.now();
 
       switch (type) {
         case 'discussions':
-          await shared.common.lockAndSaveDiscussions({ [code]: savedThread });
+          await Shared.common.lockAndSaveDiscussions({ [code]: savedThread });
 
           break;
         case 'trades':
-          await shared.common.lockAndSaveTrades({ [code]: savedThread });
+          await Shared.common.lockAndSaveTrades({ [code]: savedThread });
 
           break;
       }
@@ -411,7 +417,7 @@ class GeneralThreadSubscription extends Module {
     }
 
     DOM.build(button, 'inner', [
-      ['i', { class: 'fa fa-bell-o', title: shared.common.getFeatureTooltip('tds', 'Subscribe') }]
+      ['i', { class: 'fa fa-bell-o', title: Shared.common.getFeatureTooltip('tds', 'Subscribe') }]
     ]);
 
     let busy = false;
@@ -441,7 +447,7 @@ class GeneralThreadSubscription extends Module {
     }
 
     DOM.build(button, 'inner', [
-      ['i', { class: 'fa fa-bell', title: shared.common.getFeatureTooltip('tds', 'Unsubscribe') }]
+      ['i', { class: 'fa fa-bell', title: Shared.common.getFeatureTooltip('tds', 'Unsubscribe') }]
     ]);
 
     let busy = false;

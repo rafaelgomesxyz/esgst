@@ -1,4 +1,4 @@
-import { shared } from './Shared';
+import { Shared } from './Shared';
 import { Utils } from '../lib/jsUtils';
 
 class ICloudStorage {
@@ -11,7 +11,7 @@ class ICloudStorage {
   }
 
   static async checkToken(key, resolve, startTime = Date.now(), timeout = 60000) {
-    const token = await shared.common.getValue(key);
+    const token = await Shared.common.getValue(key);
     if (Utils.isSet(token)) {
       resolve(token);
     } else if (startTime - Date.now() > timeout) {

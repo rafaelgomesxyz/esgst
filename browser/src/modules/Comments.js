@@ -1,7 +1,7 @@
 import { Module } from '../class/Module';
 import {common} from './Common';
-import { shared } from '../class/Shared';
-import { gSettings } from '../class/Globals';
+import { Shared } from '../class/Shared';
+import { Settings } from '../class/Settings';
 
 const
   getUser = common.getUser.bind(common),
@@ -28,19 +28,19 @@ class Comments extends Module {
       comments[i].index = i;
       this.esgst.currentScope.comments.push(comments[i]);
     }
-    for (const feature of shared.esgst.commentFeatures) {
+    for (const feature of Shared.esgst.commentFeatures) {
       await feature(comments, main);
     }
-    if (!main || this.esgst.commentsPath || shared.common.isCurrentPath('Messages')) {
-      if (main && shared.esgst.cf && this.esgst.cf.filteredCount && gSettings[`cf_enable${this.esgst.cf.type}`]) {
+    if (!main || this.esgst.commentsPath || Shared.common.isCurrentPath('Messages')) {
+      if (main && Shared.esgst.cf && this.esgst.cf.filteredCount && Settings.get(`cf_enable${this.esgst.cf.type}`)) {
         this.esgst.modules.commentsCommentFilters.filters_filter(this.esgst.cf, false, endless);
       }
-      if (!main && this.esgst.cfPopup && this.esgst.cfPopup.filteredCount && gSettings[`cf_enable${this.esgst.cfPopup.type}`]) {
+      if (!main && this.esgst.cfPopup && this.esgst.cfPopup.filteredCount && Settings.get(`cf_enable${this.esgst.cfPopup.type}`)) {
         this.esgst.modules.commentsCommentFilters.filters_filter(this.esgst.cfPopup, false, endless);
       }
     }
-    if (gSettings.ct) {
-      if (!main || shared.common.isCurrentPath('Messages')) {
+    if (Settings.get('ct')) {
+      if (!main || Shared.common.isCurrentPath('Messages')) {
         count = 0;
       } else {
         count = context.getElementsByClassName('page__heading__breadcrumbs')[1];
@@ -53,12 +53,12 @@ class Comments extends Module {
       // noinspection JSIgnoredPromiseFromCall
       this.esgst.modules.commentsCommentTracker.ct_getComments(count, comments, null, false, false, false, main || endless || mainEndless);
     }
-    if (gSettings.rfi) {
-      if (gSettings.rfi_s && (!main || shared.common.isCurrentPath('Messages')) && (!context.getAttribute || !context.getAttribute('data-rfi'))) {
+    if (Settings.get('rfi')) {
+      if (Settings.get('rfi_s') && (!main || Shared.common.isCurrentPath('Messages')) && (!context.getAttribute || !context.getAttribute('data-rfi'))) {
         await this.esgst.modules.commentsReplyFromInbox.rfi_getReplies(comments, main || endless || mainEndless);
       }
     }
-    if (gSettings.ged) {
+    if (Settings.get('ged')) {
       this.esgst.ged_addIcons(comments);
     }
   }
@@ -73,7 +73,7 @@ class Comments extends Module {
     ]));
     sourceLink = mainContext.querySelector(`.page__heading__breadcrumbs a[href*="/giveaway/"], .page__heading__breadcrumbs a[href*="/discussion/"], .page__heading__breadcrumbs a[href*="/ticket/"], .page_heading_breadcrumbs a[href*="/trade/"]`);
     for (i = matches.length - 1; i >= 0; --i) {
-      comment = await this.comments_getInfo(matches[i], shared.esgst.currentScope.sourceLink || sourceLink, endless ? this.esgst.users : JSON.parse(getValue('users')), main);
+      comment = await this.comments_getInfo(matches[i], Shared.esgst.currentScope.sourceLink || sourceLink, endless ? this.esgst.users : JSON.parse(getValue('users')), main);
       if (comment) {
         comments.push(comment);
       }
@@ -105,7 +105,7 @@ class Comments extends Module {
     }
     comment.id = comment.permalink ? comment.permalink.getAttribute('href').match(/\/comment\/(.+)/)[1] : '';
     comment.timestamp = parseInt(comment.actions.querySelector(`[data-timestamp]`).getAttribute('data-timestamp'));
-    if (!main || shared.common.isCurrentPath('Messages')) {
+    if (!main || Shared.common.isCurrentPath('Messages')) {
       if (this.esgst.sg) {
         try {
           source = comment.comment.closest('.comments').previousElementSibling.firstElementChild.firstElementChild.getAttribute('href');

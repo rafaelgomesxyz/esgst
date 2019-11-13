@@ -1,5 +1,5 @@
 import { Module } from '../class/Module';
-import { gSettings } from '../class/Globals';
+import { Settings } from '../class/Settings';
 
 class DiscussionPanels extends Module {
   constructor() {
@@ -11,7 +11,7 @@ class DiscussionPanels extends Module {
   }
 
   init() {
-    if ((gSettings.ct && (this.esgst.giveawaysPath || this.esgst.discussionsPath)) || (gSettings.gdttt && (this.esgst.giveawaysPath || this.esgst.discussionsPath || this.esgst.discussionsTicketsTradesPath)) || (gSettings.ust && this.esgst.ticketsPath)) {
+    if ((Settings.get('ct') && (this.esgst.giveawaysPath || this.esgst.discussionsPath)) || (Settings.get('gdttt') && (this.esgst.giveawaysPath || this.esgst.discussionsPath || this.esgst.discussionsTicketsTradesPath)) || (Settings.get('ust') && this.esgst.ticketsPath)) {
       this.esgst.endlessFeatures.push(this.esgst.modules.commentsCommentTracker.ct_addDiscussionPanels.bind(this.esgst.modules.commentsCommentTracker));
     }
   }

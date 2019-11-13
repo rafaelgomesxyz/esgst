@@ -1,7 +1,7 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
 import { browser } from '../../browser';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 import { Logger } from '../../class/Logger';
 import { EventDispatcher } from '../../class/EventDispatcher';
 import { Events } from '../../constants/Events';
@@ -10,11 +10,7 @@ import { Namespaces } from '../../constants/Namespaces';
 import { Session } from '../../class/Session';
 import { Shared } from '../../class/Shared';
 import { Header } from '../../components/Header';
-
-const
-  getLocalValue = common.getLocalValue.bind(common),
-  setLocalValue = common.setLocalValue.bind(common)
-  ;
+import { LocalStorage } from '../../class/LocalStorage';
 
 class GeneralHeaderRefresher extends Module {
   constructor() {
@@ -194,7 +190,7 @@ class GeneralHeaderRefresher extends Module {
 
     this.startRefresher();
 
-    if (!gSettings.hr_b) {
+    if (!Settings.get('hr_b')) {
       window.addEventListener('focus', this.startRefresher.bind(this));
       window.addEventListener('blur', () => window.clearTimeout(this.refresher));
     }
@@ -205,29 +201,29 @@ class GeneralHeaderRefresher extends Module {
 
     await this.refreshHeader(response.html);
 
-    this.refresher = window.setTimeout(() => this.continueRefresher(), gSettings.hr_minutes * 60000);
+    this.refresher = window.setTimeout(() => this.continueRefresher(), Settings.get('hr_minutes') * 60000);
   }
 
   async continueRefresher() {
-    const cache = JSON.parse(getLocalValue('hrCache'));
+    const cache = JSON.parse(LocalStorage.get('hrCache'));
     const now = Date.now();
 
-    if (cache.username !== gSettings.username || now - cache.timestamp > gSettings.hr_minutes * 60000) {
+    if (cache.username !== Settings.get('username') || now - cache.timestamp > Settings.get('hr_minutes') * 60000) {
       cache.timestamp = now;
-      setLocalValue('hrCache', JSON.stringify(cache));
+      LocalStorage.set('hrCache', JSON.stringify(cache));
 
       const response = await FetchRequest.get(Shared.esgst.sg ? '/giveaways/search?type=wishlist' : '/');
 
       await this.refreshHeader(response.html);
 
-      this.refresher = window.setTimeout(() => this.continueRefresher(), gSettings.hr_minutes * 60000);
+      this.refresher = window.setTimeout(() => this.continueRefresher(), Settings.get('hr_minutes') * 60000);
     } else {
       await this.refreshHeader(null, cache);
 
       this.wishlist = cache.wishlist;
       this.newWishlist = cache.newWishlist;
 
-      this.refresher = window.setTimeout(() => this.continueRefresher(), gSettings.hr_minutes * 60000);
+      this.refresher = window.setTimeout(() => this.continueRefresher(), Settings.get('hr_minutes') * 60000);
     }
   }
 
@@ -247,48 +243,33 @@ class GeneralHeaderRefresher extends Module {
           const createdContainer = header.buttonContainers['giveawaysCreated'];
 
           if (createdContainer) {
-            const counterNode = createdContainer.nodes.counter;
-
-            await Shared.header.updateCounter('giveawaysCreated', counterNode ? counterNode.textContent : null);
+            await Shared.header.updateCounter('giveawaysCreated', createdContainer.data.counter);
           }
 
           const wonContainer = header.buttonContainers['giveawaysWon'];
 
           if (wonContainer) {
-            const counterNode = wonContainer.nodes.counter;
-
-            await Shared.header.updateCounter('giveawaysWon', counterNode ? counterNode.textContent : null, counterNode && counterNode.classList.contains('fade_infinite'));
+            await Shared.header.updateCounter('giveawaysWon', wonContainer.data.counter, wonContainer.data.isFlashing);
           }
 
           const messagesContainer = header.buttonContainers['messages'];
 
           if (messagesContainer) {
-            const counterNode = messagesContainer.nodes.counter;
-
-            await Shared.header.updateCounter('messages', counterNode ? counterNode.textContent : null);
+            await Shared.header.updateCounter('messages', messagesContainer.data.counter);
           }
 
           const accountContainer = header.buttonContainers['account'];
 
           if (accountContainer) {
-            const pointsNode = accountContainer.nodes.points;
-
-            if (pointsNode) {
-              await Shared.header.updatePoints(pointsNode.textContent);
-            }
-
-            const levelNode = accountContainer.nodes.level;
-
-            if (levelNode) {
-              await Shared.header.updateLevel(levelNode.title);
-            }
+            await Shared.header.updatePoints(accountContainer.data.points);
+            await Shared.header.updateLevel(accountContainer.data.level);
           }
 
-          if (gSettings.hr_w) {
+          if (Settings.get('hr_w')) {
             this.wishlist = 0;
             this.newWishlist = 0;
 
-            const cache = JSON.parse(getLocalValue('hrWishlistCache', '[]'));
+            const cache = JSON.parse(LocalStorage.get('hrWishlistCache', '[]'));
             const codes = [];
             const now = Date.now();
 
@@ -297,7 +278,7 @@ class GeneralHeaderRefresher extends Module {
             for (const giveaway of giveaways) {
               codes.push(giveaway.code);
 
-              if (giveaway && giveaway.level <= Session.counters.level.base && !giveaway.pinned && !giveaway.entered && (!Shared.esgst.giveaways[giveaway.code] || (!Shared.esgst.giveaways[giveaway.code].visited && !Shared.esgst.giveaways[giveaway.code].hidden)) && (!gSettings.hr_w_h || giveaway.endTime - now < gSettings.hr_w_hours * 3600000)) {
+              if (giveaway && giveaway.level <= Session.counters.level.base && !giveaway.pinned && !giveaway.entered && (!Shared.esgst.giveaways[giveaway.code] || (!Shared.esgst.giveaways[giveaway.code].visited && !Shared.esgst.giveaways[giveaway.code].hidden)) && (!Settings.get('hr_w_h') || giveaway.endTime - now < Settings.get('hr_w_hours') * 3600000)) {
                 this.wishlist += 1;
 
                 if (cache.indexOf(giveaway.code) < 0) {
@@ -314,7 +295,7 @@ class GeneralHeaderRefresher extends Module {
               }
             }
 
-            setLocalValue('hrWishlistCache', JSON.stringify(cache));
+            LocalStorage.set('hrWishlistCache', JSON.stringify(cache));
 
             await EventDispatcher.dispatch(Events.WISHLIST_UPDATED, 0, this.newWishlist, this.wishlist);
           }
@@ -326,9 +307,7 @@ class GeneralHeaderRefresher extends Module {
           const messagesContainer = header.buttonContainers['messages'];
 
           if (messagesContainer) {
-            const counterNode = messagesContainer.nodes.counter;
-
-            await Shared.header.updateCounter('messages', counterNode ? counterNode.textContent : null);
+            await Shared.header.updateCounter('messages', messagesContainer.data.counter);
           }
 
           break;
@@ -346,10 +325,7 @@ class GeneralHeaderRefresher extends Module {
           await Shared.header.updateCounter('messages', cache.messages);
 
           await Shared.header.updatePoints(cache.points);
-          await Shared.header.updateLevel({
-            base: cache.level,
-            full: cache.fullLevel,
-          });
+          await Shared.header.updateLevel(cache.level);
 
           await EventDispatcher.dispatch(Events.WISHLIST_UPDATED, this.newWishlist, cache.newWishlist, cache.wishlist);
 
@@ -372,15 +348,15 @@ class GeneralHeaderRefresher extends Module {
   }
 
   notifyWon(firstRun, oldWon, newWon, delivered) {
-    if (delivered && gSettings.hr_g) {
-      if (gSettings.hr_g_n && !firstRun) {
+    if (delivered && Settings.get('hr_g')) {
+      if (Settings.get('hr_g_n') && !firstRun) {
         this.showNotification({
           msg: 'You have new gifts delivered.',
           won: true,
         });
       }
 
-      this.deliveredTitle = gSettings.hr_g_format;
+      this.deliveredTitle = Settings.get('hr_g_format');
     } else {
       this.deliveredTitle = null;
     }
@@ -391,7 +367,7 @@ class GeneralHeaderRefresher extends Module {
   notifyMessages(firstRun, oldMessages, newMessages) {
     const difference = newMessages - oldMessages;
 
-    if (newMessages > 0 && gSettings.hr_m) {
+    if (newMessages > 0 && Settings.get('hr_m')) {
       const canvas = document.createElement('canvas');
       const image = new Image();
 
@@ -417,7 +393,7 @@ class GeneralHeaderRefresher extends Module {
 
       image.src = Shared.esgst[`${Shared.esgst.name}Icon`];
 
-      if (difference > 0 && gSettings.hr_m_n && !firstRun) {
+      if (difference > 0 && Settings.get('hr_m_n') && !firstRun) {
         this.showNotification({
           inbox: true,
           msg: `You have ${difference} new messages.`,
@@ -431,27 +407,27 @@ class GeneralHeaderRefresher extends Module {
   }
 
   notifyPoints(firstRun, oldPoints, newPoints) {
-    if (oldPoints < 400 && newPoints >= 400 && gSettings.hr_fp && !firstRun) {
+    if (oldPoints < 400 && newPoints >= 400 && Settings.get('hr_fp') && !firstRun) {
       this.showNotification({
         msg: `You have ${newPoints}P.`,
         points: true,
       });
     }
 
-    this.pointsTitle = gSettings.hr_p ? `${gSettings.hr_p_format.replace(/#/, newPoints)}` : null;
+    this.pointsTitle = Settings.get('hr_p') ? `${Settings.get('hr_p_format').replace(/#/, newPoints)}` : null;
 
     this.notifyTitleChange();
   }
 
   notifyWishlist(firstRun, oldWishlist, newWishlist, wishlist) {
-    if (newWishlist && gSettings.hr_w && gSettings.hr_w_n && !firstRun) {
+    if (newWishlist && Settings.get('hr_w') && Settings.get('hr_w_n') && !firstRun) {
       this.showNotification({
-        msg: gSettings.hr_w_h ? `You have ${newWishlist} new wishlist giveaways ending in ${gSettings.hr_w_hours} hours.` : `You have ${newWishlist} new wishlist giveaways.`,
+        msg: Settings.get('hr_w_h') ? `You have ${newWishlist} new wishlist giveaways ending in ${Settings.get('hr_w_hours')} hours.` : `You have ${newWishlist} new wishlist giveaways.`,
         wishlist: true,
       });
     }
 
-    this.wishlistTitle = wishlist && gSettings.hr_w ? `${gSettings.hr_w_format.replace(/#/, wishlist)}` : null;
+    this.wishlistTitle = wishlist && Settings.get('hr_w') ? `${Settings.get('hr_w_format').replace(/#/, wishlist)}` : null;
 
     this.notifyTitleChange();
   }
@@ -483,10 +459,9 @@ class GeneralHeaderRefresher extends Module {
   }
 
   updateCache() {
-    setLocalValue('hrCache', JSON.stringify({
+    LocalStorage.set('hrCache', JSON.stringify({
       created: Session.counters.created,
-      fullLevel: Session.counters.level.full,
-      level: Session.counters.level.base,
+      level: Session.counters.level,
       messages: Session.counters.messages,
       newWishlist: this.newWishlist,
       points: Session.counters.points,
@@ -505,15 +480,15 @@ class GeneralHeaderRefresher extends Module {
       return;
     }
 
-    if ((details.won && gSettings.hr_g_n_s) || (details.inbox && gSettings.hr_m_n_s) || (details.points && gSettings.hr_fp_s) || (details.wishlist && gSettings.hr_w_n_s)) {
+    if ((details.won && Settings.get('hr_g_n_s')) || (details.inbox && Settings.get('hr_m_n_s')) || (details.points && Settings.get('hr_fp_s')) || (details.wishlist && Settings.get('hr_w_n_s'))) {
       try {
         if (!this.audioContext) {
           this.audioContext = new AudioContext();
 
-          this.wonPlayer = await this.createPlayer(gSettings.hr_g_n_s_sound || this.getDefaultSound());
-          this.messagesPlayer = await this.createPlayer(gSettings.hr_m_n_s_sound || this.getDefaultSound());
-          this.pointsPlayer = await this.createPlayer(gSettings.hr_fp_s_sound || this.getDefaultSound());
-          this.wishlistPlayer = await this.createPlayer(gSettings.hr_w_n_s_sound || this.getDefaultSound());
+          this.wonPlayer = await this.createPlayer(Settings.get('hr_g_n_s_sound') || this.getDefaultSound());
+          this.messagesPlayer = await this.createPlayer(Settings.get('hr_m_n_s_sound') || this.getDefaultSound());
+          this.pointsPlayer = await this.createPlayer(Settings.get('hr_fp_s_sound') || this.getDefaultSound());
+          this.wishlistPlayer = await this.createPlayer(Settings.get('hr_w_n_s_sound') || this.getDefaultSound());
         }
 
         if (details.won && this.wonPlayer) {
@@ -539,18 +514,18 @@ class GeneralHeaderRefresher extends Module {
     const notification = new Notification('ESGST Notification', {
       body: details.msg,
       icon: 'https://dl.dropboxusercontent.com/s/lr3t3bxrxfxylqe/esgstIcon.ico?raw=1',
-      requireInteraction: !!gSettings.hr_c,
+      requireInteraction: !!Settings.get('hr_c'),
       tag: details.msg,
     });
 
     notification.onclick = () => {
-      if (gSettings.hr_a) {
+      if (Settings.get('hr_a')) {
         browser.runtime.sendMessage({
           action: 'tabs',
-          any: !!gSettings.hr_a_a,
+          any: !!Settings.get('hr_a_a'),
           inbox_sg: Shared.esgst.sg && !!details.inbox,
           inbox_st: Shared.esgst.st && !!details.inbox,
-          refresh: !!gSettings.hr_a_r,
+          refresh: !!Settings.get('hr_a_r'),
           wishlist: !!details.wishlist,
           won: !!details.won,
         });

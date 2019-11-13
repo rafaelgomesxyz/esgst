@@ -1,6 +1,6 @@
 import { Module } from '../../class/Module';
 import {common} from '../Common';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 
 class GiveawaysEnteredGiveawaysStats extends Module {
   constructor() {
@@ -14,14 +14,12 @@ class GiveawaysEnteredGiveawaysStats extends Module {
       features: {
         egs_e: {
           name: 'Include ended giveaways in the stats.',
-          sgPaths: 'My Giveaways - Entered',
           sg: true
         }
       },
       id: 'egs',
       name: 'Entered Giveaways Stats',
       sg: true,
-      sgPaths: 'My Giveaways - Entered',
       type: 'giveaways'
     };
   }
@@ -87,7 +85,7 @@ class GiveawaysEnteredGiveawaysStats extends Module {
       return;
     }
     for (const giveaway of giveaways) {
-      if (!giveaway.ended || gSettings.egs_e) {
+      if (!giveaway.ended || Settings.get('egs_e')) {
         for (const key in obj.counters) {
           obj.counters[key] += giveaway[key];
         }

@@ -1,6 +1,6 @@
 import { Module } from '../../class/Module';
-import { shared } from '../../class/Shared';
-import { gSettings } from '../../class/Globals';
+import { Shared } from '../../class/Shared';
+import { Settings } from '../../class/Settings';
 
 class CommentsCollapseExpandReplyButton extends Module {
   constructor() {
@@ -28,19 +28,18 @@ class CommentsCollapseExpandReplyButton extends Module {
       id: 'cerb',
       name: 'Collapse/Expand Reply Button',
       sg: true,
-      sgPaths: /^(Giveaway\s-\sComments|Discussion|Ticket|Trade)$/,
       st: true,
       type: 'comments'
     };
   }
 
   init() {
-    if (!shared.esgst.commentsPath) return;
+    if (!Shared.esgst.commentsPath) return;
     let button, collapse, comments, expand;
     comments = document.getElementsByClassName('comments')[0];
     if (comments && comments.children.length) {
       this.buttons = [];
-      button = shared.common.createElements(shared.esgst.mainPageHeading, 'afterEnd', [{
+      button = Shared.common.createElements(Shared.esgst.mainPageHeading, 'afterEnd', [{
         attributes: {
           class: 'esgst-cerb-button esgst-clickable'
         },
@@ -76,14 +75,14 @@ class CommentsCollapseExpandReplyButton extends Module {
       expand = collapse.nextElementSibling;
       collapse.addEventListener('click', this.cerb_collapseAllReplies.bind(this, collapse, expand));
       expand.addEventListener('click', this.cerb_expandAllReplies.bind(this, collapse, expand));
-      shared.esgst.endlessFeatures.push(this.cerb_getReplies.bind(this, collapse, expand));
+      Shared.esgst.endlessFeatures.push(this.cerb_getReplies.bind(this, collapse, expand));
     }
   }
 
   cerb_getReplies(collapse, expand, context, main, source, endless) {
     let id = context === document && main ? window.location.hash.replace(/#/, '') : null,
       permalink = id ? document.getElementById(id) : null,
-      elements = context.querySelectorAll(shared.common.getSelectors(endless, [
+      elements = context.querySelectorAll(Shared.common.getSelectors(endless, [
         `:not(.esgst-popup) .comments > X.comment`,
         `:not(.esgst-popup) .comments > X.comment_outer`
       ]));
@@ -91,14 +90,14 @@ class CommentsCollapseExpandReplyButton extends Module {
     for (let reply of elements) {
       let replies = reply.querySelector(`.comment__children, .comment_children`);
       if (replies && replies.children.length) {
-        this.cerb_setButton(shared.common.createElements(reply.firstElementChild, 'afterBegin', [{
+        this.cerb_setButton(Shared.common.createElements(reply.firstElementChild, 'afterBegin', [{
           attributes: {
             class: 'esgst-cerb-reply-button esgst-clickable'
           },
           type: 'div',
           children: [{
             attributes: {
-              title: shared.common.getFeatureTooltip('cerb', 'Collapse all replies')
+              title: Shared.common.getFeatureTooltip('cerb', 'Collapse all replies')
             },
             type: 'span',
             children: [{
@@ -110,7 +109,7 @@ class CommentsCollapseExpandReplyButton extends Module {
           }, {
             attributes: {
               class: 'esgst-hidden',
-              title: shared.common.getFeatureTooltip('cerb', 'Expand all replies')
+              title: Shared.common.getFeatureTooltip('cerb', 'Expand all replies')
             },
             type: 'span',
             children: [{
@@ -123,7 +122,7 @@ class CommentsCollapseExpandReplyButton extends Module {
         }]), permalink && reply.contains(permalink), reply, replies.children);
       }
     }
-    if (gSettings.cerb_a) {
+    if (Settings.get('cerb_a')) {
       this.cerb_collapseAllReplies(collapse, expand);
     }
   }
@@ -139,7 +138,7 @@ class CommentsCollapseExpandReplyButton extends Module {
     });
     collapse.addEventListener('click', this.cerb_collapseReplies.bind(this, collapse, expand, replies));
     expand.addEventListener('click', this.cerb_expandReplies.bind(this, collapse, expand, replies));
-    if (gSettings.cerb_a && !permalink) {
+    if (Settings.get('cerb_a') && !permalink) {
       collapse.classList.toggle('esgst-hidden');
       expand.classList.toggle('esgst-hidden');
     }

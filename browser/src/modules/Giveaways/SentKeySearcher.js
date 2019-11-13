@@ -3,7 +3,7 @@ import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { common } from '../Common';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 import { DOM } from '../../class/DOM';
 import { Session } from '../../class/Session';
 
@@ -62,32 +62,32 @@ class GiveawaysSentKeySearcher extends Module {
     }, {
       type: 'textarea'
     }]);
-    new ToggleSwitch(sks.popup.description, 'sks_exportKeys', false, 'Export all keys ever sent.', false, false, 'This will search all your giveaways and export a file with all keys ever sent. You don\'t need to enter any keys if this option is enabled.', gSettings.sks_exportKeys);
-    let searchCurrent = new ToggleSwitch(sks.popup.description, 'sks_searchCurrent', false, 'Only search the current page.', false, false, null, gSettings.sks_searchCurrent);
+    new ToggleSwitch(sks.popup.description, 'sks_exportKeys', false, 'Export all keys ever sent.', false, false, 'This will search all your giveaways and export a file with all keys ever sent. You don\'t need to enter any keys if this option is enabled.', Settings.get('sks_exportKeys'));
+    let searchCurrent = new ToggleSwitch(sks.popup.description, 'sks_searchCurrent', false, 'Only search the current page.', false, false, null, Settings.get('sks_searchCurrent'));
     let minDate = new ToggleSwitch(sks.popup.description, 'sks_limitDate', false, [
       `Limit search by date, from `,
-      ['input', { class: 'esgst-switch-input esgst-switch-input-large', type: 'date', value: gSettings.sks_minDate }],
+      ['input', { class: 'esgst-switch-input esgst-switch-input-large', type: 'date', value: Settings.get('sks_minDate') }],
       ' to ',
-      ['input', { class: 'esgst-switch-input esgst-switch-input-large', type: 'date', value: gSettings.sks_maxDate
+      ['input', { class: 'esgst-switch-input esgst-switch-input-large', type: 'date', value: Settings.get('sks_maxDate')
       }],
       '.'
-    ], false, false, null, gSettings.sks_limitDate).name.firstElementChild;
+    ], false, false, null, Settings.get('sks_limitDate')).name.firstElementChild;
     let maxDate = minDate.nextElementSibling;
     let limitPages = new ToggleSwitch(sks.popup.description, 'sks_limitPages', false, [
       `Limit search by pages, from `,
-      ['input', { class: 'esgst-switch-input', min: '1', type: 'number', value: gSettings.sks_minPage }],
+      ['input', { class: 'esgst-switch-input', min: '1', type: 'number', value: Settings.get('sks_minPage') }],
       ' to ',
-      ['input', { class: 'esgst-switch-input', min: '1', type: 'number', value: gSettings.sks_maxPage
+      ['input', { class: 'esgst-switch-input', min: '1', type: 'number', value: Settings.get('sks_maxPage')
       }],
       '.'
-    ], false, false, null, gSettings.sks_limitPages);
+    ], false, false, null, Settings.get('sks_limitPages'));
     let minPage = limitPages.name.firstElementChild;
     let maxPage = minPage.nextElementSibling;
     searchCurrent.exclusions.push(limitPages.container);
     limitPages.exclusions.push(searchCurrent.container);
-    if (gSettings.sks_searchCurrent) {
+    if (Settings.get('sks_searchCurrent')) {
       limitPages.container.classList.add('esgst-hidden');
-    } else if (gSettings.sks_limitPages) {
+    } else if (Settings.get('sks_limitPages')) {
       searchCurrent.container.classList.add('esgst-hidden');
     }
     observeChange(minDate, 'sks_minDate', true);
@@ -129,7 +129,7 @@ class GiveawaysSentKeySearcher extends Module {
     sks.results.innerHTML = '';
     let keys = sks.textArea.value.trim().split(/\n/);
     let n = keys.length;
-    if (!gSettings.sks_exportKeys && n < 1) {
+    if (!Settings.get('sks_exportKeys') && n < 1) {
       return;
     }
     for (let i = 0; i < n; i++) {
@@ -142,8 +142,8 @@ class GiveawaysSentKeySearcher extends Module {
     sks.textArea.value = sks.keys.join('\n');
 
     // search keys
-    let [nextPage, maxPage] = gSettings.sks_limitPages ? [gSettings.sks_minPage, gSettings.sks_maxPage + 1] : (gSettings.sks_searchCurrent ? [this.esgst.currentPage, this.esgst.currentPage + 1] : [this.esgst.currentPage, null]);
-    let [minDate, maxDate] = gSettings.sks_limitDate ? [new Date(gSettings.sks_minDate).getTime() - 1, new Date(gSettings.sks_maxDate).getTime() + 1] : [null, null];
+    let [nextPage, maxPage] = Settings.get('sks_limitPages') ? [Settings.get('sks_minPage'), Settings.get('sks_maxPage') + 1] : (Settings.get('sks_searchCurrent') ? [this.esgst.currentPage, this.esgst.currentPage + 1] : [this.esgst.currentPage, null]);
+    let [minDate, maxDate] = Settings.get('sks_limitDate') ? [new Date(Settings.get('sks_minDate')).getTime() - 1, new Date(Settings.get('sks_maxDate')).getTime() + 1] : [null, null];
     let pagination = null;
     let skipped = false;
     let stopped = false;
@@ -219,13 +219,13 @@ class GiveawaysSentKeySearcher extends Module {
             sks.giveaways[key] = giveaway;
             sks.count -= 1;
           }
-          if (gSettings.sks_exportKeys) {
+          if (Settings.get('sks_exportKeys')) {
             sks.allKeys.push(`${giveaway.active ? 'UNASSIGNED ' : 'ASSIGNED'},"${key.replace(/"/g, '""')}","${giveaway.name.replace(/"/g, '""')}",https://www.steamgifts.com/giveaway/${giveaway.code}/`);
           }
         }
       }
       nextPage += 1;
-      pagination = (sks.count > 0 || gSettings.sks_exportKeys) ? context.getElementsByClassName('pagination__navigation')[0] : null;
+      pagination = (sks.count > 0 || Settings.get('sks_exportKeys')) ? context.getElementsByClassName('pagination__navigation')[0] : null;
     } while (!sks.canceled && !stopped && (!maxPage || nextPage < maxPage) && (skipped || (pagination && !pagination.lastElementChild.classList.contains('is-selected'))));
 
     if (sks.canceled) {
@@ -292,7 +292,7 @@ class GiveawaysSentKeySearcher extends Module {
         }]
       }]);
     }
-    if (gSettings.sks_exportKeys) {
+    if (Settings.get('sks_exportKeys')) {
       downloadFile(sks.allKeys.join('\r\n'), `esgst_sks_keys_${new Date().toISOString()}.csv`);
     }
     sks.progress.innerHTML = '';

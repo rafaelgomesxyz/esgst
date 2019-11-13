@@ -1,6 +1,6 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 
 const
   createElements = common.createElements.bind(common),
@@ -42,7 +42,7 @@ class UsersRealWonSentCVLink extends Module {
     let sentUrl, wonUrl;
     wonUrl = `http://www.sgtools.info/won/${profile.username}`;
     sentUrl = `http://www.sgtools.info/sent/${profile.username}`;
-    if (gSettings.rwscvl_r) {
+    if (Settings.get('rwscvl_r')) {
       wonUrl += '/newestfirst';
       sentUrl += '/newestfirst';
     }

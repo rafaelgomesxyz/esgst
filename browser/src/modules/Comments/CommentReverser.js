@@ -1,5 +1,5 @@
 import { Module } from '../../class/Module';
-import { shared } from '../../class/Shared';
+import { Shared } from '../../class/Shared';
 
 class CommentsCommentReverser extends Module {
   constructor() {
@@ -23,10 +23,10 @@ class CommentsCommentReverser extends Module {
   }
 
   init() {
-    if (!shared.esgst.discussionPath || !shared.esgst.pagination) return;
-    const context = shared.esgst.pagination.previousElementSibling;
+    if (!Shared.esgst.discussionPath || !Shared.esgst.pagination) return;
+    const context = Shared.esgst.pagination.previousElementSibling;
     if (context.classList.contains('comments')) {
-      shared.common.reverseComments(context);
+      Shared.common.reverseComments(context);
     }
   }
 }

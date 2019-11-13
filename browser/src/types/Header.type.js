@@ -29,11 +29,14 @@
  * @property {string} [data.buttonIcon]
  * @property {string} [data.buttonImage]
  * @property {string} data.buttonName
- * @property {number} [data.counter]
+ * @property {number} data.counter
  * @property {boolean} [data.isActive]
  * @property {boolean} [data.isDropdown]
- * @property {boolean} [data.isFlashing]
+ * @property {boolean} data.isFlashing
  * @property {boolean} [data.isNotification]
+ * @property {ILevel} data.level
+ * @property {number} data.points
+ * @property {IReputation} data.reputation
  * @property {string} [data.url]
  * @property {Object<string, IHeaderDropdownItem>} [dropdownItems]
  * @property {import('../components/User').IUser} [user]
@@ -45,12 +48,13 @@
  * @property {string} [buttonImage]
  * @property {string} buttonName
  * @property {string} [context]
- * @property {string} [counter]
+ * @property {number} [counter]
  * @property {boolean} [isActive]
  * @property {boolean} [isDropdown]
  * @property {boolean} [isFlashing]
  * @property {boolean} [isNotification]
  * @property {Function} [onClick]
+ * @property {boolean} [openInNewTab]
  * @property {string} [position]
  * @property {'left' | 'right'} [side]
  * @property {string} [url]
@@ -80,5 +84,6 @@
  * @property {string} icon
  * @property {string} name
  * @property {Function} [onClick]
+ * @property {boolean} [openInNewTab]
  * @property {string} url
  */

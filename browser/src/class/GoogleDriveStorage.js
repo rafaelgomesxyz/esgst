@@ -1,5 +1,5 @@
-import { gSettings } from './Globals';
-import { shared } from './Shared';
+import { Settings } from './Settings';
+import { Shared } from './Shared';
 import { ICloudStorage } from './ICloudStorage';
 import { FetchRequest } from './FetchRequest';
 
@@ -33,12 +33,12 @@ class GoogleDriveStorage extends ICloudStorage {
       scope: `https://www.googleapis.com/auth/drive.appdata`,
       state: 'google-drive'
     };
-    if (gSettings.usePreferredGoogle) {
-      params['login_hint'] = gSettings.preferredGoogle;
+    if (Settings.get('usePreferredGoogle')) {
+      params['login_hint'] = Settings.get('preferredGoogle');
     }
     const url = FetchRequest.addQueryParams(GoogleDriveStorage.AUTH_URL, params);
-    await shared.common.delValue(key);
-    shared.common.openSmallWindow(url);
+    await Shared.common.delValue(key);
+    Shared.common.openSmallWindow(url);
     return (await GoogleDriveStorage.getToken(key));
   }
 
@@ -47,7 +47,7 @@ class GoogleDriveStorage extends ICloudStorage {
       token = await GoogleDriveStorage.authenticate();
     }
     const metadataRequestOptions = {
-      data: gSettings.backupZip ? `{ "name": "${fileName}.zip", "parents": ["appDataFolder"]}` : `{"name": "${fileName}.json", "parents": ["appDataFolder"] }`,
+      data: Settings.get('backupZip') ? `{ "name": "${fileName}.zip", "parents": ["appDataFolder"]}` : `{"name": "${fileName}.json", "parents": ["appDataFolder"] }`,
       headers: Object.assign(GoogleDriveStorage.getDefaultHeaders(token), {
         'Content-Type': 'application/json'
       })
@@ -58,9 +58,9 @@ class GoogleDriveStorage extends ICloudStorage {
     }
     const requestOptions = {
       data,
-      fileName: gSettings.backupZip ? `${fileName}.json` : null,
+      fileName: Settings.get('backupZip') ? `${fileName}.json` : null,
       headers: Object.assign(GoogleDriveStorage.getDefaultHeaders(token), {
-        'Content-Type': gSettings.backupZip ? 'application/zip' : 'text/plain'
+        'Content-Type': Settings.get('backupZip') ? 'application/zip' : 'text/plain'
       }),
       pathParams: {
         fileId: metadataResponse.json.id

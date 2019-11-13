@@ -2,8 +2,8 @@ import { ButtonSet } from '../../class/ButtonSet';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { ToggleSwitch } from '../../class/ToggleSwitch';
-import { shared, Shared } from '../../class/Shared';
-import { gSettings } from '../../class/Globals';
+import { Shared } from '../../class/Shared';
+import { Settings } from '../../class/Settings';
 import { DOM } from '../../class/DOM';
 import { Logger } from '../../class/Logger';
 import { IHeader } from '../../components/Header';
@@ -149,7 +149,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
       const ids = [];
       const source = this.sources[key];
 
-      const objs = gSettings[`chfl_${key}`];
+      const objs = Settings.get(`chfl_${key}`);
 
       for (let i = objs.length - 1; i > -1; i--) {
         const objOrId = objs[i];
@@ -281,7 +281,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
     for (let key of Object.keys(this.sources)) {
       const elements = {};
 
-      for (const item of gSettings[`chfl_${key}`]) {
+      for (const item of Settings.get(`chfl_${key}`)) {
         if (item.id) {
           elements[item.id] = item;
         }
@@ -308,7 +308,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
       });
     }
 
-    shared.common.setSetting(settings);
+    Shared.common.setSetting(settings);
   }
 
   /**
@@ -579,8 +579,8 @@ class GeneralCustomHeaderFooterLinks extends Module {
       if (editItem) {
         const editId = editItem.nodes.outer.dataset.linkId;
 
-        for (let i = gSettings[`chfl_${key}`].length - 1; i > -1; i--) {
-          let item = gSettings[`chfl_${key}`][i];
+        for (let i = Settings.get(`chfl_${key}`).length - 1; i > -1; i--) {
+          let item = Settings.get(`chfl_${key}`)[i];
           if (item !== editId && (!item.id || item.id !== editId)) continue;
           if (item.id) {
             description.value = item.description || '';
@@ -629,7 +629,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
         url: url.value,
       };
 
-      const setting = gSettings[`chfl_${key}`];
+      const setting = Settings.get(`chfl_${key}`);
       const source = this.sources[key];
 
       if (editItem) {
@@ -665,7 +665,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
         setting.push(item);
       }
 
-      await shared.common.setSetting(`chfl_${key}_${this.esgst.name}`, setting);
+      await Shared.common.setSetting(`chfl_${key}_${this.esgst.name}`, setting);
 
       let newItem;
 
@@ -717,7 +717,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
       event.preventDefault();
       event.stopPropagation();
 
-      for (const obj of gSettings[`chfl_${key}`]) {
+      for (const obj of Settings.get(`chfl_${key}`)) {
         if (!obj.id) {
           continue;
         }
@@ -739,7 +739,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
         }
       }
 
-      await shared.common.setSetting(`chfl_${key}_${this.esgst.name}`, this.esgst.defaultValues[`chfl_${key}_${this.esgst.name}`]);
+      await Shared.common.setSetting(`chfl_${key}_${this.esgst.name}`, Settings.defaultValues[`chfl_${key}_${this.esgst.name}`]);
 
       this.reorder(key);
     } catch (error) {
@@ -786,7 +786,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
       }
       value += event.key.toLowerCase();
 
-      if (value !== gSettings.chfl_key) {
+      if (value !== Settings.get('chfl_key')) {
         return;
       }
       event.stopPropagation();

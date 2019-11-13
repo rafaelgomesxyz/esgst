@@ -23,25 +23,23 @@ class IHeader {
 
   /**
    * @param {IHeaderButtonContainer} buttonContainer
-   * @param {string} newCounterText
+   * @param {number} newCounter
    * @param {boolean} [isFlashing]
    */
   // eslint-disable-next-line no-unused-vars
-  async updateCounter(buttonContainerId, newCounterText, isFlashing) {}
+  async updateCounter(buttonContainerId, newCounter, isFlashing) {}
 
   /**
-   * @param {string} newPointsText
-   * @param {string} [newPointsTitle]
+   * @param {number} newPoints
    */
   // eslint-disable-next-line no-unused-vars
-  async updatePoints(newPointsText, newPointsTitle) {}
+  async updatePoints(newPoints) {}
 
   /**
-   * @param {string} newLevelText
-   * @param {string} [newLevelTitle]
+   * @param {ILevel} newLevel
    */
   // eslint-disable-next-line no-unused-vars
-  async updateLevel(newLevelText, newLevelTitle) {}
+  async updateLevel(newLevel) {}
 
   /**
    * @param {string} newReputationText
@@ -124,7 +122,7 @@ class SgHeader extends IHeader {
           ['div', { class: 'nav__relative-dropdown is-hidden' }, [
             ['div', { class: 'nav__absolute-dropdown' }],
           ]],
-          ['a', { class: 'nav__button nav__button--is-dropdown', href: params.url || null, onclick: params.onClick }, [
+          ['a', { class: 'nav__button nav__button--is-dropdown', href: params.url || null, onclick: params.onClick, target: params.openInNewTab ? '_blank' : null }, [
             ...(params.buttonIcon ? [
               ['i', { class: params.buttonIcon }],
             ] : []),
@@ -141,15 +139,15 @@ class SgHeader extends IHeader {
     } else if (params.isNotification) {
       buttonContainerNode = DOM.build(context, position, [
         ['div', { class: `nav__button-container nav__button-container--notification ${params.isActive ? 'nav__button-container--active' : 'nav__button-container--inactive'}` }, [
-          ['a', { class: 'nav__button', href: params.url, title: params.buttonName }, [
+          ['a', { class: 'nav__button', href: params.url, target: params.openInNewTab ? '_blank' : null, title: params.buttonName }, [
             ...(params.buttonIcon ? [
               ['i', { class: params.buttonIcon }],
             ] : []),
             ...(params.buttonImage ? [
               ['img', { src: params.buttonImage }],
             ] : []),
-            ...(params.isActive && Utils.isSet(params.counter) ? [
-              ['div', { class: `nav__notification ${params.isFlashing ? 'fade_infinite' : ''}` }, params.counter],
+            ...(params.isActive && params.counter ? [
+              ['div', { class: `nav__notification ${params.isFlashing ? 'fade_infinite' : ''}` }, params.counter.toLocaleString('en-US')],
             ] : []),
           ]],
         ]],
@@ -157,7 +155,7 @@ class SgHeader extends IHeader {
     } else {
       buttonContainerNode = DOM.build(context, position, [
         ['div', { class: 'nav__button-container' }, [
-          ['a', { class: 'nav__button', href: params.url }, params.buttonName],
+          ['a', { class: 'nav__button', href: params.url, target: params.openInNewTab ? '_blank' : null }, params.buttonName],
         ]],
       ]);
     }
@@ -190,7 +188,7 @@ class SgHeader extends IHeader {
     }
 
     const dropdownItemNode = DOM.build(buttonContainer.nodes.absoluteDropdown, 'beforeEnd', [
-      [params.url ? 'a' : 'div', { class: `nav__row ${params.url ? '' : 'is-clickable'}`, href: params.url || null, onclick: params.onClick }, [
+      [params.url ? 'a' : 'div', { class: `nav__row ${params.url ? '' : 'is-clickable'}`, href: params.url || null, onclick: params.onClick, target: params.openInNewTab ? '_blank' : null }, [
         ['i', { class: params.icon }],
         ['div', { class: 'nav__row__summary' }, [
           ['p', { class: 'nav__row__summary__name' }, params.name],
@@ -249,6 +247,17 @@ class SgHeader extends IHeader {
       data: {
         id: '',
         buttonName: '',
+        counter: 0,
+        isFlashing: false,
+        level: {
+          base: 0,
+          full: 0,
+        },
+        points: 0,
+        reputation: {
+          positive: 0,
+          negative: 0,
+        },
       },
     };
 
@@ -275,8 +284,10 @@ class SgHeader extends IHeader {
       if (pointsNode) {
         buttonContainer.nodes.points = pointsNode;
 
+        buttonContainer.data.points = IHeader.extractPoints(buttonContainer.nodes.points.textContent);
+
         if (Session.namespace === Namespaces.SG) {
-          Session.counters.points = IHeader.extractPoints(buttonContainer.nodes.points.textContent);
+          Session.counters.points = buttonContainer.data.points;
         }
       }
 
@@ -285,8 +296,10 @@ class SgHeader extends IHeader {
       if (levelNode) {
         buttonContainer.nodes.level = levelNode;
 
+        buttonContainer.data.level = IHeader.extractLevel(buttonContainer.nodes.level.title);
+
         if (Session.namespace === Namespaces.SG) {
-          Session.counters.level = IHeader.extractLevel(buttonContainer.nodes.level.title);
+          Session.counters.level = buttonContainer.data.level;
         }
       }
 
@@ -417,10 +430,10 @@ class SgHeader extends IHeader {
 
   /**
    * @param {IHeaderButtonContainer} buttonContainer
-   * @param {string} newCounterText
+   * @param {number} newCounter
    * @param {boolean} [isFlashing]
    */
-  async updateCounter(buttonContainerId, newCounterText, isFlashing) {
+  async updateCounter(buttonContainerId, newCounter, isFlashing) {
     const buttonContainer = this.buttonContainers[buttonContainerId];
 
     if (!buttonContainer) {
@@ -433,11 +446,23 @@ class SgHeader extends IHeader {
       ]);
     }
 
-    if (buttonContainer.nodes.counter.textContent === newCounterText) {
+    const oldCounter = buttonContainer.data.counter;
+
+    if (oldCounter === newCounter && isFlashing === buttonContainer.data.isFlashing) {
       return;
     }
 
-    const oldCounter = buttonContainer.data.counter;
+    if (newCounter) {
+      buttonContainer.nodes.outer.classList.remove('nav__button-container--inactive');
+      buttonContainer.nodes.outer.classList.add('nav__button-container--active');
+      buttonContainer.nodes.counter.classList.remove('is-hidden');
+      buttonContainer.nodes.counter.textContent = newCounter.toLocaleString('en-US');
+    } else {
+      buttonContainer.nodes.outer.classList.remove('nav__button-container--active');
+      buttonContainer.nodes.outer.classList.add('nav__button-container--inactive');
+      buttonContainer.nodes.counter.classList.add('is-hidden');
+      buttonContainer.nodes.counter.textContent = '';
+    }
 
     if (isFlashing) {
       buttonContainer.nodes.counter.classList.add('fade_infinite');
@@ -445,22 +470,8 @@ class SgHeader extends IHeader {
       buttonContainer.nodes.counter.classList.remove('fade_infinite');
     }
 
-    if (newCounterText) {
-      buttonContainer.nodes.outer.classList.remove('nav__button-container--inactive');
-      buttonContainer.nodes.outer.classList.add('nav__button-container--active');
-      buttonContainer.nodes.counter.classList.remove('is-hidden');
-
-      buttonContainer.nodes.counter.textContent = newCounterText;
-      buttonContainer.data.counter = IHeader.extractCounter(newCounterText);
-    } else {
-      buttonContainer.nodes.outer.classList.remove('nav__button-container--active');
-      buttonContainer.nodes.outer.classList.add('nav__button-container--inactive');
-      buttonContainer.nodes.counter.classList.add('is-hidden');
-
-      buttonContainer.data.counter = 0;
-    }
-
-    const newCounter = buttonContainer.data.counter;
+    buttonContainer.data.counter = newCounter;
+    buttonContainer.data.isFlashing = isFlashing;
 
     switch (buttonContainerId) {
       case 'giveawaysCreated': {
@@ -495,60 +506,50 @@ class SgHeader extends IHeader {
   }
 
   /**
-   * @param {string} newPointsText
-   * @param {string} [newPointsTitle]
+   * @param {number} newPoints
    */
-  async updatePoints(newPointsText, newPointsTitle) {
+  async updatePoints(newPoints) {
     const accountContainer = this.buttonContainers['account'];
 
-    if (!accountContainer) {
+    if (!accountContainer || !accountContainer.nodes.points) {
       return;
     }
 
-    const pointsNode = accountContainer.nodes.points;
+    const oldPoints = accountContainer.data.points;
 
-    if (!pointsNode || (pointsNode.textContent === newPointsText && (!newPointsTitle || pointsNode.title === newPointsTitle))) {
+    if (oldPoints === newPoints) {
       return;
     }
 
-    const oldPoints = Session.counters.points;
+    accountContainer.nodes.points.textContent = newPoints.toLocaleString('en-US');
 
-    if (newPointsTitle) {
-      pointsNode.title = newPointsTitle;
-    }
-
-    pointsNode.textContent = newPointsText.toLocaleString('en-US');
-    Session.counters.points = IHeader.extractPoints(newPointsText);
-
-    const newPoints = Session.counters.points;
+    accountContainer.data.points = newPoints;
+    Session.counters.points = newPoints;
 
     await EventDispatcher.dispatch(Events.POINTS_UPDATED, oldPoints, newPoints);
   }
 
   /**
-   * @param {string} newLevelText
-   * @param {string} [newLevelTitle]
+   * @param {ILevel} newLevel
    */
-  async updateLevel(newLevelText, newLevelTitle) {
+  async updateLevel(newLevel) {
     const accountContainer = this.buttonContainers['account'];
 
-    if (!accountContainer) {
+    if (!accountContainer || !accountContainer.nodes.level) {
       return;
     }
 
-    const levelNode = accountContainer.nodes.level;
+    const oldLevel = accountContainer.data.level;
 
-    if (!levelNode || levelNode.textContent === newLevelText) {
+    if (oldLevel.full === newLevel.full) {
       return;
     }
 
-    const oldLevel = Session.counters.level;
+    accountContainer.nodes.level.textContent = `Level ${newLevel.base}`;
+    accountContainer.nodes.level.title = newLevel.full;
 
-    levelNode.title = newLevelTitle || newLevelText;
-    levelNode.textContent = newLevelText;
-    Session.counters.level = IHeader.extractLevel(newLevelText);
-
-    const newLevel = Session.counters.level;
+    accountContainer.data.level = newLevel;
+    Session.counters.level = newLevel;
 
     await EventDispatcher.dispatch(Events.LEVEL_UPDATED, oldLevel, newLevel);
   }
@@ -573,7 +574,7 @@ class StHeader extends IHeader {
           ['div', { class: 'dropdown is_hidden' }, [
             ['div'],
           ]],
-          ['a', { class: 'nav_btn nav_btn_left', href: params.url || null, onclick: params.onClick }, [
+          ['a', { class: 'nav_btn nav_btn_left', href: params.url || null, onclick: params.onClick, target: params.openInNewTab ? '_blank' : null }, [
             ...(params.buttonIcon ? [
               ['i', { class: params.buttonIcon }],
             ] : []),
@@ -583,7 +584,7 @@ class StHeader extends IHeader {
             ['span', [
               params.buttonName,
               ...(params.isNotification ? [
-                ['span', { class: 'message_count' }, params.counter],
+                ['span', { class: 'message_count' }, params.counter.toLocaleString('en-US')],
               ] : []),
             ]],
           ]],
@@ -595,21 +596,21 @@ class StHeader extends IHeader {
     } else if (params.isNotification) {
       buttonContainerNode = DOM.build(context, position, [
         ['div', { class: 'nav_btn_container' }, [
-          ['a', { class: 'nav_btn', href: params.url }, [
+          ['a', { class: 'nav_btn', href: params.url, target: params.openInNewTab ? '_blank' : null }, [
             ...(params.buttonIcon ? [
               ['i', { class: params.buttonIcon }],
             ] : []),
             ...(params.buttonImage ? [
               ['img', { src: params.buttonImage }],
             ] : []),
-            ['span', { class: 'message_count' }, params.counter],
+            ['span', { class: 'message_count' }, params.counter.toLocaleString('en-US')],
           ]],
         ]],
       ]);
     } else {
       buttonContainerNode = DOM.build(context, position, [
         ['div', { class: 'nav_btn_container' }, [
-          ['a', { class: 'nav_btn', href: params.url }, [
+          ['a', { class: 'nav_btn', href: params.url, target: params.openInNewTab ? '_blank' : null }, [
             ...(params.buttonIcon ? [
               ['i', { class: params.buttonIcon }],
             ] : []),
@@ -619,7 +620,7 @@ class StHeader extends IHeader {
             ['span', [
               params.buttonName,
               ...(params.isNotification ? [
-                ['span', { class: 'message_count' }, params.counter],
+                ['span', { class: 'message_count' }, params.counter.toLocaleString('en-US')],
               ] : []),
             ]],
           ]],
@@ -655,7 +656,7 @@ class StHeader extends IHeader {
     }
 
     const dropdownItemNode = DOM.build(buttonContainer.nodes.absoluteDropdown, 'beforeEnd', [
-      [params.url ? 'a' : 'div', { class: 'dropdown_btn', href: params.url || null, onclick: params.onClick }, [
+      [params.url ? 'a' : 'div', { class: 'dropdown_btn', href: params.url || null, onclick: params.onClick, target: params.openInNewTab ? '_blank' : null }, [
         ['i', { class: params.icon }],
         ['span', params.name],
       ]],
@@ -712,6 +713,17 @@ class StHeader extends IHeader {
       data: {
         id: '',
         buttonName: '',
+        counter: 0,
+        isFlashing: false,
+        level: {
+          base: 0,
+          full: 0,
+        },
+        points: 0,
+        reputation: {
+          positive: 0,
+          negative: 0,
+        },
       },
     };
 
@@ -738,8 +750,10 @@ class StHeader extends IHeader {
       if (reputationNode) {
         buttonContainer.nodes.reputation = reputationNode;
 
+        buttonContainer.data.reputation = IHeader.extractReputation(buttonContainer.nodes.reputation.textContent);
+
         if (Session.namespace === Namespaces.ST) {
-          Session.counters.reputation = IHeader.extractReputation(buttonContainer.nodes.reputation.textContent);
+          Session.counters.reputation = buttonContainer.data.reputation;
         }
       }
 
@@ -854,9 +868,9 @@ class StHeader extends IHeader {
 
   /**
    * @param {IHeaderButtonContainer} buttonContainer
-   * @param {string} newCounterText
+   * @param {number} newCounter
    */
-  async updateCounter(buttonContainerId, newCounterText) {
+  async updateCounter(buttonContainerId, newCounter) {
     const buttonContainer = this.buttonContainers[buttonContainerId];
 
     if (!buttonContainer) {
@@ -869,24 +883,21 @@ class StHeader extends IHeader {
       ]);
     }
 
-    if (buttonContainer.nodes.counter.textContent === newCounterText) {
+    const oldCounter = buttonContainer.data.counter;
+
+    if (oldCounter === newCounter) {
       return;
     }
 
-    const oldCounter = buttonContainer.data.counter;
-
-    if (newCounterText) {
+    if (newCounter) {
       buttonContainer.nodes.counter.classList.remove('is_hidden');
-
-      buttonContainer.nodes.counter.textContent = newCounterText;
-      buttonContainer.data.counter = IHeader.extractCounter(newCounterText);
+      buttonContainer.nodes.counter.textContent = newCounter.toLocaleString('en-US');
     } else {
       buttonContainer.nodes.counter.classList.add('is_hidden');
-
-      buttonContainer.data.counter = 0;
+      buttonContainer.nodes.counter.textContent = '';
     }
 
-    const newCounter = buttonContainer.data.counter;
+    buttonContainer.data.counter = newCounter;
 
     switch (buttonContainerId) {
       case 'messages': {

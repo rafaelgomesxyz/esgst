@@ -1,4 +1,4 @@
-import { shared } from './Shared';
+import { Shared } from './Shared';
 import { DOM } from './DOM';
 
 class Button {
@@ -22,7 +22,7 @@ class Button {
       index = 0;
     }
     this.index = index + 1;
-    this.button.title = shared.common.getFeatureTooltip(this.id, this.titles[index]);
+    this.button.title = Shared.common.getFeatureTooltip(this.id, this.titles[index]);
     DOM.build(this.button, 'inner', [
       ['i', { class: `fa ${this.icons[index]}` }]
     ]);
