@@ -536,6 +536,10 @@ class PersistentStorage {
     const gdtttCache = JSON.parse(LocalStorage.get('gdtttCache', this.defaultValues.gdtttCache));
 
     for (const type of Object.keys(gdtttCache)) {
+      if (!storage[type]) {
+        continue;
+      }
+      
       let doSet = false;
 
       const data = JSON.parse(storage[type]);
