@@ -72,9 +72,9 @@ class Bundle {
       GROUP BY g_b.bundle_id
     `);
     const bundles = [];
-    const now = Date.now() / 1e3;
+    const now = Math.trunc(Date.now() / 1e3);
     for (const row of rows) {
-      const lastUpdate = (new Date(parseInt(row.last_update) * 1e3)).getTime() / 1e3;
+      const lastUpdate = Math.trunc((new Date(parseInt(row.last_update) * 1e3)).getTime() / 1e3);
       const differenceInSeconds = now - lastUpdate;
       if (differenceInSeconds < 60 * 60 * 24 * 7 && (Utils.isSet(row.name) || row.removed || differenceInSeconds < 60 * 60 * 24)) {
         const bundle = {
@@ -117,7 +117,7 @@ class Bundle {
     const bundle = {
       bundle_id: bundleId,
       removed: removed,
-      last_update: Date.now() / 1e3,
+      last_update: Math.trunc(Date.now() / 1e3),
     };
     const apps = [];
     if (isStoreResponseOk && !removed) {

@@ -23,6 +23,7 @@ async function doRcvSgToolsCronJob() {
  * @param {import('mysql').Connection} connection 
  */
 async function updateRcvSgTools(connection) {
+  console.log(`Updating RCV games from SGToools...`);
   const url = 'https://www.sgtools.info/lastbundled';
   const response = await Request.get(url);
   if (!response.html) {
@@ -46,8 +47,8 @@ async function updateRcvSgTools(connection) {
     const type = matches[1];
     const id = parseInt(matches[2]);
     const name = link.textContent;
-    const effectiveDate = (new Date(`${element.firstElementChild.nextElementSibling.textContent} UTC`)).getTime() / 1e3;
-    const addedDate = (new Date(`${element.firstElementChild.nextElementSibling.nextElementSibling.textContent} UTC`)).getTime() / 1e3;
+    const effectiveDate = Math.trunc((new Date(`${element.firstElementChild.nextElementSibling.textContent} UTC`)).getTime() / 1e3);
+    const addedDate = Math.trunc((new Date(`${element.firstElementChild.nextElementSibling.nextElementSibling.textContent} UTC`)).getTime() / 1e3);
     names[type].push({ id, name });
     rcv[type].push({ id, effectiveDate, addedDate });
   }  
