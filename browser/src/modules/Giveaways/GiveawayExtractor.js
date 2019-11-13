@@ -693,7 +693,7 @@ class GiveawaysGiveawayExtractor extends Module {
           this.ge_getGiveaway(element, ge, giveaways);
         }
       }
-    } else {
+    } else if (op) {
       elements = op.querySelectorAll(giveawaySelectors.join(', '));
 
       for (const element of elements) {
