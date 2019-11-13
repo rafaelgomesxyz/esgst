@@ -567,7 +567,7 @@ class GeneralContentLoader extends Module {
             ['div', { class: 'table__row-inner-wrap' }, [
               ['div', [
                 entry.avatar
-                  ? ['a', { class: 'table_image_avatar', href: `/user/${entry.name}`, style: `background-image:url(http://cdn.edgecast.steamstatic.com/steamcommunity/public/images/avatars/${entry.avatar}_medium.jpg)` }]
+                  ? ['a', { class: 'table_image_avatar', href: `/user/${entry.name}`, style: `background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/${entry.avatar}_medium.jpg)` }]
                   : ['div', { class: 'table_image_avatar_missing' }]
               ]],
               ['div', { class: 'table__column--width-fill' }, [
@@ -720,7 +720,7 @@ class GeneralContentLoader extends Module {
                 ['div', { class: 'table__row-inner-wrap' }, [
                   ['div', [
                     group.avatar
-                      ? ['a', { class: 'table_image_avatar', href: `/group/${group.code}/`, style: `background-image:url(http://cdn.edgecast.steamstatic.com/steamcommunity/public/images/avatars/${group.avatar}_medium.jpg)` }]
+                      ? ['a', { class: 'table_image_avatar', href: `/group/${group.code}/`, style: `background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/${group.avatar}_medium.jpg)` }]
                       : ['div', { class: 'table_image_avatar_missing' }]
                   ]],
                   ['div', { class: 'table__column--width-fill' }, [
@@ -784,7 +784,7 @@ class GeneralContentLoader extends Module {
           DOM.build(panel, 'beforeEnd', [
             ['div', { class: className }, [
               group.avatar
-                ? ['a', { class: 'table_image_avatar', href: `/group/${group.code}/`, style: `background-image:url(http://cdn.edgecast.steamstatic.com/steamcommunity/public/images/avatars/${group.avatar}_medium.jpg)` }]
+                ? ['a', { class: 'table_image_avatar', href: `/group/${group.code}/`, style: `background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/${group.avatar}_medium.jpg)` }]
                 : ['div', { class: 'table_image_avatar_missing' }],
               ['a', { href: `/group/${group.code}/` }, group.name]
             ]]
