@@ -60,28 +60,6 @@ class GeneralEndlessScrolling extends Module {
         ]]
       ],
       features: {
-        es_g: {
-          name: 'Enable for giveaways.',
-          sg: true,
-        },
-        es_d: {
-          name: 'Enable for discussions.',
-          sg: true,
-        },
-        es_c: {
-          name: 'Enable for comments.',
-          sg: true,
-          st: true,
-        },
-        es_l: {
-          name: 'Enable for lists.',
-          sg: true,
-          sg: true,
-        },
-        es_t: {
-          name: 'Enable for trades.',
-          sg: true,
-        },
         es_ch: {
           name: 'Enable for Comment History.',
           sg: true
@@ -163,28 +141,13 @@ class GeneralEndlessScrolling extends Module {
   }
 
   init() {
-    let es = {};
-
-    if (Shared.esgst.giveawaysPath && Settings.get('es_g')) {
-      es.id = 'g';
-    } else if (Shared.esgst.discussionsPath && Settings.get('es_d')) {
-      es.id = 'd';
-    } else if (Shared.esgst.commentsPath && Settings.get('es_c')) {
-      es.id = 'c';
-    } else if (Shared.esgst.tradesPath && Settings.get('es_t')) {
-      es.id = 't';
-    } else if (!Shared.esgst.giveawaysPath && !Shared.esgst.discussionsPath && !Shared.esgst.commentsPath && !Shared.esgst.tradesPath && Settings.get('es_l')) {
-      es.id = 'l';
-    } else {
-      return;
-    }
-
     if (!this.esgst.mainPageHeading || !this.esgst.pagination) return;
     if (this.esgst.pagination.classList.contains('pagination--no-results')) {
       this.esgst.itemsPerPage = 50;
     } else {
       this.esgst.itemsPerPage = parseInt(this.esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.textContent.replace(/,/g, '')) - parseInt(this.esgst.pagination.firstElementChild.firstElementChild.textContent.replace(/,/g, '')) + 1;
     }
+    let es = {};
     this.esgst.es = es;
     es.divisors = Settings.get('es_pd');
     es.mainContext = this.esgst.pagination.previousElementSibling;
@@ -339,7 +302,7 @@ class GeneralEndlessScrolling extends Module {
     es.isLimited = false;
     es.limitCount = 0;
     es.busy = false;
-    es.paused = Settings.get(`es_paused_${es.id}_${Shared.esgst.name}`);
+    es.paused = Settings.get('es') && Settings.get('es').options && Settings.get('es').options.pause;
     this.esgst.es_loadNext = this.es_loadNext.bind(this, es);
     if (es.paused) {
       // noinspection JSIgnoredPromiseFromCall
@@ -680,7 +643,20 @@ class GeneralEndlessScrolling extends Module {
     es.pauseButton.classList.add('esgst-hidden');
     es.resumeButton.classList.remove('esgst-hidden');
     if (!firstRun) {
-      await setSetting(`es_paused_${es.id}_${Shared.esgst.name}`, es.paused);
+      const setting = Settings.getFull('es');
+      console.log(setting);
+      setting.include = setting.include.map(item => {
+        if (item !== Settings.get('es')) {
+          return item;
+        }
+        if (!item.options) {
+          item.options = {};
+        }
+        item.options.pause = es.paused;
+        Settings.set('es', item);
+        return item;
+      });
+      await setSetting(`es_${Shared.esgst.name}`, setting);
     }
     es.continuous = false;
     createElements(es.continuousButton, 'inner', [{
@@ -696,7 +672,19 @@ class GeneralEndlessScrolling extends Module {
     es.resumeButton.classList.add('esgst-hidden');
     es.pauseButton.classList.remove('esgst-hidden');
     if (!firstRun) {
-      await setSetting(`es_paused_${es.id}_${Shared.esgst.name}`, es.paused);
+      const setting = Settings.getFull('es');
+      setting.include = setting.include.map(item => {
+        if (item !== Settings.get('es')) {
+          return item;
+        }
+        if (!item.options) {
+          item.options = {};
+        }
+        item.options.pause = es.paused;
+        Settings.set('es', item);
+        return item;
+      });
+      await setSetting(`es_${Shared.esgst.name}`, setting);
     }
     if (this.esgst.pagination.getAttribute('data-esgst-intersecting')) {
       this.esgst.es_loadNext(null, true);

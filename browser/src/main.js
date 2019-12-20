@@ -142,7 +142,7 @@ window.interact = interact;
 
   async function load() {
     esgst.bodyLoaded = true;
-    
+
     let settingsChanged = false;
 
     if (esgst.sg) {
@@ -170,7 +170,7 @@ window.interact = interact;
           })).responseText);
 
           const elements = responseHtml.getElementsByClassName('featured__table__row__left');
-          
+
           for (const element of elements) {
             if (element.textContent === 'Registered') {
               esgst.settings.registrationDate_sg = parseInt(element.nextElementSibling.firstElementChild.getAttribute('data-timestamp'));
@@ -198,7 +198,7 @@ window.interact = interact;
 
         if (esgst.settings.username_st !== username) {
           esgst.settings.username_st = username;
-          
+
           settingsChanged = true;
         }
       } catch (e) {}
