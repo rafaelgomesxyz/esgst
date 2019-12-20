@@ -1259,7 +1259,12 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
       for (const key of stringified) {
         dm.data[key] = JSON.parse(dm.data[key]);
       }
+
+      let notifiedMessages = JSON.parse(Shared.common.getValue('notifiedMessages', '[]'));
+      notifiedMessages = Array.from(new Set([...notifiedMessages, ...(dm.data.notifiedMessages || [])]));
+      await Shared.common.setValue('notifiedMessages', JSON.stringify(notifiedMessages));
     } else if (dm.type === 'export') {
+      data.notifiedMessages = Shared.esgst.storage.notifiedMessages;
       data.v = Shared.esgst.storage.v;
     }
   }
