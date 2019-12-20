@@ -461,9 +461,9 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
     DOM.build(giveaway.panel || giveaway.innerWrap.querySelector('.table__column--width-fill'), 'afterEnd', columnItems);
 
     if (giveaway.gwcContext) {
-      giveaway.chancePerPoint = Math.round(giveaway.chance / Math.max(1, giveaway.points) * 100) / 100;
-      giveaway.projectedChancePerPoint = Math.round(giveaway.projectedChance / Math.max(1, giveaway.points) * 100) / 100;
-      giveaway.gwcContext.title = Shared.common.getFeatureTooltip('gwc', `Giveaway Winning Chance (${giveaway.chancePerPoint}% per point)`);
+      giveaway.chancePerPoint = giveaway.chance / Math.max(1, giveaway.points);
+      giveaway.projectedChancePerPoint = giveaway.projectedChance / Math.max(1, giveaway.points);
+      giveaway.gwcContext.title = Shared.common.getFeatureTooltip('gwc', `Giveaway Winning Chance (${Shared.common.round(giveaway.chancePerPoint, 4)}% per point)`);
     }
     if (giveaway.gptwContext) {
       Shared.esgst.modules.giveawaysGiveawayPointsToWin.gptw_addPoint(giveaway);

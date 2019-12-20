@@ -399,8 +399,8 @@ class Giveaways extends Module {
     chance = context.getElementsByClassName('esgst-gwc')[0];
     giveaway.chance = chance ? parseFloat(chance.getAttribute('data-chance')) : 0;
     giveaway.projectedChance = chance ? parseFloat(chance.getAttribute('data-projectedChance')) : 0;
-    giveaway.chancePerPoint = Math.round(giveaway.chance / Math.max(1, giveaway.points) * 100) / 100;
-    giveaway.projectedChancePerPoint = Math.round(giveaway.projectedChance / Math.max(1, giveaway.points) * 100) / 100;
+    giveaway.chancePerPoint = giveaway.chance / Math.max(1, giveaway.points);
+    giveaway.projectedChancePerPoint = giveaway.projectedChance / Math.max(1, giveaway.points);
     giveaway.blacklist = giveaway.outerWrap.getAttribute('data-blacklist');
     giveaway.error = giveaway.outerWrap.getAttribute('data-error');
     const ratio = context.getElementsByClassName('esgst-gwr')[0];
