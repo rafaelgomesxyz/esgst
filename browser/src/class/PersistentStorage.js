@@ -19,6 +19,7 @@ class PersistentStorage {
       gdtttCache: '{ "giveaways": [], "discussions": [], "tickets": [], "trades": [] }',
       giveaways: '{}',
       groups: '[]',
+      notifiedMessages: '[]',
       rerolls: '[]',
       rfiCache: '{}',
       settings: '{}',
