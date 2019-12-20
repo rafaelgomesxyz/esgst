@@ -11,7 +11,7 @@ class PersistentStorage {
 
     this.defaultValues = {
       decryptedGiveaways: '{}',
-      delistedGames: '{ "banned": {}, "removed": {} }',
+      delistedGames: '{ "banned": [], "removed": [] }',
       discussions: '{}',
       emojis: '[]',
       entries: '[]',
