@@ -52,10 +52,6 @@ class GamesGameCategories extends Module {
         ]]
       ],
       features: {
-        gc_t: {
-          name: 'Enable for discussion tables.',
-          sg: true,
-        },
         gc_e: {
           colors: {
             color: 'Text',
@@ -403,16 +399,6 @@ class GamesGameCategories extends Module {
               ['li', 'Shows how many giveaways you have already made for the game and how much real CV you should get for a new giveaway.']
             ]]
           ],
-          features: {
-            gc_gi_t: {
-              name: 'Enable for discussion tables.',
-              sg: true,
-            },
-            gc_gi_cew: {
-              name: 'Enable for created/entered/won pages.',
-              sg: true,
-            },
-          },
           name: 'Giveaway Info',
           sg: true
         },
@@ -1027,10 +1013,6 @@ class GamesGameCategories extends Module {
   }
 
   async init() {
-    if (Shared.esgst.discussionPath && !Settings.get('gc_t')) {
-      return;
-    }
-
     if (this.isFetchableEnabled() && !(await permissions.requestUi([['server'], ['steamStore']], 'gc', true))) {
       return;
     }
@@ -2349,9 +2331,6 @@ class GamesGameCategories extends Module {
             }
             break;
           case 'gc_gi':
-            if ((Shared.esgst.discussionPath && !Settings.get('gc_gi_t')) || ((Shared.esgst.createdPath || Shared.esgst.enteredPath || Shared.esgst.wonPath) && !Settings.get('gc_gi_cew'))) {
-              break;
-            }
             if (cache && Utils.isSet(cache.price)) {
               let price = cache.price;
               const heading = games[0].heading;

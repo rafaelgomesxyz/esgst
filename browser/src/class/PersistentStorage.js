@@ -92,7 +92,7 @@ class PersistentStorage {
       } else {
         toSet.users = this.defaultValues.users;
       }
-      
+
       if (Shared.esgst.sg) {
         if (Utils.isSet(storage.decryptedGiveaways)) {
           if (typeof storage.decryptedGiveaways !== 'string') {
@@ -136,7 +136,7 @@ class PersistentStorage {
           toSet.templates = LocalStorage.get('templates', this.defaultValues.templates);
           LocalStorage.delete('templates');
         }
-        
+
         if (!Utils.isSet(storage.tickets)) {
           toSet.tickets = LocalStorage.get('tickets', this.defaultValues.tickets);
           LocalStorage.delete('tickets');
@@ -150,7 +150,7 @@ class PersistentStorage {
         LocalStorage.delete('dFix');
         LocalStorage.delete('gFix');
         LocalStorage.delete('tFix');
-      } else {        
+      } else {
         if (!Utils.isSet(storage.trades)) {
           toSet.trades = LocalStorage.get('trades', this.defaultValues.trades);
           LocalStorage.delete('trades');
@@ -167,7 +167,7 @@ class PersistentStorage {
       let settingsChanged = false;
 
       const settings = JSON.parse(storage.settings);
-      
+
       if (settings.hasOwnProperty('avatar_sg')) {
         delete settings.avatar_sg;
 
@@ -185,7 +185,7 @@ class PersistentStorage {
 
         settingsChanged = true;
       }
-      
+
       if (Utils.isSet(storage.filterPresets)) {
         const presets = (settings.gf_presets || Settings.defaultValues.gf_presets).concat(
           Shared.esgst.modules.giveawaysGiveawayFilters.filters_convert(JSON.parse(storage.filterPresets))
@@ -205,7 +205,7 @@ class PersistentStorage {
         );
 
         settings.df_presets = presets;
-        
+
         settingsChanged = true;
 
         toDelete.push('dfPresets');
@@ -214,7 +214,7 @@ class PersistentStorage {
 
       if (Utils.isSet(settings.comments)) {
         delete settings.comments;
-        
+
         settingsChanged = true;
       }
 
@@ -226,7 +226,7 @@ class PersistentStorage {
 
       if (Utils.isSet(settings.groups)) {
         delete settings.groups;
-        
+
         settingsChanged = true;
       }
 
@@ -239,19 +239,19 @@ class PersistentStorage {
       if (Utils.isSet(settings.gc_categories_ids)) {
         if (!settings.gc_categories_ids.includes('gc_f')) {
           settings.gc_categories_ids.push('gc_f');
-        
+
           settingsChanged = true;
         }
 
         if (!settings.gc_categories_ids.includes('gc_bvg')) {
           settings.gc_categories_ids.push('gc_bvg');
-          
+
           settingsChanged = true;
         }
 
         if (!settings.gc_categories_ids.includes('gc_bd')) {
           settings.gc_categories_ids.push('gc_bd');
-          
+
           settingsChanged = true;
         }
       }
@@ -269,7 +269,7 @@ class PersistentStorage {
           settingsChanged = true;
         }
       });
-      
+
       if (settings.elementOrdering !== '1') {
         if (Utils.isSet(settings.leftButtonIds)) {
           for (let i = settings.leftButtonIds.length - 1; i > -1; i--) {
@@ -334,14 +334,14 @@ class PersistentStorage {
             }
           }
         }
-        
+
         settings.leftButtonIds = Array.from(new Set(settings.leftButtonIds));
         settings.rightButtonIds = Array.from(new Set(settings.rightButtonIds));
         settings.leftMainPageHeadingIds = Array.from(new Set(settings.leftMainPageHeadingIds));
         settings.rightMainPageHeadingIds = Array.from(new Set(settings.rightMainPageHeadingIds));
 
         settings.elementOrdering = '1';
-        
+
         settingsChanged = true;
       }
 
@@ -365,7 +365,7 @@ class PersistentStorage {
         ].forEach(item => {
           if (!settings.leftButtonIds.includes(item.id) && !settings.rightButtonIds.includes(item.id) && !settings.leftMainPageHeadingIds.includes(item.id) && !settings.rightMainPageHeadingIds.includes(item.id)) {
             settings[`${item.side}MainPageHeadingIds`].push(item.id);
-            
+
             settingsChanged = true;
           }
         });
@@ -512,23 +512,6 @@ class PersistentStorage {
       }
     }
 
-    if (version < 6) {
-      window.console.log('Upgrading storage to version 6...');
-
-      const settings = JSON.parse(storage.settings);
-
-      for (const key of Object.keys(settings)) {
-        if (Utils.is(settings[key], 'object') && Utils.isSet(settings[key].enabled)) {
-          settings[key] = settings[key].enabled ? 1 : 0;
-        } else if (settings[key] === true || settings[key] === false) {
-          settings[key] = settings[key] ? 1 : 0;
-        }
-      }
-
-      toSet.settings = JSON.stringify(settings);
-      storage.settings = toSet.settings;
-    }
-
     for (const key of Object.keys(toSet)) {
       storage[key] = toSet[key];
     }
@@ -546,7 +529,7 @@ class PersistentStorage {
       if (!storage[type]) {
         continue;
       }
-      
+
       let doSet = false;
 
       const data = JSON.parse(storage[type]);
