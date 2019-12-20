@@ -976,7 +976,7 @@ class GiveawaysGiveawayFilters extends Filters {
         maxValue: 100,
         minValue: 0,
         name: 'Chance Per Point',
-        step: 0.01,
+        step: 0.001,
         type: 'number'
       },
       projectedChancePerPoint: {
@@ -984,7 +984,7 @@ class GiveawaysGiveawayFilters extends Filters {
         maxValue: 100,
         minValue: 0,
         name: 'Projected Chance Per Point',
-        step: 0.01,
+        step: 0.001,
         type: 'number'
       },
       ratio: {
