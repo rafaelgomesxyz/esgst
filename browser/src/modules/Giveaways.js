@@ -201,7 +201,7 @@ class Giveaways extends Module {
       giveaway.endTime = parseInt(giveaway.endTimeColumn.lastElementChild.getAttribute('data-timestamp')) * 1e3;
       giveaway.ended = Boolean(giveaway.deleted || giveaway.endTimeColumn.textContent.match(/Ended/));
       giveaway.startTime = parseInt(giveaway.startTimeColumn.firstElementChild.getAttribute('data-timestamp')) * 1e3;
-      giveaway.creatorContainer = giveaway.startTimeColumn.querySelector(`a[href*="/user/"]`);
+      giveaway.creatorContainer = giveaway.startTimeColumn.querySelector(`a[href*="/user/"], a[style]`);
     } else {
       giveaway.started = true;
     }
