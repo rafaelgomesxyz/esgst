@@ -524,6 +524,14 @@ class PersistentStorage {
       }
     }
 
+    try {
+      const emojis = JSON.parse(storage.emojis);
+      if (typeof emojis === 'string') {
+        toSet.emojis = emojis;
+        storage.emojis = emojis;
+      }
+    } catch (e) {}
+
     const gdtttCache = JSON.parse(LocalStorage.get('gdtttCache', this.defaultValues.gdtttCache));
 
     for (const type of Object.keys(gdtttCache)) {
