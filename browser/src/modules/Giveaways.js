@@ -201,7 +201,7 @@ class Giveaways extends Module {
       giveaway.endTime = parseInt(giveaway.endTimeColumn.lastElementChild.getAttribute('data-timestamp')) * 1e3;
       giveaway.ended = Boolean(giveaway.deleted || giveaway.endTimeColumn.textContent.match(/Ended/));
       giveaway.startTime = parseInt(giveaway.startTimeColumn.firstElementChild.getAttribute('data-timestamp')) * 1e3;
-      giveaway.creatorContainer = giveaway.startTimeColumn.querySelector(`a[href*="/user/"]`);
+      giveaway.creatorContainer = giveaway.startTimeColumn.querySelector(`a[href*="/user/"], a[style]`);
     } else {
       giveaway.started = true;
     }
@@ -399,8 +399,8 @@ class Giveaways extends Module {
     chance = context.getElementsByClassName('esgst-gwc')[0];
     giveaway.chance = chance ? parseFloat(chance.getAttribute('data-chance')) : 0;
     giveaway.projectedChance = chance ? parseFloat(chance.getAttribute('data-projectedChance')) : 0;
-    giveaway.chancePerPoint = Math.round(giveaway.chance / Math.max(1, giveaway.points) * 100) / 100;
-    giveaway.projectedChancePerPoint = Math.round(giveaway.projectedChance / Math.max(1, giveaway.points) * 100) / 100;
+    giveaway.chancePerPoint = giveaway.chance / Math.max(1, giveaway.points);
+    giveaway.projectedChancePerPoint = giveaway.projectedChance / Math.max(1, giveaway.points);
     giveaway.blacklist = giveaway.outerWrap.getAttribute('data-blacklist');
     giveaway.error = giveaway.outerWrap.getAttribute('data-error');
     const ratio = context.getElementsByClassName('esgst-gwr')[0];

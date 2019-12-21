@@ -30,7 +30,7 @@ class IHeader {
   async updateCounter(buttonContainerId, newCounter, isFlashing) {}
 
   /**
-   * @param {number} newPoints
+   * @param {number|string} newPoints
    */
   // eslint-disable-next-line no-unused-vars
   async updatePoints(newPoints) {}
@@ -506,7 +506,7 @@ class SgHeader extends IHeader {
   }
 
   /**
-   * @param {number} newPoints
+   * @param {number|string} newPoints
    */
   async updatePoints(newPoints) {
     const accountContainer = this.buttonContainers['account'];
@@ -516,6 +516,10 @@ class SgHeader extends IHeader {
     }
 
     const oldPoints = accountContainer.data.points;
+
+    if (typeof newPoints === 'string') {
+      newPoints = parseInt(newPoints.replace(/,/g, ''));
+    }
 
     if (oldPoints === newPoints) {
       return;

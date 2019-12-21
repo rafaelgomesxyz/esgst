@@ -20,6 +20,7 @@ import { Header } from './components/Header';
 import { Session } from './class/Session';
 import { Footer } from './components/Footer';
 import { LocalStorage } from './class/LocalStorage';
+import { MessageNotifier } from './class/MessageNotifier';
 
 // @ts-ignore
 window.interact = interact;
@@ -131,6 +132,7 @@ window.interact = interact;
     esgst.trades = JSON.parse(esgst.storage.trades);
     esgst.users = JSON.parse(esgst.storage.users);
     esgst.winners = JSON.parse(esgst.storage.winners);
+    esgst.notifiedMessages = JSON.parse(esgst.storage.notifiedMessages);
 
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', load);
@@ -142,7 +144,7 @@ window.interact = interact;
 
   async function load() {
     esgst.bodyLoaded = true;
-    
+
     let settingsChanged = false;
 
     if (esgst.sg) {
@@ -170,7 +172,7 @@ window.interact = interact;
           })).responseText);
 
           const elements = responseHtml.getElementsByClassName('featured__table__row__left');
-          
+
           for (const element of elements) {
             if (element.textContent === 'Registered') {
               esgst.settings.registrationDate_sg = parseInt(element.nextElementSibling.firstElementChild.getAttribute('data-timestamp'));
@@ -198,7 +200,7 @@ window.interact = interact;
 
         if (esgst.settings.username_st !== username) {
           esgst.settings.username_st = username;
-          
+
           settingsChanged = true;
         }
       } catch (e) {}
@@ -305,6 +307,8 @@ window.interact = interact;
     common.checkNewVersion(esgst.isFirstRun, esgst.isUpdate);
     esgst.isFirstRun = false;
     esgst.isUpdate = false;
+
+    await MessageNotifier.notify(esgst.notifiedMessages);
 
     await common.loadFeatures(esgst.modules);
   }

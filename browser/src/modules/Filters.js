@@ -1007,12 +1007,12 @@ class Filters extends Module {
   getUsedFilters(rule, usedFilters = new Set()) {
     if (rule.condition) {
       for (const subRule of rule.rules) {
-        this.getUsedFilters(subRule, usedFilters);
+        usedFilters = this.getUsedFilters(subRule, usedFilters);
       }
-      return usedFilters;
-    } else {
+    } else if (Utils.isSet(rule.id)) {
       usedFilters.add(rule.id);
     }
+    return usedFilters;
   }
 
   onRulesChanged(obj, event) {
