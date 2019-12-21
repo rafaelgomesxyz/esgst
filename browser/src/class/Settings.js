@@ -4,15 +4,9 @@ import { Shared } from './Shared';
 class _Settings {
   constructor() {
     this.settings = {};
+    this.fullSettings = {};
 
     this.defaultValues = {
-      es_paused_g_sg: false,
-      es_paused_d_sg: false,
-      es_paused_c_sg: false,
-      es_paused_c_st: false,
-      es_paused_l_sg: false,
-      es_paused_l_st: false,
-      es_paused_t_st: false,
       es_g_sg: true,
       es_d_sg: true,
       es_c_sg: true,
@@ -759,7 +753,7 @@ class _Settings {
       wbh_b_color: '#ffffff',
       wbh_b_bgColor: '#ff4500',
     };
-    
+
     this.oldValues = {
       gc_o_a_sg: () => this.settings.gc_o_altAccounts && this.settings.gc_o_altAccounts.length > 0 ? 1 : 0,
       idb_sg: 'dh_sg',
@@ -837,18 +831,25 @@ class _Settings {
       Shared.common.dismissFeature(feature, id);
 
       if (feature.sg) {
-        this.settings[`${id}_sg`] = this.getSetting(`${id}_sg`);
+        const result = this.getFeatureSetting(feature, id, 'sg');
+        this.settings[`${id}_sg`] = result.current;
+        this.fullSettings[`${id}_sg`] = result.full;
       }
 
       if (feature.st) {
-        this.settings[`${id}_st`] = this.getSetting(`${id}_st`);
+        const result = this.getFeatureSetting(feature, id, 'st');
+        this.settings[`${id}_st`] = result.current;
+        this.fullSettings[`${id}_st`] = result.full;
       }
 
       if (feature.sgtools) {
-        this.settings[`${id}_sgtools`] = this.getSetting(`${id}_sgtools`);
+        const result = this.getFeatureSetting(feature, id, 'sgtools');
+        this.settings[`${id}_sgtools`] = result.current;
+        this.fullSettings[`${id}_sgtools`] = result.full;
       }
 
       this.settings[id] = this.settings[`${id}_${Shared.esgst.name}`];
+      this.fullSettings[id] = this.fullSettings[`${id}_${Shared.esgst.name}`];
     }
   }
 
@@ -858,6 +859,14 @@ class _Settings {
 
   get(key) {
     return this.settings[key];
+  }
+
+  setFull(key, value) {
+    this.fullSettings[key] = value;
+  }
+
+  getFull(key) {
+    return this.fullSettings[key];
   }
 
   getSetting(id) {
@@ -871,7 +880,7 @@ class _Settings {
       } else if (typeof oldId !== 'undefined') {
         value = Shared.esgst.settings[oldId];
       }
-      
+
       if (typeof value === 'undefined') {
         let defaultValue = this.defaultValues[id];
 
@@ -886,6 +895,61 @@ class _Settings {
     }
 
     return value;
+  }
+
+  getFeaturePath(feature, id, namespace) {
+    if (!feature) {
+      feature = Shared.esgst.featuresById[id];
+    }
+    const key = `${id}_${namespace}`;
+    let setting = Shared.esgst.settings[key];
+    if (typeof setting === 'undefined' || !setting.include || !Array.isArray(setting.include)) {
+      setting = {
+        enabled: this.getSetting(key) ? 1 : 0,
+        include: [],
+        exclude: [],
+        new: typeof setting === 'undefined'
+      };
+      if (feature[namespace].include) {
+        setting.include = feature[namespace].include;
+        if (feature[namespace].exclude) {
+          setting.exclude = feature[namespace].exclude;
+        }
+      } else {
+        setting.include = [{ enabled: setting.enabled, pattern: '.*' }];
+      }
+      if (setting.new && setting.enabled) {
+        setting.include[0].enabled = 1;
+      }
+    }
+    return setting;
+  }
+
+  getFeatureSetting(feature, id, namespace, path) {
+    let setting = null;
+    let value = false;
+    if (feature[namespace]) {
+      setting = this.getFeaturePath(feature, id, namespace);
+      if (setting.enabled) {
+        if (!path) {
+          path = `${window.location.pathname}${window.location.search}`;
+        }
+        let i = setting.include.length - 1;
+        while (i > -1 && (!setting.include[i].enabled || !path.match(new RegExp(setting.include[i].pattern)))) i--;
+        if (i > -1) {
+          value = setting.include[i] || true;
+        }
+        i = setting.exclude.length - 1;
+        while (i > -1 && (!setting.exclude[i].enabled || !path.match(new RegExp(setting.exclude[i].pattern)))) i--;
+        if (i > -1) {
+          value = false;
+        }
+      }
+    }
+    return {
+      full: setting,
+      current: value
+    };
   }
 }
 

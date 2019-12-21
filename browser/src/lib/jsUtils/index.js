@@ -152,7 +152,7 @@ class _Utils {
 
     return array.sort((a, b) => {
       if (this.is(a, 'object') && this.is(b, 'object')) {
-        if (this.is(key, 'string')) {
+        if (this.is(key, 'string') && this.isSet(a[key]) && this.isSet(b[key])) {
           if (this.is(a[key], 'number') && this.is(b[key], 'number')) {
             if (a[key] < b[key]) {
               return -1 * modifier;

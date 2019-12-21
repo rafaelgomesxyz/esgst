@@ -564,7 +564,7 @@ class Common extends Module {
       try {
         await feature(context, main, source, endless, mainEndless);
       } catch (e) {
-        Logger.error(e.stack);
+        Logger.error(`${e.message}\n${e.stack}`);
       }
     }
   }
