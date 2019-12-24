@@ -1080,7 +1080,7 @@ async function syncWhitelistBlacklist(key, syncer, url) {
   let pagination = null;
   do {
     let elements, responseHtml;
-    responseHtml = DOM.parse((await Shared.common.request({ method: 'GET', url: `${url}${nextPage}` })).responseText);
+    responseHtml = DOM.parse((await Shared.common.request({ method: 'GET', queue: 100, url: `${url}${nextPage}` })).responseText);
     elements = responseHtml.getElementsByClassName('table__row-outer-wrap');
     for (let i = 0, n = elements.length; i < n; ++i) {
       let element, user;

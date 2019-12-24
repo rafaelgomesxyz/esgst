@@ -1650,6 +1650,8 @@ class GamesGameCategories extends Module {
         this.gc_addCategory(gc, gc.cache[type][id], games[type][id], id, Shared.esgst.games[type][id], type, type === 'apps' ? gc.cache.hltb : null);
         await lockAndSaveGames(Shared.esgst.games);
         LocalStorage.set('gcCache', JSON.stringify(gc.cache));
+      } else {
+        throw new Error('No result.');
       }
     } catch (error) {
       Logger.warning(error.stack);
