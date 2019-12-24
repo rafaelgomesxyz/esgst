@@ -418,19 +418,6 @@ class UsersWhitelistBlacklistChecker extends Module {
 
     popup.Results.appendChild(this.table.table);
 
-    this.whitelistedRow = 0;
-    this.whitelistedColumn = 0;
-    this.blacklistedRow = 0;
-    this.blacklistedColumn = 1;
-    this.noneRow = 0;
-    this.noneColumn = 2;
-    this.notBlacklistedRow = 0;
-    this.notBlacklistedColumn = 3;
-    this.unknownRow = 0;
-    this.unknownColumn = 4;
-    this.nonexistentRow = 0;
-    this.nonexistentColumn = 5;
-
     WBCButton.addEventListener('click', () => {
       if (WBCButton.getAttribute('data-mm')) {
         if (!Settings.get('wbc_checkSelected')) {
@@ -500,6 +487,18 @@ class UsersWhitelistBlacklistChecker extends Module {
     this.notBlacklistedCount.textContent = '0';
     this.unknownCount.textContent = '0';
     this.nonexistentCount.textContent = '0';
+    this.whitelistedRow = 0;
+    this.whitelistedColumn = 0;
+    this.blacklistedRow = 0;
+    this.blacklistedColumn = 1;
+    this.noneRow = 0;
+    this.noneColumn = 2;
+    this.notBlacklistedRow = 0;
+    this.notBlacklistedColumn = 3;
+    this.unknownRow = 0;
+    this.unknownColumn = 4;
+    this.nonexistentRow = 0;
+    this.nonexistentColumn = 5;
 
     this.table.clear();
 
