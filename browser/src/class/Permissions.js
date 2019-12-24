@@ -7,6 +7,13 @@ import { DOM } from './DOM';
 class Permissions {
   constructor() {
     this.permissions = {
+      allUrls: {
+        isOrigin: true,
+        messages: {
+          ge: 'Required by Giveaway Extractor to extract giveaways from any URL.'
+        },
+        values: ['<all_urls>']
+      },
       cookies: {
         messages: {
           manipulateCookies: 'Required if the option to manipulate cookies is enabled.'
@@ -245,7 +252,7 @@ class Permissions {
         ]);
       }
 
-      popup.onCloseByUser = () => resolve(false);
+      popup.onCloseByUser = async () => resolve(await this.contains(keyArrays));
       popup.open();
     });
   }

@@ -9,6 +9,7 @@ import { Shared } from '../../class/Shared';
 import { Settings } from '../../class/Settings';
 import { Logger } from '../../class/Logger';
 import { DOM } from '../../class/DOM';
+import { permissions } from '../../class/Permissions';
 
 const
   buildGiveaway = common.buildGiveaway.bind(common),
@@ -113,6 +114,13 @@ class GiveawaysGiveawayExtractor extends Module {
       this.nextRegex = new RegExp(Settings.get('npth_nextRegex'));
 
       const parameters = getParameters();
+      if (!parameters.url.match(/(^\/|www\.steamgifts\.com)/)) {
+        if (!(await permissions.requestUi([['allUrls']], 'ge'))) {
+          window.alert('Giveaway Extractor: Not enough permissions to proceed.');
+          return;
+        }
+      }
+
       let ge = {
         context: DOM.parse((await request({ method: 'GET', url: `${parameters.url}${parameters.page ? `/search?page=${parameters.page}` : ''}` })).responseText),
         extractOnward: !!parameters.extractOnward,
@@ -212,7 +220,9 @@ class GiveawaysGiveawayExtractor extends Module {
     if (changed) {
       await common.setValue('geCache', JSON.stringify(ge.cache));
     }
-    ge.cacheId = (this.esgst.parameters.url && this.esgst.parameters.url.match(/^\/(giveaway|discussion)\/.+?\//)[0]) || window.location.pathname.match(/^\/(giveaway|discussion)\/.+?\//)[0];
+    const urlMatch = this.esgst.parameters.url && this.esgst.parameters.url.match(/^\/(giveaway|discussion)\/.+?\//);
+    const pathMatch = window.location.pathname.match(/^\/(giveaway|discussion)\/.+?\//);
+    ge.cacheId = (this.esgst.parameters.url && ((urlMatch && urlMatch[0]) || this.esgst.parameters.url)) || (pathMatch && pathMatch[0]);
     ge.count = 0;
     ge.endless = 0;
     ge.total = 0;
@@ -706,6 +716,12 @@ class GiveawaysGiveawayExtractor extends Module {
         for (const element of elements) {
           this.ge_getGiveaway(element, ge, giveaways);
         }
+      }
+    } else {
+      elements = context.querySelectorAll(giveawaySelectors.join(', '));
+
+      for (const element of elements) {
+        this.ge_getGiveaway(element, ge, giveaways, next);
       }
     }
     if (next.count > 0) {

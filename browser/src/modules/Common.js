@@ -3267,7 +3267,7 @@ class Common extends Module {
       details.headers['Content-Type'] = 'application/x-www-form-urlencoded';
     }
     if (details.queue) {
-      let deleteLock = await this.createLock('requestLock', 1000);
+      let deleteLock = await this.createLock('requestLock', typeof details.queue === 'number' ? details.queue : 1000);
       let response = await this.continueRequest(details);
       deleteLock();
       return response;
