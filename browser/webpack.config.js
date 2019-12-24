@@ -103,6 +103,7 @@ function getWebExtensionManifest(env, browserName) {
       'cookies',
       'webRequest',
       'webRequestBlocking',
+      '<all_urls>',
       '*://*.api.dropboxapi.com/*',
       '*://*.api.imgur.com/*',
       '*://*.api.steampowered.com/*',
