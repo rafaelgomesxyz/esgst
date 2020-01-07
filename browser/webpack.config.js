@@ -390,7 +390,7 @@ async function getWebpackConfig(env) {
       ].concat(env.withBabel ? [
         {
           exclude: /node_modules/,
-          test: /\.js$/,
+          test: /\.(ts|js)$/,
           use: {
             loader: 'babel-loader'
           }
@@ -446,6 +446,9 @@ async function getWebpackConfig(env) {
       }),
       new plugins.runAfterBuild(() => runFinalSteps(env))
     ],
+    resolve: {
+      extensions: ['.js', '.ts', '.json']
+    },
     watch: env.development && env.withWatch,
     watchOptions: {
       aggregateTimeout: 1000,
