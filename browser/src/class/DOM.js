@@ -72,6 +72,19 @@ class _DOM {
     }
   }
 
+  _appendChildren(fragments, children) {
+    for (const child of children) {
+      if (typeof child === 'string') {
+        const node = document.createTextNode(child);
+        fragments.appendChild(node);
+      } else if (child instanceof HTMLElement) {
+        fragments.appendChild(child);
+      } else if (Array.isArray(child)) {
+        this._appendChildren(fragments, child);
+      }
+    }
+  }
+
   element(tag, attrs, ...children) {
     if (typeof tag === 'function') {
       return tag();
@@ -79,14 +92,7 @@ class _DOM {
     if (typeof tag === 'string') {
       const fragments = document.createDocumentFragment();
       const element = document.createElement(tag);
-      for (const child of children) {
-        if (typeof child === 'string'){
-          const node = document.createTextNode(child);
-          fragments.appendChild(node);
-        } else if (child instanceof HTMLElement) {
-          fragments.appendChild(child);
-        }
-      }
+      this._appendChildren(fragments, children);
       for (const key in attrs) {
         if (attrs.hasOwnProperty(key) && Utils.isSet(attrs[key])) {
           if (key === 'ref') {
