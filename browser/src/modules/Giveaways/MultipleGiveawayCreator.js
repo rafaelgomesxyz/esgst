@@ -1810,7 +1810,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
     if (i >= n || n - 1 === 0) {
       callback();
     } else {
-      let responseHtml = parseHtml((await request({ method: 'GET', url: mgc.created[i].url })).responseText);
+      let responseHtml = DOM.parse((await request({ method: 'GET', url: mgc.created[i].url })).responseText);
       let id = responseHtml.querySelector(`[name="giveaway_id"]`).value;
       let description = responseHtml.querySelector(`[name="description"]`).value;
       let replaceCallback = null;
