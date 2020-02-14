@@ -87,12 +87,14 @@ class _DOM {
 
   element(tag, attrs, ...children) {
     if (typeof tag === 'function') {
-      return tag();
+      const fragments = tag();
+      this._appendChildren(fragments, children);
+      return fragments;
     }
     if (typeof tag === 'string') {
       const fragments = document.createDocumentFragment();
-      const element = document.createElement(tag);
       this._appendChildren(fragments, children);
+      const element = document.createElement(tag);
       for (const key in attrs) {
         if (attrs.hasOwnProperty(key) && Utils.isSet(attrs[key])) {
           if (key === 'ref') {
