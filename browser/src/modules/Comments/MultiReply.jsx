@@ -60,6 +60,7 @@ class CommentsMultiReply extends Module {
         }
         if (Shared.esgst.sg) {
           MR.TradeCode = '';
+          MR.Username = MR.Comment.getElementsByClassName('comment__username')[0].textContent;
         } else {
           if (main && !Shared.common.isCurrentPath('Messages')) {
             MR.TradeCode = window.location.pathname.match(/^\/trade\/(.+?)\//)[1];

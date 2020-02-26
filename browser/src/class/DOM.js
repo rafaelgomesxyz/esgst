@@ -77,7 +77,7 @@ class _DOM {
       if (typeof child === 'string') {
         const node = document.createTextNode(child);
         fragments.appendChild(node);
-      } else if (child instanceof HTMLElement) {
+      } else if (child instanceof HTMLElement || child instanceof DocumentFragment) {
         fragments.appendChild(child);
       } else if (Array.isArray(child)) {
         this._appendChildren(fragments, child);
