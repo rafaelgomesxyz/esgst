@@ -153,7 +153,12 @@ function getWebExtensionManifest(env, browserName) {
 
   if (env.development) {
     manifest.content_security_policy = "script-src 'self' 'unsafe-eval'; object-src 'self';";
-    manifest.version_name = packageJson.devVersion;
+    manifest.version_name = packageJson.version;
+    if (env.alpha) {
+      manifest.version_name = `${manifest.version_name}-alpha.${packageJson.alpha}`;
+    } else if (env.beta) {
+      manifest.version_name = `${manifest.version_name}-beta.${packageJson.beta}`;
+    }
   }
 
   return manifest;
@@ -189,7 +194,12 @@ function getLegacyExtensionManifest(env, browserName) {
   }
 
   if (env.development) {
-    manifest.version_name = packageJson.devVersion;
+    manifest.version_name = packageJson.version;
+    if (env.alpha) {
+      manifest.version_name = `${manifest.version_name}-alpha.${packageJson.alpha}`;
+    } else if (env.beta) {
+      manifest.version_name = `${manifest.version_name}-beta.${packageJson.beta}`;
+    }
   }
 
   return manifest;
@@ -211,7 +221,12 @@ function packageWebExtension(env, browserName) {
     manifestJson.version = packageJson.version;
 
     if (env.development) {
-      manifestJson.version_name = packageJson.devVersion;
+      manifest.version_name = packageJson.version;
+      if (env.alpha) {
+        manifest.version_name = `${manifest.version_name}-alpha.${packageJson.alpha}`;
+      } else if (env.beta) {
+        manifest.version_name = `${manifest.version_name}-beta.${packageJson.beta}`;
+      }
     }
 
     const manifestStr = JSON.stringify(manifestJson, null, 2);
@@ -258,7 +273,12 @@ async function packageLegacyExtension(env, browserName) {
   manifestJson.version = packageJson.version;
 
   if (env.development) {
-    manifestJson.version_name = packageJson.devVersion;
+    manifest.version_name = packageJson.version;
+    if (env.alpha) {
+      manifest.version_name = `${manifest.version_name}-alpha.${packageJson.alpha}`;
+    } else if (env.beta) {
+      manifest.version_name = `${manifest.version_name}-beta.${packageJson.beta}`;
+    }
   }
 
   const manifestStr = JSON.stringify(manifestJson, null, 2);
@@ -390,7 +410,7 @@ async function getWebpackConfig(env) {
       ].concat(env.withBabel ? [
         {
           exclude: /node_modules/,
-          test: /\.js$/,
+          test: /\.(t|j)sx?$/,
           use: {
             loader: 'babel-loader'
           }
@@ -446,6 +466,9 @@ async function getWebpackConfig(env) {
       }),
       new plugins.runAfterBuild(() => runFinalSteps(env))
     ],
+    resolve: {
+      extensions: ['.js', '.jsx', '.ts', '.tsx', '.json']
+    },
     watch: env.development && env.withWatch,
     watchOptions: {
       aggregateTimeout: 1000,
