@@ -1,7 +1,8 @@
 {
   "name": "esgst",
-  "version": "8.5.12",
-  "devVersion": "8.5.13-dev.2",
+  "version": "8.5.13",
+  "beta": 0,
+  "alpha": 2,
   "title": "Enhanced SteamGifts & SteamTrades (ESGST)",
   "description": "A script that adds some cool features to SteamGifts and SteamTrades.",
   "author": "rafaelgssa",
@@ -16,12 +17,12 @@
   "scripts": {
     "build": "./node_modules/.bin/webpack --env.production --env.withBabel",
     "build-dev": "./node_modules/.bin/webpack --env.development --env.withBabel",
-    "build-dev-no-babel": "./node_modules/.bin/webpack --env.development",
+    "build-alpha": "./node_modules/.bin/webpack --env.development --env.alpha --env.withBabel",
+    "build-beta": "./node_modules/.bin/webpack --env.development --env.beta --env.withBabel",
     "start": "./node_modules/.bin/webpack --env.development --env.withBabel --env.withWatch",
     "generate-api-doc": "./node_modules/.bin/apidoc -i ./server/app -o ./server/documentation",
     "generate-release": "./node_modules/.bin/node ./scripts/generateRelease.js",
     "notify-issue": "./node_modules/.bin/node ./scripts/notifyIssue.js",
-    "start-no-babel": "./node_modules/.bin/webpack --env.development --env.withWatch",
     "update-emojis": "./node_modules/.bin/node ./scripts/updateEmojis.js"
   },
   "dependencies": {
