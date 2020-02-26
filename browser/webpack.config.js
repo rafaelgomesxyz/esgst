@@ -214,7 +214,7 @@ function packageWebExtension(env, browserName) {
     manifestJson.version = packageJson.version;
 
     if (env.development) {
-      manifest.version_name = version;
+      manifestJson.version_name = version;
     }
 
     const manifestStr = JSON.stringify(manifestJson, null, 2);
@@ -261,7 +261,7 @@ async function packageLegacyExtension(env, browserName) {
   manifestJson.version = packageJson.version;
 
   if (env.development) {
-    manifest.version_name = version;
+    manifestJson.version_name = version;
   }
 
   const manifestStr = JSON.stringify(manifestJson, null, 2);
