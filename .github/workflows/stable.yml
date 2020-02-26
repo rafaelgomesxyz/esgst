@@ -15,9 +15,9 @@ jobs:
     - name: 'Install dependencies'
       run: cd ./browser && npm ci
     - name: 'Run build'
-      run: cd ./browser && npm run build
+      run: cd ./browser && npm run build ${{ github.ref }}
     - name: 'Generate release'
-      run: cd ./browser && npm run generate-release stable token=${{ secrets.GITHUB_ACCESS_TOKEN }}
+      run: cd ./browser && npm run generate-release stable token=${{ secrets.GITHUB_ACCESS_TOKEN }} ref=${{ github.ref }}
     - name: 'Upload to Chrome store'
       uses: trmcnvn/chrome-addon@v1
       with:
