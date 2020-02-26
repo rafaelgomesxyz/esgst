@@ -1,0 +1,20 @@
+name: 'Beta Release'
+
+on:
+  push:
+    branches:
+      - 'beta/**'
+
+jobs:
+  build:
+    name: 'Build'
+    runs-on: ubuntu-latest
+    steps:
+    - name: 'Checkout'
+      uses: actions/checkout@v1
+    - name: 'Install dependencies'
+      run: cd ./browser && npm ci
+    - name: 'Run build'
+      run: cd ./browser && npm run build-beta
+    - name: 'Generate release'
+      run: cd ./browser && npm run generate-release beta token=${{ secrets.GITHUB_ACCESS_TOKEN }}

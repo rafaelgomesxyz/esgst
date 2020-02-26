@@ -1,5 +1,5 @@
 import { Module } from '../../class/Module';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 import { EventDispatcher } from '../../class/EventDispatcher';
 import { Events } from '../../constants/Events';
 import { Session } from '../../class/Session';
@@ -42,9 +42,9 @@ class GeneralPointsVisualizer extends Module {
     const progress = Math.trunc(percentage * (fullButtonWidth / 100)); // 186px is the width of the button
     const firstBar = `${progress}px`;
     const secondBar = `${Math.max(0, progress - mainButtonWidth)}px`; // 157px is the width of the button without the arrow
-    const barColor = gSettings.pv_barColor;
-    const barColorHover = gSettings.pv_barColorHover;
-    const barColorSelected = gSettings.pv_barColorSelected;
+    const barColor = Settings.get('pv_barColor');
+    const barColorHover = Settings.get('pv_barColorHover');
+    const barColorSelected = Settings.get('pv_barColorSelected');
     this.esgst.pvStyleArray = [{
       selector: '.esgst-lpv-container',
       rules: [{

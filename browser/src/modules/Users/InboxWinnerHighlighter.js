@@ -1,6 +1,6 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
-import { shared } from '../../class/Shared';
+import { Shared } from '../../class/Shared';
 
 const
   createElements = common.createElements.bind(common),
@@ -36,8 +36,8 @@ class UsersInboxWinnerHighlighter extends Module {
   }
 
   async iwh_getUsers(context, main, source, endless) {
-    if (!shared.esgst.winnersPath && !shared.common.isCurrentPath('Messages') && (!context.getAttribute || !context.getAttribute('data-esgst-qiv'))) return;
-    const [callback, query] = shared.esgst.winnersPath ? [this.iwh_setObserver, `${endless ? `.esgst-es-page-${endless} .table__gift-not-sent, .esgst-es-page-${endless}.table__gift-not-sent` : '.table__gift-not-sent'}`] : [this.iwh_highlightWinner, `${endless ? `.esgst-es-page-${endless} .comments__entity, .esgst-es-page-${endless}.comments__entity` : '.comments__entity'}`],
+    if (!Shared.esgst.winnersPath && !Shared.common.isCurrentPath('Messages') && (!context.getAttribute || !context.getAttribute('data-esgst-qiv'))) return;
+    const [callback, query] = Shared.esgst.winnersPath ? [this.iwh_setObserver, `${endless ? `.esgst-es-page-${endless} .table__gift-not-sent, .esgst-es-page-${endless}.table__gift-not-sent` : '.table__gift-not-sent'}`] : [this.iwh_highlightWinner, `${endless ? `.esgst-es-page-${endless} .comments__entity, .esgst-es-page-${endless}.comments__entity` : '.comments__entity'}`],
       elements = context.querySelectorAll(query);
     if (!elements.length) return;
     const winners = JSON.parse(getValue('winners', '{}'));

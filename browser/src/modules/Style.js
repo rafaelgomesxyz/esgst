@@ -1,12 +1,12 @@
-import { shared } from '../class/Shared';
-import { gSettings } from '../class/Globals';
+import { Shared } from '../class/Shared';
+import { Settings } from '../class/Settings';
 
 function addStyle() {
   let backgroundColor, color, colors, i, n, style;
   style = `
   :root {
-    --esgst-gwc-highlight-width: ${gSettings.gwc_h_width};
-    --esgst-gwr-highlight-width: ${gSettings.gwr_h_width};
+    --esgst-gwc-highlight-width: ${Settings.get('gwc_h_width')};
+    --esgst-gwr-highlight-width: ${Settings.get('gwr_h_width')};
   }
 `;
   colors = [
@@ -157,8 +157,8 @@ function addStyle() {
     }
   ];
   for (i = 0, n = colors.length; i < n; ++i) {
-    color = gSettings[`${colors[i].id}_color`];
-    backgroundColor = gSettings[`${colors[i].id}_bgColor`];
+    color = Settings.get(`${colors[i].id}_color`);
+    backgroundColor = Settings.get(`${colors[i].id}_bgColor`);
     style += `
     ${colors[i].key === 'genres' ? 'a' : ''}.${colors[i].mainKey}-${colors[i].key}:not(.giveaway__column):not(.featured__column) {
       background-color: ${backgroundColor};
@@ -182,8 +182,8 @@ function addStyle() {
     }
   ];
   for (i = 0, n = colors.length; i < n; ++i) {
-    color = gSettings[`${colors[i].id}_color`];
-    backgroundColor = gSettings[`${colors[i].id}_bgColor`];
+    color = Settings.get(`${colors[i].id}_color`);
+    backgroundColor = Settings.get(`${colors[i].id}_bgColor`);
     style += `
     .${colors[i].mainKey}-${colors[i].key} {
       background-color: ${backgroundColor} !important;
@@ -811,7 +811,7 @@ function addStyle() {
   }
 
   .esgst-qgs-container-expanded {
-    position: ${gSettings.qgs_index === '0' ? 'absolute' : 'static'};
+    position: ${Settings.get('qgs_index') === '0' ? 'absolute' : 'static'};
   }
 
   .esgst-qgs-container-expanded .esgst-qgs-input {
@@ -855,7 +855,7 @@ function addStyle() {
   }
 
   .esgst-stbb-button-fixed, .esgst-sttb-button-fixed {
-    bottom: ${gSettings.ff ? 49 : 5}px;
+    bottom: ${Settings.get('ff') ? 49 : 5}px;
     background-color: #fff;
     border: 1px solid #d2d6e0;
     border-radius: 4px;
@@ -1706,10 +1706,10 @@ function addStyle() {
   }
 
   .esgst-popup-layer {
-    align-items: ${gSettings.static_popups ? 'baseline' : 'center'};
+    align-items: ${Settings.get('static_popups') ? 'baseline' : 'center'};
     bottom: 0;
     display: flex;
-    justify-content: ${gSettings.static_popups ? 'left' : 'center'};
+    justify-content: ${Settings.get('static_popups') ? 'left' : 'center'};
     left: 0;
     padding: 50px;
     position: fixed;
@@ -1934,7 +1934,7 @@ function addStyle() {
     display: flex;
     height: 5px;
     margin-left: 5px;
-    width: ${gSettings.ib ? '186px' : '174px'};
+    width: ${Settings.get('ib') ? '186px' : '174px'};
   }
 
   .esgst-gc-border >* {
@@ -1998,7 +1998,7 @@ function addStyle() {
     border-radius: 4px;
   }
 
-  .esgst-gf-shared.esgst-popup-scrollable {
+  .esgst-gf-Shared.esgst-popup-scrollable {
     min-width: 650px;
   }
 
@@ -2380,7 +2380,7 @@ function addStyle() {
     padding: 0;
     text-align: center;
     vertical-align: top;
-    width: ${gSettings.ib ? '196px' : '184px'};
+    width: ${Settings.get('ib') ? '196px' : '184px'};
   }
 
   .esgst-gv-box {
@@ -2434,11 +2434,11 @@ function addStyle() {
 
   .esgst-gv-popout {
     font-size: 11px;
-    max-width: ${gSettings.ib ? '174px' : '162px'};
+    max-width: ${Settings.get('ib') ? '174px' : '162px'};
     overflow-x: hidden;
     overflow-y: auto;
     position: absolute;
-    width: ${gSettings.ib ? '174px' : '162px'};
+    width: ${Settings.get('ib') ? '174px' : '162px'};
     z-index: 1;
   }
 
@@ -2696,7 +2696,7 @@ function addStyle() {
     display: none;
   }
 `;
-  if (shared.esgst.sg) {
+  if (Shared.esgst.sg) {
     style += `
     .esgst-settings-menu-feature {
       align-self: flex-start;
@@ -2729,17 +2729,17 @@ function addStyle() {
     }
   `;
   }
-  shared.esgst.style = shared.common.createElements(document.head, 'beforeEnd', [{
+  Shared.esgst.style = Shared.common.createElements(document.head, 'beforeEnd', [{
     attributes: {
       id: 'esgst-style'
     },
     text: style,
     type: 'style'
   }]);
-  shared.esgst.theme = document.getElementById('esgst-theme');
-  shared.esgst.customThemeElement = document.getElementById('esgst-custom-theme');
+  Shared.esgst.theme = document.getElementById('esgst-theme');
+  Shared.esgst.customThemeElement = document.getElementById('esgst-custom-theme');
   // noinspection JSIgnoredPromiseFromCall
-  shared.common.setTheme();
+  Shared.common.setTheme();
 }
 
 export { addStyle };

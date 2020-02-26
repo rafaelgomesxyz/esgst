@@ -3,8 +3,8 @@ import { Process } from '../../class/Process';
 import { Utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { Filters } from '../Filters';
-import { gSettings } from '../../class/Globals';
-import { shared } from '../../class/Shared';
+import { Settings } from '../../class/Settings';
+import { Shared } from '../../class/Shared';
 
 const
   createElements = common.createElements.bind(common),
@@ -199,22 +199,22 @@ class TradesTradeFilters extends Filters {
   }
 
   async init() {
-    if (gSettings.tf_s) {
-      if (gSettings.tf_s_s) {
+    if (Settings.get('tf_s')) {
+      if (Settings.get('tf_s_s')) {
         this.addSingleButton('fa-comments');
       }
       this.esgst.tradeFeatures.push(this.tf_addButtons.bind(this));
     }
-    if (gSettings.tf_m && shared.esgst.tradesPath && !shared.esgst.editTradePath) {
-      if (!shared.esgst.hasAddedFilterContainer) {
-        shared.esgst.style.insertAdjacentText("beforeend", `
+    if (Settings.get('tf_m') && Shared.esgst.tradesPath && !Shared.esgst.editTradePath) {
+      if (!Shared.esgst.hasAddedFilterContainer) {
+        Shared.esgst.style.insertAdjacentText("beforeend", `
           .esgst-gf-container {
-            top: ${shared.esgst.commentsTop - 5}px;
+            top: ${Shared.esgst.commentsTop - 5}px;
           }
         `);
       }
       createHeadingButton({
-        element: this.filters_addContainer(shared.esgst.mainPageHeading),
+        element: this.filters_addContainer(Shared.esgst.mainPageHeading),
         id: 'tf'
       });
     }
@@ -349,14 +349,14 @@ class TradesTradeFilters extends Filters {
       }]
     }]);
     await endless_load(obj.trades);
-    if (!shared.esgst.tradesPath) {
-      if (gSettings.gdttt) {
-        await shared.esgst.modules.commentsCommentTracker.ct_addDiscussionPanels(obj.trades, true);
-        await shared.esgst.modules.generalGiveawayDiscussionTicketTradeTracker.gdttt_checkVisited(obj.trades);
-      } else if (gSettings.ct) {
-        await shared.esgst.modules.commentsCommentTracker.ct_addDiscussionPanels(obj.trades, true);
+    if (!Shared.esgst.tradesPath) {
+      if (Settings.get('gdttt')) {
+        await Shared.esgst.modules.commentsCommentTracker.ct_addDiscussionPanels(obj.trades, true);
+        await Shared.esgst.modules.generalGiveawayDiscussionTicketTradeTracker.gdttt_checkVisited(obj.trades);
+      } else if (Settings.get('ct')) {
+        await Shared.esgst.modules.commentsCommentTracker.ct_addDiscussionPanels(obj.trades, true);
       }
-      await shared.esgst.modules.discussions.discussions_load(obj.trades);
+      await Shared.esgst.modules.discussions.discussions_load(obj.trades);
     }
   }
 
@@ -384,7 +384,7 @@ class TradesTradeFilters extends Filters {
     trades[trade.code].hidden = trades[trade.code].lastUsed = Date.now();
     await setValue('trades', JSON.stringify(trades));
     deleteLock();
-    if (!main || !shared.esgst.tradePath) {
+    if (!main || !Shared.esgst.tradePath) {
       trade.outerWrap.remove();
     }
     return true;
@@ -399,7 +399,7 @@ class TradesTradeFilters extends Filters {
     }
     await setValue('trades', JSON.stringify(trades));
     deleteLock();
-    if (!main || !shared.esgst.tradePath) {
+    if (!main || !Shared.esgst.tradePath) {
       trade.outerWrap.remove();
     }
     return true;
@@ -419,17 +419,17 @@ class TradesTradeFilters extends Filters {
         type: 'boolean'
       },
       visited: {
-        check: gSettings.gdttt,
+        check: Settings.get('gdttt'),
         name: 'Visited',
         type: 'boolean'
       },
       subscribed: {
-        check: gSettings.tds,
+        check: Settings.get('tds'),
         name: 'Subscribed',
         type: 'boolean'
       },
       unread: {
-        check: gSettings.ct,
+        check: Settings.get('ct'),
         name: 'Unread',
         type: 'boolean'
       },

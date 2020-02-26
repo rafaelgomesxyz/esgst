@@ -1,7 +1,7 @@
 import { Button } from '../../class/Button';
 import { Module } from '../../class/Module';
 import { common } from '../Common';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 
 const
   createLock = common.createLock.bind(common),
@@ -46,7 +46,7 @@ class DiscussionsPuzzleMarker extends Module {
 
   pm_addButtons(discussions, main) {
     for (const discussion of discussions) {
-      if (gSettings.pm_a || discussion.category === 'Puzzles') {
+      if (Settings.get('pm_a') || discussion.category === 'Puzzles') {
         let context = main && this.esgst.discussionPath ? discussion.headingContainer : discussion.outerWrap;
         if (!context.getElementsByClassName('esgst-pm-button')[0]) {
           context.classList.add('esgst-relative');

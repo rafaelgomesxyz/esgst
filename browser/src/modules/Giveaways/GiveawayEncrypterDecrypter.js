@@ -4,8 +4,8 @@ import { Popup } from '../../class/Popup';
 import { Utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
-import { shared, Shared } from '../../class/Shared';
-import { gSettings } from '../../class/Globals';
+import { Shared } from '../../class/Shared';
+import { Settings } from '../../class/Settings';
 import { DOM } from '../../class/DOM';
 
 const
@@ -74,7 +74,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
     let ged = {
       newGiveaways: []
     };
-    if (shared.common.isCurrentPath('Account') && this.esgst.parameters.esgst === 'ged') {
+    if (Shared.common.isCurrentPath('Account') && this.esgst.parameters.esgst === 'ged') {
       // noinspection JSIgnoredPromiseFromCall
       this.ged_openPopup(ged);
     } else {
@@ -90,7 +90,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
       ged.button.nodes.buttonIcon.title = getFeatureTooltip('ged', 'View your decrypted giveaways');
 
       ged.button.nodes.outer.addEventListener('click', () => {
-        if (gSettings.ged_t) {
+        if (Settings.get('ged_t')) {
           window.open(`https://www.steamgifts.com/account/settings/profile?esgst=ged`);
         } else {
           this.ged_openPopup({isPopup: true});
@@ -112,14 +112,14 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
       ged.context = ged.popup.scrollable;
     } else {
       ged.popup = this.esgst.sidebar.nextElementSibling;
-      if (gSettings.removeSidebarInFeaturePages) {
+      if (Settings.get('removeSidebarInFeaturePages')) {
         this.esgst.sidebar.remove();
       }
       ged.popup.innerHTML = '';
       ged.container = ged.context = createElements(ged.popup, 'beforeEnd', [{ type: 'div' }]);
       ged.context.setAttribute('data-esgst-popup', true);
     }
-    new elementBuilder[shared.esgst.name].pageHeading({
+    new elementBuilder[Shared.esgst.name].pageHeading({
       context: ged.popup.description || ged.popup,
       position: 'afterBegin',
       breadcrumbs: [
@@ -144,20 +144,20 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
     }]);
     await this.ged_getGiveaways(ged);
     ged.context.innerHTML = '';
-    if (gSettings.gas || (gSettings.gf && gSettings.gf_m) || gSettings.mm) {
+    if (Settings.get('gas') || (Settings.get('gf') && Settings.get('gf_m')) || Settings.get('mm')) {
       let heading = createElements(ged.context, 'afterBegin', [{
         attributes: {
           class: 'page__heading'
         },
         type: 'div'
       }]);
-      if (gSettings.gas) {
+      if (Settings.get('gas')) {
         this.esgst.modules.giveawaysGiveawaysSorter.init(heading);
       }
-      if (gSettings.gf && gSettings.gf_m) {
+      if (Settings.get('gf') && Settings.get('gf_m')) {
         heading.appendChild(this.esgst.modules.giveawaysGiveawayFilters.filters_addContainer(heading, 'Ged'));
       }
-      if (gSettings.mm) {
+      if (Settings.get('mm')) {
         this.esgst.modules.generalMultiManager.mm(heading);
       }
     }
@@ -181,7 +181,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
       ged.popup.open();
     }
     ged.set.trigger();
-    if (gSettings.es_ged) {
+    if (Settings.get('es_ged')) {
       ged.context.addEventListener('scroll', this.ged_checkEndless.bind(this, ged));
     }
   }
@@ -202,13 +202,13 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
         let filtered = true;
         let giveaway = this.esgst.giveaways[code];
         if (giveaway) {
-          const name = gSettings.gf_presetGed;
+          const name = Settings.get('gf_presetGed');
           if (name) {
             let i;
-            for (i = gSettings.gf_presets.length - 1; i > -1 && gSettings.gf_presets[i].name !== name; i--) {
+            for (i = Settings.get('gf_presets').length - 1; i > -1 && Settings.get('gf_presets')[i].name !== name; i--) {
             }
             if (i > -1) {
-              const preset = gSettings.gf_presets[i];
+              const preset = Settings.get('gf_presets')[i];
               filtered = this.esgst.modules.giveawaysGiveawayFilters.filters_filterItem(this.esgst.modules.giveawaysGiveawayFilters.getFilters(true), giveaway, preset.rules, true);
             }
           }
@@ -258,7 +258,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
 
   async ged_loadGiveaways(ged) {
     let i = 0;
-    while ((i < 5 || (gSettings.es_ged && ged.context.scrollHeight <= ged.context.offsetHeight) || ((ged.results.children.length - ((this.esgst.gfPopup && parseInt(this.esgst.gfPopup.filteredCount.textContent)) || 0)) % 5 !== 0)) && ged.i < ged.n) {
+    while ((i < 5 || (Settings.get('es_ged') && ged.context.scrollHeight <= ged.context.offsetHeight) || ((ged.results.children.length - ((this.esgst.gfPopup && parseInt(this.esgst.gfPopup.filteredCount.textContent)) || 0)) % 5 !== 0)) && ged.i < ged.n) {
       i += 1;
       let giveaway = ged.giveaways[ged.i];
       ged.i += 1;
@@ -327,7 +327,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
           }
         }
         if (isEnded) {
-          if (gSettings.ged_b) {
+          if (Settings.get('ged_b')) {
             hasEnded = true;
           }
         } else {

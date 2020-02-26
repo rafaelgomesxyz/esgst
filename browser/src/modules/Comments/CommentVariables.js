@@ -1,6 +1,6 @@
 import { Module } from '../../class/Module';
-import { shared } from '../../class/Shared';
-import { gSettings } from '../../class/Globals';
+import { Shared } from '../../class/Shared';
+import { Settings } from '../../class/Settings';
 
 class CommentsCommentVariables extends Module {
   constructor() {
@@ -38,17 +38,17 @@ class CommentsCommentVariables extends Module {
   }
 
   init() {
-    if (shared.esgst.replyBox) {
-      shared.common.addReplyButton(shared.esgst.replyBox);
+    if (Shared.esgst.replyBox) {
+      Shared.common.addReplyButton(Shared.esgst.replyBox);
     }
 
-    shared.esgst.triggerFunctions.onBeforeCommentSubmit.push(this.replaceVariables.bind(this));
+    Shared.esgst.triggerFunctions.onBeforeCommentSubmit.push(this.replaceVariables.bind(this));
   }
 
   replaceVariables(obj) {
     obj.comment = obj.comment
-      .replace(this.getRegExp('username'), gSettings.username)
-      .replace(this.getRegExp('steamId'), gSettings.steamId);    
+      .replace(this.getRegExp('username'), Settings.get('username'))
+      .replace(this.getRegExp('steamId'), Settings.get('steamId'));    
     const creatorElement = document.querySelector(`.featured__column--width-fill.text-right a, .comment__username, .author_name`);
     if (creatorElement) {
       const creator = creatorElement.textContent;
@@ -65,7 +65,7 @@ class CommentsCommentVariables extends Module {
   }
 
   getRegExp(key) {
-    return new RegExp(gSettings[`cv_${key}`], 'gi');
+    return new RegExp(Settings.get(`cv_${key}`), 'gi');
   }
 }
 

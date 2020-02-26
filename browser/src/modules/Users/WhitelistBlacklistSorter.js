@@ -2,7 +2,7 @@ import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { Utils } from '../../lib/jsUtils';
 import { common } from '../Common';
-import { shared } from '../../class/Shared';
+import { Shared } from '../../class/Shared';
 import { Session } from '../../class/Session';
 
 const
@@ -45,9 +45,9 @@ class UsersWhitelistBlacklistSorter extends Module {
   }
 
   init() {
-    if (!shared.esgst.whitelistPath && !shared.esgst.blacklistPath) return;
+    if (!Shared.esgst.whitelistPath && !Shared.esgst.blacklistPath) return;
 
-    let [dateKey, mainKey, saveKey] = shared.esgst.whitelistPath ? ['whitelistedDate', 'whitelist', 'whitelisted'] : ['blacklistedDate', 'blacklist', 'blacklisted'];
+    let [dateKey, mainKey, saveKey] = Shared.esgst.whitelistPath ? ['whitelistedDate', 'whitelist', 'whitelisted'] : ['blacklistedDate', 'blacklist', 'blacklisted'];
 
     // add ascending button
     let object = {

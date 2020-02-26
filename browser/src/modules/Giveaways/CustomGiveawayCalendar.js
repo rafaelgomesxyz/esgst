@@ -1,5 +1,5 @@
 import { Module } from '../../class/Module';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 
 class GiveawaysCustomGiveawayCalendar extends Module {
   constructor() {
@@ -61,8 +61,8 @@ class GiveawaysCustomGiveawayCalendar extends Module {
           altFormat: "M d, yy",
           altTimeFormat: "h:mm tt",
           beforeShowDay: t,
-          dateFormat: "${gSettings.cgc_dateFormat}",
-          firstDay: "${gSettings.cgc_index_0}",
+          dateFormat: "${Settings.get('cgc_dateFormat')}",
+          firstDay: "${Settings.get('cgc_index_0')}",
           maxDate: new Date((new Date).getTime() + 2592e6 - 36e5),
           maxDateTime: new Date((new Date).getTime() + 2592e6 - 36e5),
           minDate: new Date,
@@ -70,7 +70,7 @@ class GiveawaysCustomGiveawayCalendar extends Module {
           numberOfMonths: 1,
           selectOtherMonths: !0,
           showOtherMonths: !0,
-          timeFormat: "${gSettings.cgc_timeFormat}",
+          timeFormat: "${Settings.get('cgc_timeFormat')}",
           onSelect: function() {
             s()
           },
@@ -95,8 +95,8 @@ class GiveawaysCustomGiveawayCalendar extends Module {
           altFormat: "M d, yy",
           altTimeFormat: "h:mm tt",
           beforeShowDay: t,
-          dateFormat: "${gSettings.cgc_dateFormat}",
-          firstDay: "${gSettings.cgc_index_0}",
+          dateFormat: "${Settings.get('cgc_dateFormat')}",
+          firstDay: "${Settings.get('cgc_index_0')}",
           maxDate: new Date((new Date).getTime() + 2592e6),
           maxDateTime: new Date((new Date).getTime() + 2592e6),
           minDate: new Date((new Date).getTime() + 36e5),
@@ -104,7 +104,7 @@ class GiveawaysCustomGiveawayCalendar extends Module {
           numberOfMonths: 1,
           selectOtherMonths: !0,
           showOtherMonths: !0,
-          timeFormat: "${gSettings.cgc_timeFormat}",
+          timeFormat: "${Settings.get('cgc_timeFormat')}",
           onSelect: function() {
             i()
           },

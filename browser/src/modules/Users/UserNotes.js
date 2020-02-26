@@ -2,8 +2,8 @@ import { ButtonSet } from '../../class/ButtonSet';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { common } from '../Common';
-import { gSettings } from '../../class/Globals';
-import { shared } from '../../class/Shared';
+import { Settings } from '../../class/Settings';
+import { Shared } from '../../class/Shared';
 
 const
   createElements = common.createElements.bind(common),
@@ -51,9 +51,9 @@ class UsersUserNotes extends Module {
 
   un_add(profile, savedUser) {
     let blacklistButton, position, whitelistButton;
-    if (shared.esgst.sg) {
+    if (Shared.esgst.sg) {
       position = 'beforeEnd';
-      if (gSettings.un_p) {
+      if (Settings.get('un_p')) {
         whitelistButton = profile.steamButtonContainer.getElementsByClassName('sidebar__shortcut__whitelist')[0];
         if (whitelistButton) {
           whitelistButton.addEventListener('click', this.un_open.bind(this, profile));
@@ -100,8 +100,8 @@ class UsersUserNotes extends Module {
     profile.unTextArea = createElements(profile.unPopup.scrollable, 'beforeEnd', [{
       type: 'textarea'
     }]);
-    if (gSettings.cfh) {
-      shared.esgst.modules.commentsCommentFormattingHelper.cfh_addPanel(profile.unTextArea);
+    if (Settings.get('cfh')) {
+      Shared.esgst.modules.commentsCommentFormattingHelper.cfh_addPanel(profile.unTextArea);
     }
     set = new ButtonSet({
       color1: 'green',

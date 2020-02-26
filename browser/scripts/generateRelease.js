@@ -73,7 +73,7 @@ async function generateChangelog() {
 }
 
 async function generateRelease() {
-  if (args.dev) {
+  if (args.alpha || args.beta) {
     const releases = await octokit.repos.listReleases(Object.assign({}, defaultParams));
 
     const preRelease = releases.data.filter(release => release.prerelease)[0];
@@ -89,17 +89,22 @@ async function generateRelease() {
     }
   }
 
-  const body = args.dev ? '' : (await generateChangelog());
+  const body = args.stable ? (await generateChangelog()) : '';
 
-  const name = `v${args.dev ? packageJson.devVersion : packageJson.version}`;
-  
+  let name = `v${packageJson.version}`;
+  if (args.alpha) {
+    name = `${name}-alpha.${packageJson.alpha}`;
+  } else if (args.beta) {
+    name = `${name}-beta.${packageJson.beta}`;
+  }
+
   const release = await octokit.repos.createRelease(Object.assign({}, defaultParams, {
     body,
     name,
-    prerelease: !!args.dev,
+    prerelease: !args.stable,
     tag_name: name
   }));
-  
+
   const url = release.data.upload_url;
 
   const files = [

@@ -1,5 +1,5 @@
-import { gSettings } from './Globals';
-import { shared } from './Shared';
+import { Settings } from './Settings';
+import { Shared } from './Shared';
 import { ICloudStorage } from './ICloudStorage';
 import { FetchRequest } from './FetchRequest';
 
@@ -33,8 +33,8 @@ class DropboxStorage extends ICloudStorage {
       state: 'dropbox'
     };
     const url = FetchRequest.addQueryParams(DropboxStorage.AUTH_URL, params);
-    await shared.common.delValue(key);
-    shared.common.openSmallWindow(url);
+    await Shared.common.delValue(key);
+    Shared.common.openSmallWindow(url);
     return (await DropboxStorage.getToken(key));
   }
 
@@ -44,9 +44,9 @@ class DropboxStorage extends ICloudStorage {
     }
     const requestOptions = {
       data,
-      fileName: gSettings.backupZip ? `${fileName}.json` : null,
+      fileName: Settings.get('backupZip') ? `${fileName}.json` : null,
       headers: Object.assign(DropboxStorage.getDefaultHeaders(token), {
-        'Dropbox-API-Arg': gSettings.backupZip ? `{"path": "/${fileName}.zip"}` : `{"path": "/${fileName}.json"}`,
+        'Dropbox-API-Arg': Settings.get('backupZip') ? `{"path": "/${fileName}.zip"}` : `{"path": "/${fileName}.json"}`,
         'Content-Type': 'application/octet-stream'
       })
     };

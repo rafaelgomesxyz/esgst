@@ -1,7 +1,7 @@
 import { common } from '../Common';
-import { shared } from '../../class/Shared';
+import { Shared } from '../../class/Shared';
 import { Filters } from '../Filters';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 
 class GroupsGroupFilters extends Filters {
   constructor() {
@@ -196,18 +196,18 @@ class GroupsGroupFilters extends Filters {
   }
 
   async init() {
-    if (!shared.common.isCurrentPath('Steam - Groups')) {
+    if (!Shared.common.isCurrentPath('Steam - Groups')) {
       return;
     }
-    if (!shared.esgst.hasAddedFilterContainer) {
-      shared.esgst.style.insertAdjacentText("beforeend", `
+    if (!Shared.esgst.hasAddedFilterContainer) {
+      Shared.esgst.style.insertAdjacentText("beforeend", `
         .esgst-gf-container {
-          top: ${shared.esgst.commentsTop - 5}px;
+          top: ${Shared.esgst.commentsTop - 5}px;
         }
       `);
     }
     common.createHeadingButton({
-      element: this.filters_addContainer(shared.esgst.mainPageHeading),
+      element: this.filters_addContainer(Shared.esgst.mainPageHeading),
       id: 'gpf'
     });
   }
@@ -215,65 +215,65 @@ class GroupsGroupFilters extends Filters {
   getFilters() {
     return {
       giveaways: {
-        check: gSettings.gs && gSettings.gs_giveaways,
+        check: Settings.get('gs') && Settings.get('gs_giveaways'),
         name: 'Giveaways',
         type: 'number'
       },
       users: {
-        check: gSettings.gs && gSettings.gs_users,
+        check: Settings.get('gs') && Settings.get('gs_users'),
         name: 'Users',
         type: 'number'
       },
       firstGiveaway: {
-        check: gSettings.gs && gSettings.gs_firstGiveaway,
+        check: Settings.get('gs') && Settings.get('gs_firstGiveaway'),
         date: true,
         name: 'First Giveaway',
         type: 'number'
       },
       lastGiveaway: {
-        check: gSettings.gs && gSettings.gs_lastGiveaway,
+        check: Settings.get('gs') && Settings.get('gs_lastGiveaway'),
         date: true,
         name: 'Last Giveaway',
         type: 'number'
       },
       averageEntries: {
-        check: gSettings.gs && gSettings.gs_averageEntries,
+        check: Settings.get('gs') && Settings.get('gs_averageEntries'),
         name: 'Average Entries',
         type: 'number'
       },
       contributors: {
-        check: gSettings.gs && gSettings.gs_contributors,
+        check: Settings.get('gs') && Settings.get('gs_contributors'),
         name: 'Contributors',
         type: 'number'
       },
       winners: {
-        check: gSettings.gs && gSettings.gs_winners,
+        check: Settings.get('gs') && Settings.get('gs_winners'),
         name: 'Winners',
         type: 'number'
       },
       creationDate: {
-        check: gSettings.gs && gSettings.gs_creationDate,
+        check: Settings.get('gs') && Settings.get('gs_creationDate'),
         date: true,
         name: 'Creation Date',
         type: 'number'
       },
       officialGameGroup: {
-        check: gSettings.gs && gSettings.gs_type,
+        check: Settings.get('gs') && Settings.get('gs_type'),
         name: 'Official Game Group',
         type: 'boolean'
       },
       open: {
-        check: gSettings.gs && gSettings.gs_type,
+        check: Settings.get('gs') && Settings.get('gs_type'),
         name: 'Open',
         type: 'boolean'
       },
       restricted: {
-        check: gSettings.gs && gSettings.gs_type,
+        check: Settings.get('gs') && Settings.get('gs_type'),
         name: 'Restricted',
         type: 'boolean'
       },
       closed: {
-        check: gSettings.gs && gSettings.gs_type,
+        check: Settings.get('gs') && Settings.get('gs_type'),
         name: 'Closed',
         type: 'boolean'
       }

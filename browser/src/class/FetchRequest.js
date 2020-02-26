@@ -1,6 +1,6 @@
-import { shared } from './Shared';
+import { Shared } from './Shared';
 import { browser } from '../browser';
-import { gSettings } from './Globals';
+import { Settings } from './Settings';
 import { Utils } from '../lib/jsUtils';
 import { DOM } from './DOM';
 
@@ -47,7 +47,7 @@ class FetchRequest {
 
     url = url
       .replace(/^\//, `https://${window.location.hostname}/`)
-      .replace(/^https?:/, shared.esgst.locationHref.match(/^http:/) ? 'http:' : 'https:');
+      .replace(/^https?:/, Shared.esgst.locationHref.match(/^http:/) ? 'http:' : 'https:');
     if (options.pathParams) {
       url = FetchRequest.addPathParams(url, options.pathParams);
     }
@@ -57,9 +57,9 @@ class FetchRequest {
     options.headers = Object.assign({}, DEFAULT_HEADERS, options.headers, REQUIRED_HEADERS);
     try {
       if (options.queue) {
-        deleteLock = await shared.common.createLock('requestLock', 1000);
+        deleteLock = await Shared.common.createLock('requestLock', 1000);
       } else if (url.match(/^https?:\/\/store.steampowered.com/)) {
-        deleteLock = await shared.common.createLock('steamStore', 200);
+        deleteLock = await Shared.common.createLock('steamStore', 200);
       }
 
       const isInternal = url.match(new RegExp(window.location.hostname));
@@ -85,7 +85,7 @@ class FetchRequest {
       }
 
       if (response.url.match(/www.steamgifts.com/)) {
-        shared.common.lookForPopups(response);
+        Shared.common.lookForPopups(response);
       }
 
       return response;
@@ -115,7 +115,7 @@ class FetchRequest {
   }
 
   static async sendExternal(url, options) {
-    const manipulateCookies = (await shared.common.getBrowserInfo()).name === 'Firefox' && gSettings.manipulateCookies;
+    const manipulateCookies = (await Shared.common.getBrowserInfo()).name === 'Firefox' && Settings.get('manipulateCookies');
 
     const messageOptions = {
       action: 'fetch',
@@ -146,7 +146,7 @@ class FetchRequest {
     let fetchOptions = FetchRequest.getFetchOptions(options);
 
     // @ts-ignore
-    if ((await shared.common.getBrowserInfo()).name === 'Firefox' && Utils.isSet(window.wrappedJSObject)) {
+    if ((await Shared.common.getBrowserInfo()).name === 'Firefox' && Utils.isSet(window.wrappedJSObject)) {
       // @ts-ignore
       // eslint-disable-next-line no-undef
       fetchObj = XPCNativeWrapper(window.wrappedJSObject.fetch);
