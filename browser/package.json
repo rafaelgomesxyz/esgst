@@ -1,8 +1,6 @@
 {
   "name": "esgst",
-  "version": "8.5.13",
-  "beta": 0,
-  "alpha": 2,
+  "version": "8.5.12",
   "title": "Enhanced SteamGifts & SteamTrades (ESGST)",
   "description": "A script that adds some cool features to SteamGifts and SteamTrades.",
   "author": "rafaelgssa",
@@ -15,10 +13,10 @@
     "url": "git+https://github.com/rafaelgssa/esgst.git"
   },
   "scripts": {
-    "build": "./node_modules/.bin/webpack --env.production --env.withBabel",
+    "build": "./node_modules/.bin/webpack --env.production --env.withBabel --env.ref",
     "build-dev": "./node_modules/.bin/webpack --env.development --env.withBabel",
-    "build-alpha": "./node_modules/.bin/webpack --env.development --env.alpha --env.withBabel",
-    "build-beta": "./node_modules/.bin/webpack --env.development --env.beta --env.withBabel",
+    "build-alpha": "./node_modules/.bin/webpack --env.development --env.alpha --env.withBabel --env.ref",
+    "build-beta": "./node_modules/.bin/webpack --env.development --env.beta --env.withBabel --env.ref",
     "start": "./node_modules/.bin/webpack --env.development --env.withBabel --env.withWatch",
     "generate-api-doc": "./node_modules/.bin/apidoc -i ./server/app -o ./server/documentation",
     "generate-release": "./node_modules/.bin/node ./scripts/generateRelease.js",

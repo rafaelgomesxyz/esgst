@@ -19,6 +19,13 @@ const defaultParams = {
   repo: packageJson.name
 };
 
+let version = packageJson.version;
+
+if (args.ref) {
+  const refParts = args.ref.split('/');
+  version = refParts[refParts.length - 1];
+}
+
 async function generateChangelog() {
   const featureChangelog = ['### ⭐ Features / Enhancements', ''];
   const bugChangelog = ['### 🐛 Bug Fixes', ''];
@@ -91,18 +98,11 @@ async function generateRelease() {
 
   const body = args.stable ? (await generateChangelog()) : '';
 
-  let name = `v${packageJson.version}`;
-  if (args.alpha) {
-    name = `${name}-alpha.${packageJson.alpha}`;
-  } else if (args.beta) {
-    name = `${name}-beta.${packageJson.beta}`;
-  }
-
   const release = await octokit.repos.createRelease(Object.assign({}, defaultParams, {
     body,
-    name,
+    name: version,
     prerelease: !args.stable,
-    tag_name: name
+    tag_name: version
   }));
 
   const url = release.data.upload_url;

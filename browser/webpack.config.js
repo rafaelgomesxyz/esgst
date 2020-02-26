@@ -5,6 +5,7 @@
  * @property {boolean} temporary
  * @property {boolean} withBabel
  * @property {boolean} withWatch
+ * @property {string} ref
  */
 
 const calfinated = require('calfinated')();
@@ -47,6 +48,8 @@ const plugins = {
     };
   }
 };
+
+let version = packageJson.version;
 
 /**
  * @param {Environment} env
@@ -153,12 +156,7 @@ function getWebExtensionManifest(env, browserName) {
 
   if (env.development) {
     manifest.content_security_policy = "script-src 'self' 'unsafe-eval'; object-src 'self';";
-    manifest.version_name = packageJson.version;
-    if (env.alpha) {
-      manifest.version_name = `${manifest.version_name}-alpha.${packageJson.alpha}`;
-    } else if (env.beta) {
-      manifest.version_name = `${manifest.version_name}-beta.${packageJson.beta}`;
-    }
+    manifest.version_name = version;
   }
 
   return manifest;
@@ -194,12 +192,7 @@ function getLegacyExtensionManifest(env, browserName) {
   }
 
   if (env.development) {
-    manifest.version_name = packageJson.version;
-    if (env.alpha) {
-      manifest.version_name = `${manifest.version_name}-alpha.${packageJson.alpha}`;
-    } else if (env.beta) {
-      manifest.version_name = `${manifest.version_name}-beta.${packageJson.beta}`;
-    }
+    manifest.version_name = version;
   }
 
   return manifest;
@@ -221,12 +214,7 @@ function packageWebExtension(env, browserName) {
     manifestJson.version = packageJson.version;
 
     if (env.development) {
-      manifest.version_name = packageJson.version;
-      if (env.alpha) {
-        manifest.version_name = `${manifest.version_name}-alpha.${packageJson.alpha}`;
-      } else if (env.beta) {
-        manifest.version_name = `${manifest.version_name}-beta.${packageJson.beta}`;
-      }
+      manifest.version_name = version;
     }
 
     const manifestStr = JSON.stringify(manifestJson, null, 2);
@@ -273,12 +261,7 @@ async function packageLegacyExtension(env, browserName) {
   manifestJson.version = packageJson.version;
 
   if (env.development) {
-    manifest.version_name = packageJson.version;
-    if (env.alpha) {
-      manifest.version_name = `${manifest.version_name}-alpha.${packageJson.alpha}`;
-    } else if (env.beta) {
-      manifest.version_name = `${manifest.version_name}-beta.${packageJson.beta}`;
-    }
+    manifest.version_name = version;
   }
 
   const manifestStr = JSON.stringify(manifestJson, null, 2);
@@ -373,6 +356,11 @@ async function runFinalSteps(env) {
  * @param {Environment} env
  */
 async function getWebpackConfig(env) {
+  if (env.ref) {
+    const refParts = env.ref.split('/');
+    version = refParts[refParts.length - 1];
+  }
+
   let mode;
 
   if (env.production) {
