@@ -1,0 +1,20 @@
+name: 'Alpha Release'
+
+on:
+  push:
+    branches:
+      - 'alpha/**'
+
+jobs:
+  build:
+    name: 'Build'
+    runs-on: ubuntu-latest
+    steps:
+    - name: 'Checkout'
+      uses: actions/checkout@v1
+    - name: 'Install dependencies'
+      run: cd ./browser && npm ci
+    - name: 'Run build'
+      run: cd ./browser && npm run build-alpha
+    - name: 'Generate release'
+      run: cd ./browser && npm run generate-release alpha token=${{ secrets.GITHUB_ACCESS_TOKEN }}

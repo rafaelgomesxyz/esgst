@@ -1,6 +1,6 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 import { DOM } from '../../class/DOM';
 
 const
@@ -43,7 +43,7 @@ class GeneralPaginationNavigationOnTop extends Module {
   }
 
   pnot_simplify() {
-    if (gSettings.pnot && gSettings.pnot_s) {
+    if (Settings.get('pnot') && Settings.get('pnot_s')) {
       const elements = this.esgst.paginationNavigation.querySelectorAll('span');
       // @ts-ignore
       for (const element of elements) {

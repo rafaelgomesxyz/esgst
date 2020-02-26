@@ -1,7 +1,7 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
-import { shared } from '../../class/Shared';
-import { gSettings } from '../../class/Globals';
+import { Shared } from '../../class/Shared';
+import { Settings } from '../../class/Settings';
 import { DOM } from '../../class/DOM';
 import { Session } from '../../class/Session';
 
@@ -50,18 +50,18 @@ class TradesTradeBumper extends Module {
   }
 
   init() {
-    if (shared.esgst.locationHref.match(new RegExp(`\\/trades\\/search\\?user=${gSettings.steamId}`))) {
+    if (Shared.esgst.locationHref.match(new RegExp(`\\/trades\\/search\\?user=${Settings.get('steamId')}`))) {
       const button = createHeadingButton({
         id: 'tb',
         icons: ['fa-chevron-circle-up'],
         title: 'Bump trades'
       });
       button.addEventListener('click', this.tb_getTrades.bind(this, button, document));
-      if (gSettings.tb_a) {
+      if (Settings.get('tb_a')) {
         // noinspection JSIgnoredPromiseFromCall
         this.tb_setAutoBump(button);
       }
-    } else if (gSettings.tb_a) {
+    } else if (Settings.get('tb_a')) {
       // noinspection JSIgnoredPromiseFromCall
       this.tb_setAutoBump();
     }
@@ -104,7 +104,7 @@ class TradesTradeBumper extends Module {
   }
 
   async tb_autoBumpTrades(button) {
-    if (shared.esgst.locationHref.match(new RegExp(`\\/trades\\/search\\?user=${gSettings.steamId}`))) {
+    if (Shared.esgst.locationHref.match(new RegExp(`\\/trades\\/search\\?user=${Settings.get('steamId')}`))) {
       // noinspection JSIgnoredPromiseFromCall
       this.tb_getTrades(button, document);
     } else {
@@ -112,7 +112,7 @@ class TradesTradeBumper extends Module {
       this.tb_getTrades(null, DOM.parse((await request({
         method: 'GET',
         queue: true,
-        url: `https://www.steamtrades.com/trades/search?user=${gSettings.steamId}`
+        url: `https://www.steamtrades.com/trades/search?user=${Settings.get('steamId')}`
       })).responseText));
     }
   }

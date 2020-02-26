@@ -1,6 +1,6 @@
 import { Module } from '../../class/Module';
 import {common} from '../Common';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 
 class GiveawaysEnteredGiveawaysStats extends Module {
   constructor() {
@@ -87,7 +87,7 @@ class GiveawaysEnteredGiveawaysStats extends Module {
       return;
     }
     for (const giveaway of giveaways) {
-      if (!giveaway.ended || gSettings.egs_e) {
+      if (!giveaway.ended || Settings.get('egs_e')) {
         for (const key in obj.counters) {
           obj.counters[key] += giveaway[key];
         }

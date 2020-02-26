@@ -1,5 +1,5 @@
 import { Module } from '../../class/Module';
-import { shared } from '../../class/Shared';
+import { Shared } from '../../class/Shared';
 
 class GiveawaysNewGiveawayDescriptionChecker extends Module {
   constructor() {
@@ -19,7 +19,7 @@ class GiveawaysNewGiveawayDescriptionChecker extends Module {
   }
 
   init() {
-    if (!shared.esgst.newGiveawayPath) {
+    if (!Shared.esgst.newGiveawayPath) {
       return;
     }
 
@@ -62,7 +62,7 @@ class GiveawaysNewGiveawayDescriptionChecker extends Module {
 
       if (message) {
         message = `${message} Are you sure you want to continue?`;
-        await shared.common.createConfirmation(message, () => resolve(false), () => resolve(true));
+        await Shared.common.createConfirmation(message, () => resolve(false), () => resolve(true));
       } else {
         resolve(false);
       }

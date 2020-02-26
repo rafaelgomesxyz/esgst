@@ -1,8 +1,7 @@
 /**
  * @typedef {Object} IHeaderRefresherCache
  * @property {number} created
- * @property {number} fullLevel
- * @property {number} level
+ * @property {ILevel} level
  * @property {number} messages
  * @property {number} newWishlist
  * @property {number} points

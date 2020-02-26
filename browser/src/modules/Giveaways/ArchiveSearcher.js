@@ -3,8 +3,8 @@ import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { common } from '../Common';
 import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
-import { shared } from '../../class/Shared';
-import { gSettings } from '../../class/Globals';
+import { Shared } from '../../class/Shared';
+import { Settings } from '../../class/Settings';
 import { permissions } from '../../class/Permissions';
 import { DOM } from '../../class/DOM';
 
@@ -70,7 +70,7 @@ class GiveawaysArchiveSearcher extends Module {
       query = match[2];
       isAppId = true;
     }
-    if (gSettings.as_t) {
+    if (Settings.get('as_t')) {
       window.location.href = `?esgst=as&query=${encodeURIComponent(query)}${isAppId ? `&isAppId=true` : ''}`;
     } else {
       this.as_init({query, isAppId, isPopup: true});
@@ -104,7 +104,7 @@ class GiveawaysArchiveSearcher extends Module {
       context.setAttribute('data-esgst-popup', 'true');
       context.innerHTML = '';
     }
-    new elementBuilder[shared.esgst.name].pageHeading({
+    new elementBuilder[Shared.esgst.name].pageHeading({
       context: container,
       position: 'afterBegin',
       breadcrumbs: [

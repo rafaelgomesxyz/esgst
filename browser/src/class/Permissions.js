@@ -1,12 +1,19 @@
 import { browser } from '../browser';
 import { Popup } from './Popup';
-import { shared } from './Shared';
-import { gSettings } from './Globals';
+import { Shared } from './Shared';
+import { Settings } from './Settings';
 import { DOM } from './DOM';
 
 class Permissions {
   constructor() {
     this.permissions = {
+      allUrls: {
+        isOrigin: true,
+        messages: {
+          ge: 'Required by Giveaway Extractor to extract giveaways from any URL.'
+        },
+        values: ['<all_urls>']
+      },
       cookies: {
         messages: {
           manipulateCookies: 'Required if the option to manipulate cookies is enabled.'
@@ -81,7 +88,7 @@ class Permissions {
           mm: 'Optional for Multi Manager to hide games.',
           sync: 'Optional to hide games when syncing.'
         },
-        values: [`*://*.revadike.ga/*`]
+        values: [`*://*.revadike.com/*`]
       },
       steamApi: {
         isOrigin: true,
@@ -166,13 +173,13 @@ class Permissions {
     if (!result) {
       let hasChanged = false;
       for (const key of keys) {
-        if (gSettings.permissionsDenied.indexOf(key) < 0) {
-          gSettings.permissionsDenied.push(key);
+        if (Settings.get('permissionsDenied').indexOf(key) < 0) {
+          Settings.get('permissionsDenied').push(key);
           hasChanged = true;
         }
       }
       if (hasChanged) {
-        await shared.common.setSetting('permissionsDenied', gSettings.permissionsDenied);
+        await Shared.common.setSetting('permissionsDenied', Settings.get('permissionsDenied'));
       }
     }
     return result;
@@ -245,7 +252,7 @@ class Permissions {
         ]);
       }
 
-      popup.onCloseByUser = () => resolve(false);
+      popup.onCloseByUser = async () => resolve(await this.contains(keyArrays));
       popup.open();
     });
   }
@@ -259,7 +266,7 @@ class Permissions {
       combos.push(permissions.concat(origins).join(` + `));
     }
 
-    return `${messageKey && shared.esgst.featuresById[messageKey] ? `${shared.esgst.featuresById[messageKey].name} says: ` : ''} ${isOptional ? `If you want to perform this action faster, please go to the "Permissions" section of the settings menu and grant permissions for one (or all) of the combos: ${combos.join(' OR ')}` : `No permission to perform this action. Please go to the "Permissions" section of the settings menu and grant permissions for one (or all) of the combos: ${combos.join(' OR ')}`}`;
+    return `${messageKey && Shared.esgst.featuresById[messageKey] ? `${Shared.esgst.featuresById[messageKey].name} says: ` : ''} ${isOptional ? `If you want to perform this action faster, please go to the "Permissions" section of the settings menu and grant permissions for one (or all) of the combos: ${combos.join(' OR ')}` : `No permission to perform this action. Please go to the "Permissions" section of the settings menu and grant permissions for one (or all) of the combos: ${combos.join(' OR ')}`}`;
   }
 }
 

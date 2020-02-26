@@ -1,6 +1,6 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 
 const
   createElements = common.createElements.bind(common),
@@ -78,16 +78,16 @@ class GiveawaysGiveawayWinningChance extends Module {
   }
 
   init() {
-    if (gSettings.gptw || (!this.esgst.enteredPath && (!this.esgst.wonPath || !gSettings.cewgd || !gSettings.cewgd_w || !gSettings.cewgd_w_e))) return;
+    if (Settings.get('gptw') || (!this.esgst.enteredPath && (!this.esgst.wonPath || !Settings.get('cewgd') || !Settings.get('cewgd_w') || !Settings.get('cewgd_w_e')))) return;
     this.esgst.endlessFeatures.push(this.gwc_addHeading.bind(this));
   }
 
   gwc_addChances(giveaways, main, source) {
     giveaways.forEach(giveaway => {
-      if (giveaway.sgTools || (main && (this.esgst.createdPath || (this.esgst.wonPath && (!gSettings.cewgd || !gSettings.cewgd_w || !gSettings.cewgd_w_e)) || this.esgst.newGiveawayPath || this.esgst.archivePath))) return;
-      if (((giveaway.inviteOnly && ((main && (this.esgst.giveawayPath || this.esgst.enteredPath || (this.esgst.wonPath && gSettings.cewgd && gSettings.cewgd_w && gSettings.cewgd_w_e))) || !main || giveaway.ended || giveaway.id)) || !giveaway.inviteOnly) && !giveaway.innerWrap.getElementsByClassName('esgst-gwc')[0]) {
+      if (giveaway.sgTools || (main && (this.esgst.createdPath || (this.esgst.wonPath && (!Settings.get('cewgd') || !Settings.get('cewgd_w') || !Settings.get('cewgd_w_e'))) || this.esgst.newGiveawayPath || this.esgst.archivePath))) return;
+      if (((giveaway.inviteOnly && ((main && (this.esgst.giveawayPath || this.esgst.enteredPath || (this.esgst.wonPath && Settings.get('cewgd') && Settings.get('cewgd_w') && Settings.get('cewgd_w_e')))) || !main || giveaway.ended || giveaway.id)) || !giveaway.inviteOnly) && !giveaway.innerWrap.getElementsByClassName('esgst-gwc')[0]) {
         if (giveaway.started) {
-          giveaway.gwcContext = createElements(giveaway.panel, (gSettings.gv && ((main && this.esgst.giveawaysPath) || (source === 'gb' && gSettings.gv_gb) || (source === 'ged' && gSettings.gv_ged) || (source === 'ge' && gSettings.gv_ge))) ? 'afterBegin' : 'beforeEnd', [{
+          giveaway.gwcContext = createElements(giveaway.panel, (Settings.get('gv') && ((main && this.esgst.giveawaysPath) || (source === 'gb' && Settings.get('gv_gb')) || (source === 'ged' && Settings.get('gv_ged')) || (source === 'ge' && Settings.get('gv_ge')))) ? 'afterBegin' : 'beforeEnd', [{
             attributes: {
               class: `${this.esgst.giveawayPath ? 'featured__column' : ''} esgst-gwc`,
               ['data-draggable-id']: 'gwc',
@@ -108,10 +108,10 @@ class GiveawaysGiveawayWinningChance extends Module {
 
   gwc_addChance(giveaway) {
     let advancedChance = 0, advancedColor, basicChance, basicColor, colors, entries, i;
-    entries = giveaway.entered || giveaway.ended || giveaway.created || !gSettings.gwc_e ? giveaway.entries : giveaway.entries + 1;
+    entries = giveaway.entered || giveaway.ended || giveaway.created || !Settings.get('gwc_e') ? giveaway.entries : giveaway.entries + 1;
     basicChance = entries > 0 ? giveaway.copies / entries * 100 : 100;
     basicChance = basicChance > 100 ? 100 : (basicChance <= 0 ? 0.01 : basicChance);
-    if (gSettings.gwc_a && !giveaway.ended && giveaway.startTime) {
+    if (Settings.get('gwc_a') && !giveaway.ended && giveaway.startTime) {
       advancedChance = entries > 0 ? giveaway.copies / (entries / (Date.now() - giveaway.startTime) * (giveaway.endTime - giveaway.startTime)) * 100 : 100;
       advancedChance = advancedChance > 100 ? 100 : (advancedChance <= 0 ? 0.01 : advancedChance);
     }
@@ -124,27 +124,27 @@ class GiveawaysGiveawayWinningChance extends Module {
     }
     giveaway.gwcContext.setAttribute('data-chance', giveaway.chance);
     giveaway.gwcContext.setAttribute('data-projectedChance', giveaway.projectedChance);
-    for (i = gSettings.gwc_colors.length - 1; i > -1; --i) {
-      colors = gSettings.gwc_colors[i];
+    for (i = Settings.get('gwc_colors').length - 1; i > -1; --i) {
+      colors = Settings.get('gwc_colors')[i];
       if (basicChance >= parseFloat(colors.lower) && basicChance <= parseFloat(colors.upper)) {
         basicColor = colors.color;
         break;
       }
     }
-    for (i = gSettings.gwc_colors.length - 1; i > -1; --i) {
-      colors = gSettings.gwc_colors[i];
+    for (i = Settings.get('gwc_colors').length - 1; i > -1; --i) {
+      colors = Settings.get('gwc_colors')[i];
       if (advancedChance >= parseFloat(colors.lower) && advancedChance <= parseFloat(colors.upper)) {
         advancedColor = colors.color;
         break;
       }
     }
-    if (gSettings.gwc_h) {
+    if (Settings.get('gwc_h')) {
       giveaway.headingName.classList.add('esgst-gwc-highlight');
-      giveaway.headingName.style.color = gSettings.gwc_a && !gSettings.gwc_a_b ? advancedColor : basicColor;
+      giveaway.headingName.style.color = Settings.get('gwc_a') && !Settings.get('gwc_a_b') ? advancedColor : basicColor;
       if (giveaway.image) {
         giveaway.image.classList.add('esgst-gwc-highlight');
-        giveaway.image.style.color = `${gSettings.gwc_a && !gSettings.gwc_a_b ? advancedColor : basicColor}`;
-        giveaway.image.style.boxShadow = `${gSettings.gwc_a && !gSettings.gwc_a_b ? advancedColor : basicColor} 0px 0px 0px var(--esgst-gwc-highlight-width, 3px) inset`;
+        giveaway.image.style.color = `${Settings.get('gwc_a') && !Settings.get('gwc_a_b') ? advancedColor : basicColor}`;
+        giveaway.image.style.boxShadow = `${Settings.get('gwc_a') && !Settings.get('gwc_a_b') ? advancedColor : basicColor} 0px 0px 0px var(--esgst-gwc-highlight-width, 3px) inset`;
       }
     }
     if (this.esgst.enteredPath || this.esgst.wonPath) {
@@ -168,8 +168,8 @@ class GiveawaysGiveawayWinningChance extends Module {
     if (advancedColor) {
       advancedAttributes.style = `color: ${advancedColor}; font-weight: bold;`
     }
-    if (gSettings.gwc_a && advancedChance) {
-      if (gSettings.gwc_a_b) {
+    if (Settings.get('gwc_a') && advancedChance) {
+      if (Settings.get('gwc_a_b')) {
         children.push({
           attributes: basicAttributes,
           text: `${common.round(basicChance)}%`,
@@ -203,7 +203,7 @@ class GiveawaysGiveawayWinningChance extends Module {
       type: 'span',
       children
     });
-    if ((this.esgst.enteredPath || this.esgst.wonPath) && gSettings.gwr) {
+    if ((this.esgst.enteredPath || this.esgst.wonPath) && Settings.get('gwr')) {
       items.push({
         text: ' / ',
         type: 'node'
@@ -213,17 +213,17 @@ class GiveawaysGiveawayWinningChance extends Module {
   }
 
   gwc_addHeading(context, main, source, endless) {
-    if (this.esgst.createdPath || (this.esgst.wonPath && (!gSettings.cewgd || !gSettings.cewgd_w || !gSettings.cewgd_w_e)) || !main) return;
+    if (this.esgst.createdPath || (this.esgst.wonPath && (!Settings.get('cewgd') || !Settings.get('cewgd_w') || !Settings.get('cewgd_w_e'))) || !main) return;
     const table = context.querySelector(`${endless ? `.esgst-es-page-${endless} .table__heading, .esgst-es-page-${endless}.table__heading` : '.table__heading'}`);
     if (!table || table.getElementsByClassName('esgst-gwcr-heading')[0]) return;
     let title = '';
-    if (gSettings.gwc) {
+    if (Settings.get('gwc')) {
       title += 'Chance / ';
     }
-    if (gSettings.gwr) {
+    if (Settings.get('gwr')) {
       title += 'Ratio / ';
     }
-    if (gSettings.gptw) {
+    if (Settings.get('gptw')) {
       title += 'Points To Win / ';
     }
     title = title.slice(0, -3);

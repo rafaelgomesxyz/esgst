@@ -1,6 +1,6 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
-import { gSettings } from '../../class/Globals';
+import { Settings } from '../../class/Settings';
 import { DOM } from '../../class/DOM';
 
 class UsersUserLinks extends Module {
@@ -29,7 +29,7 @@ class UsersUserLinks extends Module {
     const iconRegex = /^fa-(.+?)($|\s)/;
     const imageRegex = /^(https?:\/\/.+?)($|\s)/;
     const textRegex = /^(.+?)($|\s(fa-|https?:\/\/))/;
-    for (const link of gSettings.ul_links) {
+    for (const link of Settings.get('ul_links')) {
       const children = [];
       let label = link.label;
       while (label) {

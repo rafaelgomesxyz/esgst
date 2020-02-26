@@ -1,4 +1,4 @@
-import { shared } from './Shared';
+import { Shared } from './Shared';
 import { DOM } from './DOM';
 
 class Table {

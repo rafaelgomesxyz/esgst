@@ -1,12 +1,13 @@
 import { ButtonSet } from '../class/ButtonSet';
 import { Checkbox } from '../class/Checkbox';
 import { Popup } from '../class/Popup';
-import { shared, Shared } from '../class/Shared';
+import { Shared } from '../class/Shared';
 import { elementBuilder } from '../lib/SgStUtils/ElementBuilder';
-import { gSettings } from '../class/Globals';
+import { Settings } from '../class/Settings';
 import { permissions } from '../class/Permissions';
 import { Logger } from '../class/Logger';
 import { DOM } from '../class/DOM';
+import { LocalStorage } from '../class/LocalStorage';
 
 let toSave = {};
 
@@ -94,12 +95,12 @@ async function runSilentSync(parameters) {
 
   button.nodes.buttonIcon.title = 'ESGST is syncing your data... Please do not close this window.';
 
-  shared.esgst.parameters = Object.assign(shared.esgst.parameters, shared.common.getParameters(`?autoSync=true&${parameters.replace(/&$/, '')}`));
+  Shared.esgst.parameters = Object.assign(Shared.esgst.parameters, Shared.common.getParameters(`?autoSync=true&${parameters.replace(/&$/, '')}`));
   const syncer = await setSync(false, true);
   button.nodes.outer.addEventListener('click', () => syncer.popup.open());
-  shared.esgst.isSyncing = true;
+  Shared.esgst.isSyncing = true;
   await sync(syncer);
-  shared.esgst.isSyncing = false;
+  Shared.esgst.isSyncing = false;
 
   button.nodes.outer.classList.remove('nav__button-container--active');
   button.nodes.outer.classList.add('nav__button-container--inactive');
@@ -126,9 +127,9 @@ function getDependencies(syncer, feature, id) {
 async function setSync(isPopup = false, isSilent = false) {
   let syncer = {};
   syncer.canceled = false;
-  syncer.isSilent = isSilent || shared.esgst.firstInstall;
-  if (shared.esgst.parameters.autoSync) {
-    syncer.parameters = shared.esgst.parameters;
+  syncer.isSilent = isSilent || Shared.esgst.firstInstall;
+  if (Shared.esgst.parameters.autoSync) {
+    syncer.parameters = Shared.esgst.parameters;
   }
   let containerr = null;
   let context = null;
@@ -140,30 +141,30 @@ async function setSync(isPopup = false, isSilent = false) {
     });
     containerr = popup.description;
     context = popup.scrollable;
-    if (!shared.esgst.firstInstall && (!syncer.isSilent || gSettings.openAutoSyncPopup)) {
+    if (!Shared.esgst.firstInstall && (!syncer.isSilent || Settings.get('openAutoSyncPopup'))) {
       popup.open();
     }
   } else {
-    containerr = context = shared.esgst.sidebar.nextElementSibling;
+    containerr = context = Shared.esgst.sidebar.nextElementSibling;
     containerr.innerHTML = '';
     context.setAttribute('data-esgst-popup', 'true');
   }
-  const heading = new elementBuilder[shared.esgst.name].pageHeading({
+  const heading = new elementBuilder[Shared.esgst.name].pageHeading({
     context: containerr,
     position: 'afterBegin',
     breadcrumbs: [
       {
         name: 'ESGST',
-        url: shared.esgst.settingsUrl
+        url: Shared.esgst.settingsUrl
       },
       {
         name: 'Sync',
-        url: shared.esgst.syncUrl
+        url: Shared.esgst.syncUrl
       }
     ]
   }).pageHeading;
   if (!isPopup && !syncer.isSilent) {
-    shared.esgst.mainPageHeading = heading;
+    Shared.esgst.mainPageHeading = heading;
   }
   if (syncer.isSilent) {
     syncer.area = DOM.build(context, 'beforeEnd', [['div']]);
@@ -182,7 +183,7 @@ async function setSync(isPopup = false, isSilent = false) {
       title1: 'Save Changes',
       title2: 'Saving...',
       callback1: async () => {
-        await shared.common.lockAndSaveSettings(toSave);
+        await Shared.common.lockAndSaveSettings(toSave);
         toSave = {};
         if (isPopup) {
           popup.close();
@@ -206,23 +207,23 @@ async function setSync(isPopup = false, isSilent = false) {
     };
     syncer.switchesKeys = SYNC_KEYS;
     syncer.switches = {};
-    for (const type in shared.esgst.features) {
-      for (const id in shared.esgst.features[type].features) {
-        getDependencies(syncer, shared.esgst.features[type].features[id], id);
+    for (const type in Shared.esgst.features) {
+      for (const id in Shared.esgst.features[type].features) {
+        getDependencies(syncer, Shared.esgst.features[type].features[id], id);
       }
     }
     for (let id in syncer.switchesKeys) {
       if (syncer.switchesKeys.hasOwnProperty(id)) {
         const info = syncer.switchesKeys[id];
-        const checkbox = new Checkbox(null, gSettings[id]);
+        const checkbox = new Checkbox(null, Settings.get(id));
         checkbox.onChange = () => {
           toSave[`sync${info.key}`] = checkbox.value;
-          gSettings[`sync${info.key}`] = checkbox.value;
+          Settings.set(`sync${info.key}`, checkbox.value);
         };
         syncer.switches[id] = checkbox;
         syncer.manual.content.push(
           ['div', [
-            ['i', { class: 'fa fa-question-circle', title: `This is required for the following features:\n\n${info.dependencies.map(x => shared.common.getFeatureName(null, x)).join('\n')}` }],
+            ['i', { class: 'fa fa-question-circle', title: `This is required for the following features:\n\n${info.dependencies.map(x => Shared.common.getFeatureName(null, x)).join('\n')}` }],
             ' ',
             checkbox.checkbox,
             ' ',
@@ -230,10 +231,10 @@ async function setSync(isPopup = false, isSilent = false) {
           ]]
         );
         setAutoSync(info.key, info.name, syncer);
-        shared.common.createFormNotification(syncer.notificationArea, 'beforeEnd', {
+        Shared.common.createFormNotification(syncer.notificationArea, 'beforeEnd', {
           name: info.name,
-          success: !!gSettings[`lastSync${info.key}`],
-          date: gSettings[`lastSync${info.key}`]
+          success: !!Settings.get(`lastSync${info.key}`),
+          date: Settings.get(`lastSync${info.key}`)
         });
       }
     }
@@ -257,7 +258,7 @@ async function setSync(isPopup = false, isSilent = false) {
           icon2: 'fa-circle-o-notch fa-spin',
           title1: 'All',
           title2: '',
-          callback1: shared.common.selectSwitches.bind(shared.common, syncer.switches, 'check', null)
+          callback1: Shared.common.selectSwitches.bind(Shared.common, syncer.switches, 'check', null)
         }).set,
         new ButtonSet({
           color1: 'grey',
@@ -266,7 +267,7 @@ async function setSync(isPopup = false, isSilent = false) {
           icon2: 'fa-circle-o-notch fa-spin',
           title1: 'None',
           title2: '',
-          callback1: shared.common.selectSwitches.bind(shared.common, syncer.switches, 'uncheck', null)
+          callback1: Shared.common.selectSwitches.bind(Shared.common, syncer.switches, 'uncheck', null)
         }).set,
         new ButtonSet({
           color1: 'grey',
@@ -275,7 +276,7 @@ async function setSync(isPopup = false, isSilent = false) {
           icon2: 'fa-circle-o-notch fa-spin',
           title1: 'Inverse',
           title2: '',
-          callback1: shared.common.selectSwitches.bind(shared.common, syncer.switches, 'toggle', null)
+          callback1: Shared.common.selectSwitches.bind(Shared.common, syncer.switches, 'toggle', null)
         }).set
       ]],
       syncer.set.set
@@ -283,21 +284,21 @@ async function setSync(isPopup = false, isSilent = false) {
     syncer.automatic.content.push(
       ['div', { class: 'esgst-description' }, `Select how often you want the automatic sync to run (in days) or 0 to disable it.`]
     );
-    shared.common.createFormRows(syncer.container, 'beforeEnd', { items: [syncer.manual, syncer.automatic] });
-    if (gSettings.at) {
-      shared.esgst.modules.generalAccurateTimestamp.at_getTimestamps(syncer.notificationArea);
+    Shared.common.createFormRows(syncer.container, 'beforeEnd', { items: [syncer.manual, syncer.automatic] });
+    if (Settings.get('at')) {
+      Shared.esgst.modules.generalAccurateTimestamp.at_getTimestamps(syncer.notificationArea);
     }
   }
-  syncer.progress = shared.common.createElements(syncer.area, 'beforeEnd', [{
+  syncer.progress = Shared.common.createElements(syncer.area, 'beforeEnd', [{
     attributes: {
       class: 'esgst-hidden esgst-popup-progress'
     },
     type: 'div'
   }]);
-  syncer.results = shared.common.createElements(syncer.area, 'beforeEnd', [{
+  syncer.results = Shared.common.createElements(syncer.area, 'beforeEnd', [{
     type: 'div'
   }]);
-  if (!syncer.isSilent && !shared.esgst.isSyncing && syncer.parameters && syncer.set) {
+  if (!syncer.isSilent && !Shared.esgst.isSyncing && syncer.parameters && syncer.set) {
     syncer.set.trigger();
   }
   return syncer;
@@ -308,26 +309,26 @@ function updateSyncDates(syncer) {
   for (let id in syncer.switchesKeys) {
     if (syncer.switchesKeys.hasOwnProperty(id)) {
       const info = syncer.switchesKeys[id];
-      shared.common.createFormNotification(syncer.notificationArea, 'beforeEnd', {
+      Shared.common.createFormNotification(syncer.notificationArea, 'beforeEnd', {
         name: info.name,
-        success: !!gSettings[`lastSync${info.key}`],
-        date: gSettings[`lastSync${info.key}`]
+        success: !!Settings.get(`lastSync${info.key}`),
+        date: Settings.get(`lastSync${info.key}`)
       });
     }
   }
-  if (gSettings.at) {
-    shared.esgst.modules.generalAccurateTimestamp.at_getTimestamps(syncer.notificationArea);
+  if (Settings.get('at')) {
+    Shared.esgst.modules.generalAccurateTimestamp.at_getTimestamps(syncer.notificationArea);
   }
 }
 
 function setAutoSync(key, name, syncer) {
   let days = [];
   for (let i = 0; i < 31; ++i) {
-    days.push(['option', i === gSettings[`autoSync${key}`] ? { selected: true } : null, i]);
+    days.push(['option', i === Settings.get(`autoSync${key}`) ? { selected: true } : null, i]);
   }
   syncer.automatic.content.push(
     ['div', null, [
-      ['select', { class: 'esgst-auto-sync', onchange: event => { gSettings[`autoSync${key}`] = parseInt(event.currentTarget.value); toSave[`autoSync${key}`] = parseInt(event.currentTarget.value); }}, days],
+      ['select', { class: 'esgst-auto-sync', onchange: event => { Settings.set(`autoSync${key}`, parseInt(event.currentTarget.value)); toSave[`autoSync${key}`] = parseInt(event.currentTarget.value); }}, days],
       ['span', null, name]
     ]]
   );
@@ -342,11 +343,11 @@ function cancelSync(syncer) {
 
 //use: syncer.results, syncer.progress, syncer.parameters
 async function sync(syncer) {
-  if (!shared.esgst.firstInstall) {
-    await shared.common.setSetting('lastSync', Date.now());
+  if (!Shared.esgst.firstInstall) {
+    await Shared.common.setSetting('lastSync', Date.now());
     syncer.results.innerHTML = '';
     syncer.progress.classList.remove('esgst-hidden');
-    shared.common.createElements(syncer.progress, 'inner', [{
+    Shared.common.createElements(syncer.progress, 'inner', [{
       attributes: {
         class: 'fa fa-circle-o-notch fa-spin'
       },
@@ -357,7 +358,7 @@ async function sync(syncer) {
   }
 
   // if this is the user's fist time using the script, only sync steam id and stop
-  if (shared.esgst.firstInstall) {
+  if (Shared.esgst.firstInstall) {
     return;
   }
 
@@ -369,10 +370,10 @@ async function sync(syncer) {
   syncer.failed = {};
 
   // sync groups
-  if (shared.esgst.sg && ((syncer.parameters && syncer.parameters.Groups) || (!syncer.parameters && gSettings.syncGroups))) {
+  if (Shared.esgst.sg && ((syncer.parameters && syncer.parameters.Groups) || (!syncer.parameters && Settings.get('syncGroups')))) {
     syncer.progress.lastElementChild.textContent = 'Syncing your Steam groups...';
     syncer.groups = {};
-    let savedGroups = JSON.parse(shared.common.getValue('groups'));
+    let savedGroups = JSON.parse(Shared.common.getValue('groups'));
     if (!Array.isArray(savedGroups)) {
       let newGroups, savedGiveaways;
       newGroups = [];
@@ -382,14 +383,14 @@ async function sync(syncer) {
         }
       }
       savedGroups = newGroups;
-      await shared.common.setValue('groups', JSON.stringify(savedGroups));
-      savedGiveaways = JSON.parse(shared.common.getValue('giveaways'));
+      await Shared.common.setValue('groups', JSON.stringify(savedGroups));
+      savedGiveaways = JSON.parse(Shared.common.getValue('giveaways'));
       for (let key in savedGiveaways) {
         if (savedGiveaways.hasOwnProperty(key)) {
           delete savedGiveaways[key].groups;
         }
       }
-      await shared.common.setValue('giveaways', JSON.stringify(savedGiveaways));
+      await Shared.common.setValue('giveaways', JSON.stringify(savedGiveaways));
     }
     syncer.currentGroups = {};
     for (let i = 0, n = savedGroups.length; i < n; ++i) {
@@ -403,7 +404,7 @@ async function sync(syncer) {
     let pagination = null;
     do {
       let elements, responseHtml;
-      responseHtml = DOM.parse((await shared.common.request({
+      responseHtml = DOM.parse((await Shared.common.request({
         method: 'GET',
         url: `https://www.steamgifts.com/account/steam/groups/search?page=${nextPage}`
       })).responseText);
@@ -425,7 +426,7 @@ async function sync(syncer) {
         } else {
           let avatar, steamId;
           avatar = element.getElementsByClassName('table_image_avatar')[0].style.backgroundImage.match(/\/avatars\/(.+)_medium/)[1];
-          steamId = DOM.parse((await shared.common.request({
+          steamId = DOM.parse((await Shared.common.request({
             method: 'GET',
             url: `/group/${code}/`
           })).responseText).getElementsByClassName('sidebar__shortcut-inner-wrap')[0].firstElementChild.getAttribute('href').match(/\d+/)[0];
@@ -442,7 +443,7 @@ async function sync(syncer) {
       pagination = responseHtml.getElementsByClassName('pagination__navigation')[0];
       nextPage += 1;
     } while (!syncer.canceled && pagination && !pagination.lastElementChild.classList.contains('is-selected'));
-    await shared.common.lockAndSaveGroups(syncer.groups, true);
+    await Shared.common.lockAndSaveGroups(syncer.groups, true);
     let missing, neww;
     missing = [];
     neww = [];
@@ -497,27 +498,27 @@ async function sync(syncer) {
   }
 
   // sync whitelist and blacklist
-  if ((syncer.parameters && (syncer.parameters.Whitelist || syncer.parameters.Blacklist)) || (!syncer.parameters && (gSettings.syncWhitelist || gSettings.syncBlacklist))) {
-    if ((syncer.parameters && syncer.parameters.Whitelist && syncer.parameters.Blacklist) || (!syncer.parameters && gSettings.syncWhitelist && gSettings.syncBlacklist)) {
-      await shared.common.deleteUserValues(['whitelisted', 'whitelistedDate', 'blacklisted', 'blacklistedDate']);
+  if ((syncer.parameters && (syncer.parameters.Whitelist || syncer.parameters.Blacklist)) || (!syncer.parameters && (Settings.get('syncWhitelist') || Settings.get('syncBlacklist')))) {
+    if ((syncer.parameters && syncer.parameters.Whitelist && syncer.parameters.Blacklist) || (!syncer.parameters && Settings.get('syncWhitelist') && Settings.get('syncBlacklist'))) {
+      await Shared.common.deleteUserValues(['whitelisted', 'whitelistedDate', 'blacklisted', 'blacklistedDate']);
       syncer.users = [];
       syncer.progress.lastElementChild.textContent = 'Syncing your whitelist...'
       await syncWhitelistBlacklist('whitelisted', syncer, `https://www.steamgifts.com/account/manage/whitelist/search?page=`);
       syncer.progress.lastElementChild.textContent = 'Syncing your blacklist...';
       await syncWhitelistBlacklist('blacklisted', syncer, `https://www.steamgifts.com/account/manage/blacklist/search?page=`);
-    } else if ((syncer.parameters && syncer.parameters.Whitelist) || (!syncer.parameters && gSettings.syncWhitelist)) {
-      await shared.common.deleteUserValues(['whitelisted', 'whitelistedDate']);
+    } else if ((syncer.parameters && syncer.parameters.Whitelist) || (!syncer.parameters && Settings.get('syncWhitelist'))) {
+      await Shared.common.deleteUserValues(['whitelisted', 'whitelistedDate']);
       syncer.users = [];
       syncer.progress.lastElementChild.textContent = 'Syncing your whitelist...';
       await syncWhitelistBlacklist('whitelisted', syncer, `https://www.steamgifts.com/account/manage/whitelist/search?page=`);
     } else {
-      await shared.common.deleteUserValues(['blacklisted', 'blacklistedDate']);
+      await Shared.common.deleteUserValues(['blacklisted', 'blacklistedDate']);
       syncer.users = [];
       syncer.progress.lastElementChild.textContent = 'Syncing your blacklist...';
       await syncWhitelistBlacklist('blacklisted', syncer, `https://www.steamgifts.com/account/manage/blacklist/search?page=`);
     }
     syncer.progress.lastElementChild.textContent = `Saving your whitelist/blacklist (this may take a while)...`;
-    await shared.common.saveUsers(syncer.users);
+    await Shared.common.saveUsers(syncer.users);
     DOM.build(syncer.results, 'beforeEnd', [
       ['div', 'Whitelist/blacklist synced.']
     ]);
@@ -529,16 +530,16 @@ async function sync(syncer) {
   }
 
   // sync steam friends
-  if ((syncer.parameters && syncer.parameters.SteamFriends) || (!syncer.parameters && gSettings.syncSteamFriends)) {
+  if ((syncer.parameters && syncer.parameters.SteamFriends) || (!syncer.parameters && Settings.get('syncSteamFriends'))) {
     const isPermitted = await permissions.contains([['steamApi']]);
     if (isPermitted) {
       try {
         const users = [];
         syncer.progress.lastElementChild.textContent = 'Syncing your Steam friends...';
-        await shared.common.deleteUserValues(['steamFriend']);
-        const response = await shared.common.request({
+        await Shared.common.deleteUserValues(['steamFriend']);
+        const response = await Shared.common.request({
           method: 'GET',
-          url: `http://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=${gSettings.steamApiKey}&steamid=${gSettings.steamId}&relationship=friend`
+          url: `http://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=${Settings.get('steamApiKey')}&steamid=${Settings.get('steamId')}&relationship=friend`
         });
         const json = JSON.parse(response.responseText);
         for (const friend of json.friendslist.friends) {
@@ -550,7 +551,7 @@ async function sync(syncer) {
           });
         }
         syncer.progress.lastElementChild.textContent = `Saving your Steam friends (this may take a while)...`;
-        await shared.common.saveUsers(users);
+        await Shared.common.saveUsers(users);
         DOM.build(syncer.results, 'beforeEnd', [
           ['div', 'Steam friends synced.']
         ]);
@@ -574,7 +575,7 @@ async function sync(syncer) {
   }
 
   // sync hidden games
-  if ((syncer.parameters && syncer.parameters.HiddenGames) || (!syncer.parameters && gSettings.syncHiddenGames)) {
+  if ((syncer.parameters && syncer.parameters.HiddenGames) || (!syncer.parameters && Settings.get('syncHiddenGames'))) {
     syncer.progress.lastElementChild.textContent = 'Syncing your hidden games...';
     syncer.hiddenGames = {
       apps: [],
@@ -584,7 +585,7 @@ async function sync(syncer) {
     let pagination = null;
     do {
       let elements, responseHtml;
-      responseHtml = DOM.parse((await shared.common.request({
+      responseHtml = DOM.parse((await Shared.common.request({
         method: 'GET',
         url: `https://www.steamgifts.com/account/settings/giveaways/filters/search?page=${nextPage}`
       })).responseText);
@@ -598,8 +599,8 @@ async function sync(syncer) {
       pagination = responseHtml.getElementsByClassName('pagination__navigation')[0];
       nextPage += 1;
     } while (!syncer.canceled && pagination && !pagination.lastElementChild.classList.contains('is-selected'));
-    let deleteLock = await shared.common.createLock('gameLock', 300);
-    let savedGames = JSON.parse(shared.common.getValue('games'));
+    let deleteLock = await Shared.common.createLock('gameLock', 300);
+    let savedGames = JSON.parse(Shared.common.getValue('games'));
     for (let key in savedGames.apps) {
       if (savedGames.apps.hasOwnProperty(key)) {
         delete savedGames.apps[key].hidden;
@@ -622,7 +623,7 @@ async function sync(syncer) {
       }
       savedGames.subs[syncer.hiddenGames.subs[i]].hidden = true;
     }
-    await shared.common.setValue('games', JSON.stringify(savedGames));
+    await Shared.common.setValue('games', JSON.stringify(savedGames));
     deleteLock();
     DOM.build(syncer.results, 'beforeEnd', [
       ['div', 'Hidden games synced.']
@@ -634,7 +635,7 @@ async function sync(syncer) {
     return;
   }
 
-  if (gSettings.hgm_s) {
+  if (Settings.get('hgm_s')) {
     syncer.hgm = {
       toAdd: { apps: new Set(), subs: new Set() },
       toRemove: { apps: new Set(), subs: new Set() }
@@ -642,44 +643,44 @@ async function sync(syncer) {
   }
 
   // sync wishlisted/owned/ignored games
-  if ((syncer.parameters && syncer.parameters.Games) || (!syncer.parameters && gSettings.syncGames)) {
+  if ((syncer.parameters && syncer.parameters.Games) || (!syncer.parameters && Settings.get('syncGames'))) {
     const isPermitted = await permissions.contains([['steamApi'], ['steamStore']]);
     if (isPermitted) {
-      if (gSettings.hgm_s && gSettings.permissionsDenied.indexOf('revadike') < 0) {
+      if (Settings.get('hgm_s') && Settings.get('permissionsDenied').indexOf('revadike') < 0) {
         await permissions.requestUi([['revadike']], 'sync', true, true);
       }
       syncer.progress.lastElementChild.textContent = 'Syncing your wishlisted/owned/ignored games...';
       syncer.html = [];
       let apiResponse = null;
-      if (gSettings.steamApiKey) {
-        apiResponse = await shared.common.request({
+      if (Settings.get('steamApiKey')) {
+        apiResponse = await Shared.common.request({
           method: 'GET',
-          url: `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${gSettings.steamApiKey}&steamid=${gSettings.steamId}&format=json`
+          url: `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${Settings.get('steamApiKey')}&steamid=${Settings.get('steamId')}&format=json`
         });
       }
-      let storeResponse = await shared.common.request({
+      let storeResponse = await Shared.common.request({
         method: 'GET',
         url: `http://store.steampowered.com/dynamicstore/userdata?${Math.random().toString().split('.')[1]}`
       });
       await syncGames(null, syncer, apiResponse, storeResponse);
-      if (gSettings.gc_o_altAccounts) {
-        for (let i = 0, n = gSettings.gc_o_altAccounts.length; !syncer.canceled && i < n; i++) {
-          let altAccount = gSettings.gc_o_altAccounts[i];
-          apiResponse = await shared.common.request({
+      if (Settings.get('gc_o_altAccounts')) {
+        for (let i = 0, n = Settings.get('gc_o_altAccounts').length; !syncer.canceled && i < n; i++) {
+          let altAccount = Settings.get('gc_o_altAccounts')[i];
+          apiResponse = await Shared.common.request({
             method: 'GET',
-            url: `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${gSettings.steamApiKey}&steamid=${altAccount.steamId}&format=json`
+            url: `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${Settings.get('steamApiKey')}&steamid=${altAccount.steamId}&format=json`
           });
           await syncGames(altAccount, syncer, apiResponse);
         }
-        await shared.common.setSetting('gc_o_altAccounts', gSettings.gc_o_altAccounts);
+        await Shared.common.setSetting('gc_o_altAccounts', Settings.get('gc_o_altAccounts'));
       }
       DOM.build(syncer.results, 'beforeEnd', [
         ['div', 'Owned/wishlisted/ignored games synced.'],
         ...syncer.html
       ]);
-      if (gSettings.getSyncGameNames) {
+      if (Settings.get('getSyncGameNames')) {
         // noinspection JSIgnoredPromiseFromCall
-        shared.common.getGameNames(syncer.results);
+        Shared.common.getGameNames(syncer.results);
       }
     } else {
       syncer.failed.Games = true;
@@ -695,17 +696,17 @@ async function sync(syncer) {
   }
 
   // sync followed games
-  if ((syncer.parameters && syncer.parameters.FollowedGames) || (!syncer.parameters && gSettings.syncFollowedGames)) {
+  if ((syncer.parameters && syncer.parameters.FollowedGames) || (!syncer.parameters && Settings.get('syncFollowedGames'))) {
     const isPermitted = await permissions.contains([['steamCommunity']]);
     if (isPermitted) {
       syncer.progress.lastElementChild.textContent = 'Syncing your followed games...';
-      const response = await shared.common.request({
+      const response = await Shared.common.request({
         method: 'GET',
         url: `https://steamcommunity.com/my/followedgames/`
       });
       const responseHtml = DOM.parse(response.responseText);
       const elements = responseHtml.querySelectorAll('.gameListRow.followed');
-      const savedGames = JSON.parse(shared.common.getValue('games'));
+      const savedGames = JSON.parse(Shared.common.getValue('games'));
       for (const id in savedGames.apps) {
         if (savedGames.apps.hasOwnProperty(id)) {
           savedGames.apps[id].followed = null;
@@ -718,7 +719,7 @@ async function sync(syncer) {
         }
         savedGames.apps[id].followed = true;
       }
-      await shared.common.lockAndSaveGames(savedGames);
+      await Shared.common.lockAndSaveGames(savedGames);
       DOM.build(syncer.results, 'beforeEnd', [
         ['div', 'Followed games synced.']
       ]);
@@ -736,9 +737,9 @@ async function sync(syncer) {
   }
 
   // sync won games
-  if ((syncer.parameters && syncer.parameters.WonGames) || (!syncer.parameters && gSettings.syncWonGames)) {
+  if ((syncer.parameters && syncer.parameters.WonGames) || (!syncer.parameters && Settings.get('syncWonGames'))) {
     syncer.progress.lastElementChild.textContent = 'Syncing your won games...';
-    await shared.common.getWonGames(syncer);
+    await Shared.common.getWonGames(syncer);
     DOM.build(syncer.results, 'beforeEnd', [
       ['div', 'Won games synced.']
     ]);
@@ -750,7 +751,7 @@ async function sync(syncer) {
   }
 
   // sync reduced cv games
-  if ((syncer.parameters && syncer.parameters.ReducedCvGames) || (!syncer.parameters && gSettings.syncReducedCvGames)) {
+  if ((syncer.parameters && syncer.parameters.ReducedCvGames) || (!syncer.parameters && Settings.get('syncReducedCvGames'))) {
     const isPermitted = await permissions.contains([['server'], ['googleWebApp']]);
     if (isPermitted) {
       syncer.progress.lastElementChild.textContent = 'Syncing reduced CV games...';
@@ -788,7 +789,7 @@ async function sync(syncer) {
   }
 
   // sync no cv games
-  if ((syncer.parameters && syncer.parameters.NoCvGames) || (!syncer.parameters && gSettings.syncNoCvGames)) {
+  if ((syncer.parameters && syncer.parameters.NoCvGames) || (!syncer.parameters && Settings.get('syncNoCvGames'))) {
     const isPermitted = await permissions.contains([['googleWebApp']]);
     if (isPermitted) {
       syncer.progress.lastElementChild.textContent = 'Syncing no CV games...';
@@ -821,12 +822,12 @@ async function sync(syncer) {
   }
 
   // sync hltb times
-  if ((syncer.parameters && syncer.parameters.HltbTimes) || (!syncer.parameters && gSettings.syncHltbTimes)) {
+  if ((syncer.parameters && syncer.parameters.HltbTimes) || (!syncer.parameters && Settings.get('syncHltbTimes'))) {
     const isPermitted = await permissions.contains([['googleWebApp']]);
     if (isPermitted) {
       syncer.progress.lastElementChild.textContent = 'Syncing HLTB times...';
       try {
-        const responseText = (await shared.common.request({
+        const responseText = (await Shared.common.request({
           method: 'GET',
           url: `https://script.google.com/macros/s/AKfycbysBF72c0VNylStaslLlOL7X4M0KQIgY0VVv6Q0x2vh72iGAtE/exec`
         })).responseText;
@@ -837,7 +838,7 @@ async function sync(syncer) {
             hltb[game.steamId] = game;
           }
         }
-        let cache = JSON.parse(shared.common.getLocalValue('gcCache', `{ "apps": {}, "subs": {}, "hltb": {}, "timestamp": 0, "version": 7 }`));
+        let cache = JSON.parse(LocalStorage.get('gcCache', `{ "apps": {}, "subs": {}, "hltb": {}, "timestamp": 0, "version": 7 }`));
         if (cache.version !== 7) {
           cache = {
             apps: {},
@@ -848,7 +849,7 @@ async function sync(syncer) {
           };
         }
         cache.hltb = hltb;
-        shared.common.setLocalValue('gcCache', JSON.stringify(cache));
+        LocalStorage.set('gcCache', JSON.stringify(cache));
       } catch (e) {
         Logger.warning(e.stack);
       }
@@ -869,26 +870,26 @@ async function sync(syncer) {
   }
 
   // sync delisted games
-  if ((syncer.parameters && syncer.parameters.DelistedGames) || (!syncer.parameters && gSettings.syncDelistedGames)) {
+  if ((syncer.parameters && syncer.parameters.DelistedGames) || (!syncer.parameters && Settings.get('syncDelistedGames'))) {
     const isPermitted = await permissions.contains([['steamTracker']]);
     if (isPermitted) {
-      if (gSettings.hgm_s && gSettings.permissionsDenied.indexOf('revadike') < 0) {
+      if (Settings.get('hgm_s') && Settings.get('permissionsDenied').indexOf('revadike') < 0) {
         await permissions.requestUi([['revadike']], 'sync', true, true);
       }
       syncer.progress.lastElementChild.textContent = 'Syncing delisted games...';
-      const response = await shared.common.request({ method: 'GET', url: `https://steam-tracker.com/api?action=GetAppListV3` });
+      const response = await Shared.common.request({ method: 'GET', url: `https://steam-tracker.com/api?action=GetAppListV3` });
       try {
         const json = JSON.parse(response.responseText);
         if (json.success) {
           const banned = json.removed_apps.filter(x => x.type === 'game' && x.category === 'Banned').map(x => parseInt(x.appid));
           const removed = json.removed_apps.filter(x => x.type === 'game' && x.category === 'Delisted').map(x => parseInt(x.appid));
-          await shared.common.setValue('delistedGames', JSON.stringify({ banned, removed }));
-          if (gSettings.hgm_s) {
-            if (gSettings.hgm_addBanned) {
+          await Shared.common.setValue('delistedGames', JSON.stringify({ banned, removed }));
+          if (Settings.get('hgm_s')) {
+            if (Settings.get('hgm_addBanned')) {
               for (const id of banned) {
                 syncer.hgm.toAdd.apps.add(id);
               }
-            } else if (gSettings.hgm_removeBanned) {
+            } else if (Settings.get('hgm_removeBanned')) {
               for (const id of banned) {
                 syncer.hgm.toRemove.apps.add(id);
               }
@@ -916,9 +917,9 @@ async function sync(syncer) {
     return;
   }
 
-  if (gSettings.hgm_s) {
-    const result = await shared.common.hideGames({ appIds: syncer.hgm.toAdd.apps, subIds: syncer.hgm.toAdd.subs, update: message => syncer.progress.lastElementChild.textContent = message });
-    const tmpResult =  await shared.common.hideGames({ appIds: syncer.hgm.toRemove.apps, subIds: syncer.hgm.toRemove.subs, update: message => syncer.progress.lastElementChild.textContent = message }, true);
+  if (Settings.get('hgm_s')) {
+    const result = await Shared.common.hideGames({ appIds: syncer.hgm.toAdd.apps, subIds: syncer.hgm.toAdd.subs, update: message => syncer.progress.lastElementChild.textContent = message });
+    const tmpResult =  await Shared.common.hideGames({ appIds: syncer.hgm.toRemove.apps, subIds: syncer.hgm.toRemove.subs, update: message => syncer.progress.lastElementChild.textContent = message }, true);
     result.apps = result.apps.concat(tmpResult.apps);
     result.subs = result.subs.concat(tmpResult.subs);
     let message = '';
@@ -938,14 +939,14 @@ async function sync(syncer) {
   }
 
   // sync giveaways
-  if (((syncer.parameters && syncer.parameters.Giveaways) || (!syncer.parameters && gSettings.syncGiveaways)) && shared.esgst.sg) {
+  if (((syncer.parameters && syncer.parameters.Giveaways) || (!syncer.parameters && Settings.get('syncGiveaways'))) && Shared.esgst.sg) {
     syncer.progress.lastElementChild.textContent = 'Syncing your giveaways...';
     const key = 'sent';
     const user = {
-      steamId: gSettings.steamId,
-      username: gSettings.username
+      steamId: Settings.get('steamId'),
+      username: Settings.get('username')
     };
-    syncer.process = await shared.esgst.modules.usersUserGiveawayData.ugd_add(null, key, user, syncer);
+    syncer.process = await Shared.esgst.modules.usersUserGiveawayData.ugd_add(null, key, user, syncer);
     await syncer.process.start();
     DOM.build(syncer.results, 'beforeEnd', [
       ['div', 'Giveaways synced.']
@@ -953,14 +954,14 @@ async function sync(syncer) {
   }
 
   // sync won giveaways
-  if (((syncer.parameters && syncer.parameters.WonGiveaways) || (!syncer.parameters && gSettings.syncWonGiveaways)) && shared.esgst.sg) {
+  if (((syncer.parameters && syncer.parameters.WonGiveaways) || (!syncer.parameters && Settings.get('syncWonGiveaways'))) && Shared.esgst.sg) {
     syncer.progress.lastElementChild.textContent = 'Syncing your won giveaways...';
     const key = 'won';
     const user = {
-      steamId: gSettings.steamId,
-      username: gSettings.username
+      steamId: Settings.get('steamId'),
+      username: Settings.get('username')
     };
-    syncer.process = await shared.esgst.modules.usersUserGiveawayData.ugd_add(null, key, user, syncer);
+    syncer.process = await Shared.esgst.modules.usersUserGiveawayData.ugd_add(null, key, user, syncer);
     await syncer.process.start();
     DOM.build(syncer.results, 'beforeEnd', [
       ['div', 'Won giveaways synced.']
@@ -968,22 +969,22 @@ async function sync(syncer) {
   }
 
   // finish sync
-  if (!shared.esgst.firstInstall) {
+  if (!Shared.esgst.firstInstall) {
     syncer.progress.lastElementChild.textContent = 'Updating last sync date...';
     const currentTime = Date.now();
     let keys = ['Groups', 'Whitelist', 'Blacklist', 'SteamFriends', 'HiddenGames', 'Games', 'FollowedGames', 'WonGames', 'ReducedCvGames', 'NoCvGames', 'HltbTimes', 'DelistedGames', 'Giveaways', 'WonGiveaways'];
     for (let i = keys.length - 1; i > -1; i--) {
       let key = keys[i];
       let id = `sync${key}`;
-      if (!syncer.failed[key] && ((syncer.parameters && syncer.parameters[key]) || (!syncer.parameters && gSettings[id]))) {
-        gSettings[`lastSync${key}`] = currentTime;
+      if (!syncer.failed[key] && ((syncer.parameters && syncer.parameters[key]) || (!syncer.parameters && Settings.get(id)))) {
+        Settings.set(`lastSync${key}`, currentTime);
         toSave[`lastSync${key}`] = currentTime;
       }
     }
-    await shared.common.lockAndSaveSettings(toSave);
+    await Shared.common.lockAndSaveSettings(toSave);
     toSave = {};
     DOM.build(syncer.progress, 'inner', ['Synced!']);
-    shared.common.delLocalValue('isSyncing');
+    LocalStorage.delete('isSyncing');
   }
   if (!syncer.isSilent) {
     updateSyncDates(syncer);
@@ -993,7 +994,7 @@ async function sync(syncer) {
 async function syncReducedCvGames() {
   let result = null;
   try {
-    result = JSON.parse((await shared.common.request({
+    result = JSON.parse((await Shared.common.request({
       method: 'GET',
       url: `https://rafaelgssa.com/esgst/games/rcv`
     })).responseText);
@@ -1001,7 +1002,7 @@ async function syncReducedCvGames() {
     result = {
       error: e.message
     };
-    result = JSON.parse((await shared.common.request({
+    result = JSON.parse((await Shared.common.request({
       method: 'GET',
       url: `https://script.google.com/macros/s/AKfycbz2IWN7I79WsbGELQk2rbQQSPI8XNWvDt3mEO-3nLEWqHiQmeo/exec?action=rcv`
     })).responseText);
@@ -1022,26 +1023,26 @@ async function syncReducedCvGames() {
         delete games.subs[id].effective_date;
       }
     }
-    for (const id in shared.esgst.games.apps) {
-      if (shared.esgst.games.apps.hasOwnProperty(id) && !games.apps[id]) {
+    for (const id in Shared.esgst.games.apps) {
+      if (Shared.esgst.games.apps.hasOwnProperty(id) && !games.apps[id]) {
         games.apps[id] = {
           reducedCV: null
         };
       }
     }
-    for (const id in shared.esgst.games.subs) {
-      if (shared.esgst.games.subs.hasOwnProperty(id) && !games.subs[id]) {
+    for (const id in Shared.esgst.games.subs) {
+      if (Shared.esgst.games.subs.hasOwnProperty(id) && !games.subs[id]) {
         games.subs[id] = {
           reducedCV: null
         };
       }
     }
-    await shared.common.lockAndSaveGames(games);
+    await Shared.common.lockAndSaveGames(games);
   }
 }
 
 async function syncNoCvGames() {
-  const games = JSON.parse((await shared.common.request({
+  const games = JSON.parse((await Shared.common.request({
     method: 'GET',
     url: `https://script.google.com/macros/s/AKfycbz2IWN7I79WsbGELQk2rbQQSPI8XNWvDt3mEO-3nLEWqHiQmeo/exec?action=ncv`
   })).responseText).success;
@@ -1057,21 +1058,21 @@ async function syncNoCvGames() {
       delete games.subs[id].effective_date;
     }
   }
-  for (const id in shared.esgst.games.apps) {
-    if (shared.esgst.games.apps.hasOwnProperty(id) && !games.apps[id]) {
+  for (const id in Shared.esgst.games.apps) {
+    if (Shared.esgst.games.apps.hasOwnProperty(id) && !games.apps[id]) {
       games.apps[id] = {
         noCV: null
       };
     }
   }
-  for (const id in shared.esgst.games.subs) {
-    if (shared.esgst.games.subs.hasOwnProperty(id) && !games.subs[id]) {
+  for (const id in Shared.esgst.games.subs) {
+    if (Shared.esgst.games.subs.hasOwnProperty(id) && !games.subs[id]) {
       games.subs[id] = {
         noCV: null
       };
     }
   }
-  await shared.common.lockAndSaveGames(games);
+  await Shared.common.lockAndSaveGames(games);
 }
 
 async function syncWhitelistBlacklist(key, syncer, url) {
@@ -1079,7 +1080,7 @@ async function syncWhitelistBlacklist(key, syncer, url) {
   let pagination = null;
   do {
     let elements, responseHtml;
-    responseHtml = DOM.parse((await shared.common.request({ method: 'GET', url: `${url}${nextPage}` })).responseText);
+    responseHtml = DOM.parse((await Shared.common.request({ method: 'GET', queue: 100, url: `${url}${nextPage}` })).responseText);
     elements = responseHtml.getElementsByClassName('table__row-outer-wrap');
     for (let i = 0, n = elements.length; i < n; ++i) {
       let element, user;
@@ -1113,7 +1114,7 @@ async function syncGames(altAccount, syncer, apiResponse, storeResponse) {
   const hasApi = apiJson && apiJson.response && apiJson.response.games &&
     apiJson.response.games.length,
     hasStore = storeJson && storeJson.rgOwnedApps && storeJson.rgOwnedApps.length;
-  if (((altAccount && !gSettings.steamApiKey) || (!altAccount && gSettings.steamApiKey)) && !hasApi) {
+  if (((altAccount && !Settings.get('steamApiKey')) || (!altAccount && Settings.get('steamApiKey'))) && !hasApi) {
     syncer.html.push(
       ['div', [
         altAccount ? ['span', { class: 'esgst-bold' }, `${altAccount.name}: `] : null,
@@ -1127,13 +1128,13 @@ async function syncGames(altAccount, syncer, apiResponse, storeResponse) {
       `Unable to sync through the Steam store. Check if you are logged in to Steam on your current browser session. If you are, try again later. Some games may not be available through the Steam API (if you have a Steam API key set).`
     );
   }
-  Logger.info(hasApi, hasStore);
-  if ((!hasApi || !gSettings.fallbackSteamApi) && !hasStore) {
+  //Logger.info(hasApi, hasStore);
+  if ((!hasApi || !Settings.get('fallbackSteamApi')) && !hasStore) {
     return;
   }
 
   // delete old data
-  const savedGames = (altAccount && altAccount.games) || JSON.parse(shared.common.getValue('games'));
+  const savedGames = (altAccount && altAccount.games) || JSON.parse(Shared.common.getValue('games'));
   const oldWishlisted = {
     apps: [],
     subs: []
@@ -1264,15 +1265,15 @@ async function syncGames(altAccount, syncer, apiResponse, storeResponse) {
       });
     }
 
-    if (numOwned !== (shared.common.getValue('ownedGames', 0))) {
-      await shared.common.setValue('ownedGames', numOwned);
+    if (numOwned !== (Shared.common.getValue('ownedGames', 0))) {
+      await Shared.common.setValue('ownedGames', numOwned);
     }
 
     // get the wishlisted dates
     try {
-      const responseText = (await shared.common.request({
+      const responseText = (await Shared.common.request({
         method: 'GET',
-        url: `http://store.steampowered.com/wishlist/profiles/${gSettings.steamId}?cc=us&l=english`
+        url: `http://store.steampowered.com/wishlist/profiles/${Settings.get('steamId')}?cc=us&l=english`
       })).responseText,
         match = responseText.match(/g_rgWishlistData\s=\s(\[(.+?)]);/);
       if (match) {
@@ -1291,7 +1292,7 @@ async function syncGames(altAccount, syncer, apiResponse, storeResponse) {
     } catch (e) { /**/
     }
 
-    await shared.common.lockAndSaveGames(savedGames);
+    await Shared.common.lockAndSaveGames(savedGames);
   }
 
   const removedOwned = {};
@@ -1307,25 +1308,25 @@ async function syncGames(altAccount, syncer, apiResponse, storeResponse) {
     addedWishlisted[type] = newWishlisted[type].filter(x => oldWishlisted[type].indexOf(x) < 0);
     removedIgnored[type] = oldIgnored[type].filter(x => newIgnored[type].indexOf(x) < 0);
     addedIgnored[type] = newIgnored[type].filter(x => oldIgnored[type].indexOf(x) < 0);
-    if (gSettings.hgm_s) {
-      if (gSettings.hgm_addOwned) {
+    if (Settings.get('hgm_s')) {
+      if (Settings.get('hgm_addOwned')) {
         for (const id of addedOwned[type]) {
           syncer.hgm.toAdd[type].add(id);
         }
         for (const id of removedOwned[type]) {
           syncer.hgm.toRemove[type].add(id);
         }
-      } else if (gSettings.hgm_removeOwned) {
+      } else if (Settings.get('hgm_removeOwned')) {
         for (const id of addedOwned[type]) {
           syncer.hgm.toRemove[type].add(id);
         }
       }
-      if (gSettings.hgm_removeWishlisted) {
+      if (Settings.get('hgm_removeWishlisted')) {
         for (const id of addedWishlisted[type]) {
           syncer.hgm.toRemove[type].add(id);
         }
       }
-      if (gSettings.hgm_addIgnored) {
+      if (Settings.get('hgm_addIgnored')) {
         for (const id of addedIgnored[type]) {
           syncer.hgm.toAdd[type].add(id);
         }

@@ -1,7 +1,7 @@
 import { Button } from '../../class/Button';
 import { Module } from '../../class/Module';
 import { common } from '../Common';
-import { shared } from '../../class/Shared';
+import { Shared } from '../../class/Shared';
 
 const
   getValue = common.getValue.bind(common),
@@ -38,7 +38,7 @@ class GiveawaysStickiedGiveawayGroups extends Module {
     if (this.esgst.newGiveawayPath && !document.getElementsByClassName('table--summary')[0]) {
       this.sgg_setGiveawayGroups();
     }
-    if (shared.common.isCurrentPath('Steam - Groups')) {
+    if (Shared.common.isCurrentPath('Steam - Groups')) {
       this.esgst.endlessFeatures.push(this.sgg_setGroups.bind(this));
     }
   }
