@@ -1,23 +1,23 @@
-name: 'Production'
+name: 'Stable Release'
 
 on:
   push:
     branches:
-      - master
+      - 'stable/**'
 
 jobs:
   build:
     name: 'Build'
     runs-on: ubuntu-latest
     steps:
-    - name: 'Checkout master'
+    - name: 'Checkout'
       uses: actions/checkout@v1
     - name: 'Install dependencies'
       run: cd ./browser && npm ci
     - name: 'Run build'
       run: cd ./browser && npm run build
     - name: 'Generate release'
-      run: cd ./browser && npm run generate-release token=${{ secrets.GITHUB_ACCESS_TOKEN }}
+      run: cd ./browser && npm run generate-release stable token=${{ secrets.GITHUB_ACCESS_TOKEN }}
     - name: 'Upload to Chrome store'
       uses: trmcnvn/chrome-addon@v1
       with:
