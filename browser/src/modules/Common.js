@@ -1600,17 +1600,15 @@ class Common extends Module {
    * @returns {Promise<void>}
    */
   async saveUsers(users) {
-    let list, promises, savedUsers;
+    let list, savedUsers;
     list = {
       existing: [],
       new: []
     };
-    promises = [];
     savedUsers = JSON.parse(this.getValue('users'));
     for (let i = 0, n = users.length; i < n; i++) {
-      promises.push(this.saveUser(list, savedUsers, users[i]));
+      await this.saveUser(list, savedUsers, users[i]);
     }
-    await Promise.all(promises);
     let deleteLock = await this.createLock('userLock', 300);
     savedUsers = JSON.parse(this.getValue('users'));
     for (let i = 0, n = list.new.length; i < n; ++i) {
