@@ -63,6 +63,7 @@ import { generalHiddenBlacklistStats } from './General/HiddenBlacklistStats';
 import { giveawaysHiddenGamesEnterButtonDisabler } from './Giveaways/HiddenGamesEnterButtonDisabler';
 import { giveawaysHiddenGamesManager } from './Giveaways/HiddenGamesManager';
 import { generalHeaderRefresher } from './General/HeaderRefresher';
+import { tradesHeaderTradesButton } from './Trades/HeaderTradesButton';
 import { tradesHaveWantListChecker } from './Trades/HaveWantListChecker';
 import { generalLastPageLink } from './General/LastPageLink';
 import { generalLevelProgressVisualizer } from './General/LevelProgressVisualizer';
@@ -228,6 +229,7 @@ const modules = {
   giveawaysHiddenGamesEnterButtonDisabler,
   giveawaysHiddenGamesManager,
   generalHeaderRefresher,
+  tradesHeaderTradesButton,
   tradesHaveWantListChecker,
   generalLastPageLink,
   generalLevelProgressVisualizer,
