@@ -13,11 +13,9 @@
     "url": "git+https://github.com/rafaelgssa/esgst.git"
   },
   "scripts": {
-    "build": "./node_modules/.bin/webpack --env.production --env.withBabel --env.ref",
-    "build-dev": "./node_modules/.bin/webpack --env.development --env.withBabel",
-    "build-alpha": "./node_modules/.bin/webpack --env.development --env.alpha --env.withBabel --env.ref",
-    "build-beta": "./node_modules/.bin/webpack --env.development --env.beta --env.withBabel --env.ref",
-    "start": "./node_modules/.bin/webpack --env.development --env.withBabel --env.withWatch",
+    "build": "./node_modules/.bin/webpack --env.production --env.v",
+    "build-dev": "./node_modules/.bin/webpack --env.development --env.v",
+    "start": "./node_modules/.bin/webpack --env.development --env.withWatch",
     "generate-api-doc": "./node_modules/.bin/apidoc -i ./server/app -o ./server/documentation",
     "generate-release": "./node_modules/.bin/node ./scripts/generateRelease.js",
     "notify-issue": "./node_modules/.bin/node ./scripts/notifyIssue.js",
