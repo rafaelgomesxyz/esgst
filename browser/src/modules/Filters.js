@@ -1964,7 +1964,7 @@ class Filters extends Module {
         if (obj.id === 'cf' && outerWrap.parentElement.classList.contains('esgst-hidden') && !outerWrap.parentElement.getAttribute('data-esgst-not-filterable')) {
           outerWrap.parentElement.classList.remove('esgst-hidden');
         }
-        if (item.points && !item.entered) {
+        if (!outerWrap.classList.contains('esgst-hidden') && !outerWrap.parentElement.classList.contains('esgst-hidden') && item.points && !item.entered) {
           pointsCount += item.points;
         }
       } else {
