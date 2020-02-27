@@ -3,9 +3,8 @@
  * @property {boolean} development
  * @property {boolean} production
  * @property {boolean} temporary
- * @property {boolean} withBabel
  * @property {boolean} withWatch
- * @property {string} ref
+ * @property {string} v
  */
 
 const calfinated = require('calfinated')();
@@ -48,8 +47,6 @@ const plugins = {
     };
   }
 };
-
-let version = packageJson.version;
 
 /**
  * @param {Environment} env
@@ -156,7 +153,7 @@ function getWebExtensionManifest(env, browserName) {
 
   if (env.development) {
     manifest.content_security_policy = "script-src 'self' 'unsafe-eval'; object-src 'self';";
-    manifest.version_name = version;
+    manifest.version_name = env.v;
   }
 
   return manifest;
@@ -192,7 +189,7 @@ function getLegacyExtensionManifest(env, browserName) {
   }
 
   if (env.development) {
-    manifest.version_name = version;
+    manifest.version_name = env.v;
   }
 
   return manifest;
@@ -214,7 +211,7 @@ function packageWebExtension(env, browserName) {
     manifestJson.version = packageJson.version;
 
     if (env.development) {
-      manifestJson.version_name = version;
+      manifestJson.version_name = env.v;
     }
 
     const manifestStr = JSON.stringify(manifestJson, null, 2);
@@ -261,7 +258,7 @@ async function packageLegacyExtension(env, browserName) {
   manifestJson.version = packageJson.version;
 
   if (env.development) {
-    manifestJson.version_name = version;
+    manifestJson.version_name = env.v;
   }
 
   const manifestStr = JSON.stringify(manifestJson, null, 2);
@@ -356,11 +353,6 @@ async function runFinalSteps(env) {
  * @param {Environment} env
  */
 async function getWebpackConfig(env) {
-  if (env.ref) {
-    const refParts = env.ref.split('/');
-    version = refParts[refParts.length - 1];
-  }
-
   let mode;
 
   if (env.production) {
@@ -393,9 +385,7 @@ async function getWebpackConfig(env) {
         {
           loaders: [loaders.style, loaders.css],
           test: /\.css$/
-        }
-        // @ts-ignore
-      ].concat(env.withBabel ? [
+        },
         {
           exclude: /node_modules/,
           test: /\.(t|j)sx?$/,
@@ -403,7 +393,7 @@ async function getWebpackConfig(env) {
             loader: 'babel-loader'
           }
         }
-      ] : [])
+      ]
     },
     output: {
       filename: '[name].js',

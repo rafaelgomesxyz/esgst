@@ -1,23 +1,25 @@
 name: 'Stable Release'
 
 on:
-  push:
+  pull_request:
     branches:
-      - 'stable/**'
+      - 'master'
+    types: [closed]
 
 jobs:
   build:
     name: 'Build'
     runs-on: ubuntu-latest
+    if: github.event.pull_request.merged && !contains(github.event.pull_request.title, "alpha") && !contains(github.event.pull_request.title, "beta")
     steps:
     - name: 'Checkout'
       uses: actions/checkout@v1
     - name: 'Install dependencies'
       run: cd ./browser && npm ci
     - name: 'Run build'
-      run: cd ./browser && npm run build ${{ github.ref }}
+      run: cd ./browser && npm run build ${{ github.event.pull_request.title }}
     - name: 'Generate release'
-      run: cd ./browser && npm run generate-release stable token=${{ secrets.GITHUB_ACCESS_TOKEN }} ref=${{ github.ref }}
+      run: cd ./browser && npm run generate-release stable v=${{ github.event.pull_request.title }} token=${{ secrets.GITHUB_ACCESS_TOKEN }}
     - name: 'Upload to Chrome store'
       uses: trmcnvn/chrome-addon@v1
       with:
