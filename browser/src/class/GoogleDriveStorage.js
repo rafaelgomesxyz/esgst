@@ -124,20 +124,19 @@ class GoogleDriveStorage extends ICloudStorage {
       for (const fileId of chunk) {
         formData.push(
           '--ESGST',
-          `Content-Type: application/http`,
+          'Content-Type: application/http',
           '',
           `DELETE ${FetchRequest.addPathParams(GoogleDriveStorage.DELETE_URL, { fileId })}`,
           '',
           ''
         );
       }
-      const data = formData.join('\n');
       formData.push('--ESGST--');
+      const data = formData.join('\n');
       const requestOptions = {
         data,
-        isFormData: true,
         headers: Object.assign(GoogleDriveStorage.getDefaultHeaders(token), {
-          'Content-Type': `multipart/mixed; boundary=ESGST`
+          'Content-Type': 'multipart/mixed; boundary=ESGST'
         })
       };
       const response = await FetchRequest.post(GoogleDriveStorage.DELETE_BATCH_URL, requestOptions);
