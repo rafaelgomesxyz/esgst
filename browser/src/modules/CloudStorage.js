@@ -263,6 +263,8 @@ class CloudStorage {
                 break;
             }
 
+            item.remove();
+
             tempPopup.setIcon('fa-check');
             tempPopup.setTitle('File deleted with success!');
           } catch (error) {
