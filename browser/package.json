@@ -13,8 +13,8 @@
     "url": "git+https://github.com/rafaelgssa/esgst.git"
   },
   "scripts": {
-    "build": "./node_modules/.bin/webpack --env.production --env.v",
-    "build-dev": "./node_modules/.bin/webpack --env.development --env.v",
+    "build": "./node_modules/.bin/webpack --env.production",
+    "build-dev": "./node_modules/.bin/webpack --env.development",
     "start": "./node_modules/.bin/webpack --env.development --env.withWatch",
     "generate-api-doc": "./node_modules/.bin/apidoc -i ./server/app -o ./server/documentation",
     "generate-release": "./node_modules/.bin/node ./scripts/generateRelease.js",
