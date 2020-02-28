@@ -10,26 +10,27 @@ class _MessageNotifier {
       // It's been less than 24 hours since the last check.
       return;
     }
-    const messages = (await FetchRequest.get('https://raw.githubusercontent.com/rafaelgssa/esgst/master/browser/messages.json')).json;
-    for (const message of messages) {
-      if (now - message.timestamp > 2592000000) {
-        // Message is older than 30 days.
-        continue;
+    try {
+      const messages = (await FetchRequest.get('https://raw.githubusercontent.com/rafaelgssa/esgst/master/browser/messages.json')).json;
+      for (const message of messages) {
+        if (now - message.timestamp > 2592000000) {
+          // Message is older than 30 days.
+          continue;
+        }
+        if (notifiedMessages.ids.includes(message.id)) {
+          continue;
+        }
+        if (message.dependency && !Settings.get(dependency)) {
+          continue;
+        }
+        new Popup({
+          icon: 'fa-warning',
+          title: message.message,
+        }).open();
+        notifiedMessages.ids.push(message.id);
       }
-      if (notifiedMessages.ids.includes(message.id)) {
-        continue;
-      }
-      if (message.dependency && !Settings.get(dependency)) {
-        continue;
-      }
-      new Popup({
-        icon: 'fa-warning',
-        title: message.message,
-      }).open();
-      notifiedMessages.ids.push(message.id);
-    }
-
-    await Shared.common.setValue('notifiedMessages', JSON.stringify(notifiedMessages));
+      await Shared.common.setValue('notifiedMessages', JSON.stringify(notifiedMessages));
+    } catch (err) {}
   }
 }
 

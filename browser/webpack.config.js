@@ -97,7 +97,8 @@ function getWebExtensionManifest(env, browserName) {
       'unlimitedStorage',
       '*://*.steamgifts.com/*',
       '*://*.steamtrades.com/*',
-      '*://*.sgtools.info/*'
+      '*://*.sgtools.info/*',
+      '*://*.raw.githubusercontent.com/*'
     ],
     optional_permissions: [
       'cookies',
@@ -113,7 +114,6 @@ function getWebExtensionManifest(env, browserName) {
       '*://*.graph.microsoft.com/*',
       '*://*.rafaelgssa.com/*',
       '*://*.isthereanydeal.com/*',
-      '*://*.raw.githubusercontent.com/*',
       '*://*.revadike.com/*',
       '*://*.script.google.com/*',
       '*://*.script.googleusercontent.com/*',
