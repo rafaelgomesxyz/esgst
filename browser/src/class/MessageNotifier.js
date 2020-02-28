@@ -29,6 +29,7 @@ class _MessageNotifier {
         }).open();
         notifiedMessages.ids.push(message.id);
       }
+      notifiedMessages.lastCheck = now;
       await Shared.common.setValue('notifiedMessages', JSON.stringify(notifiedMessages));
     } catch (err) {}
   }
