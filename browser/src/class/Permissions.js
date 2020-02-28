@@ -27,13 +27,6 @@ class Permissions {
         },
         values: [`*://*.api.dropboxapi.com/*`, `*://*.content.dropboxapi.com/*`]
       },
-      gitHub: {
-        isOrigin: true,
-        messages: {
-          changelog: 'Required to retrieve the changelog.'
-        },
-        values: [`*://*.raw.githubusercontent.com/*`]
-      },
       googleDrive: {
         isOrigin: true,
         messages: {
