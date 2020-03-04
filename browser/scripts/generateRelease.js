@@ -93,9 +93,9 @@ async function generateRelease() {
 
   const release = await octokit.repos.createRelease(Object.assign({}, defaultParams, {
     body,
-    name: args.v,
+    name: `v${packageJson.version}`,
     prerelease: !args.stable,
-    tag_name: args.v
+    tag_name: `v${packageJson.version}`
   }));
 
   const url = release.data.upload_url;
