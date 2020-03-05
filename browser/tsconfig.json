@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "jsx": "react",
+    "jsxFactory": "DOM.element",
     "outDir": "./build/",
     "sourceMap": true,
     "noImplicitAny": true,
