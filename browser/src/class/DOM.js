@@ -94,6 +94,9 @@ class _DOM {
     if (typeof tag === 'string') {
       const fragments = document.createDocumentFragment();
       this._appendChildren(fragments, children);
+      if (tag === 'fragment') {
+        return fragments;
+      }
       const element = document.createElement(tag);
       for (const key in attrs) {
         if (attrs.hasOwnProperty(key) && Utils.isSet(attrs[key])) {
