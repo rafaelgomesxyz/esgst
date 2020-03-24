@@ -1,5 +1,4 @@
 import { Module } from '../../class/Module';
-import { Shared } from '../../class/Shared';
 import { DOM } from '../../class/DOM';
 
 class CommentsReplyMentionLink extends Module {
@@ -18,40 +17,21 @@ class CommentsReplyMentionLink extends Module {
       st: true,
       type: 'comments',
       featureMap: {
-        endless: this.rml_addLinks.bind(this)
+        commentV2: this.rml_addLinks.bind(this)
       }
     };
   }
 
-  rml_addLinks(context, main, source, endless) {
-    const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .comment__children, .esgst-es-page-${endless}.comment__children` : '.comment__children'}, ${endless ? `.esgst-es-page-${endless} .comment_children, .esgst-es-page-${endless}.comment_children` : '.comment_children'}`);
-    for (let i = 0, n = elements.length; i < n; ++i) {
-      const children = elements[i].children;
-      if (children.length) {
-        this.rml_addLink(Shared.esgst.sg ? elements[i].parentElement.getElementsByClassName('comment__summary')[0] : elements[i].parentElement, children);
-      }
-    }
-  }
-
-  rml_addLink(Context, Matches) {
-    let Username, ID, I, N, RMLLink;
-    Username = Context.getElementsByClassName(Shared.esgst.sg ? 'comment__username' : 'author_name')[0].textContent.trim();
-    ID = Context.id;
-    for (I = 0, N = Matches.length; I < N; ++I) {
-      Context = Matches[I].getElementsByClassName(Shared.esgst.sg ? 'comment__actions' : 'action_list')[0];
-      RMLLink = Context.getElementsByClassName('esgst-rml-link')[0];
-      if (RMLLink) {
-        RMLLink.textContent = `@${Username}`;
-      } else {
-        DOM.insert(Context, 'beforeEnd', (
-          <a
-            class="comment__actions__button esgst-rml-link"
-            href={`#${ID}`}
-          >
-            {`@${Username}`}
+  rml_addLinks(comments) {
+    for (const comment of comments) {
+      if (comment.parent) {
+        comment.nodes.rmlLink = DOM.insert(comment.nodes.actions, 'beforeEnd', (
+          <a class="comment__actions__button esgst-rml-link" href={`#${comment.parent.data.code}`}>
+            {`@${comment.parent.author.data.username || '[Deleted]'}`}
           </a>
         ));
       }
+      this.rml_addLinks(comment.children);
     }
   }
 }

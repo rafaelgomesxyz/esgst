@@ -21,6 +21,8 @@ import { Session } from './class/Session';
 import { Footer } from './components/Footer';
 import { LocalStorage } from './class/LocalStorage';
 import { MessageNotifier } from './class/MessageNotifier';
+import { createUserUtils } from './models/User';
+import { createCommentUtils } from './models/Comment';
 
 // @ts-ignore
 window.interact = interact;
@@ -301,6 +303,9 @@ window.interact = interact;
         el.addEventListener('click', () => runSilentSync(`Games=1&Groups=1`));
       }
     }
+
+    Shared.userUtils = createUserUtils();
+    Shared.commentUtils = createCommentUtils();
 
     await common.addHeaderMenu();
 

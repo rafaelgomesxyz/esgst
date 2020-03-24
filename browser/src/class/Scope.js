@@ -12,6 +12,7 @@ class Scope {
 
     this.data = {
       comments: [],
+      commentsV2: [],
       discussions: [],
       games: [],
       giveaways: [],
@@ -28,6 +29,8 @@ class Scope {
   }
 
   get comments() { return this.data.comments; }
+
+  get commentsV2() { return this.data.commentsV2; }
 
   get discussions() { return this.data.discussions; }
 

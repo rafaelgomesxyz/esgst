@@ -21,6 +21,11 @@ class Comments extends Module {
   }
 
   async comments_load(context, main, source, endless, mainEndless) {
+    const commentsV2 = Shared.commentUtils.parseAll(context);
+    this.esgst.currentScope.commentsV2.push(...commentsV2);
+    for (const feature of Shared.esgst.commentV2Features) {
+      await feature(commentsV2, main);
+    }
     let count, comments, i, n;
     comments = await this.comments_get(context, document, main, endless);
     if (!comments.length) return;
