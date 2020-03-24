@@ -100,7 +100,7 @@ class _DOM {
       const element = document.createElement(tag);
       for (const key in attrs) {
         if (attrs.hasOwnProperty(key) && Utils.isSet(attrs[key])) {
-          if (key === 'ref') {
+          if (key === 'ref' && typeof attrs[key] === 'function') {
             attrs.ref(element);
           } else if (key === 'extend') {
             attrs.extend = attrs.extend.bind(null, element);
