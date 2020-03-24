@@ -587,7 +587,7 @@ class StHeader extends IHeader {
             ] : []),
             ['span', [
               params.buttonName,
-              ...(params.isNotification ? [
+              ...(params.isNotification && params.counter ? [
                 ['span', { class: 'message_count' }, params.counter.toLocaleString('en-US')],
               ] : []),
             ]],
@@ -607,7 +607,7 @@ class StHeader extends IHeader {
             ...(params.buttonImage ? [
               ['img', { src: params.buttonImage }],
             ] : []),
-            ['span', { class: 'message_count' }, params.counter.toLocaleString('en-US')],
+            params.counter && ['span', { class: 'message_count' }, params.counter.toLocaleString('en-US')],
           ]],
         ]],
       ]);
@@ -623,7 +623,7 @@ class StHeader extends IHeader {
             ] : []),
             ['span', [
               params.buttonName,
-              ...(params.isNotification ? [
+              ...(params.isNotification && params.counter ? [
                 ['span', { class: 'message_count' }, params.counter.toLocaleString('en-US')],
               ] : []),
             ]],

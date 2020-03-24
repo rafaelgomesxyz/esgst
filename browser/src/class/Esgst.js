@@ -314,6 +314,7 @@ class Esgst {
     this.groupFeatures = [];
     this.giveawayFeatures = [];
     this.commentFeatures = [];
+    this.commentV2Features = [];
     this.discussionFeatures = [];
     this.tradeFeatures = [];
     this.profileFeatures = [];
