@@ -107,7 +107,7 @@ class PageHeading {
       );
     }
     return DOM.build(this.pageHeading, options.position, [
-      ['a', { class: `${CLASS_NAMES[this.namespace].pageHeadingButton} is-clickable`, title: options.title, onclick: options.onclick, ref: options.ref, style: `display: inline-block;` }, icons.slice(0, -1)]
+      ['a', { class: `${CLASS_NAMES[this.namespace].pageHeadingButton} is-clickable`, title: options.title, onclick: options.onclick, ref: ref => options.ref = ref, style: `display: inline-block;` }, icons.slice(0, -1)]
     ]);
   }
 }
