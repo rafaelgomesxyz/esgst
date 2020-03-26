@@ -356,7 +356,7 @@ class Giveaways extends Module {
       }]);
     }
     giveaway.elgbPanel = giveaway.panel;
-    if (!giveaway.entriesLink) {
+    if (!giveaway.entriesLink && !wonPath) {
       let ct = giveaway.panel || (Settings.get('gm_enable') && createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling);
       if (ct.nextElementSibling) {
         giveaway.entries = parseInt(ct.nextElementSibling.textContent.replace(/,/g, ''));
