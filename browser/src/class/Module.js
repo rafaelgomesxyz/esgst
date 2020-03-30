@@ -8,6 +8,7 @@
  * @property {Boolean|Object} [st]
  * @property {Boolean|Object} [sgt]
  * @property {boolean} [endless]
+ * @property {Object} [featureMap]
  */
 
 /** module interface */
@@ -35,4 +36,3 @@ class Module {
 }
 
 export { Module };
-

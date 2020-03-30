@@ -1,42 +1,55 @@
 import { Session } from '../class/Session';
 import { Namespaces } from '../constants/Namespaces';
 
-abstract class UserUtils implements IUserUtils {
-  constructor() {}
-}
-
-class SgUserUtils extends UserUtils {
-  constructor() {
-    super();
-  }
-}
-
-class StUserUtils extends UserUtils {
-  constructor() {
-    super();
-  }
-}
-
 abstract class User implements IUser {
   nodes: IUserNodes;
   data: IUserData;
 
   constructor() {
-    this.nodes = this.getDefaultNodes();
-    this.data = this.getDefaultData();
+    this.nodes = User.getDefaultNodes();
+    this.data = User.getDefaultData();
   }
 
-  getDefaultNodes(): IUserNodes {
+  static getDefaultNodes(): IUserNodes {
     return {
+      avatarOuter: null,
+      avatarInner: null,
       usernameOuter: null,
       usernameInner: null,
+      role: null,
+      patreon: null,
+      reputation: null,
+      positiveReputation: null,
+      negativeReputation: null,
     };
   }
 
-  getDefaultData(): IUserData {
+  static getDefaultData(): IUserData {
     return {
+      id: '',
+      steamId: '',
+      avatar: '',
       username: '',
+      url: '',
+      isOp: false,
+      roleId: '',
+      roleName: '',
+      isPatron: false,
+      positiveReputation: 0,
+      negativeReputation: 0,
     };
+  }
+
+  static create(): IUser {
+    switch (Session.namespace) {
+      case Namespaces.SG: {
+        return new SgUser();
+      }
+      case Namespaces.ST: {
+        return new StUser();
+      }
+    }
+    return null;
   }
 }
 
@@ -52,28 +65,4 @@ class StUser extends User {
   }
 }
 
-const createUserUtils = (): IUserUtils => {
-  switch (Session.namespace) {
-    case Namespaces.SG: {
-      return new SgUserUtils();
-    }
-    case Namespaces.ST: {
-      return new StUserUtils();
-    }
-  }
-  return null;
-};
-
-const createUser = (): IUser => {
-  switch (Session.namespace) {
-    case Namespaces.SG: {
-      return new SgUser();
-    }
-    case Namespaces.ST: {
-      return new StUser();
-    }
-  }
-  return null;
-};
-
-export { createUserUtils, createUser };
+export { User };

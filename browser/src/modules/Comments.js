@@ -2,6 +2,7 @@ import { Module } from '../class/Module';
 import {common} from './Common';
 import { Shared } from '../class/Shared';
 import { Settings } from '../class/Settings';
+import { Comment } from '../models/Comment';
 
 const
   getUser = common.getUser.bind(common),
@@ -21,7 +22,7 @@ class Comments extends Module {
   }
 
   async comments_load(context, main, source, endless, mainEndless) {
-    const commentsV2 = Shared.commentUtils.parseAll(context);
+    const commentsV2 = Comment.parseAll(context);
     this.esgst.currentScope.commentsV2.push(...commentsV2);
     for (const feature of Shared.esgst.commentV2Features) {
       await feature(commentsV2, main);
