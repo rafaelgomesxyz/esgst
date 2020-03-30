@@ -17,21 +17,25 @@ class CommentsReplyMentionLink extends Module {
       st: true,
       type: 'comments',
       featureMap: {
-        commentV2: this.rml_addLinks.bind(this)
+        commentV2: this.addLinks.bind(this)
       }
     };
   }
 
-  rml_addLinks(comments) {
+  addLinks(comments: IComment[]) {
     for (const comment of comments) {
-      if (comment.parent) {
-        comment.nodes.rmlLink = DOM.insert(comment.nodes.actions, 'beforeEnd', (
-          <a class="comment__actions__button esgst-rml-link" href={`#${comment.parent.data.code}`}>
-            {`@${comment.parent.author.data.username || '[Deleted]'}`}
-          </a>
-        ));
-      }
-      this.rml_addLinks(comment.children);
+      this.addLink(comment);
+      this.addLinks(comment.children);
+    }
+  }
+
+  addLink(comment: IComment) {
+    if (comment.parent && !comment.nodes.rmlLink) {
+      comment.nodes.rmlLink = DOM.insert(comment.nodes.actions, 'beforeEnd', (
+        <a href={`#${comment.parent.data.code}`} class="comment__actions__button esgst-rml-link">
+          {`@${comment.data.isDeleted ? '[Deleted]' : comment.parent.author.data.username}`}
+        </a>
+      ));
     }
   }
 }
