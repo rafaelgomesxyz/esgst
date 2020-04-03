@@ -3,23 +3,23 @@ import {common} from './Common';
 import { Settings } from '../class/Settings';
 
 const
-  addGiveawayToStorage = common.addGiveawayToStorage.bind(common)
+	addGiveawayToStorage = common.addGiveawayToStorage.bind(common)
 ;
 
 class Giveaways_addToStorage extends Module {
-  constructor() {
-    super();
-    this.info = {
-      endless: true,
-      id: 'giveaways_addToStorage'
-    };
-  }
+	constructor() {
+		super();
+		this.info = {
+			endless: true,
+			id: 'giveaways_addToStorage'
+		};
+	}
 
-  init() {
-    if ((Settings.get('lpv') || Settings.get('cewgd') || (Settings.get('gc') && Settings.get('gc_gi'))) && this.esgst.giveawayPath && document.referrer === `https://www.steamgifts.com/giveaways/new`) {
-      addGiveawayToStorage();
-    }
-  }
+	init() {
+		if ((Settings.get('lpv') || Settings.get('cewgd') || (Settings.get('gc') && Settings.get('gc_gi'))) && this.esgst.giveawayPath && document.referrer === `https://www.steamgifts.com/giveaways/new`) {
+			addGiveawayToStorage();
+		}
+	}
 }
 
 const giveaways_addToStorage = new Giveaways_addToStorage();

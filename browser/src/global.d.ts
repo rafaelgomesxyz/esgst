@@ -1,11 +1,11 @@
 declare namespace JSX {
-  type IntrinsicElements = Record<keyof HTMLElementTagNameMap, any> & {
-    fragment: any,
-  };
+	type IntrinsicElements = Record<keyof HTMLElementTagNameMap, any> & {
+		fragment: any,
+	};
 }
 
 interface IUser {
-  nodes: IUserNodes,
+	nodes: IUserNodes,
 	data: IUserData,
 }
 
@@ -14,17 +14,17 @@ interface IUserNodes {
 	avatarInner: HTMLDivElement,
 	usernameOuter: HTMLDivElement,
 	usernameInner: HTMLAnchorElement,
-  role: HTMLAnchorElement,
-  patreon: HTMLAnchorElement,
-  reputation: HTMLAnchorElement,
+	role: HTMLAnchorElement,
+	patreon: HTMLAnchorElement,
+	reputation: HTMLAnchorElement,
 	positiveReputation: HTMLSpanElement,
 	negativeReputation: HTMLSpanElement,
 }
 
 interface IUserData {
-  id: string,
-  steamId: string,
-  avatar: string,
+	id: string,
+	steamId: string,
+	avatar: string,
 	username: string,
 	url: string,
 	isOp: boolean,

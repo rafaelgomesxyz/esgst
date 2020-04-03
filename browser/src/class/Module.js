@@ -13,26 +13,26 @@
 
 /** module interface */
 class Module {
-  constructor() {
-    /**
-     * @type {import('./Esgst').esgst}
-     */
-    this.esgst = null;
-    /** @type {EsgstModuleInfo} */
-    this.info = {
-      id: 'unknown',
-      name: 'Unknown',
-      type: ''
-    };
-  }
+	constructor() {
+		/**
+		 * @type {import('./Esgst').esgst}
+		 */
+		this.esgst = null;
+		/** @type {EsgstModuleInfo} */
+		this.info = {
+			id: 'unknown',
+			name: 'Unknown',
+			type: ''
+		};
+	}
 
-  init() {
-  }
+	init() {
+	}
 
-  setEsgst(esgst) {
-    this.esgst = esgst;
-    return this;
-  }
+	setEsgst(esgst) {
+		this.esgst = esgst;
+		return this;
+	}
 }
 
 export { Module };
