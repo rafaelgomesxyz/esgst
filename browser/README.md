@@ -32,13 +32,13 @@ There are two different ways to use ESGST: extension or userscript. You can choo
 ### Option 1 - Extension
 
 <a href="https://chrome.google.com/webstore/detail/esgst/ibedmjbicclcdfmghnkfldnplocgihna/">
-  <img src="https://raw.githubusercontent.com/rafaelgssa/esgst/master/browser/assets/chrome-badge.png" alt="Chrome">
+	<img src="https://raw.githubusercontent.com/rafaelgssa/esgst/master/browser/assets/chrome-badge.png" alt="Chrome">
 </a>
 <a href="https://addons.mozilla.org/en-US/firefox/addon/esgst/">
-  <img src="https://raw.githubusercontent.com/rafaelgssa/esgst/master/browser/assets/firefox-badge.png" alt="Firefox">
+	<img src="https://raw.githubusercontent.com/rafaelgssa/esgst/master/browser/assets/firefox-badge.png" alt="Firefox">
 </a>
 <a href="https://addons.palemoon.org/addon/esgst/">
-  <img src="https://raw.githubusercontent.com/rafaelgssa/esgst/master/browser/assets/palemoon-badge.png" alt="Pale Moon">
+	<img src="https://raw.githubusercontent.com/rafaelgssa/esgst/master/browser/assets/palemoon-badge.png" alt="Pale Moon">
 </a>
 
 It should be possible to install the extension in any Chromium-based browser from the Chrome store (such as Opera, Vivaldi, etc...), any Firefox-based browser from the Firefox store (such as Waterfox, etc...), and any browser that uses the Phoebus system from the Pale Moon store (such as Basilik, etc...).

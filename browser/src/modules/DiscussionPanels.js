@@ -2,19 +2,19 @@ import { Module } from '../class/Module';
 import { Settings } from '../class/Settings';
 
 class DiscussionPanels extends Module {
-  constructor() {
-    super();
-    this.info = {
-      endless: true,
-      id: 'discussionPanels'
-    };
-  }
+	constructor() {
+		super();
+		this.info = {
+			endless: true,
+			id: 'discussionPanels'
+		};
+	}
 
-  init() {
-    if ((Settings.get('ct') && (this.esgst.giveawaysPath || this.esgst.discussionsPath)) || (Settings.get('gdttt') && (this.esgst.giveawaysPath || this.esgst.discussionsPath || this.esgst.discussionsTicketsTradesPath)) || (Settings.get('ust') && this.esgst.ticketsPath)) {
-      this.esgst.endlessFeatures.push(this.esgst.modules.commentsCommentTracker.ct_addDiscussionPanels.bind(this.esgst.modules.commentsCommentTracker));
-    }
-  }
+	init() {
+		if ((Settings.get('ct') && (this.esgst.giveawaysPath || this.esgst.discussionsPath)) || (Settings.get('gdttt') && (this.esgst.giveawaysPath || this.esgst.discussionsPath || this.esgst.discussionsTicketsTradesPath)) || (Settings.get('ust') && this.esgst.ticketsPath)) {
+			this.esgst.endlessFeatures.push(this.esgst.modules.commentsCommentTracker.ct_addDiscussionPanels.bind(this.esgst.modules.commentsCommentTracker));
+		}
+	}
 }
 
 const discussionPanelsModule = new DiscussionPanels();
