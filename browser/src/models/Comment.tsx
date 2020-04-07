@@ -2,7 +2,7 @@ import { DOM } from '../class/DOM.js';
 import { Session } from '../class/Session.js';
 import { Shared } from '../class/Shared.js';
 import { Namespaces } from '../constants/Namespaces.js';
-import { AttachedImage } from './AttachedImage.js';
+import { AttachedImage } from './AttachedImage';
 import { User } from './User';
 
 abstract class Comment implements IComment {
