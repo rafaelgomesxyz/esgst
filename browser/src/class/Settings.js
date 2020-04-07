@@ -745,6 +745,7 @@ class _Settings {
 			wbc_skipUsers: false,
 			wbm_clearTags: false,
 			wbm_useCache: false,
+			wbm_exportSteamIds: false,
 			wbm_tags: [],
 			wbc_checkNew: false,
 			wbc_clearCache: false,

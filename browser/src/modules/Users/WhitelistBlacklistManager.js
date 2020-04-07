@@ -68,7 +68,12 @@ class UsersWhitelistBlacklistManager extends Module {
 	wbm_openPopup(wbm) {
 		if (!wbm.popup) {
 			wbm.popup = new Popup({ addScrollable: true, icon: 'fa-gear', title: `Manage ${wbm.name}:` });
-			new ToggleSwitch(wbm.popup.description, 'wbm_useCache', false, 'Use cache.', false, false, `Uses the cache created the last time you synced your whitelist/blacklist. This speeds up the process, but could lead to incomplete results if your cache isn't up-to-date.`, Settings.get('wbm_useCache'));
+			const useCacheSwitch = new ToggleSwitch(wbm.popup.description, 'wbm_useCache', false, 'Use cache.', false, false, `Uses the cache created the last time you synced your whitelist/blacklist. This speeds up the process, but could lead to incomplete results if your cache isn't up-to-date.`, Settings.get('wbm_useCache'));
+			const exportSteamIdsSwitch = new ToggleSwitch(wbm.popup.description, 'wbm_exportSteamIds', false, 'Export Steam IDs.', false, false, `When exporting the whitelist/blacklist, the Steam IDs of the users will be exported instead of their SteamGifts IDs. This is useful, for example, for blocking / unblocking the users on Steam with the Steam IDs.`, Settings.get('wbm_exportSteamIds'));
+			useCacheSwitch.dependencies.push(exportSteamIdsSwitch.container);
+			if (!Settings.get('wbm_useCache')) {
+				exportSteamIdsSwitch.container.classList.add('esgst-hidden');
+			}
 			new ToggleSwitch(wbm.popup.description, 'wbm_clearTags', false, [
 				`Only clear users who are tagged with these specific tags (separate with comma): `,
 				['input', { class: 'esgst-switch-input esgst-switch-input-large', type: 'text', value: Settings.get('wbm_tags').join(`, `) }]
@@ -207,11 +212,11 @@ class UsersWhitelistBlacklistManager extends Module {
 	async wbm_exportList(wbm, list, nextPage, callback) {
 		if (wbm.isCanceled) return;
 		if (Settings.get('wbm_useCache')) {
-			let steamId;
-			for (steamId in Shared.esgst.users.users) {
+			const exportSteamIds = Settings.get('wbm_exportSteamIds');
+			for (const steamId in Shared.esgst.users.users) {
 				if (Shared.esgst.users.users.hasOwnProperty(steamId)) {
 					if (Shared.esgst.users.users[steamId][`${wbm.key}ed`]) {
-						list.push(Shared.esgst.users.users[steamId].id);
+						list.push(exportSteamIds ? steamId : Shared.esgst.users.users[steamId].id);
 					}
 				}
 			}
