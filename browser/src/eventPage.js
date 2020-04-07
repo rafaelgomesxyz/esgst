@@ -83,7 +83,7 @@ function addWebRequestListener() {
 	};
 
 	browser.webRequest.onBeforeSendHeaders.addListener(details => {
-		const esgstCookie = details.requestHeaders.filter(header => header.name === 'Esgst-Cookie')[0];
+		const esgstCookie = details.requestHeaders.filter(header => header.name.toLowerCase() === 'esgst-cookie')[0];
 
 		if (esgstCookie) {
 			esgstCookie.name = 'Cookie';
