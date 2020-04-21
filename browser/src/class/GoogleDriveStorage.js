@@ -151,7 +151,7 @@ class GoogleDriveStorage extends ICloudStorage {
 				.map(x => x.split(/\n\n/)[2]);
 			for (const [index, part] of parts.entries()) {
 				if (part) {
-					output.failed.push(chunk[index]);
+					output.error.push(chunk[index]);
 				} else {
 					output.success.push(chunk[index]);
 				}

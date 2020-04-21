@@ -122,7 +122,7 @@ class OneDriveStorage extends ICloudStorage {
 			if (batchResponse.status === 204) {
 				output.success.push(batchResponse.id);
 			} else {
-				output.failed.push(batchResponse.id);
+				output.error.push(batchResponse.id);
 			}
 		}
 		return output;
