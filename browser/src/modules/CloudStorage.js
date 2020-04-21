@@ -264,6 +264,7 @@ class CloudStorage {
 						}
 
 						item.remove();
+						delete selectedFiles[file.id];
 
 						tempPopup.setIcon('fa-check');
 						tempPopup.setTitle('File deleted with success!');
@@ -320,6 +321,7 @@ class CloudStorage {
 									continue;
 								}
 								selectedFiles[fileId].item.remove();
+								delete selectedFiles[fileId];
 							}
 
 							const numError = result.error.length;
