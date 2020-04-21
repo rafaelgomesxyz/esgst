@@ -31,7 +31,9 @@ class UsersUserStats extends Module {
 	}
 
 	init() {
-		if (!Shared.esgst.whitelistPath && !Shared.esgst.blacklistPath) return;
+		if (!Shared.common.isCurrentPath(['Manage - Whitelist', 'Manage - Blacklist', 'Giveaway - Entries'])) {
+			return;
+		}
 		Shared.esgst.endlessFeatures.push(this.us_get.bind(this));
 	}
 
