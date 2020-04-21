@@ -1028,16 +1028,16 @@ class GamesGameCategories extends Module {
 
 	async gc_getGames(games, main, source, endless, filtersChanged) {
 		let gc = {
-			apps: Object.keys(games.apps),
+			apps: Object.keys(games.apps).filter(id => !id.startsWith('Humble')),
 			cache: {
 				apps: {},
 				subs: {}
 			},
-			subs: Object.keys(games.subs)
+			subs: Object.keys(games.subs).filter(id => !id.startsWith('Humble'))
 		};
 
 		// get categories
-		for (let id in games.apps) {
+		for (const id of gc.apps) {
 			if (games.apps.hasOwnProperty(id)) {
 				let elements = games.apps[id];
 				for (let i = 0, n = elements.length; i < n; ++i) {
@@ -1067,7 +1067,7 @@ class GamesGameCategories extends Module {
 				}
 			}
 		}
-		for (let id in games.subs) {
+		for (const id of gc.subs) {
 			if (games.subs.hasOwnProperty(id)) {
 				let elements = games.subs[id];
 				for (let i = 0, n = elements.length; i < n; ++i) {
