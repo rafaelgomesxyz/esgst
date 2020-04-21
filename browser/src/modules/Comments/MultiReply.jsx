@@ -3,7 +3,6 @@ import { Shared } from '../../class/Shared';
 import { Settings } from '../../class/Settings';
 import { DOM } from '../../class/DOM';
 import { Session } from '../../class/Session';
-import { Comment } from '../../models/Comment';
 
 class CommentsMultiReply extends Module {
 	constructor() {
