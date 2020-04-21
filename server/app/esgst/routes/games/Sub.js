@@ -141,9 +141,15 @@ class Sub {
 			released: !releaseDate.coming_soon,
 			removed: !storeResponse.url.match(new RegExp(`store\.steampowered\.com.*?\/sub\/${subId}`)),
 			price: parseInt((apiData.price && apiData.price.initial) || 0),
-			release_date: releaseDate.date ? Math.trunc((new Date(`${releaseDate.date} UTC`)).getTime() / 1e3) : null,
+			release_date: null,
 			last_update: Math.trunc(Date.now() / 1e3),
 		};
+		if (releaseDate.date) {
+			const timestamp = new Date(`${releaseDate.date.replace(/st|nd|rd|th/, '')} UTC`).getTime();
+			if (!Number.isNaN(timestamp)) {
+				sub['release_date'] = Math.trunc(timestamp / 1e3);
+			}
+		}
 		const apps = apiData.apps ? apiData.apps.map(item => parseInt(item.id)) : [];
 		await connection.beginTransaction();
 		const columns = Object.keys(sub);

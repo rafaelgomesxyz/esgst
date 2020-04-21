@@ -299,9 +299,15 @@ class App {
 			metacritic_id: metacritic ? metacritic.url.replace(/https:\/\/www\.metacritic\.com\/game\/pc\/|\?.+/, '') : null,
 			rating_percentage: rating ? parseInt(rating[1]) : null,
 			rating_count: rating ? parseInt(rating[2]) : null,
-			release_date: releaseDate.date ? Math.trunc(((new Date(`${releaseDate.date} UTC`)).getTime() / 1e3)) : null,
+			release_date: null,
 			last_update: Math.trunc(Date.now() / 1e3),
 		};
+		if (releaseDate.date) {
+			const timestamp = new Date(`${releaseDate.date.replace(/st|nd|rd|th/, '')} UTC`).getTime();
+			if (!Number.isNaN(timestamp)) {
+				app['release_date'] = Math.trunc(timestamp / 1e3);
+			}
+		}
 		const genres = [];
 		if (apiData.genres) {
 			for (const genre of apiData.genres) {
