@@ -617,7 +617,12 @@ class UsersWhitelistBlacklistChecker extends Module {
 	async wbc_checkUsers(WBC, I, N, Callback) {
 		let User, Result;
 		if (!WBC.Canceled) {
-			WBC.Progress.innerHTML = '';
+			createElements(WBC.Progress, 'inner', [{
+				attributes: {
+					class: 'fa fa-circle-o-notch fa-spin'
+				},
+				type: 'i'
+			}]);
 			WBC.OverallProgress.textContent = `${I} of ${N} users checked...`;
 			if (I < N) {
 				User = (WBC.User && Settings.get('wbc_checkSingle')) ? WBC.User : {
