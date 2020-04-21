@@ -1,16 +1,16 @@
 {
-  "name": "server",
-  "version": "1.0.0",
-  "scripts": {
-    "start": "./node_modules/.bin/node ./index.js",
-    "start-dev": "./node_modules/.bin/nodemon ./index.js"
-  },
-  "dependencies": {
-    "cors": "^2.8.5",
-    "express": "^4.17.1",
-    "jsdom": "^15.2.1",
-    "mysql": "^2.17.1",
-    "node-fetch": "^2.6.0",
-    "nodemon": "^1.19.4"
-  }
+	"name": "server",
+	"version": "1.0.0",
+	"scripts": {
+		"start": "./node_modules/.bin/node ./index.js",
+		"start-dev": "./node_modules/.bin/nodemon ./index.js"
+	},
+	"dependencies": {
+		"cors": "^2.8.5",
+		"express": "^4.17.1",
+		"jsdom": "^15.2.1",
+		"mysql": "^2.17.1",
+		"node-fetch": "^2.6.0",
+		"nodemon": "^1.19.4"
+	}
 }
