@@ -38,6 +38,27 @@ class CommentsReplyMentionLink extends Module {
 			));
 		}
 	}
+
+	rml_addLink(parent: HTMLElement, children: HTMLElement[]) {
+    const authorUsername = parent.querySelector('.comment__username, .author_name').textContent.trim();
+    const commentCode = parent.id;
+    for (const child of children) {
+      const actions = child.querySelector('.comment__actions, .action_list');
+      const rmlLink = actions.querySelector('.esgst-rml-link');
+      if (rmlLink) {
+        rmlLink.textContent = `@${authorUsername}`;
+      } else {
+        DOM.insert(actions, 'beforeEnd', (
+          <a
+						href={`#${commentCode}`}
+            class="comment__actions__button esgst-rml-link"
+          >
+            {`@${authorUsername}`}
+					</a>
+				));
+			}
+		}
+	}
 }
 
 const commentsReplyMentionLink = new CommentsReplyMentionLink();
