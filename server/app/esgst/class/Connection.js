@@ -1,10 +1,10 @@
 const mysql = require('mysql');
-const defaultConfig = require('../config');
+const defaultConfig = require('../config').connection;
 
 class Connection {
 	constructor(config = {}) {
 		/** @type {import('mysql').Connection} */
-		this._connection = mysql.createConnection(Object.assign({}, defaultConfig.connection, config));
+		this._connection = mysql.createConnection(Object.assign({}, defaultConfig, config));
 		this.inTransaction = false;
 	}
 

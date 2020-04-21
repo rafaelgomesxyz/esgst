@@ -41,7 +41,7 @@ class Game {
 					result: result ? result : null,
 				});
 		} catch (err) {
-			console.log(`GET /game failed with params ${JSON.stringify(req.params)} and query ${JSON.stringify(req.query)}: ${err.message}`);
+			console.log(`GET /game failed with params ${JSON.stringify(req.params)} and query ${JSON.stringify(req.query)}: ${err.message} ${err.stack ? err.stack.replace(/\n/g, ' ') : ''}`);
 			if (connection.inTransaction) {
 				await connection.rollback();
 			}

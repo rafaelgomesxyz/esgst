@@ -2,6 +2,7 @@ const Connection = require('../class/Connection');
 const CustomError = require('../class/CustomError');
 const Request = require('../class/Request');
 const Game = require('../routes/games/Game');
+const secrets = require('../config').secrets;
 
 doRcvSgToolsCronJob();
 
@@ -23,10 +24,10 @@ async function doRcvSgToolsCronJob() {
  * @param {import('mysql').Connection} connection
  */
 async function updateRcvSgTools(connection) {
-	console.log(`Updating RCV games from SGToools...`);
-	const url = 'https://www.sgtools.info/lastbundled';
+	console.log(`Updating RCV games from SGTools...`);
+	const url = `http://www.sgtools.info/api/lastBundled?apiKey=${secrets.sgToolsApiKey}`;
 	const response = await Request.get(url);
-	if (!response.html) {
+	if (!response.json) {
 		throw new CustomError(CustomError.COMMON_MESSAGES.sg, 500);
 	}
 	const names = {
@@ -37,18 +38,13 @@ async function updateRcvSgTools(connection) {
 		app: [],
 		sub: [],
 	};
-	const elements = response.html.querySelectorAll('tr');
-	for (const element of elements) {
-		const link = element.firstElementChild.firstElementChild;
-		if (!link) {
-			continue;
-		}
-		const matches = link.getAttribute('href').match(/(app|sub)\/(\d+)/);
-		const type = matches[1];
-		const id = parseInt(matches[2]);
-		const name = link.textContent;
-		const effectiveDate = Math.trunc((new Date(`${element.firstElementChild.nextElementSibling.textContent} UTC`)).getTime() / 1e3);
-		const addedDate = Math.trunc((new Date(`${element.firstElementChild.nextElementSibling.nextElementSibling.textContent} UTC`)).getTime() / 1e3);
+	const games = response.json[0];
+	for (const game of games) {
+		const type = game.type;
+		const id = game.app_id;
+		const name = game.name;
+		const effectiveDate = Math.trunc((new Date(`${game.bundled_date.replace(/\//g, '-').replace(/\s/, 'T')}.000Z`)).getTime() / 1e3);
+		const addedDate = Math.trunc((new Date(`${game.creation_date.replace(/\//g, '-').replace(/\s/, 'T')}.000Z`)).getTime() / 1e3);
 		names[type].push({ id, name });
 		rcv[type].push({ id, effectiveDate, addedDate });
 	}
