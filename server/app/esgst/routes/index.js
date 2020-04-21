@@ -8,5 +8,5 @@ const routes = Router();
 routes.get('/esgst/game/:type/:id', Game.get);
 routes.get('/esgst/games', Games.get);
 routes.get('/esgst/games/rcv', Rcv.get);
- 
+
 module.exports = routes;
