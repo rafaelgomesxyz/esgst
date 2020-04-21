@@ -402,6 +402,7 @@ class GeneralEndlessScrolling extends Module {
 				es.pageBase = es.currentPage + 1;
 				es.pageIndex = es.currentPage;
 			}
+			this.updateUrl(es.currentPage);
 			this.esgst.pagination.firstElementChild.firstElementChild.textContent = (parseInt(this.esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.nextElementSibling.textContent.replace(/,/g, '')) + 1).toString().replace(/\B(?=(\d{3})+(?!\d))/g, `,`);
 			this.esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.textContent = this.esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.nextElementSibling.textContent;
 		} else if (refresh) {
@@ -567,6 +568,7 @@ class GeneralEndlessScrolling extends Module {
 				createElements(this.esgst.paginationNavigation, 'beforeEnd', this.esgst.lastPageLink);
 			}
 			this.es_setPagination(es);
+			this.updateUrl(index);
 		}
 	}
 
@@ -644,7 +646,6 @@ class GeneralEndlessScrolling extends Module {
 		es.resumeButton.classList.remove('esgst-hidden');
 		if (!firstRun) {
 			const setting = Settings.getFull('es');
-			console.log(setting);
 			setting.include = setting.include.map(item => {
 				if (item !== Settings.get('es')) {
 					return item;
@@ -831,6 +832,18 @@ class GeneralEndlessScrolling extends Module {
 				}
 			});
 		}
+	}
+
+	updateUrl(page) {
+		const isFirstPage = page === 1;
+		const queryParams = window.location.search.replace(/\?|&page=(\d+)|page=(\d+)&|page=(\d+)/g, '');
+		let search = '';
+		if (queryParams) {
+			search = `/search?${queryParams}${isFirstPage ? '' : `&page=${page}`}`;
+		} else if (!isFirstPage) {
+			search = `/search?page=${page}`;
+		}
+		window.history.replaceState(null, '', `${window.location.origin}${window.location.pathname.replace('/search', '')}${search}${window.location.hash}`);
 	}
 }
 
