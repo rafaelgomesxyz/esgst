@@ -21,7 +21,7 @@ async function doRcvSgToolsCronJob() {
 }
 
 /**
- * @param {import('mysql').Connection} connection
+ * @param {Connection} connection
  */
 async function updateRcvSgTools(connection) {
 	console.log(`Updating RCV games from SGTools...`);
@@ -67,5 +67,11 @@ async function updateRcvSgTools(connection) {
 			`);
 		}
 	}
+	await connection.query(`
+		INSERT INTO timestamps (name, date)
+		VALUES ('rcv_last_update_from_sgtools', ${connection.escape(Math.trunc(Date.now() / 1e3))})
+		ON DUPLICATE KEY UPDATE date = VALUES(date)
+	`);
 	await connection.commit();
+	console.log('Done!');
 }

@@ -116,7 +116,13 @@ async function updateRcvSg() {
 			WHERE found = FALSE
 		`);
 	}
+	await connection.query(`
+		INSERT INTO timestamps (name, date)
+		VALUES ('rcv_last_update_from_sg', ${connection.escape(Math.trunc(Date.now() / 1e3))})
+		ON DUPLICATE KEY UPDATE date = VALUES(date)
+	`);
 	await connection.commit();
 	await connection.disconnect();
+	console.log('Done!');
 	fs.writeFileSync(path.resolve('./rcv_sg.json'), JSON.stringify({ page: 0 }));
 }

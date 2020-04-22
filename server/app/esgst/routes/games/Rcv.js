@@ -47,7 +47,8 @@ const Game = require('./Game');
  * @apiParam (Schema) {Object} result.not_found
  * @apiParam (Schema) {Integer[]} result.not_found.apps The Steam IDs of the apps that were not found.
  * @apiParam (Schema) {Integer[]} result.not_found.subs The Steam IDs of the subs that were not found.
- * @apiParam (Schema) {String} result.last_update When the database was last updated in the format YYYY/MM/DD HH:mm:SS (UTC timezone).
+ * @apiParam (Schema) {String} result.last_update_from_sg When the database was last fully updated from SteamGifts in the format YYYY/MM/DD HH:mm:SS (UTC timezone).
+ * @apiParam (Schema) {String} result.last_update_from_sgtools When the database was last partially updated from SGTools in the format YYYY/MM/DD HH:mm:SS (UTC timezone).
  *
  * @apiSampleRequest off
  */
@@ -66,7 +67,8 @@ const Game = require('./Game');
  * @apiParam (Schema) {Object} result.not_found
  * @apiParam (Schema) {Integer[]} result.not_found.apps The Steam IDs of the apps that were not found.
  * @apiParam (Schema) {Integer[]} result.not_found.subs The Steam IDs of the subs that were not found.
- * @apiParam (Schema) {String} result.last_update When the database was last updated in the format YYYY/MM/DD HH:mm:SS (UTC timezone).
+ * @apiParam (Schema) {String} result.last_update_from_sg When the database was last fully updated from SteamGifts in the format YYYY/MM/DD HH:mm:SS (UTC timezone).
+ * @apiParam (Schema) {String} result.last_update_from_sgtools When the database was last partially updated from SGTools in the format YYYY/MM/DD HH:mm:SS (UTC timezone).
  *
  * @apiSampleRequest off
  */
@@ -208,7 +210,8 @@ class Rcv {
 				'apps': [],
 				'subs': [],
 			},
-			'last_update': null,
+			'last_update_from_sg': null,
+			'last_update_from_sgtools': null,
 		};
 		for (const type of Game.TYPES) {
 			if (type === 'bundle') {
@@ -275,11 +278,17 @@ class Rcv {
 				result.not_found[`${type}s`].push(id);
 			}
 		}
-		const infoRows = await connection.query('SHOW TABLE STATUS WHERE Name = "games__app_rcv" OR Name = "games__sub_rcv"');
-		for (const infoRow of infoRows) {
-			if (infoRow.Update_time) {
-				result.last_update = Utils.formatDate((new Date(infoRow.Update_time)).getTime(), true);
-				break;
+		const timestampRows = await connection.query('SELECT name, date FROM timestamps WHERE name = "rcv_last_update_from_sg" OR name = "rcv_last_update_from_sgtools"');
+		for (const timestampRow of timestampRows) {
+			switch (timestampRow.name) {
+				case 'rcv_last_update_from_sg': {
+					result.last_update_from_sg = Utils.formatDate(parseInt(timestampRow.date) * 1e3, true);
+					break;
+				}
+				case 'rcv_last_update_from_sgtools': {
+					result.last_update_from_sgtools = Utils.formatDate(parseInt(timestampRow.date) * 1e3, true);
+					break;
+				}
 			}
 		}
 		return result;
