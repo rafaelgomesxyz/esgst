@@ -6,7 +6,7 @@ class Utils {
 	 * @param {boolean} includeHours
 	 */
 	static formatDate(timestamp, includeHours) {
-		const date =  new Date(timestamp);
+		const date = new Date(timestamp);
 		const iso = date.toISOString();
 		if (includeHours) {
 			return `${iso.slice(0, 10)} ${iso.slice(11, 19)}`;
