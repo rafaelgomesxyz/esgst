@@ -220,10 +220,12 @@ class Uh {
 			'steam_ids': {
 				'message': 'Must be a comma-separated list of Steam ids e.g. 76561198020696458,76561198174510278.',
 				'regex': /^((\d+,)*\d+$|$)/,
+				'conflicts': ['show_recent'],
 			},
 			'show_recent': {
 				'message': booleanMessage,
 				'regex': booleanRegex,
+				'conflicts': ['steam_ids'],
 			},
 		};
 		Utils.validateParams(params, validator);
@@ -258,6 +260,7 @@ class Uh {
 				WHERE ${conditions.join(' AND ')}
 			` : ''}
 			${params.show_recent ? `
+				WHERE last_update IS NOT NULL
 				ORDER BY last_update DESC
 				LIMIT 100
 			` : ''}
