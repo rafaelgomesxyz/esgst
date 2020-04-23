@@ -159,10 +159,12 @@ class Rcv {
 			'app_ids': {
 				'message': idsMessage,
 				'regex': idsRegex,
+				'conflicts': ['show_recent'],
 			},
 			'sub_ids': {
 				'message': idsMessage,
 				'regex': idsRegex,
+				'conflicts': ['show_recent'],
 			},
 			'date_after': {
 				'message': dateMessage,
@@ -192,7 +194,7 @@ class Rcv {
 			'show_recent': {
 				'message': booleanMessage,
 				'regex': booleanRegex,
-				'conflicts': ['date_after', 'date_after_or_equal', 'date_before', 'date_before_or_equal', 'date-equal'],
+				'conflicts': ['app_ids', 'sub_ids', 'date_after', 'date_after_or_equal', 'date_before', 'date_before_or_equal', 'date-equal'],
 			},
 		};
 		Utils.validateParams(params, validator);
