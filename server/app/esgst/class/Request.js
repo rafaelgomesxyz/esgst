@@ -12,6 +12,11 @@ class Request {
 		return Request.send(url, config);
 	}
 
+	static head(url, config = {}) {
+		config = Object.assign({}, Request.DEFAULT_CONFIG, config, { method: 'HEAD' });
+		return Request.send(url, config);
+	}
+
 	static patch(url, config = {}) {
 		config = Object.assign({}, Request.DEFAULT_CONFIG, config, { method: 'PATCH' });
 		return Request.send(url, config);
