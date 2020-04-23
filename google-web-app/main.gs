@@ -5,8 +5,6 @@ function doGet(event) {
 			return doNcvGet(parameters);
 		case 'rcv':
 			return doRcvGet(parameters);
-		case 'uh':
-			return doUhGet(parameters);
 	}
 }
 
