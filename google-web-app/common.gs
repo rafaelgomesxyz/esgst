@@ -1,5 +1,4 @@
 /* SHEETS */
-var RCV_SHEET = '1hdANpkPL_eKZHxJuvcmsVKbjtzN_2MXV2ZBMSJMkO-s';
 var NCV_SHEET = '1wqUDyl_qZF0a6DkRiq-VfDQTiAfIt5WC_ikIp1iD7c4';
 
 /* PRIVATE DATA */
