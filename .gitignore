@@ -1,5 +1,7 @@
 .vscode
-build/
-dist/
-node_modules/
-config.js
+**/build/
+**/dist/
+**/docs/
+**/node_modules/
+**/config.js
+**/package-lock.json
