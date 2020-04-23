@@ -90,6 +90,7 @@ const Game = require('./Game');
  * @apiParam (Query Parameters) {String} [date_before] Returns only games that began giving reduced CV before the specified date. The date must be in the format YYYY-MM-DD.
  * @apiParam (Query Parameters) {String} [date_before_or_equal] Returns only games that began giving reduced CV before or at the specified date. The date must be in the format YYYY-MM-DD.
  * @apiParam (Query Parameters) {String} [date_equal] Returns only games that began giving reduced CV at the specified date. The date must be in the format YYYY-MM-DD.
+ * @apiParam (Query Parameters) {Boolean} [show_recent] Returns only the last 100 apps and the last 50 subs that were added.
  *
  * @apiSuccess (Success Response (200)) {Object} output
  * @apiSuccess (Success Response (200)) {NULL} output.error Always NULL in a success response.
@@ -166,27 +167,32 @@ class Rcv {
 			'date_after': {
 				'message': dateMessage,
 				'regex': dateRegex,
-				'conflicts': ['date_equal', 'date_after_or_equal'],
+				'conflicts': ['date_equal', 'date_after_or_equal', 'show_recent'],
 			},
 			'date_after_or_equal': {
 				'message': dateMessage,
 				'regex': dateRegex,
-				'conflicts': ['date_equal', 'date_after'],
+				'conflicts': ['date_equal', 'date_after', 'show_recent'],
 			},
 			'date_before': {
 				'message': dateMessage,
 				'regex': dateRegex,
-				'conflicts': ['date_equal', 'date_before_or_equal'],
+				'conflicts': ['date_equal', 'date_before_or_equal', 'show_recent'],
 			},
 			'date_before_or_equal': {
 				'message': dateMessage,
 				'regex': dateRegex,
-				'conflicts': ['date_equal', 'date_before'],
+				'conflicts': ['date_equal', 'date_before', 'show_recent'],
 			},
 			'date_equal': {
 				'message': dateMessage,
 				'regex': dateRegex,
-				'conflicts': ['date_after', 'date_before'],
+				'conflicts': ['date_after', 'date_before', 'show_recent'],
+			},
+			'show_recent': {
+				'message': booleanMessage,
+				'regex': booleanRegex,
+				'conflicts': ['date_after', 'date_after_or_equal', 'date_before', 'date_before_or_equal', 'date-equal'],
 			},
 		};
 		Utils.validateParams(params, validator);
@@ -199,6 +205,11 @@ class Rcv {
 		} else {
 			params.format_array = false;
 			params.show_id = false;
+		}
+		if (params.show_recent === 'true') {
+			params.show_recent = true;
+		} else {
+			params.show_recent = false;
 		}
 		params.show_name = params.show_name === 'true';
 		const result = {
@@ -252,6 +263,10 @@ class Rcv {
 				ON g_tr.${type}_id = g_tn.${type}_id
 				${conditions.length > 0 ? `
 					WHERE ${conditions.join(' AND ')}
+				` : ''}
+				${params.show_recent ? `
+					ORDER BY g_tr.added_date DESC
+					LIMIT ${type === 'app' ? '100' : '50'}
 				` : ''}
 			`);
 			const idsFound = [];
