@@ -23,6 +23,7 @@ import { Logger } from '../class/Logger';
 import { DOM } from '../class/DOM';
 import { Session } from '../class/Session';
 import { LocalStorage } from '../class/LocalStorage';
+import { FetchRequest } from '../class/FetchRequest';
 
 class Common extends Module {
 	constructor() {
@@ -2692,64 +2693,63 @@ class Common extends Module {
 	}
 
 	async setSMRecentUsernameChanges() {
-		if (!(await permissions.requestUi([['googleWebApp']], 'uh'))) {
+		const popup = new Popup({
+			addScrollable: true,
+			icon: 'fa-comments',
+			title: 'Recent Username Changes',
+		});
+		const hasPermissions = await permissions.request([['server']]);
+		if (!hasPermissions) {
+			DOM.insert(popup.description, 'beforeEnd', (
+				<div>
+					<i class="fa fa-times"></i>
+					<span>No permissions granted for https://rafaelgssa.com. Please grant the permissions on the settings menu so that the data can be retrieved from the ESGST API.</span>
+				</div>
+			));
+			popup.open();
 			return;
 		}
-
-		const popup = new Popup({ addScrollable: true, icon: 'fa-comments', title: 'Recent Username Changes' });
-		popup.progress = this.createElements(popup.description, 'beforeEnd', [{
-			type: 'div',
-			children: [{
-				attributes: {
-					class: 'fa fa-circle-o-notch fa-spin'
-				},
-				type: 'i'
-			}, {
-				text: 'Loading recent username changes...',
-				type: 'span'
-			}]
-		}]);
-		popup.results = this.createElements(popup.scrollable, 'beforeEnd', [{
-			attributes: {
-				class: 'esgst-uh-popup'
-			},
-			type: 'div'
-		}]);
+		popup.progress = DOM.insert(popup.description, 'beforeEnd', (
+			<div>
+				<i class="fa fa-circle-o-notch fa-spin"></i>
+				<span>Loading recent username changes...</span>
+			</div>
+		));
+		popup.results = DOM.insert(popup.scrollable, 'beforeEnd', (
+			<div class="esgst-uh-popup"></div>
+		));
 		popup.open();
-		const recentChanges = await this.getRecentChanges();
-		popup.progress.innerHTML = '';
-		const items = [];
-		for (const change of recentChanges) {
-			items.push({
-				type: 'div',
-				children: [{
-					text: `${change[0]} changed to `,
-					type: 'node'
-				}, {
-					attributes: {
-						class: 'esgst-bold',
-						href: `/user/${change[1]}`
-					},
-					text: change[1],
-					type: 'a'
-				}]
-			});
-		}
-		this.createElements(popup.results, 'inner', items);
-		if (this.esgst.sg) {
-			// noinspection JSIgnoredPromiseFromCall
-			this.endless_load(popup.results);
+		try {
+			const recentChanges = await this.getRecentChanges();
+			popup.progress.innerHTML = '';
+			DOM.insert(popup.results, 'inner', (
+				<fragment>
+					{recentChanges.map(change => (
+						<div>
+							{`${change.usernames[1]} changed to `}
+							<a href={`/user/${change.usernames[0]}`} class="esgst-bold">{change.usernames[0]}</a>
+						</div>
+					))}
+				</fragment>
+			));
+			if (Shared.esgst.sg) {
+				// noinspection JSIgnoredPromiseFromCall
+				this.endless_load(popup.results);
+			}
+		} catch (err) {
+			Logger.warning(err);
+			DOM.insert(popup.progress, 'inner', (
+				<div>
+					<i class="fa fa-times"></i>
+					<span>Failed to load recent changes. Please try again later.</span>
+				</div>
+			));
 		}
 	}
 
 	async getRecentChanges() {
-		const response = JSON.parse((await this.request({
-			method: 'GET',
-			url: `https://script.google.com/macros/s/AKfycbz2IWN7I79WsbGELQk2rbQQSPI8XNWvDt3mEO-3nLEWqHiQmeo/exec?action=uh&code=1`
-		})).responseText);
-
-		/** @property {Object} response.recent */
-		return response.recent;
+		const response = await FetchRequest.get('https://rafaelgssa.com/esgst/users/uh?format_array=true&show_recent=true');
+		return response.json.result.found;
 	}
 
 	updateWhitelistBlacklist(key, profile, event) {
