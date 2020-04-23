@@ -2749,7 +2749,7 @@ class Common extends Module {
 
 	async getRecentChanges() {
 		const response = await FetchRequest.get('https://rafaelgssa.com/esgst/users/uh?format_array=true&show_recent=true');
-		return response.json.result.found.filter(change => change.usernames.length > 1);
+		return response.json.result.found;
 	}
 
 	updateWhitelistBlacklist(key, profile, event) {
