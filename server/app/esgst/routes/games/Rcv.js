@@ -117,7 +117,7 @@ class Rcv {
 					result,
 				});
 		} catch (err) {
-			console.log(`GET /games/rcv failed with params ${JSON.stringify(req.params)} and query ${JSON.stringify(req.query)}: ${err.message} ${err.stack ? err.stack.replace(/\n/g, ' ') : ''}`);
+			console.log(`GET ${req.route.path} failed with params ${JSON.stringify(req.params)} and query ${JSON.stringify(req.query)}: ${err.message} ${err.stack ? err.stack.replace(/\n/g, ' ') : ''}`);
 			if (!err.status) {
 				err.status = 500;
 				err.message = CustomError.COMMON_MESSAGES.internal;
