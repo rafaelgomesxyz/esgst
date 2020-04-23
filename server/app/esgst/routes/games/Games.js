@@ -60,7 +60,7 @@ const Sub = require('./Sub');
  */
 
 /**
- * @api {GET} /games[?join_all=...&format_array=...&show_id=...&app_ids=...&sub_ids=...&bundle_ids=...&app_filters=...&sub_filters=...&bundle_filters=...] GetGames
+ * @api {GET} /games GetGames
  * @apiGroup Games
  * @apiName GetGames
  * @apiDescription Returns information about multiple games.
