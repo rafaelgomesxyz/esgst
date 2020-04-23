@@ -67,16 +67,18 @@ async function updateUh() {
 					uh.push(values);
 				}
 			}
-			connection = new Connection();
-			await connection.connect();
-			await connection.beginTransaction();
-			await connection.query(`
-				INSERT INTO users__uh (steam_id, usernames, last_check, last_update)
-				VALUES ${uh.map(values => `(${connection.escape(values.steam_id)}, ${connection.escape(values.usernames)}, ${connection.escape(values.last_check)}, ${connection.escape(values.last_update)})`).join(', ')}
-				ON DUPLICATE KEY UPDATE usernames = VALUES(usernames), last_check = VALUES(last_check), last_update = VALUES(last_update)
-			`);
-			await connection.commit();
-			await connection.disconnect();
+			if (uh.length > 0) {
+				connection = new Connection();
+				await connection.connect();
+				await connection.beginTransaction();
+				await connection.query(`
+					INSERT INTO users__uh (steam_id, usernames, last_check, last_update)
+					VALUES ${uh.map(values => `(${connection.escape(values.steam_id)}, ${connection.escape(values.usernames)}, ${connection.escape(values.last_check)}, ${connection.escape(values.last_update)})`).join(', ')}
+					ON DUPLICATE KEY UPDATE usernames = VALUES(usernames), last_check = VALUES(last_check), last_update = VALUES(last_update)
+				`);
+				await connection.commit();
+				await connection.disconnect();
+			}
 		}
 		index += 100;
 		fs.writeFileSync(path.resolve('./uh.json'), JSON.stringify({ index }));
