@@ -137,9 +137,9 @@ class Uh {
 			FROM users__uh
 			WHERE steam_id = ${connection.escape(steamId)}
 		`))[0];
+		const now = Math.trunc(Date.now() / 1e3);
 		if (row) {
 			const usernames = row.usernames.split(', ');
-			const now = Math.trunc(Date.now() / 1e3);
 			let lastCheck = parseInt(row.last_check);
 			let lastUpdate = row.last_update ? parseInt(row.last_update) : null;
 			const differenceInSeconds = now - lastCheck;
@@ -175,6 +175,25 @@ class Uh {
 				usernames,
 				last_check: Utils.formatDate(lastCheck * 1e3, true),
 				last_update: lastUpdate ? Utils.formatDate(lastUpdate * 1e3, true) : null,
+			};
+			return result;
+		}
+		const url = `https://www.steamgifts.com/go/user/${steamId}`;
+		const response = await Request.head(url);
+		const parts = response.url.split('/user/');
+		if (parts.length === 2) {
+			const username = parts[1];
+			await connection.beginTransaction();
+			await connection.query(`
+				INSERT IGNORE INTO users__uh (steam_id, usernames, last_check)
+				VALUES (${connection.escape(steamId)}, ${connection.escape(username)}, ${connection.escape(now)})
+			`);
+			await connection.commit();
+			const result = {
+				steam_id: steamId,
+				usernames: [username],
+				last_check: Utils.formatDate(now * 1e3, true),
+				last_update: null,
 			};
 			return result;
 		}
