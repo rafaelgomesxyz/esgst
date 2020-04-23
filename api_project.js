@@ -3,18 +3,18 @@ define({
   "version": "1.0.0",
   "description": "An API for ESGST.",
   "title": "ESGST API",
-  "url": "https://gsrafael01.me/esgst",
-  "sampleUrl": "https://gsrafael01.me/esgst",
+  "url": "https://rafaelgssa.com/esgst",
+  "sampleUrl": "https://rafaelgssa.com/esgst",
   "header": {
     "title": "",
-    "content": "<p>The requests must be made to the following endpoint:</p>\n<pre><code>https://gsrafael01.me/esgst\n</code></pre>\n"
+    "content": "<p>The requests must be made to the following endpoint:</p>\n<pre class=\"prettyprint\">https://rafaelgssa.com/esgst\n</code></pre>\n"
   },
   "defaultVersion": "0.0.0",
   "apidoc": "0.3.0",
   "generator": {
     "name": "apidoc",
-    "time": "2019-01-15T14:12:38.613Z",
+    "time": "2020-04-23T04:56:41.724Z",
     "url": "http://apidocjs.com",
-    "version": "0.17.7"
+    "version": "0.20.1"
   }
 });

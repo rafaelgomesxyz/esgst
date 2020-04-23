@@ -1,12 +1,12 @@
 define({ "api": [
   {
     "type": "GET",
-    "url": "/game/{type}/{id}[?filters=...]",
+    "url": "/game/:type/:id",
     "title": "GetGame",
     "group": "Games",
     "name": "GetGame",
-    "version": "1.0.0",
     "description": "<p>Returns information about a game.</p>",
+    "version": "1.0.0",
     "parameter": {
       "fields": {
         "Path Parameters": [
@@ -95,22 +95,22 @@ define({ "api": [
         ]
       }
     },
-    "filename": "server/app/esgst/routes/games/game.php",
+    "filename": "app/esgst/routes/games/Game.js",
     "groupTitle": "Games",
     "sampleRequest": [
       {
-        "url": "https://gsrafael01.me/esgst/game/{type}/{id}[?filters=...]"
+        "url": "https://rafaelgssa.com/esgst/game/:type/:id"
       }
     ]
   },
   {
     "type": "GET",
-    "url": "/games[?join_all=...&format_array=...&show_id=...&app_ids=...&sub_ids=...&bundle_ids=...&app_filters=...&sub_filters=...&bundle_filters=...]",
+    "url": "/games",
     "title": "GetGames",
     "group": "Games",
     "name": "GetGames",
-    "version": "1.0.0",
     "description": "<p>Returns information about multiple games.</p>",
+    "version": "1.0.0",
     "parameter": {
       "fields": {
         "Query Parameters": [
@@ -234,22 +234,22 @@ define({ "api": [
         ]
       }
     },
-    "filename": "server/app/esgst/routes/games/games.php",
+    "filename": "app/esgst/routes/games/Games.js",
     "groupTitle": "Games",
     "sampleRequest": [
       {
-        "url": "https://gsrafael01.me/esgst/games[?join_all=...&format_array=...&show_id=...&app_ids=...&sub_ids=...&bundle_ids=...&app_filters=...&sub_filters=...&bundle_filters=...]"
+        "url": "https://rafaelgssa.com/esgst/games"
       }
     ]
   },
   {
     "type": "GET",
-    "url": "/games/rcv[?format_array=...&show_id=...&show_name=...&app_ids=...&sub_ids=...&date_after=...&date_after_or_equal=...&date_before=...&date_before_or_equal=...&date_equal=...]",
+    "url": "/games/rcv",
     "title": "GetRcv",
     "group": "Games",
     "name": "GetRcv",
-    "version": "1.0.0",
     "description": "<p>Returns information about reduced CV games.</p>",
+    "version": "1.0.0",
     "parameter": {
       "fields": {
         "Query Parameters": [
@@ -322,6 +322,13 @@ define({ "api": [
             "optional": true,
             "field": "date_equal",
             "description": "<p>Returns only games that began giving reduced CV at the specified date. The date must be in the format YYYY-MM-DD.</p>"
+          },
+          {
+            "group": "Query Parameters",
+            "type": "Boolean",
+            "optional": true,
+            "field": "show_recent",
+            "description": "<p>Returns only the last 100 apps and the last 50 subs that were added.</p>"
           }
         ]
       }
@@ -380,11 +387,11 @@ define({ "api": [
         ]
       }
     },
-    "filename": "server/app/esgst/routes/games/rcv.php",
+    "filename": "app/esgst/routes/games/Rcv.js",
     "groupTitle": "Games",
     "sampleRequest": [
       {
-        "url": "https://gsrafael01.me/esgst/games/rcv[?format_array=...&show_id=...&show_name=...&app_ids=...&sub_ids=...&date_after=...&date_after_or_equal=...&date_before=...&date_before_or_equal=...&date_equal=...]"
+        "url": "https://rafaelgssa.com/esgst/games/rcv"
       }
     ]
   },
@@ -394,8 +401,8 @@ define({ "api": [
     "title": "App",
     "group": "Schemas",
     "name": "App",
-    "version": "1.0.0",
     "description": "<p>The optional properties are included based on the &quot;filters&quot; parameter. If the parameter isn't used, all of the optional properties are included, except where noted.</p>",
+    "version": "1.0.0",
     "parameter": {
       "fields": {
         "Schema": [
@@ -461,10 +468,10 @@ define({ "api": [
           },
           {
             "group": "Schema",
-            "type": "Boolean",
+            "type": "Boolean/NULL",
             "optional": true,
             "field": "app.learning",
-            "description": "<p>Whether Steam is learning about the game or not.</p>"
+            "description": "<p>A boolean indicating whether Steam is learning about the game or not, or NULL if the information is not accessible.</p>"
           },
           {
             "group": "Schema",
@@ -616,7 +623,7 @@ define({ "api": [
         ]
       }
     },
-    "filename": "server/app/esgst/routes/games/app.php",
+    "filename": "app/esgst/routes/games/App.js",
     "groupTitle": "Schemas"
   },
   {
@@ -625,8 +632,8 @@ define({ "api": [
     "title": "Bundle",
     "group": "Schemas",
     "name": "Bundle",
-    "version": "1.0.0",
     "description": "<p>The optional properties are included based on the &quot;filters&quot; parameter. If the parameter isn't used, all of the optional properties are included, except where noted.</p>",
+    "version": "1.0.0",
     "parameter": {
       "fields": {
         "Schema": [
@@ -686,7 +693,7 @@ define({ "api": [
         ]
       }
     },
-    "filename": "server/app/esgst/routes/games/bundle.php",
+    "filename": "app/esgst/routes/games/Bundle.js",
     "groupTitle": "Schemas"
   },
   {
@@ -695,8 +702,8 @@ define({ "api": [
     "title": "GamesJoined",
     "group": "Schemas",
     "name": "GamesJoined",
-    "version": "1.0.0",
     "description": "<p>The <a href=\"#api-Schemas-App\">App</a>, <a href=\"#api-Schemas-Sub\">Sub</a> and <a href=\"#api-Schemas-Bundle\">Bundle</a> objects from the &quot;found&quot; object have the additional &quot;type&quot; property, to help separate them. The <a href=\"#api-Schemas-App\">App</a>, <a href=\"#api-Schemas-Sub\">Sub</a> and <a href=\"#api-Schemas-Bundle\">Bundle</a> objects from the &quot;not_found&quot; object only have the &quot;type&quot; and the respective &quot;app_id&quot;, &quot;sub_id&quot; or &quot;bundle_id&quot; properties.</p>",
+    "version": "1.0.0",
     "parameter": {
       "fields": {
         "Schema": [
@@ -724,7 +731,7 @@ define({ "api": [
         ]
       }
     },
-    "filename": "server/app/esgst/routes/games/games.php",
+    "filename": "app/esgst/routes/games/Games.js",
     "groupTitle": "Schemas"
   },
   {
@@ -733,8 +740,8 @@ define({ "api": [
     "title": "GamesSeparated",
     "group": "Schemas",
     "name": "GamesSeparated",
-    "version": "1.0.0",
     "description": "<p>The <a href=\"#api-Schemas-App\">App</a>, <a href=\"#api-Schemas-Sub\">Sub</a> and <a href=\"#api-Schemas-Bundle\">Bundle</a> objects from the &quot;found&quot; object do not have the respective &quot;app_id&quot;, &quot;sub_id&quot; or &quot;bundle_id&quot; property if the parameter &quot;show_id&quot; isn't used, as the object keys already represent the Steam IDs of the games.</p>",
+    "version": "1.0.0",
     "parameter": {
       "fields": {
         "Schema": [
@@ -804,7 +811,7 @@ define({ "api": [
         ]
       }
     },
-    "filename": "server/app/esgst/routes/games/games.php",
+    "filename": "app/esgst/routes/games/Games.js",
     "groupTitle": "Schemas"
   },
   {
@@ -883,7 +890,7 @@ define({ "api": [
         ]
       }
     },
-    "filename": "server/app/esgst/routes/games/games.php",
+    "filename": "app/esgst/routes/games/Games.js",
     "groupTitle": "Schemas"
   },
   {
@@ -934,7 +941,7 @@ define({ "api": [
         ]
       }
     },
-    "filename": "server/app/esgst/routes/games/rcv.php",
+    "filename": "app/esgst/routes/games/Rcv.js",
     "groupTitle": "Schemas"
   },
   {
@@ -943,8 +950,8 @@ define({ "api": [
     "title": "RcvArray",
     "group": "Schemas",
     "name": "RcvArray",
-    "version": "1.0.0",
     "description": "<p>The <a href=\"#api-Schemas-RcvApp\">RcvApp</a> and <a href=\"#api-Schemas-RcvSub\">RcvSub</a> objects do not have the &quot;name&quot; property if the parameter &quot;show_name&quot; isn't used.</p>",
+    "version": "1.0.0",
     "parameter": {
       "fields": {
         "Schema": [
@@ -1001,13 +1008,20 @@ define({ "api": [
             "group": "Schema",
             "type": "String",
             "optional": false,
-            "field": "result.last_update",
-            "description": "<p>When the database was last updated in the format YYYY/MM/DD HH:mm:SS (UTC timezone).</p>"
+            "field": "result.last_update_from_sg",
+            "description": "<p>When the database was last fully updated from SteamGifts in the format YYYY/MM/DD HH:mm:SS (UTC timezone).</p>"
+          },
+          {
+            "group": "Schema",
+            "type": "String",
+            "optional": false,
+            "field": "result.last_update_from_sgtools",
+            "description": "<p>When the database was last partially updated from SGTools in the format YYYY/MM/DD HH:mm:SS (UTC timezone).</p>"
           }
         ]
       }
     },
-    "filename": "server/app/esgst/routes/games/rcv.php",
+    "filename": "app/esgst/routes/games/Rcv.js",
     "groupTitle": "Schemas"
   },
   {
@@ -1016,8 +1030,8 @@ define({ "api": [
     "title": "RcvObject",
     "group": "Schemas",
     "name": "RcvObject",
-    "version": "1.0.0",
     "description": "<p>The <a href=\"#api-Schemas-RcvApp\">RcvApp</a> and <a href=\"#api-Schemas-RcvSub\">RcvSub</a> objects do not have the respective &quot;app_id&quot; or &quot;sub_id&quot; property if the parameter &quot;show_id&quot; isn't used, as the object keys already represent the Steam IDs of the games, and the &quot;name&quot; property if the parameter &quot;show_name&quot; isn't used.</p>",
+    "version": "1.0.0",
     "parameter": {
       "fields": {
         "Schema": [
@@ -1074,13 +1088,20 @@ define({ "api": [
             "group": "Schema",
             "type": "String",
             "optional": false,
-            "field": "result.last_update",
-            "description": "<p>When the database was last updated in the format YYYY/MM/DD HH:mm:SS (UTC timezone).</p>"
+            "field": "result.last_update_from_sg",
+            "description": "<p>When the database was last fully updated from SteamGifts in the format YYYY/MM/DD HH:mm:SS (UTC timezone).</p>"
+          },
+          {
+            "group": "Schema",
+            "type": "String",
+            "optional": false,
+            "field": "result.last_update_from_sgtools",
+            "description": "<p>When the database was last partially updated from SGTools in the format YYYY/MM/DD HH:mm:SS (UTC timezone).</p>"
           }
         ]
       }
     },
-    "filename": "server/app/esgst/routes/games/rcv.php",
+    "filename": "app/esgst/routes/games/Rcv.js",
     "groupTitle": "Schemas"
   },
   {
@@ -1131,7 +1152,7 @@ define({ "api": [
         ]
       }
     },
-    "filename": "server/app/esgst/routes/games/rcv.php",
+    "filename": "app/esgst/routes/games/Rcv.js",
     "groupTitle": "Schemas"
   },
   {
@@ -1140,8 +1161,8 @@ define({ "api": [
     "title": "Sub",
     "group": "Schemas",
     "name": "Sub",
-    "version": "1.0.0",
     "description": "<p>The optional properties are included based on the &quot;filters&quot; parameter.  If the parameter isn't used, all of the optional properties are included, except where noted.</p>",
+    "version": "1.0.0",
     "parameter": {
       "fields": {
         "Schema": [
@@ -1222,7 +1243,328 @@ define({ "api": [
         ]
       }
     },
-    "filename": "server/app/esgst/routes/games/sub.php",
+    "filename": "app/esgst/routes/games/Sub.js",
     "groupTitle": "Schemas"
+  },
+  {
+    "type": "SCHEMA",
+    "url": "Uh",
+    "title": "Uh",
+    "group": "Schemas",
+    "name": "Uh",
+    "version": "1.0.0",
+    "parameter": {
+      "fields": {
+        "Schema": [
+          {
+            "group": "Schema",
+            "type": "Object",
+            "optional": false,
+            "field": "user",
+            "description": ""
+          },
+          {
+            "group": "Schema",
+            "type": "String",
+            "optional": true,
+            "field": "user.steam_id",
+            "description": "<p>The Steam ID of the user. This property is not available for the <a href=\"#api-Users-GetAllUh\">GetAllUh</a> method when used without the &quot;format_array&quot; and &quot;show_steam_id&quot; parameters.</p>"
+          },
+          {
+            "group": "Schema",
+            "type": "String[]",
+            "optional": false,
+            "field": "user.usernames",
+            "description": "<p>An array containing the username history for the user, from most recent to least recent.</p>"
+          },
+          {
+            "group": "Schema",
+            "type": "String",
+            "optional": false,
+            "field": "user.last_check",
+            "description": "<p>When the username history for the user was last checked in the format YYYY/MM/DD HH:mm:SS (UTC timezone).</p>"
+          },
+          {
+            "group": "Schema",
+            "type": "String",
+            "optional": false,
+            "field": "user.last_update",
+            "description": "<p>When the username history for the user was last updated in the format YYYY/MM/DD HH:mm:SS (UTC timezone).</p>"
+          }
+        ]
+      }
+    },
+    "filename": "app/esgst/routes/users/Uh.js",
+    "groupTitle": "Schemas"
+  },
+  {
+    "type": "SCHEMA",
+    "url": "UhArray",
+    "title": "UhArray",
+    "group": "Schemas",
+    "name": "UhArray",
+    "version": "1.0.0",
+    "parameter": {
+      "fields": {
+        "Schema": [
+          {
+            "group": "Schema",
+            "type": "Object",
+            "optional": false,
+            "field": "result",
+            "description": ""
+          },
+          {
+            "group": "Schema",
+            "type": "<a href=\"#api-Schemas-Uh\">Uh</a>[]",
+            "optional": false,
+            "field": "result.found",
+            "description": "<p>The users that were found.</p>"
+          },
+          {
+            "group": "Schema",
+            "type": "String[]",
+            "optional": false,
+            "field": "result.not_found",
+            "description": "<p>The Steam IDs of the users that were not found.</p>"
+          }
+        ]
+      }
+    },
+    "filename": "app/esgst/routes/users/Uh.js",
+    "groupTitle": "Schemas"
+  },
+  {
+    "type": "SCHEMA",
+    "url": "UhObject",
+    "title": "UhObject",
+    "group": "Schemas",
+    "name": "UhObject",
+    "version": "1.0.0",
+    "parameter": {
+      "fields": {
+        "Schema": [
+          {
+            "group": "Schema",
+            "type": "Object",
+            "optional": false,
+            "field": "result",
+            "description": ""
+          },
+          {
+            "group": "Schema",
+            "type": "Object",
+            "optional": false,
+            "field": "result.found",
+            "description": "<p>An object of <a href=\"#api-Schemas-Uh\">Uh</a> objects for the users that were found, with their Steam IDs as the keys.</p>"
+          },
+          {
+            "group": "Schema",
+            "type": "String[]",
+            "optional": false,
+            "field": "result.not_found",
+            "description": "<p>The Steam IDs of the users that were not found.</p>"
+          }
+        ]
+      }
+    },
+    "filename": "app/esgst/routes/users/Uh.js",
+    "groupTitle": "Schemas"
+  },
+  {
+    "type": "GET",
+    "url": "/users/uh",
+    "title": "GetAllUh",
+    "group": "Users",
+    "name": "GetAllUh",
+    "description": "<p>Returns the username history for users.</p>",
+    "version": "1.0.0",
+    "parameter": {
+      "fields": {
+        "Query Parameters": [
+          {
+            "group": "Query Parameters",
+            "type": "Boolean",
+            "optional": true,
+            "field": "format_array",
+            "description": "<p>If true, the result is a <a href=\"#api-Schemas-UhArray\">UhArray</a> object. If false, the result is a <a href=\"#api-Schemas-UhObject\">UhObject</a> object.</p>"
+          },
+          {
+            "group": "Query Parameters",
+            "type": "Boolean",
+            "optional": true,
+            "field": "show_steam_id",
+            "description": "<p>If false, the <a href=\"#api-Schemas-Uh\">Uh</a> object from the &quot;found&quot; object does not have the &quot;steam_id&quot; property.</p>"
+          },
+          {
+            "group": "Query Parameters",
+            "type": "String",
+            "optional": true,
+            "field": "steam_ids",
+            "description": "<p>A comma-separated list of Steam IDs for the users requested.</p>"
+          },
+          {
+            "group": "Query Parameters",
+            "type": "Boolean",
+            "optional": true,
+            "field": "show_recent",
+            "description": "<p>If true, only the 100 most recently updated username histories are returned.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success Response (200)": [
+          {
+            "group": "Success Response (200)",
+            "type": "Object",
+            "optional": false,
+            "field": "output",
+            "description": ""
+          },
+          {
+            "group": "Success Response (200)",
+            "type": "NULL",
+            "optional": false,
+            "field": "output.error",
+            "description": "<p>Always NULL in a success response.</p>"
+          },
+          {
+            "group": "Success Response (200)",
+            "type": "<a href=\"#api-Schemas-UhObject\">UhObject</a>/<a href=\"#api-Schemas-UhArray\">UhArray</a>",
+            "optional": false,
+            "field": "output.result",
+            "description": "<p>The information requested.</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "Error Response (400, 500)": [
+          {
+            "group": "Error Response (400, 500)",
+            "type": "Object",
+            "optional": false,
+            "field": "output",
+            "description": ""
+          },
+          {
+            "group": "Error Response (400, 500)",
+            "type": "String",
+            "optional": false,
+            "field": "output.error",
+            "description": "<p>The error message.</p>"
+          },
+          {
+            "group": "Error Response (400, 500)",
+            "type": "NULL",
+            "optional": false,
+            "field": "output.result",
+            "description": "<p>Always NULL in an error response.</p>"
+          }
+        ]
+      }
+    },
+    "filename": "app/esgst/routes/users/Uh.js",
+    "groupTitle": "Users",
+    "sampleRequest": [
+      {
+        "url": "https://rafaelgssa.com/esgst/users/uh"
+      }
+    ]
+  },
+  {
+    "type": "GET",
+    "url": "/user/+:steamid/uh",
+    "title": "GetUh",
+    "group": "Users",
+    "name": "GetUh",
+    "description": "<p>Returns the username history for the user.</p>",
+    "version": "1.0.0",
+    "parameter": {
+      "fields": {
+        "Path Parameters": [
+          {
+            "group": "Path Parameters",
+            "type": "String",
+            "optional": false,
+            "field": "steamid",
+            "description": "<p>The Steam ID of the user.</p>"
+          }
+        ],
+        "Query Parameters": [
+          {
+            "group": "Query Parameters",
+            "type": "String",
+            "optional": true,
+            "field": "username",
+            "description": "<p>The current username of the user, for checking purposes.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success Response (200)": [
+          {
+            "group": "Success Response (200)",
+            "type": "Object",
+            "optional": false,
+            "field": "output",
+            "description": ""
+          },
+          {
+            "group": "Success Response (200)",
+            "type": "NULL",
+            "optional": false,
+            "field": "output.error",
+            "description": "<p>Always NULL in a success response.</p>"
+          },
+          {
+            "group": "Success Response (200)",
+            "type": "<a href=\"#api-Schemas-Uh\">Uh</a>/NULL",
+            "optional": false,
+            "field": "output.result",
+            "description": "<p>The information requested, or NULL if it isn't available.</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "Error Response (400, 500)": [
+          {
+            "group": "Error Response (400, 500)",
+            "type": "Object",
+            "optional": false,
+            "field": "output",
+            "description": ""
+          },
+          {
+            "group": "Error Response (400, 500)",
+            "type": "String",
+            "optional": false,
+            "field": "output.error",
+            "description": "<p>The error message.</p>"
+          },
+          {
+            "group": "Error Response (400, 500)",
+            "type": "NULL",
+            "optional": false,
+            "field": "output.result",
+            "description": "<p>Always NULL in an error response.</p>"
+          }
+        ]
+      }
+    },
+    "filename": "app/esgst/routes/users/Uh.js",
+    "groupTitle": "Users",
+    "sampleRequest": [
+      {
+        "url": "https://rafaelgssa.com/esgst/user/+:steamid/uh"
+      }
+    ]
   }
 ] });
