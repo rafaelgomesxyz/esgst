@@ -74,7 +74,7 @@ const Game = require('./Game');
  */
 
 /**
- * @api {GET} /games/rcv[?format_array=...&show_id=...&show_name=...&app_ids=...&sub_ids=...&date_after=...&date_after_or_equal=...&date_before=...&date_before_or_equal=...&date_equal=...] GetRcv
+ * @api {GET} /games/rcv GetRcv
  * @apiGroup Games
  * @apiName GetRcv
  * @apiDescription Returns information about reduced CV games.

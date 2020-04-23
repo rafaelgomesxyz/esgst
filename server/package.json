@@ -3,7 +3,8 @@
 	"version": "1.0.0",
 	"scripts": {
 		"start": "./node_modules/.bin/node ./index.js",
-		"start-dev": "./node_modules/.bin/nodemon ./index.js"
+		"start-dev": "./node_modules/.bin/nodemon ./index.js",
+		"docs": "./node_modules/.bin/apidoc -i ./app/esgst -o ../docs"
 	},
 	"dependencies": {
 		"cors": "^2.8.5",
@@ -12,5 +13,8 @@
 		"mysql": "^2.17.1",
 		"node-fetch": "^2.6.0",
 		"nodemon": "^1.19.4"
+	},
+	"devDependencies": {
+		"apidoc": "^0.20.1"
 	}
 }

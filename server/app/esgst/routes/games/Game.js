@@ -6,7 +6,7 @@ const Bundle = require('./Bundle');
 const Sub = require('./Sub');
 
 /**
- * @api {GET} /game/{type}/{id}[?filters=...] GetGame
+ * @api {GET} /game/:type/:id GetGame
  * @apiGroup Games
  * @apiName GetGame
  * @apiDescription Returns information about a game.
