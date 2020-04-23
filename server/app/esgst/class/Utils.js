@@ -39,7 +39,6 @@ class Utils {
 			if ((validation.check && !validation.check(params[validatorKey])) || !params[validatorKey].match(validation.regex)) {
 				throw new CustomError(`Invalid ${validatorKey} parameter. ${validation.message}`, 400);
 			}
-			params[validatorKey] = params[validatorKey].toLowerCase();
 			if (validation.transform) {
 				params[validatorKey] = validation.transform(params[validatorKey]);
 			}
@@ -47,7 +46,7 @@ class Utils {
 				continue;
 			}
 			const intersection = paramKeys.filter(paramKey => validation.conflicts.includes(paramKey));
-			if (intersection.length > 1) {
+			if (intersection.length > 0) {
 				throw new CustomError(`Invalid parameters. The following parameters are conflicting with each other: ${validatorKey}, ${intersection.join(', ')}`, 400);
 			}
 		}
