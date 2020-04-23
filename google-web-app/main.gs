@@ -5,6 +5,8 @@ function doGet(event) {
 			return doNcvGet(parameters);
 		case 'rcv':
 			return doRcvGet(parameters);
+		case 'uh':
+			return doUhGet(parameters);
 	}
 }
 
@@ -14,7 +16,5 @@ function doPost(event) {
 	switch (parameters.action) {
 		case 'ncv':
 			return doNcvPost(postData);
-		case 'rcv':
-			return doRcvPost(postData);
 	}
 }
