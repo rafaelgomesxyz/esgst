@@ -4,10 +4,21 @@ const routes = require('./app/esgst/routes');
 
 const app = express();
 const port = process.env.PORT || 3000;
+const whitelist = [
+	'https://www.steamgifts.com',
+	'https://www.steamtrades.com',
+	'https://rafaelgssa.github.io',
+];
 
 app.enable('trust proxy');
 app.use(cors({
-	origin: /^https?:\/\/(www\.)?(steamgifts|steamtrades)\.com$/,
+	origin: (origin, callback) => {
+    if (!origin || whitelist.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS!'));
+    }
+  },
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
