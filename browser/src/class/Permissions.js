@@ -39,7 +39,7 @@ class Permissions {
 				messages: {
 					namwc: 'Required by Not Activated / Multiple Wins Checker to retrieve the user\'s suspensions from the database.',
 					ncv: 'Required to update the no CV games database when creating a new giveaway.',
-					sync: 'Required to sync reduced / no CV games and HLTB times.',
+					sync: 'Required to sync no CV games and HLTB times.',
 					ust: 'Required by User Suspension Tracker to send tickets to the database.'
 				},
 				values: [`*://*.script.google.com/*`, `*://*.script.googleusercontent.com/*`]
