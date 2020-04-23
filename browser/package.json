@@ -16,7 +16,6 @@
 		"build": "./node_modules/.bin/webpack --env.production",
 		"build-dev": "./node_modules/.bin/webpack --env.development",
 		"start": "./node_modules/.bin/webpack --env.development --env.withWatch",
-		"generate-api-doc": "./node_modules/.bin/apidoc -i ./server/app -o ./server/documentation",
 		"generate-release": "./node_modules/.bin/node ./scripts/generateRelease.js",
 		"notify-issue": "./node_modules/.bin/node ./scripts/notifyIssue.js",
 		"update-emojis": "./node_modules/.bin/node ./scripts/updateEmojis.js"
@@ -43,7 +42,6 @@
 		"@babel/preset-typescript": "^7.6.0",
 		"@babel/runtime": "^7.6.0",
 		"@octokit/rest": "^16.28.9",
-		"apidoc": "^0.17.7",
 		"babel-eslint": "^10.0.3",
 		"babel-loader": "^8.0.6",
 		"calfinated": "^1.4.1",
