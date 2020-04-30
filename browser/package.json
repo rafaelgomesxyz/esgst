@@ -27,7 +27,7 @@
 		"interactjs": "^1.6.1",
 		"intersection-observer-polyfill": "^0.1.0",
 		"jQuery-QueryBuilder": "^2.5.2",
-		"jquery": "^3.4.1",
+		"jquery": "^3.5.0",
 		"jquery-ui": "^1.12.1",
 		"jszip": "^3.2.2",
 		"simple-vdf": "^1.1.1",
