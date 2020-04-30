@@ -36,7 +36,7 @@ class Utils {
 			if (!paramKeys.includes(validatorKey)) {
 				continue;
 			}
-			if ((validation.check && !validation.check(params[validatorKey])) || !params[validatorKey].match(validation.regex)) {
+			if ((validation.check && !validation.check(params[validatorKey])) || (validation.regex && !params[validatorKey].match(validation.regex))) {
 				throw new CustomError(`Invalid ${validatorKey} parameter. ${validation.message}`, 400);
 			}
 			if (validation.transform) {
