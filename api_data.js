@@ -244,6 +244,159 @@ define({ "api": [
   },
   {
     "type": "GET",
+    "url": "/games/ncv",
+    "title": "GetNcv",
+    "group": "Games",
+    "name": "GetNcv",
+    "description": "<p>Returns information about no CV games.</p>",
+    "version": "1.0.0",
+    "parameter": {
+      "fields": {
+        "Query Parameters": [
+          {
+            "group": "Query Parameters",
+            "type": "Boolean",
+            "optional": true,
+            "field": "format_array",
+            "description": "<p>If true, the result is a <a href=\"#api-Schemas-NcvArray\">NcvArray</a> object. If false, the result is a <a href=\"#api-Schemas-NcvObject\">NcvObject</a> object.</p>"
+          },
+          {
+            "group": "Query Parameters",
+            "type": "Boolean",
+            "optional": true,
+            "field": "show_id",
+            "description": "<p>If false, the <a href=\"#api-Schemas-NcvApp\">NcvApp</a> and <a href=\"#api-Schemas-NcvSub\">NcvSub</a> objects do not have the respective &quot;app_id&quot; or &quot;sub_id&quot; property.</p>"
+          },
+          {
+            "group": "Query Parameters",
+            "type": "Boolean",
+            "optional": true,
+            "field": "show_name",
+            "description": "<p>If false, the <a href=\"#api-Schemas-NcvApp\">NcvApp</a> and <a href=\"#api-Schemas-NcvSub\">NcvSub</a> objects do not have the &quot;name&quot; property.</p>"
+          },
+          {
+            "group": "Query Parameters",
+            "type": "String",
+            "optional": true,
+            "field": "app_ids",
+            "description": "<p>A comma-separated list of Steam IDs for the apps requested.</p>"
+          },
+          {
+            "group": "Query Parameters",
+            "type": "String",
+            "optional": true,
+            "field": "sub_ids",
+            "description": "<p>A comma-separated list of Steam IDs for the subs requested.</p>"
+          },
+          {
+            "group": "Query Parameters",
+            "type": "String",
+            "optional": true,
+            "field": "date_after",
+            "description": "<p>Returns only games that began giving no CV after the specified date. The date must be in the format YYYY-MM-DD.</p>"
+          },
+          {
+            "group": "Query Parameters",
+            "type": "String",
+            "optional": true,
+            "field": "date_after_or_equal",
+            "description": "<p>Returns only games that began giving no CV after or at the specified date. The date must be in the format YYYY-MM-DD.</p>"
+          },
+          {
+            "group": "Query Parameters",
+            "type": "String",
+            "optional": true,
+            "field": "date_before",
+            "description": "<p>Returns only games that began giving no CV before the specified date. The date must be in the format YYYY-MM-DD.</p>"
+          },
+          {
+            "group": "Query Parameters",
+            "type": "String",
+            "optional": true,
+            "field": "date_before_or_equal",
+            "description": "<p>Returns only games that began giving no CV before or at the specified date. The date must be in the format YYYY-MM-DD.</p>"
+          },
+          {
+            "group": "Query Parameters",
+            "type": "String",
+            "optional": true,
+            "field": "date_equal",
+            "description": "<p>Returns only games that began giving no CV at the specified date. The date must be in the format YYYY-MM-DD.</p>"
+          },
+          {
+            "group": "Query Parameters",
+            "type": "Boolean",
+            "optional": true,
+            "field": "show_recent",
+            "description": "<p>Returns only the last 100 apps and the last 50 subs that were added.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success Response (200)": [
+          {
+            "group": "Success Response (200)",
+            "type": "Object",
+            "optional": false,
+            "field": "output",
+            "description": ""
+          },
+          {
+            "group": "Success Response (200)",
+            "type": "NULL",
+            "optional": false,
+            "field": "output.error",
+            "description": "<p>Always NULL in a success response.</p>"
+          },
+          {
+            "group": "Success Response (200)",
+            "type": "<a href=\"#api-Schemas-NcvObject\">NcvObject</a>/<a href=\"#api-Schemas-NcvArray\">NcvArray</a>",
+            "optional": false,
+            "field": "output.result",
+            "description": "<p>The information requested.</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "Error Response (400, 500)": [
+          {
+            "group": "Error Response (400, 500)",
+            "type": "Object",
+            "optional": false,
+            "field": "output",
+            "description": ""
+          },
+          {
+            "group": "Error Response (400, 500)",
+            "type": "String",
+            "optional": false,
+            "field": "output.error",
+            "description": "<p>The error message.</p>"
+          },
+          {
+            "group": "Error Response (400, 500)",
+            "type": "NULL",
+            "optional": false,
+            "field": "output.result",
+            "description": "<p>Always NULL in an error response.</p>"
+          }
+        ]
+      }
+    },
+    "filename": "app/esgst/routes/games/Ncv.js",
+    "groupTitle": "Games",
+    "sampleRequest": [
+      {
+        "url": "https://rafaelgssa.com/esgst/games/ncv"
+      }
+    ]
+  },
+  {
+    "type": "GET",
     "url": "/games/rcv",
     "title": "GetRcv",
     "group": "Games",
@@ -392,6 +545,96 @@ define({ "api": [
     "sampleRequest": [
       {
         "url": "https://rafaelgssa.com/esgst/games/rcv"
+      }
+    ]
+  },
+  {
+    "type": "POST",
+    "url": "/games/ncv",
+    "title": "PostNcv",
+    "group": "Games",
+    "name": "PostNcv",
+    "description": "<p>Adds new information to the no CV games database.</p>",
+    "version": "1.0.0",
+    "parameter": {
+      "fields": {
+        "Body Parameters": [
+          {
+            "group": "Body Parameters",
+            "type": "Object",
+            "optional": true,
+            "field": "apps",
+            "description": "<p>An object where the key is the Steam ID of the app and the value is either a date in the YYYY-MM-DD format corresponding to when it started giving no CV or NULL. If the date is provided, the app will be added to the database. Otherwise, it will be removed.</p>"
+          },
+          {
+            "group": "Body Parameters",
+            "type": "Object",
+            "optional": true,
+            "field": "subs",
+            "description": "<p>An object where the key is the Steam ID of the sub and the value is either a date in the YYYY-MM-DD format corresponding to when it started giving no CV or NULL. If the date is provided, the sub will be added to the database. Otherwise, it will be removed.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success Response (200)": [
+          {
+            "group": "Success Response (200)",
+            "type": "Object",
+            "optional": false,
+            "field": "output",
+            "description": ""
+          },
+          {
+            "group": "Success Response (200)",
+            "type": "NULL",
+            "optional": false,
+            "field": "output.error",
+            "description": "<p>Always NULL in a success response.</p>"
+          },
+          {
+            "group": "Success Response (200)",
+            "type": "<a href=\"#api-Schemas-NcvStatusObject\">NcvStatusObject</a>",
+            "optional": false,
+            "field": "output.result",
+            "description": "<p>The information requested.</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "Error Response (400, 500)": [
+          {
+            "group": "Error Response (400, 500)",
+            "type": "Object",
+            "optional": false,
+            "field": "output",
+            "description": ""
+          },
+          {
+            "group": "Error Response (400, 500)",
+            "type": "String",
+            "optional": false,
+            "field": "output.error",
+            "description": "<p>The error message.</p>"
+          },
+          {
+            "group": "Error Response (400, 500)",
+            "type": "NULL",
+            "optional": false,
+            "field": "output.result",
+            "description": "<p>Always NULL in an error response.</p>"
+          }
+        ]
+      }
+    },
+    "filename": "app/esgst/routes/games/Ncv.js",
+    "groupTitle": "Games",
+    "sampleRequest": [
+      {
+        "url": "https://rafaelgssa.com/esgst/games/ncv"
       }
     ]
   },
@@ -891,6 +1134,291 @@ define({ "api": [
       }
     },
     "filename": "app/esgst/routes/games/Games.js",
+    "groupTitle": "Schemas"
+  },
+  {
+    "type": "SCHEMA",
+    "url": "NcvApp",
+    "title": "NcvApp",
+    "group": "Schemas",
+    "name": "NcvApp",
+    "version": "1.0.0",
+    "parameter": {
+      "fields": {
+        "Schema": [
+          {
+            "group": "Schema",
+            "type": "Object",
+            "optional": false,
+            "field": "app",
+            "description": ""
+          },
+          {
+            "group": "Schema",
+            "type": "Integer",
+            "optional": true,
+            "field": "app.app_id",
+            "description": "<p>The Steam ID of the game. This property is not available without the &quot;format_array&quot; and &quot;show_id&quot; parameters.</p>"
+          },
+          {
+            "group": "Schema",
+            "type": "String",
+            "optional": true,
+            "field": "app.name",
+            "description": "<p>The name of the game. This property is not available without the &quot;show_name&quot; parameter.</p>"
+          },
+          {
+            "group": "Schema",
+            "type": "String",
+            "optional": false,
+            "field": "app.effective_date",
+            "description": "<p>When the game began giving no CV in the format YYYY-MM-DD.</p>"
+          },
+          {
+            "group": "Schema",
+            "type": "String",
+            "optional": false,
+            "field": "app.added_date",
+            "description": "<p>When the game was added to the database in the format YYYY-MM-DD.</p>"
+          }
+        ]
+      }
+    },
+    "filename": "app/esgst/routes/games/Ncv.js",
+    "groupTitle": "Schemas"
+  },
+  {
+    "type": "SCHEMA",
+    "url": "NcvArray",
+    "title": "NcvArray",
+    "group": "Schemas",
+    "name": "NcvArray",
+    "description": "<p>The <a href=\"#api-Schemas-NcvApp\">NcvApp</a> and <a href=\"#api-Schemas-NcvSub\">NcvSub</a> objects do not have the &quot;name&quot; property if the parameter &quot;show_name&quot; isn't used.</p>",
+    "version": "1.0.0",
+    "parameter": {
+      "fields": {
+        "Schema": [
+          {
+            "group": "Schema",
+            "type": "Object",
+            "optional": false,
+            "field": "result",
+            "description": ""
+          },
+          {
+            "group": "Schema",
+            "type": "Object",
+            "optional": false,
+            "field": "result.found",
+            "description": ""
+          },
+          {
+            "group": "Schema",
+            "type": "<a href=\"#api-Schemas-NcvApp\">NcvApp</a>[]",
+            "optional": false,
+            "field": "result.found.apps",
+            "description": "<p>The apps that were found.</p>"
+          },
+          {
+            "group": "Schema",
+            "type": "<a href=\"#api-Schemas-NcvSub\">NcvSub</a>[]",
+            "optional": false,
+            "field": "result.found.subs",
+            "description": "<p>The subs that were found.</p>"
+          },
+          {
+            "group": "Schema",
+            "type": "Object",
+            "optional": false,
+            "field": "result.not_found",
+            "description": ""
+          },
+          {
+            "group": "Schema",
+            "type": "Integer[]",
+            "optional": false,
+            "field": "result.not_found.apps",
+            "description": "<p>The Steam IDs of the apps that were not found.</p>"
+          },
+          {
+            "group": "Schema",
+            "type": "Integer[]",
+            "optional": false,
+            "field": "result.not_found.subs",
+            "description": "<p>The Steam IDs of the subs that were not found.</p>"
+          },
+          {
+            "group": "Schema",
+            "type": "String",
+            "optional": false,
+            "field": "result.last_update",
+            "description": "<p>When the database was last updated in the format YYYY/MM/DD HH:mm:SS (UTC timezone).</p>"
+          }
+        ]
+      }
+    },
+    "filename": "app/esgst/routes/games/Ncv.js",
+    "groupTitle": "Schemas"
+  },
+  {
+    "type": "SCHEMA",
+    "url": "NcvObject",
+    "title": "NcvObject",
+    "group": "Schemas",
+    "name": "NcvObject",
+    "description": "<p>The <a href=\"#api-Schemas-NcvApp\">NcvApp</a> and <a href=\"#api-Schemas-NcvSub\">NcvSub</a> objects do not have the respective &quot;app_id&quot; or &quot;sub_id&quot; property if the parameter &quot;show_id&quot; isn't used, as the object keys already represent the Steam IDs of the games, and the &quot;name&quot; property if the parameter &quot;show_name&quot; isn't used.</p>",
+    "version": "1.0.0",
+    "parameter": {
+      "fields": {
+        "Schema": [
+          {
+            "group": "Schema",
+            "type": "Object",
+            "optional": false,
+            "field": "result",
+            "description": ""
+          },
+          {
+            "group": "Schema",
+            "type": "Object",
+            "optional": false,
+            "field": "result.found",
+            "description": ""
+          },
+          {
+            "group": "Schema",
+            "type": "Object",
+            "optional": false,
+            "field": "result.found.apps",
+            "description": "<p>An object of <a href=\"#api-Schemas-NcvApp\">NcvApp</a> objects for the apps that were found, with their Steam IDs as the keys.</p>"
+          },
+          {
+            "group": "Schema",
+            "type": "Object",
+            "optional": false,
+            "field": "result.found.subs",
+            "description": "<p>An object of <a href=\"#api-Schemas-NcvSub\">NcvSub</a> objects for the subs that were found, with their Steam IDs as the keys.</p>"
+          },
+          {
+            "group": "Schema",
+            "type": "Object",
+            "optional": false,
+            "field": "result.not_found",
+            "description": ""
+          },
+          {
+            "group": "Schema",
+            "type": "Integer[]",
+            "optional": false,
+            "field": "result.not_found.apps",
+            "description": "<p>The Steam IDs of the apps that were not found.</p>"
+          },
+          {
+            "group": "Schema",
+            "type": "Integer[]",
+            "optional": false,
+            "field": "result.not_found.subs",
+            "description": "<p>The Steam IDs of the subs that were not found.</p>"
+          },
+          {
+            "group": "Schema",
+            "type": "String",
+            "optional": false,
+            "field": "result.last_update",
+            "description": "<p>When the database was last updated in the format YYYY/MM/DD HH:mm:SS (UTC timezone).</p>"
+          }
+        ]
+      }
+    },
+    "filename": "app/esgst/routes/games/Ncv.js",
+    "groupTitle": "Schemas"
+  },
+  {
+    "type": "SCHEMA",
+    "url": "NcvStatusObject",
+    "title": "NcvStatusObject",
+    "group": "Schemas",
+    "name": "NcvStatusObject",
+    "version": "1.0.0",
+    "parameter": {
+      "fields": {
+        "Schema": [
+          {
+            "group": "Schema",
+            "type": "Object",
+            "optional": false,
+            "field": "result",
+            "description": ""
+          },
+          {
+            "group": "Schema",
+            "type": "Object",
+            "optional": false,
+            "field": "result.apps",
+            "description": "<p>An object where the key is the Steam ID of the app and the value is the status of the app from the request (&quot;added&quot;, &quot;removed&quot;, &quot;already_added&quot;, &quot;already_removed&quot;, &quot;not_found&quot;).</p>"
+          },
+          {
+            "group": "Schema",
+            "type": "Object",
+            "optional": false,
+            "field": "result.subs",
+            "description": "<p>An object where the key is the Steam ID of the sub and the value is the status of the sub from the request (&quot;added&quot;, &quot;removed&quot;, &quot;already_added&quot;, &quot;already_removed&quot;, &quot;not_found&quot;).</p>"
+          }
+        ]
+      }
+    },
+    "filename": "app/esgst/routes/games/Ncv.js",
+    "groupTitle": "Schemas"
+  },
+  {
+    "type": "SCHEMA",
+    "url": "NcvSub",
+    "title": "NcvSub",
+    "group": "Schemas",
+    "name": "NcvSub",
+    "version": "1.0.0",
+    "parameter": {
+      "fields": {
+        "Schema": [
+          {
+            "group": "Schema",
+            "type": "Object",
+            "optional": false,
+            "field": "sub",
+            "description": ""
+          },
+          {
+            "group": "Schema",
+            "type": "Integer",
+            "optional": true,
+            "field": "sub.sub_id",
+            "description": "<p>The Steam ID of the game. This property is not available without the &quot;format_array&quot; and &quot;show_id&quot; parameters.</p>"
+          },
+          {
+            "group": "Schema",
+            "type": "String",
+            "optional": true,
+            "field": "sub.name",
+            "description": "<p>The name of the game. This property is not available without the &quot;show_name&quot; parameter.</p>"
+          },
+          {
+            "group": "Schema",
+            "type": "String",
+            "optional": false,
+            "field": "sub.effective_date",
+            "description": "<p>When the game began giving no CV in the format YYYY-MM-DD.</p>"
+          },
+          {
+            "group": "Schema",
+            "type": "String",
+            "optional": false,
+            "field": "sub.added_date",
+            "description": "<p>When the game was added to the database in the format YYYY-MM-DD.</p>"
+          }
+        ]
+      }
+    },
+    "filename": "app/esgst/routes/games/Ncv.js",
     "groupTitle": "Schemas"
   },
   {
