@@ -11,8 +11,8 @@ function doGet(event) {
 }
 
 function doPost(event) {
-	var parameters = event.parameter;
 	var postData = JSON.parse(event.postData.contents);
+	var parameters = event.parameter;
 	switch (parameters.action) {
 		case 'ncv':
 			return doNcvPost(postData);
