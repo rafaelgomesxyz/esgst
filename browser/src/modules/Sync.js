@@ -792,7 +792,7 @@ async function sync(syncer) {
 
 	// sync no cv games
 	if ((syncer.parameters && syncer.parameters.NoCvGames) || (!syncer.parameters && Settings.get('syncNoCvGames'))) {
-		const isPermitted = await permissions.contains([['googleWebApp']]);
+		const isPermitted = await permissions.contains([['server']]);
 		if (isPermitted) {
 			syncer.progress.lastElementChild.textContent = 'Syncing no CV games...';
 			try {
@@ -998,13 +998,13 @@ async function syncReducedCvGames() {
 	const games = response.json.result.found;
 	for (const id in games.apps) {
 		if (games.apps.hasOwnProperty(id)) {
-			games.apps[id].reducedCV = games.apps[id].effective_date;
+			games.apps[id].reducedCV = Shared.common.dateFromServer(games.apps[id].effective_date);
 			delete games.apps[id].effective_date;
 		}
 	}
 	for (const id in games.subs) {
 		if (games.subs.hasOwnProperty(id)) {
-			games.subs[id].reducedCV = games.subs[id].effective_date;
+			games.subs[id].reducedCV = Shared.common.dateFromServer(games.subs[id].effective_date);
 			delete games.subs[id].effective_date;
 		}
 	}
@@ -1026,19 +1026,17 @@ async function syncReducedCvGames() {
 }
 
 async function syncNoCvGames() {
-	const games = JSON.parse((await Shared.common.request({
-		method: 'GET',
-		url: `https://script.google.com/macros/s/AKfycbz2IWN7I79WsbGELQk2rbQQSPI8XNWvDt3mEO-3nLEWqHiQmeo/exec?action=ncv`
-	})).responseText).success;
+	const response = await FetchRequest.get('https://rafaelgssa.com/esgst/games/ncv');
+	const games = response.json.result.found;
 	for (const id in games.apps) {
 		if (games.apps.hasOwnProperty(id)) {
-			games.apps[id].noCV = games.apps[id].effective_date;
+			games.apps[id].noCV = Shared.common.dateFromServer(games.apps[id].effective_date);
 			delete games.apps[id].effective_date;
 		}
 	}
 	for (const id in games.subs) {
 		if (games.subs.hasOwnProperty(id)) {
-			games.subs[id].noCV = games.subs[id].effective_date;
+			games.subs[id].noCV = Shared.common.dateFromServer(games.subs[id].effective_date);
 			delete games.subs[id].effective_date;
 		}
 	}

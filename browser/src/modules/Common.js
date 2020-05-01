@@ -25,6 +25,8 @@ import { Session } from '../class/Session';
 import { LocalStorage } from '../class/LocalStorage';
 import { FetchRequest } from '../class/FetchRequest';
 
+const SHORT_MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
 class Common extends Module {
 	constructor() {
 		super();
@@ -475,17 +477,11 @@ class Common extends Module {
 				const rows = JSON.parse(dateElement.getAttribute('data-ui-tooltip')).rows;
 				const date = rows[rows.length - 1].columns[1].name;
 				if (!this.esgst.games[info.type][info.id] || !Utils.isSet(this.esgst.games[info.type][info.id].noCV) || this.esgst.games[info.type][info.id].noCV !== date) {
-					games[info.type][info.id] = {
-						name: element.getElementsByClassName('table__column__heading')[0].firstChild.textContent.trim(),
-						effective_date: date
-					};
+					games[info.type][info.id] = Shared.common.dateToServer(date);
 					found  = true;
 				}
 			} else if (this.esgst.games[info.type][info.id] && Utils.isSet(this.esgst.games[info.type][info.id].noCV)) {
-				games[info.type][info.id] = {
-					name: element.getElementsByClassName('table__column__heading')[0].firstChild.textContent.trim(),
-					effective_date: null
-				};
+				games[info.type][info.id] = null;
 				found = true;
 			}
 		}
@@ -519,44 +515,55 @@ class Common extends Module {
 	}
 
 	async addNoCvGames(games, event) {
-		if (!(await permissions.requestUi([['googleWebApp']], 'ncv', !event))) {
+		if (!(await permissions.requestUi([['server']], 'ncv', !event))) {
 			return;
 		}
 
 		this.createElements(this.noCvButton, 'inner', [{
 			attributes: {
 				class: 'fa fa-circle-o-notch fa-spin',
-				title: `Updating database (${Object.keys(games.apps).map(x => `${games.apps[x].effective_date ? 'add' : 'remove'} app ${x}`).join(`, `)}${Object.keys(games.subs).map(x => `${games.subs[x].effective_date ? 'add' : 'remove'} subs ${x}`).join(`, `)})...`
+				title: `Updating database (${Object.keys(games.apps).map(id => `${games.apps[id] ? 'add' : 'remove'} app ${id}`).join(', ')}${Object.keys(games.subs).map(id => `${games.subs[id] ? 'add' : 'remove'} subs ${id}`).join(', ')})...`
 			},
 			type: 'i'
 		}]);
-		await this.request({
+		const response = await FetchRequest.post('https://rafaelgssa.com/esgst/games/ncv', {
+			headers: {
+				'Content-Type': 'application/json',
+			},
 			data: JSON.stringify(games),
-			method: 'POST',
-			url: `https://script.google.com/macros/s/AKfycbz2IWN7I79WsbGELQk2rbQQSPI8XNWvDt3mEO-3nLEWqHiQmeo/exec?action=ncv`
 		});
-		for (let id in games.apps) {
-			if (games.apps.hasOwnProperty(id)) {
-				delete games.apps[id].name;
-				games.apps[id].noCV = games.apps[id].effective_date;
-				delete games.apps[id].effective_date;
+		if (response.json && response.json.result) {
+			for (let id in games.apps) {
+				if (games.apps.hasOwnProperty(id)) {
+					games.apps[id] = {
+						noCV: games.apps[id] ? Shared.common.dateFromServer(games.apps[id]) : null,
+					};
+				}
 			}
-		}
-		for (let id in games.subs) {
-			if (games.subs.hasOwnProperty(id)) {
-				delete games.subs[id].name;
-				games.subs[id].noCV = games.subs[id].effective_date;
-				delete games.subs[id].effective_date;
+			for (let id in games.subs) {
+				if (games.subs.hasOwnProperty(id)) {
+					games.subs[id] = {
+						noCV: games.subs[id] ? Shared.common.dateFromServer(games.subs[id]) : null,
+					};
+				}
 			}
+			await this.lockAndSaveGames(games);
+			this.createElements(this.noCvButton, 'inner', [{
+				attributes: {
+					class: 'fa fa-check-circle esgst-green',
+					title: `Database updated! (${Object.keys(games.apps).map(id => `${games.apps[id] ? 'added' : 'removed'} app ${id}`).join(', ')}${Object.keys(games.subs).map(id => `${games.subs[id] ? 'added' : 'removed'} subs ${id}`).join(', ')})`
+				},
+				type: 'i'
+			}]);
+		} else {
+			this.createElements(this.noCvButton, 'inner', [{
+				attributes: {
+					class: 'fa fa-times-circle esgst-red',
+					title: 'Failed to update database! Try again later. If the error persists, please report it.'
+				},
+				type: 'i'
+			}]);
 		}
-		await this.lockAndSaveGames(games);
-		this.createElements(this.noCvButton, 'inner', [{
-			attributes: {
-				class: 'fa fa-check-circle esgst-green',
-				title: `Database updated! (${Object.keys(games.apps).map(x => `${games.apps[x].noCV ? 'added' : 'removed'} app ${x}`).join(`, `)}${Object.keys(games.subs).map(x => `${games.subs[x].noCV ? 'added' : 'removed'} subs ${x}`).join(`, `)})`
-			},
-			type: 'i'
-		}]);
 	}
 
 	async endless_load(context, main, source, endless, mainEndless) {
@@ -5332,6 +5339,19 @@ class Common extends Module {
 				Shared.esgst[key] = Shared.esgst.storage[key];
 			}
 		}
+	}	
+
+	dateToServer(dateStr) {
+		const date = new Date(dateStr);
+		return `${date.getFullYear()}-${`0${date.getMonth() + 1}`.slice(-2)}-${`0${date.getDate()}`.slice(-2)}`;
+	}
+
+	dateFromServer(dateStr) {
+		const dateParts = dateStr.split('-');
+		const year = parseInt(dateParts[0]);
+		const month = parseInt(dateParts[1]);
+		const day = parseInt(dateParts[2]);
+		return `${SHORT_MONTHS[month - 1]} ${day}, ${year}`;
 	}
 }
 

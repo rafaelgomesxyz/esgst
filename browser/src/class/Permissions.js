@@ -38,8 +38,7 @@ class Permissions {
 				isOrigin: true,
 				messages: {
 					namwc: 'Required by Not Activated / Multiple Wins Checker to retrieve the user\'s suspensions from the database.',
-					ncv: 'Required to update the no CV games database when creating a new giveaway.',
-					sync: 'Required to sync no CV games and HLTB times.',
+					sync: 'Required to sync HLTB times.',
 					ust: 'Required by User Suspension Tracker to send tickets to the database.'
 				},
 				values: [`*://*.script.google.com/*`, `*://*.script.googleusercontent.com/*`]
@@ -70,7 +69,8 @@ class Permissions {
 				messages: {
 					gc: 'Required by Game Categories to retrieve categories that need to be retrieved from Steam.',
 					uh: 'Required by Username History to retrieve the user\'s username history and the list of recent changes from the database.',
-					sync: 'Required to sync reduced CV games.',
+					ncv: 'Required to update the no CV games database when creating a new giveaway.',
+					sync: 'Required to sync reduced CV and no CV games.',
 				},
 				values: [`*://*.rafaelgssa.com/*`]
 			},
