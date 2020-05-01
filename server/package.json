@@ -2,9 +2,9 @@
 	"name": "server",
 	"version": "1.0.0",
 	"scripts": {
-		"start": "./node_modules/.bin/node ./index.js",
-		"start-dev": "./node_modules/.bin/nodemon ./index.js",
-		"docs": "./node_modules/.bin/apidoc -i ./app/esgst -o ../docs"
+		"start": "node ./index.js",
+		"start-dev": "nodemon ./index.js",
+		"docs": "apidoc -i ./app/esgst -o ../docs"
 	},
 	"dependencies": {
 		"cors": "^2.8.5",
