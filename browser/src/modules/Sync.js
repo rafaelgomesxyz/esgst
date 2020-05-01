@@ -804,6 +804,7 @@ async function sync(syncer) {
 					]]
 				]);
 			} catch (e) {
+				Logger.warning(e.message);
 				syncer.failed.NoCvGames = true;
 				DOM.build(syncer.results, 'beforeEnd', [
 					['div', [
@@ -817,7 +818,7 @@ async function sync(syncer) {
 			DOM.build(syncer.results, 'beforeEnd', [
 				['div', [
 					['i', { class: 'fa fa-times' }],
-					permissions.getMessage([['googleWebApp']])
+					permissions.getMessage([['server']])
 				]]
 			]);
 		}
