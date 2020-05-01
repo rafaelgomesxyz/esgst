@@ -13,12 +13,12 @@
 		"url": "git+https://github.com/rafaelgssa/esgst.git"
 	},
 	"scripts": {
-		"build": "./node_modules/.bin/webpack --env.production",
-		"build-dev": "./node_modules/.bin/webpack --env.development",
-		"start": "./node_modules/.bin/webpack --env.development --env.withWatch",
-		"generate-release": "./node_modules/.bin/node ./scripts/generateRelease.js",
-		"notify-issue": "./node_modules/.bin/node ./scripts/notifyIssue.js",
-		"update-emojis": "./node_modules/.bin/node ./scripts/updateEmojis.js"
+		"build": "webpack --env.production",
+		"build-dev": "webpack --env.development",
+		"start": "webpack --env.development --env.withWatch",
+		"generate-release": "node ./scripts/generateRelease.js",
+		"notify-issue": "node ./scripts/notifyIssue.js",
+		"update-emojis": "node ./scripts/updateEmojis.js"
 	},
 	"dependencies": {
 		"awesome-bootstrap-checkbox": "^0.3.7",
