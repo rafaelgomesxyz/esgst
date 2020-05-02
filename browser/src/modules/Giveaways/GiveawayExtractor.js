@@ -394,8 +394,9 @@ class GiveawaysGiveawayExtractor extends Module {
 					html += giveaway.html;
 					points += giveaway.points;
 					total += 1;
-				} else {
+				} else if (Settings.get('ge_sgt') && (!Settings.get('ge_sgt_l') || ge.sgToolsCount < Settings.get('ge_sgt_limit'))) {
 					window.open(`https://www.sgtools.info/giveaways/${code}`);
+					ge.sgToolsCount += 1;
 				}
 
 				if (total % 50 === 0) {
@@ -542,6 +543,7 @@ class GiveawaysGiveawayExtractor extends Module {
 								});
 								const json = JSON.parse(response.responseText);
 								if (json && json.url) {
+									ge.extracted.push(code);
 									code = json.url.match(/\/giveaway\/(.{5})/)[1];
 									sgTools = false;
 								}
@@ -550,66 +552,20 @@ class GiveawaysGiveawayExtractor extends Module {
 							}
 						}
 					}
-					let bumpLink, button, giveaway, giveaways, n, responseHtml;
-					try {
-						let response = await request({
-							method: 'GET',
-							url: sgTools ? `https://www.sgtools.info/giveaways/${code}` : `/giveaway/${code}/`
-						});
-						responseHtml = DOM.parse(response.responseText);
-						button = responseHtml.getElementsByClassName('sidebar__error')[0];
-						giveaway = await buildGiveaway(responseHtml, response.finalUrl, button && button.textContent);
-					} catch (error) {}
-					if (ge.isCanceled) {
-						return;
-					}
-					if (giveaway) {
-						createElements(ge.results, 'beforeEnd', giveaway.html);
-						ge.results.lastElementChild.classList.add(`esgst-es-page-${ge.endless}`);
-						giveaway.html = ge.results.lastElementChild.outerHTML;
-						ge.cache[ge.cacheId].codes.push(code);
-						ge.cache[ge.cacheId].giveaways[code] = giveaway;
-						ge.points += giveaway.points;
-						ge.count += 1;
-						ge.total += 1;
-						createElements(ge.progress, 'inner', [{
-							attributes: {
-								class: 'fa fa-circle-o-notch fa-spin'
-							},
-							type: 'i'
-						}, {
-							text: ge.total,
-							type: 'span'
-						}, {
-							text: ' giveaways extracted.',
-							type: 'node'
-						}]);
-						ge.extracted.push(code);
-						if (sgTools) {
-							callback();
-						} else {
-							if (!ge.bumpLink) {
-								bumpLink = responseHtml.querySelector(`[href*="/discussion/"]`);
-								if (bumpLink) {
-									ge.bumpLink = bumpLink.getAttribute('href');
-									ge.cache[ge.cacheId].bumpLink = ge.bumpLink;
-								}
-							}
-							giveaways = this.ge_getGiveaways(ge, responseHtml);
-							n = giveaways.length;
-							if (n > 0) {
-								window.setTimeout(() => this.ge_extractGiveaways(ge, giveaways, 0, n, callback), 0);
-							} else {
-								callback();
-							}
-						}
-					} else if (!sgTools) {
-						let bumpLink, giveaway, giveaways, n, responseHtml;
+					if (ge.extracted.indexOf(code) < 0) {
+						let bumpLink, button, giveaway, giveaways, n, responseHtml;
 						try {
-							let response = await request({ anon: true, method: 'GET', url: `/giveaway/${code}/` });
+							let response = await request({
+								method: 'GET',
+								url: sgTools ? `https://www.sgtools.info/giveaways/${code}` : `/giveaway/${code}/`
+							});
 							responseHtml = DOM.parse(response.responseText);
-							giveaway = await buildGiveaway(responseHtml, response.finalUrl, null, true);
+							button = responseHtml.getElementsByClassName('sidebar__error')[0];
+							giveaway = await buildGiveaway(responseHtml, response.finalUrl, button && button.textContent);
 						} catch (error) {}
+						if (ge.isCanceled) {
+							return;
+						}
 						if (giveaway) {
 							createElements(ge.results, 'beforeEnd', giveaway.html);
 							ge.results.lastElementChild.classList.add(`esgst-es-page-${ge.endless}`);
@@ -632,17 +588,67 @@ class GiveawaysGiveawayExtractor extends Module {
 								type: 'node'
 							}]);
 							ge.extracted.push(code);
-							if (!ge.bumpLink) {
-								bumpLink = responseHtml.querySelector(`[href*="/discussion/"]`);
-								if (bumpLink) {
-									ge.bumpLink = bumpLink.getAttribute('href');
-									ge.cache[ge.cacheId].bumpLink = ge.bumpLink;
+							if (sgTools) {
+								callback();
+							} else {
+								if (!ge.bumpLink) {
+									bumpLink = responseHtml.querySelector(`[href*="/discussion/"]`);
+									if (bumpLink) {
+										ge.bumpLink = bumpLink.getAttribute('href');
+										ge.cache[ge.cacheId].bumpLink = ge.bumpLink;
+									}
+								}
+								giveaways = this.ge_getGiveaways(ge, responseHtml);
+								n = giveaways.length;
+								if (n > 0) {
+									window.setTimeout(() => this.ge_extractGiveaways(ge, giveaways, 0, n, callback), 0);
+								} else {
+									callback();
 								}
 							}
-							giveaways = this.ge_getGiveaways(ge, responseHtml);
-							n = giveaways.length;
-							if (n > 0) {
-								window.setTimeout(() => this.ge_extractGiveaways(ge, giveaways, 0, n, callback), 0);
+						} else if (!sgTools) {
+							let bumpLink, giveaway, giveaways, n, responseHtml;
+							try {
+								let response = await request({ anon: true, method: 'GET', url: `/giveaway/${code}/` });
+								responseHtml = DOM.parse(response.responseText);
+								giveaway = await buildGiveaway(responseHtml, response.finalUrl, null, true);
+							} catch (error) {}
+							if (giveaway) {
+								createElements(ge.results, 'beforeEnd', giveaway.html);
+								ge.results.lastElementChild.classList.add(`esgst-es-page-${ge.endless}`);
+								giveaway.html = ge.results.lastElementChild.outerHTML;
+								ge.cache[ge.cacheId].codes.push(code);
+								ge.cache[ge.cacheId].giveaways[code] = giveaway;
+								ge.points += giveaway.points;
+								ge.count += 1;
+								ge.total += 1;
+								createElements(ge.progress, 'inner', [{
+									attributes: {
+										class: 'fa fa-circle-o-notch fa-spin'
+									},
+									type: 'i'
+								}, {
+									text: ge.total,
+									type: 'span'
+								}, {
+									text: ' giveaways extracted.',
+									type: 'node'
+								}]);
+								ge.extracted.push(code);
+								if (!ge.bumpLink) {
+									bumpLink = responseHtml.querySelector(`[href*="/discussion/"]`);
+									if (bumpLink) {
+										ge.bumpLink = bumpLink.getAttribute('href');
+										ge.cache[ge.cacheId].bumpLink = ge.bumpLink;
+									}
+								}
+								giveaways = this.ge_getGiveaways(ge, responseHtml);
+								n = giveaways.length;
+								if (n > 0) {
+									window.setTimeout(() => this.ge_extractGiveaways(ge, giveaways, 0, n, callback), 0);
+								} else {
+									callback();
+								}
 							} else {
 								callback();
 							}
