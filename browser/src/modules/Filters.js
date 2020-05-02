@@ -445,7 +445,8 @@ class Filters extends Module {
 							checkbox.onChange = this.filters_basicToAdv.bind(this, obj);
 						}
 						break;
-					case 'number':
+					case 'integer':
+					case 'double':
 						rule.operators = [
 							'equal',
 							'not_equal',
@@ -501,16 +502,11 @@ class Filters extends Module {
 								}]);
 							}
 						} else {
-							rule.input = 'number';
-							if (filter.step) {
-								rule.type = 'double';
-							} else {
-								rule.type = 'integer';
-							}
+							rule.input = 'text';
+							rule.type = filter.type;
 							rule.validation = {
 								max: filter.maxValue,
 								min: filter.minValue,
-								step: filter.step
 							};
 
 							if (!Settings.get(`${obj.id}_m_b`)) {
@@ -534,7 +530,7 @@ class Filters extends Module {
 										type: 'span',
 										children: [{
 											attributes: {
-												type: 'number'
+												type: 'text'
 											},
 											type: 'input'
 										}, {
@@ -542,7 +538,7 @@ class Filters extends Module {
 											type: 'node'
 										}, {
 											attributes: {
-												type: 'number'
+												type: 'text'
 											},
 											type: 'input'
 										}]
@@ -562,7 +558,9 @@ class Filters extends Module {
 								type: rule.type,
 								filterType: 'number',
 								maxInput: maxInput,
-								minInput: minInput
+								minInput: minInput,
+								maxValue: filter.maxValue,
+								minValue: filter.minValue,
 							};
 							maxInput.addEventListener('change', this.filters_basicToAdv.bind(this, obj));
 							minInput.addEventListener('change', this.filters_basicToAdv.bind(this, obj));
@@ -1188,7 +1186,7 @@ class Filters extends Module {
 							newPreset.rules.push({
 								field: key,
 								id: key,
-								input: key === 'releaseDate' ? 'date' : 'number',
+								input: key === 'releaseDate' ? 'date' : 'text',
 								operator: 'less_or_equal',
 								type: key === 'releaseDate' ? 'text' : (key.match(/^(chance|chancePerPoint)$/) ? 'double' : 'integer'),
 								value: value
@@ -1199,7 +1197,7 @@ class Filters extends Module {
 							newPreset.rules.push({
 								field: key,
 								id: key,
-								input: key === 'releaseDate' ? 'date' : 'number',
+								input: key === 'releaseDate' ? 'date' : 'text',
 								operator: 'greater_or_equal',
 								type: key === 'releaseDate' ? 'text' : (key.match(/^(chance|chancePerPoint)$/) ? 'double' : 'integer'),
 								value: value
@@ -1277,7 +1275,7 @@ class Filters extends Module {
 									newException.rules.push({
 										field: key,
 										id: key,
-										input: key === 'releaseDate' ? 'date' : 'number',
+										input: key === 'releaseDate' ? 'date' : 'text',
 										operator: 'less_or_equal',
 										type: key === 'releaseDate' ? 'text' : (key.match(/^(chance|chancePerPoint)$/) ? 'double' : 'integer'),
 										value: value
@@ -1288,7 +1286,7 @@ class Filters extends Module {
 									newException.rules.push({
 										field: key,
 										id: key,
-										input: key === 'releaseDate' ? 'date' : 'number',
+										input: key === 'releaseDate' ? 'date' : 'text',
 										operator: 'greater_or_equal',
 										type: key === 'releaseDate' ? 'text' : (key.match(/^(chance|chancePerPoint)$/) ? 'double' : 'integer'),
 										value: value
@@ -1507,26 +1505,64 @@ class Filters extends Module {
 						break;
 					case 'number':
 						if (filter.maxInput.value) {
-							adv.rules.push({
-								data: filter.data,
-								field: id,
-								id: id,
-								input: filter.input,
-								operator: 'less_or_equal',
-								type: filter.type,
-								value: filter.maxInput.value
-							});
+							let isValid = false;
+							const value = filter.maxInput.value;
+							if (filter.type === 'date') {
+								isValid = true;
+							} else {
+								const parsedValue = parseFloat(value);
+								if (Number.isNaN(parsedValue)) {
+									filter.maxInput.setCustomValidity('Not a number');
+								} else if (filter.type === 'integer' && !Number.isInteger(parsedValue)) {
+									filter.maxInput.setCustomValidity('Not an integer');
+								} else if (parsedValue > filter.maxValue) {
+									filter.maxInput.setCustomValidity(`Must be lower than ${filter.maxValue}`);
+								} else {
+									filter.maxInput.setCustomValidity('');
+									isValid = true;
+								}
+							}
+							if (isValid) {
+								adv.rules.push({
+									data: filter.data,
+									field: id,
+									id: id,
+									input: filter.input,
+									operator: 'less_or_equal',
+									type: filter.type,
+									value,
+								});
+							}
 						}
 						if (filter.minInput.value) {
-							adv.rules.push({
-								data: filter.data,
-								field: id,
-								id: id,
-								input: filter.input,
-								operator: 'greater_or_equal',
-								type: filter.type,
-								value: filter.minInput.value
-							});
+							let isValid = false;
+							const value = filter.minInput.value;
+							if (filter.type === 'date') {
+								isValid = true;
+							} else {
+								const parsedValue = parseFloat(value);
+								if (Number.isNaN(parsedValue)) {
+									filter.minInput.setCustomValidity('Not a number');
+								} else if (filter.type === 'integer' && !Number.isInteger(parsedValue)) {
+									filter.minInput.setCustomValidity('Not an integer');
+								} else if (parsedValue < filter.minValue) {
+									filter.minInput.setCustomValidity(`Must be greater than ${filter.minValue}`);
+								} else {
+									filter.minInput.setCustomValidity('');
+									isValid = true;
+								}
+							}
+							if (isValid) {
+								adv.rules.push({
+									data: filter.data,
+									field: id,
+									id: id,
+									input: filter.input,
+									operator: 'greater_or_equal',
+									type: filter.type,
+									value,
+								});
+							}
 						}
 						break;
 					case 'string':
@@ -1590,13 +1626,40 @@ class Filters extends Module {
 					break;
 				case 'date':
 				case 'double':
-				case 'integer':
+				case 'integer': {
 					if (rule.operator === 'less_or_equal') {
-						filter.maxInput.value = rule.value;
+						const value = rule.value;
+						if (rule.type !== 'date') {
+							const parsedValue = parseFloat(value);
+							if (Number.isNaN(parsedValue)) {
+								filter.maxInput.setCustomValidity('Not a number');
+							} else if (rule.type === 'integer' && !Number.isInteger(parsedValue)) {
+								filter.maxInput.setCustomValidity('Not an integer');
+							} else if (parsedValue > filter.maxValue) {
+								filter.maxInput.setCustomValidity(`Must be lower than ${filter.maxValue}`);
+							} else {
+								filter.maxInput.setCustomValidity('');
+							}
+						}
+						filter.maxInput.value = value;
 					} else if (rule.operator === 'greater_or_equal') {
-						filter.minInput.value = rule.value;
+						const value = rule.value;
+						if (rule.type !== 'date') {
+							const parsedValue = parseFloat(value);
+							if (Number.isNaN(parsedValue)) {
+								filter.minInput.setCustomValidity('Not a number');
+							} else if (rule.type === 'integer' && !Number.isInteger(parsedValue)) {
+								filter.minInput.setCustomValidity('Not an integer');
+							} else if (parsedValue < filter.minValue) {
+								filter.minInput.setCustomValidity(`Must be greater than ${filter.minValue}`);
+							} else {
+								filter.minInput.setCustomValidity('');
+							}
+						}
+						filter.minInput.value = value;
 					}
 					break;
+				}
 				case 'string':
 					filter.checkbox.change(false, rule.operator === 'contains' ? (rule.data && rule.data.paused ? 'enabled' : 'none') : 'disabled');
 					filter.textInput.value = rule.value;

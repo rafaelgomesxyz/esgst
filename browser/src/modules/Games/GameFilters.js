@@ -412,21 +412,21 @@ class GamesGameFilters extends Filters {
 				maxValue: 100,
 				minValue: 0,
 				name: 'Rating',
-				type: 'number'
+				type: 'integer'
 			},
 			reviews: {
 				category: 'gc_r',
 				check: true,
 				minValue: 0,
 				name: 'Reviews',
-				type: 'number'
+				type: 'integer'
 			},
 			releaseDate: {
 				category: 'gc_rd',
 				check: !Shared.esgst.parameters.release_date_min && !Shared.esgst.parameters.release_date_max,
 				date: true,
 				name: 'Release Date',
-				type: 'number'
+				type: 'integer'
 			},
 			owned: {
 				check: true,

@@ -217,45 +217,45 @@ class GroupsGroupFilters extends Filters {
 			giveaways: {
 				check: Settings.get('gs') && Settings.get('gs_giveaways'),
 				name: 'Giveaways',
-				type: 'number'
+				type: 'integer'
 			},
 			users: {
 				check: Settings.get('gs') && Settings.get('gs_users'),
 				name: 'Users',
-				type: 'number'
+				type: 'integer'
 			},
 			firstGiveaway: {
 				check: Settings.get('gs') && Settings.get('gs_firstGiveaway'),
 				date: true,
 				name: 'First Giveaway',
-				type: 'number'
+				type: 'integer'
 			},
 			lastGiveaway: {
 				check: Settings.get('gs') && Settings.get('gs_lastGiveaway'),
 				date: true,
 				name: 'Last Giveaway',
-				type: 'number'
+				type: 'integer'
 			},
 			averageEntries: {
 				check: Settings.get('gs') && Settings.get('gs_averageEntries'),
 				name: 'Average Entries',
-				type: 'number'
+				type: 'integer'
 			},
 			contributors: {
 				check: Settings.get('gs') && Settings.get('gs_contributors'),
 				name: 'Contributors',
-				type: 'number'
+				type: 'integer'
 			},
 			winners: {
 				check: Settings.get('gs') && Settings.get('gs_winners'),
 				name: 'Winners',
-				type: 'number'
+				type: 'integer'
 			},
 			creationDate: {
 				check: Settings.get('gs') && Settings.get('gs_creationDate'),
 				date: true,
 				name: 'Creation Date',
-				type: 'number'
+				type: 'integer'
 			},
 			officialGameGroup: {
 				check: Settings.get('gs') && Settings.get('gs_type'),
