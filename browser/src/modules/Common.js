@@ -4657,7 +4657,7 @@ class Common extends Module {
 			const result = await this.saveComment(
 				obj.context,
 				obj.tradeCode,
-				obj.parentId.value || obj.parentId,
+				typeof obj.parentId === 'string' ? obj.parentId : obj.parentId.value,
 				obj.description.value,
 				obj.url,
 				obj.status,
