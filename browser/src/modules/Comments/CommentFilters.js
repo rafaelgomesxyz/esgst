@@ -129,7 +129,7 @@ class CommentsCommentFilters extends Filters {
 				check: true,
 				minValue: 0,
 				name: 'Length',
-				type: 'number'
+				type: 'integer'
 			},
 			words: {
 				check: true,

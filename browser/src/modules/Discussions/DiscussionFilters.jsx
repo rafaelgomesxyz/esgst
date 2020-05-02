@@ -467,7 +467,7 @@ class DiscussionsDiscussionFilters extends Filters {
 				check: true,
 				minValue: 0,
 				name: 'Comments',
-				type: 'number'
+				type: 'integer'
 			},
 			announcements: {
 				check: true,

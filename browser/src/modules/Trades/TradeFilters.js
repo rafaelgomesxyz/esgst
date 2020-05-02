@@ -411,7 +411,7 @@ class TradesTradeFilters extends Filters {
 				check: true,
 				minValue: 0,
 				name: 'Comments',
-				type: 'number'
+				type: 'integer'
 			},
 			created: {
 				check: true,
@@ -443,13 +443,13 @@ class TradesTradeFilters extends Filters {
 				check: true,
 				minValue: 0,
 				name: 'Positive Reputation',
-				type: 'number'
+				type: 'integer'
 			},
 			negativeReputation: {
 				check: true,
 				minValue: 0,
 				name: 'Negative Reputation',
-				type: 'number'
+				type: 'integer'
 			}
 		};
 	}

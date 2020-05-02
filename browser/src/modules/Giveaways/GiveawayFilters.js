@@ -916,94 +916,90 @@ class GiveawaysGiveawayFilters extends Filters {
 				maxValue: 10,
 				minValue: 0,
 				name: 'Level',
-				type: 'number'
+				type: 'integer'
 			},
 			entries: {
 				check: (!this.esgst.parameters.entry_min && !this.esgst.parameters.entry_max) && (!this.esgst.wonPath || popup),
 				minValue: 0,
 				name: 'Entries',
-				type: 'number'
+				type: 'integer'
 			},
 			copies: {
 				check: (!this.esgst.parameters.copy_min && !this.esgst.parameters.copy_max) && (!this.esgst.wonPath || popup),
 				minValue: 1,
 				name: 'Copies',
-				type: 'number'
+				type: 'integer'
 			},
 			points: {
 				check: (!this.esgst.parameters.point_min && !this.esgst.parameters.point_max) && (((!this.esgst.createdPath || Settings.get('cewgd')) && (!this.esgst.enteredPath || Settings.get('cewgd')) && (!this.esgst.wonPath || Settings.get('cewgd'))) || popup),
 				maxValue: 100,
 				minValue: 0,
 				name: 'Points',
-				type: 'number'
+				type: 'integer'
 			},
 			comments: {
 				check: popup || (!this.esgst.createdPath && !this.esgst.enteredPath && !this.esgst.wonPath),
 				minValue: 0,
 				name: 'Comments',
-				type: 'number'
+				type: 'integer'
 			},
 			minutesToEnd: {
 				check: !this.esgst.wonPath || popup,
 				minValue: 0,
 				name: 'Minutes To End',
-				type: 'number'
+				type: 'integer'
 			},
 			minutesFromStart: {
 				check: !this.esgst.wonPath || popup,
 				minValue: 0,
 				name: 'Minutes From Start',
-				type: 'number'
+				type: 'integer'
 			},
 			chance: {
 				check: Settings.get('gwc') && (((!this.esgst.enteredPath || Settings.get('cewgd')) && !this.esgst.createdPath && !this.esgst.wonPath) || popup),
 				maxValue: 100,
 				minValue: 0,
 				name: 'Chance',
-				step: 0.01,
-				type: 'number'
+				type: 'double'
 			},
 			projectedChance: {
 				check: Settings.get('gwc') && Settings.get('gwc_a') && (((!this.esgst.enteredPath || Settings.get('cewgd')) && !this.esgst.createdPath && !this.esgst.wonPath) || popup),
 				maxValue: 100,
 				minValue: 0,
 				name: 'Projected Chance',
-				step: 0.01,
-				type: 'number'
+				type: 'double'
 			},
 			chancePerPoint: {
 				check: Settings.get('gwc') && (((!this.esgst.enteredPath || Settings.get('cewgd')) && !this.esgst.createdPath && !this.esgst.wonPath) || popup),
 				maxValue: 100,
 				minValue: 0,
 				name: 'Chance Per Point',
-				step: 0.001,
-				type: 'number'
+				type: 'double'
 			},
 			projectedChancePerPoint: {
 				check: Settings.get('gwc') && Settings.get('gwc_a') && (((!this.esgst.enteredPath || Settings.get('cewgd')) && !this.esgst.createdPath && !this.esgst.wonPath) || popup),
 				maxValue: 100,
 				minValue: 0,
 				name: 'Projected Chance Per Point',
-				step: 0.001,
-				type: 'number'
+				type: 'double'
 			},
 			ratio: {
 				check: Settings.get('gwr') && (((!this.esgst.enteredPath || Settings.get('cewgd')) && !this.esgst.createdPath && !this.esgst.wonPath) || popup),
 				minValue: 0,
 				name: 'Ratio',
-				type: 'number'
+				type: 'integer'
 			},
 			projectedRatio: {
 				check: Settings.get('gwr') && Settings.get('gwr_a') && (((!this.esgst.enteredPath || Settings.get('cewgd')) && !this.esgst.createdPath && !this.esgst.wonPath) || popup),
 				minValue: 0,
 				name: 'Projected Ratio',
-				type: 'number'
+				type: 'integer'
 			},
 			pointsToWin: {
 				check: Settings.get('gptw') && (((!this.esgst.enteredPath || Settings.get('cewgd')) && !this.esgst.createdPath && !this.esgst.wonPath) || popup),
 				minValue: 0,
 				name: 'Points To Win',
-				type: 'number'
+				type: 'integer'
 			},
 			pinned: {
 				check: this.esgst.giveawaysPath,
