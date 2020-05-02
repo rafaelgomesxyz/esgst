@@ -792,6 +792,7 @@ class Filters extends Module {
 						icon_checked: 'fa fa-check-square-o',
 						icon_unchecked: 'fa fa-square-o'
 					},
+					// Requires interactjs <= 1.3.4 or it won't work.
 					['sortable']: {
 						icon: 'fa fa-arrows'
 					}
