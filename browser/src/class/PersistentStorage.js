@@ -7,7 +7,7 @@ import { LocalStorage } from './LocalStorage';
 
 class PersistentStorage {
 	constructor() {
-		this.currentVersion = 9;
+		this.currentVersion = 10;
 
 		this.defaultValues = {
 			decryptedGiveaways: '{}',
@@ -615,6 +615,43 @@ class PersistentStorage {
 					} else {
 						settings.chfl_discussions_sg.push(...(item.item ? [item.item] : item.items));
 					}
+				}
+
+				settingsChanged = true;
+			}
+
+			if (settingsChanged) {
+				toSet.settings = JSON.stringify(settings);
+				storage.settings = toSet.settings;
+			}
+		}		
+
+		if (version < 10) {
+			window.console.log('Upgrading storage to version 10...');
+
+			let settingsChanged = false;
+
+			const settings = JSON.parse(storage.settings);
+
+			if (Utils.isSet(settings.giveawayHeading)) {
+				const index = settings.giveawayHeading.indexOf('steam');
+
+				if (index > -1) {
+					settings.giveawayHeading.splice(index + 1, 0, 'screenshots-videos');
+				} else {
+					settings.giveawayHeading.push('screenshots-videos');
+				}
+
+				settingsChanged = true;
+			}
+
+			if (Utils.isSet(settings.giveawayHeading_gv)) {
+				const index = settings.giveawayHeading_gv.indexOf('steam');
+
+				if (index > -1) {
+					settings.giveawayHeading_gv.splice(index + 1, 0, 'screenshots-videos');
+				} else {
+					settings.giveawayHeading_gv.push('screenshots-videos');
 				}
 
 				settingsChanged = true;

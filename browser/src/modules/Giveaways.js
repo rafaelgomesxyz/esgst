@@ -478,6 +478,9 @@ class Giveaways extends Module {
 				child.setAttribute('data-draggable-id', 'steam');
 				continue;
 			}
+			if (child.matches('.giveaway__icon.fa-camera[data-lightbox-id]')) {
+				child.setAttribute('data-draggable-id', 'screenshots-videos');
+			}
 			if (child.getAttribute('href') && child.getAttribute('href').match(/\/giveaways\/search/)) {
 				child.setAttribute('data-draggable-id', 'search');
 			}
@@ -591,7 +594,7 @@ class Giveaways extends Module {
 					if (element.getAttribute('data-draggable-id').match(/^(elgb|gp)$/)) {
 						element.classList.add('esgst-giveaway-column-button');
 					}
-					if (!this.esgst.giveawayPath && element.getAttribute('data-draggable-id').match(/steam|search|hideGame/)) {
+					if (!this.esgst.giveawayPath && element.getAttribute('data-draggable-id').match(/steam|screenshots-videos|search|hideGame/)) {
 						element.classList.remove('giveaway__icon');
 					}
 					element.classList.add(this.esgst.giveawayPath ? 'featured__column' : 'giveaway__column');
@@ -619,7 +622,7 @@ class Giveaways extends Module {
 					} else {
 						element.classList.add(this.esgst.giveawayPath ? 'featured__column' : 'giveaway__column');
 					}
-					if (!this.esgst.giveawayPath && element.getAttribute('data-draggable-id').match(/steam|search|hideGame/)) {
+					if (!this.esgst.giveawayPath && element.getAttribute('data-draggable-id').match(/steam|screenshots-videos|search|hideGame/)) {
 						element.classList.remove('giveaway__icon');
 					}
 					if (element.getAttribute('data-color')) {
@@ -640,7 +643,7 @@ class Giveaways extends Module {
 					if (element.getAttribute('data-draggable-id').match(/^(elgb|gp)$/)) {
 						element.classList.remove('esgst-giveaway-column-button');
 					}
-					if (!this.esgst.giveawayPath && element.getAttribute('data-draggable-id').match(/steam|search|hideGame/)) {
+					if (!this.esgst.giveawayPath && element.getAttribute('data-draggable-id').match(/steam|screenshots-videos|search|hideGame/)) {
 						element.classList.add('giveaway__icon');
 					}
 					element.classList.remove(this.esgst.giveawayPath ? 'featured__column' : 'giveaway__column');
@@ -662,7 +665,7 @@ class Giveaways extends Module {
 					if (element.getAttribute('data-draggable-id').match(/^(elgb|gp)$/)) {
 						element.classList.remove('esgst-giveaway-column-button');
 					}
-					if (!this.esgst.giveawayPath && element.getAttribute('data-draggable-id').match(/steam|search|hideGame/)) {
+					if (!this.esgst.giveawayPath && element.getAttribute('data-draggable-id').match(/steam|screenshots-videos|search|hideGame/)) {
 						element.classList.remove('giveaway__icon');
 					}
 					element.classList.remove(this.esgst.giveawayPath ? 'featured__column' : 'giveaway__column');
@@ -684,7 +687,7 @@ class Giveaways extends Module {
 					if (element.getAttribute('data-draggable-id').match(/^(elgb|gp)$/)) {
 						element.classList.remove('esgst-giveaway-column-button');
 					}
-					if (!this.esgst.giveawayPath && element.getAttribute('data-draggable-id').match(/steam|search|hideGame/)) {
+					if (!this.esgst.giveawayPath && element.getAttribute('data-draggable-id').match(/steam|screenshots-videos|search|hideGame/)) {
 						element.classList.remove('giveaway__icon');
 					}
 					element.classList.remove(this.esgst.giveawayPath ? 'featured__column' : 'giveaway__column');
@@ -706,7 +709,7 @@ class Giveaways extends Module {
 					if (element.getAttribute('data-draggable-id').match(/^(elgb|gp)$/)) {
 						element.classList.remove('esgst-giveaway-column-button');
 					}
-					if (!this.esgst.giveawayPath && element.getAttribute('data-draggable-id').match(/steam|search|hideGame/)) {
+					if (!this.esgst.giveawayPath && element.getAttribute('data-draggable-id').match(/steam|screenshots-videos|search|hideGame/)) {
 						element.classList.remove('giveaway__icon');
 					}
 					element.classList.remove(this.esgst.giveawayPath ? 'featured__column' : 'giveaway__column');

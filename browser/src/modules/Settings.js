@@ -804,6 +804,7 @@ class SettingsModule {
 				points: 'Points',
 				copies: 'Copies',
 				steam: 'Steam Link',
+				'screenshots-videos': 'Screenshots / Videos',
 				search: 'Search Link',
 				hideGame: 'Hide Game',
 				gt: 'Game Tags'
