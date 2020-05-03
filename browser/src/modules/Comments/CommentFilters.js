@@ -48,6 +48,10 @@ class CommentsCommentFilters extends Filters {
 						]]
 					],
 					features: {
+						cf_m_f: {
+							name: 'Fix filter bar at the top of the page.',
+							sg: true
+						},
 						cf_m_b: {
 							name: 'Hide basic filters.',
 							sg: true,
@@ -107,7 +111,8 @@ class CommentsCommentFilters extends Filters {
 			if (!Shared.esgst.hasAddedFilterContainer) {
 				Shared.esgst.style.insertAdjacentText("beforeend", `
 					.esgst-gf-container {
-						top: ${Shared.esgst.commentsTop - 5}px;
+						position: ${Settings.get('cf_m_f') ? 'sticky' : 'static'};
+						top: ${Shared.esgst.commentsTop}px;
 					}
 				`);
 			}

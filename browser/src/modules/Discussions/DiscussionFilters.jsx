@@ -104,6 +104,10 @@ class DiscussionsDiscussionFilters extends Filters {
 						]]
 					],
 					features: {
+						df_m_f: {
+							name: 'Fix filter bar at the top of the page.',
+							sg: true
+						},
 						df_m_b: {
 							name: 'Hide basic filters.',
 							sg: true
@@ -354,7 +358,8 @@ class DiscussionsDiscussionFilters extends Filters {
 			if (!Shared.esgst.hasAddedFilterContainer) {
 				Shared.esgst.style.insertAdjacentText("beforeend", `
 					.esgst-gf-container {
-						top: ${Shared.esgst.commentsTop - 5}px;
+						position: ${Settings.get('df_m_f') ? 'sticky' : 'static'};
+						top: ${Shared.esgst.commentsTop}px;
 					}
 				`);
 			}

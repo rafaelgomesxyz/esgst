@@ -103,6 +103,10 @@ class TradesTradeFilters extends Filters {
 						]]
 					],
 					features: {
+						tf_m_f: {
+							name: 'Fix filter bar at the top of the page.',
+							sg: true
+						},
 						tf_m_b: {
 							name: 'Hide basic filters.',
 							st: true
@@ -209,7 +213,8 @@ class TradesTradeFilters extends Filters {
 			if (!Shared.esgst.hasAddedFilterContainer) {
 				Shared.esgst.style.insertAdjacentText("beforeend", `
 					.esgst-gf-container {
-						top: ${Shared.esgst.commentsTop - 5}px;
+						position: ${Settings.get('tf_m_f') ? 'sticky' : 'static'};
+						top: ${Shared.esgst.commentsTop}px;
 					}
 				`);
 			}
