@@ -338,6 +338,9 @@ class Esgst {
 		/** @type {string} */
 		this.version = undefined;
 
+		this.isFirstRun = false;
+		this.isUpdate = false;
+
 		this.storage = undefined;
 
 		this.settings = undefined;

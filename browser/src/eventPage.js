@@ -8,16 +8,6 @@ if (browser.webRequest) {
 	addWebRequestListener();
 }
 
-browser.runtime.onInstalled.addListener(async details => {
-	if (details.reason === 'install') {
-		sendMessage('isFirstRun');
-	} else if (details.reason === 'update') {
-		if ((await browser.runtime.getManifest()).version !== details.previousVersion) {
-			sendMessage('isUpdate');
-		}
-	}
-});
-
 // getBrowserInfo must be removed from webextension-polyfill/browser-polyfill.min.js for this to work on Chrome
 browser.runtime.getBrowserInfo().then(result => browserInfo = result);
 

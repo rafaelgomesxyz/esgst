@@ -24,14 +24,6 @@ buttons.ActionButton({
 	onClick: handleClick
 });
 
-exports.main = details => {
-	if (details.loadReason === 'install') {
-		sendMessage('isFirstRun');
-	} else if (details.loadReason === 'upgrade') {
-		sendMessage('isUpdate');
-	}
-};
-
 function handleClick(state) {
 	// @ts-ignore
 	tabs.open("https://www.steamgifts.com/account/settings/profile?esgst=settings");
