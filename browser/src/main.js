@@ -214,19 +214,16 @@ window.interact = interact;
 
 		// now that all values are set esgst can begin to load
 
-		esgst.mainPageHeadingSize = 35;
 		if (esgst.sg) {
 			esgst.headerSize = 39;
 			esgst.footerSize = 44;
 		} else {
-			if (Settings.get('fh')) {
-				esgst.headerSize = 231;
-			}
 			esgst.headerSize = Settings.get('fh') ? 231 : 454;
 			esgst.footerSize = Settings.get('ff') ? 44 : 64;
 		}
-		esgst.pageTop = Settings.get('fh') ? esgst.headerSize : 5;
-		esgst.commentsTop = esgst.pageTop + (Settings.get('fmph') ? esgst.mainPageHeadingSize : 0) + 10;
+		esgst.mainPageHeadingSize = 45;
+		esgst.pageTop = Settings.get('fh') ? esgst.headerSize : 0;
+		esgst.commentsTop = esgst.pageTop + (Settings.get('fmph') ? esgst.mainPageHeadingSize : 0);
 
 		addStyle();
 
