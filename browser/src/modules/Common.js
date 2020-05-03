@@ -271,7 +271,7 @@ class Common extends Module {
 			}
 		}
 
-		const customPage = this.esgst.customPages[this.esgst.parameters.esgst];
+		const customPage = this.esgst.parameters.esgst ? this.esgst.customPages[this.esgst.parameters.esgst] : null;
 		if (customPage && customPage.check) {
 			await customPage.load();
 		} else if (!Shared.esgst.parameters.esgst || Shared.esgst.parameters.esgst !== 'ge') {

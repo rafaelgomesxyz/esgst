@@ -7,7 +7,7 @@ import { LocalStorage } from './LocalStorage';
 
 class PersistentStorage {
 	constructor() {
-		this.currentVersion = 7;
+		this.currentVersion = 8;
 
 		this.defaultValues = {
 			decryptedGiveaways: '{}',
@@ -521,6 +521,33 @@ class PersistentStorage {
 					lastCheck: 0,
 					ids: JSON.parse(storage.notifiedMessages),
 				});
+			}
+		}
+
+		if (version < 8) {
+			window.console.log('Upgrading storage to version 8...');
+
+			let settingsChanged = false;
+
+			const settings = JSON.parse(storage.settings);
+
+			if (Utils.isSet(settings.chfl_giveaways_sg)) {
+				const wishlistGiveawaysIndex = settings.chfl_giveaways_sg.map((x, i) => ((typeof x === 'string' && x) || x.id) === 'browseWishlistGiveaways' ? i : null).filter(x => Utils.isSet(x))[0];
+
+				if (Utils.isSet(wishlistGiveawaysIndex)) {
+					settings.chfl_giveaways_sg.splice(wishlistGiveawaysIndex + 1, 0, 
+						{id: `browseFollowedGiveaways`, name: 'Browse Followed Giveaways', url: `/giveaways/search?esgst=fgp`});
+				} else {
+					settings.chfl_giveaways_sg.push(
+						{id: `browseFollowedGiveaways`, name: 'Browse Followed Giveaways', url: `/giveaways/search?esgst=fgp`});
+				}
+
+				settingsChanged = true;
+			}
+
+			if (settingsChanged) {
+				toSet.settings = JSON.stringify(settings);
+				storage.settings = toSet.settings;
 			}
 		}
 
