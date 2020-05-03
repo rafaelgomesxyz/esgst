@@ -235,6 +235,17 @@ class Common extends Module {
 			type: 'div'
 		}]);
 
+		this.isGiveawayHeadingDefault = this.areArraysEqual(Settings.get('giveawayHeading'), Settings.defaultValues.giveawayHeading);
+		this.isGiveawayHeadingGvDefault = this.areArraysEqual(Settings.get('giveawayHeading_gv'), Settings.defaultValues.giveawayHeading_gv);
+		this.isGiveawayColumnsDefault = this.areArraysEqual(Settings.get('giveawayColumns'), Settings.defaultValues.giveawayColumns);
+		this.isGiveawayColumnsGvDefault = this.areArraysEqual(Settings.get('giveawayColumns_gv'), Settings.defaultValues.giveawayColumns_gv);
+		this.isGiveawayPanelDefault = this.areArraysEqual(Settings.get('giveawayPanel'), Settings.defaultValues.giveawayPanel);
+		this.isGiveawayPanelGvDefault = this.areArraysEqual(Settings.get('giveawayPanel_gv'), Settings.defaultValues.giveawayPanel_gv);
+		this.isGiveawayLinksDefault = this.areArraysEqual(Settings.get('giveawayLinks'), Settings.defaultValues.giveawayLinks);
+		this.isGiveawayLinksGvDefault = this.areArraysEqual(Settings.get('giveawayLinks_gv'), Settings.defaultValues.giveawayLinks_gv);
+		this.isGiveawayExtraPanelDefault = this.areArraysEqual(Settings.get('giveawayExtraPanel'), Settings.defaultValues.giveawayExtraPanel);
+		this.isGiveawayExtraPanelGvDefault = this.areArraysEqual(Settings.get('giveawayExtraPanel_gv'), Settings.defaultValues.giveawayExtraPanel_gv);
+
 		const batchSize = 10;
 		let currentBatchIndex = 0;
 
@@ -5352,6 +5363,18 @@ class Common extends Module {
 		const month = parseInt(dateParts[1]);
 		const day = parseInt(dateParts[2]);
 		return `${SHORT_MONTHS[month - 1]} ${day}, ${year}`;
+	}
+
+	areArraysEqual(arr1, arr2) {
+		if (arr1.length !== arr2.length) {
+			return false;
+		}
+		for (let i = 0, n = arr1.length; i < n; i++) {
+			if (arr1[i] !== arr2[i]) {
+				return false;
+			}
+		}
+		return true;
 	}
 }
 
