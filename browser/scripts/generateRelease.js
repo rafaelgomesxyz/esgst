@@ -90,12 +90,13 @@ async function generateRelease() {
 	}
 
 	const body = args.beta ? '' : (await generateChangelog());
+	const version = `v${args.beta ? packageJson.betaVersion : packageJson.version}`;
 
 	const release = await octokit.repos.createRelease(Object.assign({}, defaultParams, {
 		body,
-		name: `v${packageJson.version}`,
+		name: version,
 		prerelease: !!args.beta,
-		tag_name: `v${packageJson.version}`
+		tag_name: version
 	}));
 
 	const url = release.data.upload_url;
