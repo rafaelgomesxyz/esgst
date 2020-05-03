@@ -3,6 +3,7 @@ import { Shared } from './Shared';
 
 class _Settings {
 	constructor() {
+		this.enableByDefault = false;
 		this.settings = {};
 		this.fullSettings = {};
 
@@ -817,6 +818,9 @@ class _Settings {
 	init() {
 		const settings = Shared.esgst.settings;
 
+		const enableByDefaultSetting = settings[`enableByDefault_${Shared.esgst.name}`];
+		this.enableByDefault = !!(typeof enableByDefaultSetting === 'object' ? enableByDefaultSetting.enabled : enableByDefaultSetting);
+
 		for (const key of Object.keys(settings)) {
 			const match = key.match(/(.+?)_(sg|st|sgt)$/);
 
@@ -897,7 +901,7 @@ class _Settings {
 				let defaultValue = this.defaultValues[id];
 
 				if (typeof defaultValue === 'undefined') {
-					defaultValue = Shared.esgst.settings[`enableByDefault_${Shared.esgst.name}`] || 0;
+					defaultValue = this.enableByDefault || 0;
 				}
 
 				value = defaultValue;
