@@ -11,6 +11,7 @@ import { discussionsActiveDiscussionsOnTopSidebar } from './Discussions/ActiveDi
 import { generalElementFilters } from './General/ElementFilters';
 import { giveaways_addToStorage } from './Giveaways_addToStorage';
 import { generalAttachedImageCarousel } from './General/AttachedImageCarousel';
+import { giveawaysFollowedGamesPage } from './Giveaways/FollowedGamesPage';
 import { giveawaysArchiveSearcher } from './Giveaways/ArchiveSearcher';
 import { generalCakeDayReminder } from './General/CakeDayReminder';
 import { giveawaysCommentEntryChecker } from './Giveaways/CommentEntryChecker';
@@ -178,6 +179,7 @@ const modules = {
 	generalElementFilters,
 	giveaways_addToStorage,
 	generalAttachedImageCarousel,
+	giveawaysFollowedGamesPage,
 	giveawaysArchiveSearcher,
 	giveawaysCommentEntryChecker,
 	discussionsCloseOpenDiscussionButton,

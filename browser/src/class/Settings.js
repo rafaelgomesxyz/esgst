@@ -230,6 +230,7 @@ class _Settings {
 					url: '/bundle-games'
 				},
 				{id: `browseWishlistGiveaways`, name: 'Browse Wishlist Giveaways', url: `/giveaways/search?type=wishlist`},
+				{id: `browseFollowedGiveaways`, name: 'Browse Followed Giveaways', url: `/giveaways/search?esgst=fgp`},
 				{id: `browseRecommendedGiveaways`, name: 'Browse Recommended Giveaways', url: `/giveaways/search?type=recommended`},
 				{id: `browseGroupGiveaways`, name: 'Browse Group Giveaways', url: `/giveaways/search?type=group`},
 				{id: `browseNewGiveaways`, name: 'Browse New Giveaways', url: `/giveaways/search?type=new`}
