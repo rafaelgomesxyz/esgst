@@ -115,12 +115,6 @@ if (typeof browser !== 'undefined') {
 					}
 					await Promise.all(promises);
 
-					if (!storage.settings) {
-						_browser.gm.listener(JSON.stringify({
-							action: 'isFirstRun'
-						}));
-					}
-
 					return storage;
 				},
 				remove: async keys => {

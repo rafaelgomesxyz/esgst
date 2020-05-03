@@ -8,12 +8,8 @@ const DEFAULT_HEADERS = {
 	'Content-Type': 'application/x-www-form-urlencoded'
 };
 const REQUIRED_HEADERS = {
-	'From': 'esgst.extension@gmail.com'
+	'From': 'esgst.extension@gmail.com',
 };
-
-(async () => {
-	REQUIRED_HEADERS['Esgst-Version'] = (await browser.runtime.getManifest()).version;
-})();
 
 class FetchRequest {
 	static delete(url, options = {}) {
@@ -42,6 +38,10 @@ class FetchRequest {
 	}
 
 	static async send(url, options) {
+		if (!REQUIRED_HEADERS['Esgst-Version']) {
+			REQUIRED_HEADERS['Esgst-Version'] = Shared.esgst.version;
+		}
+
 		let response = null;
 		let deleteLock = null;
 

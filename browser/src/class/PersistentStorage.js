@@ -4,6 +4,7 @@ import { generalCustomHeaderFooterLinks } from '../modules/General/CustomHeaderF
 import { Settings } from './Settings';
 import { Shared } from './Shared';
 import { LocalStorage } from './LocalStorage';
+import { browser } from '../browser';
 
 class PersistentStorage {
 	constructor() {
@@ -39,6 +40,21 @@ class PersistentStorage {
 
 		const toDelete = [];
 		const toSet = {};
+
+		const manifest = await browser.runtime.getManifest();
+		if (Object.keys(storage).length === 0) {
+			Shared.esgst.isFirstRun = true;
+			Shared.esgst.version = manifest.version;
+			toSet.currentVersion = Shared.esgst.version;
+		} else {
+			Shared.esgst.version = storage.currentVersion;
+			if (Shared.esgst.version !== manifest.version) {
+				Shared.esgst.isUpdate = true;
+				Shared.esgst.version = manifest.version;
+				toSet.currentVersion = Shared.esgst.version;
+			}
+		}
+		Shared.esgst.versionName = manifest.version_name || manifest.version;
 
 		version = version || 1;
 

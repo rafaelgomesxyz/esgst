@@ -1089,12 +1089,11 @@ class Common extends Module {
 		}]);
 	}
 
-	async checkNewVersion(isFirstRun, isUpdate) {
-		if (isFirstRun) {
-			this.esgst.firstInstall = true;
+	async checkNewVersion() {
+		if (Shared.esgst.isFirstRun) {
 			// noinspection JSIgnoredPromiseFromCall
 			this.setSetting('dismissedOptions', this.esgst.toDismiss);
-			let popup = new Popup({
+			const popup = new Popup({
 				addScrollable: true, icon: 'fa-smile-o', isTemp: true, title: [
 					['i', { class: 'fa fa-circle-o-notch fa-spin' }],
 					' Hi! ESGST is retrieving your avatar, username and Steam ID. This will not take long...'
@@ -1131,15 +1130,26 @@ class Common extends Module {
 					]],
 				]],
 			]);
-		} else if (isUpdate && Settings.get('showChangelog')) {
-			new Popup({
-				icon: 'fa-star',
+			Shared.esgst.isFirstRun = false;
+		} else if (Shared.esgst.isUpdate && Settings.get('showChangelog')) {
+			const popup = new Popup({
+				addScrollable: true,
+				icon: 'fa-circle-o-notch fa-spin',
 				isTemp: true,
 				title: [
-					'ESGST has updated, to view the changelog go to ',
-					['a', { href: 'https://github.com/rafaelgssa/esgst/releases' }, 'https://github.com/rafaelgssa/esgst/releases']
-				]
-			}).open();
+					`ESGST has updated to v${Shared.esgst.version}! Please wait while the changelog is retrieved from GitHub. If it appears to be taking too long, you can close this and go to `,
+					['a', { href: 'https://github.com/rafaelgssa/esgst/releases' }, 'https://github.com/rafaelgssa/esgst/releases'],
+					' to view it.'
+				],
+			});
+			const response = await FetchRequest.get(`https://api.github.com/repos/rafaelgssa/esgst/releases/tags/v${Shared.esgst.version}`);
+			popup.setIcon('fa-star');
+			popup.setTitle(`ESGST has updated to v${Shared.esgst.version}! Here's the changelog:`);
+			popup.getScrollable([
+				['div', { class: 'markdown' }, await this.parseMarkdown(popup.scrollable, response.json.body.replace(/#(\d+)/g, '[$1](https://github.com/rafaelgssa/esgst/issues/$1)'))]
+			]);
+			popup.open();
+			Shared.esgst.isUpdate = false;
 		}
 	}
 
@@ -3284,7 +3294,7 @@ class Common extends Module {
 			details.headers = {};
 		}
 		details.headers['From'] = 'esgst.extension@gmail.com';
-		details.headers['Esgst-Version'] = (await browser.runtime.getManifest()).version;
+		details.headers['Esgst-Version'] = Shared.esgst.version;
 		if (!details.headers['Content-Type']) {
 			details.headers['Content-Type'] = 'application/x-www-form-urlencoded';
 		}
@@ -5209,8 +5219,6 @@ class Common extends Module {
 			return;
 		}
 
-		const manifest = await browser.runtime.getManifest();
-
 		Shared.header.addButtonContainer({
 			buttonImage: Shared.esgst.icon,
 			buttonName: ' ESGST',
@@ -5267,7 +5275,7 @@ class Common extends Module {
 				},
 				{
 					icon: 'fa fa-fw fa-info-circle icon-grey grey',
-					name: `Current Version: ${manifest.version_name || manifest.version}`,
+					name: `Current Version: ${Shared.esgst.versionName}`,
 				},
 			],
 			onClick: event => {

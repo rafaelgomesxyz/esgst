@@ -128,7 +128,7 @@ function getDependencies(syncer, feature, id) {
 async function setSync(isPopup = false, isSilent = false) {
 	let syncer = {};
 	syncer.canceled = false;
-	syncer.isSilent = isSilent || Shared.esgst.firstInstall;
+	syncer.isSilent = isSilent || Shared.esgst.isFirstRun;
 	if (Shared.esgst.parameters.autoSync) {
 		syncer.parameters = Shared.esgst.parameters;
 	}
@@ -142,7 +142,7 @@ async function setSync(isPopup = false, isSilent = false) {
 		});
 		containerr = popup.description;
 		context = popup.scrollable;
-		if (!Shared.esgst.firstInstall && (!syncer.isSilent || Settings.get('openAutoSyncPopup'))) {
+		if (!Shared.esgst.isFirstRun && (!syncer.isSilent || Settings.get('openAutoSyncPopup'))) {
 			popup.open();
 		}
 	} else {
@@ -344,7 +344,7 @@ function cancelSync(syncer) {
 
 //use: syncer.results, syncer.progress, syncer.parameters
 async function sync(syncer) {
-	if (!Shared.esgst.firstInstall) {
+	if (!Shared.esgst.isFirstRun) {
 		await Shared.common.setSetting('lastSync', Date.now());
 		syncer.results.innerHTML = '';
 		syncer.progress.classList.remove('esgst-hidden');
@@ -359,7 +359,7 @@ async function sync(syncer) {
 	}
 
 	// if this is the user's fist time using the script, only sync steam id and stop
-	if (Shared.esgst.firstInstall) {
+	if (Shared.esgst.isFirstRun) {
 		return;
 	}
 
@@ -972,7 +972,7 @@ async function sync(syncer) {
 	}
 
 	// finish sync
-	if (!Shared.esgst.firstInstall) {
+	if (!Shared.esgst.isFirstRun) {
 		syncer.progress.lastElementChild.textContent = 'Updating last sync date...';
 		const currentTime = Date.now();
 		let keys = ['Groups', 'Whitelist', 'Blacklist', 'SteamFriends', 'HiddenGames', 'Games', 'FollowedGames', 'WonGames', 'ReducedCvGames', 'NoCvGames', 'HltbTimes', 'DelistedGames', 'Giveaways', 'WonGiveaways'];

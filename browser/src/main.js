@@ -73,21 +73,6 @@ window.interact = interact;
 			switch (message.action) {
 				case 'notify-tds':
 					Shared.esgst.modules.generalThreadSubscription.updateItems(message.values);
-
-					break;
-				case 'isFirstRun':
-					if (esgst.bodyLoaded) {
-						Shared.common.checkNewVersion(true);
-					} else {
-						esgst.isFirstRun = true;
-					}
-					break;
-				case 'isUpdate':
-					if (esgst.bodyLoaded) {
-						Shared.common.checkNewVersion(false, true);
-					} else {
-						esgst.isUpdate = true;
-					}
 					break;
 				case 'storageChanged':
 					Shared.common.getChanges(message.values.changes, message.values.areaName);
@@ -301,9 +286,7 @@ window.interact = interact;
 
 		await common.addHeaderMenu();
 
-		common.checkNewVersion(esgst.isFirstRun, esgst.isUpdate);
-		esgst.isFirstRun = false;
-		esgst.isUpdate = false;
+		common.checkNewVersion();
 
 		await MessageNotifier.notify(esgst.notifiedMessages);
 
