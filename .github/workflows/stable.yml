@@ -10,6 +10,18 @@ jobs:
     name: Build, test and release
     runs-on: ubuntu-latest
     steps:
+    - name: Check if tag was pushed from release
+        run: |
+          REF=${{ github.ref }}
+          URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/releases/tags/${REF##*/}"
+          StatusCode=$(curl -o -I -L -s -w "%{http_code}" -X GET -G $URL)
+          echo $StatusCode
+          if [[ "$StatusCode" == 200 ]]; then
+            echo "Tag was pushed from release!"
+            exit 0
+          else
+            echo "Tag was not pushed from release!"
+          fi
     - name: Check out repository
       uses: actions/checkout@v2
     - name: Setup Node
