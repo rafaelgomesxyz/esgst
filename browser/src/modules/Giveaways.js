@@ -577,7 +577,7 @@ class Giveaways extends Module {
 	}
 
 	giveaways_reorder(giveaway) {
-		if (giveaway.columns || giveaway.gvIcons) {
+		if ((giveaway.columns && !Shared.common.isGiveawayColumnsDefault) || (giveaway.gvIcons && !Shared.common.isGiveawayColumnsGvDefault)) {
 			for (const id of (giveaway.gvIcons ? Settings.get('giveawayColumns_gv') : Settings.get('giveawayColumns'))) {
 				if (id === 'startTime' && Shared.common.isCurrentPath('Archive')) {
 					continue;
@@ -606,7 +606,7 @@ class Giveaways extends Module {
 				giveaway.columns.appendChild(giveaway.avatar);
 			}
 		}
-		if (giveaway.panel) {
+		if (giveaway.panel && ((!giveaway.gvIcons && !Shared.common.isGiveawayPanelDefault) || (giveaway.gvIcons && !Shared.common.isGiveawayPanelGvDefault))) {
 			for (const id of (giveaway.gvIcons ? Settings.get('giveawayPanel_gv') : Settings.get('giveawayPanel'))) {
 				const elements = giveaway.outerWrap.querySelectorAll(`[data-draggable-id="${id}"]`);
 				for (const element of elements) {
@@ -629,7 +629,7 @@ class Giveaways extends Module {
 				}
 			}
 		}
-		if (giveaway.heading) {
+		if (giveaway.heading && ((!giveaway.gvIcons && !Shared.common.isGiveawayHeadingDefault) || (giveaway.gvIcons && !Shared.common.isGiveawayHeadingGvDefault))) {
 			for (const id of (giveaway.gvIcons ? Settings.get('giveawayHeading_gv') : Settings.get('giveawayHeading'))) {
 				const elements = giveaway.outerWrap.querySelectorAll(`[data-draggable-id="${id}"]`);
 				for (const element of elements) {
@@ -651,7 +651,7 @@ class Giveaways extends Module {
 				}
 			}
 		}
-		if (giveaway.links) {
+		if (giveaway.links && ((!giveaway.gvIcons && !Shared.common.isGiveawayLinksDefault) || (giveaway.gvIcons && !Shared.common.isGiveawayLinksGvDefault))) {
 			for (const id of (giveaway.gvIcons ? Settings.get('giveawayLinks_gv') : Settings.get('giveawayLinks'))) {
 				const elements = giveaway.outerWrap.querySelectorAll(`[data-draggable-id="${id}"]`);
 				for (const element of elements) {
@@ -673,7 +673,7 @@ class Giveaways extends Module {
 				}
 			}
 		}
-		if (giveaway.extraPanel) {
+		if (giveaway.extraPanel && ((!giveaway.gvIcons && !Shared.common.isGiveawayExtraPanelDefault) || (giveaway.gvIcons && !Shared.common.isGiveawayExtraPanelGvDefault))) {
 			for (const id of (giveaway.gvIcons ? Settings.get('giveawayExtraPanel_gv') : Settings.get('giveawayExtraPanel'))) {
 				const elements = giveaway.outerWrap.querySelectorAll(`[data-draggable-id="${id}"]`);
 				for (const element of elements) {
