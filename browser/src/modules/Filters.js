@@ -313,7 +313,7 @@ class Filters extends Module {
 		if (!obj.popup && !Shared.esgst.hasAddedFilterContainer) {
 			Shared.esgst.hasAddedFilterContainer = true;
 
-			this.esgst.commentsTop += 23;
+			this.esgst.commentsTop += 24;
 		}
 
 		const box = obj.container.firstElementChild;

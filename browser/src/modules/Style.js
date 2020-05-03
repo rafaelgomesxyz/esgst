@@ -1389,14 +1389,9 @@ function addStyle() {
 
 	.esgst-fmph {
 		background-color: var(--esgst-body-bg-color);
-		margin-top: -5px;
 		padding: 5px 0;
 		position: sticky;
 		z-index: 998;
-	}
-
-	.esgst-fmph + * {
-		margin-top: -5px;
 	}
 
 	.esgst-ff {
@@ -1993,7 +1988,6 @@ function addStyle() {
 	}
 
 	.esgst-gf-container {
-		position: sticky;
 		text-align: left;
 		z-index: 998;
 	}
