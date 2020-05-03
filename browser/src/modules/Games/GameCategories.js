@@ -3211,10 +3211,12 @@ class GamesGameCategories extends Module {
 					if (reducedCV || noCV) {
 						let original = '';
 						if (reducedCV && noCV) {
-							if (games[i].startTime < reducedCV) {
+							if (games[i].startTime < reducedCV && games[i].startTime < noCV) {
 								original = 'fcv';
-							} else if (games[i].startTime >= reducedCV && games[i].startTime < noCV) {
+							} else if (games[i].startTime < noCV) {
 								original = 'rcv';
+							} else if (games[i].startTime < reducedCV) {
+								original = 'ncv';
 							}
 						} else if (games[i].startTime < reducedCV || games[i].startTime < noCV) {
 							original = 'fcv';
