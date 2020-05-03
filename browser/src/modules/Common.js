@@ -2035,9 +2035,15 @@ class Common extends Module {
 		let numDeals = 0;
 		let filteredDiscussions = 0;
 		let filteredDeals = 0;
+		let discussionsIndex = 1;
+		let dealsIndex = 0;
+		if (Settings.get('oadd') || Settings.get('rad')) {
+			discussionsIndex = 0;
+			dealsIndex = 1;
+		}
 		if (refresh) {
-			rows[0].innerHTML = '';
-			rows[1].innerHTML = '';
+			rows[discussionsIndex].innerHTML = '';
+			rows[dealsIndex].innerHTML = '';
 		} else {
 			let preset = null;
 			if (Settings.get('df') && Settings.get('df_m') && Settings.get('df_enable')) {
@@ -2053,7 +2059,7 @@ class Common extends Module {
 			}
 			if (preset) {
 				const filters = this.esgst.modules.discussionsDiscussionFilters.getFilters();
-				(await this.esgst.modules.discussions.discussions_get(rows[0], true)).forEach(discussion => {
+				(await this.esgst.modules.discussions.discussions_get(rows[discussionsIndex], true)).forEach(discussion => {
 					if (!this.esgst.modules.discussionsDiscussionFilters.filters_filterItem(filters, discussion, preset.rules)) {
 						// @ts-ignore
 						discussion.outerWrap.remove();
@@ -2062,7 +2068,7 @@ class Common extends Module {
 						numDiscussions += 1;
 					}
 				});
-				(await this.esgst.modules.discussions.discussions_get(rows[1], true)).forEach(deal => {
+				(await this.esgst.modules.discussions.discussions_get(rows[dealsIndex], true)).forEach(deal => {
 					if (!this.esgst.modules.discussionsDiscussionFilters.filters_filterItem(filters, deal, preset.rules)) {
 						// @ts-ignore
 						deal.outerWrap.remove();
@@ -2072,8 +2078,8 @@ class Common extends Module {
 					}
 				});
 			} else {
-				numDiscussions = (await this.esgst.modules.discussions.discussions_get(rows[0], true)).length;
-				numDeals = (await this.esgst.modules.discussions.discussions_get(rows[1], true)).length;
+				numDiscussions = (await this.esgst.modules.discussions.discussions_get(rows[discussionsIndex], true)).length;
+				numDeals = (await this.esgst.modules.discussions.discussions_get(rows[dealsIndex], true)).length;
 			}
 		}
 		if (numDiscussions < 5 || numDeals < 5) {
@@ -2107,7 +2113,7 @@ class Common extends Module {
 			while (numDiscussions < 5 && i > -1) {
 				if (!preset || this.esgst.modules.discussionsDiscussionFilters.filters_filterItem(filters, revisedElements[i], preset.rules)) {
 					this.setMissingDiscussion(revisedElements[i]);
-					rows[0].appendChild(revisedElements[i].outerWrap);
+					rows[discussionsIndex].appendChild(revisedElements[i].outerWrap);
 					numDiscussions += 1;
 				}
 				i -= 1;
@@ -2118,7 +2124,7 @@ class Common extends Module {
 				if (!preset || this.esgst.modules.discussionsDiscussionFilters.filters_filterItem(filters, elements[i], preset.rules)) {
 					this.setMissingDiscussion(elements[i]);
 					// @ts-ignore
-					rows[1].appendChild(elements[i].outerWrap);
+					rows[dealsIndex].appendChild(elements[i].outerWrap);
 					numDeals += 1;
 				}
 				i -= 1;

@@ -6,6 +6,7 @@ import { generalVisibleFullLevel } from './General/VisibleFullLevel';
 import { giveawaysBlacklistGiveawayLoader } from './Giveaways/BlacklistGiveawayLoader';
 import { generalNarrowSidebar } from './General/NarrowSidebar';
 import { generalHiddenCommunityPoll } from './General/HiddenCommunityPoll';
+import { discussionsReversedActiveDiscussions } from './Discussions/ReversedActiveDiscussions';
 import { discussionsOldActiveDiscussionsDesign } from './Discussions/OldActiveDiscussionsDesign';
 import { discussionsActiveDiscussionsOnTopSidebar } from './Discussions/ActiveDiscussionsOnTopSidebar';
 import { generalElementFilters } from './General/ElementFilters';
@@ -174,6 +175,7 @@ const modules = {
 	giveawaysVisibleInviteOnlyGiveaways,
 	generalNarrowSidebar,
 	generalHiddenCommunityPoll,
+	discussionsReversedActiveDiscussions,
 	discussionsOldActiveDiscussionsDesign,
 	discussionsActiveDiscussionsOnTopSidebar,
 	generalElementFilters,
