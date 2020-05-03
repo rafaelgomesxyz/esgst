@@ -45,13 +45,13 @@ class PersistentStorage {
 		if (Object.keys(storage).length === 0) {
 			Shared.esgst.isFirstRun = true;
 			Shared.esgst.version = manifest.version;
-			toSet.currentVersion = Shared.esgst.version;
+			await Shared.common.setValue('currentVersion', Shared.esgst.version);
 		} else {
 			Shared.esgst.version = storage.currentVersion;
 			if (Shared.esgst.version !== manifest.version) {
 				Shared.esgst.isUpdate = true;
 				Shared.esgst.version = manifest.version;
-				toSet.currentVersion = Shared.esgst.version;
+				await Shared.common.setValue('currentVersion', Shared.esgst.version);
 			}
 		}
 		Shared.esgst.versionName = manifest.version_name || manifest.version;
