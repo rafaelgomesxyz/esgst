@@ -1,0 +1,26 @@
+name: Stable Release
+
+on:
+  push:
+    tags:
+      - v*
+
+jobs:
+  stable:
+    name: Build, test and release
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v2
+    - name: Setup Node
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+    - name: Install pnpm
+      run: npm install -g pnpm
+    - name: Install dependencies
+      run: cd ./browser && pnpm install
+    - name: Build
+      run: cd ./browser && pnpm run build
+    - name: Release
+      run: cd ./browser && pnpm run generate-release token=${{ secrets.GH_TOKEN }}
