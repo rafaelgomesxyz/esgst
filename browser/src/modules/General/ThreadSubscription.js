@@ -53,15 +53,22 @@ class GeneralThreadSubscription extends Module {
 
 		this.forumCategories = {
 			'': 'All',
+			'addons-tools': 'Add-ons / Tools',
 			'announcements': 'Announcements',
 			'bugs-suggestions': 'Bugs / Suggestions',
 			'deals': 'Deals',
+			'game-showcase': 'Game Showcase',
 			'general': 'General',
 			'group-recruitment': 'Group Recruitment',
+			'hardware': 'Hardware',
+			'help': 'Help',
 			'lets-play-together': 'Let\'s Play Together',
-			'off-topic': 'Off-Topic',
-			'puzzles': 'Puzzles',
-			'uncategorized': 'Uncategorized'
+			'movies-tv': 'Movies / TV',
+			'off-topic': 'Off Topic',
+			'puzzles-events': 'Puzzles / Events',
+			'uncategorized': 'Uncategorized',
+			'user-projects': 'User Projects',
+			'whitelist-recruitment': 'Whitelist Recruitment',
 		};
 	}
 

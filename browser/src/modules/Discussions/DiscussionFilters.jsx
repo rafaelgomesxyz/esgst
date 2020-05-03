@@ -121,6 +121,15 @@ class DiscussionsDiscussionFilters extends Filters {
 							name: 'Comments',
 							sg: true
 						},
+						df_addonsTools: {
+							description: [
+								['ul', [
+									['li', 'Allows you to filter discussions categorized as "Add-ons / Tools".']
+								]]
+							],
+							name: 'Add-ons / Tools',
+							sg: true
+						},
 						df_announcements: {
 							description: [
 								['ul', [
@@ -148,6 +157,15 @@ class DiscussionsDiscussionFilters extends Filters {
 							name: 'Deals',
 							sg: true
 						},
+						df_gameShowcase: {
+							description: [
+								['ul', [
+									['li', 'Allows you to filter discussions categorized as "Game Showcase".']
+								]]
+							],
+							name: 'Game Showcase',
+							sg: true
+						},
 						df_general: {
 							description: [
 								['ul', [
@@ -166,6 +184,24 @@ class DiscussionsDiscussionFilters extends Filters {
 							name: 'Group Recruitment',
 							sg: true
 						},
+						df_hardware: {
+							description: [
+								['ul', [
+									['li', 'Allows you to filter discussions categorized as "Hardware".']
+								]]
+							],
+							name: 'Hardware',
+							sg: true
+						},
+						df_help: {
+							description: [
+								['ul', [
+									['li', 'Allows you to filter discussions categorized as "Help".']
+								]]
+							],
+							name: 'Help',
+							sg: true
+						},
 						df_letsPlayTogether: {
 							description: [
 								['ul', [
@@ -175,22 +211,31 @@ class DiscussionsDiscussionFilters extends Filters {
 							name: 'Let\'s Play Together',
 							sg: true
 						},
+						df_moviesTV: {
+							description: [
+								['ul', [
+									['li', 'Allows you to filter discussions categorized as "Movies / TV".']
+								]]
+							],
+							name: 'Movies / TV',
+							sg: true
+						},
 						df_offTopic: {
 							description: [
 								['ul', [
-									['li', 'Allows you to filter discussions categorized as "Off-Topic".']
+									['li', 'Allows you to filter discussions categorized as "Off Topic".']
 								]]
 							],
-							name: 'Off-Topic',
+							name: 'Off Topic',
 							sg: true
 						},
-						df_puzzles: {
+						df_puzzlesEvents: {
 							description: [
 								['ul', [
-									['li', 'Allows you to filter discussions categorized as "Puzzles".']
+									['li', 'Allows you to filter discussions categorized as "Puzzles / Events".']
 								]]
 							],
-							name: 'Puzzles',
+							name: 'Puzzles / Events',
 							sg: true
 						},
 						df_uncategorized: {
@@ -200,6 +245,24 @@ class DiscussionsDiscussionFilters extends Filters {
 								]]
 							],
 							name: 'Uncategorized',
+							sg: true
+						},
+						df_userProjects: {
+							description: [
+								['ul', [
+									['li', 'Allows you to filter discussions categorized as "User Projects".']
+								]]
+							],
+							name: 'User Projects',
+							sg: true
+						},
+						df_whitelistRecruitment: {
+							description: [
+								['ul', [
+									['li', 'Allows you to filter discussions categorized as "Whitelist Recruitment".']
+								]]
+							],
+							name: 'Whitelist Recruitment',
 							sg: true
 						},
 						df_created: {
@@ -469,6 +532,11 @@ class DiscussionsDiscussionFilters extends Filters {
 				name: 'Comments',
 				type: 'integer'
 			},
+			addonsTools: {
+				check: true,
+				name: 'Add-ons / Tools',
+				type: 'boolean'
+			},
 			announcements: {
 				check: true,
 				name: 'Announcements',
@@ -484,6 +552,11 @@ class DiscussionsDiscussionFilters extends Filters {
 				name: 'Deals',
 				type: 'boolean'
 			},
+			gameShowcase: {
+				check: true,
+				name: 'Game / Showcase',
+				type: 'boolean'
+			},
 			general: {
 				check: true,
 				name: 'General',
@@ -494,24 +567,49 @@ class DiscussionsDiscussionFilters extends Filters {
 				name: 'Group Recruitment',
 				type: 'boolean'
 			},
+			hardware: {
+				check: true,
+				name: 'Hardware',
+				type: 'boolean'
+			},
+			help: {
+				check: true,
+				name: 'Help',
+				type: 'boolean'
+			},
 			letsPlayTogether: {
 				check: true,
 				name: 'Let\'s Play Together',
 				type: 'boolean'
 			},
-			offTopic: {
+			moviesTV: {
 				check: true,
-				name: 'Off-Topic',
+				name: 'Movies / TV',
 				type: 'boolean'
 			},
-			puzzles: {
+			offTopic: {
 				check: true,
-				name: 'Puzzles',
+				name: 'Off Topic',
+				type: 'boolean'
+			},
+			puzzlesEvents: {
+				check: true,
+				name: 'Puzzles / Events',
 				type: 'boolean'
 			},
 			uncategorized: {
 				check: true,
 				name: 'Uncategorized',
+				type: 'boolean'
+			},
+			userProjects: {
+				check: true,
+				name: 'User Projects',
+				type: 'boolean'
+			},
+			whitelistRecruitment: {
+				check: true,
+				name: 'Whitelist Recruitment',
 				type: 'boolean'
 			},
 			created: {

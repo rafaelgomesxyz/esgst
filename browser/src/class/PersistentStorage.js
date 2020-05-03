@@ -7,7 +7,7 @@ import { LocalStorage } from './LocalStorage';
 
 class PersistentStorage {
 	constructor() {
-		this.currentVersion = 8;
+		this.currentVersion = 9;
 
 		this.defaultValues = {
 			decryptedGiveaways: '{}',
@@ -535,11 +535,86 @@ class PersistentStorage {
 				const wishlistGiveawaysIndex = settings.chfl_giveaways_sg.map((x, i) => ((typeof x === 'string' && x) || x.id) === 'browseWishlistGiveaways' ? i : null).filter(x => Utils.isSet(x))[0];
 
 				if (Utils.isSet(wishlistGiveawaysIndex)) {
-					settings.chfl_giveaways_sg.splice(wishlistGiveawaysIndex + 1, 0, 
-						{id: `browseFollowedGiveaways`, name: 'Browse Followed Giveaways', url: `/giveaways/search?esgst=fgp`});
+					settings.chfl_giveaways_sg.splice(wishlistGiveawaysIndex + 1, 0, {id: `browseFollowedGiveaways`, name: 'Browse Followed Giveaways', url: `/giveaways/search?esgst=fgp`});
 				} else {
-					settings.chfl_giveaways_sg.push(
-						{id: `browseFollowedGiveaways`, name: 'Browse Followed Giveaways', url: `/giveaways/search?esgst=fgp`});
+					settings.chfl_giveaways_sg.push({id: `browseFollowedGiveaways`, name: 'Browse Followed Giveaways', url: `/giveaways/search?esgst=fgp`});
+				}
+
+				settingsChanged = true;
+			}
+
+			if (settingsChanged) {
+				toSet.settings = JSON.stringify(settings);
+				storage.settings = toSet.settings;
+			}
+		}
+
+		if (version < 9) {
+			window.console.log('Upgrading storage to version 9...');
+
+			let settingsChanged = false;
+
+			const settings = JSON.parse(storage.settings);
+
+			if (Utils.isSet(settings.chfl_discussions_sg)) {
+				settings.chfl_discussions_sg = settings.chfl_discussions_sg.map(item => {
+					if (typeof item === 'string') {
+						return item;
+					}
+					if (item.id === 'browseOff') {
+						item.name = 'Browse Off Topic';
+						return item;
+					}
+					if (item.id === 'browsePuzzles') {
+						item.name = 'Browse Puzzles / Events';
+						item.url = '/discussions/puzzles-events';
+						return item;
+					}
+					return item;
+				});
+
+				const newItems = [
+					{
+						reference: 'browseAnnouncements',
+						position: 'before',
+						item: {id: 'browseAddonsTools', name: 'Browse Add-ons / Tools', url: '/discussions/addons-tools'},
+					},
+					{
+						reference: 'browseDeals',
+						position: 'after',
+						item: {id: 'browseGameShowcase', name: 'Browse Game Showcase', url: '/discussions/game-showcase'},
+					},
+					{
+						reference: 'browseGroupRecruitment',
+						position: 'after',
+						items: [
+							{id: 'browseHardware', name: 'Browse Hardware', url: '/discussions/hardware'},
+							{id: 'browseHelp', name: 'Browse Help', url: '/discussions/help'},
+						],
+					},
+					{
+						reference: 'browseLet',
+						position: 'after',
+						item: {id: 'browseMoviesTv', name: 'Browse Movies / TV', url: '/discussions/movies-tv'},
+					},
+					{
+						reference: 'browseUncategorized',
+						position: 'after',
+						items: [
+							{id: 'browseUserProjects', name: 'Browse User Projects', url: '/discussions/user-projects'},
+							{id: 'browseWhitelistRecruitment', name: 'Browse Whitelist / Recruitment', url: '/discussions/whitelist-recruitment'},
+						],
+					},
+				];
+
+				for (const item of newItems) {
+					const index = settings.chfl_discussions_sg.map((x, i) => ((typeof x === 'string' && x) || x.id) === item.reference ? i : null).filter(x => Utils.isSet(x))[0];
+
+					if (Utils.isSet(index)) {
+						settings.chfl_discussions_sg.splice(index + 1, 0, ...(item.item ? [item.item] : item.items));
+					} else {
+						settings.chfl_discussions_sg.push(...(item.item ? [item.item] : item.items));
+					}
 				}
 
 				settingsChanged = true;

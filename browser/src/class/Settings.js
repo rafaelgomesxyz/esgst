@@ -239,15 +239,22 @@ class _Settings {
 				'createANewDiscussion',
 				'viewCreated',
 				'viewBookmarked',
+				{id: 'browseAddonsTools', name: 'Browse Add-ons / Tools', url: '/discussions/addons-tools'},
 				{id: 'browseAnnouncements', name: 'Browse Announcements', url: '/discussions/announcements'},
 				{id: 'browseBugs', name: 'Browse Bugs / Suggestions', url: '/discussions/bugs-suggestions'},
 				{id: 'browseDeals', name: 'Browse Deals', url: '/discussions/deals'},
+				{id: 'browseGameShowcase', name: 'Browse Game Showcase', url: '/discussions/game-showcase'},
 				{id: 'browseGeneral', name: 'Browse General', url: '/discussions/general'},
 				{id: 'browseGroupRecruitment', name: 'Browse Group Recruitment', url: '/discussions/group-recruitment'},
+				{id: 'browseHardware', name: 'Browse Hardware', url: '/discussions/hardware'},
+				{id: 'browseHelp', name: 'Browse Help', url: '/discussions/help'},
 				{id: 'browseLet', name: 'Browse Let\'s Play Together', url: '/discussions/lets-play-together'},
-				{id: 'browseOff', name: 'Browse Off-Topic', url: '/discussions/off-topic'},
-				{id: 'browsePuzzles', name: 'Browse Puzzles', url: '/discussions/puzzles'},
-				{id: 'browseUncategorized', name: 'Browse Uncategorized', url: '/discussions/uncategorized'}
+				{id: 'browseMoviesTv', name: 'Browse Movies / TV', url: '/discussions/movies-tv'},
+				{id: 'browseOff', name: 'Browse Off Topic', url: '/discussions/off-topic'},
+				{id: 'browsePuzzles', name: 'Browse Puzzles / Events', url: '/discussions/puzzles-events'},
+				{id: 'browseUncategorized', name: 'Browse Uncategorized', url: '/discussions/uncategorized'},
+				{id: 'browseUserProjects', name: 'Browse User Projects', url: '/discussions/user-projects'},
+				{id: 'browseWhitelistRecruitment', name: 'Browse Whitelist / Recruitment', url: '/discussions/whitelist-recruitment'},
 			],
 			chfl_support_sg: [
 				'createANewTicket',
@@ -757,6 +764,7 @@ class _Settings {
 		};
 
 		this.oldValues = {
+			df_puzzles_sg: 'df_puzzlesEvents_sg',
 			gc_o_a_sg: () => this.settings.gc_o_altAccounts && this.settings.gc_o_altAccounts.length > 0 ? 1 : 0,
 			idb_sg: 'dh_sg',
 			idb_t_sg: 'dh_t_sg',
