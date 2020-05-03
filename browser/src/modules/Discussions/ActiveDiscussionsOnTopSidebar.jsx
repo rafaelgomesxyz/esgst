@@ -146,13 +146,24 @@ class DiscussionsActiveDiscussionsOnTopSidebar extends Module {
 						deals = deals.firstElementChild.firstElementChild;
 					}
 				} else {
+					let discussionsIndex = 1;
+					let dealsIndex = 0;
+					if (Settings.get('rad')) {
+						discussionsIndex = 0;
+						dealsIndex = 1;
+					}
 					if (refresh) {
 						rows = document.getElementsByClassName('table');
-						discussions = rows[0];
-						deals = rows[1];
+						discussions = rows[discussionsIndex];
+						deals = rows[dealsIndex];
 					} else {
-						discussions = this.esgst.activeDiscussions.firstElementChild.firstElementChild.lastElementChild;
-						deals = this.esgst.activeDiscussions.lastElementChild.firstElementChild.lastElementChild;
+						discussions = this.esgst.activeDiscussions.lastElementChild.firstElementChild.lastElementChild;
+						deals = this.esgst.activeDiscussions.firstElementChild.firstElementChild.lastElementChild;
+						if (Settings.get('rad')) {
+							const temp = discussions;
+							discussions = deals;
+							deals = temp;
+						}
 					}
 					elements = discussions.getElementsByClassName('table__row-outer-wrap');
 					for (i = 0, n = elements.length; i < n; ++i) {
