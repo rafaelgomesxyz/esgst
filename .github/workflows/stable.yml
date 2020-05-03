@@ -18,7 +18,7 @@ jobs:
         echo $StatusCode
         if [[ "$StatusCode" == 200 ]]; then
           echo "Tag was pushed from release!"
-          exit 0
+          exit 1
         else
           echo "Tag was not pushed from release!"
         fi
