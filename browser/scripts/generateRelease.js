@@ -73,12 +73,12 @@ async function generateChangelog() {
 }
 
 async function generateRelease() {
-	if (args.alpha || args.beta) {
+	if (args.beta) {
 		const releases = await octokit.repos.listReleases(Object.assign({}, defaultParams));
 
 		const preRelease = releases.data.filter(release => release.prerelease)[0];
 
-		if (preRelease && ((args.alpha && preRelease.tag_name.includes('alpha')) || (args.beta && preRelease.tag_name.includes('beta')))) {
+		if (preRelease) {
 			await octokit.repos.deleteRelease(Object.assign({}, defaultParams, {
 				release_id: preRelease.id
 			}));
@@ -89,12 +89,12 @@ async function generateRelease() {
 		}
 	}
 
-	const body = args.stable ? (await generateChangelog()) : '';
+	const body = args.beta ? '' : (await generateChangelog());
 
 	const release = await octokit.repos.createRelease(Object.assign({}, defaultParams, {
 		body,
 		name: `v${packageJson.version}`,
-		prerelease: !args.stable,
+		prerelease: !!args.beta,
 		tag_name: `v${packageJson.version}`
 	}));
 
