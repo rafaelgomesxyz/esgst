@@ -15,6 +15,7 @@ import { LocalStorage } from '../class/LocalStorage';
 class SettingsModule {
 	constructor() {
 		this.toSave = {};
+		this.requiredPermissions = {};
 		this.collapseButtons = [];
 	}
 
@@ -287,6 +288,38 @@ class SettingsModule {
 			title1: 'Save Changes',
 			title2: 'Saving...',
 			callback1: async () => {
+				const requiredPermissions = new Set();
+				for (const featureKey of Object.keys(this.requiredPermissions)) {
+					for (const permissionKey of this.requiredPermissions[featureKey]) {
+						requiredPermissions.add(permissionKey);
+					}
+				}
+				const missingRequiredPermissions = [];
+				for (const permissionKey of requiredPermissions) {
+					if (!(await permissions.contains([[permissionKey]]))) {
+						const permission = permissions.permissions[permissionKey];
+						missingRequiredPermissions.push(...permission.values);
+					}
+				}
+				if (missingRequiredPermissions.length > 0) {
+					const permissionsPopup = new Popup({
+						addScrollable: true,
+						icon: 'fa-exclamation',
+						isTemp: true,
+						title: [
+							'Some of the features you enabled require permissions in order to work. Go ',
+							['a', { class: 'esgst-bold table__column__secondary-link', href: browser.runtime.getURL('permissions.html'), target: '_blank' }, 'here'],
+							' to grant them. Specifically, you need to grant these permissions: '
+						],
+					});
+					permissionsPopup.getScrollable([
+						['div', { class: 'markdown' }, [
+							['ul', missingRequiredPermissions.map(value => `<li>${value}</li>`)]
+						]]
+					]);
+					permissionsPopup.open();
+					this.requiredPermissions = {};
+				}
 				await Shared.common.lockAndSaveSettings(this.toSave);
 				this.toSave = {};
 				if (isPopup) {
@@ -299,6 +332,18 @@ class SettingsModule {
 		Context.addEventListener('click', event => this.loadFeatureDetails(null, popup && popup.scrollable.offsetTop, event));
 		let SMMenu = Context.getElementsByClassName('esgst-settings-menu')[0];
 		let i, type;
+		for (const permissionKey of Object.keys(permissions.permissions)) {
+			const permission = permissions.permissions[permissionKey];
+			for (const featureKey of Object.keys(permission.messages)) {
+				const feature = Shared.esgst.featuresById[featureKey];
+				if (feature) {
+					if (!feature.permissions) {
+						feature.permissions = [];
+					}
+					feature.permissions.push(permissionKey);
+				}
+			}
+		}
 		i = 1;
 		if (browser.runtime.getURL) {
 			const permissionsSection = this.createMenuSection(SMMenu, null, i, 'Permissions', 'permissions');
@@ -1319,6 +1364,9 @@ class SettingsModule {
 						}
 					}
 				}
+				if (feature.permissions) {
+					this.requiredPermissions[id] = feature.permissions;
+				}
 				this.loadFeatureDetails(id, popup && popup.scrollable.offsetTop);
 				if (feature.sgFeatureSwitch) {
 					feature.sgFeatureSwitch.enable();
@@ -1341,6 +1389,9 @@ class SettingsModule {
 				}
 			};
 			sgSwitch.onDisabled = () => {
+				if (feature.permissions) {
+					delete this.requiredPermissions[id];
+				}
 				this.loadFeatureDetails(id, popup && popup.scrollable.offsetTop);
 				if (feature.sgFeatureSwitch) {
 					feature.sgFeatureSwitch.disable();
@@ -1382,6 +1433,9 @@ class SettingsModule {
 						}
 					}
 				}
+				if (feature.permissions) {
+					this.requiredPermissions[id] = feature.permissions;
+				}
 				this.loadFeatureDetails(id, popup && popup.scrollable.offsetTop);
 				if (feature.stFeatureSwitch) {
 					feature.stFeatureSwitch.enable();
@@ -1404,6 +1458,9 @@ class SettingsModule {
 				}
 			};
 			stSwitch.onDisabled = () => {
+				if (feature.permissions) {
+					delete this.requiredPermissions[id];
+				}
 				this.loadFeatureDetails(id, popup && popup.scrollable.offsetTop);
 				if (feature.stFeatureSwitch) {
 					feature.stFeatureSwitch.disable();
@@ -1445,6 +1502,9 @@ class SettingsModule {
 						}
 					}
 				}
+				if (feature.permissions) {
+					this.requiredPermissions[id] = feature.permissions;
+				}
 				this.loadFeatureDetails(id, popup && popup.scrollable.offsetTop);
 				if (feature.sgtoolsFeatureSwitch) {
 					feature.sgtoolsFeatureSwitch.enable();
@@ -1467,6 +1527,9 @@ class SettingsModule {
 				}
 			};
 			sgtoolsSwitch.onDisabled = () => {
+				if (feature.permissions) {
+					delete this.requiredPermissions[id];
+				}
 				this.loadFeatureDetails(id, popup && popup.scrollable.offsetTop);
 				if (feature.sgtoolsFeatureSwitch) {
 					feature.sgtoolsFeatureSwitch.disable();
