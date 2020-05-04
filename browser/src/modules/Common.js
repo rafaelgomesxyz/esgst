@@ -525,8 +525,8 @@ class Common extends Module {
 		await this.esgst.modules.games.games_load(document, true);
 	}
 
-	async addNoCvGames(games, event) {
-		if (!(await permissions.requestUi([['server']], 'ncv', !event))) {
+	async addNoCvGames(games) {
+		if (!(await permissions.contains([['server']]))) {
 			return;
 		}
 

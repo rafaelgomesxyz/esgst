@@ -7,7 +7,6 @@ import { setSync } from './Sync';
 import { elementBuilder } from '../lib/SgStUtils/ElementBuilder';
 import { Settings } from '../class/Settings';
 import { permissions } from '../class/Permissions';
-import { Table } from '../class/Table';
 import { browser } from '../browser';
 import { Logger } from '../class/Logger';
 import { DOM } from '../class/DOM';
@@ -16,8 +15,6 @@ import { LocalStorage } from '../class/LocalStorage';
 class SettingsModule {
 	constructor() {
 		this.toSave = {};
-		this.grantedPermissions = new Set();
-		this.deniedPermissions = new Set();
 		this.collapseButtons = [];
 	}
 
@@ -47,12 +44,6 @@ class SettingsModule {
 		}
 		this.toSave[key] = value;
 		Settings.set(key, value);
-	}
-
-	preSavePermissions(permissionKeys) {
-		for (const key of permissionKeys) {
-			this.grantedPermissions.add(key);
-		}
 	}
 
 	loadMenu(isPopup) {
@@ -296,8 +287,6 @@ class SettingsModule {
 			title1: 'Save Changes',
 			title2: 'Saving...',
 			callback1: async () => {
-				await permissions.request(Array.from(this.grantedPermissions));
-				await permissions.remove(Array.from(this.deniedPermissions));
 				await Shared.common.lockAndSaveSettings(this.toSave);
 				this.toSave = {};
 				if (isPopup) {
@@ -311,6 +300,13 @@ class SettingsModule {
 		let SMMenu = Context.getElementsByClassName('esgst-settings-menu')[0];
 		let i, type;
 		i = 1;
+		if (browser.runtime.getURL) {
+			const permissionsSection = this.createMenuSection(SMMenu, null, i, 'Permissions', 'permissions');
+			permissionsSection.lastElementChild.innerHTML = `
+				Go <a class="esgst-bold table__column__secondary-link" href="${browser.runtime.getURL('permissions.html')}" target="_blank">here</a> to grant / deny permissions.
+			`;
+			i += 1;
+		}
 		for (type in Shared.esgst.features) {
 			if (Shared.esgst.features.hasOwnProperty(type)) {
 				if (type !== 'trades' || Settings.get('esgst_st') || Settings.get('esgst_sgtools')) {
@@ -361,9 +357,6 @@ class SettingsModule {
 		}
 		const elementOrdering = this.createMenuSection(SMMenu, null, i, 'Element Ordering', 'element_ordering');
 		this.setElementOrderingSection(elementOrdering.lastElementChild);
-		i += 1;
-		const permissionsSection = this.createMenuSection(SMMenu, null, i, 'Permissions', 'permissions');
-		this.setPermissionsSection(permissionsSection.lastElementChild);
 		i += 1;
 		this.createMenuSection(SMMenu, [{
 			attributes: {
@@ -1091,45 +1084,6 @@ class SettingsModule {
 		Shared.common.reorderButtons(obj);
 	}
 
-	async setPermissionsSection(context) {
-		const table = new Table([
-			['Granted', { size: 'fill', value: 'Permission' }, { size: 'fill', value: 'Usage' }]
-		]);
-		context.appendChild(table.table);
-		for (const key in permissions.permissions) {
-			const permission = permissions.permissions[key];
-			const toggleSwitch = new ToggleSwitch(null, null, true, '', false, false, '', await permissions.contains([[key]]));
-			toggleSwitch.onEnabled = () => {
-				this.grantedPermissions.add(key);
-				this.deniedPermissions.delete(key);
-			};
-			toggleSwitch.onDisabled = () => {
-				this.grantedPermissions.delete(key);
-				this.deniedPermissions.add(key);
-			};
-			const permissionArray = [];
-			for (const value of permission.values) {
-				permissionArray.push(
-					value,
-					['br']
-				);
-			}
-			const usageArray = [];
-			for (const key in permission.messages) {
-				usageArray.push(
-					permission.messages[key],
-					['br'],
-					['br']
-				);
-			}
-			table.addRow([
-				[ toggleSwitch.switch ],
-				{ alignment: 'left', size: 'fill', value: permissionArray },
-				{ alignment: 'left', size: 'fill', value: usageArray }
-			]);
-		}
-	}
-
 	openPathsPopup(feature, id, name) {
 		feature.id = id;
 		let obj = {
@@ -1365,9 +1319,6 @@ class SettingsModule {
 						}
 					}
 				}
-				if (feature.permissions) {
-					this.preSavePermissions(feature.permissions);
-				}
 				this.loadFeatureDetails(id, popup && popup.scrollable.offsetTop);
 				if (feature.sgFeatureSwitch) {
 					feature.sgFeatureSwitch.enable();
@@ -1431,9 +1382,6 @@ class SettingsModule {
 						}
 					}
 				}
-				if (feature.permissions) {
-					this.preSavePermissions(feature.permissions);
-				}
 				this.loadFeatureDetails(id, popup && popup.scrollable.offsetTop);
 				if (feature.stFeatureSwitch) {
 					feature.stFeatureSwitch.enable();
@@ -1496,9 +1444,6 @@ class SettingsModule {
 							return;
 						}
 					}
-				}
-				if (feature.permissions) {
-					this.preSavePermissions(feature.permissions);
 				}
 				this.loadFeatureDetails(id, popup && popup.scrollable.offsetTop);
 				if (feature.sgtoolsFeatureSwitch) {
@@ -1878,7 +1823,7 @@ class SettingsModule {
 				// noinspection JSIgnoredPromiseFromCall
 				Shared.common.setThemeVersion(ID, version);
 				button.addEventListener('click', async () => {
-					if (!(await permissions.requestUi([['userStyles']], 'settings'))) {
+					if (!(await permissions.contains([['userStyles']]))) {
 						return;
 					}
 

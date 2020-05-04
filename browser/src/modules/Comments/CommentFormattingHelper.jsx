@@ -576,7 +576,7 @@ class CommentsCommentFormattingHelper extends Module {
 									class="fa fa-upload esgst-clickable"
 									title="Upload image to Imgur and use it"
 									onclick={async () => {
-										if (!(await permissions.requestUi([['imgur']], 'cfh'))) {
+										if (!(await permissions.contains([['imgur']]))) {
 											return;
 										}
 

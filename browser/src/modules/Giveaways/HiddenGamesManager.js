@@ -4,7 +4,6 @@ import { Popup } from '../../class/Popup';
 import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { common } from '../Common';
 import { Settings } from '../../class/Settings';
-import { permissions } from '../../class/Permissions';
 import { Shared } from '../../class/Shared';
 import { DOM } from '../../class/DOM';
 import { Session } from '../../class/Session';
@@ -125,10 +124,6 @@ class GiveawaysHiddenGamesManager extends Module {
 	async startAdding(obj) {
 		if (obj.running) {
 			return;
-		}
-
-		if (Settings.get('permissionsDenied').indexOf('revadike') < 0) {
-			await permissions.requestUi([['revadike']], 'hgm', false, true);
 		}
 
 		obj.running = true;

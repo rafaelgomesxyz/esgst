@@ -298,14 +298,6 @@ PageMod({
 			worker.port.emit(`permissions_contains_${request.uuid}_response`, 'true');
 		});
 
-		worker.port.on('permissions_request', request => {
-			worker.port.emit(`permissions_request_${request.uuid}_response`, 'true');
-		});
-
-		worker.port.on('permissions_remove', request => {
-			worker.port.emit(`permissions_remove_${request.uuid}_response`, 'true');
-		});
-
 		worker.port.on('getBrowserInfo', request => {
 			worker.port.emit(`getBrowserInfo_${request.uuid}_response`, `{ "name": "?" }`);
 		});

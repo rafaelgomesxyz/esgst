@@ -75,7 +75,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 				window.open(`https://www.steamgifts.com/account/settings/profile?esgst=glwc&${parameters}`);
 			});
 		} else if (Shared.common.isCurrentPath('Account') && Shared.esgst.parameters.esgst === 'glwc') {
-			if (!(await permissions.requestUi([['steamApi', 'steamCommunity', 'steamStore']], 'glwc', true))) {
+			if (!(await permissions.contains([['steamApi', 'steamCommunity', 'steamStore']]))) {
 				return;
 			}
 

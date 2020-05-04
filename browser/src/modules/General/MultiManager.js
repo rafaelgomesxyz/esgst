@@ -10,7 +10,6 @@ import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { Utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { Settings } from '../../class/Settings';
-import { permissions } from '../../class/Permissions';
 import { DOM } from '../../class/DOM';
 import { Session } from '../../class/Session';
 
@@ -1097,10 +1096,6 @@ class GeneralMultiManager extends Module {
 	}
 
 	async mm_hideGames(obj, items) {
-		if (Settings.get('permissionsDenied').indexOf('revadike') < 0) {
-			await permissions.requestUi([['revadike']], 'mm', false, true);
-		}
-
 		const values = obj.textAreaGames.value
 			.split(/\n/)
 			.map(x => {

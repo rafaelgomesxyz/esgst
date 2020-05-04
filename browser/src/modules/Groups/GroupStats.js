@@ -89,7 +89,7 @@ class GroupsGroupStats extends Module {
 			return;
 		}
 
-		if ((Settings.get('gs_creationDate') || Settings.get('gs_type')) && !(await permissions.requestUi([['steamCommunity']], 'gs', true))) {
+		if ((Settings.get('gs_creationDate') || Settings.get('gs_type')) && !(await permissions.contains([['steamCommunity']]))) {
 			return;
 		}
 

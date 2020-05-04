@@ -221,7 +221,6 @@ function do_unlock(lock) {
 	}
 }
 
-let permissionRequests = {};
 let tdsData = [];
 
 browser.runtime.onMessage.addListener((request, sender) => {
@@ -242,29 +241,6 @@ browser.runtime.onMessage.addListener((request, sender) => {
 				break;
 			case 'permissions_contains':
 				resolve(await browser.permissions.contains(JSON.parse(request.permissions)));
-				break;
-			case 'permissions_request':
-				try {
-					resolve(await browser.permissions.request(JSON.parse(request.permissions)));
-				} catch (e) {
-					const tab = await browser.tabs.create({
-						url: browser.runtime.getURL('permissions.html')
-					});
-					permissionRequests[tab.id] = { originId: sender.tab.id, permissions: request.permissions, resolve };
-				}
-				break;
-			case 'permissions_request_firefox':
-				resolve(permissionRequests[sender.tab.id].permissions);
-				break;
-			case 'permissions_request_firefox_resolve':
-				await browser.tabs.remove(sender.tab.id);
-				await browser.tabs.update(permissionRequests[sender.tab.id].originId, { active: true });
-				permissionRequests[sender.tab.id].resolve(request.granted);
-				delete permissionRequests[sender.tab.id];
-				resolve();
-				break;
-			case 'permissions_remove':
-				resolve(await browser.permissions.remove(JSON.parse(request.permissions)));
 				break;
 			case 'getBrowserInfo':
 				resolve(JSON.stringify(browserInfo));
