@@ -297,6 +297,13 @@ class Giveaways extends Module {
 			giveaway.entries = parseInt(giveaway.entriesLink.textContent.replace(/,/g, '').match(/\d+/)[0]);
 			giveaway.comments = parseInt(giveaway.commentsLink.textContent.replace(/,/g, '').match(/\d+/)[0]);
 		}
+		if (!giveaway.entriesLink && !wonPath) {
+			const entriesLink = giveaway.innerWrap.querySelectorAll('.table__column--width-small')[createdPath ? 1 : 0];
+			if (entriesLink) {
+				giveaway.entriesLink = entriesLink;
+				giveaway.entries = parseInt(entriesLink.textContent.replace(/,/g, ''));
+			}
+		}
 		giveaway.extraPanel = DOM.build(giveaway.summary, 'beforeEnd', [['div']]);
 		giveaway.panel = giveaway.innerWrap.getElementsByClassName('esgst-giveaway-panel')[0];
 		if (!giveaway.panel && (Settings.get('gwc') || Settings.get('gwr') || Settings.get('gptw') || Settings.get('gp') || Settings.get('elgb') || Settings.get('cewgd'))) {
@@ -356,12 +363,6 @@ class Giveaways extends Module {
 			}]);
 		}
 		giveaway.elgbPanel = giveaway.panel;
-		if (!giveaway.entriesLink && !wonPath) {
-			let ct = giveaway.panel || (Settings.get('gm_enable') && createdPath ? giveaway.innerWrap.firstElementChild.nextElementSibling.nextElementSibling : giveaway.innerWrap.firstElementChild.nextElementSibling);
-			if (ct.nextElementSibling) {
-				giveaway.entries = parseInt(ct.nextElementSibling.textContent.replace(/,/g, ''));
-			}
-		}
 		giveaway.levelColumn = giveaway.outerWrap.querySelector(`.giveaway__column--contributor-level, .featured__column--contributor-level`);
 		giveaway.level = giveaway.levelColumn ? parseInt(giveaway.levelColumn.textContent.match(/\d+/)[0]) : 0;
 		giveaway.inviteOnly = giveaway.outerWrap.querySelector(`.giveaway__column--invite-only, .featured__column--invite-only`);
