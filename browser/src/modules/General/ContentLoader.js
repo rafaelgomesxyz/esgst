@@ -154,9 +154,16 @@ class GeneralContentLoader extends Module {
 				break;
 			case 'cl_ge':
 				targetObjs = items.filter(x => x.entriesLink);
-				if (!main || (!Shared.esgst.createdPath && !Shared.esgst.enteredPath && !Shared.esgst.wonPath)) {
+				if (!main || !Shared.esgst.wonPath) {
 					for (const targetObj of targetObjs) {
-						this.setTrigger(main, id, targetObj, targetObj.entriesLink);
+						let entriesLink = targetObj.entriesLink;
+						if (Shared.esgst.createdPath || Shared.esgst.enteredPath) {
+							entriesLink.innerHTML = `
+								<a class="table__column__secondary-link" href="${targetObj.url}/entries">${entriesLink.textContent}</a>
+							`;
+							entriesLink = entriesLink.firstElementChild;
+						}
+						this.setTrigger(main, id, targetObj, entriesLink);
 					}
 				}
 				break;
