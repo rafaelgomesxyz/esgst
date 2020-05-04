@@ -5191,8 +5191,8 @@ class Common extends Module {
 			]],
 			['div', [
 				['strong', `Paypal: `],
-				'rafael.gssa@gmail.com ',
-				this.getCopyIcon('rafael.gssa@gmail.com')
+				'rafael.gssa@pm.me ',
+				this.getCopyIcon('rafael.gssa@pm.me')
 			]],
 			['div', [
 				['strong', `Bitcoin: `],
