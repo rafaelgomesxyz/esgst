@@ -74,6 +74,10 @@ async function generateChangelog() {
 
 async function generateRelease() {
 	if (args.beta) {
+		if (packageJson.betaVersion === packageJson.version) {
+			return;
+		}
+
 		const releases = await octokit.repos.listReleases(Object.assign({}, defaultParams));
 
 		const preRelease = releases.data.filter(release => release.prerelease)[0];
@@ -137,7 +141,7 @@ async function generateRelease() {
 				'content-length': file.content.byteLength,
 				'content-type': file.type
 			},
-			file: file.content,
+			data: file.content,
 			name: file.name,
 			url
 		}));
