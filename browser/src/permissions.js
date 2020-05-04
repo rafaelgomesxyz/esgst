@@ -15,7 +15,7 @@ async function loadPermissions() {
 
 		const permissionArray = [];
 		for (const value of permission.values) {
-			permissionArray.push(value, '<br/>');
+			permissionArray.push(value.replace(/</g, '&lt;').replace(/>/g, '&gt;'), '<br/>');
 		}
 
 		const usageArray = [];
