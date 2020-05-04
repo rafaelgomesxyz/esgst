@@ -124,7 +124,8 @@ function getWebExtensionManifest(env, browserName) {
 		],
 		short_name: 'ESGST',
 		web_accessible_resources: [
-			'icon.png'
+			'icon.png',
+			'permissions.html'
 		]
 	};
 

@@ -69,7 +69,7 @@ class UsersUsernameHistory extends Module {
 		if (list.innerHTML) {
 			return;
 		}
-		const hasPermissions = await permissions.request([['server']]);
+		const hasPermissions = await permissions.contains([['server']]);
 		if (!hasPermissions) {
 			DOM.insert(list, 'inner', (
 				<div>

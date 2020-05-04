@@ -647,9 +647,6 @@ async function sync(syncer) {
 	if ((syncer.parameters && syncer.parameters.Games) || (!syncer.parameters && Settings.get('syncGames'))) {
 		const isPermitted = await permissions.contains([['steamApi'], ['steamStore']]);
 		if (isPermitted) {
-			if (Settings.get('hgm_s') && Settings.get('permissionsDenied').indexOf('revadike') < 0) {
-				await permissions.requestUi([['revadike']], 'sync', true, true);
-			}
 			syncer.progress.lastElementChild.textContent = 'Syncing your wishlisted/owned/ignored games...';
 			syncer.html = [];
 			let apiResponse = null;
@@ -876,9 +873,6 @@ async function sync(syncer) {
 	if ((syncer.parameters && syncer.parameters.DelistedGames) || (!syncer.parameters && Settings.get('syncDelistedGames'))) {
 		const isPermitted = await permissions.contains([['steamTracker']]);
 		if (isPermitted) {
-			if (Settings.get('hgm_s') && Settings.get('permissionsDenied').indexOf('revadike') < 0) {
-				await permissions.requestUi([['revadike']], 'sync', true, true);
-			}
 			syncer.progress.lastElementChild.textContent = 'Syncing delisted games...';
 			const response = await Shared.common.request({ method: 'GET', url: `https://steam-tracker.com/api?action=GetAppListV3` });
 			try {

@@ -40,12 +40,6 @@ if (typeof browser !== 'undefined') {
 						case 'permissions_contains':
 							resolve(true);
 							break;
-						case 'permissions_request':
-							resolve(true);
-							break;
-						case 'permissions_remove':
-							resolve();
-							break;
 						case 'getBrowserInfo': {
 							const browserInfo = await _browser.runtime.getBrowserInfo();
 							resolve(JSON.stringify(browserInfo));

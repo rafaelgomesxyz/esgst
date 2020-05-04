@@ -1013,7 +1013,7 @@ class GamesGameCategories extends Module {
 	}
 
 	async init() {
-		if (this.isFetchableEnabled() && !(await permissions.requestUi([['server'], ['steamStore']], 'gc', true))) {
+		if (this.isFetchableEnabled() && !(await permissions.contains([['server'], ['steamStore']]))) {
 			return;
 		}
 

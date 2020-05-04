@@ -31,7 +31,7 @@ class Process {
 							permissionKeys.push(key);
 						}
 					}
-					if (permissionKeys.length && !(await permissions.requestUi([permissionKeys], this.id))) {
+					if (permissionKeys.length && !(await permissions.contains([permissionKeys]))) {
 						return;
 					}
 				}

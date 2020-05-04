@@ -13,16 +13,35 @@
 			flex-direction: column;
 		}
 
-		.message {
-			text-align: justify;
-			width: 50vw;
+		table {
+			border-collapse: collapse;
+			margin: 25px;
+		}
+
+		table, th, td {
+			border: 1px solid #aaa;
+		}
+
+		th, td {
+			padding: 10px;
+			text-align: center;
+		}
+		
+		button {
+			margin: 25px;
+			padding: 5px 50px;
 		}
 	</style>
 
 	<body>
-		<div class="message">Some browsers require an additional user interaction to trigger the permissions dialog. Please click on the button below to proceed.</div>
-		<br/>
-		<br/>
+		<table id="permissions">
+			<tr>
+				<th>Granted</th>
+				<th>Permission</th>
+				<th>Usage</th>
+			</tr>
+		</table>
+		<button id="save" type="button">Save</button>
 	</body>
 
 	<script src="lib/browser-polyfill.js"></script>

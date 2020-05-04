@@ -115,7 +115,7 @@ class GiveawaysGiveawayExtractor extends Module {
 
 			const parameters = getParameters();
 			if (!parameters.url.match(/(^\/|www\.steamgifts\.com)/)) {
-				if (!(await permissions.requestUi([['allUrls']], 'ge'))) {
+				if (!(await permissions.contains([['allUrls']]))) {
 					window.alert('Giveaway Extractor: Not enough permissions to proceed.');
 					return;
 				}
