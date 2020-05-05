@@ -140,15 +140,17 @@ async function generateRelease() {
 	const userscriptExtension = args.beta ? '.beta' : '';
 
 	promises.push(
-		octokit.repos.createFile({
+		octokit.repos.createOrUpdateFile({
 			...defaultParams,
-			content: fs.readFileSync(path.resolve(__dirname, `../dist/userscript.meta.js`)),
+			repo: 'gh-pages',
+			content: fs.readFileSync(path.resolve(__dirname, `../dist/userscript.meta.js`)).toString('base64'),
 			message: `Bump userscript${userscriptExtension}.meta.js to ${version}`,
 			path: `userscript${userscriptExtension}.meta.js`,
 		}),
-		octokit.repos.createFile({
+		octokit.repos.createOrUpdateFile({
 			...defaultParams,
-			content: fs.readFileSync(path.resolve(__dirname, `../dist/userscript.user.js`)),
+			repo: 'gh-pages',
+			content: fs.readFileSync(path.resolve(__dirname, `../dist/userscript.user.js`)).toString('base64'),
 			message: `Bump userscript${userscriptExtension}.user.js to ${version}`,
 			path: `userscript${userscriptExtension}.user.js`,
 		})
