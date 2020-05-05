@@ -336,7 +336,8 @@ class Esgst {
 		this.sidebar = null;
 
 		/** @type {string} */
-		this.version = undefined;
+		this.currentVersion = undefined;
+		this.previousVersion = undefined;
 
 		this.isFirstRun = false;
 		this.isUpdate = false;

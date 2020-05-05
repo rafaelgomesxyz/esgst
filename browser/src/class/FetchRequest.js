@@ -39,7 +39,7 @@ class FetchRequest {
 
 	static async send(url, options) {
 		if (!REQUIRED_HEADERS['Esgst-Version']) {
-			REQUIRED_HEADERS['Esgst-Version'] = Shared.esgst.version;
+			REQUIRED_HEADERS['Esgst-Version'] = Shared.esgst.currentVersion;
 		}
 
 		let response = null;

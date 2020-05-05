@@ -20,9 +20,9 @@ const defaultParams = {
 };
 
 async function generateChangelog() {
-	const featureChangelog = ['### ⭐ Features / Enhancements', ''];
-	const bugChangelog = ['### 🐛 Bug Fixes', ''];
-	const removalChangelog = ['### ❌ Removals / Rollbacks', ''];
+	const featureChangelog = ['### ⭐ Features / Enhancements', '', '\n'];
+	const bugChangelog = ['### 🐛 Bug Fixes', '', '\n'];
+	const removalChangelog = ['### ❌ Removals / Rollbacks', '', '\n'];
 
 	const milestones = await octokit.issues.listMilestonesForRepo(Object.assign({}, defaultParams, {
 		direction: 'desc',
