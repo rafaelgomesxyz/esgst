@@ -192,6 +192,17 @@ function addStyle() {
 	`;
 	}
 	style += `
+	.form-control {
+		font-size: 12px !important;
+		height: 22px !important;
+		padding: 2px !important;
+	}
+
+	.form-control.has-error {
+		border-color: #a94442;
+		box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	}
+
 	.footer_inner_wrap {
 		justify-content: space-between;
 	}
