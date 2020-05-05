@@ -31,11 +31,6 @@ function addStyle() {
 			mainKey: 'esgst-gc'
 		},
 		{
-			id: 'gc_ocv_ncv',
-			key: 'originalCV-ncv',
-			mainKey: 'esgst-gc'
-		},
-		{
 			id: 'gc_fcv',
 			key: 'fullCV',
 			mainKey: 'esgst-gc'

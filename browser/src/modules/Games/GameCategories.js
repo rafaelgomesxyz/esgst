@@ -3215,8 +3215,6 @@ class GamesGameCategories extends Module {
 								original = 'fcv';
 							} else if (games[i].startTime < noCV) {
 								original = 'rcv';
-							} else if (games[i].startTime < reducedCV) {
-								original = 'ncv';
 							}
 						} else if (games[i].startTime < reducedCV || games[i].startTime < noCV) {
 							original = 'fcv';
