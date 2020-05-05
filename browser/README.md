@@ -45,11 +45,15 @@ It should be possible to install the extension in any Chromium-based browser fro
 
 You can also use the extension on Android through Firefox for Android, but some features might not work or not be optimized enough for mobile.
 
+**Beta Versions:** Beta versions of the extension are always available in the latest pre-release at the [releases page](https://github.com/rafaelgssa/esgst/releases). You have to install them manually on your browser.
+
 ### Option 2 - Userscript
 
 To install the userscript, you must install [Tampermonkey](https://tampermonkey.net/), [Greasemonkey](http://www.greasespot.net/) or some other userscript manager first. Then [click here](https://rafaelgssa.github.io/esgst/userscript.user.js) and you should be prompted to install it. I recommend Tampermonkey, because the userscript uses the GM_addValueChangeListener API to communicate changes in the storage between tabs, and that API is not available on Greasemonkey, so a polyfill is used for Greasemonkey, which is not very effective and can affect the performance.
 
 You can also use the userscript on Android through Firefox with Violentmonkey or USI, but some features might not work or not be optimized enough for mobile.
+
+**Beta Versions:** Beta versions of the userscript are always available at [https:/rafaelgssa.github.io/esgst/userscript.beta.user.js](https:/rafaelgssa.github.io/esgst/userscript.beta.user.js).
 
 * [Changelog](https://github.com/rafaelgssa/esgst/releases)
 
