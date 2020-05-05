@@ -149,7 +149,7 @@ class GiveawaysRealCVCalculator extends Module {
 							}]
 						}]);
 					} catch (e) {
-						Logger.warning(e.stack);
+						Logger.warning(e.message, e.stack);
 					}
 					button = document.getElementsByClassName('js__submit-form')[0];
 					button.addEventListener('click', () => {

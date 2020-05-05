@@ -146,7 +146,7 @@ class Profile extends Module {
 			try {
 				await feature(profile, savedUser);
 			} catch (error) {
-				Logger.error(error.stack);
+				Logger.error(error.message, error.stack);
 			}
 		}
 	}

@@ -548,7 +548,7 @@ class GiveawaysGiveawayExtractor extends Module {
 									sgTools = false;
 								}
 							} catch (error) {
-								Logger.warning(error.stack);
+								Logger.warning(error.message, error.stack);
 							}
 						}
 					}

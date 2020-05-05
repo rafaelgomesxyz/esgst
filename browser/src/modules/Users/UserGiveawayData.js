@@ -730,7 +730,7 @@ class UsersUserGiveawayData extends Module {
 				const responseText = response.responseText;
 				obj.playtimes = JSON.parse(responseText).response.games;
 			} catch (e) {
-				Logger.warning(e.stack);
+				Logger.warning(e.message, e.stack);
 				window.alert('An error occurred when retrieving playtime stats. Please check your Steam API key in the settings menu or try again later.');
 				await this.ugd_complete(obj, results);
 				await saveUser(null, null, obj.user);
@@ -882,7 +882,7 @@ class UsersUserGiveawayData extends Module {
 						achievementsData = responseJson.achievements;
 					}
 				} catch (error) {
-					Logger.warning(error.stack);
+					Logger.warning(error.message, error.stack);
 				}
 			}
 			achievements = '0/0';

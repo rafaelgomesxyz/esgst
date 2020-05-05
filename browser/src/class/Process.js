@@ -149,7 +149,7 @@ class Process {
 				await details.request(this, details, response, responseHtml);
 				i += 1;
 			} catch (e) {
-				Logger.error(e.stack);
+				Logger.error(e.message, e.stack);
 			}
 			this.index += 1;
 			this.popup.setOverallProgress(`${this.index} of ${this.total} loaded.`);

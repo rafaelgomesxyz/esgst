@@ -587,7 +587,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
 		try {
 			responseJson = JSON.parse(responseText);
 		} catch (e) {
-			Logger.warning(e.stack);
+			Logger.warning(e.message, e.stack);
 			Logger.info(giveaway.code);
 			Logger.info(responseText);
 		}
@@ -656,7 +656,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
 		try {
 			responseJson = JSON.parse(responseText);
 		} catch (e) {
-			Logger.warning(e.stack);
+			Logger.warning(e.message, e.stack);
 			Logger.info(giveaway.code);
 			Logger.info(responseText);
 		}

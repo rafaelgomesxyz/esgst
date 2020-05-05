@@ -727,7 +727,7 @@ class CommentsCommentFormattingHelper extends Module {
 										await Shared.common.setValue('emojis', JSON.stringify(emojiArray));
 									} catch (error) {
 										window.alert('Invalid emoji!');
-										Logger.warning(error.stack);
+										Logger.warning(error.message, error.stack);
 									}
 								}}
 							>
