@@ -279,7 +279,7 @@ if (typeof browser !== 'undefined') {
 				remove: async keys => {
 					await _browser.runtime.sendMessage({
 						action: 'delValues',
-						values: JSON.stringify(keys)
+						keys: JSON.stringify(keys)
 					});
 				},
 				set: async values => {
