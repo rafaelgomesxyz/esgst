@@ -5390,6 +5390,36 @@ class Common extends Module {
 		}
 		return true;
 	}
+
+	findFeature(term) {
+		term = term.toLowerCase();
+
+		let feature = null;
+		let score = 0;
+
+		for (const id of Object.keys(Shared.esgst.featuresById)) {
+			const currentFeature = Shared.esgst.featuresById[id];
+			let currentScore = 0;
+
+			const name = (typeof currentFeature.name === 'string' ? currentFeature.name : JSON.stringify(currentFeature.name)).toLowerCase();
+
+			if (name === term) {
+				return { ...currentFeature, id};
+			}
+
+			const nameMatches = name.match(term);
+			if (nameMatches) {
+				currentScore += nameMatches[0].length / name.length;
+			}
+
+			if (currentScore > score) {
+				feature = { ...currentFeature, id };
+				score = currentScore;
+			}
+		}
+
+		return feature;
+	}
 }
 
 // Singleton

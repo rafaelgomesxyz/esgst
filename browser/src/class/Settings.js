@@ -60,6 +60,7 @@ class _Settings {
 			cv_steamId: '%steamId%',
 			cv_creator: '%creator%',
 			cv_replyUser: '%replyUser%',
+			cv_esgstFeature: '%esgst=(.+?)%',
 			cgc_dateFormat: `M d, yy`,
 			cgc_timeFormat: `H:mm`,
 			cgc_index_0: 1,
