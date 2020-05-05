@@ -986,22 +986,25 @@ class Common extends Module {
 	}
 
 	getFeaturesById() {
-		const features = {};
+		const featuresById = {};
+		const featuresAncestors = {};
 		for (const type in Shared.esgst.features) {
 			for (const id in Shared.esgst.features[type].features) {
 				const feature = Shared.esgst.features[type].features[id];
-				this.getFeatureById(feature, id, features);
+				this.getFeatureById(feature, id, featuresById, featuresAncestors);
 			}
 		}
-		return features;
+		return [featuresById, featuresAncestors];
 	}
 
-	getFeatureById(feature, id, features) {
-		features[id] = feature;
+	getFeatureById(feature, id, featuresById, featuresAncestors) {
+		feature.id = id;
+		featuresById[id] = feature;
 		if (feature.features) {
 			for (const subId in feature.features) {
 				const subFeature = feature.features[subId];
-				this.getFeatureById(subFeature, subId, features);
+				featuresAncestors[subId] = id;
+				this.getFeatureById(subFeature, subId, featuresById, featuresAncestors);
 			}
 		}
 	}
@@ -5437,7 +5440,7 @@ class Common extends Module {
 			const name = (typeof currentFeature.name === 'string' ? currentFeature.name : JSON.stringify(currentFeature.name)).toLowerCase();
 
 			if (name === term) {
-				return { ...currentFeature, id};
+				return currentFeature;
 			}
 
 			const nameMatches = name.match(term);
@@ -5446,7 +5449,7 @@ class Common extends Module {
 			}
 
 			if (currentScore > score) {
-				feature = { ...currentFeature, id };
+				feature = currentFeature;
 				score = currentScore;
 			}
 		}
