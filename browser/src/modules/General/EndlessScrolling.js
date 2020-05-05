@@ -846,11 +846,15 @@ class GeneralEndlessScrolling extends Module {
 	updateUrl(page) {
 		const isFirstPage = page === 1;
 		const queryParams = window.location.search.replace(/\?|&page=(\d+)|page=(\d+)&|page=(\d+)/g, '');
+		let path = '';
+		if (window.location.pathname === '/') {
+			path = Shared.esgst.sg ? 'giveaways' : 'trades';
+		}
 		let search = '';
 		if (queryParams) {
-			search = `/search?${queryParams}${isFirstPage ? '' : `&page=${page}`}`;
+			search = `${path}/search?${queryParams}${isFirstPage ? '' : `&page=${page}`}`;
 		} else if (!isFirstPage) {
-			search = `/search?page=${page}`;
+			search = `${path}/search?page=${page}`;
 		}
 		window.history.replaceState(null, '', `${window.location.origin}${window.location.pathname.replace('/search', '')}${search}${window.location.hash}`);
 	}
