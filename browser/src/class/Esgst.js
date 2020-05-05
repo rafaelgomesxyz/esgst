@@ -47,6 +47,7 @@ class Esgst {
 		this.itemsPerPage = undefined;
 		this.delistedGames = undefined;
 		this.featuresById = undefined;
+		this.featuresAncestors = undefined;
 
 		this.gc_queue = [];
 		this.gc_queue_index = 0;

@@ -84,7 +84,14 @@ class CommentsCommentVariables extends Module {
 						feature = Shared.common.findFeature(idOrTerm);
 					}
 					if (feature) {
-						obj.comment = obj.comment.replace(featureMatch, `[${feature.name}](https://www.steamgifts.com/account/settings/profile?esgst=settings&id=${feature.id})`);
+						let featurePath = `[${feature.name}](https://www.steamgifts.com/account/settings/profile?esgst=settings&id=${feature.id})`;
+						let ancestorId = Shared.esgst.featuresAncestors[feature.id];
+						while (ancestorId) {
+							const ancestor = Shared.esgst.featuresById[ancestorId];
+							featurePath = `[${ancestor.name}](https://www.steamgifts.com/account/settings/profile?esgst=settings&id=${ancestor.id}) > ${featurePath}`;
+							ancestorId = Shared.esgst.featuresAncestors[ancestorId];
+						}
+						obj.comment = obj.comment.replace(featureMatch, featurePath);
 					}
 				}
 			}

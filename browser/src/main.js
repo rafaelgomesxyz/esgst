@@ -100,7 +100,7 @@ window.interact = interact;
 		esgst.storage = await browser.storage.local.get(null);
 
 		esgst.features = common.getFeatures();
-		esgst.featuresById = common.getFeaturesById();
+		[esgst.featuresById, esgst.featuresAncestors] = common.getFeaturesById();
 
 		await persistentStorage.upgrade(esgst.storage, esgst.storage.v);
 
