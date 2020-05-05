@@ -60,6 +60,11 @@ class GeneralEndlessScrolling extends Module {
 				]]
 			],
 			features: {
+				es_murl: {
+					name: "Modify URL when changing pages to reflect the current page that you're on.",
+					sg: true,
+					st: true
+				},
 				es_ch: {
 					name: 'Enable for Comment History.',
 					sg: true
@@ -402,7 +407,9 @@ class GeneralEndlessScrolling extends Module {
 				es.pageBase = es.currentPage + 1;
 				es.pageIndex = es.currentPage;
 			}
-			this.updateUrl(es.currentPage);
+			if (Settings.get('es_murl')) {
+				this.updateUrl(es.currentPage);
+			}
 			this.esgst.pagination.firstElementChild.firstElementChild.textContent = (parseInt(this.esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.nextElementSibling.textContent.replace(/,/g, '')) + 1).toString().replace(/\B(?=(\d{3})+(?!\d))/g, `,`);
 			this.esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.textContent = this.esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.nextElementSibling.textContent;
 		} else if (refresh) {
@@ -568,7 +575,9 @@ class GeneralEndlessScrolling extends Module {
 				createElements(this.esgst.paginationNavigation, 'beforeEnd', this.esgst.lastPageLink);
 			}
 			this.es_setPagination(es);
-			this.updateUrl(index);
+			if (Settings.get('es_murl')) {
+				this.updateUrl(index);
+			}
 		}
 	}
 
