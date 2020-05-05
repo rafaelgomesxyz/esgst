@@ -19,21 +19,22 @@ async function loadPermissions() {
 		}
 
 		const usageArray = [];
-		for (const key of Object.keys(permission.messages)) {
-			usageArray.push(permission.messages[key], '<br/>', '<br/>');
+		for (const messageKey of Object.keys(permission.messages)) {
+			usageArray.push(permission.messages[messageKey], '<br/>', '<br/>');
 		}
 
 		table.insertAdjacentHTML('beforeend', `
 			<tr>
 				<td>
-					<input type="checkbox" checked="${await permissions.contains([[key]])}"/>
+					<input name="${key}" type="checkbox"/>
 				</td>
 				<td>${permissionArray.join('')}</td>
 				<td>${usageArray.join('')}</td>
 			</tr>
 		`);
 
-		const checkbox = table.lastElementChild.firstElementChild;
+		const checkbox = table.querySelector(`[name="${key}"]`);
+		checkbox.checked = await permissions.contains([[key]]);
 		checkbox.addEventListener('change', () => {
 			if (checkbox.checked) {
 				grantedPermissions.add(key);
