@@ -322,11 +322,11 @@ class SettingsModule {
 				}
 				await Shared.common.lockAndSaveSettings(this.toSave);
 				this.toSave = {};
-				if (isPopup) {
-					popup.close();
-				} else {
-					window.location.reload();
-				}
+				new Popup({
+					icon: 'fa-check',
+					isTemp: true,
+					title: 'Settings saved!',
+				}).open();
 			}
 		}).set);
 		Context.addEventListener('click', event => this.loadFeatureDetails(null, popup && popup.scrollable.offsetTop, event));
@@ -3087,6 +3087,17 @@ class SettingsModule {
 				feature[`${namespace}Switch`].enable();
 			}
 		}
+	}
+
+	addCombos() {
+		const combos = [
+			{
+				title: 'Keep the important stuff at your reach while scrolling',
+				description: 'This combo fixes the header, main page heading and sidebar while you scroll through the page.',
+				image: '',
+				settings: ['fh', 'fpmh', 'fs'],
+			}
+		];
 	}
 }
 
