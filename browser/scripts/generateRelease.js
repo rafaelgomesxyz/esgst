@@ -137,24 +137,24 @@ async function generateRelease() {
 		}));
 	}
 
-	const userscriptExtension = args.beta ? '.beta' : '';
+	if (!args.beta) {
+		promises.push(octokit.repos.createOrUpdateFile({
+			...defaultParams,
+			branch: 'gh-pages',
+			content: fs.readFileSync(path.resolve(__dirname, '../dist/userscript.meta.js')).toString('base64'),
+			message: `Bump userscript.meta.js to ${version}`,
+			path: 'userscript.meta.js',
+		}));
+	}
 
-	promises.push(
-		octokit.repos.createOrUpdateFile({
-			...defaultParams,
-			repo: 'gh-pages',
-			content: fs.readFileSync(path.resolve(__dirname, `../dist/userscript.meta.js`)).toString('base64'),
-			message: `Bump userscript${userscriptExtension}.meta.js to ${version}`,
-			path: `userscript${userscriptExtension}.meta.js`,
-		}),
-		octokit.repos.createOrUpdateFile({
-			...defaultParams,
-			repo: 'gh-pages',
-			content: fs.readFileSync(path.resolve(__dirname, `../dist/userscript.user.js`)).toString('base64'),
-			message: `Bump userscript${userscriptExtension}.user.js to ${version}`,
-			path: `userscript${userscriptExtension}.user.js`,
-		})
-	);
+	const userscriptExtension = args.beta ? '.beta' : '';
+	promises.push(octokit.repos.createOrUpdateFile({
+		...defaultParams,
+		branch: 'gh-pages',
+		content: fs.readFileSync(path.resolve(__dirname, '../dist/userscript.user.js')).toString('base64'),
+		message: `Bump userscript${userscriptExtension}.user.js to ${version}`,
+		path: `userscript${userscriptExtension}.user.js`,
+	}));
 
 	await Promise.all(promises);
 }
