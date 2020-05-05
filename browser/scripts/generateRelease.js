@@ -137,6 +137,11 @@ async function generateRelease() {
 		}));
 	}
 
+	const tree = (await octokit.git.getTree({
+		...defaultParams,
+		tree_sha: 'gh-pages',
+	})).data.tree;
+
 	if (!args.beta) {
 		promises.push(octokit.repos.createOrUpdateFile({
 			...defaultParams,
@@ -144,6 +149,7 @@ async function generateRelease() {
 			content: fs.readFileSync(path.resolve(__dirname, '../dist/userscript.meta.js')).toString('base64'),
 			message: `Bump userscript.meta.js to ${version}`,
 			path: 'userscript.meta.js',
+			sha: tree.find(node => node.path === 'userscript.meta.js').sha,
 		}));
 	}
 
@@ -154,6 +160,7 @@ async function generateRelease() {
 		content: fs.readFileSync(path.resolve(__dirname, '../dist/userscript.user.js')).toString('base64'),
 		message: `Bump userscript${userscriptExtension}.user.js to ${version}`,
 		path: `userscript${userscriptExtension}.user.js`,
+		sha: tree.find(node => node.path === `userscript${userscriptExtension}.user.js`).sha,
 	}));
 
 	await Promise.all(promises);
