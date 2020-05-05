@@ -1,4 +1,5 @@
 import { DOM } from '../../class/DOM';
+import { Settings } from '../../class/Settings';
 
 const CLASS_NAMES = {
 	sg: {
@@ -71,6 +72,9 @@ class PageHeading {
 				['div', { class: CLASS_NAMES[this.namespace].pageHeadingBreadcrumbs, ref: ref => this.breadcrumbs = ref }]
 			]]
 		]);
+		if (Settings.get('fmph')) {
+			this.pageHeading.classList.add('esgst-fmph');
+		}
 		if (options.breadcrumbs) {
 			this.setBreadcrumbs(options.breadcrumbs);
 		}
