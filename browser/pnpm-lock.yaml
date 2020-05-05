@@ -5,9 +5,9 @@ dependencies:
   interactjs: 1.3.4
   intersection-observer-polyfill: 0.1.0
   jQuery-QueryBuilder: 2.5.2
-  jquery: 3.5.0
+  jquery: 3.5.1
   jquery-ui: 1.12.1
-  jszip: 3.4.0
+  jszip: 3.2.2
   simple-vdf: 1.1.1
   webextension-polyfill: 0.4.0
 devDependencies:
@@ -27,7 +27,7 @@ devDependencies:
   css-loader: 3.5.3_webpack@4.43.0
   eslint: 6.8.0
   jpm: 1.3.1
-  node: 12.16.2
+  node: 12.16.3
   node-fetch: 2.6.0
   progress-bar-webpack-plugin: 1.12.1_webpack@4.43.0
   style-loader: 1.2.1_webpack@4.43.0
@@ -1389,7 +1389,7 @@ packages:
       async: 2.6.3
       buffer-crc32: 0.2.13
       glob: 7.1.6
-      lodash: 4.12.0
+      lodash: 4.17.15
       readable-stream: 2.3.7
       tar-stream: 1.6.2
       zip-stream: 1.2.0
@@ -3785,6 +3785,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-Xb7SVYMvygPxbFMpTFQiHh1J7HClEaThguL15N/Gg37Lri/qKyhRGZYzHRyLH8Stq3Aow0LsHO2O2ci86fCrNQ==
+  /jquery/3.5.1:
+    dev: false
+    resolution:
+      integrity: sha512-XwIBPqcMn57FxfT+Go5pzySnm4KWkT1Tv7gjrpT1srtf8Weynl6R273VJ5GjkRb51IzMp5nbaPjJXMWeju2MKg==
   /js-tokens/4.0.0:
     dev: true
     resolution:
@@ -3907,7 +3911,7 @@ packages:
     dev: true
     resolution:
       integrity: sha1-uI86ey5noqBIFSmCx6N1bZxIKPA=
-  /jszip/3.4.0:
+  /jszip/3.2.2:
     dependencies:
       lie: 3.3.0
       pako: 1.0.11
@@ -3915,7 +3919,7 @@ packages:
       set-immediate-shim: 1.0.1
     dev: false
     resolution:
-      integrity: sha512-gZAOYuPl4EhPTXT0GjhI3o+ZAz3su6EhLrKUoAivcKqyqC7laS5JEv4XWZND9BgcDcF83vI85yGbDmDR6UhrIg==
+      integrity: sha512-NmKajvAFQpbg3taXQXr/ccS2wcucR1AZ+NtyWp2Nq7HHVsXhcJFR8p0Baf32C2yVvBylFWVeKf+WI2AnvlPhpA==
   /jwa/1.4.1:
     dependencies:
       buffer-equal-constant-time: 1.0.1
@@ -4430,7 +4434,7 @@ packages:
     dev: true
     resolution:
       integrity: sha1-dV9k71+K1Ky1uv0sTn9PtqjbAhQ=
-  /node/12.16.2:
+  /node/12.16.3:
     dependencies:
       node-bin-setup: 1.0.6
     dev: true
@@ -4439,7 +4443,7 @@ packages:
     hasBin: true
     requiresBuild: true
     resolution:
-      integrity: sha512-e8DVOsJUQGKsWXyN8r/P5LDMN2MjPmSHHJRzlnqB6/YRgr/JCJxJ6/fkj+U0r/7OqeYpanYizEl4txT9kECVJA==
+      integrity: sha512-X7zR8j0jPSkO9zbe02k/ow6ipv+EQq1uyMfI4ZctyFUHpzOtONbaaLuKIJMAJwSrL6PlHtRPgC0bwnSVD46Aew==
   /nopt/1.0.10:
     dependencies:
       abbrev: 1.1.1
@@ -6342,37 +6346,37 @@ packages:
     resolution:
       integrity: sha1-qLxF9MG0lpnGuQGYuqyqzbzUugQ=
 specifiers:
-  '@babel/core': ^7.6.0
-  '@babel/plugin-proposal-class-properties': ^7.5.5
-  '@babel/plugin-transform-react-jsx': ^7.7.7
-  '@babel/plugin-transform-runtime': ^7.6.0
-  '@babel/preset-env': ^7.6.0
-  '@babel/preset-typescript': ^7.6.0
-  '@babel/runtime': ^7.6.0
-  '@octokit/rest': ^16.28.9
+  '@babel/core': ^7.9.6
+  '@babel/plugin-proposal-class-properties': ^7.8.3
+  '@babel/plugin-transform-react-jsx': ^7.9.4
+  '@babel/plugin-transform-runtime': ^7.9.6
+  '@babel/preset-env': ^7.9.6
+  '@babel/preset-typescript': ^7.9.0
+  '@babel/runtime': ^7.9.6
+  '@octokit/rest': ^16.43.1
   awesome-bootstrap-checkbox: ^0.3.7
-  babel-eslint: ^10.0.3
-  babel-loader: ^8.0.6
+  babel-eslint: ^10.1.0
+  babel-loader: ^8.1.0
   bootstrap: ^3.4.1
   calfinated: ^1.4.1
   circular-dependency-plugin: ^5.2.0
   clean-webpack-plugin: ^3.0.0
-  css-loader: ^3.2.0
-  date-fns: ^2.0.1
-  eslint: ^6.3.0
+  css-loader: ^3.5.3
+  date-fns: ^2.12.0
+  eslint: ^6.8.0
   interactjs: 1.3.4
   intersection-observer-polyfill: ^0.1.0
   jQuery-QueryBuilder: ^2.5.2
   jpm: ^1.3.1
-  jquery: ^3.5.0
+  jquery: ^3.5.1
   jquery-ui: ^1.12.1
-  jszip: ^3.2.2
-  node: ^12.9.1
+  jszip: 3.2.2
+  node: ^12.16.3
   node-fetch: ^2.6.0
   progress-bar-webpack-plugin: ^1.12.1
   simple-vdf: ^1.1.1
-  style-loader: ^1.0.0
-  typescript: ^3.6.3
+  style-loader: ^1.2.1
+  typescript: ^3.8.3
   webextension-polyfill: ^0.4.0
-  webpack: ^4.39.3
-  webpack-cli: ^3.3.8
+  webpack: ^4.43.0
+  webpack-cli: ^3.3.11
