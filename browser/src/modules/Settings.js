@@ -1270,7 +1270,7 @@ class SettingsModule {
 		try {
 			new RegExp(item.input.value);
 		} catch (error) {
-			Logger.warning(error.stack);
+			Logger.warning(error.message, error.stack);
 			item.invalid.classList.remove('esgst-hidden');
 		}
 	}
@@ -1947,7 +1947,7 @@ class SettingsModule {
 			reader.onload = () => this.saveHrFile(id, popup, reader);
 			reader.readAsArrayBuffer(event.currentTarget.files[0]);
 		} catch (e) {
-			Logger.warning(e.stack);
+			Logger.warning(e.message, e.stack);
 			popup.icon.classList.remove('fa-circle-o-notch');
 			popup.icon.classList.remove('fa-spin');
 			popup.icon.classList.add('fa-times');
@@ -1968,7 +1968,7 @@ class SettingsModule {
 			this.preSave(`${id}_sound`, string);
 			popup.close();
 		} catch (e) {
-			Logger.warning(e.stack);
+			Logger.warning(e.message, e.stack);
 			popup.icon.classList.remove('fa-circle-o-notch');
 			popup.icon.classList.remove('fa-spin');
 			popup.icon.classList.add('fa-times');

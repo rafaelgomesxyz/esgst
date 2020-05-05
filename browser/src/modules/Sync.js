@@ -851,7 +851,7 @@ async function sync(syncer) {
 				cache.hltb = hltb;
 				LocalStorage.set('gcCache', JSON.stringify(cache));
 			} catch (e) {
-				Logger.warning(e.stack);
+				Logger.warning(e.message, e.stack);
 			}
 			DOM.build(syncer.results, 'beforeEnd', [
 				['div', 'HLTB times synced.']
@@ -900,7 +900,7 @@ async function sync(syncer) {
 				DOM.build(syncer.results, 'beforeEnd', [
 					['div', `Failed to sync delisted games (check the console log for more info).`]
 				]);
-				Logger.warning(error.stack);
+				Logger.warning(error.message, error.stack);
 			}
 		} else {
 			syncer.failed.DelistedGames = true;

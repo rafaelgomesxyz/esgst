@@ -1023,7 +1023,7 @@ class Filters extends Module {
 			}
 			this.filters_filter(obj);
 		} catch (e) {
-			Logger.error(e.stack);
+			Logger.error(e.message, e.stack);
 		}
 		obj.basicApplied = false;
 	}

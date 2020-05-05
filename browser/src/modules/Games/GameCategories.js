@@ -1351,7 +1351,7 @@ class GamesGameCategories extends Module {
 					await lockAndSaveGames(Shared.esgst.games);
 					LocalStorage.set('gcCache', JSON.stringify(gc.cache));
 				} catch (error) {
-					Logger.warning(error.stack);
+					Logger.warning(error.message, error.stack);
 				}
 
 				const lockObj = await Shared.common.createLock('gc', 100, {});
@@ -1654,7 +1654,7 @@ class GamesGameCategories extends Module {
 				throw new Error('No result.');
 			}
 		} catch (error) {
-			Logger.warning(error.stack);
+			Logger.warning(error.message, error.stack);
 			try {
 				let categories = {
 					achievements: 0,
@@ -1849,7 +1849,7 @@ class GamesGameCategories extends Module {
 				await lockAndSaveGames(Shared.esgst.games);
 				LocalStorage.set('gcCache', JSON.stringify(gc.cache));
 			} catch (error) {
-				Logger.warning(error.stack);
+				Logger.warning(error.message, error.stack);
 				for (const game of games[type][id]) {
 					const panel = game.container.getElementsByClassName('esgst-gc-panel')[0];
 					if (panel && !panel.getAttribute('data-gcReady')) {

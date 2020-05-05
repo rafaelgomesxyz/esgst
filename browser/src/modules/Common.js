@@ -583,7 +583,7 @@ class Common extends Module {
 			try {
 				await feature(context, main, source, endless, mainEndless);
 			} catch (e) {
-				Logger.error(`${e.message}\n${e.stack}`);
+				Logger.error(e.message, e.stack);
 			}
 		}
 	}
@@ -4628,7 +4628,7 @@ class Common extends Module {
 			}
 			return element;
 		} catch (error) {
-			Logger.error(error.stack);
+			Logger.error(error.message, error.stack);
 		}
 	}
 

@@ -426,7 +426,7 @@ class GeneralContentLoader extends Module {
 			try {
 				await this.fetchGiveawayCountries(giveaway, triggerObj, context);
 			} catch (e) {
-				Logger.warning(e.stack);
+				Logger.warning(e.message, e.stack);
 			}
 		}
 	}
@@ -514,7 +514,7 @@ class GeneralContentLoader extends Module {
 			try {
 				await this.fetchGiveawayEntries(giveaway, triggerObj, context);
 			} catch (e) {
-				Logger.warning(e.stack);
+				Logger.warning(e.message, e.stack);
 			}
 		}
 	}
@@ -630,7 +630,7 @@ class GeneralContentLoader extends Module {
 			try {
 				await this.fetchGiveawayGroups(giveaway, triggerObj, context, giveawaysToSave, groupsToSave);
 			} catch (e) {
-				Logger.warning(e.stack);
+				Logger.warning(e.message, e.stack);
 			}
 		}
 
@@ -814,7 +814,7 @@ class GeneralContentLoader extends Module {
 			try {
 				await this.fetchInfo(targetObj, triggerObj, context);
 			} catch (e) {
-				Logger.warning(e.stack);
+				Logger.warning(e.message, e.stack);
 			}
 		}
 	}
