@@ -120,16 +120,6 @@ async function generateRelease() {
 			content: fs.readFileSync(path.resolve(__dirname, '../dist/palemoon.xpi')),
 			name: 'palemoon.xpi',
 			type: 'application/zip'
-		},
-		{
-			content: fs.readFileSync(path.resolve(__dirname, '../dist/userscript.meta.js')),
-			name: 'userscript.meta.js',
-			type: 'application/javascript'
-		},
-		{
-			content: fs.readFileSync(path.resolve(__dirname, '../dist/userscript.user.js')),
-			name: 'userscript.user.js',
-			type: 'application/javascript'
 		}
 	];
 
@@ -146,6 +136,25 @@ async function generateRelease() {
 			url
 		}));
 	}
+
+	const userscriptExtension = args.beta ? '.beta' : '';
+
+	promises.push(
+		octokit.repos.createFile({
+			...defaultParams,
+			content: fs.readFileSync(path.resolve(__dirname, `../dist/userscript.meta.js`)),
+			message: `Bump userscript${userscriptExtension}.meta.js to ${version}`,
+			path: `userscript${userscriptExtension}.meta.js`,
+		}),
+		octokit.repos.createFile({
+			...defaultParams,
+			content: fs.readFileSync(path.resolve(__dirname, `../dist/userscript.user.js`)),
+			message: `Bump userscript${userscriptExtension}.user.js to ${version}`,
+			path: `userscript${userscriptExtension}.user.js`,
+		})
+	);
+
+	await Promise.all(promises);
 }
 
 generateRelease();
