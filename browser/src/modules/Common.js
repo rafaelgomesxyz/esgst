@@ -1136,19 +1136,52 @@ class Common extends Module {
 				addScrollable: true,
 				icon: 'fa-circle-o-notch fa-spin',
 				isTemp: true,
-				title: [
-					`ESGST has updated to v${Shared.esgst.version}! Please wait while the changelog is retrieved from GitHub. If it appears to be taking too long, you can close this and go to `,
+				title: `ESGST has updated from v${Shared.esgst.previousVersion} to v${Shared.esgst.currentVersion}! Please wait while the changelog is retrieved from GitHub.`,
+			});
+			popup.open();
+
+			try {
+				let changelog = '';
+
+				const refsResponse = await FetchRequest.get('https://api.github.com/repos/rafaelgssa/esgst/git/matching-refs/tags');
+
+				if (!refsResponse || !refsResponse.json) {
+					return;
+				}
+
+				const refs = refsResponse.json;
+				refs.reverse();
+
+				let currentIndex = refs.findIndex(ref => ref.ref === `refs/tags/v${Shared.esgst.currentVersion}`);
+				const previousIndex = refs.findIndex(ref => ref.ref === `refs/tags/v${Shared.esgst.previousVersion}`);
+				if (currentIndex > -1 && previousIndex > -1) {
+					while (currentIndex < previousIndex) {
+						const version = refs[currentIndex].ref.split('/tags/')[1];
+						const releaseResponse = await FetchRequest.get(`https://api.github.com/repos/rafaelgssa/esgst/releases/tags/${version}`);
+						if (releaseResponse && releaseResponse.json) {
+							changelog = `${changelog}## ${version}\n\n${releaseResponse.json.body.replace(/#(\d+)/g, '[$1](https://github.com/rafaelgssa/esgst/issues/$1)')}\n\n`;
+						}
+
+						currentIndex += 1;
+					}
+				}
+
+				popup.setIcon('fa-star');
+				popup.setTitle(`ESGST has updated from v${Shared.esgst.previousVersion} to v${Shared.esgst.currentVersion}! Here's the changelog:`);
+				popup.getScrollable([
+					['div', { class: 'markdown' }, await this.parseMarkdown(popup.scrollable, changelog)]
+				]);
+			} catch (e) {
+				Logger.warning(e.message);
+
+				popup.setIcon('fa-times');
+				popup.setTitle([
+					`ESGST has updated from v${Shared.esgst.previousVersion} to v${Shared.esgst.currentVersion}! An error occurred when retrieving the changelog from GitHub, please go to `,
 					['a', { href: 'https://github.com/rafaelgssa/esgst/releases' }, 'https://github.com/rafaelgssa/esgst/releases'],
 					' to view it.'
-				],
-			});
-			const response = await FetchRequest.get(`https://api.github.com/repos/rafaelgssa/esgst/releases/tags/v${Shared.esgst.version}`);
-			popup.setIcon('fa-star');
-			popup.setTitle(`ESGST has updated to v${Shared.esgst.version}! Here's the changelog:`);
-			popup.getScrollable([
-				['div', { class: 'markdown' }, await this.parseMarkdown(popup.scrollable, response.json.body.replace(/#(\d+)/g, '[$1](https://github.com/rafaelgssa/esgst/issues/$1)'))]
-			]);
-			popup.open();
+				]);
+			}
+
 			Shared.esgst.isUpdate = false;
 		}
 	}
@@ -3294,7 +3327,7 @@ class Common extends Module {
 			details.headers = {};
 		}
 		details.headers['From'] = 'esgst.extension@gmail.com';
-		details.headers['Esgst-Version'] = Shared.esgst.version;
+		details.headers['Esgst-Version'] = Shared.esgst.currentVersion;
 		if (!details.headers['Content-Type']) {
 			details.headers['Content-Type'] = 'application/x-www-form-urlencoded';
 		}

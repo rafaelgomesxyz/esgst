@@ -227,7 +227,7 @@ class Popup {
 	}
 
 	setTitle(title) {
-		this.title.textContent = title;
+		DOM.build(this.title, 'inner', title);
 	}
 
 	/**

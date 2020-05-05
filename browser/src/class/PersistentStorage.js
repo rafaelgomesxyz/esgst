@@ -44,14 +44,15 @@ class PersistentStorage {
 		const manifest = await browser.runtime.getManifest();
 		if (Object.keys(storage).length === 0) {
 			Shared.esgst.isFirstRun = true;
-			Shared.esgst.version = manifest.version;
-			await Shared.common.setValue('currentVersion', Shared.esgst.version);
+			Shared.esgst.currentVersion = manifest.version;
+			await Shared.common.setValue('currentVersion', Shared.esgst.currentVersion);
 		} else {
-			Shared.esgst.version = storage.currentVersion;
-			if (Shared.esgst.version !== manifest.version) {
+			Shared.esgst.currentVersion = storage.currentVersion;
+			if (Shared.esgst.currentVersion !== manifest.version) {
 				Shared.esgst.isUpdate = true;
-				Shared.esgst.version = manifest.version;
-				await Shared.common.setValue('currentVersion', Shared.esgst.version);
+				Shared.esgst.previousVersion = Shared.esgst.currentVersion;
+				Shared.esgst.currentVersion = manifest.version;
+				await Shared.common.setValue('currentVersion', Shared.esgst.currentVersion);
 			}
 		}
 		Shared.esgst.versionName = manifest.version_name || manifest.version;
