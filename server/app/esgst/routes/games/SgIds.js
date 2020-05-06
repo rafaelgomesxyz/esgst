@@ -4,26 +4,15 @@ const Utils = require('../../class/Utils');
 const Game = require('./Game');
 
 /**
- * @api {SCHEMA} SgGame SgGame
+ * @api {SCHEMA} SgIdsObject SgIdsObject
  * @apiGroup Schemas
- * @apiName SgGame
- * @apiVersion 1.0.0
- *
- * @apiParam (Schema) {Object} game An object where the key is the Steam ID of the game and the value is a string representing the SteamGifts ID of the game.
- *
- * @apiSampleRequest off
- */
-
-/**
- * @api {SCHEMA} SgObject SgObject
- * @apiGroup Schemas
- * @apiName SgObject
+ * @apiName SgIdsObject
  * @apiVersion 1.0.0
  *
  * @apiParam (Schema) {Object} result
  * @apiParam (Schema) {Object} result.found
- * @apiParam (Schema) {Object} result.found.apps An object of [SgGame](#api-Schemas-SgGame) objects for the apps that were found.
- * @apiParam (Schema) {Object} result.found.subs An object of [SgGame](#api-Schemas-SgGame) objects for the subs that were found.
+ * @apiParam (Schema) {Object} result.found.apps An object for the apps that were found, where the keys are the Steam IDs of the games and the values are strings representing the SteamGifts IDs of the games.
+ * @apiParam (Schema) {Object} result.found.subs An object for the subs that were found, where the keys are the Steam IDs of the games and the values are strings representing the SteamGifts IDs of the games.
  * @apiParam (Schema) {Object} result.not_found
  * @apiParam (Schema) {Integer[]} result.not_found.apps The Steam IDs of the apps that were not found.
  * @apiParam (Schema) {Integer[]} result.not_found.subs The Steam IDs of the subs that were not found.
@@ -33,9 +22,9 @@ const Game = require('./Game');
  */
 
 /**
- * @api {GET} /games/sg GetSg
+ * @api {GET} /games/sgids GetSgIds
  * @apiGroup Games
- * @apiName GetSg
+ * @apiName GetSgIds
  * @apiDescription Returns Steam IDs of games mapped to their SteamGifts IDs.
  * @apiVersion 1.0.0
  *
@@ -44,14 +33,14 @@ const Game = require('./Game');
  *
  * @apiSuccess (Success Response (200)) {Object} output
  * @apiSuccess (Success Response (200)) {NULL} output.error Always NULL in a success response.
- * @apiSuccess (Success Response (200)) {[SgObject](#api-Schemas-SgObject)} output.result The information requested.
+ * @apiSuccess (Success Response (200)) {[SgIdsObject](#api-Schemas-SgIdsObject)} output.result The information requested.
  *
  * @apiError (Error Response (400, 500)) {Object} output
  * @apiError (Error Response (400, 500)) {String} output.error The error message.
  * @apiError (Error Response (400, 500)) {NULL} output.result Always NULL in an error response.
  */
 
-class Sg {
+class SgIds {
 	/**
 	 * @param {import('express').Request} req
 	 * @param {import('express').Response} res
@@ -60,7 +49,7 @@ class Sg {
 		const connection = new Connection();
 		await connection.connect();
 		try {
-			const result = await Sg._find(connection, req);
+			const result = await SgIds._find(connection, req);
 			res.status(200)
 				.json({
 					error: null,
@@ -148,4 +137,4 @@ class Sg {
 	}
 }
 
-module.exports = Sg;
+module.exports = SgIds;
