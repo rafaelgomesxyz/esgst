@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const Game = require('./games/Game');
 const Games = require('./games/Games');
+const Sg = require('./games/Sg');
 const Rcv = require('./games/Rcv');
 const Ncv = require('./games/Ncv');
 const Uh = require('./users/Uh');
@@ -9,6 +10,7 @@ const routes = Router();
 
 routes.get('/esgst/game/:type/:id', Game.get);
 routes.get('/esgst/games', Games.get);
+routes.get('/esgst/games/sg', Sg.get);
 routes.get('/esgst/games/rcv', Rcv.get);
 routes.get('/esgst/games/ncv', Ncv.get);
 routes.post('/esgst/games/ncv', Ncv.post);
