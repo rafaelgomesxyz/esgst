@@ -230,17 +230,17 @@ class Uh {
 			},
 		};
 		Utils.validateParams(params, validator);
-		if (params.format_array.match(trueBooleanRegex)) {
+		if (typeof params.format_array !== 'undefined' && params.format_array.match(trueBooleanRegex)) {
 			params.format_array = true;
 			params.show_steam_id = false;
-		} else if (params.show_steam_id.match(trueBooleanRegex)) {
+		} else if (typeof params.show_steam_id !== 'undefined' && params.show_steam_id.match(trueBooleanRegex)) {
 			params.show_steam_id = true;
 			params.format_array = false;
 		} else {
 			params.format_array = false;
 			params.show_steam_id = false;
 		}
-		if (params.show_recent.match(trueBooleanRegex)) {
+		if (typeof params.show_recent !== 'undefined' && params.show_recent.match(trueBooleanRegex)) {
 			params.show_recent = true;
 		} else {
 			params.show_recent = false;

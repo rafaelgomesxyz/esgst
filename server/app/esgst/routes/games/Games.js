@@ -167,15 +167,15 @@ class Games {
 			},
 		};
 		Utils.validateParams(params, validator);
-		if (params.join_all.match(trueBooleanRegex)) {
+		if (typeof params.join_all !== 'undefined' && params.join_all.match(trueBooleanRegex)) {
 			params.join_all = true;
 			params.format_array = false;
 			params.show_id = false;
-		} else if (params.format_array.match(trueBooleanRegex)) {
+		} else if (typeof params.format_array !== 'undefined' && params.format_array.match(trueBooleanRegex)) {
 			params.format_array = true;
 			params.join_all = false;
 			params.show_id = false;
-		} else if (params.show_id.match(trueBooleanRegex)) {
+		} else if (typeof params.show_id !== 'undefined' && params.show_id.match(trueBooleanRegex)) {
 			params.show_id = true;
 			params.join_all = false;
 			params.format_array = false;

@@ -199,22 +199,22 @@ class Rcv {
 			},
 		};
 		Utils.validateParams(params, validator);
-		if (params.format_array.match(trueBooleanRegex)) {
+		if (typeof params.format_array !== 'undefined' && params.format_array.match(trueBooleanRegex)) {
 			params.format_array = true;
 			params.show_id = false;
-		} else if (params.show_id.match(trueBooleanRegex)) {
+		} else if (typeof params.show_id !== 'undefined' && params.show_id.match(trueBooleanRegex)) {
 			params.show_id = true;
 			params.format_array = false;
 		} else {
 			params.format_array = false;
 			params.show_id = false;
 		}
-		if (params.show_recent.match(trueBooleanRegex)) {
+		if (typeof params.show_recent !== 'undefined' && params.show_recent.match(trueBooleanRegex)) {
 			params.show_recent = true;
 		} else {
 			params.show_recent = false;
 		}
-		params.show_name = !!params.show_name.match(trueBooleanRegex);
+		params.show_name = typeof params.show_name !== 'undefined' && !!params.show_name.match(trueBooleanRegex);
 		const result = {
 			'found': {
 				'apps': params.format_array ? [] : {},
