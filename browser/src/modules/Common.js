@@ -4870,7 +4870,7 @@ class Common extends Module {
 				obj.update && obj.update('Updating API cache...');
 
 				try {
-					const response = await FetchRequest.get('https://rafaelgssa.com/esgst/games/sg');
+					const response = await FetchRequest.get('https://rafaelgssa.com/esgst/games/sgids');
 					api = {
 						cache: {
 							appids: response.json.result.found.apps,
