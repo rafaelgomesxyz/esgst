@@ -549,6 +549,96 @@ define({ "api": [
     ]
   },
   {
+    "type": "GET",
+    "url": "/games/sgids",
+    "title": "GetSgIds",
+    "group": "Games",
+    "name": "GetSgIds",
+    "description": "<p>Returns Steam IDs of games mapped to their SteamGifts IDs.</p>",
+    "version": "1.0.0",
+    "parameter": {
+      "fields": {
+        "Query Parameters": [
+          {
+            "group": "Query Parameters",
+            "type": "String",
+            "optional": true,
+            "field": "app_ids",
+            "description": "<p>A comma-separated list of Steam IDs for the apps requested.</p>"
+          },
+          {
+            "group": "Query Parameters",
+            "type": "String",
+            "optional": true,
+            "field": "sub_ids",
+            "description": "<p>A comma-separated list of Steam IDs for the subs requested.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success Response (200)": [
+          {
+            "group": "Success Response (200)",
+            "type": "Object",
+            "optional": false,
+            "field": "output",
+            "description": ""
+          },
+          {
+            "group": "Success Response (200)",
+            "type": "NULL",
+            "optional": false,
+            "field": "output.error",
+            "description": "<p>Always NULL in a success response.</p>"
+          },
+          {
+            "group": "Success Response (200)",
+            "type": "<a href=\"#api-Schemas-SgIdsObject\">SgIdsObject</a>",
+            "optional": false,
+            "field": "output.result",
+            "description": "<p>The information requested.</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "Error Response (400, 500)": [
+          {
+            "group": "Error Response (400, 500)",
+            "type": "Object",
+            "optional": false,
+            "field": "output",
+            "description": ""
+          },
+          {
+            "group": "Error Response (400, 500)",
+            "type": "String",
+            "optional": false,
+            "field": "output.error",
+            "description": "<p>The error message.</p>"
+          },
+          {
+            "group": "Error Response (400, 500)",
+            "type": "NULL",
+            "optional": false,
+            "field": "output.result",
+            "description": "<p>Always NULL in an error response.</p>"
+          }
+        ]
+      }
+    },
+    "filename": "app/esgst/routes/games/SgIds.js",
+    "groupTitle": "Games",
+    "sampleRequest": [
+      {
+        "url": "https://rafaelgssa.com/esgst/games/sgids"
+      }
+    ]
+  },
+  {
     "type": "POST",
     "url": "/games/ncv",
     "title": "PostNcv",
@@ -1681,6 +1771,78 @@ define({ "api": [
       }
     },
     "filename": "app/esgst/routes/games/Rcv.js",
+    "groupTitle": "Schemas"
+  },
+  {
+    "type": "SCHEMA",
+    "url": "SgIdsObject",
+    "title": "SgIdsObject",
+    "group": "Schemas",
+    "name": "SgIdsObject",
+    "version": "1.0.0",
+    "parameter": {
+      "fields": {
+        "Schema": [
+          {
+            "group": "Schema",
+            "type": "Object",
+            "optional": false,
+            "field": "result",
+            "description": ""
+          },
+          {
+            "group": "Schema",
+            "type": "Object",
+            "optional": false,
+            "field": "result.found",
+            "description": ""
+          },
+          {
+            "group": "Schema",
+            "type": "Object",
+            "optional": false,
+            "field": "result.found.apps",
+            "description": "<p>An object for the apps that were found, where the keys are the Steam IDs of the games and the values are strings representing the SteamGifts IDs of the games.</p>"
+          },
+          {
+            "group": "Schema",
+            "type": "Object",
+            "optional": false,
+            "field": "result.found.subs",
+            "description": "<p>An object for the subs that were found, where the keys are the Steam IDs of the games and the values are strings representing the SteamGifts IDs of the games.</p>"
+          },
+          {
+            "group": "Schema",
+            "type": "Object",
+            "optional": false,
+            "field": "result.not_found",
+            "description": ""
+          },
+          {
+            "group": "Schema",
+            "type": "Integer[]",
+            "optional": false,
+            "field": "result.not_found.apps",
+            "description": "<p>The Steam IDs of the apps that were not found.</p>"
+          },
+          {
+            "group": "Schema",
+            "type": "Integer[]",
+            "optional": false,
+            "field": "result.not_found.subs",
+            "description": "<p>The Steam IDs of the subs that were not found.</p>"
+          },
+          {
+            "group": "Schema",
+            "type": "String",
+            "optional": false,
+            "field": "result.last_update",
+            "description": "<p>When the database was last updated in the format YYYY/MM/DD HH:mm:SS (UTC timezone).</p>"
+          }
+        ]
+      }
+    },
+    "filename": "app/esgst/routes/games/SgIds.js",
     "groupTitle": "Schemas"
   },
   {
