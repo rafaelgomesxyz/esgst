@@ -114,7 +114,6 @@ function getWebExtensionManifest(env, browserName) {
 			'*://*.graph.microsoft.com/*',
 			'*://*.rafaelgssa.com/*',
 			'*://*.isthereanydeal.com/*',
-			'*://*.revadike.com/*',
 			'*://*.script.google.com/*',
 			'*://*.script.googleusercontent.com/*',
 			'*://*.steam-tracker.com/*',
@@ -189,7 +188,7 @@ function getLegacyExtensionManifest(env, browserName) {
 			break;
 	}
 
-	if (env.development) {		
+	if (env.development) {
 		manifest.version_name = packageJson.betaVersion;
 	}
 

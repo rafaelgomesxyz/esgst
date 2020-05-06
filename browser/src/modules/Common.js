@@ -4862,16 +4862,28 @@ class Common extends Module {
 	}
 
 	async hideGames(obj, unhide) {
-		const isUsingRevadike = await permissions.contains([['revadike']]);
+		const isUsingServer = await permissions.contains([['server']]);
 		let hasCacheChanged = false;
 		let api = JSON.parse(this.getValue('sgdbCache', `{ "lastUpdate": 0 }`));
 		if (!dateFns_isSameWeek(Date.now(), api.lastUpdate)) {
-			if (isUsingRevadike) {
+			if (isUsingServer) {
 				obj.update && obj.update('Updating API cache...');
 
-				api = { cache: JSON.parse((await this.request({ method: 'GET', url: `https://revadike.com/sgdb.json` })).responseText), lastUpdate: Date.now() };
+				try {
+					const response = await FetchRequest.get('https://rafaelgssa.com/esgst/games/sg');
+					api = {
+						cache: {
+							appids: response.json.result.found.apps,
+							subids: response.json.result.found.subs,
+						},
+						lastUpdate: Date.now(),
+					};
+				} catch (err) {}
 			} else {
-				api = { cache: { appids: {}, subids: {} }, lastUpdate: Date.now() };
+				api = {
+					cache: { appids: {}, subids: {} },
+					lastUpdate: Date.now(),
+				};
 			}
 			hasCacheChanged = true;
 		}
@@ -5400,7 +5412,7 @@ class Common extends Module {
 				Shared.esgst[key] = Shared.esgst.storage[key];
 			}
 		}
-	}	
+	}
 
 	dateToServer(dateStr) {
 		const date = new Date(dateStr);

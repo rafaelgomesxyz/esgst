@@ -66,18 +66,11 @@ class Permissions {
 					gc: 'Required by Game Categories to retrieve categories that need to be retrieved from Steam.',
 					uh: 'Required by Username History to retrieve the user\'s username history and the list of recent changes from the database.',
 					ncv: 'Required to update the no CV games database when creating a new giveaway.',
-					sync: 'Required to sync reduced CV and no CV games.',
-				},
-				values: ['*://*.rafaelgssa.com/*']
-			},
-			revadike: {
-				isOrigin: true,
-				messages: {
+					sync: 'Required to sync reduced CV and no CV games and optional to hide games when syncing.',
 					hgm: 'Optional for Hidden Game Manager to hide games, by converting Steam app IDs to SteamGifts game IDs.',
 					mm: 'Optional for Multi Manager to hide games.',
-					sync: 'Optional to hide games when syncing.'
 				},
-				values: ['*://*.revadike.com/*']
+				values: ['*://*.rafaelgssa.com/*']
 			},
 			steamApi: {
 				isOrigin: true,
