@@ -137,7 +137,8 @@ class Rcv {
 	 */
 	static async _find(connection, req) {
 		const booleanMessage = 'Must be true or false.';
-		const booleanRegex = /^(true|false)$/;
+		const booleanRegex = /^(true|false|1|0|)$/i;
+		const trueBooleanRegex = /^(true|1|)$/i
 		const idsMessage = 'Must be a comma-separated list of ids e.g. 400,500,600.';
 		const idsRegex = /^((\d+,)*\d+$|$)/;
 		const dateMessage = 'Must be a date in the format YYYY-MM-DD.';
@@ -198,22 +199,22 @@ class Rcv {
 			},
 		};
 		Utils.validateParams(params, validator);
-		if (params.format_array === 'true') {
+		if (params.format_array.match(trueBooleanRegex)) {
 			params.format_array = true;
 			params.show_id = false;
-		} else if (params.show_id === 'true') {
+		} else if (params.show_id.match(trueBooleanRegex)) {
 			params.show_id = true;
 			params.format_array = false;
 		} else {
 			params.format_array = false;
 			params.show_id = false;
 		}
-		if (params.show_recent === 'true') {
+		if (params.show_recent.match(trueBooleanRegex)) {
 			params.show_recent = true;
 		} else {
 			params.show_recent = false;
 		}
-		params.show_name = params.show_name === 'true';
+		params.show_name = !!params.show_name.match(trueBooleanRegex);
 		const result = {
 			'found': {
 				'apps': params.format_array ? [] : {},

@@ -206,7 +206,8 @@ class Uh {
 	 */
 	static async _findAll(connection, req) {
 		const booleanMessage = 'Must be true or false.';
-		const booleanRegex = /^(true|false)$/;
+		const booleanRegex = /^(true|false|1|0|)$/i;
+		const trueBooleanRegex = /^(true|1|)$/i
 		const params = Object.assign({}, req.query);
 		const validator = {
 			'format_array': {
@@ -229,17 +230,17 @@ class Uh {
 			},
 		};
 		Utils.validateParams(params, validator);
-		if (params.format_array === 'true') {
+		if (params.format_array.match(trueBooleanRegex)) {
 			params.format_array = true;
 			params.show_steam_id = false;
-		} else if (params.show_steam_id === 'true') {
+		} else if (params.show_steam_id.match(trueBooleanRegex)) {
 			params.show_steam_id = true;
 			params.format_array = false;
 		} else {
 			params.format_array = false;
 			params.show_steam_id = false;
 		}
-		if (params.show_recent === 'true') {
+		if (params.show_recent.match(trueBooleanRegex)) {
 			params.show_recent = true;
 		} else {
 			params.show_recent = false;

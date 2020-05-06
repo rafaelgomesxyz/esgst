@@ -121,7 +121,8 @@ class Games {
 	 */
 	static async _find(connection, req) {
 		const booleanMessage = 'Must be true or false.';
-		const booleanRegex = /^(true|false)$/;
+		const booleanRegex = /^(true|false|1|0|)$/i;
+		const trueBooleanRegex = /^(true|1|)$/i
 		const idsMessage = 'Must be a comma-separated list of ids e.g. 400,500,600.';
 		const idsRegex = /^((\d+,)*\d+$|$)/;
 		const filtersMessage = '';
@@ -166,15 +167,15 @@ class Games {
 			},
 		};
 		Utils.validateParams(params, validator);
-		if (params.join_all === 'true') {
+		if (params.join_all.match(trueBooleanRegex)) {
 			params.join_all = true;
 			params.format_array = false;
 			params.show_id = false;
-		} else if (params.format_array === 'true') {
+		} else if (params.format_array.match(trueBooleanRegex)) {
 			params.format_array = true;
 			params.join_all = false;
 			params.show_id = false;
-		} else if (params.show_id === 'true') {
+		} else if (params.show_id.match(trueBooleanRegex)) {
 			params.show_id = true;
 			params.join_all = false;
 			params.format_array = false;
