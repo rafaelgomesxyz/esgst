@@ -20,8 +20,8 @@ jobs:
     - name: Install pnpm
       run: npm install -g pnpm
     - name: Install dependencies
-      run: cd ./browser && pnpm install
+      run: pnpm install
     - name: Build
-      run: cd ./browser && pnpm run build-dev
+      run: pnpm run build-dev
     - name: Release
-      run: cd ./browser && pnpm run generate-release beta token=${{ secrets.GH_TOKEN }}
+      run: pnpm run generate-release beta token=${{ secrets.GH_TOKEN }}

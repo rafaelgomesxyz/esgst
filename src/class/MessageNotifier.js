@@ -11,7 +11,7 @@ class _MessageNotifier {
 			return;
 		}
 		try {
-			const messages = (await FetchRequest.get('https://raw.githubusercontent.com/rafaelgssa/esgst/master/browser/messages.json')).json;
+			const messages = (await FetchRequest.get('https://raw.githubusercontent.com/rafaelgssa/esgst/master/messages.json')).json;
 			for (const message of messages) {
 				if (now - message.timestamp > 2592000000) {
 					// Message is older than 30 days.
