@@ -5227,8 +5227,8 @@ class Common extends Module {
 		popup.getScrollable([
 			['br'],
 			['div', [
-				['a', { class: 'table__column__secondary-link', href: `https://www.patreon.com/rafaelgssa`, target: '_blank' }, [
-					['strong', 'Patreon']
+				['a', { class: 'table__column__secondary-link', href: `https://www.buymeacoffee.com/rafaelgssa`, target: '_blank' }, [
+					['strong', 'Buy Me A Coffee']
 				]]
 			]],
 			['div', [
