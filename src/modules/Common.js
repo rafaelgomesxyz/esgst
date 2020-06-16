@@ -1139,30 +1139,29 @@ class Common extends Module {
 				addScrollable: true,
 				icon: 'fa-circle-o-notch fa-spin',
 				isTemp: true,
-				title: `ESGST has updated from v${Shared.esgst.previousVersion} to v${Shared.esgst.currentVersion}! Please wait while the changelog is retrieved from GitHub.`,
+				title: `ESGST has updated from v${Shared.esgst.previousVersion} to v${Shared.esgst.currentVersion}! Please wait while the changelog is retrieved from GitLab.`,
 			});
 			popup.open();
 
 			try {
 				let changelog = '';
 
-				const refsResponse = await FetchRequest.get('https://api.github.com/repos/rafaelgssa/esgst/git/matching-refs/tags');
+				const refsResponse = await FetchRequest.get('https://gitlab.com/api/v4/projects/rafaelgssa%2Fesgst/repository/tags');
 
 				if (!refsResponse || !refsResponse.json) {
 					return;
 				}
 
 				const refs = refsResponse.json;
-				refs.reverse();
 
-				let currentIndex = refs.findIndex(ref => ref.ref === `refs/tags/v${Shared.esgst.currentVersion}`);
-				const previousIndex = refs.findIndex(ref => ref.ref === `refs/tags/v${Shared.esgst.previousVersion}`);
+				let currentIndex = refs.findIndex(ref => ref.name === `v${Shared.esgst.currentVersion}`);
+				const previousIndex = refs.findIndex(ref => ref.name === `v${Shared.esgst.previousVersion}`);
 				if (currentIndex > -1 && previousIndex > -1) {
 					while (currentIndex < previousIndex) {
-						const version = refs[currentIndex].ref.split('/tags/')[1];
-						const releaseResponse = await FetchRequest.get(`https://api.github.com/repos/rafaelgssa/esgst/releases/tags/${version}`);
+						const version = refs[currentIndex].name;
+						const releaseResponse = await FetchRequest.get(`https://gitlab.com/api/v4/projects/rafaelgssa%2Fesgst/releases/${version}`);
 						if (releaseResponse && releaseResponse.json) {
-							changelog = `${changelog}## ${version}\n\n${releaseResponse.json.body.replace(/#(\d+)/g, '[$1](https://github.com/rafaelgssa/esgst/issues/$1)')}\n\n`;
+							changelog = `${changelog}## ${version}\n\n${releaseResponse.json.description.replace(/#(\d+)/g, '[$1](https://gitlab.com/rafaelgssa/esgst/-/issues/$1)')}\n\n`;
 						}
 
 						currentIndex += 1;
@@ -1179,8 +1178,8 @@ class Common extends Module {
 
 				popup.setIcon('fa-times');
 				popup.setTitle([
-					`ESGST has updated from v${Shared.esgst.previousVersion} to v${Shared.esgst.currentVersion}! An error occurred when retrieving the changelog from GitHub, please go to `,
-					['a', { href: 'https://github.com/rafaelgssa/esgst/releases' }, 'https://github.com/rafaelgssa/esgst/releases'],
+					`ESGST has updated from v${Shared.esgst.previousVersion} to v${Shared.esgst.currentVersion}! An error occurred when retrieving the changelog from GitLab, please go to `,
+					['a', { href: 'https://gitlab.com/rafaelgssa/esgst/-/releases' }, 'https://gitlab.com/rafaelgssa/esgst/-/releases'],
 					' to view it.'
 				]);
 			}
@@ -5275,25 +5274,25 @@ class Common extends Module {
 			url: 'https://www.steamgifts.com/account/settings/profile?esgst=settings',
 			dropdownItems: [
 				{
-					description: 'Visit the GitHub page.',
-					icon: 'fa fa-fw fa-github icon-grey grey',
-					name: 'GitHub',
+					description: 'Visit the GitLab page.',
+					icon: 'fa fa-fw fa-gitlab icon-grey grey',
+					name: 'GitLab',
 					openInNewTab: true,
-					url: 'https://github.com/rafaelgssa/esgst',
+					url: 'https://gitlab.com/rafaelgssa/esgst',
 				},
 				{
 					description: 'Report bugs and / or make suggestions.',
 					icon: 'fa fa-fw fa-bug icon-red red',
 					name: 'Bugs / Suggestions',
 					openInNewTab: true,
-					url: 'https://github.com/rafaelgssa/esgst/issues',
+					url: 'https://gitlab.com/rafaelgssa/esgst/-/issues',
 				},
 				{
 					description: 'Check out what\'s coming in the next versions.',
 					icon: 'fa fa-fw fa-map-signs icon-blue blue',
 					name: 'Milestones',
 					openInNewTab: true,
-					url: 'https://github.com/rafaelgssa/esgst/milestones',
+					url: 'https://gitlab.com/rafaelgssa/esgst/-/milestones',
 				},
 				{
 					description: 'Visit the discussion page.',
@@ -5313,7 +5312,7 @@ class Common extends Module {
 					icon: 'fa fa-fw fa-file-text-o icon-yellow yellow',
 					name: 'Changelog',
 					openInNewTab: true,
-					url: 'https://github.com/rafaelgssa/esgst/releases',
+					url: 'https://gitlab.com/rafaelgssa/esgst/-/releases',
 				},
 				{
 					description: 'Help make ESGST better!',

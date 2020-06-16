@@ -7,7 +7,7 @@ on:
 
 jobs:
   stable:
-    if: ${{ contains(github.event.commits[0].message, 'Bump version to') }}
+    if: ${{ contains(gitlab.event.commits[0].message, 'Bump version to') }}
     name: Build, test and release
     runs-on: ubuntu-latest
     steps:

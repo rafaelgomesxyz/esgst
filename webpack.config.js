@@ -98,7 +98,6 @@ function getWebExtensionManifest(env, browserName) {
 			'*://*.steamgifts.com/*',
 			'*://*.steamtrades.com/*',
 			'*://*.sgtools.info/*',
-			'*://*.raw.githubusercontent.com/*'
 		],
 		optional_permissions: [
 			'cookies',

@@ -2,7 +2,7 @@
 
 An extension / userscript that adds some cool features to SteamGifts and SteamTrades.
 
-If you find any bugs or have any feature requests, please file an issue [here](https://github.com/rafaelgssa/esgst/issues).
+If you find any bugs or have any feature requests, please file an issue [here](https://gitlab.com/rafaelgssa/esgst/-/issues).
 
 ---
 
@@ -32,30 +32,30 @@ There are two different ways to use ESGST: extension or userscript. You can choo
 ### Option 1 - Extension
 
 <a href="https://chrome.google.com/webstore/detail/esgst/ibedmjbicclcdfmghnkfldnplocgihna/">
-	<img src="https://raw.githubusercontent.com/rafaelgssa/esgst/master/assets/chrome-badge.png" alt="Chrome">
+	<img src="https://gitlab.com/api/v4/projects/rafaelgssa%2Fesgst/repository/files/assets%2Fchrome-badge.png/raw?ref=main" alt="Chrome">
 </a>
 <a href="https://addons.mozilla.org/en-US/firefox/addon/esgst/">
-	<img src="https://raw.githubusercontent.com/rafaelgssa/esgst/master/assets/firefox-badge.png" alt="Firefox">
+	<img src="https://gitlab.com/api/v4/projects/rafaelgssa%2Fesgst/repository/files/assets%2Ffirefox-badge.png/raw?ref=main" alt="Firefox">
 </a>
 <a href="https://addons.palemoon.org/addon/esgst/">
-	<img src="https://raw.githubusercontent.com/rafaelgssa/esgst/master/assets/palemoon-badge.png" alt="Pale Moon">
+	<img src="https://gitlab.com/api/v4/projects/rafaelgssa%2Fesgst/repository/files/assets%2Fpalemoon-badge.png/raw?ref=main" alt="Pale Moon">
 </a>
 
 It should be possible to install the extension in any Chromium-based browser from the Chrome store (such as Opera, Vivaldi, etc...), any Firefox-based browser from the Firefox store (such as Waterfox, etc...), and any browser that uses the Phoebus system from the Pale Moon store (such as Basilik, etc...).
 
 You can also use the extension on Android through Firefox for Android, but some features might not work or not be optimized enough for mobile.
 
-**Beta Versions:** Beta versions of the extension are always available in the latest pre-release at the [releases page](https://github.com/rafaelgssa/esgst/releases). You have to install them manually on your browser.
+**Beta Versions:** Beta versions of the extension are always available in the latest pre-release at the [releases page](https://gitlab.com/rafaelgssa/esgst/-/releases). You have to install them manually on your browser.
 
 ### Option 2 - Userscript
 
-To install the userscript, you must install [Tampermonkey](https://tampermonkey.net/), [Greasemonkey](http://www.greasespot.net/) or some other userscript manager first. Then [click here](https://rafaelgssa.github.io/esgst/userscript.user.js) and you should be prompted to install it. I recommend Tampermonkey, because the userscript uses the GM_addValueChangeListener API to communicate changes in the storage between tabs, and that API is not available on Greasemonkey, so a polyfill is used for Greasemonkey, which is not very effective and can affect the performance.
+To install the userscript, you must install [Tampermonkey](https://tampermonkey.net/), [Greasemonkey](http://www.greasespot.net/) or some other userscript manager first. Then [click here](https://rafaelgssa.gitlab.io/esgst/userscript.user.js) and you should be prompted to install it. I recommend Tampermonkey, because the userscript uses the GM_addValueChangeListener API to communicate changes in the storage between tabs, and that API is not available on Greasemonkey, so a polyfill is used for Greasemonkey, which is not very effective and can affect the performance.
 
 You can also use the userscript on Android through Firefox with Violentmonkey or USI, but some features might not work or not be optimized enough for mobile.
 
-**Beta Versions:** Beta versions of the userscript are always available at [https:/rafaelgssa.github.io/esgst/userscript.beta.user.js](https:/rafaelgssa.github.io/esgst/userscript.beta.user.js).
+**Beta Versions:** Beta versions of the userscript are always available at [https:/rafaelgssa.gitlab.io/esgst/userscript.beta.user.js](https:/rafaelgssa.gitlab.io/esgst/userscript.beta.user.js).
 
-* [Changelog](https://github.com/rafaelgssa/esgst/releases)
+* [Changelog](https://gitlab.com/rafaelgssa/esgst/-/releases)
 
 ---
 
