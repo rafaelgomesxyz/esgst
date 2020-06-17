@@ -98,6 +98,7 @@ function getWebExtensionManifest(env, browserName) {
 			'*://*.steamgifts.com/*',
 			'*://*.steamtrades.com/*',
 			'*://*.sgtools.info/*',
+			'*://*.gitlab.com/*',
 		],
 		optional_permissions: [
 			'cookies',
@@ -237,7 +238,7 @@ function packageWebExtension(env, browserName) {
 			streamFiles: true,
 			type: 'nodebuffer'
 		})
-			.pipe(fs.createWriteStream(path.resolve(BASE_PATH, 'dist', `${browserName}.zip`)))
+			.pipe(fs.createWriteStream(path.resolve(BASE_PATH, 'public', `${browserName}.zip`)))
 			.on('finish', () => resolve())
 			.on('error', error => reject(error));
 	});
@@ -266,7 +267,7 @@ async function packageLegacyExtension(env, browserName) {
 
 	await jpm(manifestJson, {
 		addonDir: extensionPath,
-		xpiPath: path.resolve(BASE_PATH, 'dist')
+		xpiPath: path.resolve(BASE_PATH, 'public')
 	});
 }
 
@@ -282,8 +283,8 @@ async function runFinalSteps(env) {
 		fs.mkdirSync('./build/firefox/lib');
 	}
 
-	if (!fs.existsSync('./dist')) {
-		fs.mkdirSync('./dist');
+	if (!fs.existsSync('./public')) {
+		fs.mkdirSync('./public');
 	}
 
 	const filesToCopy = [
@@ -295,7 +296,7 @@ async function runFinalSteps(env) {
 		{ from: './src/assets/images/icon-16.png', to: './build/palemoon/data/icon-16.png' },
 		{ from: './src/assets/images/icon-32.png', to: './build/palemoon/data/icon-32.png' },
 		{ from: './src/assets/images/icon-64.png', to: './build/palemoon/data/icon-64.png' },
-		{ from: './build/userscript/esgst.user.js', to: './dist/userscript.user.js' }
+		{ from: './build/userscript/esgst.user.js', to: `./public/userscript${env.development ? '.beta' : ''}.user.js` }
 	];
 
 	for (const fileToCopy of filesToCopy) {
@@ -329,7 +330,7 @@ async function runFinalSteps(env) {
 		},
 		{
 			data: `// ==UserScript==\n// @version ${packageJson.version}\n// ==/UserScript==`,
-			path: './dist/userscript.meta.js'
+			path: './public/userscript.meta.js'
 		}
 	];
 
@@ -430,7 +431,10 @@ async function getWebpackConfig(env) {
 			new plugins.clean({
 				cleanOnceBeforeBuildPatterns: [
 					path.join(process.cwd(), './build/**/*'),
-					path.join(process.cwd(), './dist/*')
+					path.join(process.cwd(), './public/*.zip'),
+					path.join(process.cwd(), './public/*.xpi'),
+					path.join(process.cwd(), './public/*.meta.js'),
+					path.join(process.cwd(), `./public/*${env.development ? '.beta' : ''}.user.js`),
 				]
 			}),
 			// @ts-ignore

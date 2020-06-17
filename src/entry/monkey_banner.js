@@ -15,6 +15,7 @@
 // @connect steamtrades.com
 // @connect steamgifts.com
 // @connect sgtools.info
+// @connect gitlab.com
 // @connect api.dropboxapi.com
 // @connect api.imgur.com
 // @connect api.steampowered.com
