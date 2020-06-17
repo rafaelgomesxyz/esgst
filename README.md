@@ -47,9 +47,9 @@ You can also use the extension on Android through Firefox for Android, but some 
 
 **Beta Versions:** The latest beta version of the extension is always available in these links:
 
-* [chrome.zip](https:/rafaelgssa.gitlab.io/esgst/chrome.zip)
-* [firefox.zip](https:/rafaelgssa.gitlab.io/esgst/firefox.zip)
-* [palemoon.xpi](https:/rafaelgssa.gitlab.io/esgst/palemoon.xpi)
+* [chrome.zip](https://rafaelgssa.gitlab.io/esgst/chrome.zip)
+* [firefox.zip](https://rafaelgssa.gitlab.io/esgst/firefox.zip)
+* [palemoon.xpi](https://rafaelgssa.gitlab.io/esgst/palemoon.xpi)
 
 ### Option 2 - Userscript
 
@@ -57,7 +57,7 @@ To install the userscript, you must install [Tampermonkey](https://tampermonkey.
 
 You can also use the userscript on Android through Firefox with Violentmonkey or USI, but some features might not work or not be optimized enough for mobile.
 
-**Beta Versions:** The latest beta version of the userscript is always available at [https:/rafaelgssa.gitlab.io/esgst/userscript.beta.user.js](https:/rafaelgssa.gitlab.io/esgst/userscript.beta.user.js).
+**Beta Versions:** The latest beta version of the userscript is always available at [https://rafaelgssa.gitlab.io/esgst/userscript.beta.user.js](https://rafaelgssa.gitlab.io/esgst/userscript.beta.user.js).
 
 * [Changelog](https://gitlab.com/rafaelgssa/esgst/-/releases)
 
