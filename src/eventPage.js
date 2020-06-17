@@ -143,6 +143,7 @@ async function doFetch(parameters, request, sender, callback) {
 		const cookies = await browser.cookies.getAll({
 			domain,
 			storeId: tab.cookieStoreId,
+			firstPartyDomain: null,
 		});
 
 		for (const cookie of cookies) {
