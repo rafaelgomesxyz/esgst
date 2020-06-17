@@ -10,5 +10,5 @@ pages:
   rules:
   - if: '$CI_COMMIT_REF_NAME == "main"'
     changes:
-    - public/
+    - public/*
     when: always
