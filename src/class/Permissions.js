@@ -23,6 +23,14 @@ class Permissions {
 				},
 				values: ['*://*.api.dropboxapi.com/*', '*://*.content.dropboxapi.com/*']
 			},
+			gitlab: {
+				isOrigin: true,
+				messages: {
+					showMessages: 'Required to retrieve important messages from GitLab.',
+					showChangelog: 'Required to retrieve the changelog from GitLab when updating.',
+				},
+				values: ['*://*.gitlab.com/*']
+			},
 			googleDrive: {
 				isOrigin: true,
 				messages: {

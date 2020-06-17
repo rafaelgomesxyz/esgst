@@ -900,6 +900,16 @@ class Common extends Module {
 						sg: true,
 						st: true
 					},
+					showMessages: {
+						description: [
+							['ul', [
+								['li', 'Important messages are used to inform ESGST users of something that needs their attention. Because these messages are retrieved from GitLab, the extension doesn\'t need to be updated in order for them to be hard-coded.'],
+							]],
+						],
+						name: 'Show important messages.',
+						sg: true,
+						st: true
+					},
 					showChangelog: {
 						name: 'Show changelog from the new version when updating.',
 						sg: true,
@@ -1135,6 +1145,25 @@ class Common extends Module {
 			]);
 			Shared.esgst.isFirstRun = false;
 		} else if (Shared.esgst.isUpdate && Settings.get('showChangelog')) {
+			const hasPermission = await permissions.contains([['gitlab']]);
+
+			if (!hasPermission) {
+				new Popup({
+					addScrollable: true,
+					icon: 'fa-check',
+					isTemp: true,
+					title: [
+						`ESGST has updated from v${Shared.esgst.previousVersion} to v${Shared.esgst.currentVersion}! Please go to `,
+						['a', { href: 'https://gitlab.com/rafaelgssa/esgst/-/releases' }, 'https://gitlab.com/rafaelgssa/esgst/-/releases'],
+						' to view the changelog. If you want the changelog to be automatically retrieved from GitLab and shown in this popup when updating, then go to the settings menu and grant permission to "gitlab.com"',
+					],
+				}).open();
+
+				Shared.esgst.isUpdate = false;
+
+				return;
+			}
+			
 			const popup = new Popup({
 				addScrollable: true,
 				icon: 'fa-circle-o-notch fa-spin',

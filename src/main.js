@@ -288,7 +288,9 @@ window.interact = interact;
 
 		common.checkNewVersion();
 
-		await MessageNotifier.notify(esgst.notifiedMessages);
+		if (Settings.get('showMessages')) {
+			await MessageNotifier.notify(esgst.notifiedMessages);
+		}
 
 		await common.loadFeatures(esgst.modules);
 	}
