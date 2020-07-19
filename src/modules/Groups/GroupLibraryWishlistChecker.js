@@ -5,6 +5,8 @@ import { Shared } from '../../class/Shared';
 import { Settings } from '../../class/Settings';
 import { permissions } from '../../class/Permissions';
 import { DOM } from '../../class/DOM';
+import { ToggleSwitch } from '../../class/ToggleSwitch';
+import { Logger } from '../../class/Logger';
 
 const
 	createElements = common.createElements.bind(common),
@@ -70,9 +72,8 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 			createHeadingButton({
 				id: 'glwc',
 				icons: ['fa-folder', 'fa-star'],
-				title: 'Check libraries/wishlists'
-			}).addEventListener('click', () => {
-				window.open(`https://www.steamgifts.com/account/settings/profile?esgst=glwc&${parameters}`);
+				title: 'Check libraries/wishlists',
+				link: `https://www.steamgifts.com/account/settings/profile?esgst=glwc&${parameters}`,
 			});
 		} else if (Shared.common.isCurrentPath('Account') && Shared.esgst.parameters.esgst === 'glwc') {
 			if (!(await permissions.contains([['steamApi', 'steamCommunity', 'steamStore']]))) {
@@ -100,6 +101,11 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 					}
 				]
 			});
+			new ToggleSwitch(glwc.container, 'glwc_checkMaxWishlists', false, [
+				'Only check users with a maximum of ',
+				['input', { class: 'esgst-switch-input', type: 'number', min: '0', value: Settings.get('glwc_maxWishlists'), onchange: event => { Settings.set('glwc_maxWishlists', parseInt(event.target.value)); Shared.common.setSetting('glwc_maxWishlists', Settings.get('glwc_maxWishlists')); } }],
+				' games in their wishlist.',
+			], false, false, 'Enter the maximum number of games that a user must have in their wishlist in order to be checked.', Settings.get('glwc_checkMaxWishlists'));
 			glwc.progress = createElements(glwc.container, 'beforeEnd', [{
 				type: 'div'
 			}]);
@@ -206,97 +212,107 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 	async glwc_getGames(glwc, i, n) {
 		if (glwc.isCanceled) return;
 		if (i < n) {
-			createElements(glwc.progress, 'inner', [{
-				attributes: {
-					class: 'fa fa-circle-o-notch fa-spin'
-				},
-				type: 'i'
-			}, {
-				text: `Retrieving libraries/wishlists (${i + 1} of ${n})...`,
-				type: 'span'
-			}]);
-			if (!glwc.id || glwc.members.indexOf(glwc.users[i].steamId) >= 0) {
-				try {
-					glwc.users[i].library = [];
-					let elements = JSON.parse((await request({
-						method: 'GET',
-						url: `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${Settings.get('steamApiKey')}&steamid=${glwc.users[i].steamId}&format=json`
-					})).responseText).response.games;
-					if (elements) {
-						elements.forEach(element => {
-							let game = {
-								id: element.appid,
-								logo: `https://steamcdn-a.akamaihd.net/steam/apps/${element.appid}/header.jpg`,
-								name: `${element.appid}`
-							};
+			try {
+				createElements(glwc.progress, 'inner', [{
+					attributes: {
+						class: 'fa fa-circle-o-notch fa-spin'
+					},
+					type: 'i'
+				}, {
+					text: `Retrieving libraries/wishlists (${i + 1} of ${n})...`,
+					type: 'span'
+				}]);
+				if (!glwc.id || glwc.members.indexOf(glwc.users[i].steamId) >= 0) {
+					try {
+						glwc.users[i].library = [];
+						let elements = JSON.parse((await request({
+							method: 'GET',
+							url: `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${Settings.get('steamApiKey')}&steamid=${glwc.users[i].steamId}&format=json`
+						})).responseText).response.games;
+						if (elements) {
+							elements.forEach(element => {
+								let game = {
+									id: element.appid,
+									logo: `https://steamcdn-a.akamaihd.net/steam/apps/${element.appid}/header.jpg`,
+									name: `${element.appid}`
+								};
 
-							if (Shared.esgst.appList) {
-								const name = Shared.esgst.appList[element.appid];
+								if (Shared.esgst.appList) {
+									const name = Shared.esgst.appList[element.appid];
 
-								if (name) {
-									game.name = name;
+									if (name) {
+										game.name = name;
+									}
 								}
-							}
 
-							if (!glwc.games[game.id]) {
-								game.libraries = [];
-								game.wishlists = [];
-								glwc.games[game.id] = game;
-							}
-							glwc.games[game.id].libraries.push(i);
-							glwc.users[i].library.push(game.id);
-						});
+								if (!glwc.games[game.id]) {
+									game.libraries = [];
+									game.wishlists = [];
+									glwc.games[game.id] = game;
+								}
+								glwc.games[game.id].libraries.push(i);
+								glwc.users[i].library.push(game.id);
+							});
+						}
+					} catch (e) { /**/
 					}
-				} catch (e) { /**/
-				}
-				glwc.users[i].wishlist = [];
-				let responseText = (await request({
-					method: 'GET',
-					url: `http://store.steampowered.com/wishlist/profiles/${glwc.users[i].steamId}`
-				})).responseText;
-				let wishlistData = responseText.match(/g_rgWishlistData\s=\s(\[(.+?)]);/);
-				if (wishlistData) {
-					let appInfo = responseText.match(/g_rgAppInfo\s=\s({(.+?)});/);
-					let games = appInfo ? JSON.parse(appInfo[1]) : null;
-					JSON.parse(wishlistData[1]).forEach(item => {
-						let id = item.appid;
-						let game = { id };
-						if (games && games[id]) {
-							game.logo = games[id].capsule;
-							game.name = games[id].name;
-						} else {
-							game.logo = `https://steamcdn-a.akamaihd.net/steam/apps/${id}/header.jpg`;
+					glwc.users[i].wishlist = [];
+					let responseText = (await request({
+						method: 'GET',
+						url: `http://store.steampowered.com/wishlist/profiles/${glwc.users[i].steamId}`
+					})).responseText;
+					let wishlistData = responseText.match(/g_rgWishlistData\s=\s(\[(.+?)]);/);
+					if (wishlistData) {
+						let appInfo = responseText.match(/g_rgAppInfo\s=\s({(.+?)});/);
+						let games = appInfo ? JSON.parse(appInfo[1]) : null;
+						const wishlistGames = JSON.parse(wishlistData[1]);
+						const maxWishlists = parseInt(Settings.get('glwc_maxWishlists') || '0');
+						if (wishlistGames.length <= maxWishlists) {
+							wishlistGames.forEach(item => {
+								let id = item.appid;
+								let game = { id };
+								if (games && games[id]) {
+									game.logo = games[id].capsule;
+									game.name = games[id].name;
+								} else {
+									game.logo = `https://steamcdn-a.akamaihd.net/steam/apps/${id}/header.jpg`;
 
-							if (Shared.esgst.appList) {
-								const name = Shared.esgst.appList[item.appid];
+									if (Shared.esgst.appList) {
+										const name = Shared.esgst.appList[item.appid];
 
-								if (name) {
-									game.name = name;
+										if (name) {
+											game.name = name;
+										}
+									}
+
+									if (!game.name) {
+										game.name = `${id}`;
+									}
 								}
-							}
-
-							if (!game.name) {
-								game.name = `${id}`;
-							}
+								if (glwc.games[id]) {
+									if (game.logo && game.name) {
+										glwc.games[id].logo = game.logo;
+										glwc.games[id].name = game.name;
+									}
+								} else {
+									game.libraries = [];
+									game.wishlists = [];
+									glwc.games[id] = game;
+								}
+								glwc.games[id].wishlists.push(i);
+								glwc.users[i].wishlist.push(parseInt(id));
+							});
 						}
-						if (glwc.games[id]) {
-							if (game.logo && game.name) {
-								glwc.games[id].logo = game.logo;
-								glwc.games[id].name = game.name;
-							}
-						} else {
-							game.libraries = [];
-							game.wishlists = [];
-							glwc.games[id] = game;
-						}
-						glwc.games[id].wishlists.push(i);
-						glwc.users[i].wishlist.push(parseInt(id));
-					});
+					}
+					glwc.memberCount += 1;
+					window.setTimeout(() => this.glwc_getGames(glwc, ++i, n), 0);
+				} else {
+					window.setTimeout(() => this.glwc_getGames(glwc, ++i, n), 0);
 				}
-				glwc.memberCount += 1;
-				window.setTimeout(() => this.glwc_getGames(glwc, ++i, n), 0);
-			} else {
-				window.setTimeout(() => this.glwc_getGames(glwc, ++i, n), 0);
+			} catch (err) {
+				Logger.error(err);
+				glwc.progress.innerHTML = 'An error happened (check the console log).';
+				glwc.overallProgress.innerHTML = '';
 			}
 		} else {
 			glwc.progress.innerHTML = '';

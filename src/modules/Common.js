@@ -1090,14 +1090,19 @@ class Common extends Module {
 				type: 'i'
 			});
 		}
+		const attributes = {
+			class: 'esgst-heading-button',
+			['data-draggable-id']: id,
+			id: `esgst-${details.id}`,
+			title: this.getFeatureTooltip(details.featureId || details.id, details.title),
+		};
+		if (details.link) {
+			attributes.href = details.link;
+			attributes.target = '_blank';
+		}
 		return this.createElements(context, 'beforeEnd', [{
-			attributes: {
-				class: 'esgst-heading-button',
-				['data-draggable-id']: id,
-				id: `esgst-${details.id}`,
-				title: this.getFeatureTooltip(details.featureId || details.id, details.title)
-			},
-			type: 'div',
+			attributes,
+			type: details.link ? 'a' : 'div',
 			children
 		}]);
 	}

@@ -1841,11 +1841,17 @@ function addStyle() {
 	}
 
 	.esgst-toggle-switch-container {
+		align-items: center;
+		display: flex;
 		margin: 2px;
 	}
 
 	.esgst-toggle-switch-container.inline {
-		display: inline-block;
+		display: inline-flex;
+	}
+	
+	.esgst-toggle-switch-container i {
+		margin: 0 5px;
 	}
 
 	.page__heading .esgst-toggle-switch-container.inline, .page_heading .esgst-toggle-switch-container.inline, .esgst-page-heading .esgst-toggle-switch-container.inline {
@@ -1857,10 +1863,8 @@ function addStyle() {
 
 	.esgst-toggle-switch {
 		position: relative;
-		display: inline-block;
 		width: 26px;
 		height: 14px;
-		vertical-align: top;
 	}
 
 	.esgst-toggle-switch input {

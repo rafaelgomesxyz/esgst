@@ -8,6 +8,8 @@ class _Settings {
 		this.fullSettings = {};
 
 		this.defaultValues = {
+			glwc_checkMaxWishlists: false,
+			glwc_maxWishlists: 500,
 			es_g_sg: true,
 			es_d_sg: true,
 			es_c_sg: true,
