@@ -153,7 +153,6 @@ function getWebExtensionManifest(env, browserName) {
 
 	if (env.development) {
 		manifest.content_security_policy = "script-src 'self' 'unsafe-eval'; object-src 'self';";
-		manifest.version_name = packageJson.betaVersion;
 	}
 
 	return manifest;
@@ -188,10 +187,6 @@ function getLegacyExtensionManifest(env, browserName) {
 			break;
 	}
 
-	if (env.development) {
-		manifest.version_name = packageJson.betaVersion;
-	}
-
 	return manifest;
 }
 
@@ -209,10 +204,6 @@ function packageWebExtension(env, browserName) {
 		const manifestJson = JSON.parse(fs.readFileSync(manifestPath));
 
 		manifestJson.version = packageJson.version;
-
-		if (env.development) {
-			manifestJson.version_name = packageJson.betaVersion;
-		}
 
 		const manifestStr = JSON.stringify(manifestJson, null, 2);
 
@@ -257,10 +248,6 @@ async function packageLegacyExtension(env, browserName) {
 
 	manifestJson.version = packageJson.version;
 
-	if (env.development) {
-		manifestJson.version_name = packageJson.betaVersion;
-	}
-
 	const manifestStr = JSON.stringify(manifestJson, null, 2);
 
 	fs.writeFileSync(manifestPath, manifestStr);
@@ -296,7 +283,7 @@ async function runFinalSteps(env) {
 		{ from: './src/assets/images/icon-16.png', to: './build/palemoon/data/icon-16.png' },
 		{ from: './src/assets/images/icon-32.png', to: './build/palemoon/data/icon-32.png' },
 		{ from: './src/assets/images/icon-64.png', to: './build/palemoon/data/icon-64.png' },
-		{ from: './build/userscript/esgst.user.js', to: `./dist/userscript${env.development ? '.beta' : ''}.user.js` }
+		{ from: './build/userscript/esgst.user.js', to: `./dist/userscript.user.js` }
 	];
 
 	for (const fileToCopy of filesToCopy) {
@@ -434,7 +421,7 @@ async function getWebpackConfig(env) {
 					path.join(process.cwd(), './dist/*.zip'),
 					path.join(process.cwd(), './dist/*.xpi'),
 					path.join(process.cwd(), './dist/*.meta.js'),
-					path.join(process.cwd(), `./dist/*${env.development ? '.beta' : ''}.user.js`),
+					path.join(process.cwd(), `./dist/*.user.js`),
 				]
 			}),
 			// @ts-ignore

@@ -73,33 +73,12 @@ async function generateChangelog() {
 }
 
 async function generateRelease() {
-	if (args.beta) {
-		if (packageJson.betaVersion === packageJson.version) {
-			return;
-		}
-
-		const releases = await octokit.repos.listReleases(Object.assign({}, defaultParams));
-
-		const preRelease = releases.data.filter(release => release.prerelease)[0];
-
-		if (preRelease) {
-			await octokit.repos.deleteRelease(Object.assign({}, defaultParams, {
-				release_id: preRelease.id
-			}));
-
-			await octokit.git.deleteRef(Object.assign({}, defaultParams, {
-				ref: `tags/${preRelease.tag_name}`
-			}));
-		}
-	}
-
-	const body = args.beta ? '' : (await generateChangelog());
-	const version = `v${args.beta ? packageJson.betaVersion : packageJson.version}`;
+	const body = await generateChangelog();
+	const version = `v${packageJson.version}`;
 
 	const release = await octokit.repos.createRelease(Object.assign({}, defaultParams, {
 		body,
 		name: version,
-		prerelease: !!args.beta,
 		tag_name: version
 	}));
 
@@ -136,32 +115,6 @@ async function generateRelease() {
 			url
 		}));
 	}
-
-	const tree = (await octokit.git.getTree({
-		...defaultParams,
-		tree_sha: 'gh-pages',
-	})).data.tree;
-
-	if (!args.beta) {
-		promises.push(octokit.repos.createOrUpdateFile({
-			...defaultParams,
-			branch: 'gh-pages',
-			content: fs.readFileSync(path.resolve(__dirname, '../dist/userscript.meta.js')).toString('base64'),
-			message: `Bump userscript.meta.js to ${version}`,
-			path: 'userscript.meta.js',
-			sha: tree.find(node => node.path === 'userscript.meta.js').sha,
-		}));
-	}
-
-	const userscriptExtension = args.beta ? '.beta' : '';
-	promises.push(octokit.repos.createOrUpdateFile({
-		...defaultParams,
-		branch: 'gh-pages',
-		content: fs.readFileSync(path.resolve(__dirname, '../dist/userscript.user.js')).toString('base64'),
-		message: `Bump userscript${userscriptExtension}.user.js to ${version}`,
-		path: `userscript${userscriptExtension}.user.js`,
-		sha: tree.find(node => node.path === `userscript${userscriptExtension}.user.js`).sha,
-	}));
 
 	await Promise.all(promises);
 }
