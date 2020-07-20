@@ -19,14 +19,16 @@ class ButtonSet {
 		if (details.tooltip) {
 			this.set.title = details.tooltip;
 		}
+		const icons1 = Array.isArray(details.icon1) ? details.icon1 : [details.icon1];
+		const icons2 = Array.isArray(details.icon2) ? details.icon2 : [details.icon2];
 		DOM.insert(this.set, 'inner', (
 			<>
 				<div class={`${classes[details.color1]} btn_action ${details.color1}`}>
-					<i class={`fa ${details.icon1}`}></i>
+					{icons1.map(icon => <i class={`fa ${icon}`}></i>)}
 					<span>{details.title1}</span>
 				</div>
 				<div class={`${classes[details.color2]} btn_action ${details.color2} is-disabled is_disabled esgst-hidden`}>
-					<i class={`fa ${details.icon2}`}></i>
+					{icons2.map(icon => <i class={`fa ${icon}`}></i>)}
 					<span>{details.title2}</span>
 				</div>
 			</>

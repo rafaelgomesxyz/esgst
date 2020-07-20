@@ -633,12 +633,21 @@ function addStyle() {
 		overflow-y: auto !important;
 	}
 
+	.esgst-mm-popout .esgst-button-group {
+		align-items: center;
+		display: flex;
+	}
+
+	.esgst-mm-popout .esgst-button-set {
+		display: flex;
+	}
+
 	.esgst-mm-popout .esgst-button-set >* {
+		flex: 1;
 		line-height: 25px;
 		margin: 2px;
 		padding-bottom: 0;
 		padding-top: 0;
-		width: 100px;
 	}
 
 	.esgst-mm-headings {
