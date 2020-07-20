@@ -3,12 +3,12 @@ image: alpine:latest
 pages:
   stage: deploy
   script:
-  - echo 'Nothing to do...'
+    - echo 'Nothing to do...'
   artifacts:
     paths:
-    - public/
+      - public/
   rules:
-  - if: '$CI_COMMIT_REF_NAME == "main"'
-    changes:
-    - public/*
-    when: always
+    - if: '$CI_COMMIT_REF_NAME == "main"'
+      changes:
+        - public/*
+      when: always

@@ -1,16 +1,19 @@
 {
-	"presets": [
-		"@babel/typescript",
-		"@babel/preset-env"
-	],
 	"plugins": [
-		["@babel/plugin-transform-react-jsx", {
-			"pragma": "DOM.element",
-			"pragmaFrag": "DOM.fragment"
-		}],
+		[
+			"@babel/plugin-transform-react-jsx",
+			{
+				"pragma": "DOM.element",
+				"pragmaFrag": "DOM.fragment"
+			}
+		],
 		"@babel/proposal-class-properties",
-		["@babel/plugin-transform-runtime", {
-			"regenerator": true
-		}]
-	]
+		[
+			"@babel/plugin-transform-runtime",
+			{
+				"regenerator": true
+			}
+		]
+	],
+	"presets": ["@babel/typescript", "@babel/preset-env"]
 }
