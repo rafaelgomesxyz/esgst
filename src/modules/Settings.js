@@ -1312,8 +1312,12 @@ class SettingsModule {
 	}
 
 	getSMFeature(feature, id, number, popup) {
-		const menu = document.createElement('div');
-		menu.id = `esgst_${id}`;
+		const menuContainer = document.createElement('div');
+		menuContainer.className = 'esgst-sm-feature-container';
+		menuContainer.id = `esgst_${id}`;
+		const menu = DOM.build(menuContainer, 'inner', [
+			['div', { class: 'esgst-sm-feature' } ],
+		]);
 		Shared.common.createElements(menu, 'beforeEnd', [{
 			attributes: {
 				class: 'esgst-sm-small-number esgst-form-heading-number'
@@ -1545,7 +1549,7 @@ class SettingsModule {
 		}
 		const featureName = JSON.parse(JSON.stringify(feature.name).replace(/\[id=(.+?)]/g, Shared.common.getFeatureName.bind(Shared.common)));
 		DOM.build(menu, 'beforeEnd', [
-			['span', [
+			['span', { class: 'esgst-sm-feature-name' }, [
 				sgContext && sgContext.firstElementChild,
 				stContext && stContext.firstElementChild,
 				sgtoolsContext && sgtoolsContext.firstElementChild,
@@ -1553,9 +1557,10 @@ class SettingsModule {
 					...(Array.isArray(featureName) ? featureName : [featureName])
 				]]
 			]],
+		]);
+		subMenu = DOM.build(menuContainer, 'beforeEnd', [
 			['div', { class: `esgst-form-row-indent SMFeatures ${isHidden ? 'esgst-hidden' : ''}` }]
 		]);
-		subMenu = menu.lastElementChild;
 		if (feature.features) {
 			let i = 1;
 			let isNew = false;
@@ -1617,11 +1622,11 @@ class SettingsModule {
 				collapseButton.addEventListener('click', () => isExpanded = this.collapseOrExpandSection(collapseButton, id, subMenu, isExpanded));
 			}
 		} else if (Settings.get('makeSectionsCollapsible')) {
-			menu.style.marginLeft = '20px';
+			menuContainer.style.marginLeft = '20px';
 		}
 		return {
 			isNew: isMainNew,
-			menu
+			menu: menuContainer
 		};
 	}
 

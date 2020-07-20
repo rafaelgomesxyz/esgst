@@ -192,6 +192,16 @@ function addStyle() {
 	`;
 	}
 	style += `
+	.esgst-sm-feature-container {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.esgst-sm-feature, .esgst-sm-feature-name {
+		align-items: center;
+		display: flex;
+	}
+	
 	.form-control {
 		font-size: 12px !important;
 		height: 22px !important;
