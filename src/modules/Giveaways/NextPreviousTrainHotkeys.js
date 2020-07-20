@@ -1,6 +1,7 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
 import { Settings } from '../../class/Settings';
+import { Tabs } from '../../class/Tabs';
 
 const
 	createAlert = common.createAlert.bind(common)
@@ -84,7 +85,7 @@ class GiveawaysNextPreviousTrainHotkeys extends Module {
 			if (event.key === Settings.get('npth_previousKey')) {
 				if (previous) {
 					if (event.ctrlKey) {
-						window.open(previous.getAttribute('href'));
+						Tabs.open(previous.getAttribute('href'));
 					} else {
 						window.location.href = previous.getAttribute('href');
 					}
@@ -92,7 +93,7 @@ class GiveawaysNextPreviousTrainHotkeys extends Module {
 					referrer = document.referrer;
 					if (referrer.match(/\/giveaway\//) && ((next && referrer !== next.getAttribute('href')) || !next)) {
 						if (event.ctrlKey) {
-							window.open(referrer);
+							Tabs.open(referrer);
 						} else {
 							window.location.href = referrer;
 						}
@@ -103,7 +104,7 @@ class GiveawaysNextPreviousTrainHotkeys extends Module {
 			} else if (event.key === Settings.get('npth_nextKey')) {
 				if (next) {
 					if (event.ctrlKey) {
-						window.open(next.getAttribute('href'));
+						Tabs.open(next.getAttribute('href'));
 					} else {
 						window.location.href = next.getAttribute('href');
 					}

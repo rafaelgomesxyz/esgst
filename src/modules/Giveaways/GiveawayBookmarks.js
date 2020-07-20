@@ -7,6 +7,7 @@ import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
 import { Shared } from '../../class/Shared';
 import { Settings } from '../../class/Settings';
 import { DOM } from '../../class/DOM';
+import { Tabs } from '../../class/Tabs';
 
 const
 	createElements = common.createElements.bind(common),
@@ -240,7 +241,7 @@ class GiveawaysGiveawayBookmarks extends Module {
 		if (button) {
 			button.nodes.outer.addEventListener('click', () => {
 				if (Settings.get('gb_t')) {
-					window.open(`https://www.steamgifts.com/account/settings/profile?esgst=gb`);
+					Tabs.open(`https://www.steamgifts.com/account/settings/profile?esgst=gb`);
 				} else {
 					const popup = new Popup({
 						addScrollable: 'left',

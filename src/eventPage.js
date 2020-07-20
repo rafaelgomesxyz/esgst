@@ -274,6 +274,9 @@ browser.runtime.onMessage.addListener((request, sender) => {
 				// noinspection JSIgnoredPromiseFromCall
 				getTabs(request);
 				break;
+			case 'open_tab':
+				openTab(request.url);
+				break;
 		}
 	});
 });
@@ -304,7 +307,7 @@ async function getTabs(request) {
 		} else if (request.any) {
 			any = true;
 		} else {
-			window.open(item.url);
+			openTab(item.url);
 		}
 	}
 	if (any) {
@@ -313,6 +316,18 @@ async function getTabs(request) {
 			await updateTab(tab.id, {active: true});
 		}
 	}
+}
+
+async function openTab(url) {
+	const options = { url };
+	const tab = (await browser.tabs.query({ active: true }))[0];
+	if (tab) {
+		options.index = tab.index + 1;
+		if (tab.cookieStoreId) {
+			options.cookieStoreId = tab.cookieStoreId;
+		}
+	}
+	return browser.tabs.create(options);
 }
 
 function queryTabs(query) {

@@ -10,6 +10,7 @@ import { Settings } from '../../class/Settings';
 import { Logger } from '../../class/Logger';
 import { DOM } from '../../class/DOM';
 import { permissions } from '../../class/Permissions';
+import { Tabs } from '../../class/Tabs';
 
 const
 	buildGiveaway = common.buildGiveaway.bind(common),
@@ -168,7 +169,7 @@ class GiveawaysGiveawayExtractor extends Module {
 								ge.ignoreDiscussionComments = Settings.get('ge_ignoreDiscussionComments');
 								ge.ignoreGiveawayComments = Settings.get('ge_ignoreGiveawayComments');
 								if (Settings.get('ge_t')) {
-									window.open(`https://www.steamgifts.com/account/settings/profile?esgst=ge&${ge.extractOnward ? `extractOnward=true&` : ''}${ge.flushCache ? `flush=true&flushHrs=${ge.flushCacheHours}&` : ''}${ge.ignoreDiscussionComments ? `noDiscCmt=true&` : ''}${ge.ignoreGiveawayComments ? `noGaCmt=true&` : ''}url=${window.location.pathname.replace(/\/search.*/, '')}${this.esgst.parameters.page ? `&page=${this.esgst.parameters.page}` : ''}`);
+									Tabs.open(`https://www.steamgifts.com/account/settings/profile?esgst=ge&${ge.extractOnward ? `extractOnward=true&` : ''}${ge.flushCache ? `flush=true&flushHrs=${ge.flushCacheHours}&` : ''}${ge.ignoreDiscussionComments ? `noDiscCmt=true&` : ''}${ge.ignoreGiveawayComments ? `noGaCmt=true&` : ''}url=${window.location.pathname.replace(/\/search.*/, '')}${this.esgst.parameters.page ? `&page=${this.esgst.parameters.page}` : ''}`);
 								} else {
 									this.ge_openPopup(ge);
 								}
@@ -182,7 +183,7 @@ class GiveawaysGiveawayExtractor extends Module {
 		} else {
 			ge.button.addEventListener('click', () => {
 				if (Settings.get('ge_t')) {
-					window.open(`https://www.steamgifts.com/account/settings/profile?esgst=ge&url=${window.location.pathname.replace(/\/search.*/, '')}${this.esgst.parameters.page ? `&page=${this.esgst.parameters.page}` : ''}`);
+					Tabs.open(`https://www.steamgifts.com/account/settings/profile?esgst=ge&url=${window.location.pathname.replace(/\/search.*/, '')}${this.esgst.parameters.page ? `&page=${this.esgst.parameters.page}` : ''}`);
 				} else {
 					this.ge_openPopup(ge);
 				}
@@ -395,7 +396,7 @@ class GiveawaysGiveawayExtractor extends Module {
 					points += giveaway.points;
 					total += 1;
 				} else if (Settings.get('ge_sgt') && (!Settings.get('ge_sgt_l') || ge.sgToolsCount < Settings.get('ge_sgt_limit'))) {
-					window.open(`https://www.sgtools.info/giveaways/${code}`);
+					Tabs.open(`https://www.sgtools.info/giveaways/${code}`);
 					ge.sgToolsCount += 1;
 				}
 
@@ -520,7 +521,7 @@ class GiveawaysGiveawayExtractor extends Module {
 					let sgTools = code.length > 5;
 					if (sgTools) {
 						if (Settings.get('ge_sgt') && (!Settings.get('ge_sgt_l') || ge.sgToolsCount < Settings.get('ge_sgt_limit'))) {
-							window.open(`https://www.sgtools.info/giveaways/${code}`);
+							Tabs.open(`https://www.sgtools.info/giveaways/${code}`);
 							ge.cache[ge.cacheId].codes.push(code);
 							ge.extracted.push(code);
 							ge.sgToolsCount += 1;

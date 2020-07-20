@@ -2,6 +2,7 @@ import { Module } from '../../class/Module';
 import { common } from '../Common';
 import { DOM } from '../../class/DOM';
 import { Session } from '../../class/Session';
+import { Tabs } from '../../class/Tabs';
 
 const
 	createElements = common.createElements.bind(common),
@@ -133,7 +134,7 @@ class GiveawaysGiveawayRecreator extends Module {
 		giveaways[giveaway.code].recreated = true;
 		await setValue('giveaways', JSON.stringify(giveaways));
 		button.remove();
-		window.open('/giveaways/new');
+		Tabs.open('/giveaways/new');
 	}
 }
 

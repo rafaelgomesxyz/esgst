@@ -5,6 +5,7 @@ import { Settings } from '../../class/Settings';
 import { DOM } from '../../class/DOM';
 import { Session } from '../../class/Session';
 import { LocalStorage } from '../../class/LocalStorage';
+import { Tabs } from '../../class/Tabs';
 
 class CommentsCommentTracker extends Module {
 	constructor() {
@@ -421,9 +422,9 @@ class CommentsCommentTracker extends Module {
 											}
 										} else {
 											if (comment.id) {
-												window.open(`/go/comment/${comment.id}`);
+												Tabs.open(`/go/comment/${comment.id}`);
 											} else {
-												window.open(`/discussion/${comment.code}/`);
+												Tabs.open(`/discussion/${comment.code}/`);
 											}
 										}
 									} else {
@@ -473,9 +474,9 @@ class CommentsCommentTracker extends Module {
 							}
 						} else {
 							if (unread.id) {
-								window.open(`/go/comment/${unread.id}`);
+								Tabs.open(`/go/comment/${unread.id}`);
 							} else {
-								window.open(`/discussion/${unread.code}/`);
+								Tabs.open(`/discussion/${unread.code}/`);
 							}
 						}
 					} else {

@@ -7,6 +7,7 @@ import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
 import { Shared } from '../../class/Shared';
 import { Settings } from '../../class/Settings';
 import { DOM } from '../../class/DOM';
+import { Tabs } from '../../class/Tabs';
 
 const
 	buildGiveaway = common.buildGiveaway.bind(common),
@@ -91,7 +92,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
 
 			ged.button.nodes.outer.addEventListener('click', () => {
 				if (Settings.get('ged_t')) {
-					window.open(`https://www.steamgifts.com/account/settings/profile?esgst=ged`);
+					Tabs.open(`https://www.steamgifts.com/account/settings/profile?esgst=ged`);
 				} else {
 					this.ged_openPopup({isPopup: true});
 				}

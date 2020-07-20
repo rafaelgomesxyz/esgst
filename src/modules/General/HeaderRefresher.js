@@ -11,6 +11,7 @@ import { Session } from '../../class/Session';
 import { Shared } from '../../class/Shared';
 import { Header } from '../../components/Header';
 import { LocalStorage } from '../../class/LocalStorage';
+import { Tabs } from '../../class/Tabs';
 
 class GeneralHeaderRefresher extends Module {
 	constructor() {
@@ -531,15 +532,15 @@ class GeneralHeaderRefresher extends Module {
 				});
 			} else {
 				if (details.won) {
-					window.open('/giveaways/won');
+					Tabs.open('/giveaways/won');
 				}
 
 				if (details.inbox) {
-					window.open('/messages');
+					Tabs.open('/messages');
 				}
 
 				if (details.wishlist) {
-					window.open('/giveaways/search?type=wishlist');
+					Tabs.open('/giveaways/search?type=wishlist');
 				}
 			}
 

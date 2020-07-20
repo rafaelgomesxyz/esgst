@@ -11,6 +11,7 @@ import { Logger } from '../../class/Logger';
 import { DOM } from '../../class/DOM';
 import { Session } from '../../class/Session';
 import { LocalStorage } from '../../class/LocalStorage';
+import { Tabs } from '../../class/Tabs';
 
 const
 	buildGiveaway = common.buildGiveaway.bind(common),
@@ -1928,7 +1929,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 			if (mgc.created.length) {
 				LocalStorage.delete('mgcCache');
 				LocalStorage.set('mgcAttach_step4', mgc.firstWagon);
-				window.open(`/discussion/${mgc.discussion}/`);
+				Tabs.open(`/discussion/${mgc.discussion}/`);
 				viewButton.set.classList.remove('esgst-hidden');
 			}
 			callback();
@@ -2033,7 +2034,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 	mgc_attachNewDiscussion(mgc, popup, callback) {
 		let win;
 		LocalStorage.set('mgcAttach_step1', true);
-		win = window.open('/discussions/new');
+		win = Tabs.open('/discussions/new');
 		window.setTimeout(() => this.mgc_checkAttached(mgc, popup, win, callback), 100);
 	}
 

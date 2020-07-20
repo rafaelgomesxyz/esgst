@@ -24,6 +24,7 @@ import { DOM } from '../class/DOM';
 import { Session } from '../class/Session';
 import { LocalStorage } from '../class/LocalStorage';
 import { FetchRequest } from '../class/FetchRequest';
+import { Tabs } from '../class/Tabs';
 
 const SHORT_MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
@@ -1044,7 +1045,7 @@ class Common extends Module {
 		element.addEventListener('mouseup', () => {
 			if (isDragging === -1) return;
 			if (Settings.get(id) || isDragging === 1) {
-				window.open(url);
+				Tabs.open(url);
 			} else {
 				callback();
 			}
@@ -1793,7 +1794,7 @@ class Common extends Module {
 			});
 			if (parameters) {
 				if (Settings.get('openAutoSyncNewTab')) {
-					window.open(`${Shared.esgst.syncUrl}&autoSync=true&${parameters}`);
+					Tabs.open(`${Shared.esgst.syncUrl}&autoSync=true&${parameters}`);
 				} else {
 					runSilentSync(parameters);
 				}
@@ -2899,7 +2900,7 @@ class Common extends Module {
 		if ((!isBackingUp || currentDate - isBackingUp > 1800000) && currentDate - Settings.get('lastBackup') > Settings.get('autoBackup_days') * 86400000) {
 			LocalStorage.set('isBackingUp', currentDate);
 			if (Settings.get('openAutoBackupNewTab')) {
-				window.open(`${Shared.esgst.backupUrl}&autoBackupIndex=${Settings.get('autoBackup_index')}`);
+				Tabs.open(`${Shared.esgst.backupUrl}&autoBackupIndex=${Settings.get('autoBackup_index')}`);
 			} else {
 				this.runSilentBackup();
 			}
@@ -4500,7 +4501,7 @@ class Common extends Module {
 	}
 
 	openSmallWindow(url) {
-		window.open(url, 'esgst', `height=600,left=${(window.screen.width - 600) / 2},top=${(window.screen.height - 600) / 2},width=600`);
+		Tabs.open(url);
 	}
 
 	convertBytes(bytes) {

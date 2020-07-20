@@ -38,6 +38,7 @@
 // @grant GM_listValues
 // @grant GM_setValue
 // @grant GM_xmlhttpRequest
+// @grant GM_openInTab
 // @grant GM.addValueChangeListener
 // @grant GM.deleteValue
 // @grant GM.getValue
@@ -45,6 +46,7 @@
 // @grant GM.listValues
 // @grant GM.setValue
 // @grant GM.xmlHttpRequest
+// @grant GM.openInTab
 // @run-at document-start
 // @noframes
 // ==/UserScript==

@@ -367,6 +367,11 @@ PageMod({
 			getTabs(request);
 			worker.port.emit(`tabs_${request.uuid}_response`, 'null');
 		});
+
+		worker.port.on('open_tab', request => {
+			tabs.open(request.url);
+			worker.port.emit(`open_tab_${request.uuid}_response`, 'null');
+		});
 	}
 });
 
