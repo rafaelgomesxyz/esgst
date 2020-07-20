@@ -1,5 +1,10 @@
-import { _browser } from './_browser';
+let _browser;
 
-const browser = _browser;
+const setBrowser = (browser) => {
+	_browser = browser;
+};
 
-export { browser };
+export {
+	setBrowser,
+	_browser as browser,
+};

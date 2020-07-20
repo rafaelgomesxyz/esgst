@@ -1,5 +1,4 @@
 import JSZip from 'jszip';
-import { browser } from './browser';
 
 let browserInfo = null;
 let hasAddedWebRequestListener = false;

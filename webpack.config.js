@@ -362,9 +362,9 @@ async function getWebpackConfig(env) {
 			'./firefox/esgst_sgtools': ['./src/entry/index_sgtools.js'],
 			'./firefox/permissions': ['./src/entry/permissions_index.js'],
 			'./palemoon/index': ['./src/entry/eventPage_sdk_index.js'],
-			'./palemoon/data/esgst': ['./src/entry/index.js'],
-			'./palemoon/data/esgst_sgtools': ['./src/entry/index_sgtools.js'],
-			'./userscript/esgst.user': ['./src/entry/index.js']
+			'./palemoon/data/esgst': ['./src/entry/sdk_index.js'],
+			'./palemoon/data/esgst_sgtools': ['./src/entry/sdk_index_sgtools.js'],
+			'./userscript/esgst.user': ['./src/entry/gm_index.js']
 		},
 		mode,
 		module: {
