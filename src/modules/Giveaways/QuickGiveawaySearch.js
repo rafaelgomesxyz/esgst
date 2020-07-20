@@ -15,7 +15,7 @@ class GiveawaysQuickGiveawaySearch extends Module {
 			description: [
 				['ul', [
 					['li', 'Adds a search box before the "Giveaways" box at the header of any page that allows you to quickly search for giveaways from any page.'],
-					['li', `Has[id=ags] built-in.`]
+					['li', `Has [id=ags] built-in.`]
 				]]
 			],
 			features: {
