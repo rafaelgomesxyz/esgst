@@ -54,6 +54,16 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 					],
 					name: 'Display game names.',
 					sg: true
+				},
+				glwc_mm: {
+					dependencies: ['mm'],
+					description: [
+						['ul', [
+							['li', 'Allows checking a custom list of users provided by [id=mm].']
+						]]
+					],
+					name: 'Integrate with [id=mm].',
+					sg: true
 				}
 			}
 		};
@@ -118,7 +128,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 			parameters = getParameters();
 			glwc.id = parameters.id;
 			glwc.url = parameters.url;
-			glwc.users = [];
+			glwc.users = parameters.users ? parameters.users.split(',').map(username => ({ username })) : [];
 			glwc.games = {};
 			if (glwc.id) {
 				glwc.overallProgress.textContent = 'Preparing...';
@@ -130,9 +140,11 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 				members.forEach(member => {
 					glwc.members.push(member.match(/<steamID64>(.+?)<\/steamID64>/)[1]);
 				});
-				glwc.overallProgress.textContent = 'Step 1 of 3';
+			}
+			if (glwc.users.length > 0) {
+				glwc.overallProgress.textContent = 'Step 2 of 3';
 				// noinspection JSIgnoredPromiseFromCall
-				this.glwc_getUsers(glwc, 1);
+				this.glwc_getSteamIds(glwc, 0, glwc.users.length);
 			} else {
 				glwc.overallProgress.textContent = 'Step 1 of 3';
 				// noinspection JSIgnoredPromiseFromCall

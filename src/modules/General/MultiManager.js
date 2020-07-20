@@ -12,6 +12,7 @@ import { common } from '../Common';
 import { Settings } from '../../class/Settings';
 import { DOM } from '../../class/DOM';
 import { Session } from '../../class/Session';
+import { Tabs } from '../../class/Tabs';
 
 const
 	createElements = common.createElements.bind(common),
@@ -324,6 +325,10 @@ class GeneralMultiManager extends Module {
 					name: ''
 				},
 				{
+					buttons: [],
+					name: ''
+				},
+				{
 					buttons: [
 						{
 							check: true,
@@ -383,6 +388,7 @@ class GeneralMultiManager extends Module {
 						callback1: this.mm_calculateGiveaways.bind(this, obj, items)
 					}
 				],
+				[],
 				[
 					{
 						check: Settings.get('ged'),
@@ -433,6 +439,7 @@ class GeneralMultiManager extends Module {
 						callback1: this.mm_unvisitDiscussions.bind(this, obj, items)
 					}
 				],
+				[],
 				[]
 			],
 			Users: [
@@ -460,7 +467,17 @@ class GeneralMultiManager extends Module {
 						title1: 'Check Susp.', title2: '',
 						tooltip: 'Check selected users for suspensions',
 						callback1: this.mm_selectWbcUsers.bind(this, obj, items, 'usc')
-					}
+					},
+				],
+				[					
+					{
+						check: Settings.get('glwc') && Settings.get('glwc_mm'),
+						color1: 'green', color2: 'grey',
+						icon1: 'fa-question-circle', icon2: 'fa-circle-o-notch fa-spin',
+						title1: 'Check libraries / wishlists', title2: '',
+						tooltip: 'Check libraries / wishlists of selected users',
+						callback1: this.mm_selectGlwcUsers.bind(this, obj, items)
+					},
 				],
 				[]
 			],
@@ -490,6 +507,7 @@ class GeneralMultiManager extends Module {
 						callback1: this.mm_categorizeGames.bind(this, obj, items)
 					}
 				],
+				[],
 				[]
 			],
 			Groups: [
@@ -503,6 +521,7 @@ class GeneralMultiManager extends Module {
 						callback1: this.esgst.modules.groupsGroupTags.tags_openMmPopup.bind(this.esgst.modules.groupsGroupTags, obj, items)
 					}
 				],
+				[],
 				[]
 			]
 		};
@@ -1093,6 +1112,15 @@ class GeneralMultiManager extends Module {
 		});
 		this.esgst[`${key}Button`].setAttribute('data-mm', true);
 		this.esgst[`${key}Button`].click();
+	}
+
+	mm_selectGlwcUsers(obj, items) {
+		const users = [];
+		items.forEach(item => {
+			if (!item.mm || (!item.outerWrap.offsetParent && !item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))) return;
+			users.push(item.code);
+		});
+		Tabs.open(`https://www.steamgifts.com/account/settings/profile?esgst=glwc&users=${users.join(',')}`);
 	}
 
 	async mm_hideGames(obj, items) {
