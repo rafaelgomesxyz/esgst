@@ -1564,6 +1564,10 @@ function addStyle() {
 		margin: 5px 0;
 	}
 
+	.esgst-button-set i {
+		margin-right: 5px;
+	}
+
 	.esgst-gm-section .esgst-button-set {
 		display: inline-block;
 		margin: 5px;
