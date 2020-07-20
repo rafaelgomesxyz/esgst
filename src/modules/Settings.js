@@ -497,9 +497,10 @@ class SettingsModule {
 			return;
 		}
 		const url = `${Shared.esgst.settingsUrl}&id=${id}`;
+		const featureName = JSON.parse(JSON.stringify(feature.name).replace(/\[id=(.+?)]/g, Shared.common.getFeatureName.bind(Shared.common)));
 		const items = [{
 			check: true,
-			content: [...(Array.isArray(feature.name) ? feature.name : [feature.name])],
+			content: [...(Array.isArray(featureName) ? featureName : [featureName])],
 			name: 'Name'
 		}, {
 			check: true,
@@ -1542,13 +1543,14 @@ class SettingsModule {
 				}
 			};
 		}
+		const featureName = JSON.parse(JSON.stringify(feature.name).replace(/\[id=(.+?)]/g, Shared.common.getFeatureName.bind(Shared.common)));
 		DOM.build(menu, 'beforeEnd', [
 			['span', [
 				sgContext && sgContext.firstElementChild,
 				stContext && stContext.firstElementChild,
 				sgtoolsContext && sgtoolsContext.firstElementChild,
 				['a', { class: 'esgst-settings-feature table__column__secondary-link esgst-clickable ', 'data-id': id }, [
-					...(Array.isArray(feature.name) ? feature.name : [feature.name])
+					...(Array.isArray(featureName) ? featureName : [featureName])
 				]]
 			]],
 			['div', { class: `esgst-form-row-indent SMFeatures ${isHidden ? 'esgst-hidden' : ''}` }]
