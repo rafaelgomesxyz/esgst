@@ -10,14 +10,18 @@ class _MessageNotifier {
 		if (!hasPermission) {
 			return;
 		}
-		
+
 		const now = Date.now();
 		if (now - notifiedMessages.lastCheck <= 86400000) {
 			// It's been less than 24 hours since the last check.
 			return;
 		}
 		try {
-			const messages = (await FetchRequest.get('https://gitlab.com/api/v4/projects/rafaelgssa%2Fesgst/repository/files/messages.json/raw?ref=main')).json;
+			const messages = (
+				await FetchRequest.get(
+					'https://gitlab.com/api/v4/projects/rafaelgssa%2Fesgst/repository/files/messages.json/raw?ref=main'
+				)
+			).json;
 			for (const message of messages) {
 				if (now - message.timestamp > 2592000000) {
 					// Message is older than 30 days.

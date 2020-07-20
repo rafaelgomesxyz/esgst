@@ -7,7 +7,10 @@ class Scope {
 		if (name === 'main') {
 			this.id = name;
 		} else {
-			this.id = new Array(16).fill('x').map(x => Utils.createUuid(x)).join('');
+			this.id = new Array(16)
+				.fill('x')
+				.map((x) => Utils.createUuid(x))
+				.join('');
 		}
 
 		this.data = {
@@ -18,7 +21,7 @@ class Scope {
 			giveaways: [],
 			groups: [],
 			trades: [],
-			users: []
+			users: [],
 		};
 	}
 
@@ -28,21 +31,37 @@ class Scope {
 		}
 	}
 
-	get comments() { return this.data.comments; }
+	get comments() {
+		return this.data.comments;
+	}
 
-	get commentsV2() { return this.data.commentsV2; }
+	get commentsV2() {
+		return this.data.commentsV2;
+	}
 
-	get discussions() { return this.data.discussions; }
+	get discussions() {
+		return this.data.discussions;
+	}
 
-	get games() { return this.data.games; }
+	get games() {
+		return this.data.games;
+	}
 
-	get giveaways() { return this.data.giveaways; }
+	get giveaways() {
+		return this.data.giveaways;
+	}
 
-	get groups() { return this.data.groups; }
+	get groups() {
+		return this.data.groups;
+	}
 
-	get trades() { return this.data.trades; }
+	get trades() {
+		return this.data.trades;
+	}
 
-	get users() { return this.data.users; }
+	get users() {
+		return this.data.users;
+	}
 }
 
 export { Scope };

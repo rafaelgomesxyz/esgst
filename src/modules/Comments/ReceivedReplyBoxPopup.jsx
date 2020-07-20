@@ -10,18 +10,24 @@ class CommentsReceivedReplyBoxPopup extends Module {
 		super();
 		this.info = {
 			description: [
-				['ul', [
-					['li', [
-						`Pops up a reply box when you mark a giveaway as received (in your `,
-						['a', { href: `https://www.steamgifts.com/giveaways/won` }, 'won'],
-						` page) so that you can add a comment thanking the creator.`
-					]]
-				]]
+				[
+					'ul',
+					[
+						[
+							'li',
+							[
+								`Pops up a reply box when you mark a giveaway as received (in your `,
+								['a', { href: `https://www.steamgifts.com/giveaways/won` }, 'won'],
+								` page) so that you can add a comment thanking the creator.`,
+							],
+						],
+					],
+				],
 			],
 			id: 'rrbp',
 			name: 'Received Reply Box Popup',
 			sg: true,
-			type: 'comments'
+			type: 'comments',
 		};
 	}
 
@@ -31,8 +37,10 @@ class CommentsReceivedReplyBoxPopup extends Module {
 	}
 
 	rrbp_addEvent(giveaways) {
-		giveaways.forEach(giveaway => {
-			let feedback = giveaway.outerWrap.getElementsByClassName('table__gift-feedback-awaiting-reply')[0];
+		giveaways.forEach((giveaway) => {
+			let feedback = giveaway.outerWrap.getElementsByClassName(
+				'table__gift-feedback-awaiting-reply'
+			)[0];
 			if (feedback) {
 				feedback.addEventListener('click', this.rrbp_openPopup.bind(this, giveaway));
 			}
@@ -42,24 +50,26 @@ class CommentsReceivedReplyBoxPopup extends Module {
 	rrbp_openPopup(giveaway) {
 		let popup, progress, textArea;
 		popup = new Popup({ addScrollable: true, icon: 'fa-comment', title: `Add a comment:` });
-		textArea = DOM.insert(popup.scrollable, 'beforeEnd', <textarea/>);
+		textArea = DOM.insert(popup.scrollable, 'beforeEnd', <textarea />);
 		if (Settings.get('cfh')) {
 			Shared.esgst.modules.commentsCommentFormattingHelper.cfh_addPanel(textArea);
 		}
-		popup.description.appendChild(new ButtonSet({
-			color1: 'green',
-			color2: 'grey',
-			icon1: 'fa-check',
-			icon2: 'fa-circle-o-notch fa-spin',
-			title1: 'Save',
-			title2: 'Saving...',
-			callback1: async () => {
-				progress.innerHTML = '';
-				await Shared.common.saveComment(null, '', '', textArea.value, giveaway.url, progress);
-				popup.close();
-			}
-		}).set);
-		progress = DOM.insert(popup.description, 'beforeEnd', <div/>);
+		popup.description.appendChild(
+			new ButtonSet({
+				color1: 'green',
+				color2: 'grey',
+				icon1: 'fa-check',
+				icon2: 'fa-circle-o-notch fa-spin',
+				title1: 'Save',
+				title2: 'Saving...',
+				callback1: async () => {
+					progress.innerHTML = '';
+					await Shared.common.saveComment(null, '', '', textArea.value, giveaway.url, progress);
+					popup.close();
+				},
+			}).set
+		);
+		progress = DOM.insert(popup.description, 'beforeEnd', <div />);
 		popup.open(() => {
 			textArea.focus();
 		});

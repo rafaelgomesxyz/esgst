@@ -8,26 +8,50 @@ class DiscussionsActiveDiscussionsOnTopSidebar extends Module {
 		super();
 		this.info = {
 			description: [
-				['ul', [
-					['li', `Moves the active discussions (in the main page) to the top/sidebar of the page (you can decide where).`],
-					['li', `If you move it to the sidebar, some things will be changed to save some space:`],
-					['ul', [
-						['li', `The username and avatar of the user who last posted to the discussion will be removed (the button to go to the last comment will remain).`],
-						['li', `If you have [id=ags] enabled, it will be hidden and only visible when hovering hover the search field.`]
-					]],
-					['li', `If you have [id=at] enabled, it will not run inside of the active discussions.`],
-					['li', `If you have [id=ut] enabled, any user tags will be hidden inside of the active discussions(they will still be visible if you click on the tag button to edit them).`]
-				]]
+				[
+					'ul',
+					[
+						[
+							'li',
+							`Moves the active discussions (in the main page) to the top/sidebar of the page (you can decide where).`,
+						],
+						[
+							'li',
+							`If you move it to the sidebar, some things will be changed to save some space:`,
+						],
+						[
+							'ul',
+							[
+								[
+									'li',
+									`The username and avatar of the user who last posted to the discussion will be removed (the button to go to the last comment will remain).`,
+								],
+								[
+									'li',
+									`If you have [id=ags] enabled, it will be hidden and only visible when hovering hover the search field.`,
+								],
+							],
+						],
+						[
+							'li',
+							`If you have [id=at] enabled, it will not run inside of the active discussions.`,
+						],
+						[
+							'li',
+							`If you have [id=ut] enabled, any user tags will be hidden inside of the active discussions(they will still be visible if you click on the tag button to edit them).`,
+						],
+					],
+				],
 			],
 			id: 'adots',
 			name: 'Active Discussions On Top/Sidebar',
 			options: {
 				title: `Move to:`,
-				values: ['Top', 'Sidebar']
+				values: ['Top', 'Sidebar'],
 			},
 			sg: true,
 			sgPaths: /^Browse\sGiveaways/,
-			type: 'discussions'
+			type: 'discussions',
 		};
 	}
 
@@ -37,8 +61,21 @@ class DiscussionsActiveDiscussionsOnTopSidebar extends Module {
 	}
 
 	adots_load(refresh) {
-		let parent, panel, size, tabHeading1, tabHeading2, activeDiscussions, discussions, deals, element, elements, i,
-			icon, n, comments, rows;
+		let parent,
+			panel,
+			size,
+			tabHeading1,
+			tabHeading2,
+			activeDiscussions,
+			discussions,
+			deals,
+			element,
+			elements,
+			i,
+			icon,
+			n,
+			comments,
+			rows;
 		if (this.esgst.activeDiscussions) {
 			if (!refresh) {
 				this.esgst.activeDiscussions.classList.remove('widget-container--margin-top');
@@ -61,7 +98,9 @@ class DiscussionsActiveDiscussionsOnTopSidebar extends Module {
 					} else {
 						size = 35;
 					}
-					this.esgst.style.insertAdjacentText("beforeend", `
+					this.esgst.style.insertAdjacentText(
+						'beforeend',
+						`
 						.esgst-adots .table__row-inner-wrap >:first-child {
 							float: left;
 							width: ${size}px;
@@ -81,49 +120,51 @@ class DiscussionsActiveDiscussionsOnTopSidebar extends Module {
 							vertical-align: top;
 							width: calc(100% - ${size + 15}px);
 						}
-					`);
-					panel = DOM.insert(this.esgst.sidebar, 'beforeEnd', (
+					`
+					);
+					panel = DOM.insert(
+						this.esgst.sidebar,
+						'beforeEnd',
 						<h3 class="sidebar__heading">
 							<span
 								class="esgst-adots-tab-heading esgst-selected"
-								ref={ref => tabHeading1 = ref}
+								ref={(ref) => (tabHeading1 = ref)}
 							>
 								Discussions
 							</span>
-							<span
-								class="esgst-adots-tab-heading"
-								ref={ref => tabHeading2 = ref}
-							>
+							<span class="esgst-adots-tab-heading" ref={(ref) => (tabHeading2 = ref)}>
 								Deals
 							</span>
-							{
-								Settings.get('radb') && (
-									<div
-										class="esgst-radb-button"
-										title={Shared.common.getFeatureTooltip('radb', 'Refresh active discussions/deals')}
-										onclick={event => {
-											let icon = event.currentTarget.firstElementChild;
-											icon.classList.add('fa-spin');
-											if (Settings.get('oadd')) {
-												// noinspection JSIgnoredPromiseFromCall
-												this.esgst.modules.discussionsOldActiveDiscussionsDesign.oadd_load(true, () => icon.classList.remove('fa-spin'));
-											} else {
-												Shared.common.checkMissingDiscussions(true, () => icon.classList.remove('fa-spin'));
-											}
-										}}
-									>
-										<i class="fa fa-refresh"></i>
-									</div>
-								)
-							}
-							<a
-								class="esgst-float-right sidebar__navigation__item__name"
-								href="/discussions"
-							>
+							{Settings.get('radb') && (
+								<div
+									class="esgst-radb-button"
+									title={Shared.common.getFeatureTooltip(
+										'radb',
+										'Refresh active discussions/deals'
+									)}
+									onclick={(event) => {
+										let icon = event.currentTarget.firstElementChild;
+										icon.classList.add('fa-spin');
+										if (Settings.get('oadd')) {
+											// noinspection JSIgnoredPromiseFromCall
+											this.esgst.modules.discussionsOldActiveDiscussionsDesign.oadd_load(true, () =>
+												icon.classList.remove('fa-spin')
+											);
+										} else {
+											Shared.common.checkMissingDiscussions(true, () =>
+												icon.classList.remove('fa-spin')
+											);
+										}
+									}}
+								>
+									<i class="fa fa-refresh"></i>
+								</div>
+							)}
+							<a class="esgst-float-right sidebar__navigation__item__name" href="/discussions">
 								More
 							</a>
 						</h3>
-					));
+					);
 				}
 				if (Settings.get('oadd')) {
 					discussions = this.esgst.activeDiscussions.firstElementChild;
@@ -132,7 +173,9 @@ class DiscussionsActiveDiscussionsOnTopSidebar extends Module {
 					discussions.firstElementChild.firstElementChild.remove();
 					deals.firstElementChild.remove();
 					deals.firstElementChild.firstElementChild.remove();
-					elements = this.esgst.activeDiscussions.getElementsByClassName('table__column--last-comment');
+					elements = this.esgst.activeDiscussions.getElementsByClassName(
+						'table__column--last-comment'
+					);
 					for (i = 0, n = elements.length; i < n; ++i) {
 						icon = elements[0].getElementsByClassName('table__last-comment-icon')[0];
 						if (icon) {
@@ -157,8 +200,10 @@ class DiscussionsActiveDiscussionsOnTopSidebar extends Module {
 						discussions = rows[discussionsIndex];
 						deals = rows[dealsIndex];
 					} else {
-						discussions = this.esgst.activeDiscussions.lastElementChild.firstElementChild.lastElementChild;
-						deals = this.esgst.activeDiscussions.firstElementChild.firstElementChild.lastElementChild;
+						discussions = this.esgst.activeDiscussions.lastElementChild.firstElementChild
+							.lastElementChild;
+						deals = this.esgst.activeDiscussions.firstElementChild.firstElementChild
+							.lastElementChild;
 						if (Settings.get('rad')) {
 							const temp = discussions;
 							discussions = deals;
@@ -170,12 +215,14 @@ class DiscussionsActiveDiscussionsOnTopSidebar extends Module {
 						element = elements[i];
 						comments = element.getElementsByClassName('table__column__secondary-link')[0];
 						parent = comments.parentElement;
-						panel = DOM.insert(parent, 'afterEnd', (
+						panel = DOM.insert(
+							parent,
+							'afterEnd',
 							<>
 								<p></p>
 								<div style="clear: both;"></div>
 							</>
-						));
+						);
 						panel.appendChild(comments);
 						if (parent.lastElementChild.classList.contains('table__last-comment-icon')) {
 							parent.lastElementChild.classList.add('esgst-float-right');
@@ -188,12 +235,14 @@ class DiscussionsActiveDiscussionsOnTopSidebar extends Module {
 						element = elements[i];
 						comments = element.getElementsByClassName('table__column__secondary-link')[0];
 						parent = comments.parentElement;
-						panel = DOM.insert(parent, 'afterEnd', (
+						panel = DOM.insert(
+							parent,
+							'afterEnd',
 							<>
 								<p></p>
 								<div style="clear: both;"></div>
 							</>
-						));
+						);
 						panel.appendChild(comments);
 						if (parent.lastElementChild.classList.contains('table__last-comment-icon')) {
 							parent.lastElementChild.classList.add('esgst-float-right');
@@ -216,11 +265,17 @@ class DiscussionsActiveDiscussionsOnTopSidebar extends Module {
 					deals.classList.remove('esgst-hidden');
 				}
 				if (!refresh) {
-					activeDiscussions = DOM.insert(this.esgst.sidebar, 'beforeEnd', <div/>);
+					activeDiscussions = DOM.insert(this.esgst.sidebar, 'beforeEnd', <div />);
 					activeDiscussions.appendChild(discussions);
 					activeDiscussions.appendChild(deals);
-					tabHeading1.addEventListener('click', this.adots_changeTab.bind(this, tabHeading1, tabHeading2));
-					tabHeading2.addEventListener('click', this.adots_changeTab.bind(this, tabHeading1, tabHeading2));
+					tabHeading1.addEventListener(
+						'click',
+						this.adots_changeTab.bind(this, tabHeading1, tabHeading2)
+					);
+					tabHeading2.addEventListener(
+						'click',
+						this.adots_changeTab.bind(this, tabHeading1, tabHeading2)
+					);
 					this.esgst.activeDiscussions.remove();
 					this.esgst.activeDiscussions = activeDiscussions;
 				}
@@ -229,7 +284,10 @@ class DiscussionsActiveDiscussionsOnTopSidebar extends Module {
 	}
 
 	adots_changeTab(button1, button2, event) {
-		if ((button1.classList.contains('esgst-selected') && event.currentTarget === button2) || (button2.classList.contains('esgst-selected') && event.currentTarget === button1)) {
+		if (
+			(button1.classList.contains('esgst-selected') && event.currentTarget === button2) ||
+			(button2.classList.contains('esgst-selected') && event.currentTarget === button1)
+		) {
 			button1.classList.toggle('esgst-selected');
 			button2.classList.toggle('esgst-selected');
 			button1.parentElement.nextElementSibling.firstElementChild.classList.toggle('esgst-hidden');

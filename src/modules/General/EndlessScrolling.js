@@ -8,90 +8,123 @@ import { EventDispatcher } from '../../class/EventDispatcher';
 import { Events } from '../../constants/Events';
 import { FetchRequest } from '../../class/FetchRequest';
 
-const
-	animateScroll = common.animateScroll.bind(common),
+const animateScroll = common.animateScroll.bind(common),
 	checkMissingDiscussions = common.checkMissingDiscussions.bind(common),
 	createElements = common.createElements.bind(common),
 	createHeadingButton = common.createHeadingButton.bind(common),
 	endless_load = common.endless_load.bind(common),
 	request = common.request.bind(common),
 	reverseComments = common.reverseComments.bind(common),
-	setSetting = common.setSetting.bind(common)
-	;
-
+	setSetting = common.setSetting.bind(common);
 class GeneralEndlessScrolling extends Module {
 	constructor() {
 		super();
 		this.info = {
 			description: [
-				['ul', [
-					['li', `Loads the next page when you scroll down to the end of any page, allowing you to endlessly scroll through pages.`],
-					['li', `Adds multiple buttons to the main page heading of the page:`],
-					['ul', [
-						['li', [
-							['i', { class: 'fa fa-play' }],
-							' if the endless scrolling is paused and ',
-							['i', { class: 'fa fa-pause' }],
-							` if it is not, which allows you to pause/resume the endless scrolling.`
-						]],
-						['li', [
-							['i', { class: 'fa fa-step-forward' }],
-							`, which allows you to load the next page without having to scroll down.`
-						]],
-						['li', [
-							['i', { class: 'fa fa-fast-forward' }],
-							`, which allows you continuously load the next pages until either the last page is reached or you pause the endless scrolling.`
-						]],
-						['li', [
-							['i', { class: 'fa fa-refresh' }],
-							' ',
-							['i', { class: 'fa fa-map-marker' }],
-							`, which allows you to refresh the page currently visible in the window.`
-						]],
-						['li', [
-							['i', { class: 'fa fa-refresh' }],
-							`, which allows you to refresh all of the pages that have been loaded.`
-						]]
-					]],
-					['li', `You can choose whether or not to show page divisors (page headings separating each loaded page).`],
-					['li', `As you scroll through the page, the pagination navigation of the page changes according to the page currently visible in the window.`],
-					['li', `If you use the pagination navigation of the page to try to go to a page that has been loaded, it scrolls to the page instead of opening it.`],
-					['li', 'There is a reverse scrolling option for discussions that loads the pages in descending order and loads the last page instead of the first one when visiting a discussion from the main/inbox page.']
-				]]
+				[
+					'ul',
+					[
+						[
+							'li',
+							`Loads the next page when you scroll down to the end of any page, allowing you to endlessly scroll through pages.`,
+						],
+						['li', `Adds multiple buttons to the main page heading of the page:`],
+						[
+							'ul',
+							[
+								[
+									'li',
+									[
+										['i', { class: 'fa fa-play' }],
+										' if the endless scrolling is paused and ',
+										['i', { class: 'fa fa-pause' }],
+										` if it is not, which allows you to pause/resume the endless scrolling.`,
+									],
+								],
+								[
+									'li',
+									[
+										['i', { class: 'fa fa-step-forward' }],
+										`, which allows you to load the next page without having to scroll down.`,
+									],
+								],
+								[
+									'li',
+									[
+										['i', { class: 'fa fa-fast-forward' }],
+										`, which allows you continuously load the next pages until either the last page is reached or you pause the endless scrolling.`,
+									],
+								],
+								[
+									'li',
+									[
+										['i', { class: 'fa fa-refresh' }],
+										' ',
+										['i', { class: 'fa fa-map-marker' }],
+										`, which allows you to refresh the page currently visible in the window.`,
+									],
+								],
+								[
+									'li',
+									[
+										['i', { class: 'fa fa-refresh' }],
+										`, which allows you to refresh all of the pages that have been loaded.`,
+									],
+								],
+							],
+						],
+						[
+							'li',
+							`You can choose whether or not to show page divisors (page headings separating each loaded page).`,
+						],
+						[
+							'li',
+							`As you scroll through the page, the pagination navigation of the page changes according to the page currently visible in the window.`,
+						],
+						[
+							'li',
+							`If you use the pagination navigation of the page to try to go to a page that has been loaded, it scrolls to the page instead of opening it.`,
+						],
+						[
+							'li',
+							'There is a reverse scrolling option for discussions that loads the pages in descending order and loads the last page instead of the first one when visiting a discussion from the main/inbox page.',
+						],
+					],
+				],
 			],
 			features: {
 				es_murl: {
 					name: "Modify URL when changing pages to reflect the current page that you're on.",
 					sg: true,
-					st: true
+					st: true,
 				},
 				es_ch: {
 					name: 'Enable for Comment History.',
-					sg: true
+					sg: true,
 				},
 				es_df: {
 					name: 'Enable for Discussion Filters.',
-					sg: true
+					sg: true,
 				},
 				es_tf: {
 					name: 'Enable for Trade Filters.',
-					st: true
+					st: true,
 				},
 				es_gb: {
 					name: 'Enable for Giveaway Bookmarks.',
-					sg: true
+					sg: true,
 				},
 				es_ged: {
 					name: 'Enable for Giveaway Encrypter/Decrypter.',
-					sg: true
+					sg: true,
 				},
 				es_ge: {
 					name: 'Enable for Giveaway Extractor.',
-					sg: true
+					sg: true,
 				},
 				es_gf: {
 					name: 'Enable for Giveaway Filters.',
-					sg: true
+					sg: true,
 				},
 				es_cl: {
 					inputItems: [
@@ -99,49 +132,63 @@ class GeneralEndlessScrolling extends Module {
 							attributes: {
 								max: 10,
 								min: 0,
-								type: 'number'
+								type: 'number',
 							},
 							id: 'es_pages',
-							prefix: `Pages (Max 10): `
-						}
+							prefix: `Pages (Max 10): `,
+						},
 					],
 					name: 'Continuously load X more pages automatically when visiting any page.',
-					sg: true
+					sg: true,
 				},
 				es_r: {
 					description: [
-						['ul', [
-							['li', 'Loads the pages of a discussion in descending order.'],
-							['li', 'Loads the last page instead of the first one when visiting a discussion from the main/inbox page.']
-						]]
+						[
+							'ul',
+							[
+								['li', 'Loads the pages of a discussion in descending order.'],
+								[
+									'li',
+									'Loads the last page instead of the first one when visiting a discussion from the main/inbox page.',
+								],
+							],
+						],
 					],
 					name: 'Enable reverse scrolling.',
-					sg: true
+					sg: true,
 				},
 				es_rd: {
 					name: 'Refresh active discussions/deals when refreshing the main page.',
-					sg: true
+					sg: true,
 				},
 				es_pd: {
 					description: [
-						['ul', [
-							['li', `With this option enabled, each loaded page is separated by a page heading, which makes it very clear where a page ends and another begins. With it disabled, there is no such distinction, so it looks like the entire page is a single page, giving a true endless feeling.`]
-						]]
+						[
+							'ul',
+							[
+								[
+									'li',
+									`With this option enabled, each loaded page is separated by a page heading, which makes it very clear where a page ends and another begins. With it disabled, there is no such distinction, so it looks like the entire page is a single page, giving a true endless feeling.`,
+								],
+							],
+						],
 					],
 					name: 'Show page divisors.',
 					sg: true,
-					st: true
-				}
+					st: true,
+				},
 			},
 			id: 'es',
 			name: 'Endless Scrolling',
 			sg: true,
 			st: true,
-			includeOptions: [{
-				id: 'pause',
-				name: 'Paused'
-			}],
-			type: 'general'
+			includeOptions: [
+				{
+					id: 'pause',
+					name: 'Paused',
+				},
+			],
+			type: 'general',
 		};
 	}
 
@@ -150,33 +197,52 @@ class GeneralEndlessScrolling extends Module {
 		if (this.esgst.pagination.classList.contains('pagination--no-results')) {
 			this.esgst.itemsPerPage = 50;
 		} else {
-			this.esgst.itemsPerPage = parseInt(this.esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.textContent.replace(/,/g, '')) - parseInt(this.esgst.pagination.firstElementChild.firstElementChild.textContent.replace(/,/g, '')) + 1;
+			this.esgst.itemsPerPage =
+				parseInt(
+					this.esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.textContent.replace(
+						/,/g,
+						''
+					)
+				) -
+				parseInt(
+					this.esgst.pagination.firstElementChild.firstElementChild.textContent.replace(/,/g, '')
+				) +
+				1;
 		}
 		let es = {};
 		this.esgst.es = es;
 		es.divisors = Settings.get('es_pd');
 		es.mainContext = this.esgst.pagination.previousElementSibling;
 		if (this.esgst.commentsPath && !es.mainContext.classList.contains('comments')) {
-			es.mainContext = DOM.build(es.mainContext, 'afterEnd', [
-				['div', { class: 'comments' }]
-			]);
+			es.mainContext = DOM.build(es.mainContext, 'afterEnd', [['div', { class: 'comments' }]]);
 		}
 		let rows = es.mainContext.getElementsByClassName('table__rows')[0];
 		if (rows) {
 			es.mainContext = rows;
 		}
-		es.paginations = [this.esgst.paginationNavigation ? this.esgst.paginationNavigation.innerHTML : ''];
+		es.paginations = [
+			this.esgst.paginationNavigation ? this.esgst.paginationNavigation.innerHTML : '',
+		];
 		es.reverseScrolling = Settings.get('es_r') && this.esgst.discussionPath;
 		if (es.reverseScrolling) {
-			if (this.esgst.currentPage === 1 && this.esgst.paginationNavigation && !this.esgst.parameters.page) {
+			if (
+				this.esgst.currentPage === 1 &&
+				this.esgst.paginationNavigation &&
+				!this.esgst.parameters.page
+			) {
 				for (let i = 0, n = es.mainContext.children.length; i < n; ++i) {
 					es.mainContext.children[0].remove();
 				}
 				this.esgst.scopes.main.reset('comments');
-				this.esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.textContent = '0';
+				this.esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.textContent =
+					'0';
 				if (this.esgst.paginationNavigation) {
 					let lastLink = this.esgst.paginationNavigation.lastElementChild;
-					if (lastLink.classList.contains('is-selected') && lastLink.querySelector('.fa-angle-double-right') && !this.esgst.lastPageLink) {
+					if (
+						lastLink.classList.contains('is-selected') &&
+						lastLink.querySelector('.fa-angle-double-right') &&
+						!this.esgst.lastPageLink
+					) {
 						es.currentPage = parseInt(lastLink.getAttribute('data-page-number'));
 					} else {
 						es.currentPage = 999999999;
@@ -197,10 +263,14 @@ class GeneralEndlessScrolling extends Module {
 			es.currentPage = this.esgst.currentPage;
 			es.nextPage = es.currentPage + 1;
 			es.pageBase = es.currentPage - 1;
-			es.ended = (!this.esgst.paginationNavigation || this.esgst.paginationNavigation.lastElementChild.classList.contains(this.esgst.selectedClass));
+			es.ended =
+				!this.esgst.paginationNavigation ||
+				this.esgst.paginationNavigation.lastElementChild.classList.contains(
+					this.esgst.selectedClass
+				);
 		}
 		const options = {
-			rootMargin: `-${this.esgst.commentsTop + 1}px 0px 0px 0px`
+			rootMargin: `-${this.esgst.commentsTop + 1}px 0px 0px 0px`,
 		};
 		es.observer = new IntersectionObserver(this.es_observe.bind(this, es), options);
 		// noinspection JSIgnoredPromiseFromCall
@@ -251,13 +321,13 @@ class GeneralEndlessScrolling extends Module {
 			featureId: 'es',
 			id: 'esNext',
 			icons: ['fa-step-forward'],
-			title: 'Load next page'
+			title: 'Load next page',
 		});
 		es.continuousButton = createHeadingButton({
 			featureId: 'es',
 			id: 'esContinuous',
 			icons: ['fa-fast-forward'],
-			title: 'Continuously load pages'
+			title: 'Continuously load pages',
 		});
 		if (es.ended) {
 			es.continuousButton.classList.add('esgst-hidden');
@@ -266,26 +336,26 @@ class GeneralEndlessScrolling extends Module {
 			featureId: 'es',
 			id: 'esPause',
 			icons: ['fa-pause'],
-			title: 'Pause the endless scrolling'
+			title: 'Pause the endless scrolling',
 		});
 		es.resumeButton = createHeadingButton({
 			featureId: 'es',
 			id: 'esResume',
 			orderId: 'esPause',
 			icons: ['fa-play'],
-			title: 'Resume the endless scrolling'
+			title: 'Resume the endless scrolling',
 		});
 		es.refreshButton = createHeadingButton({
 			featureId: 'es',
 			id: 'esRefresh',
 			icons: ['fa-refresh', 'fa-map-marker'],
-			title: 'Refresh current page'
+			title: 'Refresh current page',
 		});
 		es.refreshAllButton = createHeadingButton({
 			featureId: 'es',
 			id: 'esRefreshAll',
 			icons: ['fa-refresh'],
-			title: 'Refresh all pages'
+			title: 'Refresh all pages',
 		});
 		this.esgst.es_refresh = this.es_refresh.bind(this, es);
 		es.refreshButton.addEventListener('click', this.esgst.es_refresh.bind(this));
@@ -299,7 +369,12 @@ class GeneralEndlessScrolling extends Module {
 			this.esgst.modules.generalPaginationNavigationOnTop.pnot_simplify();
 			this.es_fixFirstPageLinks();
 			let lastLink = this.esgst.paginationNavigation.lastElementChild;
-			if (this.esgst.lastPageLink && this.esgst.lastPage !== es.pageIndex && !lastLink.classList.contains('is-selected') && !lastLink.querySelector('.fa-angle-double-right')) {
+			if (
+				this.esgst.lastPageLink &&
+				this.esgst.lastPage !== es.pageIndex &&
+				!lastLink.classList.contains('is-selected') &&
+				!lastLink.querySelector('.fa-angle-double-right')
+			) {
 				createElements(this.esgst.paginationNavigation, 'beforeEnd', this.esgst.lastPageLink);
 			}
 			this.es_setPagination(es);
@@ -307,7 +382,8 @@ class GeneralEndlessScrolling extends Module {
 		es.isLimited = false;
 		es.limitCount = 0;
 		es.busy = false;
-		es.paused = Settings.get('es') && Settings.get('es').options && Settings.get('es').options.pause;
+		es.paused =
+			Settings.get('es') && Settings.get('es').options && Settings.get('es').options.pause;
 		this.esgst.es_loadNext = this.es_loadNext.bind(this, es);
 		if (es.paused) {
 			// noinspection JSIgnoredPromiseFromCall
@@ -318,7 +394,7 @@ class GeneralEndlessScrolling extends Module {
 		}
 		es.pageIndex = es.currentPage;
 		const options = {
-			rootMargin: `0px 0px ${window.innerHeight}px 0px`
+			rootMargin: `0px 0px ${window.innerHeight}px 0px`,
 		};
 		const observer = new IntersectionObserver(this.es_observe.bind(this, es), options);
 		observer.observe(this.esgst.pagination);
@@ -331,29 +407,47 @@ class GeneralEndlessScrolling extends Module {
 	}
 
 	async es_loadNext(es, callback, force) {
-		if (!this.esgst.stopEs && !es.busy && (!es.paused || es.reversePages) && !es.ended && ((force && !es.continuous && !es.step) || (!force && (es.continuous || es.step))) && (!es.isLimited || es.limitCount > 0)) {
+		if (
+			!this.esgst.stopEs &&
+			!es.busy &&
+			(!es.paused || es.reversePages) &&
+			!es.ended &&
+			((force && !es.continuous && !es.step) || (!force && (es.continuous || es.step))) &&
+			(!es.isLimited || es.limitCount > 0)
+		) {
 			es.limitCount -= 1;
 			es.busy = true;
-			es.progress = createElements(this.esgst.pagination.firstElementChild, 'beforeEnd', [{
-				attributes: {
-					class: 'esgst-bold'
-				},
-				type: 'span',
-				children: [{
+			es.progress = createElements(this.esgst.pagination.firstElementChild, 'beforeEnd', [
+				{
 					attributes: {
-						class: 'fa fa-circle-o-notch fa-spin'
+						class: 'esgst-bold',
 					},
-					type: 'i'
-				}, {
-					text: ' Loading next page...',
-					type: 'node'
-				}]
-			}]);
+					type: 'span',
+					children: [
+						{
+							attributes: {
+								class: 'fa fa-circle-o-notch fa-spin',
+							},
+							type: 'i',
+						},
+						{
+							text: ' Loading next page...',
+							type: 'node',
+						},
+					],
+				},
+			]);
 			// noinspection JSIgnoredPromiseFromCall
-			this.es_getNext(es, false, false, callback, await request({
-				method: 'GET',
-				url: `${this.esgst.searchUrl}${es.nextPage}`
-			}));
+			this.es_getNext(
+				es,
+				false,
+				false,
+				callback,
+				await request({
+					method: 'GET',
+					url: `${this.esgst.searchUrl}${es.nextPage}`,
+				})
+			);
 		} else if (callback && typeof callback === 'function') {
 			callback();
 		}
@@ -366,43 +460,57 @@ class GeneralEndlessScrolling extends Module {
 		if (this.esgst.commentsPath && !context.classList.contains('comments')) {
 			if (!refreshAll) {
 				es.refreshButton.addEventListener('click', this.esgst.es_refresh.bind(this));
-				createElements(es.refreshButton, 'inner', [{
-					attributes: {
-						class: 'fa fa-refresh'
+				createElements(es.refreshButton, 'inner', [
+					{
+						attributes: {
+							class: 'fa fa-refresh',
+						},
+						type: 'i',
 					},
-					type: 'i'
-				}, {
-					attributes: {
-						class: 'fa fa-map-marker'
+					{
+						attributes: {
+							class: 'fa fa-map-marker',
+						},
+						type: 'i',
 					},
-					type: 'i'
-				}]);
+				]);
 			}
 			return;
 		}
 		if (rows) {
 			context = rows;
 		}
-		let paginationNavigation = pagination.getElementsByClassName(this.esgst.paginationNavigationClass)[0];
+		let paginationNavigation = pagination.getElementsByClassName(
+			this.esgst.paginationNavigationClass
+		)[0];
 		if (es.reversePages) {
 			es.paginations[0] = paginationNavigation.innerHTML;
-			createElements(this.esgst.paginationNavigation, 'inner', [...(Array.from(DOM.parse(es.paginations[0]).body.childNodes).map(x => {
-				return {
-					context: x
-				};
-			}))]);
+			createElements(this.esgst.paginationNavigation, 'inner', [
+				...Array.from(DOM.parse(es.paginations[0]).body.childNodes).map((x) => {
+					return {
+						context: x,
+					};
+				}),
+			]);
 			if (this.esgst.paginationNavigation) {
 				this.esgst.modules.generalPaginationNavigationOnTop.pnot_simplify();
 				this.es_fixFirstPageLinks();
 				let lastLink = this.esgst.paginationNavigation.lastElementChild;
-				if (this.esgst.lastPageLink && this.esgst.lastPage !== es.pageIndex && !lastLink.classList.contains('is-selected') && !lastLink.querySelector('.fa-angle-double-right')) {
+				if (
+					this.esgst.lastPageLink &&
+					this.esgst.lastPage !== es.pageIndex &&
+					!lastLink.classList.contains('is-selected') &&
+					!lastLink.querySelector('.fa-angle-double-right')
+				) {
 					createElements(this.esgst.paginationNavigation, 'beforeEnd', this.esgst.lastPageLink);
 				}
 				this.es_setPagination(es);
 			}
 			es.reversePages = false;
 			if (es.currentPage === 999999999) {
-				es.currentPage = parseInt(paginationNavigation.lastElementChild.getAttribute('data-page-number'));
+				es.currentPage = parseInt(
+					paginationNavigation.lastElementChild.getAttribute('data-page-number')
+				);
 				es.nextPage = es.currentPage;
 				es.pageBase = es.currentPage + 1;
 				es.pageIndex = es.currentPage;
@@ -410,12 +518,30 @@ class GeneralEndlessScrolling extends Module {
 			if (Settings.get('es_murl')) {
 				this.updateUrl(es.currentPage);
 			}
-			this.esgst.pagination.firstElementChild.firstElementChild.textContent = (parseInt(this.esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.nextElementSibling.textContent.replace(/,/g, '')) + 1).toString().replace(/\B(?=(\d{3})+(?!\d))/g, `,`);
+			this.esgst.pagination.firstElementChild.firstElementChild.textContent = (
+				parseInt(
+					this.esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.nextElementSibling.textContent.replace(
+						/,/g,
+						''
+					)
+				) + 1
+			)
+				.toString()
+				.replace(/\B(?=(\d{3})+(?!\d))/g, `,`);
 			this.esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.textContent = this.esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.nextElementSibling.textContent;
 		} else if (refresh) {
-			pagination = es.paginations[(es.reverseScrolling ? es.pageBase - (refreshAll || es.pageIndex) : (refreshAll || es.pageIndex) - es.pageBase) - 1];
+			pagination =
+				es.paginations[
+					(es.reverseScrolling
+						? es.pageBase - (refreshAll || es.pageIndex)
+						: (refreshAll || es.pageIndex) - es.pageBase) - 1
+				];
 			if (paginationNavigation && pagination !== paginationNavigation.innerHTML) {
-				es.paginations[(es.reverseScrolling ? es.pageBase - (refreshAll || es.pageIndex) : (refreshAll || es.pageIndex) - es.pageBase) - 1] = paginationNavigation.innerHTML;
+				es.paginations[
+					(es.reverseScrolling
+						? es.pageBase - (refreshAll || es.pageIndex)
+						: (refreshAll || es.pageIndex) - es.pageBase) - 1
+				] = paginationNavigation.innerHTML;
 				es.ended = false;
 			}
 		} else {
@@ -455,39 +581,48 @@ class GeneralEndlessScrolling extends Module {
 					this.esgst.modules.generalTableSorter.ts_sortTables();
 				}
 				es.refreshButton.addEventListener('click', this.esgst.es_refresh.bind(this));
-				createElements(es.refreshButton, 'inner', [{
-					attributes: {
-						class: 'fa fa-refresh'
+				createElements(es.refreshButton, 'inner', [
+					{
+						attributes: {
+							class: 'fa fa-refresh',
+						},
+						type: 'i',
 					},
-					type: 'i'
-				}, {
-					attributes: {
-						class: 'fa fa-map-marker'
+					{
+						attributes: {
+							class: 'fa fa-map-marker',
+						},
+						type: 'i',
 					},
-					type: 'i'
-				}]);
+				]);
 			}
 		} else {
 			if (es.divisors) {
-				createElements(es.mainContext, 'beforeEnd', [{
-					attributes: {
-						class: 'esgst-page-heading esgst-es-page-divisor'
-					},
-					type: 'div',
-					children: [{
+				createElements(es.mainContext, 'beforeEnd', [
+					{
 						attributes: {
-							class: 'page__heading__breadcrumbs page_heading_breadcrumbs'
+							class: 'esgst-page-heading esgst-es-page-divisor',
 						},
 						type: 'div',
-						children: [{
-							attributes: {
-								href: `${this.esgst.searchUrl}${es.nextPage}`
+						children: [
+							{
+								attributes: {
+									class: 'page__heading__breadcrumbs page_heading_breadcrumbs',
+								},
+								type: 'div',
+								children: [
+									{
+										attributes: {
+											href: `${this.esgst.searchUrl}${es.nextPage}`,
+										},
+										text: `Page ${es.nextPage}`,
+										type: 'a',
+									},
+								],
 							},
-							text: `Page ${es.nextPage}`,
-							type: 'a'
-						}]
-					}]
-				}]);
+						],
+					},
+				]);
 			}
 			es.mainContext.appendChild(fragment);
 			es.observer.observe(es.mainContext.lastElementChild);
@@ -547,31 +682,45 @@ class GeneralEndlessScrolling extends Module {
 				['strong', n],
 				' of ',
 				['strong', n],
-				` result${n > 1 ? 's' : ''}`
+				` result${n > 1 ? 's' : ''}`,
 			]);
 		} else {
 			if (es.reverseScrolling && !refresh) {
 				paginationCount = this.esgst.pagination.firstElementChild.firstElementChild;
 			} else {
-				paginationCount = this.esgst.pagination.firstElementChild.firstElementChild.nextElementSibling;
+				paginationCount = this.esgst.pagination.firstElementChild.firstElementChild
+					.nextElementSibling;
 			}
-			paginationCount.textContent = (parseInt(paginationCount.textContent.replace(/,/g, '')) - oldN + (es.reverseScrolling && !refresh ? (-n) : n)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, `,`);
+			paginationCount.textContent = (
+				parseInt(paginationCount.textContent.replace(/,/g, '')) -
+				oldN +
+				(es.reverseScrolling && !refresh ? -n : n)
+			)
+				.toString()
+				.replace(/\B(?=(\d{3})+(?!\d))/g, `,`);
 		}
 	}
 
 	es_changePagination(es, index) {
-		const correctedIndex = es.reverseScrolling ? (es.pageBase - index) : (index - es.pageBase);
+		const correctedIndex = es.reverseScrolling ? es.pageBase - index : index - es.pageBase;
 		const pagination = es.paginations[correctedIndex - 1];
 		if (pagination && this.esgst.paginationNavigation.innerHTML !== pagination) {
-			createElements(this.esgst.paginationNavigation, 'inner', [...(Array.from(DOM.parse(pagination).body.childNodes).map(x => {
-				return {
-					context: x
-				};
-			}))]);
+			createElements(this.esgst.paginationNavigation, 'inner', [
+				...Array.from(DOM.parse(pagination).body.childNodes).map((x) => {
+					return {
+						context: x,
+					};
+				}),
+			]);
 			this.esgst.modules.generalPaginationNavigationOnTop.pnot_simplify();
 			this.es_fixFirstPageLinks();
 			let lastLink = this.esgst.paginationNavigation.lastElementChild;
-			if (this.esgst.lastPageLink && this.esgst.lastPage !== es.pageIndex && !lastLink.classList.contains('is-selected') && !lastLink.querySelector('.fa-angle-double-right')) {
+			if (
+				this.esgst.lastPageLink &&
+				this.esgst.lastPage !== es.pageIndex &&
+				!lastLink.classList.contains('is-selected') &&
+				!lastLink.querySelector('.fa-angle-double-right')
+			) {
 				createElements(this.esgst.paginationNavigation, 'beforeEnd', this.esgst.lastPageLink);
 			}
 			this.es_setPagination(es);
@@ -582,7 +731,9 @@ class GeneralEndlessScrolling extends Module {
 	}
 
 	es_fixFirstPageLinks() {
-		const firstPageLinks = this.esgst.paginationNavigation.querySelectorAll(`[data-page-number="1"]`);
+		const firstPageLinks = this.esgst.paginationNavigation.querySelectorAll(
+			`[data-page-number="1"]`
+		);
 		// @ts-ignore
 		for (const firstPageLink of firstPageLinks) {
 			firstPageLink.setAttribute('href', `${firstPageLink.getAttribute('href')}/search?page=1`);
@@ -591,12 +742,14 @@ class GeneralEndlessScrolling extends Module {
 
 	async es_stepNext(es) {
 		if (es.step) return;
-		createElements(es.nextButton, 'inner', [{
-			attributes: {
-				class: 'fa fa-circle-o-notch fa-spin'
+		createElements(es.nextButton, 'inner', [
+			{
+				attributes: {
+					class: 'fa fa-circle-o-notch fa-spin',
+				},
+				type: 'i',
 			},
-			type: 'i'
-		}]);
+		]);
 		es.step = true;
 		const wasPaused = es.paused;
 		await this.es_resume(es);
@@ -607,23 +760,27 @@ class GeneralEndlessScrolling extends Module {
 			} else {
 				await this.es_resume(es);
 			}
-			createElements(es.nextButton, 'inner', [{
-				attributes: {
-					class: 'fa fa-step-forward'
+			createElements(es.nextButton, 'inner', [
+				{
+					attributes: {
+						class: 'fa fa-step-forward',
+					},
+					type: 'i',
 				},
-				type: 'i'
-			}]);
+			]);
 		});
 	}
 
 	async es_continuouslyLoad(es) {
 		if (es.continuous) return;
-		createElements(es.continuousButton, 'inner', [{
-			attributes: {
-				class: 'fa fa-circle-o-notch fa-spin'
+		createElements(es.continuousButton, 'inner', [
+			{
+				attributes: {
+					class: 'fa fa-circle-o-notch fa-spin',
+				},
+				type: 'i',
 			},
-			type: 'i'
-		}]);
+		]);
 		es.continuous = true;
 		const wasPaused = es.paused;
 		await this.es_resume(es);
@@ -640,12 +797,14 @@ class GeneralEndlessScrolling extends Module {
 			} else {
 				await this.es_resume(es);
 			}
-			createElements(es.continuousButton, 'inner', [{
-				attributes: {
-					class: 'fa fa-fast-forward'
+			createElements(es.continuousButton, 'inner', [
+				{
+					attributes: {
+						class: 'fa fa-fast-forward',
+					},
+					type: 'i',
 				},
-				type: 'i'
-			}]);
+			]);
 		});
 	}
 
@@ -655,7 +814,7 @@ class GeneralEndlessScrolling extends Module {
 		es.resumeButton.classList.remove('esgst-hidden');
 		if (!firstRun) {
 			const setting = Settings.getFull('es');
-			setting.include = setting.include.map(item => {
+			setting.include = setting.include.map((item) => {
 				if (item !== Settings.get('es')) {
 					return item;
 				}
@@ -669,12 +828,14 @@ class GeneralEndlessScrolling extends Module {
 			await setSetting(`es_${Shared.esgst.name}`, setting);
 		}
 		es.continuous = false;
-		createElements(es.continuousButton, 'inner', [{
-			attributes: {
-				class: 'fa fa-fast-forward'
+		createElements(es.continuousButton, 'inner', [
+			{
+				attributes: {
+					class: 'fa fa-fast-forward',
+				},
+				type: 'i',
 			},
-			type: 'i'
-		}]);
+		]);
 	}
 
 	async es_resume(es, firstRun) {
@@ -683,7 +844,7 @@ class GeneralEndlessScrolling extends Module {
 		es.pauseButton.classList.remove('esgst-hidden');
 		if (!firstRun) {
 			const setting = Settings.getFull('es');
-			setting.include = setting.include.map(item => {
+			setting.include = setting.include.map((item) => {
 				if (item !== Settings.get('es')) {
 					return item;
 				}
@@ -703,12 +864,14 @@ class GeneralEndlessScrolling extends Module {
 
 	async es_refresh(es) {
 		es.refreshButton.removeEventListener('click', this.esgst.es_refresh);
-		createElements(es.refreshButton, 'inner', [{
-			attributes: {
-				class: 'fa fa-circle-o-notch fa-spin'
+		createElements(es.refreshButton, 'inner', [
+			{
+				attributes: {
+					class: 'fa fa-circle-o-notch fa-spin',
+				},
+				type: 'i',
 			},
-			type: 'i'
-		}]);
+		]);
 		let response = await request({ method: 'GET', url: `${this.esgst.searchUrl}${es.pageIndex}` });
 		// noinspection JSIgnoredPromiseFromCall
 		this.es_getNext(es, true, false, null, response);
@@ -721,26 +884,36 @@ class GeneralEndlessScrolling extends Module {
 			}
 		}
 		if (this.esgst.pinnedGiveaways) {
-			createElements(this.esgst.pinnedGiveaways, 'inner', [...(Array.from(DOM.parse(response.responseText).getElementsByClassName('pinned-giveaways__outer-wrap')[0].childNodes).map(x => {
-				return {
-					context: x
-				};
-			}))]);
+			createElements(this.esgst.pinnedGiveaways, 'inner', [
+				...Array.from(
+					DOM.parse(response.responseText).getElementsByClassName('pinned-giveaways__outer-wrap')[0]
+						.childNodes
+				).map((x) => {
+					return {
+						context: x,
+					};
+				}),
+			]);
 			await endless_load(this.esgst.pinnedGiveaways, true);
 			this.esgst.modules.giveawaysPinnedGiveawaysButton.init();
 		}
 
-		await EventDispatcher.dispatch(Events.PAGE_REFRESHED, (await FetchRequest.get(Shared.esgst.sg ? '/giveaways/search?type=wishlist' : '/')).html);
+		await EventDispatcher.dispatch(
+			Events.PAGE_REFRESHED,
+			(await FetchRequest.get(Shared.esgst.sg ? '/giveaways/search?type=wishlist' : '/')).html
+		);
 	}
 
 	async es_refreshAll(es) {
 		es.refreshAllButton.removeEventListener('click', this.esgst.es_refreshAll);
-		createElements(es.refreshAllButton, 'inner', [{
-			attributes: {
-				class: 'fa fa-circle-o-notch fa-spin'
+		createElements(es.refreshAllButton, 'inner', [
+			{
+				attributes: {
+					class: 'fa fa-circle-o-notch fa-spin',
+				},
+				type: 'i',
 			},
-			type: 'i'
-		}]);
+		]);
 		let page = es.reverseScrolling ? es.pageBase - 1 : es.pageBase + 1,
 			response = await request({ method: 'GET', url: `${this.esgst.searchUrl}${page}` });
 		// noinspection JSIgnoredPromiseFromCall
@@ -749,21 +922,34 @@ class GeneralEndlessScrolling extends Module {
 		for (let i = 1, n = es.paginations.length; i < n; ++i) {
 			page = es.reverseScrolling ? es.pageBase - (i + 1) : es.pageBase + (i + 1);
 			// noinspection JSIgnoredPromiseFromCall
-			promises.push(this.es_getNext(es, true, page, null, await request({ method: 'GET', url: `${this.esgst.searchUrl}${page}` })));
+			promises.push(
+				this.es_getNext(
+					es,
+					true,
+					page,
+					null,
+					await request({ method: 'GET', url: `${this.esgst.searchUrl}${page}` })
+				)
+			);
 		}
 
-		await EventDispatcher.dispatch(Events.PAGE_REFRESHED, (await FetchRequest.get(Shared.esgst.sg ? '/giveaways/search?type=wishlist' : '/')).html);
+		await EventDispatcher.dispatch(
+			Events.PAGE_REFRESHED,
+			(await FetchRequest.get(Shared.esgst.sg ? '/giveaways/search?type=wishlist' : '/')).html
+		);
 
 		await Promise.all(promises);
 		await endless_load(es.mainContext, true);
 		this.es_setRemoveEntry(es.mainContext);
 		es.refreshAllButton.addEventListener('click', this.esgst.es_refreshAll.bind(this));
-		createElements(es.refreshAllButton, 'inner', [{
-			attributes: {
-				class: 'fa fa-refresh'
+		createElements(es.refreshAllButton, 'inner', [
+			{
+				attributes: {
+					class: 'fa fa-refresh',
+				},
+				type: 'i',
 			},
-			type: 'i'
-		}]);
+		]);
 		if (Settings.get('ts') && !Settings.get('us')) {
 			this.esgst.modules.generalTableSorter.ts_sortTables();
 		}
@@ -776,11 +962,16 @@ class GeneralEndlessScrolling extends Module {
 			}
 		}
 		if (this.esgst.pinnedGiveaways) {
-			createElements(this.esgst.pinnedGiveaways, 'inner', [...(Array.from(DOM.parse(response.responseText).getElementsByClassName('pinned-giveaways__outer-wrap')[0].childNodes).map(x => {
-				return {
-					context: x
-				};
-			}))]);
+			createElements(this.esgst.pinnedGiveaways, 'inner', [
+				...Array.from(
+					DOM.parse(response.responseText).getElementsByClassName('pinned-giveaways__outer-wrap')[0]
+						.childNodes
+				).map((x) => {
+					return {
+						context: x,
+					};
+				}),
+			]);
 			await endless_load(this.esgst.pinnedGiveaways, true);
 			this.esgst.modules.giveawaysPinnedGiveawaysButton.init();
 		}
@@ -826,10 +1017,12 @@ class GeneralEndlessScrolling extends Module {
 				Values = Context.getElementsByTagName('input');
 				Data = '';
 				for (I = 0, N = Values.length; I < N; ++I) {
-					Data += `${Values[I].getAttribute('name')}=${Values[I].value}${I < (N - 1) ? '&' : ''}`;
+					Data += `${Values[I].getAttribute('name')}=${Values[I].value}${I < N - 1 ? '&' : ''}`;
 				}
 				Loading.classList.toggle('is-hidden');
-				let responseJson = JSON.parse((await request({ data: Data, method: 'POST', url: '/ajax.php' })).responseText);
+				let responseJson = JSON.parse(
+					(await request({ data: Data, method: 'POST', url: '/ajax.php' })).responseText
+				);
 				if (responseJson.type === 'success') {
 					Context.classList.add('is-faded');
 					Complete.classList.toggle('is-hidden');
@@ -845,7 +1038,10 @@ class GeneralEndlessScrolling extends Module {
 
 	updateUrl(page) {
 		const isFirstPage = page === 1;
-		const queryParams = window.location.search.replace(/\?|&page=(\d+)|page=(\d+)&|page=(\d+)/g, '');
+		const queryParams = window.location.search.replace(
+			/\?|&page=(\d+)|page=(\d+)&|page=(\d+)/g,
+			''
+		);
 		let path = '';
 		if (window.location.pathname === '/') {
 			path = Shared.esgst.sg ? 'giveaways' : 'trades';
@@ -856,7 +1052,13 @@ class GeneralEndlessScrolling extends Module {
 		} else if (!isFirstPage) {
 			search = `${path}/search?page=${page}`;
 		}
-		window.history.replaceState(null, '', `${window.location.origin}${window.location.pathname.replace('/search', '')}${search}${window.location.hash}`);
+		window.history.replaceState(
+			null,
+			'',
+			`${window.location.origin}${window.location.pathname.replace('/search', '')}${search}${
+				window.location.hash
+			}`
+		);
 	}
 }
 

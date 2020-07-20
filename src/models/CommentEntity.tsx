@@ -62,7 +62,9 @@ class SgCommentEntity extends CommentEntity {
 
 	static parseAll(context: HTMLElement): SgCommentEntity[] {
 		const entities: SgCommentEntity[] = [];
-		const elements = context.querySelectorAll('.comments > .comments__entity:not([data-esgst-parsed]), :scope > .comments__entity:not([data-esgst-parsed])');
+		const elements = context.querySelectorAll(
+			'.comments > .comments__entity:not([data-esgst-parsed]), :scope > .comments__entity:not([data-esgst-parsed])'
+		);
 		for (const element of elements) {
 			const entity = new SgCommentEntity();
 			entity.parse(element as HTMLDivElement);
@@ -100,17 +102,19 @@ class SgCommentEntity extends CommentEntity {
 		if (this.nodes.outer) {
 			this.nodes.outer.remove();
 		}
-		const outer = DOM.insert(context, position, (
+		const outer = DOM.insert(
+			context,
+			position,
 			<div class="comments__entity">
 				<p class="comments__entity__name">
 					<a href={this.data.url}>{this.data.title}</a>
 				</p>
-				<div class="markdown markdown--resize-body comments__entity__description">{this.data.description}</div>
+				<div class="markdown markdown--resize-body comments__entity__description">
+					{this.data.description}
+				</div>
 			</div>
-		));
-		DOM.insert(outer, 'afterEnd', (
-			<div class="comments"></div>
-		));
+		);
+		DOM.insert(outer, 'afterEnd', <div class="comments"></div>);
 		this.parseNodes(outer);
 		for (const comment of this.comments) {
 			comment.build(this.nodes.comments, 'beforeEnd');

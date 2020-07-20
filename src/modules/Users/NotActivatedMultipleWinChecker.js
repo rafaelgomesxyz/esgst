@@ -8,8 +8,7 @@ import { Shared } from '../../class/Shared';
 import { permissions } from '../../class/Permissions';
 import { DOM } from '../../class/DOM';
 
-const
-	createElements = common.createElements.bind(common),
+const createElements = common.createElements.bind(common),
 	createHeadingButton = common.createHeadingButton.bind(common),
 	createOptions = common.createOptions.bind(common),
 	createResults = common.createResults.bind(common),
@@ -20,100 +19,144 @@ const
 	getValue = common.getValue.bind(common),
 	request = common.request.bind(common),
 	saveUser = common.saveUser.bind(common),
-	saveUsers = common.saveUsers.bind(common)
-	;
-
+	saveUsers = common.saveUsers.bind(common);
 class UsersNotActivatedMultipleWinChecker extends Module {
 	constructor() {
 		super();
 		this.info = {
 			description: [
-				['ul', [
-					['li', [
-						`Adds a button (`,
-						['i', { class: 'fa fa-question-circle' }],
-						`) to the "Gifts Won" row of a user's `,
-						['a', { href: `https://www.steamgifts.com/user/cg` }, 'profile'],
-						` page that allows you to check if they have any not activated/multiple wins (using `,
-						['a', { href: `https://www.sgtools.info/` }, 'SGTools'],
-						`).`
-					]],
-					['li', [
-						`Adds a button (`,
-						['i', { class: 'fa fa-trophy' }],
-						' ',
-						['i', { class: 'fa fa-question-circle' }],
-						`) to the main page heading of any `,
-						['a', { href: `https://www.steamgifts.com/giveaway/aeqw7/dead-space/winners` }, 'winners'],
-						' page that allows you to check all of the winners in the page at once. You cannot check more than that at once due to certain limitations when requesting the data to SGTools.'
-					]],
-					['li', [
-						`Adds a button (`,
-						['i', { class: 'fa fa-trophy' }],
-						' ',
-						['i', { class: 'fa fa-gear' }],
-						`) to the page heading of this menu that allows you to view all of the users that have been checked.`
-					]],
-					['li', `Results are cached for 1 week, so if you check the same user again within that timeframe, their status will not change.`]
-				]]
+				[
+					'ul',
+					[
+						[
+							'li',
+							[
+								`Adds a button (`,
+								['i', { class: 'fa fa-question-circle' }],
+								`) to the "Gifts Won" row of a user's `,
+								['a', { href: `https://www.steamgifts.com/user/cg` }, 'profile'],
+								` page that allows you to check if they have any not activated/multiple wins (using `,
+								['a', { href: `https://www.sgtools.info/` }, 'SGTools'],
+								`).`,
+							],
+						],
+						[
+							'li',
+							[
+								`Adds a button (`,
+								['i', { class: 'fa fa-trophy' }],
+								' ',
+								['i', { class: 'fa fa-question-circle' }],
+								`) to the main page heading of any `,
+								[
+									'a',
+									{ href: `https://www.steamgifts.com/giveaway/aeqw7/dead-space/winners` },
+									'winners',
+								],
+								' page that allows you to check all of the winners in the page at once. You cannot check more than that at once due to certain limitations when requesting the data to SGTools.',
+							],
+						],
+						[
+							'li',
+							[
+								`Adds a button (`,
+								['i', { class: 'fa fa-trophy' }],
+								' ',
+								['i', { class: 'fa fa-gear' }],
+								`) to the page heading of this menu that allows you to view all of the users that have been checked.`,
+							],
+						],
+						[
+							'li',
+							`Results are cached for 1 week, so if you check the same user again within that timeframe, their status will not change.`,
+						],
+					],
+				],
 			],
 			features: {
 				namwc_h: {
 					description: [
-						['ul', [
-							['li', `Changes the color (to green if the user passed the check, red if they failed and grey if their profile is private) of a checked user's username (in any page).`],
-							['li', `If you hover over the username, it shows how many not activated/multiple wins the user has and the date when they were checked for the last time.`]
-						]]
+						[
+							'ul',
+							[
+								[
+									'li',
+									`Changes the color (to green if the user passed the check, red if they failed and grey if their profile is private) of a checked user's username (in any page).`,
+								],
+								[
+									'li',
+									`If you hover over the username, it shows how many not activated/multiple wins the user has and the date when they were checked for the last time.`,
+								],
+							],
+						],
 					],
 					features: {
 						namwc_h_m: {
 							description: [
-								['ul', [
-									['li', `Multiple wins are not the winner's fault sometimes. For example, if they tried to contact the giveaway creator to ask for a reroll and were unable to.`],
-									['li', `With this option enabled, multiple wins are ignored when highlighting the user. So if the user has 0 not activated wins and 1 or more multiple wins, they will be considered as having passed the check.`]
-								]]
+								[
+									'ul',
+									[
+										[
+											'li',
+											`Multiple wins are not the winner's fault sometimes. For example, if they tried to contact the giveaway creator to ask for a reroll and were unable to.`,
+										],
+										[
+											'li',
+											`With this option enabled, multiple wins are ignored when highlighting the user. So if the user has 0 not activated wins and 1 or more multiple wins, they will be considered as having passed the check.`,
+										],
+									],
+								],
 							],
 							name: 'Ignore multiple wins.',
 							sg: true,
-							st: true
+							st: true,
 						},
 						namwc_h_f: {
 							name: 'Only highlight users who failed to pass the check.',
 							sg: true,
-							st: true
+							st: true,
 						},
 						namwc_h_i: {
 							description: [
-								['ul', [
-									['li', [
-										`Adds an icon (`,
-										['i', { class: 'fa fa-thumbs-up esgst-green' }],
-										` if the user passed the check, `,
-										['i', { class: 'fa fa-thumbs-down esgst-red' }],
-										' if they failed and ',
-										['i', { class: 'fa fa-warning esgst-grey' }],
-										` if their profile is private) next to the user's username instead of coloring it.`
-									]],
-									['li', `If you hover over the icon, it shows how many not activated/multiple wins the user has and the date when they were checked for the last time.`]
-								]]
+								[
+									'ul',
+									[
+										[
+											'li',
+											[
+												`Adds an icon (`,
+												['i', { class: 'fa fa-thumbs-up esgst-green' }],
+												` if the user passed the check, `,
+												['i', { class: 'fa fa-thumbs-down esgst-red' }],
+												' if they failed and ',
+												['i', { class: 'fa fa-warning esgst-grey' }],
+												` if their profile is private) next to the user's username instead of coloring it.`,
+											],
+										],
+										[
+											'li',
+											`If you hover over the icon, it shows how many not activated/multiple wins the user has and the date when they were checked for the last time.`,
+										],
+									],
+								],
 							],
 							name: 'Use icons instead of colors.',
 							sg: true,
-							st: true
+							st: true,
 						},
 					},
 					name: 'Highlight checked users.',
 					sg: true,
-					st: true
-				}
+					st: true,
+				},
 			},
 			id: 'namwc',
 			name: 'Not Activated/Multiple Win Checker',
 			sg: true,
 			type: 'users',
 			featureMap: {
-				profile: this.namwc_addUser.bind(this)
-			}
+				profile: this.namwc_addUser.bind(this),
+			},
 		};
 	}
 
@@ -128,14 +171,19 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 			button: createHeadingButton({
 				id: 'namwc',
 				icons: ['fa-trophy', 'fa-question-circle'],
-				title: 'Check for not activated/multiple wins'
-			})
+				title: 'Check for not activated/multiple wins',
+			}),
 		});
 	}
 
 	namwc_getUsers(users) {
 		for (const user of users) {
-			if (user.saved && user.saved.namwc && user.saved.namwc.results && !user.context.parentElement.querySelector(`.esgst-namwc-highlight, .esgst-namwc-icon`)) {
+			if (
+				user.saved &&
+				user.saved.namwc &&
+				user.saved.namwc.results &&
+				!user.context.parentElement.querySelector(`.esgst-namwc-highlight, .esgst-namwc-icon`)
+			) {
 				let results = user.saved.namwc.results;
 				let highlight = null;
 				let icon = null;
@@ -149,22 +197,40 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 					highlight = 'negative';
 					icon = 'fa-thumbs-down';
 				}
-				if (((highlight === 'positive' || highlight === 'unknown') && !Settings.get('namwc_h_f')) || highlight === 'negative') {
-					let title = `${user.username} has ${results.unknown ? '?' : Array.isArray(results.notActivated) ? results.notActivated.length : results.notActivated} not activated wins and ${Array.isArray(results.multiple) ? results.multiple.length : results.multiple} multiple wins (last checked ${getTimestamp(user.saved.namwc.lastCheck)})`;
-					if (Settings.get('namwc_h_i') || (Settings.get('wbh') && (Settings.get('wbh_w') || Settings.get('wbh_b')))) {
-						createElements(user.context, 'beforeBegin', [{
-							attributes: {
-								class: 'esgst-namwc-icon esgst-user-icon',
-								title: getFeatureTooltip('namwc', title)
-							},
-							type: 'span',
-							children: [{
+				if (
+					((highlight === 'positive' || highlight === 'unknown') && !Settings.get('namwc_h_f')) ||
+					highlight === 'negative'
+				) {
+					let title = `${user.username} has ${
+						results.unknown
+							? '?'
+							: Array.isArray(results.notActivated)
+							? results.notActivated.length
+							: results.notActivated
+					} not activated wins and ${
+						Array.isArray(results.multiple) ? results.multiple.length : results.multiple
+					} multiple wins (last checked ${getTimestamp(user.saved.namwc.lastCheck)})`;
+					if (
+						Settings.get('namwc_h_i') ||
+						(Settings.get('wbh') && (Settings.get('wbh_w') || Settings.get('wbh_b')))
+					) {
+						createElements(user.context, 'beforeBegin', [
+							{
 								attributes: {
-									class: `fa ${icon} esgst-${highlight}`
+									class: 'esgst-namwc-icon esgst-user-icon',
+									title: getFeatureTooltip('namwc', title),
 								},
-								type: 'i'
-							}]
-						}]);
+								type: 'span',
+								children: [
+									{
+										attributes: {
+											class: `fa ${icon} esgst-${highlight}`,
+										},
+										type: 'i',
+									},
+								],
+							},
+						]);
 					} else {
 						user.element.classList.add('esgst-namwc-highlight', `esgst-${highlight}`);
 						user.element.title = getFeatureTooltip('namwc', title);
@@ -176,24 +242,28 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 
 	namwc_addUser(profile) {
 		this.namwc_setPopup({
-			button: createElements(profile.wonRowLeft, 'beforeEnd', [{
-				attributes: {
-					class: 'esgst-namwc-button'
-				},
-				type: 'span',
-				children: [{
+			button: createElements(profile.wonRowLeft, 'beforeEnd', [
+				{
 					attributes: {
-						class: 'fa fa-question-circle',
-						title: getFeatureTooltip('namwc', 'Check for not activated/multiple wins')
+						class: 'esgst-namwc-button',
 					},
-					type: 'i'
-				}]
-			}]),
+					type: 'span',
+					children: [
+						{
+							attributes: {
+								class: 'fa fa-question-circle',
+								title: getFeatureTooltip('namwc', 'Check for not activated/multiple wins'),
+							},
+							type: 'i',
+						},
+					],
+				},
+			]),
 			user: {
 				id: profile.id,
 				steamId: profile.steamId,
-				username: profile.username
-			}
+				username: profile.username,
+			},
 		});
 	}
 
@@ -202,78 +272,108 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 		obj.popup = new Popup({
 			addScrollable: true,
 			icon: obj.isMenu ? 'fa-cog' : 'fa-question',
-			title: obj.isMenu ? `Manage Not Activated / Multiple Wins Checker caches:` : `Check for ${obj.user ? `${obj.user.username}'s ` : ''} not activated / multiple wins:`
+			title: obj.isMenu
+				? `Manage Not Activated / Multiple Wins Checker caches:`
+				: `Check for ${obj.user ? `${obj.user.username}'s ` : ''} not activated / multiple wins:`,
 		});
 		if (!obj.isMenu) {
-			createElements(obj.popup.scrollable, 'beforeBegin', [{
-				type: 'div'
-			}]).appendChild(createOptions([{
-				check: true,
-				description: 'Only check for not activated wins.',
-				exclusions: ['namwc_checkMultiple'],
-				id: 'namwc_checkNotActivated',
-				tooltip: `If enabled, multiple wins will not be checked (faster).`
-			}, {
-				check: true,
-				description: 'Only check for multiple wins.',
-				exclusions: ['namwc_checkNotActivated'],
-				id: 'namwc_checkMultiple',
-				tooltip: `If enabled, not activated wins will not be checked (faster).`
-			}, {
-				check: true,
-				description: 'Clear cache.',
-				id: 'namwc_clearCache',
-				tooltip: `If enabled, the user will be checked with SGTools again (slower).`
-			}]));
-			createElements(obj.popup.scrollable, 'beforeBegin', [{
-				attributes: {
-					class: 'esgst-description'
+			createElements(obj.popup.scrollable, 'beforeBegin', [
+				{
+					type: 'div',
 				},
-				text: `If a user is highlighted, that means that they have been either checked for the first time or updated`,
-				type: 'div'
-			}]);
-			obj.popup.description.appendChild(new ButtonSet({
-				color1: 'green',
-				color2: 'grey',
-				icon1: 'fa-question-circle',
-				icon2: 'fa-times-circle',
-				title1: 'Check',
-				title2: 'Cancel',
-				callback1: this.namwc_start.bind(this, obj),
-				callback2: this.namwc_stop.bind(this, obj)
-			}).set);
+			]).appendChild(
+				createOptions([
+					{
+						check: true,
+						description: 'Only check for not activated wins.',
+						exclusions: ['namwc_checkMultiple'],
+						id: 'namwc_checkNotActivated',
+						tooltip: `If enabled, multiple wins will not be checked (faster).`,
+					},
+					{
+						check: true,
+						description: 'Only check for multiple wins.',
+						exclusions: ['namwc_checkNotActivated'],
+						id: 'namwc_checkMultiple',
+						tooltip: `If enabled, not activated wins will not be checked (faster).`,
+					},
+					{
+						check: true,
+						description: 'Clear cache.',
+						id: 'namwc_clearCache',
+						tooltip: `If enabled, the user will be checked with SGTools again (slower).`,
+					},
+				])
+			);
+			createElements(obj.popup.scrollable, 'beforeBegin', [
+				{
+					attributes: {
+						class: 'esgst-description',
+					},
+					text: `If a user is highlighted, that means that they have been either checked for the first time or updated`,
+					type: 'div',
+				},
+			]);
+			obj.popup.description.appendChild(
+				new ButtonSet({
+					color1: 'green',
+					color2: 'grey',
+					icon1: 'fa-question-circle',
+					icon2: 'fa-times-circle',
+					title1: 'Check',
+					title2: 'Cancel',
+					callback1: this.namwc_start.bind(this, obj),
+					callback2: this.namwc_stop.bind(this, obj),
+				}).set
+			);
 		}
-		obj.popup.progress = createElements(obj.popup.scrollable, 'beforeBegin', [{
-			type: 'div'
-		}]);
-		obj.popup.overallProgress = createElements(obj.popup.scrollable, 'beforeBegin', [{
-			type: 'div'
-		}]);
-		obj.popup.results = createElements(obj.popup.scrollable, 'beforeEnd', [{
-			type: 'div'
-		}]);
-		createResults(obj.popup.results, obj.popup, [{
-			Icon: 'fa fa-check-circle esgst-positive',
-			Description: 'Users with 0 not activated wins',
-			Key: 'activated'
-		}, {
-			Icon: 'fa fa-check-circle esgst-positive',
-			Description: 'Users with 0 multiple wins',
-			Key: 'notMultiple'
-		}, {
-			Icon: 'fa fa-times-circle esgst-negative',
-			Description: 'Users with not activated wins',
-			Key: 'notActivated'
-		}, {
-			Icon: 'fa fa-times-circle esgst-negative',
-			Description: 'Users with multiple wins',
-			Key: 'multiple'
-		}, {
-			Icon: 'fa fa-question-circle',
-			Description: 'Users who cannot be checked for not activated wins either because they have a private profile or SteamCommunity is down',
-			Key: 'unknown'
-		}]);
-		obj.button.addEventListener('click', obj.popup.open.bind(obj.popup, obj.isMenu ? this.namwc_start.bind(this, obj) : null));
+		obj.popup.progress = createElements(obj.popup.scrollable, 'beforeBegin', [
+			{
+				type: 'div',
+			},
+		]);
+		obj.popup.overallProgress = createElements(obj.popup.scrollable, 'beforeBegin', [
+			{
+				type: 'div',
+			},
+		]);
+		obj.popup.results = createElements(obj.popup.scrollable, 'beforeEnd', [
+			{
+				type: 'div',
+			},
+		]);
+		createResults(obj.popup.results, obj.popup, [
+			{
+				Icon: 'fa fa-check-circle esgst-positive',
+				Description: 'Users with 0 not activated wins',
+				Key: 'activated',
+			},
+			{
+				Icon: 'fa fa-check-circle esgst-positive',
+				Description: 'Users with 0 multiple wins',
+				Key: 'notMultiple',
+			},
+			{
+				Icon: 'fa fa-times-circle esgst-negative',
+				Description: 'Users with not activated wins',
+				Key: 'notActivated',
+			},
+			{
+				Icon: 'fa fa-times-circle esgst-negative',
+				Description: 'Users with multiple wins',
+				Key: 'multiple',
+			},
+			{
+				Icon: 'fa fa-question-circle',
+				Description:
+					'Users who cannot be checked for not activated wins either because they have a private profile or SteamCommunity is down',
+				Key: 'unknown',
+			},
+		]);
+		obj.button.addEventListener(
+			'click',
+			obj.popup.open.bind(obj.popup, obj.isMenu ? this.namwc_start.bind(this, obj) : null)
+		);
 	}
 
 	async namwc_start(obj) {
@@ -290,7 +390,8 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 		obj.popup.notActivated.classList.add('esgst-hidden');
 		obj.popup.multiple.classList.add('esgst-hidden');
 		obj.popup.unknown.classList.add('esgst-hidden');
-		obj.popup.activatedCount.textContent = obj.popup.notMultipleCount.textContent = obj.popup.notActivatedCount.textContent = obj.popup.multipleCount.textContent = obj.popup.unknownCount.textContent = '0';
+		obj.popup.activatedCount.textContent = obj.popup.notMultipleCount.textContent = obj.popup.notActivatedCount.textContent = obj.popup.multipleCount.textContent = obj.popup.unknownCount.textContent =
+			'0';
 		obj.popup.activatedUsers.innerHTML = '';
 		obj.popup.notMultipleUsers.textContent = '';
 		obj.popup.notActivatedUsers.innerHTML = '';
@@ -316,7 +417,13 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 				let match = element.getAttribute('href').match(/\/user\/(.+)/);
 				if (!match) continue;
 				let username = match[1];
-				if (users.indexOf(username) > -1 || username === Settings.get('username') || username !== element.textContent || element.closest('.markdown')) continue;
+				if (
+					users.indexOf(username) > -1 ||
+					username === Settings.get('username') ||
+					username !== element.textContent ||
+					element.closest('.markdown')
+				)
+					continue;
 				users.push(username);
 				if (users.length > 25) break;
 			}
@@ -335,7 +442,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 			notMultiple: {},
 			notActivated: {},
 			multiple: {},
-			unknown: {}
+			unknown: {},
 		};
 		for (let i = 0, n = users.length; !obj.isCanceled && i < n; i++) {
 			obj.popup.progress.innerHTML = '';
@@ -343,7 +450,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 			let user = obj.user || { username: users[i] };
 			let savedUser = await getUser(null, user);
 			user.values = {
-				namwc: savedUser && savedUser.namwc
+				namwc: savedUser && savedUser.namwc,
 			};
 			let isNew = false;
 			if (!obj.isMenu) {
@@ -351,7 +458,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 				if (!user.values.namwc) {
 					user.values.namwc = {
 						lastCheck: 0,
-						results: {}
+						results: {},
 					};
 				}
 				if (Settings.get('namwc_clearCache')) {
@@ -370,7 +477,15 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 				if (resultsBackup) {
 					for (let key in resultsBackup) {
 						if (resultsBackup.hasOwnProperty(key)) {
-							if (((Array.isArray(resultsBackup[key]) && resultsBackup[key].length) || (!Array.isArray(resultsBackup[key]) && resultsBackup[key])) === ((Array.isArray(user.values.namwc.results[key]) && user.values.namwc.results[key].length) || (!Array.isArray(user.values.namwc.results[key]) && user.values.namwc.results[key]))) continue;
+							if (
+								((Array.isArray(resultsBackup[key]) && resultsBackup[key].length) ||
+									(!Array.isArray(resultsBackup[key]) && resultsBackup[key])) ===
+								((Array.isArray(user.values.namwc.results[key]) &&
+									user.values.namwc.results[key].length) ||
+									(!Array.isArray(user.values.namwc.results[key]) &&
+										user.values.namwc.results[key]))
+							)
+								continue;
 							isNew = true;
 							break;
 						}
@@ -382,23 +497,32 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 			let elements = [];
 			for (let key in user.values.namwc.results) {
 				if (user.values.namwc.results.hasOwnProperty(key)) {
-					let value = (Array.isArray(user.values.namwc.results[key]) && user.values.namwc.results[key].length) || (!Array.isArray(user.values.namwc.results[key]) && user.values.namwc.results[key]);
+					let value =
+						(Array.isArray(user.values.namwc.results[key]) &&
+							user.values.namwc.results[key].length) ||
+						(!Array.isArray(user.values.namwc.results[key]) && user.values.namwc.results[key]);
 					if (!value) continue;
 					obj.popup[key].classList.remove('esgst-hidden');
 					let count = obj.popup[`${key}Count`];
 					count.textContent = parseInt(count.textContent) + 1;
 					const attributes = {
-						href: `http://www.sgtools.info/${key.match(/multiple/i) ? 'multiple' : 'nonactivated'}/${user.username}`,
-						target: '_blank'
+						href: `http://www.sgtools.info/${
+							key.match(/multiple/i) ? 'multiple' : 'nonactivated'
+						}/${user.username}`,
+						target: '_blank',
 					};
 					if (isNew) {
 						attributes.class = 'esgst-bold esgst-italic';
 					}
-					elements[key] = createElements(obj.popup[`${key}Users`], 'beforeEnd', [{
-						attributes,
-						text: `${user.username}${key.match(/^(notActivated|multiple)$/) ? ` (${value})` : ''}`,
-						type: 'a'
-					}]);
+					elements[key] = createElements(obj.popup[`${key}Users`], 'beforeEnd', [
+						{
+							attributes,
+							text: `${user.username}${
+								key.match(/^(notActivated|multiple)$/) ? ` (${value})` : ''
+							}`,
+							type: 'a',
+						},
+					]);
 				}
 			}
 			if (!obj.isMenu) {
@@ -430,52 +554,94 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 			let suspension = suspensions[steamId];
 			let user = { steamId };
 			user.values = {
-				namwc: (await getUser(savedUsers, user)).namwc
+				namwc: (await getUser(savedUsers, user)).namwc,
 			};
 			user.values.namwc.suspension = suspension;
 			users.push(user);
 			if (Array.isArray(user.values.namwc.results.notActivated)) {
 				let i, n;
-				for (i = 0, n = user.values.namwc.results.notActivated.length; i < n && user.values.namwc.results.notActivated[i] <= suspension.notActivated; i++) {
-				}
+				for (
+					i = 0, n = user.values.namwc.results.notActivated.length;
+					i < n && user.values.namwc.results.notActivated[i] <= suspension.notActivated;
+					i++
+				) {}
 				if (i > 0) {
-					createElements(userElements[steamId].notActivated, 'beforeEnd', [{
-						attributes: {
-							title: getFeatureTooltip('ust', `This user already served suspension for ${i} of their not activated wins (until ${getTimestamp(suspension.notActivated, true, true)})`)
+					createElements(userElements[steamId].notActivated, 'beforeEnd', [
+						{
+							attributes: {
+								title: getFeatureTooltip(
+									'ust',
+									`This user already served suspension for ${i} of their not activated wins (until ${getTimestamp(
+										suspension.notActivated,
+										true,
+										true
+									)})`
+								),
+							},
+							text: `[-${i}]`,
+							type: 'span',
 						},
-						text: `[-${i}]`,
-						type: 'span'
-					}]);
+					]);
 				} else if (userElements[steamId].activated) {
-					createElements(userElements[steamId].activated, 'beforeEnd', [{
-						attributes: {
-							title: getFeatureTooltip('ust', `This user already served suspension for not activated wins until ${getTimestamp(suspension.notActivated, true, true)}`)
+					createElements(userElements[steamId].activated, 'beforeEnd', [
+						{
+							attributes: {
+								title: getFeatureTooltip(
+									'ust',
+									`This user already served suspension for not activated wins until ${getTimestamp(
+										suspension.notActivated,
+										true,
+										true
+									)}`
+								),
+							},
+							text: `[x]`,
+							type: 'span',
 						},
-						text: `[x]`,
-						type: 'span'
-					}]);
+					]);
 				}
 			}
 			if (Array.isArray(user.values.namwc.results.multiple)) {
 				let i, n;
-				for (i = 0, n = user.values.namwc.results.multiple.length; i < n && user.values.namwc.results.multiple[i] <= suspension.multiple; i++) {
-				}
+				for (
+					i = 0, n = user.values.namwc.results.multiple.length;
+					i < n && user.values.namwc.results.multiple[i] <= suspension.multiple;
+					i++
+				) {}
 				if (i > 0) {
-					createElements(userElements[steamId].multiple, 'beforeEnd', [{
-						attributes: {
-							title: getFeatureTooltip('ust', `This user already served suspension for ${i} of their multiple wins (until ${getTimestamp(suspension.multiple, true, true)})`)
+					createElements(userElements[steamId].multiple, 'beforeEnd', [
+						{
+							attributes: {
+								title: getFeatureTooltip(
+									'ust',
+									`This user already served suspension for ${i} of their multiple wins (until ${getTimestamp(
+										suspension.multiple,
+										true,
+										true
+									)})`
+								),
+							},
+							text: `[-${i}]`,
+							type: 'span',
 						},
-						text: `[-${i}]`,
-						type: 'span'
-					}]);
+					]);
 				} else if (userElements[steamId].notMultiple) {
-					createElements(userElements[steamId].notMultiple, 'beforeEnd', [{
-						attributes: {
-							title: getFeatureTooltip('ust', `This user already served suspension for multiple wins until ${getTimestamp(suspension.multiple, true, true)}`)
+					createElements(userElements[steamId].notMultiple, 'beforeEnd', [
+						{
+							attributes: {
+								title: getFeatureTooltip(
+									'ust',
+									`This user already served suspension for multiple wins until ${getTimestamp(
+										suspension.multiple,
+										true,
+										true
+									)}`
+								),
+							},
+							text: `[x]`,
+							type: 'span',
 						},
-						text: `[x]`,
-						type: 'span'
-					}]);
+					]);
 				}
 			}
 		}
@@ -495,21 +661,26 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 		if (obj.isCanceled) return;
 
 		if (obj.popup.progress) {
-			createElements(obj.popup.progress, 'inner', [{
-				attributes: {
-					class: 'fa fa-circle-o-notch fa-spin'
+			createElements(obj.popup.progress, 'inner', [
+				{
+					attributes: {
+						class: 'fa fa-circle-o-notch fa-spin',
+					},
+					type: 'i',
 				},
-				type: 'i'
-			}, {
-				text: `Retrieving ${user.username}'s not activated wins...`,
-				type: 'span'
-			}]);
+				{
+					text: `Retrieving ${user.username}'s not activated wins...`,
+					type: 'span',
+				},
+			]);
 		}
-		let responseText = (await request({
-			method: 'GET',
-			queue: true,
-			url: `http://www.sgtools.info/nonactivated/${user.username}`
-		})).responseText;
+		let responseText = (
+			await request({
+				method: 'GET',
+				queue: true,
+				url: `http://www.sgtools.info/nonactivated/${user.username}`,
+			})
+		).responseText;
 		if (responseText.match(/has a private profile/)) {
 			user.values.namwc.results.activated = 0;
 			user.values.namwc.results.notActivated = [];
@@ -519,7 +690,11 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 			let elements = DOM.parse(responseText).getElementsByClassName('notActivatedGame');
 			let n = elements.length;
 			for (let i = 0; i < n; ++i) {
-				user.values.namwc.results.notActivated.push(new Date(elements[i].textContent.match(/\((\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2})\)/)[1]).getTime());
+				user.values.namwc.results.notActivated.push(
+					new Date(
+						elements[i].textContent.match(/\((\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2})\)/)[1]
+					).getTime()
+				);
 			}
 			user.values.namwc.results.activated = n === 0 ? 1 : 0;
 			user.values.namwc.results.unknown = 0;
@@ -531,25 +706,36 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 		if (obj.isCanceled) return;
 
 		if (obj.popup.progress) {
-			createElements(obj.popup.progress, 'inner', [{
-				attributes: {
-					class: 'fa fa-circle-o-notch fa-spin'
+			createElements(obj.popup.progress, 'inner', [
+				{
+					attributes: {
+						class: 'fa fa-circle-o-notch fa-spin',
+					},
+					type: 'i',
 				},
-				type: 'i'
-			}, {
-				text: `Retrieving ${user.username}'s multiple wins...`,
-				type: 'span'
-			}]);
+				{
+					text: `Retrieving ${user.username}'s multiple wins...`,
+					type: 'span',
+				},
+			]);
 		}
 		user.values.namwc.results.multiple = [];
-		let elements = DOM.parse((await request({
-			method: 'GET',
-			queue: true,
-			url: `http://www.sgtools.info/multiple/${user.username}`
-		})).responseText).getElementsByClassName('multiplewins');
+		let elements = DOM.parse(
+			(
+				await request({
+					method: 'GET',
+					queue: true,
+					url: `http://www.sgtools.info/multiple/${user.username}`,
+				})
+			).responseText
+		).getElementsByClassName('multiplewins');
 		let n = elements.length;
 		for (let i = 0; i < n; ++i) {
-			user.values.namwc.results.multiple.push(new Date(elements[i].textContent.match(/and\s(\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2})\)/)[1]).getTime());
+			user.values.namwc.results.multiple.push(
+				new Date(
+					elements[i].textContent.match(/and\s(\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2})\)/)[1]
+				).getTime()
+			);
 		}
 		user.values.namwc.results.notMultiple = n === 0 ? 1 : 0;
 		user.values.namwc.lastCheck = Date.now();

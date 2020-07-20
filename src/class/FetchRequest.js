@@ -5,10 +5,10 @@ import { Utils } from '../lib/jsUtils';
 import { DOM } from './DOM';
 
 const DEFAULT_HEADERS = {
-	'Content-Type': 'application/x-www-form-urlencoded'
+	'Content-Type': 'application/x-www-form-urlencoded',
 };
 const REQUIRED_HEADERS = {
-	'From': 'esgst.extension@gmail.com',
+	From: 'esgst.extension@gmail.com',
 };
 
 class FetchRequest {
@@ -110,12 +110,14 @@ class FetchRequest {
 		return {
 			redirected: response.redirected,
 			text,
-			url: response.url
+			url: response.url,
 		};
 	}
 
 	static async sendExternal(url, options) {
-		const manipulateCookies = (await Shared.common.getBrowserInfo()).name === 'Firefox' && Settings.get('manipulateCookies');
+		const manipulateCookies =
+			(await Shared.common.getBrowserInfo()).name === 'Firefox' &&
+			Settings.get('manipulateCookies');
 
 		const messageOptions = {
 			action: 'fetch',
@@ -123,7 +125,7 @@ class FetchRequest {
 			fileName: options.fileName,
 			manipulateCookies,
 			parameters: JSON.stringify(FetchRequest.getFetchOptions(options, manipulateCookies)),
-			url
+			url,
 		};
 		let response = await browser.runtime.sendMessage(messageOptions);
 		if (typeof response === 'string') {
@@ -137,7 +139,7 @@ class FetchRequest {
 		return {
 			redirected: response.redirected,
 			text: response.responseText,
-			url: response.finalUrl
+			url: response.finalUrl,
 		};
 	}
 
@@ -146,7 +148,10 @@ class FetchRequest {
 		let fetchOptions = FetchRequest.getFetchOptions(options);
 
 		// @ts-ignore
-		if ((await Shared.common.getBrowserInfo()).name === 'Firefox' && Utils.isSet(window.wrappedJSObject)) {
+		if (
+			(await Shared.common.getBrowserInfo()).name === 'Firefox' &&
+			Utils.isSet(window.wrappedJSObject)
+		) {
 			// @ts-ignore
 			// eslint-disable-next-line no-undef
 			fetchObj = XPCNativeWrapper(window.wrappedJSObject.fetch);
@@ -168,7 +173,7 @@ class FetchRequest {
 			credentials: options.anon || manipulateCookies ? 'omit' : 'include',
 			headers: options.headers,
 			method: options.method,
-			redirect: 'follow'
+			redirect: 'follow',
 		};
 	}
 

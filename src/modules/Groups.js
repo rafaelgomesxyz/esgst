@@ -8,13 +8,19 @@ class Groups extends Module {
 			endless: true,
 			id: 'groups',
 			featureMap: {
-				endless: this.groups_load.bind(this)
-			}
+				endless: this.groups_load.bind(this),
+			},
 		};
 	}
 
 	async groups_load(context, main, source, endless) {
-		const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} a[href*="/group/"], .esgst-es-page-${endless}a[href*="/group/"]` : `a[href*="/group/"]`}, .form_list_item_summary_name`);
+		const elements = context.querySelectorAll(
+			`${
+				endless
+					? `.esgst-es-page-${endless} a[href*="/group/"], .esgst-es-page-${endless}a[href*="/group/"]`
+					: `a[href*="/group/"]`
+			}, .form_list_item_summary_name`
+		);
 		if (!elements.length) {
 			return;
 		}
@@ -25,19 +31,19 @@ class Groups extends Module {
 			}
 			const group = {
 				saved: null,
-				url: element.getAttribute('href')
+				url: element.getAttribute('href'),
 			};
 			if (group.url) {
 				const match = group.url.match(/\/group\/(.+?)\//);
 				if (match) {
 					group.id = match[1];
-					group.saved = this.esgst.groups.filter(x => x.code === group.id)[0];
+					group.saved = this.esgst.groups.filter((x) => x.code === group.id)[0];
 				}
 			}
 			if (!group.id) {
 				const avatarImage = element.parentElement.previousElementSibling;
 				const avatar = avatarImage.style.backgroundImage;
-				group.saved = this.esgst.groups.filter(x => avatar.match(x.avatar))[0];
+				group.saved = this.esgst.groups.filter((x) => avatar.match(x.avatar))[0];
 				group.id = group.saved && group.saved.code;
 			}
 			if (!group.id) {
@@ -47,7 +53,7 @@ class Groups extends Module {
 			if (!this.esgst.currentGroups[group.id]) {
 				this.esgst.currentGroups[group.id] = {
 					elements: [],
-					savedGroup: group.saved
+					savedGroup: group.saved,
 				};
 			}
 			if (this.esgst.currentGroups[group.id].elements.indexOf(element) > -1) {
@@ -78,7 +84,12 @@ class Groups extends Module {
 			this.esgst.currentScope.groups.push(group);
 			groups.push(group);
 		}
-		if (main && this.esgst.gpf && this.esgst.gpf.filteredCount && Settings.get(`gpf_enable${this.esgst.gpf.type}`)) {
+		if (
+			main &&
+			this.esgst.gpf &&
+			this.esgst.gpf.filteredCount &&
+			Settings.get(`gpf_enable${this.esgst.gpf.type}`)
+		) {
 			this.esgst.modules.groupsGroupFilters.filters_filter(this.esgst.gpf, false, endless);
 		}
 		for (const feature of this.esgst.groupFeatures) {

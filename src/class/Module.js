@@ -22,12 +22,11 @@ class Module {
 		this.info = {
 			id: 'unknown',
 			name: 'Unknown',
-			type: ''
+			type: '',
 		};
 	}
 
-	init() {
-	}
+	init() {}
 
 	setEsgst(esgst) {
 		this.esgst = esgst;

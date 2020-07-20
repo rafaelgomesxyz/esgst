@@ -77,7 +77,9 @@ class PersistentStorage {
 			} else {
 				toDelete.push('Emojis');
 
-				toSet.emojis = Utils.isSet(storage.Emojis) ? Shared.common.fixEmojis(storage.Emojis) : this.defaultValues.emojis;
+				toSet.emojis = Utils.isSet(storage.Emojis)
+					? Shared.common.fixEmojis(storage.Emojis)
+					: this.defaultValues.emojis;
 			}
 
 			if (!Utils.isSet(storage.games)) {
@@ -85,7 +87,10 @@ class PersistentStorage {
 			}
 
 			if (!Utils.isSet(storage[`${Shared.esgst.name}RfiCache`])) {
-				toSet[`${Shared.esgst.name}RfiCache`] = LocalStorage.get('replies', this.defaultValues.rfiCache);
+				toSet[`${Shared.esgst.name}RfiCache`] = LocalStorage.get(
+					'replies',
+					this.defaultValues.rfiCache
+				);
 				LocalStorage.delete('replies');
 			}
 
@@ -146,7 +151,10 @@ class PersistentStorage {
 				}
 
 				if (!Utils.isSet(storage.stickiedCountries)) {
-					toSet.stickiedCountries = LocalStorage.get('stickiedCountries', this.defaultValues.stickiedCountries);
+					toSet.stickiedCountries = LocalStorage.get(
+						'stickiedCountries',
+						this.defaultValues.stickiedCountries
+					);
 					LocalStorage.delete('stickiedCountries');
 				}
 
@@ -206,7 +214,9 @@ class PersistentStorage {
 
 			if (Utils.isSet(storage.filterPresets)) {
 				const presets = (settings.gf_presets || Settings.defaultValues.gf_presets).concat(
-					Shared.esgst.modules.giveawaysGiveawayFilters.filters_convert(JSON.parse(storage.filterPresets))
+					Shared.esgst.modules.giveawaysGiveawayFilters.filters_convert(
+						JSON.parse(storage.filterPresets)
+					)
 				);
 
 				settings.gf_presets = presets;
@@ -219,7 +229,9 @@ class PersistentStorage {
 
 			if (Utils.isSet(storage.dfPresets)) {
 				const presets = (settings.df_presets || Settings.defaultValues.df_presets).concat(
-					Shared.esgst.modules.giveawaysGiveawayFilters.filters_convert(JSON.parse(storage.dfPresets))
+					Shared.esgst.modules.giveawaysGiveawayFilters.filters_convert(
+						JSON.parse(storage.dfPresets)
+					)
 				);
 
 				settings.df_presets = presets;
@@ -274,7 +286,7 @@ class PersistentStorage {
 				}
 			}
 
-			['gc_categories', 'gc_categories_gv', 'gc_categories_ids'].forEach(key => {
+			['gc_categories', 'gc_categories_gv', 'gc_categories_ids'].forEach((key) => {
 				if (!Utils.isSet(settings[key])) {
 					return;
 				}
@@ -299,7 +311,10 @@ class PersistentStorage {
 							}
 
 							settings.leftButtonIds.splice(i, 1);
-						} else if (Utils.isSet(settings.rightButtonsIds) && settings.rightButtonIds.includes(id)) {
+						} else if (
+							Utils.isSet(settings.rightButtonsIds) &&
+							settings.rightButtonIds.includes(id)
+						) {
 							settings.leftButtonIds.splice(i, 1);
 						}
 					}
@@ -331,7 +346,10 @@ class PersistentStorage {
 							}
 
 							settings.leftMainPageHeadingIds.splice(i, 1);
-						} else if (Utils.isSet(settings.rightMainPageHeadingIds) && settings.rightMainPageHeadingIds.includes(id)) {
+						} else if (
+							Utils.isSet(settings.rightMainPageHeadingIds) &&
+							settings.rightMainPageHeadingIds.includes(id)
+						) {
 							settings.leftMainPageHeadingIds.splice(i, 1);
 						}
 					}
@@ -347,7 +365,10 @@ class PersistentStorage {
 							}
 
 							settings.rightMainPageHeadingIds.splice(i, 1);
-						} else if (Utils.isSet(settings.leftMainPageHeadingIds) && settings.leftMainPageHeadingIds.includes(id)) {
+						} else if (
+							Utils.isSet(settings.leftMainPageHeadingIds) &&
+							settings.leftMainPageHeadingIds.includes(id)
+						) {
 							settings.rightMainPageHeadingIds.splice(i, 1);
 						}
 					}
@@ -363,7 +384,12 @@ class PersistentStorage {
 				settingsChanged = true;
 			}
 
-			if (Utils.isSet(settings.leftButtonIds) && Utils.isSet(settings.rightButtonIds) && Utils.isSet(settings.leftMainPageHeadingIds) && Utils.isSet(settings.rightMainPageHeadingIds)) {
+			if (
+				Utils.isSet(settings.leftButtonIds) &&
+				Utils.isSet(settings.rightButtonIds) &&
+				Utils.isSet(settings.leftMainPageHeadingIds) &&
+				Utils.isSet(settings.rightMainPageHeadingIds)
+			) {
 				[
 					{ id: 'cec', side: 'left' },
 					{ id: 'esContinuous', side: 'right' },
@@ -380,8 +406,13 @@ class PersistentStorage {
 					{ id: 'tf_s_s', side: 'left' },
 					{ id: 'uf_s_s', side: 'left' },
 					{ id: 'gmf', side: 'left' },
-				].forEach(item => {
-					if (!settings.leftButtonIds.includes(item.id) && !settings.rightButtonIds.includes(item.id) && !settings.leftMainPageHeadingIds.includes(item.id) && !settings.rightMainPageHeadingIds.includes(item.id)) {
+				].forEach((item) => {
+					if (
+						!settings.leftButtonIds.includes(item.id) &&
+						!settings.rightButtonIds.includes(item.id) &&
+						!settings.leftMainPageHeadingIds.includes(item.id) &&
+						!settings.rightMainPageHeadingIds.includes(item.id)
+					) {
 						settings[`${item.side}MainPageHeadingIds`].push(item.id);
 
 						settingsChanged = true;
@@ -390,13 +421,17 @@ class PersistentStorage {
 			}
 
 			if (Utils.isSet(settings.chfl_discussions_sg)) {
-				settings.chfl_discussions_sg = settings.chfl_discussions_sg.filter(x => ((typeof x === 'string' && x) || x.id) !== 'categorize-discussions');
+				settings.chfl_discussions_sg = settings.chfl_discussions_sg.filter(
+					(x) => ((typeof x === 'string' && x) || x.id) !== 'categorize-discussions'
+				);
 
 				settingsChanged = true;
 			}
 
 			if (Utils.isSet(settings.chfl_footer_sg)) {
-				const privacyPolicyIndex = settings.chfl_footer_sg.map((x, i) => ((typeof x === 'string' && x) || x.id) === 'privacy-policy' ? i : null).filter(x => Utils.isSet(x))[0];
+				const privacyPolicyIndex = settings.chfl_footer_sg
+					.map((x, i) => (((typeof x === 'string' && x) || x.id) === 'privacy-policy' ? i : null))
+					.filter((x) => Utils.isSet(x))[0];
 
 				if (Utils.isSet(privacyPolicyIndex)) {
 					settings.chfl_footer_sg.splice(privacyPolicyIndex + 1, 0, 'cookie-policy');
@@ -404,7 +439,9 @@ class PersistentStorage {
 					settings.chfl_footer_sg.push('cookie-policy');
 				}
 
-				const termsOfServiceIndex = settings.chfl_footer_sg.map((x, i) => ((typeof x === 'string' && x) || x.id) === 'terms-of-service' ? i : null).filter(x => Utils.isSet(x))[0];
+				const termsOfServiceIndex = settings.chfl_footer_sg
+					.map((x, i) => (((typeof x === 'string' && x) || x.id) === 'terms-of-service' ? i : null))
+					.filter((x) => Utils.isSet(x))[0];
 
 				if (Utils.isSet(termsOfServiceIndex)) {
 					settings.chfl_footer_sg.splice(termsOfServiceIndex + 1, 0, 'advertising');
@@ -453,13 +490,23 @@ class PersistentStorage {
 
 			const settings = JSON.parse(storage.settings);
 
-			const keys = ['giveaways_sg', 'discussions_sg', 'support_sg', 'help_sg', 'account_sg', 'footer_sg', 'trades_st', 'account_st', 'footer_st'];
+			const keys = [
+				'giveaways_sg',
+				'discussions_sg',
+				'support_sg',
+				'help_sg',
+				'account_sg',
+				'footer_sg',
+				'trades_st',
+				'account_st',
+				'footer_st',
+			];
 
 			for (const key of keys) {
 				const source = key.match(/(.+?)_/)[1];
 
 				if (Utils.isSet(settings[`chfl_${key}`])) {
-					settings[`chfl_${key}`] = settings[`chfl_${key}`].map(item => {
+					settings[`chfl_${key}`] = settings[`chfl_${key}`].map((item) => {
 						if (item.id) {
 							item.id = IHeader.generateId(item.name);
 						} else {
@@ -549,12 +596,24 @@ class PersistentStorage {
 			const settings = JSON.parse(storage.settings);
 
 			if (Utils.isSet(settings.chfl_giveaways_sg)) {
-				const wishlistGiveawaysIndex = settings.chfl_giveaways_sg.map((x, i) => ((typeof x === 'string' && x) || x.id) === 'browseWishlistGiveaways' ? i : null).filter(x => Utils.isSet(x))[0];
+				const wishlistGiveawaysIndex = settings.chfl_giveaways_sg
+					.map((x, i) =>
+						((typeof x === 'string' && x) || x.id) === 'browseWishlistGiveaways' ? i : null
+					)
+					.filter((x) => Utils.isSet(x))[0];
 
 				if (Utils.isSet(wishlistGiveawaysIndex)) {
-					settings.chfl_giveaways_sg.splice(wishlistGiveawaysIndex + 1, 0, {id: `browseFollowedGiveaways`, name: 'Browse Followed Giveaways', url: `/giveaways/search?esgst=fgp`});
+					settings.chfl_giveaways_sg.splice(wishlistGiveawaysIndex + 1, 0, {
+						id: `browseFollowedGiveaways`,
+						name: 'Browse Followed Giveaways',
+						url: `/giveaways/search?esgst=fgp`,
+					});
 				} else {
-					settings.chfl_giveaways_sg.push({id: `browseFollowedGiveaways`, name: 'Browse Followed Giveaways', url: `/giveaways/search?esgst=fgp`});
+					settings.chfl_giveaways_sg.push({
+						id: `browseFollowedGiveaways`,
+						name: 'Browse Followed Giveaways',
+						url: `/giveaways/search?esgst=fgp`,
+					});
 				}
 
 				settingsChanged = true;
@@ -574,7 +633,7 @@ class PersistentStorage {
 			const settings = JSON.parse(storage.settings);
 
 			if (Utils.isSet(settings.chfl_discussions_sg)) {
-				settings.chfl_discussions_sg = settings.chfl_discussions_sg.map(item => {
+				settings.chfl_discussions_sg = settings.chfl_discussions_sg.map((item) => {
 					if (typeof item === 'string') {
 						return item;
 					}
@@ -594,41 +653,67 @@ class PersistentStorage {
 					{
 						reference: 'browseAnnouncements',
 						position: 'before',
-						item: {id: 'browseAddonsTools', name: 'Browse Add-ons / Tools', url: '/discussions/addons-tools'},
+						item: {
+							id: 'browseAddonsTools',
+							name: 'Browse Add-ons / Tools',
+							url: '/discussions/addons-tools',
+						},
 					},
 					{
 						reference: 'browseDeals',
 						position: 'after',
-						item: {id: 'browseGameShowcase', name: 'Browse Game Showcase', url: '/discussions/game-showcase'},
+						item: {
+							id: 'browseGameShowcase',
+							name: 'Browse Game Showcase',
+							url: '/discussions/game-showcase',
+						},
 					},
 					{
 						reference: 'browseGroupRecruitment',
 						position: 'after',
 						items: [
-							{id: 'browseHardware', name: 'Browse Hardware', url: '/discussions/hardware'},
-							{id: 'browseHelp', name: 'Browse Help', url: '/discussions/help'},
+							{ id: 'browseHardware', name: 'Browse Hardware', url: '/discussions/hardware' },
+							{ id: 'browseHelp', name: 'Browse Help', url: '/discussions/help' },
 						],
 					},
 					{
 						reference: 'browseLet',
 						position: 'after',
-						item: {id: 'browseMoviesTv', name: 'Browse Movies / TV', url: '/discussions/movies-tv'},
+						item: {
+							id: 'browseMoviesTv',
+							name: 'Browse Movies / TV',
+							url: '/discussions/movies-tv',
+						},
 					},
 					{
 						reference: 'browseUncategorized',
 						position: 'after',
 						items: [
-							{id: 'browseUserProjects', name: 'Browse User Projects', url: '/discussions/user-projects'},
-							{id: 'browseWhitelistRecruitment', name: 'Browse Whitelist / Recruitment', url: '/discussions/whitelist-recruitment'},
+							{
+								id: 'browseUserProjects',
+								name: 'Browse User Projects',
+								url: '/discussions/user-projects',
+							},
+							{
+								id: 'browseWhitelistRecruitment',
+								name: 'Browse Whitelist / Recruitment',
+								url: '/discussions/whitelist-recruitment',
+							},
 						],
 					},
 				];
 
 				for (const item of newItems) {
-					const index = settings.chfl_discussions_sg.map((x, i) => ((typeof x === 'string' && x) || x.id) === item.reference ? i : null).filter(x => Utils.isSet(x))[0];
+					const index = settings.chfl_discussions_sg
+						.map((x, i) => (((typeof x === 'string' && x) || x.id) === item.reference ? i : null))
+						.filter((x) => Utils.isSet(x))[0];
 
 					if (Utils.isSet(index)) {
-						settings.chfl_discussions_sg.splice(index + 1, 0, ...(item.item ? [item.item] : item.items));
+						settings.chfl_discussions_sg.splice(
+							index + 1,
+							0,
+							...(item.item ? [item.item] : item.items)
+						);
 					} else {
 						settings.chfl_discussions_sg.push(...(item.item ? [item.item] : item.items));
 					}
@@ -641,7 +726,7 @@ class PersistentStorage {
 				toSet.settings = JSON.stringify(settings);
 				storage.settings = toSet.settings;
 			}
-		}		
+		}
 
 		if (version < 10) {
 			window.console.log('Upgrading storage to version 10...');

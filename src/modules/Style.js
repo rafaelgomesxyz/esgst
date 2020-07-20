@@ -13,158 +13,162 @@ function addStyle() {
 		{
 			id: 'gc_h',
 			key: 'hidden',
-			mainKey: 'esgst-gc'
+			mainKey: 'esgst-gc',
 		},
 		{
 			id: 'gc_gi',
 			key: 'giveawayInfo',
-			mainKey: 'esgst-gc'
+			mainKey: 'esgst-gc',
 		},
 		{
 			id: 'gc_ocv_fcv',
 			key: 'originalCV-fcv',
-			mainKey: 'esgst-gc'
+			mainKey: 'esgst-gc',
 		},
 		{
 			id: 'gc_ocv_rcv',
 			key: 'originalCV-rcv',
-			mainKey: 'esgst-gc'
+			mainKey: 'esgst-gc',
 		},
 		{
 			id: 'gc_fcv',
 			key: 'fullCV',
-			mainKey: 'esgst-gc'
+			mainKey: 'esgst-gc',
 		},
 		{
 			id: 'gc_rcv',
 			key: 'reducedCV',
-			mainKey: 'esgst-gc'
+			mainKey: 'esgst-gc',
 		},
 		{
 			id: 'gc_ncv',
 			key: 'noCV',
-			mainKey: 'esgst-gc'
+			mainKey: 'esgst-gc',
 		},
 		{
 			id: 'gc_hltb',
 			key: 'hltb',
-			mainKey: 'esgst-gc'
+			mainKey: 'esgst-gc',
 		},
 		{
 			id: 'gc_w',
 			key: 'wishlisted',
-			mainKey: 'esgst-gc'
+			mainKey: 'esgst-gc',
 		},
 		{
 			id: 'gc_f',
 			key: 'followed',
-			mainKey: 'esgst-gc'
+			mainKey: 'esgst-gc',
 		},
 		{
 			id: 'gc_o',
 			key: 'owned',
-			mainKey: 'esgst-gc'
+			mainKey: 'esgst-gc',
 		},
 		{
 			id: 'gc_pw',
 			key: 'won',
-			mainKey: 'esgst-gc'
+			mainKey: 'esgst-gc',
 		},
 		{
 			id: 'gc_i',
 			key: 'ignored',
-			mainKey: 'esgst-gc'
+			mainKey: 'esgst-gc',
 		},
 		{
 			id: 'gc_lg',
 			key: 'learning',
-			mainKey: 'esgst-gc'
+			mainKey: 'esgst-gc',
 		},
 		{
 			id: 'gc_rm',
 			key: 'removed',
-			mainKey: 'esgst-gc'
+			mainKey: 'esgst-gc',
 		},
 		{
 			id: 'gc_ea',
 			key: 'earlyAccess',
-			mainKey: 'esgst-gc'
+			mainKey: 'esgst-gc',
 		},
 		{
 			id: 'gc_tc',
 			key: 'tradingCards',
-			mainKey: 'esgst-gc'
+			mainKey: 'esgst-gc',
 		},
 		{
 			id: 'gc_a',
 			key: 'achievements',
-			mainKey: 'esgst-gc'
+			mainKey: 'esgst-gc',
 		},
 		{
 			id: 'gc_bd',
 			key: 'banned',
-			mainKey: 'esgst-gc'
+			mainKey: 'esgst-gc',
 		},
 		{
 			id: 'gc_bvg',
 			key: 'bartervg',
-			mainKey: 'esgst-gc'
+			mainKey: 'esgst-gc',
 		},
 		{
 			id: 'gc_sp',
 			key: 'singleplayer',
-			mainKey: 'esgst-gc'
+			mainKey: 'esgst-gc',
 		},
 		{
 			id: 'gc_mp',
 			key: 'multiplayer',
-			mainKey: 'esgst-gc'
+			mainKey: 'esgst-gc',
 		},
 		{
 			id: 'gc_sc',
 			key: 'steamCloud',
-			mainKey: 'esgst-gc'
+			mainKey: 'esgst-gc',
 		},
 		{
 			id: 'gc_l',
 			key: 'linux',
-			mainKey: 'esgst-gc'
+			mainKey: 'esgst-gc',
 		},
 		{
 			id: 'gc_m',
 			key: 'mac',
-			mainKey: 'esgst-gc'
+			mainKey: 'esgst-gc',
 		},
 		{
 			id: 'gc_dlc',
 			key: 'dlc',
-			mainKey: 'esgst-gc'
+			mainKey: 'esgst-gc',
 		},
 		{
 			id: 'gc_p',
 			key: 'package',
-			mainKey: 'esgst-gc'
+			mainKey: 'esgst-gc',
 		},
 		{
 			id: 'gc_rd',
 			key: 'releaseDate',
-			mainKey: 'esgst-gc'
+			mainKey: 'esgst-gc',
 		},
 		{
 			id: 'gc_g',
 			key: 'genres',
-			mainKey: 'esgst-gc'
-		}
+			mainKey: 'esgst-gc',
+		},
 	];
 	for (i = 0, n = colors.length; i < n; ++i) {
 		color = Settings.get(`${colors[i].id}_color`);
 		backgroundColor = Settings.get(`${colors[i].id}_bgColor`);
 		style += `
-		${colors[i].key === 'genres' ? 'a' : ''}.${colors[i].mainKey}-${colors[i].key}:not(.giveaway__column):not(.featured__column) {
+		${colors[i].key === 'genres' ? 'a' : ''}.${colors[i].mainKey}-${
+			colors[i].key
+		}:not(.giveaway__column):not(.featured__column) {
 			background-color: ${backgroundColor};
 			${color ? `color: ${color};` : ''}
 		}
-		.${colors[i].mainKey}-${colors[i].key}.giveaway__column, .${colors[i].mainKey}-${colors[i].key}.featured__column {
+		.${colors[i].mainKey}-${colors[i].key}.giveaway__column, .${colors[i].mainKey}-${
+			colors[i].key
+		}.featured__column {
 			color: ${backgroundColor};
 		}
 	`;
@@ -173,13 +177,13 @@ function addStyle() {
 		{
 			id: 'wbh_w',
 			key: 'whitelisted',
-			mainKey: 'esgst-wbh-highlight'
+			mainKey: 'esgst-wbh-highlight',
 		},
 		{
 			id: 'wbh_b',
 			key: 'blacklisted',
-			mainKey: 'esgst-wbh-highlight'
-		}
+			mainKey: 'esgst-wbh-highlight',
+		},
 	];
 	for (i = 0, n = colors.length; i < n; ++i) {
 		color = Settings.get(`${colors[i].id}_color`);
@@ -2761,13 +2765,15 @@ function addStyle() {
 		}
 	`;
 	}
-	Shared.esgst.style = Shared.common.createElements(document.head, 'beforeEnd', [{
-		attributes: {
-			id: 'esgst-style'
+	Shared.esgst.style = Shared.common.createElements(document.head, 'beforeEnd', [
+		{
+			attributes: {
+				id: 'esgst-style',
+			},
+			text: style,
+			type: 'style',
 		},
-		text: style,
-		type: 'style'
-	}]);
+	]);
 	Shared.esgst.theme = document.getElementById('esgst-theme');
 	Shared.esgst.customThemeElement = document.getElementById('esgst-custom-theme');
 	// noinspection JSIgnoredPromiseFromCall

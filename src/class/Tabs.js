@@ -6,7 +6,7 @@ class _Tabs {
 			action: 'open_tab',
 			url,
 		});
-	};
+	}
 }
 
 export const Tabs = new _Tabs();

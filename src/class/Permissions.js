@@ -6,22 +6,22 @@ class Permissions {
 			allUrls: {
 				isOrigin: true,
 				messages: {
-					ge: 'Required by Giveaway Extractor to extract giveaways from any URL.'
+					ge: 'Required by Giveaway Extractor to extract giveaways from any URL.',
 				},
-				values: ['<all_urls>']
+				values: ['<all_urls>'],
 			},
 			cookies: {
 				messages: {
-					manipulateCookies: 'Required if the option to manipulate cookies is enabled.'
+					manipulateCookies: 'Required if the option to manipulate cookies is enabled.',
 				},
-				values: ['cookies', 'webRequest', 'webRequestBlocking']
+				values: ['cookies', 'webRequest', 'webRequestBlocking'],
 			},
 			dropbox: {
 				isOrigin: true,
 				messages: {
-					storage: 'Required to back up / restore data to / from Dropbox.'
+					storage: 'Required to back up / restore data to / from Dropbox.',
 				},
-				values: ['*://*.api.dropboxapi.com/*', '*://*.content.dropboxapi.com/*']
+				values: ['*://*.api.dropboxapi.com/*', '*://*.content.dropboxapi.com/*'],
 			},
 			gitlab: {
 				isOrigin: true,
@@ -29,105 +29,114 @@ class Permissions {
 					showMessages: 'Required to retrieve important messages from GitLab.',
 					showChangelog: 'Required to retrieve the changelog from GitLab when updating.',
 				},
-				values: ['*://*.gitlab.com/*']
+				values: ['*://*.gitlab.com/*'],
 			},
 			googleDrive: {
 				isOrigin: true,
 				messages: {
-					storage: 'Required to back up / restore data to / from Google Drive.'
+					storage: 'Required to back up / restore data to / from Google Drive.',
 				},
-				values: ['*://*.googleapis.com/*']
+				values: ['*://*.googleapis.com/*'],
 			},
 			googleWebApp: {
 				isOrigin: true,
 				messages: {
-					namwc: 'Required by Not Activated / Multiple Wins Checker to retrieve the user\'s suspensions from the database.',
+					namwc:
+						"Required by Not Activated / Multiple Wins Checker to retrieve the user's suspensions from the database.",
 					sync: 'Required to sync HLTB times.',
-					ust: 'Required by User Suspension Tracker to send tickets to the database.'
+					ust: 'Required by User Suspension Tracker to send tickets to the database.',
 				},
-				values: ['*://*.script.google.com/*', '*://*.script.googleusercontent.com/*']
+				values: ['*://*.script.google.com/*', '*://*.script.googleusercontent.com/*'],
 			},
 			imgur: {
 				isOrigin: true,
 				messages: {
-					cfh: 'Required by Comment Formatting Helper to upload images.'
+					cfh: 'Required by Comment Formatting Helper to upload images.',
 				},
-				values: ['*://*.api.imgur.com/*']
+				values: ['*://*.api.imgur.com/*'],
 			},
 			isThereAnyDeal: {
 				isOrigin: true,
 				messages: {
-					itadi: 'Required by IsThereAnyDeal Info to retrieve the deals.'
+					itadi: 'Required by IsThereAnyDeal Info to retrieve the deals.',
 				},
-				values: ['*://*.isthereanydeal.com/*']
+				values: ['*://*.isthereanydeal.com/*'],
 			},
 			oneDrive: {
 				isOrigin: true,
 				messages: {
-					storage: 'Required to back up / restore data to / from OneDrive.'
+					storage: 'Required to back up / restore data to / from OneDrive.',
 				},
-				values: ['*://*.files.1drv.com/*', '*://*.graph.microsoft.com/*']
+				values: ['*://*.files.1drv.com/*', '*://*.graph.microsoft.com/*'],
 			},
 			server: {
 				isOrigin: true,
 				messages: {
-					gc: 'Required by Game Categories to retrieve categories that need to be retrieved from Steam.',
-					uh: 'Required by Username History to retrieve the user\'s username history and the list of recent changes from the database.',
+					gc:
+						'Required by Game Categories to retrieve categories that need to be retrieved from Steam.',
+					uh:
+						"Required by Username History to retrieve the user's username history and the list of recent changes from the database.",
 					ncv: 'Required to update the no CV games database when creating a new giveaway.',
-					sync: 'Required to sync reduced CV and no CV games and optional to hide games when syncing.',
-					hgm: 'Optional for Hidden Game Manager to hide games, by converting Steam app IDs to SteamGifts game IDs.',
+					sync:
+						'Required to sync reduced CV and no CV games and optional to hide games when syncing.',
+					hgm:
+						'Optional for Hidden Game Manager to hide games, by converting Steam app IDs to SteamGifts game IDs.',
 					mm: 'Optional for Multi Manager to hide games.',
 				},
-				values: ['*://*.rafaelgssa.com/*']
+				values: ['*://*.rafaelgssa.com/*'],
 			},
 			steamApi: {
 				isOrigin: true,
 				messages: {
-					glwc: 'Required by Group Libraries / Wishlists Checker to retrieve the users\' owned games.',
-					hwlc: 'Required by Have / Want List Checker to retrieve the user\'s owned games.',
+					glwc:
+						"Required by Group Libraries / Wishlists Checker to retrieve the users' owned games.",
+					hwlc: "Required by Have / Want List Checker to retrieve the user's owned games.",
 					sync: 'Required to sync owned / wishlisted / ignored games.',
-					ugd: 'Required by User Giveaway Data to retrieve the user\'s playtimes / achievement stats.'
+					ugd:
+						"Required by User Giveaway Data to retrieve the user's playtimes / achievement stats.",
 				},
-				values: ['*://*.api.steampowered.com/*']
+				values: ['*://*.api.steampowered.com/*'],
 			},
 			steamCommunity: {
 				isOrigin: true,
 				messages: {
-					as: 'Required by Archive Searcher to retrieve the title of a game when searching by app id.',
-					glwc: 'Required by Group Libraries / Wishlists Checker to retrieve the group\'s members.',
-					gs: 'Required by Groups Stats to retrieve the group\'s type.',
-					sgc: 'Required by Shared Groups Checker to retrieve the user\'s groups.',
+					as:
+						'Required by Archive Searcher to retrieve the title of a game when searching by app id.',
+					glwc: "Required by Group Libraries / Wishlists Checker to retrieve the group's members.",
+					gs: "Required by Groups Stats to retrieve the group's type.",
+					sgc: "Required by Shared Groups Checker to retrieve the user's groups.",
 					sync: 'Required to sync followed games.',
-					ugs: 'Required by Unsent Gifts Sender if the option to check group members is enabled.'
+					ugs: 'Required by Unsent Gifts Sender if the option to check group members is enabled.',
 				},
-				values: ['*://*.steamcommunity.com/*']
+				values: ['*://*.steamcommunity.com/*'],
 			},
 			steamStore: {
 				isOrigin: true,
 				messages: {
-					gc: 'Required by Game Categories to retrieve categories that need to be retrieved from Steam.',
-					glwc: 'Required by Group Libraries / Wishlists Checker to retrieve the users\' wishlists.',
-					hwlc: 'Required by Have / Want List Checker to retrieve the user\'s wishlist.',
-					rcvc: 'Required by Real CV Calculator to retrieve the game\'s price.',
+					gc:
+						'Required by Game Categories to retrieve categories that need to be retrieved from Steam.',
+					glwc: "Required by Group Libraries / Wishlists Checker to retrieve the users' wishlists.",
+					hwlc: "Required by Have / Want List Checker to retrieve the user's wishlist.",
+					rcvc: "Required by Real CV Calculator to retrieve the game's price.",
 					sync: 'Required to sync owned / wishlisted / ignored games.',
-					ugd: 'Required by User Giveaway Data to get list of games in packages.'
+					ugd: 'Required by User Giveaway Data to get list of games in packages.',
 				},
-				values: ['*://*.store.steampowered.com/*']
+				values: ['*://*.store.steampowered.com/*'],
 			},
 			steamTracker: {
 				isOrigin: true,
 				messages: {
-					sync: 'Required to sync delisted games.'
+					sync: 'Required to sync delisted games.',
 				},
-				values: ['*://*.steam-tracker.com/*']
+				values: ['*://*.steam-tracker.com/*'],
 			},
 			userStyles: {
 				isOrigin: true,
 				messages: {
-					settings: 'Required to retrieve themes.'
+					settings: 'Required to retrieve themes.',
 				},
-				values: ['*://*.userstyles.org/*']
-			}
+				values: ['*://*.userstyles.org/*'],
+			},
 		};
 	}
 
@@ -136,10 +145,12 @@ class Permissions {
 
 		for (const keys of keyArrays) {
 			const { permissions, origins } = this.getValues(keys);
-			result = result || await browser.runtime.sendMessage({
-				action: 'permissions_contains',
-				permissions: JSON.stringify({ permissions, origins }),
-			});
+			result =
+				result ||
+				(await browser.runtime.sendMessage({
+					action: 'permissions_contains',
+					permissions: JSON.stringify({ permissions, origins }),
+				}));
 
 			if (result) {
 				break;
@@ -183,7 +194,13 @@ class Permissions {
 			combos.push(permissions.concat(origins).join(' + '));
 		}
 
-		return isOptional ? `If you want to perform this action faster, please go to the "Permissions" section of the settings menu and grant permissions for one (or all) of the combos: ${combos.join(' OR ')}` : `No permission to perform this action. Please go to the "Permissions" section of the settings menu and grant permissions for one (or all) of the combos: ${combos.join(' OR ')}`;
+		return isOptional
+			? `If you want to perform this action faster, please go to the "Permissions" section of the settings menu and grant permissions for one (or all) of the combos: ${combos.join(
+					' OR '
+			  )}`
+			: `No permission to perform this action. Please go to the "Permissions" section of the settings menu and grant permissions for one (or all) of the combos: ${combos.join(
+					' OR '
+			  )}`;
 	}
 }
 

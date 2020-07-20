@@ -6,17 +6,23 @@ class GiveawaysGiveawayCopyHighlighter extends Module {
 		super();
 		this.info = {
 			description: [
-				['ul', [
-					['li', `Highlights the number of copies next a giveaway's game name (in any page) by coloring it as red and changing the font to bold.`]
-				]]
+				[
+					'ul',
+					[
+						[
+							'li',
+							`Highlights the number of copies next a giveaway's game name (in any page) by coloring it as red and changing the font to bold.`,
+						],
+					],
+				],
 			],
 			featureMap: {
-				giveaway: this.highlight.bind(this)
+				giveaway: this.highlight.bind(this),
 			},
 			id: 'gch',
 			name: 'Giveaway Copy Highlighter',
 			sg: true,
-			type: 'giveaways'
+			type: 'giveaways',
 		};
 	}
 
@@ -25,7 +31,10 @@ class GiveawaysGiveawayCopyHighlighter extends Module {
 			if (!giveaway.copiesContainer) {
 				continue;
 			}
-			const { color, bgColor } = Settings.get('gch_colors').filter(colors => giveaway.copies >= parseInt(colors.lower) && giveaway.copies <= parseInt(colors.upper))[0] || { color: undefined, bgColor: undefined };
+			const { color, bgColor } = Settings.get('gch_colors').filter(
+				(colors) =>
+					giveaway.copies >= parseInt(colors.lower) && giveaway.copies <= parseInt(colors.upper)
+			)[0] || { color: undefined, bgColor: undefined };
 			giveaway.copiesContainer.classList.add('esgst-bold');
 			if (!color) {
 				giveaway.copiesContainer.classList.add('esgst-red');

@@ -9,9 +9,7 @@ class Giveaway {
 		this.plugins.push(plugin);
 	}
 
-	build() {
-
-	}
+	build() {}
 
 	parse(context, mainUrl) {
 		const now = Date.now();
@@ -50,7 +48,7 @@ class Giveaway {
 				this.data.steamId = parseInt(match[2]);
 				continue;
 			}
-			match =  url.match(/giveaways\/search/);
+			match = url.match(/giveaways\/search/);
 			if (match) {
 				this.elements.search = icon;
 			}
@@ -60,8 +58,11 @@ class Giveaway {
 			let match = child.textContent.match(/(begins|ends|remaining)/i);
 			if (match) {
 				this.elements.endTime = child;
-				this.elements.endTimeTimestamp = this.elements.endTime.querySelector(`span[data-timestamp]`);
-				this.data.endTime = parseInt(this.elements.endTimeTimestamp.getAttribute('data-timestamp')) * 1e3;
+				this.elements.endTimeTimestamp = this.elements.endTime.querySelector(
+					`span[data-timestamp]`
+				);
+				this.data.endTime =
+					parseInt(this.elements.endTimeTimestamp.getAttribute('data-timestamp')) * 1e3;
 				if (match[1] === 'begins') {
 					this.data.started = false;
 					this.data.ended = false;
@@ -74,8 +75,11 @@ class Giveaway {
 			match = child.textContent.match(/ago/);
 			if (match) {
 				this.elements.startTime = child;
-				this.elements.startTimeTimestamp = this.elements.startTime.querySelector(`span[data-timestamp]`);
-				this.data.startTime = parseInt(this.elements.startTimeTimestamp.getAttribute('data-timestamp')) * 1e3;
+				this.elements.startTimeTimestamp = this.elements.startTime.querySelector(
+					`span[data-timestamp]`
+				);
+				this.data.startTime =
+					parseInt(this.elements.startTimeTimestamp.getAttribute('data-timestamp')) * 1e3;
 				this.elements.creator = this.elements.startTime.querySelector('a.giveaway__username');
 				if (this.elements.creator) {
 					this.data.creator = this.elements.creator.textContent.trim();
@@ -113,7 +117,9 @@ class Giveaway {
 		if (this.elements.thumbnail) {
 			this.data.thumbnail = this.elements.thumbnail.getAttribute('style').match(/url\((.+?)\);/)[1];
 		} else {
-			this.elements.thumbnail = this.elements.innerWrap.querySelector('a.giveaway_image_thumbnail_missing');
+			this.elements.thumbnail = this.elements.innerWrap.querySelector(
+				'a.giveaway_image_thumbnail_missing'
+			);
 			this.data.thumbnail = null;
 		}
 		for (const plugin of this.plugins) {
@@ -121,25 +127,15 @@ class Giveaway {
 		}
 	}
 
-	async getComments() {
+	async getComments() {}
 
-	}
+	async getCountries() {}
 
-	async getCountries() {
+	async getEntries() {}
 
-	}
+	async getGroups() {}
 
-	async getEntries() {
-
-	}
-
-	async getGroups() {
-
-	}
-
-	async getWinners() {
-
-	}
+	async getWinners() {}
 }
 
 export { Giveaway };

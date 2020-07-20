@@ -4,31 +4,38 @@ import { Popout } from '../../class/Popout';
 import { common } from '../Common';
 import { Settings } from '../../class/Settings';
 
-const
-	createElements = common.createElements.bind(common),
+const createElements = common.createElements.bind(common),
 	getFeatureTooltip = common.getFeatureTooltip.bind(common),
 	observeChange = common.observeChange.bind(common),
 	observeNumChange = common.observeNumChange.bind(common),
-	triggerOnEnter = common.triggerOnEnter.bind(common)
-	;
-
+	triggerOnEnter = common.triggerOnEnter.bind(common);
 class GiveawaysAdvancedGiveawaySearch extends Module {
 	constructor() {
 		super();
 		this.info = {
 			description: [
-				['ul', [
-					['li', [
-						'Adds a panel below the search field of the main page that allows you to easily search for giveaways using SteamGifts\' ',
-						['a', { href: `https://www.steamgifts.com/discussion/8SzdT/` }, 'search parameters'],
-						'.'
-					]]
-				]]
+				[
+					'ul',
+					[
+						[
+							'li',
+							[
+								"Adds a panel below the search field of the main page that allows you to easily search for giveaways using SteamGifts' ",
+								[
+									'a',
+									{ href: `https://www.steamgifts.com/discussion/8SzdT/` },
+									'search parameters',
+								],
+								'.',
+							],
+						],
+					],
+				],
 			],
 			id: 'ags',
 			name: 'Advanced Giveaway Search',
 			sg: true,
-			type: 'giveaways'
+			type: 'giveaways',
 		};
 	}
 
@@ -50,17 +57,19 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
 	ags_addPanel(context) {
 		const qgs = context.classList.contains('esgst-qgs-container');
 		let obj = {
-			qgs
+			qgs,
 		};
 		context.firstElementChild.remove();
-		obj.input = createElements(context, 'afterBegin', [{
-			attributes: {
-				class: `${qgs ? 'esgst-qgs-input' : 'sidebar__search-input'}`,
-				placeholder: 'Search...',
-				type: 'text'
+		obj.input = createElements(context, 'afterBegin', [
+			{
+				attributes: {
+					class: `${qgs ? 'esgst-qgs-input' : 'sidebar__search-input'}`,
+					placeholder: 'Search...',
+					type: 'text',
+				},
+				type: 'input',
 			},
-			type: 'input'
-		}]);
+		]);
 		let icon = obj.input.nextElementSibling;
 		icon.classList.add('esgst-clickable');
 		icon.title = getFeatureTooltip('ags', 'Use advanced search');
@@ -70,13 +79,18 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
 				obj.input.value = decodeURIComponent(match[1]);
 			}
 		}
-		if (!qgs && ((Settings.get('adots') && Settings.get('adots_index') === 0) || !Settings.get('adots'))) {
-			obj.panel = createElements(context, 'afterEnd', [{
-				attributes: {
-					class: 'esgst-ags-panel'
+		if (
+			!qgs &&
+			((Settings.get('adots') && Settings.get('adots_index') === 0) || !Settings.get('adots'))
+		) {
+			obj.panel = createElements(context, 'afterEnd', [
+				{
+					attributes: {
+						class: 'esgst-ags-panel',
+					},
+					type: 'div',
 				},
-				type: 'div'
-			}]);
+			]);
 		} else {
 			obj.panel = new Popout('esgst-ags-panel', context, 100).popout;
 		}
@@ -88,26 +102,26 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
 				options: [
 					{
 						name: 'All',
-						value: ''
+						value: '',
 					},
 					{
 						name: 'Wishlist',
-						value: 'wishlist'
+						value: 'wishlist',
 					},
 					{
 						name: 'Recommended',
-						value: 'recommended'
+						value: 'recommended',
 					},
 					{
 						name: 'Group',
-						value: 'group'
+						value: 'group',
 					},
 					{
 						name: 'New',
-						value: 'new'
-					}
+						value: 'new',
+					},
 				],
-				type: 'select'
+				type: 'select',
 			},
 			{
 				maxKey: 'ags_maxDate',
@@ -115,7 +129,7 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
 				maxParameter: 'release_date_max',
 				minParameter: 'release_date_min',
 				name: 'Release Date',
-				type: 'input'
+				type: 'input',
 			},
 			{
 				maxKey: 'ags_maxScore',
@@ -123,7 +137,7 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
 				maxParameter: 'metascore_max',
 				minParameter: 'metascore_min',
 				name: 'Metascore',
-				type: 'input'
+				type: 'input',
 			},
 			{
 				maxKey: 'ags_maxLevel',
@@ -131,7 +145,7 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
 				maxParameter: 'level_max',
 				minParameter: 'level_min',
 				name: 'Level',
-				type: 'select'
+				type: 'select',
 			},
 			{
 				maxKey: 'ags_maxEntries',
@@ -139,7 +153,7 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
 				maxParameter: 'entry_max',
 				minParameter: 'entry_min',
 				name: 'Entries',
-				type: 'input'
+				type: 'input',
 			},
 			{
 				maxKey: 'ags_maxCopies',
@@ -147,7 +161,7 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
 				maxParameter: 'copy_max',
 				minParameter: 'copy_min',
 				name: 'Copies',
-				type: 'input'
+				type: 'input',
 			},
 			{
 				maxKey: 'ags_maxPoints',
@@ -155,38 +169,39 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
 				maxParameter: 'point_max',
 				minParameter: 'point_min',
 				name: 'Points',
-				type: 'input'
+				type: 'input',
 			},
 			{
 				key: 'ags_regionRestricted',
 				name: 'Region Restricted',
 				parameter: 'region_restricted',
-				type: 'checkbox'
+				type: 'checkbox',
 			},
 			{
 				key: 'ags_dlc',
 				name: 'DLC',
 				parameter: 'dlc',
-				type: 'checkbox'
+				type: 'checkbox',
 			},
 			{
 				key: 'ags_app',
 				name: 'App',
 				parameter: 'app',
-				type: 'checkbox'
+				type: 'checkbox',
 			},
 			{
 				key: 'ags_sub',
 				name: 'Sub',
 				parameter: 'sub',
-				type: 'checkbox'
-			}
+				type: 'checkbox',
+			},
 		];
 		obj.filters = [];
 		for (let i = 0, n = filterDetails.length; i < n; ++i) {
 			this.ags_createFilter(obj, filterDetails[i]);
 		}
-		obj.input.addEventListener('keydown',
+		obj.input.addEventListener(
+			'keydown',
 			triggerOnEnter.bind(common, this.ags_searchQuery.bind(this, obj))
 		);
 		icon.addEventListener('click', this.ags_searchQuery.bind(this, obj));
@@ -197,113 +212,133 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
 			return;
 		}
 		if (details.type === 'checkbox') {
-			let element = createElements(obj.panel, 'beforeEnd', [{
-				attributes: {
-					class: 'esgst-ags-checkbox-filter'
-				},
-				type: 'div',
-				children: [{
-					text: details.name,
-					type: 'span'
-				}]
-			}]),
-				filter = new Checkbox(
-					element,
-					Settings.get(details.key)
-				).input;
+			let element = createElements(obj.panel, 'beforeEnd', [
+					{
+						attributes: {
+							class: 'esgst-ags-checkbox-filter',
+						},
+						type: 'div',
+						children: [
+							{
+								text: details.name,
+								type: 'span',
+							},
+						],
+					},
+				]),
+				filter = new Checkbox(element, Settings.get(details.key)).input;
 			observeChange(filter, details.key, true, 'checked', 'click');
 			obj.filters.push({
 				filter: filter,
 				key: 'checked',
-				parameter: details.parameter
+				parameter: details.parameter,
 			});
 		} else if (details.options) {
-			let html = [{
-				type: 'select',
-				children: []
-			}];
-			details.options.forEach(option => {
+			let html = [
+				{
+					type: 'select',
+					children: [],
+				},
+			];
+			details.options.forEach((option) => {
 				html[0].children.push({
 					attributes: {
-						value: option.value
+						value: option.value,
 					},
 					text: option.name,
-					type: 'option'
+					type: 'option',
 				});
 			});
-			let element = createElements(obj.panel, 'beforeEnd', [{
-				attributes: {
-					style: `display: block;`
-				},
-				type: 'div',
-				children: [{
-					text: `${details.name} `,
-					type: 'node'
-				}, {
-					attributes: {
-						class: 'esgst-ags-filter'
+			let element = createElements(obj.panel, 'beforeEnd', [
+					{
+						attributes: {
+							style: `display: block;`,
+						},
+						type: 'div',
+						children: [
+							{
+								text: `${details.name} `,
+								type: 'node',
+							},
+							{
+								attributes: {
+									class: 'esgst-ags-filter',
+								},
+								type: 'class',
+								children: html,
+							},
+						],
 					},
-					type: 'class',
-					children: html
-				}]
-			}]),
+				]),
 				filter = element.firstElementChild.firstElementChild;
 			filter.value = Settings.get(details.key);
 			observeNumChange(filter, details.key, true);
 			obj.filters.push({
 				filter: filter,
 				key: 'value',
-				parameter: details.parameter
+				parameter: details.parameter,
 			});
 		} else {
 			let items = [];
 			if (details.type === 'select') {
 				items.push({
 					type: 'select',
-					children: [{
-						type: 'option'
-					}]
+					children: [
+						{
+							type: 'option',
+						},
+					],
 				});
 				for (let i = 0; i <= 10; ++i) {
 					items[0].children.push({
 						text: i,
-						type: 'option'
+						type: 'option',
 					});
 				}
 			} else if (details.maxKey === 'ags_maxDate') {
-				items = [{
-					attributes: {
-						type: 'date'
+				items = [
+					{
+						attributes: {
+							type: 'date',
+						},
+						type: 'input',
 					},
-					type: 'input'
-				}];
+				];
 			} else {
-				items = [{
-					attributes: {
-						type: 'text'
+				items = [
+					{
+						attributes: {
+							type: 'text',
+						},
+						type: 'input',
 					},
-					type: 'input'
-				}];
+				];
 			}
-			let element = createElements(obj.panel, 'beforeEnd', [{
-				type: 'div',
-				children: [{
-					text: `${details.name} `,
-					type: 'node'
-				}, {
-					attributes: {
-						class: 'esgst-ags-filter'
-					},
+			let element = createElements(obj.panel, 'beforeEnd', [
+				{
 					type: 'div',
-					children: items
-				}, {
-					attributes: {
-						class: 'esgst-ags-filter'
-					},
-					type: 'div',
-					children: items
-				}]
-			}]);
+					children: [
+						{
+							text: `${details.name} `,
+							type: 'node',
+						},
+						{
+							attributes: {
+								class: 'esgst-ags-filter',
+							},
+							type: 'div',
+							children: items,
+						},
+						{
+							attributes: {
+								class: 'esgst-ags-filter',
+							},
+							type: 'div',
+							children: items,
+						},
+					],
+				},
+			]);
 			let maxFilter = element.lastElementChild.lastElementChild;
 			maxFilter.value = Settings.get(details.maxKey);
 			observeNumChange(maxFilter, details.maxKey, true);
@@ -311,22 +346,24 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
 			minFilter.value = Settings.get(details.minKey);
 			observeNumChange(minFilter, details.minKey, true);
 			if (details.type === 'input') {
-				maxFilter.addEventListener('keypress',
+				maxFilter.addEventListener(
+					'keypress',
 					triggerOnEnter.bind(common, this.ags_searchQuery.bind(this, obj))
 				);
-				minFilter.addEventListener('keypress',
+				minFilter.addEventListener(
+					'keypress',
 					triggerOnEnter.bind(common, this.ags_searchQuery.bind(this, obj))
 				);
 			}
 			obj.filters.push({
 				filter: minFilter,
 				key: 'value',
-				parameter: details.minParameter
+				parameter: details.minParameter,
 			});
 			obj.filters.push({
 				filter: maxFilter,
 				key: 'value',
-				parameter: details.maxParameter
+				parameter: details.maxParameter,
 			});
 		}
 	}

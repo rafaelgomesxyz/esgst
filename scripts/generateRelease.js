@@ -11,12 +11,12 @@ const args = getArguments(process);
 
 const octokit = new Octokit({
 	auth: args.token,
-	userAgent: 'ESGST'
+	userAgent: 'ESGST',
 });
 
 const defaultParams = {
 	owner: packageJson.author,
-	repo: packageJson.name
+	repo: packageJson.name,
 };
 
 async function generateChangelog() {
@@ -24,22 +24,24 @@ async function generateChangelog() {
 	const bugChangelog = ['### 🐛 Bug Fixes', '', '\n'];
 	const removalChangelog = ['### ❌ Removals / Rollbacks', '', '\n'];
 
-	const milestones = await octokit.issues.listMilestonesForRepo(Object.assign({}, defaultParams, {
-		direction: 'desc',
-		sort: 'completeness'
-	}));
+	const milestones = await octokit.issues.listMilestonesForRepo(
+		Object.assign({}, defaultParams, {
+			direction: 'desc',
+			sort: 'completeness',
+		})
+	);
 
 	const milestoneNumber = milestones.data[0].number;
 
-	const issues = await octokit.issues.listForRepo(Object.assign({}, defaultParams, {
-		milestone: milestoneNumber.toString(),
-		state: 'closed'
-	}));
+	const issues = await octokit.issues.listForRepo(
+		Object.assign({}, defaultParams, {
+			milestone: milestoneNumber.toString(),
+			state: 'closed',
+		})
+	);
 
 	for (const issue of issues.data) {
-		const issueTitle = issue.title
-			.replace(/&/g, '&amp;')
-			.replace(/"/g, '&quot;');
+		const issueTitle = issue.title.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
 
 		const change = `* #${issue.number} ${issueTitle}`;
 
@@ -48,7 +50,12 @@ async function generateChangelog() {
 				featureChangelog.push(change);
 
 				break;
-			} else if (label.name === 'Bug' || label.name === 'Conflict' || label.name === 'Typo' || label.name === 'Visual Bug') {
+			} else if (
+				label.name === 'Bug' ||
+				label.name === 'Conflict' ||
+				label.name === 'Typo' ||
+				label.name === 'Visual Bug'
+			) {
 				bugChangelog.push(change);
 
 				break;
@@ -60,15 +67,17 @@ async function generateChangelog() {
 		}
 	}
 
-	await octokit.issues.updateMilestone(Object.assign({}, defaultParams, {
-		milestone_number: milestoneNumber,
-		state: /** @type {'closed'} */ ('closed')
-	}));
+	await octokit.issues.updateMilestone(
+		Object.assign({}, defaultParams, {
+			milestone_number: milestoneNumber,
+			state: /** @type {'closed'} */ ('closed'),
+		})
+	);
 
 	return [
 		...(featureChangelog.length > 2 ? featureChangelog : []),
 		...(bugChangelog.length > 2 ? bugChangelog : []),
-		...(removalChangelog.length > 2 ? removalChangelog : [])
+		...(removalChangelog.length > 2 ? removalChangelog : []),
 	].join('\n');
 }
 
@@ -76,11 +85,13 @@ async function generateRelease() {
 	const body = await generateChangelog();
 	const version = `v${packageJson.version}`;
 
-	const release = await octokit.repos.createRelease(Object.assign({}, defaultParams, {
-		body,
-		name: version,
-		tag_name: version
-	}));
+	const release = await octokit.repos.createRelease(
+		Object.assign({}, defaultParams, {
+			body,
+			name: version,
+			tag_name: version,
+		})
+	);
 
 	const url = release.data.upload_url;
 
@@ -88,32 +99,34 @@ async function generateRelease() {
 		{
 			content: fs.readFileSync(path.resolve(__dirname, '../dist/chrome.zip')),
 			name: 'chrome.zip',
-			type: 'application/zip'
+			type: 'application/zip',
 		},
 		{
 			content: fs.readFileSync(path.resolve(__dirname, '../dist/firefox.zip')),
 			name: 'firefox.zip',
-			type: 'application/zip'
+			type: 'application/zip',
 		},
 		{
 			content: fs.readFileSync(path.resolve(__dirname, '../dist/palemoon.xpi')),
 			name: 'palemoon.xpi',
-			type: 'application/zip'
-		}
+			type: 'application/zip',
+		},
 	];
 
 	const promises = [];
 
 	for (const file of files) {
-		promises.push(octokit.repos.uploadReleaseAsset({
-			headers: {
-				'content-length': file.content.byteLength,
-				'content-type': file.type
-			},
-			data: file.content,
-			name: file.name,
-			url
-		}));
+		promises.push(
+			octokit.repos.uploadReleaseAsset({
+				headers: {
+					'content-length': file.content.byteLength,
+					'content-type': file.type,
+				},
+				data: file.content,
+				name: file.name,
+				url,
+			})
+		);
 	}
 
 	await Promise.all(promises);

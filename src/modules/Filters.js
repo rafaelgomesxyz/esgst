@@ -12,14 +12,11 @@ import { Logger } from '../class/Logger';
 import { Session } from '../class/Session';
 import { DOM } from '../class/DOM';
 
-const
-	createElements = common.createElements.bind(common),
+const createElements = common.createElements.bind(common),
 	createFadeMessage = common.createElements.bind(common),
 	getFeatureTooltip = common.getFeatureTooltip.bind(common),
 	request = common.request.bind(common),
-	setSetting = common.setSetting.bind(common)
-;
-
+	setSetting = common.setSetting.bind(common);
 class Filters extends Module {
 	constructor(id) {
 		super();
@@ -30,10 +27,23 @@ class Filters extends Module {
 	getFilters(popup) {}
 
 	addSingleButton(icon) {
-		this.singleButton = Shared.common.createHeadingButton({ id: `${this.id}_s_s`, icons: [icon], title: 'Hide / unhide items filtered by single filters temporarily' });
+		this.singleButton = Shared.common.createHeadingButton({
+			id: `${this.id}_s_s`,
+			icons: [icon],
+			title: 'Hide / unhide items filtered by single filters temporarily',
+		});
 		this.singleButton.classList.add('esgst-hidden');
 		DOM.build(this.singleButton, 'afterBegin', [['span']]);
-		this.singleSwitch = new ToggleSwitch(this.singleButton.firstElementChild, null, true, '', false, false, null, true);
+		this.singleSwitch = new ToggleSwitch(
+			this.singleButton.firstElementChild,
+			null,
+			true,
+			'',
+			false,
+			false,
+			null,
+			true
+		);
 		this.singleSwitch.onChange = () => this.toggleFilteredItems();
 		this.singleCounter = DOM.build(this.singleButton, 'beforeEnd', [['span', '0']]);
 	}
@@ -66,12 +76,26 @@ class Filters extends Module {
 			key: `${this.id}_presets`,
 			popup: popup,
 			rules: null,
-			type: popup || (this.esgst.groupPath ? 'Groups' : (window.location.search.match(/type/) ? {
-				wishlist: 'Wishlist',
-				recommended: 'Recommended',
-				group: 'Group',
-				new: 'New'
-			}[window.location.search.match(/type=(wishlist|recommended|group|new)/)[1]] : (this.esgst.createdPath ? 'Created' : (this.esgst.enteredPath ? 'Entered' : (this.esgst.wonPath ? 'Won' : (this.esgst.userPath ? 'User' : ''))))))
+			type:
+				popup ||
+				(this.esgst.groupPath
+					? 'Groups'
+					: window.location.search.match(/type/)
+					? {
+							wishlist: 'Wishlist',
+							recommended: 'Recommended',
+							group: 'Group',
+							new: 'New',
+					  }[window.location.search.match(/type=(wishlist|recommended|group|new)/)[1]]
+					: this.esgst.createdPath
+					? 'Created'
+					: this.esgst.enteredPath
+					? 'Entered'
+					: this.esgst.wonPath
+					? 'Won'
+					: this.esgst.userPath
+					? 'User'
+					: ''),
 		};
 		obj.filters = this.getFilters(popup);
 		if (popup) {
@@ -84,18 +108,21 @@ class Filters extends Module {
 		headingButton.className = 'esgst-heading-button esgst-gf-heading-button';
 		headingButton.id = `esgst-${obj.id}`;
 		headingButton.setAttribute('data-draggable-id', obj.id);
-		createElements(headingButton, 'inner', [{
-			attributes: {
-				class: 'esgst-gf-toggle-switch'
+		createElements(headingButton, 'inner', [
+			{
+				attributes: {
+					class: 'esgst-gf-toggle-switch',
+				},
+				type: 'span',
 			},
-			type: 'span'
-		}, {
-			attributes: {
-				class: 'fa fa-sliders',
-				title: getFeatureTooltip(obj.id, 'Manage presets')
+			{
+				attributes: {
+					class: 'fa fa-sliders',
+					title: getFeatureTooltip(obj.id, 'Manage presets'),
+				},
+				type: 'i',
 			},
-			type: 'i'
-		}]);
+		]);
 		const toggleSwitch = new ToggleSwitch(
 			headingButton.firstElementChild,
 			`${obj.id}_enable${obj.type}`,
@@ -111,204 +138,266 @@ class Filters extends Module {
 		toggleSwitch.onEnabled = this.filters_filter.bind(this, obj);
 		toggleSwitch.onDisabled = this.filters_filter.bind(this, obj, true);
 
-		obj.container = createElements(heading, 'afterEnd', [{
-			attributes: {
-				class: 'esgst-gf-container'
+		obj.container = createElements(heading, 'afterEnd', [
+			{
+				attributes: {
+					class: 'esgst-gf-container',
+				},
+				type: 'div',
+				children: [
+					{
+						attributes: {
+							class: 'esgst-gf-box',
+						},
+						type: 'div',
+						children: [
+							{
+								attributes: {
+									class: 'esgst-gf-filters esgst-hidden',
+								},
+								type: 'div',
+								children: [
+									{
+										attributes: {
+											class: 'esgst-gf-left-panel',
+										},
+										type: 'div',
+										children: [
+											{
+												attributes: {
+													class: 'esgst-gf-box warning esgst-hidden',
+												},
+												type: 'div',
+											},
+											{
+												attributes: {
+													class: 'esgst-gf-basic-filters',
+												},
+												type: 'div',
+												children: [
+													{
+														attributes: {
+															class: 'esgst-gf-number-filters',
+														},
+														type: 'div',
+													},
+													{
+														attributes: {
+															class: 'esgst-gf-boolean-filters',
+														},
+														type: 'div',
+													},
+													{
+														attributes: {
+															class: 'esgst-gf-string-filters',
+														},
+														type: 'div',
+													},
+												],
+											},
+											{
+												type: 'div',
+												children: [
+													{
+														text: 'Advanced ',
+														type: 'node',
+													},
+													{
+														attributes: {
+															class: 'fa fa-question-circle',
+															title: `Advanced filters offer more options and flexibility, but may be more complex to understand and use. When you change settings in the basic filters, they will also be changed in the advanced ones, and vice-versa. But the two types are not compatible backwards: basic -> advanced conversion works fine, but advanced -> basic conversion does not, and will result in the loss of any settings that are exclusive to the advanced filter. Bear this in mind when saving a preset, since the last applied preset will be saved.`,
+														},
+														type: 'i',
+													},
+												],
+											},
+											{
+												attributes: {
+													class: 'esgst-clickable',
+												},
+												type: 'div',
+												children: [
+													{
+														text: 'Manual ',
+														type: 'node',
+													},
+													{
+														attributes: {
+															class: 'fa fa-book',
+														},
+														type: 'i',
+													},
+												],
+											},
+											{
+												attributes: {
+													class: 'esgst-gf-advanced-filters',
+												},
+												type: 'div',
+											},
+										],
+									},
+									{
+										attributes: {
+											class: 'esgst-gf-right-panel',
+										},
+										type: 'div',
+										children: [
+											{
+												attributes: {
+													class: 'esgst-gf-steamgifts-filters',
+												},
+												type: 'div',
+												children: [
+													{
+														type: 'div',
+														children: [
+															{
+																attributes: {
+																	class: 'esgst-bold',
+																},
+																text: `SteamGifts Filters:`,
+																type: 'span',
+															},
+														],
+													},
+												],
+											},
+											{
+												type: 'br',
+											},
+											{
+												attributes: {
+													class: 'esgst-gf-preset-panel',
+												},
+												type: 'div',
+												children: [
+													{
+														type: 'div',
+														children: [
+															{
+																attributes: {
+																	class: 'esgst-bold',
+																},
+																text: `Preset:`,
+																type: 'span',
+															},
+															{
+																attributes: {
+																	class: 'fa fa-question-circle',
+																	title: `If you have both the basic and the advanced filters enabled, the last applied preset will be saved. For example, if the last setting you altered was in the basic filters, it will save the basic preset, and if the last setting you altered was in the advanced filters, it will save the advanced preset. The two presets are not compatible, so they will overwrite each other. Be careful with this, as you might lose some settings.`,
+																},
+																type: 'i',
+															},
+														],
+													},
+													{
+														attributes: {
+															class: 'form__input-small',
+															type: 'text',
+														},
+														type: 'input',
+													},
+													{
+														attributes: {
+															class: 'esgst-description esgst-bold',
+														},
+														type: 'div',
+													},
+													{
+														attributes: {
+															class: 'form__row__error esgst-hidden',
+														},
+														type: 'div',
+														children: [
+															{
+																attributes: {
+																	class: 'fa fa-exclamation-circle',
+																},
+																type: 'i',
+															},
+															{
+																text: ' Please enter a name for the preset.',
+																type: 'node',
+															},
+														],
+													},
+													{
+														attributes: {
+															class: 'esgst-description',
+														},
+														text: 'The name of the preset.',
+														type: 'div',
+													},
+												],
+											},
+										],
+									},
+								],
+							},
+						],
+					},
+					{
+						attributes: {
+							class: 'esgst-gf-button',
+						},
+						type: 'div',
+						children: [
+							{
+								text: 'Expand',
+								type: 'span',
+							},
+							{
+								attributes: {
+									class: 'esgst-hidden',
+								},
+								text: 'Collapse',
+								type: 'span',
+							},
+							{
+								text: ` filters (`,
+								type: 'node',
+							},
+							{
+								text: '0',
+								type: 'span',
+							},
+							{
+								text: ' filtered ',
+								type: 'node',
+							},
+							...(obj.id === 'gf'
+								? [
+										{
+											text: '- ',
+											type: 'node',
+										},
+										{
+											text: '0',
+											type: 'span',
+										},
+										{
+											text: 'P required to enter all unfiltered ',
+											type: 'node',
+										},
+								  ]
+								: []),
+							{
+								text: '- ',
+								type: 'node',
+							},
+							{
+								type: 'span',
+							},
+							{
+								text: `)`,
+								type: 'node',
+							},
+						],
+					},
+				],
 			},
-			type: 'div',
-			children: [{
-				attributes: {
-					class: 'esgst-gf-box'
-				},
-				type: 'div',
-				children: [{
-					attributes: {
-						class: 'esgst-gf-filters esgst-hidden'
-					},
-					type: 'div',
-					children: [{
-						attributes: {
-							class: 'esgst-gf-left-panel'
-						},
-						type: 'div',
-						children: [{
-							attributes: {
-								class: 'esgst-gf-box warning esgst-hidden'
-							},
-							type: 'div'
-						}, {
-							attributes: {
-								class: 'esgst-gf-basic-filters'
-							},
-							type: 'div',
-							children: [{
-								attributes: {
-									class: 'esgst-gf-number-filters'
-								},
-								type: 'div'
-							}, {
-								attributes: {
-									class: 'esgst-gf-boolean-filters'
-								},
-								type: 'div'
-							}, {
-								attributes: {
-									class: 'esgst-gf-string-filters'
-								},
-								type: 'div'
-							}]
-						}, {
-							type: 'div',
-							children: [{
-								text: 'Advanced ',
-								type: 'node'
-							}, {
-								attributes: {
-									class: 'fa fa-question-circle',
-									title: `Advanced filters offer more options and flexibility, but may be more complex to understand and use. When you change settings in the basic filters, they will also be changed in the advanced ones, and vice-versa. But the two types are not compatible backwards: basic -> advanced conversion works fine, but advanced -> basic conversion does not, and will result in the loss of any settings that are exclusive to the advanced filter. Bear this in mind when saving a preset, since the last applied preset will be saved.`
-								},
-								type: 'i'
-							}]
-						}, {
-							attributes: {
-								class: 'esgst-clickable'
-							},
-							type: 'div',
-							children: [{
-								text: 'Manual ',
-								type: 'node'
-							}, {
-								attributes: {
-									class: 'fa fa-book'
-								},
-								type: 'i'
-							}]
-						}, {
-							attributes: {
-								class: 'esgst-gf-advanced-filters'
-							},
-							type: 'div'
-						}]
-					}, {
-						attributes: {
-							class: 'esgst-gf-right-panel'
-						},
-						type: 'div',
-						children: [{
-							attributes: {
-								class: 'esgst-gf-steamgifts-filters'
-							},
-							type: 'div',
-							children: [{
-								type: 'div',
-								children: [{
-									attributes: {
-										class: 'esgst-bold'
-									},
-									text: `SteamGifts Filters:`,
-									type: 'span'
-								}]
-							}]
-						}, {
-							type: 'br'
-						}, {
-							attributes: {
-								class: 'esgst-gf-preset-panel'
-							},
-							type: 'div',
-							children: [{
-								type: 'div',
-								children: [{
-									attributes: {
-										class: 'esgst-bold'
-									},
-									text: `Preset:`,
-									type: 'span'
-								}, {
-									attributes: {
-										class: 'fa fa-question-circle',
-										title: `If you have both the basic and the advanced filters enabled, the last applied preset will be saved. For example, if the last setting you altered was in the basic filters, it will save the basic preset, and if the last setting you altered was in the advanced filters, it will save the advanced preset. The two presets are not compatible, so they will overwrite each other. Be careful with this, as you might lose some settings.`
-									},
-									type: 'i'
-								}]
-							}, {
-								attributes: {
-									class: 'form__input-small',
-									type: 'text'
-								},
-								type: 'input'
-							}, {
-								attributes: {
-									class: 'esgst-description esgst-bold'
-								},
-								type: 'div'
-							}, {
-								attributes: {
-									class: 'form__row__error esgst-hidden'
-								},
-								type: 'div',
-								children: [{
-									attributes: {
-										class: 'fa fa-exclamation-circle'
-									},
-									type: 'i'
-								}, {
-									text: ' Please enter a name for the preset.',
-									type: 'node'
-								}]
-							}, {
-								attributes: {
-									class: 'esgst-description'
-								},
-								text: 'The name of the preset.',
-								type: 'div'
-							}]
-						}]
-					}]
-				}]
-			}, {
-				attributes: {
-					class: 'esgst-gf-button'
-				},
-				type: 'div',
-				children: [{
-					text: 'Expand',
-					type: 'span'
-				}, {
-					attributes: {
-						class: 'esgst-hidden'
-					},
-					text: 'Collapse',
-					type: 'span'
-				}, {
-					text: ` filters (`,
-					type: 'node'
-				}, {
-					text: '0',
-					type: 'span'
-				}, {
-					text: ' filtered ',
-					type: 'node',
-				}, ...(obj.id === 'gf' ? [{
-					text: '- ',
-					type: 'node'
-				}, {
-					text: '0',
-					type: 'span'
-				}, {
-					text: 'P required to enter all unfiltered ',
-					type: 'node'
-				}] : []), {
-					text: '- ',
-					type: 'node'
-				}, {
-					type: 'span'
-				}, {
-					text: `)`,
-					type: 'node'
-				}]
-			}]
-		}]);
+		]);
 
 		if (!obj.popup && !Shared.esgst.hasAddedFilterContainer) {
 			Shared.esgst.hasAddedFilterContainer = true;
@@ -342,24 +431,28 @@ class Filters extends Module {
 			obj.presetDisplay = obj.filteredCount.nextElementSibling;
 		}
 
-		advancedFilters.previousElementSibling.addEventListener('click', this.filter_manual.bind(this, {}));
+		advancedFilters.previousElementSibling.addEventListener(
+			'click',
+			this.filter_manual.bind(this, {})
+		);
 
-		presetPanel.appendChild(new ButtonSet({
-			color1: 'green',
-			color2: 'grey',
-			icon1: 'fa-check',
-			icon2: 'fa-circle-o-notch fa-spin',
-			title1: 'Save',
-			title2: 'Saving...',
-			callback1: this.filters_savePreset.bind(this, obj)
-		}).set);
+		presetPanel.appendChild(
+			new ButtonSet({
+				color1: 'green',
+				color2: 'grey',
+				icon1: 'fa-check',
+				icon2: 'fa-circle-o-notch fa-spin',
+				title1: 'Save',
+				title2: 'Saving...',
+				callback1: this.filters_savePreset.bind(this, obj),
+			}).set
+		);
 
 		let name = Settings.get(`${obj.id}_preset${obj.type}`);
 		if (name) {
 			let i;
 			const presets = Settings.get(obj.key);
-			for (i = presets.length - 1; i > -1 && presets[i].name !== name; i--) {
-			}
+			for (i = presets.length - 1; i > -1 && presets[i].name !== name; i--) {}
 			if (i > -1) {
 				obj.rules = presets[i].rules;
 			}
@@ -368,19 +461,19 @@ class Filters extends Module {
 			name = `Default${obj.type}`;
 			const preset = {
 				name,
-				rules: {}
+				rules: {},
 			};
 			const presets = Settings.get(obj.key);
 			presets.push(preset);
 			setSetting([
 				{
 					id: `${obj.id}_preset${obj.type}`,
-					value: name
+					value: name,
 				},
 				{
 					id: obj.key,
-					value: presets
-				}
+					value: presets,
+				},
 			]);
 			obj.rules = {};
 		}
@@ -396,7 +489,7 @@ class Filters extends Module {
 				const filter = obj.filters[key];
 				const rule = {
 					id: key,
-					label: filter.name
+					label: filter.name,
 				};
 				let context;
 				let checkbox;
@@ -415,32 +508,38 @@ class Filters extends Module {
 							if (!Settings.get(`${obj.id}_${key}`) || !filter.check) {
 								attributes.class = 'esgst-hidden';
 							}
-							context = createElements(booleanFilters, 'beforeEnd', [{
-								attributes,
-								type: 'div',
-								children: [{
-									type: 'span'
-								}, {
-									attributes: {
-										class: 'esgst-gf-filter-count',
-										title: 'Number of items this rule is hiding'
-									},
-									type: 'span'
-								}, {
-									text: filter.name,
-									type: 'node'
-								}]
-							}]);
+							context = createElements(booleanFilters, 'beforeEnd', [
+								{
+									attributes,
+									type: 'div',
+									children: [
+										{
+											type: 'span',
+										},
+										{
+											attributes: {
+												class: 'esgst-gf-filter-count',
+												title: 'Number of items this rule is hiding',
+											},
+											type: 'span',
+										},
+										{
+											text: filter.name,
+											type: 'node',
+										},
+									],
+								},
+							]);
 							checkbox = new Checkbox(context.firstElementChild, 'enabled', true);
 							obj.basicFilters[rule.id] = {
 								data: {
-									basicCount: context.firstElementChild.nextElementSibling
+									basicCount: context.firstElementChild.nextElementSibling,
 								},
 								input: rule.input,
 								operator: 'equal',
 								type: rule.type,
 								filterType: 'boolean',
-								checkbox: checkbox
+								checkbox: checkbox,
 							};
 							checkbox.onChange = this.filters_basicToAdv.bind(this, obj);
 						}
@@ -455,7 +554,7 @@ class Filters extends Module {
 							'greater',
 							'greater_or_equal',
 							'is_null',
-							'is_not_null'
+							'is_not_null',
 						];
 						if (filter.date) {
 							rule.input = (rule, name) => {
@@ -470,36 +569,46 @@ class Filters extends Module {
 								if (!Settings.get(`${obj.id}_${key}`) || !filter.check) {
 									attributes.class = 'esgst-hidden';
 								}
-								context = createElements(numberFilters, 'beforeEnd', [{
-									attributes,
-									type: 'div',
-									children: [{
-										attributes: {
-											class: 'esgst-gf-filter-count',
-											title: 'Number of items this rule is hiding'
-										},
-										type: 'span'
-									}, {
-										text: filter.name,
-										type: 'node'
-									}, {
-										type: 'span',
-										children: [{
-											attributes: {
-												type: 'date'
+								context = createElements(numberFilters, 'beforeEnd', [
+									{
+										attributes,
+										type: 'div',
+										children: [
+											{
+												attributes: {
+													class: 'esgst-gf-filter-count',
+													title: 'Number of items this rule is hiding',
+												},
+												type: 'span',
 											},
-											type: 'input'
-										}, {
-											text: '-',
-											type: 'node'
-										}, {
-											attributes: {
-												type: 'date'
+											{
+												text: filter.name,
+												type: 'node',
 											},
-											type: 'input'
-										}]
-									}]
-								}]);
+											{
+												type: 'span',
+												children: [
+													{
+														attributes: {
+															type: 'date',
+														},
+														type: 'input',
+													},
+													{
+														text: '-',
+														type: 'node',
+													},
+													{
+														attributes: {
+															type: 'date',
+														},
+														type: 'input',
+													},
+												],
+											},
+										],
+									},
+								]);
 							}
 						} else {
 							const step = filter.type === 'integer' ? '1' : '0.01';
@@ -520,46 +629,56 @@ class Filters extends Module {
 								if (!Settings.get(`${obj.id}_${key}`) || !filter.check) {
 									attributes.class = 'esgst-hidden';
 								}
-								context = createElements(numberFilters, 'beforeEnd', [{
-									attributes,
-									type: 'div',
-									children: [{
-										attributes: {
-											class: 'esgst-gf-filter-count',
-											title: 'Number of items this rule is hiding'
-										},
-										type: 'span'
-									}, {
-										text: filter.name,
-										type: 'node'
-									}, {
-										type: 'span',
-										children: [{
-											attributes: {
-												class: 'form-control',
-												type: 'number',
-												max: filter.maxValue,
-												min: filter.minValue,
-												step,
-												novalidate: '',
+								context = createElements(numberFilters, 'beforeEnd', [
+									{
+										attributes,
+										type: 'div',
+										children: [
+											{
+												attributes: {
+													class: 'esgst-gf-filter-count',
+													title: 'Number of items this rule is hiding',
+												},
+												type: 'span',
 											},
-											type: 'input'
-										}, {
-											text: '-',
-											type: 'node'
-										}, {
-											attributes: {
-												class: 'form-control',
-												type: 'number',
-												max: filter.maxValue,
-												min: filter.minValue,
-												step,
-												novalidate: '',
+											{
+												text: filter.name,
+												type: 'node',
 											},
-											type: 'input'
-										}]
-									}]
-								}]);
+											{
+												type: 'span',
+												children: [
+													{
+														attributes: {
+															class: 'form-control',
+															type: 'number',
+															max: filter.maxValue,
+															min: filter.minValue,
+															step,
+															novalidate: '',
+														},
+														type: 'input',
+													},
+													{
+														text: '-',
+														type: 'node',
+													},
+													{
+														attributes: {
+															class: 'form-control',
+															type: 'number',
+															max: filter.maxValue,
+															min: filter.minValue,
+															step,
+															novalidate: '',
+														},
+														type: 'input',
+													},
+												],
+											},
+										],
+									},
+								]);
 							}
 						}
 
@@ -568,7 +687,7 @@ class Filters extends Module {
 							maxInput = minInput.nextElementSibling;
 							obj.basicFilters[rule.id] = {
 								data: {
-									basicCount: context.firstElementChild
+									basicCount: context.firstElementChild,
 								},
 								input: rule.input,
 								type: rule.type,
@@ -594,43 +713,52 @@ class Filters extends Module {
 							if (!Settings.get(`${obj.id}_${key}`) || !filter.check) {
 								attributes.class = 'esgst-hidden';
 							}
-							context = createElements(stringFilters, 'beforeEnd', [{
-								attributes,
-								type: 'div',
-								children: [{
-									type: 'span',
-									children: [{
-										type: 'span'
-									}, {
-										text: ` ${filter.name}`,
-										type: 'node'
-									}]
-								}, {
-									attributes: {
-										class: 'esgst-gf-filter-count',
-										title: 'Number of items this rule is hiding'
-									},
-									type: 'span'
-								}, {
-									attributes: {
-										placeholder: `Item1, Item2, ...`,
-										type: 'text'
-									},
-									type: 'input'
-								}]
-							}]);
+							context = createElements(stringFilters, 'beforeEnd', [
+								{
+									attributes,
+									type: 'div',
+									children: [
+										{
+											type: 'span',
+											children: [
+												{
+													type: 'span',
+												},
+												{
+													text: ` ${filter.name}`,
+													type: 'node',
+												},
+											],
+										},
+										{
+											attributes: {
+												class: 'esgst-gf-filter-count',
+												title: 'Number of items this rule is hiding',
+											},
+											type: 'span',
+										},
+										{
+											attributes: {
+												placeholder: `Item1, Item2, ...`,
+												type: 'text',
+											},
+											type: 'input',
+										},
+									],
+								},
+							]);
 							checkbox = new Checkbox(context.firstElementChild.firstElementChild, 'enabled', true);
 							textInput = context.lastElementChild;
 							obj.basicFilters[rule.id] = {
 								data: {
-									basicCount: context.firstElementChild.nextElementSibling
+									basicCount: context.firstElementChild.nextElementSibling,
 								},
 								id: rule.id,
 								input: rule.input,
 								type: rule.type,
 								filterType: 'string',
 								checkbox: checkbox,
-								textInput: textInput
+								textInput: textInput,
 							};
 							checkbox.onChange = this.filters_basicToAdv.bind(this, obj);
 							textInput.addEventListener('change', this.filters_basicToAdv.bind(this, obj));
@@ -646,52 +774,68 @@ class Filters extends Module {
 		}
 
 		if (!Settings.get(`${obj.id}_m_b`)) {
-			createElements(stringFilters, 'beforeEnd', [{
-				attributes: {
-					class: 'esgst-gf-legend-panel'
-				},
-				type: 'div',
-				children: [{
+			createElements(stringFilters, 'beforeEnd', [
+				{
 					attributes: {
-						class: 'esgst-bold'
+						class: 'esgst-gf-legend-panel',
 					},
-					text: `Legend:`,
-					type: 'div'
-				}, {
 					type: 'div',
-					children: [{
-						attributes: {
-							class: 'fa fa-check-square'
+					children: [
+						{
+							attributes: {
+								class: 'esgst-bold',
+							},
+							text: `Legend:`,
+							type: 'div',
 						},
-						type: 'i'
-					}, {
-						text: ' - Show All',
-						type: 'node'
-					}]
-				}, {
-					type: 'div',
-					children: [{
-						attributes: {
-							class: 'fa fa-square-o'
+						{
+							type: 'div',
+							children: [
+								{
+									attributes: {
+										class: 'fa fa-check-square',
+									},
+									type: 'i',
+								},
+								{
+									text: ' - Show All',
+									type: 'node',
+								},
+							],
 						},
-						type: 'i'
-					}, {
-						text: ' - Hide All',
-						type: 'node'
-					}]
-				}, {
-					type: 'div',
-					children: [{
-						attributes: {
-							class: 'fa fa-square'
+						{
+							type: 'div',
+							children: [
+								{
+									attributes: {
+										class: 'fa fa-square-o',
+									},
+									type: 'i',
+								},
+								{
+									text: ' - Hide All',
+									type: 'node',
+								},
+							],
 						},
-						type: 'i'
-					}, {
-						text: ' - Show Only',
-						type: 'node'
-					}]
-				}]
-			}]);
+						{
+							type: 'div',
+							children: [
+								{
+									attributes: {
+										class: 'fa fa-square',
+									},
+									type: 'i',
+								},
+								{
+									text: ' - Show Only',
+									type: 'node',
+								},
+							],
+						},
+					],
+				},
+			]);
 			if (obj.rules.rules && obj.rules.rules.length) {
 				this.filters_applyBasic(obj, obj.rules);
 			}
@@ -785,7 +929,7 @@ class Filters extends Module {
 					{{~}}
 					{{? optgroup !== null }}</optgroup>{{?}}
 					</select>
-				`
+				`,
 			};
 			const options = {
 				filters: filters,
@@ -798,29 +942,29 @@ class Filters extends Module {
 					remove_rule: 'fa fa-times',
 					resume_group: 'fa fa-play',
 					resume_rule: 'fa fa-play',
-					error: 'fa fa-exclamation'
+					error: 'fa fa-exclamation',
 				},
 				plugins: {
 					['bt-checkbox']: {
-						font: 'fontawesome'
+						font: 'fontawesome',
 					},
 					['not-group']: {
 						icon_checked: 'fa fa-check-square-o',
-						icon_unchecked: 'fa fa-square-o'
+						icon_unchecked: 'fa fa-square-o',
 					},
 					// Requires interactjs <= 1.3.4 or it won't work.
 					['sortable']: {
-						icon: 'fa fa-arrows'
-					}
+						icon: 'fa fa-arrows',
+					},
 				},
 				sort_filters: true,
 				lang: {
 					pause_group: 'Pause',
 					pause_rule: 'Pause',
 					resume_group: 'Resume',
-					resume_rule: 'Resume'
+					resume_rule: 'Resume',
 				},
-				templates: templates
+				templates: templates,
 			};
 			if (obj.rules.rules && obj.rules.rules.length) {
 				options.rules = obj.rules;
@@ -829,22 +973,22 @@ class Filters extends Module {
 			obj.builder = window.$(advancedFilters)[0].queryBuilder;
 			[obj.rules, obj.rules_save] = this.filters_changeRules(obj);
 
-			obj.builder.$el.on('click.queryBuilder', `[data-pause=group]`, event => {
+			obj.builder.$el.on('click.queryBuilder', `[data-pause=group]`, (event) => {
 				const group = event.currentTarget.closest('.rules-group-container');
 				group.setAttribute('data-esgst-paused', true);
 				this.onRulesChanged(obj, {});
 			});
-			obj.builder.$el.on('click.queryBuilder', `[data-resume=group]`, event => {
+			obj.builder.$el.on('click.queryBuilder', `[data-resume=group]`, (event) => {
 				const group = event.currentTarget.closest('.rules-group-container');
 				group.removeAttribute('data-esgst-paused');
 				this.onRulesChanged(obj, {});
 			});
-			obj.builder.$el.on('click.queryBuilder', `[data-pause=rule]`, event => {
+			obj.builder.$el.on('click.queryBuilder', `[data-pause=rule]`, (event) => {
 				const rule = event.currentTarget.closest('.rule-container');
 				rule.setAttribute('data-esgst-paused', true);
 				this.onRulesChanged(obj, {});
 			});
-			obj.builder.$el.on('click.queryBuilder', `[data-resume=rule]`, event => {
+			obj.builder.$el.on('click.queryBuilder', `[data-resume=rule]`, (event) => {
 				const rule = event.currentTarget.closest('.rule-container');
 				rule.removeAttribute('data-esgst-paused');
 				this.onRulesChanged(obj, {});
@@ -872,86 +1016,99 @@ class Filters extends Module {
 				{
 					id: 'filter_os',
 					key: 'os',
-					name: 'OS'
+					name: 'OS',
 				},
 				{
 					id: 'filter_giveaways_exist_in_account',
 					key: 'alreadyOwned',
-					name: 'Already Owned'
+					name: 'Already Owned',
 				},
 				{
 					id: 'filter_giveaways_missing_base_game',
 					key: 'dlcMissingBase',
-					name: 'DLC Missing Base'
+					name: 'DLC Missing Base',
 				},
 				{
 					id: 'filter_giveaways_level',
 					key: 'aboveLevel',
-					name: 'Above Level'
+					name: 'Above Level',
 				},
 				{
 					id: 'filter_giveaways_additional_games',
 					key: 'manuallyFiltered',
-					name: 'Manually Filtered'
-				}
-			].forEach(filter => {
+					name: 'Manually Filtered',
+				},
+			].forEach((filter) => {
 				if (!Settings.get(`${obj.id}_${filter.key}`)) return;
 
-				const children = [{
-					text: filter.name,
-					type: 'node'
-				}];
+				const children = [
+					{
+						text: filter.name,
+						type: 'node',
+					},
+				];
 				if (filter.key === 'os') {
 					// @ts-ignore
 					children.push({
 						type: 'select',
-						children: [{
-							attributes: {
-								value: '0'
+						children: [
+							{
+								attributes: {
+									value: '0',
+								},
+								text: 'All',
+								type: 'option',
 							},
-							text: 'All',
-							type: 'option'
-						}, {
-							attributes: {
-								value: '1'
+							{
+								attributes: {
+									value: '1',
+								},
+								text: 'Windows',
+								type: 'option',
 							},
-							text: 'Windows',
-							type: 'option'
-						}, {
-							attributes: {
-								value: '2'
+							{
+								attributes: {
+									value: '2',
+								},
+								text: 'Linux',
+								type: 'option',
 							},
-							text: 'Linux',
-							type: 'option'
-						}, {
-							attributes: {
-								value: '3'
+							{
+								attributes: {
+									value: '3',
+								},
+								text: 'Mac',
+								type: 'option',
 							},
-							text: 'Mac',
-							type: 'option'
-						}]
+						],
 					});
 				}
-				const sgFilter = createElements(sgFilters, 'beforeEnd', [{
-					attributes: {
-						class: 'esgst-gf-category-filter'
+				const sgFilter = createElements(sgFilters, 'beforeEnd', [
+					{
+						attributes: {
+							class: 'esgst-gf-category-filter',
+						},
+						type: 'div',
+						children: [
+							{
+								type: 'span',
+								children,
+							},
+							{
+								attributes: {
+									class: 'fa fa-circle-o-notch fa-spin esgst-hidden',
+								},
+								type: 'i',
+							},
+							{
+								attributes: {
+									class: 'fa fa-check esgst-green esgst-hidden',
+								},
+								type: 'i',
+							},
+						],
 					},
-					type: 'div',
-					children: [{
-						type: 'span',
-						children
-					}, {
-						attributes: {
-							class: 'fa fa-circle-o-notch fa-spin esgst-hidden'
-						},
-						type: 'i'
-					}, {
-						attributes: {
-							class: 'fa fa-check esgst-green esgst-hidden'
-						},
-						type: 'i'
-					}]
-				}]);
+				]);
 				const check = sgFilter.lastElementChild;
 				const spinning = check.previousElementSibling;
 				if (filter.key === 'os') {
@@ -962,9 +1119,19 @@ class Filters extends Module {
 						spinning.classList.remove('esgst-hidden');
 						await setSetting(filter.id, select.value);
 						await request({
-							data: `filter_os=${Settings.get('filter_os')}&filter_giveaways_exist_in_account=${Settings.get('filter_giveaways_exist_in_account')}&filter_giveaways_missing_base_game=${Settings.get('filter_giveaways_missing_base_game')}&filter_giveaways_level=${Settings.get('filter_giveaways_level')}&filter_giveaways_additional_games=${Settings.get('filter_giveaways_additional_games')}&xsrf_token=${Session.xsrfToken}`,
+							data: `filter_os=${Settings.get(
+								'filter_os'
+							)}&filter_giveaways_exist_in_account=${Settings.get(
+								'filter_giveaways_exist_in_account'
+							)}&filter_giveaways_missing_base_game=${Settings.get(
+								'filter_giveaways_missing_base_game'
+							)}&filter_giveaways_level=${Settings.get(
+								'filter_giveaways_level'
+							)}&filter_giveaways_additional_games=${Settings.get(
+								'filter_giveaways_additional_games'
+							)}&xsrf_token=${Session.xsrfToken}`,
 							method: 'POST',
-							url: '/account/settings/giveaways'
+							url: '/account/settings/giveaways',
 						});
 						spinning.classList.add('esgst-hidden');
 						check.classList.remove('esgst-hidden');
@@ -976,9 +1143,19 @@ class Filters extends Module {
 						spinning.classList.remove('esgst-hidden');
 						await setSetting(filter.id, checkbox.value ? 1 : 0);
 						await request({
-							data: `filter_os=${Settings.get('filter_os')}&filter_giveaways_exist_in_account=${Settings.get('filter_giveaways_exist_in_account')}&filter_giveaways_missing_base_game=${Settings.get('filter_giveaways_missing_base_game')}&filter_giveaways_level=${Settings.get('filter_giveaways_level')}&filter_giveaways_additional_games=${Settings.get('filter_giveaways_additional_games')}&xsrf_token=${Session.xsrfToken}`,
+							data: `filter_os=${Settings.get(
+								'filter_os'
+							)}&filter_giveaways_exist_in_account=${Settings.get(
+								'filter_giveaways_exist_in_account'
+							)}&filter_giveaways_missing_base_game=${Settings.get(
+								'filter_giveaways_missing_base_game'
+							)}&filter_giveaways_level=${Settings.get(
+								'filter_giveaways_level'
+							)}&filter_giveaways_additional_games=${Settings.get(
+								'filter_giveaways_additional_games'
+							)}&xsrf_token=${Session.xsrfToken}`,
 							method: 'POST',
-							url: '/account/settings/giveaways'
+							url: '/account/settings/giveaways',
 						});
 						spinning.classList.add('esgst-hidden');
 						check.classList.remove('esgst-hidden');
@@ -996,11 +1173,20 @@ class Filters extends Module {
 		for (const key of usedFilters) {
 			const filter = obj.filters[key];
 			if (filter.category && (!Settings.get('gc') || !Settings.get(filter.category))) {
-				warnings.push(`"${filter.name}" requires "${Shared.common.getFeatureName(null, filter.category)}" to be enabled in the settings menu.`);
+				warnings.push(
+					`"${filter.name}" requires "${Shared.common.getFeatureName(
+						null,
+						filter.category
+					)}" to be enabled in the settings menu.`
+				);
 			} else if (filter.sync) {
 				for (const syncKey of filter.sync) {
 					if (now - Settings.get(`lastSync${syncKey}`) > 2592000000) {
-						warnings.push(`"${filter.name}" requires "${SYNC_KEYS[`sync${syncKey}`].name}" to be synced in the sync menu, but that item has either never been synced or it was last synced more than 30 days ago.`);
+						warnings.push(
+							`"${filter.name}" requires "${
+								SYNC_KEYS[`sync${syncKey}`].name
+							}" to be synced in the sync menu, but that item has either never been synced or it was last synced more than 30 days ago.`
+						);
 					}
 				}
 			}
@@ -1009,9 +1195,7 @@ class Filters extends Module {
 		if (warnings.length > 0) {
 			DOM.build(obj.warningsPanel, 'beforeEnd', [
 				`You are using some filters that may require your attention:`,
-				['div', { class: 'markdown' }, [
-					['ul', warnings.map(x => ['li', x])]
-				]]
+				['div', { class: 'markdown' }, [['ul', warnings.map((x) => ['li', x])]]],
 			]);
 			obj.button.classList.add('warning');
 		}
@@ -1052,102 +1236,184 @@ class Filters extends Module {
 		obj.manualPopup = new Popup({
 			icon: 'fa-book',
 			title: 'Advanced Filters Manual',
-			addScrollable: 'left'
+			addScrollable: 'left',
 		});
 		obj.manualPopup.getScrollable([
 			['div', { class: 'esgst-bold' }, 'Interface'],
 			['br'],
-			['div', { class: 'markdown' }, [
-				['ul', [
-					['li', [
-						['span', { class: 'esgst-bold' }, [
-							['i', { class: 'fa fa-square-o' }],
-							' NOT'
-						]],
-						` - If checked, only items that do not apply to the group will be shown.`
-					]],
-					['li', [
-						['span', { class: 'esgst-bold' }, 'AND'],
-						` - Turns the group into an AND group, which means that only items that apply to every single rule of the group will be shown.`
-					]],
-					['li', [
-						['span', { class: 'esgst-bold' }, 'OR'],
-						` - Turns the group into an OR group, which means that only items that apply to at least one rule of the group will be shown.`
-					]],
-					['li', [
-						['span', { class: 'esgst-bold' }, [
-							['i', { class: 'fa fa-arrows' }]
-						]],
-						' - Allows you reorder/move rules/groups. The order of the rules does not alter the result.'
-					]],
-					['li', [
-						['span', { class: 'esgst-bold' }, [
-							['i', { class: 'fa fa-pause' }],
-							' Pause'
-						]],
-						` - Allows you to pause the rule/group, so that it does not filter anything until you resume it or refresh the page.`
-					]],
-					['li', 'The other buttons in the interface should be self-explanatory.']
-				]]
-			]],
+			[
+				'div',
+				{ class: 'markdown' },
+				[
+					[
+						'ul',
+						[
+							[
+								'li',
+								[
+									['span', { class: 'esgst-bold' }, [['i', { class: 'fa fa-square-o' }], ' NOT']],
+									` - If checked, only items that do not apply to the group will be shown.`,
+								],
+							],
+							[
+								'li',
+								[
+									['span', { class: 'esgst-bold' }, 'AND'],
+									` - Turns the group into an AND group, which means that only items that apply to every single rule of the group will be shown.`,
+								],
+							],
+							[
+								'li',
+								[
+									['span', { class: 'esgst-bold' }, 'OR'],
+									` - Turns the group into an OR group, which means that only items that apply to at least one rule of the group will be shown.`,
+								],
+							],
+							[
+								'li',
+								[
+									['span', { class: 'esgst-bold' }, [['i', { class: 'fa fa-arrows' }]]],
+									' - Allows you reorder/move rules/groups. The order of the rules does not alter the result.',
+								],
+							],
+							[
+								'li',
+								[
+									['span', { class: 'esgst-bold' }, [['i', { class: 'fa fa-pause' }], ' Pause']],
+									` - Allows you to pause the rule/group, so that it does not filter anything until you resume it or refresh the page.`,
+								],
+							],
+							['li', 'The other buttons in the interface should be self-explanatory.'],
+						],
+					],
+				],
+			],
 			['br'],
 			['div', { class: 'esgst-bold' }, 'Types of Filters'],
 			['br'],
-			['div', { class: 'markdown' }, [
-				['ul', [
-					['li', [
-						['span', { class: 'esgst-bold' }, 'Boolean'],
-						` - Presents a choice between true and false. Set to true if you only want to see items that apply to the filter, and to false otherwise. For example, if you only want to see giveaways that are on your wishlist, set wishlisted to "true"; if you only want to see giveaways that you have not entered, set entered to "false".`
-					]],
-					['li', [
-						['span', { class: 'esgst-bold' }, 'Number'],
-						` - Presents a text field and a choice between equal, not equal, less, less or equal, greater, greater or equal, is null and is not null. Enter the value that you want in the text field and choose the option that you want. For example, if you only want to see giveaways above level 5, you can either set level to "greater than 4" or to "greater or equal to 5". The is null and is not null options regard the presence of the filter. For example, some giveaways do not have a rating. If you still want to see those giveaways when filtering by rating, add an additional rule and set rating to "is null".`
-					]],
-					['li', [
-						['span', { class: 'esgst-bold' }, 'Text'],
-						` - Presents a text field and a choice between contains and doesn't contain. Enter the values that you want in the text field, separated by a comma followed by a space, and choose the option that you want. For example, if you only want to see giveaways that have the adventure or the action genres, set genres to "contains Adventure, Action". But if you only want to see giveaways that have both the adventure and the action genres, add 2 rules, set one to "contains Adventure" and the other to "contains Action", and turn the group into an AND group.`
-					]]
-				]]
-			]],
+			[
+				'div',
+				{ class: 'markdown' },
+				[
+					[
+						'ul',
+						[
+							[
+								'li',
+								[
+									['span', { class: 'esgst-bold' }, 'Boolean'],
+									` - Presents a choice between true and false. Set to true if you only want to see items that apply to the filter, and to false otherwise. For example, if you only want to see giveaways that are on your wishlist, set wishlisted to "true"; if you only want to see giveaways that you have not entered, set entered to "false".`,
+								],
+							],
+							[
+								'li',
+								[
+									['span', { class: 'esgst-bold' }, 'Number'],
+									` - Presents a text field and a choice between equal, not equal, less, less or equal, greater, greater or equal, is null and is not null. Enter the value that you want in the text field and choose the option that you want. For example, if you only want to see giveaways above level 5, you can either set level to "greater than 4" or to "greater or equal to 5". The is null and is not null options regard the presence of the filter. For example, some giveaways do not have a rating. If you still want to see those giveaways when filtering by rating, add an additional rule and set rating to "is null".`,
+								],
+							],
+							[
+								'li',
+								[
+									['span', { class: 'esgst-bold' }, 'Text'],
+									` - Presents a text field and a choice between contains and doesn't contain. Enter the values that you want in the text field, separated by a comma followed by a space, and choose the option that you want. For example, if you only want to see giveaways that have the adventure or the action genres, set genres to "contains Adventure, Action". But if you only want to see giveaways that have both the adventure and the action genres, add 2 rules, set one to "contains Adventure" and the other to "contains Action", and turn the group into an AND group.`,
+								],
+							],
+						],
+					],
+				],
+			],
 			['br'],
 			['div', { class: 'esgst-bold' }, 'Building the Filters'],
 			['br'],
-			['div', { class: 'markdown' }, [
-				['div', `The process of building the filters might seem intimidating at first, but it is actually quite simple. Just think of it like this:`],
-				['ul', [
-					['li', `Show me a="true" AND b="false".`],
-					['li', `Show me a="false" OR b="true".`],
-					['li', `Do NOT show me a="true".`]
-				]],
-				['div', `The building process for the filters above becomes, respectively:`],
-				['ul', [
-					['li', `Turn group into AND, add rule a="true", add rule b="false".`],
-					['li', `Turn group into OR, add rule a="false", add rule b="true".`],
-					['li', `Check NOT option, add rule a="true".`]
-				]],
-				['div', `For more advanced filters, think in parenthesis:`],
-				['ul', [
-					['li', `Show me (a="true" AND b="false") OR c="greater or equal to 5".`],
-					['li', `Show me (a="false" AND b="true" AND c="false") OR (d="true" AND e="false") OR f="equal to 2".`],
-					['li', `Show me (a="true" AND b="false" AND c="true" AND d="false") AND do NOT show me e="contains Adventure, Action".`]
-				]],
-				['div', `Each parenthesis represents a new group. NOT filters also represent a new group, since there isn't a NOT option for rules. So the building process for the filters above becomes, respectively:`],
-				['ul', [
-					['li', `Turn group into OR, add group (turn group into AND, add rule a="true", add rule b="false"), add rule c="greater or equal to 5".`],
-					['li', `Turn group into OR, add group (turn group into AND, add rule a="false", add rule b="true", add rule c="false"), add group (turn group into AND, add rule d="true", add rule e="false"), add rule f="equal to 2".`],
-					['li', `Turn group into AND, add group (turn group into AND, add rule a="true", add rule b="false", add rule c="true", add rule d="false"), add group (check NOT option, add rule e="contains Adventure, Action").`]
-				]],
-				['div', `Real example: suppose you only want to see giveaways that are for level 5 or more and that have achievements or trading cards. The sentence for that system is:`],
-				['ul', [
-					['li', `Show me level="greater or equal to 5" AND (achievements="true" OR tradingCards="true").`]
-				]],
-				['div', `And the building process is:`],
-				['ul', [
-					['li', `Turn group into AND, add rule level="greater or equal to 5", add group (turn group into OR, add rule achievements="true", add rule tradingCards="true").`]
-				]],
-				['div', `The final result is illustrated in the picture below:`]
-			]],
-			['img', { src: `https://i.imgur.com/F1UXcKs.png` }]
+			[
+				'div',
+				{ class: 'markdown' },
+				[
+					[
+						'div',
+						`The process of building the filters might seem intimidating at first, but it is actually quite simple. Just think of it like this:`,
+					],
+					[
+						'ul',
+						[
+							['li', `Show me a="true" AND b="false".`],
+							['li', `Show me a="false" OR b="true".`],
+							['li', `Do NOT show me a="true".`],
+						],
+					],
+					['div', `The building process for the filters above becomes, respectively:`],
+					[
+						'ul',
+						[
+							['li', `Turn group into AND, add rule a="true", add rule b="false".`],
+							['li', `Turn group into OR, add rule a="false", add rule b="true".`],
+							['li', `Check NOT option, add rule a="true".`],
+						],
+					],
+					['div', `For more advanced filters, think in parenthesis:`],
+					[
+						'ul',
+						[
+							['li', `Show me (a="true" AND b="false") OR c="greater or equal to 5".`],
+							[
+								'li',
+								`Show me (a="false" AND b="true" AND c="false") OR (d="true" AND e="false") OR f="equal to 2".`,
+							],
+							[
+								'li',
+								`Show me (a="true" AND b="false" AND c="true" AND d="false") AND do NOT show me e="contains Adventure, Action".`,
+							],
+						],
+					],
+					[
+						'div',
+						`Each parenthesis represents a new group. NOT filters also represent a new group, since there isn't a NOT option for rules. So the building process for the filters above becomes, respectively:`,
+					],
+					[
+						'ul',
+						[
+							[
+								'li',
+								`Turn group into OR, add group (turn group into AND, add rule a="true", add rule b="false"), add rule c="greater or equal to 5".`,
+							],
+							[
+								'li',
+								`Turn group into OR, add group (turn group into AND, add rule a="false", add rule b="true", add rule c="false"), add group (turn group into AND, add rule d="true", add rule e="false"), add rule f="equal to 2".`,
+							],
+							[
+								'li',
+								`Turn group into AND, add group (turn group into AND, add rule a="true", add rule b="false", add rule c="true", add rule d="false"), add group (check NOT option, add rule e="contains Adventure, Action").`,
+							],
+						],
+					],
+					[
+						'div',
+						`Real example: suppose you only want to see giveaways that are for level 5 or more and that have achievements or trading cards. The sentence for that system is:`,
+					],
+					[
+						'ul',
+						[
+							[
+								'li',
+								`Show me level="greater or equal to 5" AND (achievements="true" OR tradingCards="true").`,
+							],
+						],
+					],
+					['div', `And the building process is:`],
+					[
+						'ul',
+						[
+							[
+								'li',
+								`Turn group into AND, add rule level="greater or equal to 5", add group (turn group into OR, add rule achievements="true", add rule tradingCards="true").`,
+							],
+						],
+					],
+					['div', `The final result is illustrated in the picture below:`],
+				],
+			],
+			['img', { src: `https://i.imgur.com/F1UXcKs.png` }],
 		]);
 		obj.manualPopup.open();
 	}
@@ -1166,7 +1432,7 @@ class Filters extends Module {
 			ratio: 0,
 			rating: 0,
 			reviews: 0,
-			releaseDate: 0
+			releaseDate: 0,
 		};
 		const maxValues = {
 			level: 10,
@@ -1176,14 +1442,14 @@ class Filters extends Module {
 			chance: 100,
 			chancePerPoint: 100,
 			rating: 100,
-			releaseDate: 3187209600
+			releaseDate: 3187209600,
 		};
 		const newPresets = [];
 		for (const preset of presets) {
 			let newPreset = {
 				condition: 'AND',
 				not: false,
-				rules: []
+				rules: [],
 			};
 
 			// Convert basic rules.
@@ -1205,8 +1471,13 @@ class Filters extends Module {
 								id: key,
 								input: key === 'releaseDate' ? 'date' : 'text',
 								operator: 'less_or_equal',
-								type: key === 'releaseDate' ? 'text' : (key.match(/^(chance|chancePerPoint)$/) ? 'double' : 'integer'),
-								value: value
+								type:
+									key === 'releaseDate'
+										? 'text'
+										: key.match(/^(chance|chancePerPoint)$/)
+										? 'double'
+										: 'integer',
+								value: value,
 							});
 						}
 					} else if (isMin) {
@@ -1216,8 +1487,13 @@ class Filters extends Module {
 								id: key,
 								input: key === 'releaseDate' ? 'date' : 'text',
 								operator: 'greater_or_equal',
-								type: key === 'releaseDate' ? 'text' : (key.match(/^(chance|chancePerPoint)$/) ? 'double' : 'integer'),
-								value: value
+								type:
+									key === 'releaseDate'
+										? 'text'
+										: key.match(/^(chance|chancePerPoint)$/)
+										? 'double'
+										: 'integer',
+								value: value,
 							});
 						}
 					} else if (value && typeof value === 'string' && !value.match(/^(enabled|undefined)$/)) {
@@ -1228,7 +1504,7 @@ class Filters extends Module {
 								input: 'radio',
 								operator: 'equal',
 								type: 'boolean',
-								value: false
+								value: false,
 							});
 						} else if (value === 'none') {
 							newPreset.rules.push({
@@ -1237,7 +1513,7 @@ class Filters extends Module {
 								input: 'radio',
 								operator: 'equal',
 								type: 'boolean',
-								value: true
+								value: true,
 							});
 						} else {
 							const rule = {
@@ -1246,11 +1522,11 @@ class Filters extends Module {
 								input: 'text',
 								operator: preset[key] === 'disabled' ? 'not_contains' : 'contains',
 								type: 'string',
-								value: value
+								value: value,
 							};
 							if (preset[key] === 'enabled') {
 								rule.data = {
-									paused: true
+									paused: true,
 								};
 							}
 							newPreset.rules.push(rule);
@@ -1265,7 +1541,7 @@ class Filters extends Module {
 				newExceptions = {
 					condition: 'OR',
 					not: false,
-					rules: []
+					rules: [],
 				};
 				if (newPreset.rules.length) {
 					newExceptions.rules.push(newPreset);
@@ -1274,7 +1550,7 @@ class Filters extends Module {
 					const newException = {
 						condition: 'AND',
 						not: false,
-						rules: []
+						rules: [],
 					};
 					for (let key in exception) {
 						if (exception.hasOwnProperty(key)) {
@@ -1294,8 +1570,13 @@ class Filters extends Module {
 										id: key,
 										input: key === 'releaseDate' ? 'date' : 'text',
 										operator: 'less_or_equal',
-										type: key === 'releaseDate' ? 'text' : (key.match(/^(chance|chancePerPoint)$/) ? 'double' : 'integer'),
-										value: value
+										type:
+											key === 'releaseDate'
+												? 'text'
+												: key.match(/^(chance|chancePerPoint)$/)
+												? 'double'
+												: 'integer',
+										value: value,
 									});
 								}
 							} else if (isMin) {
@@ -1305,8 +1586,13 @@ class Filters extends Module {
 										id: key,
 										input: key === 'releaseDate' ? 'date' : 'text',
 										operator: 'greater_or_equal',
-										type: key === 'releaseDate' ? 'text' : (key.match(/^(chance|chancePerPoint)$/) ? 'double' : 'integer'),
-										value: value
+										type:
+											key === 'releaseDate'
+												? 'text'
+												: key.match(/^(chance|chancePerPoint)$/)
+												? 'double'
+												: 'integer',
+										value: value,
 									});
 								}
 							} else if (value && value !== 'undefined') {
@@ -1318,7 +1604,7 @@ class Filters extends Module {
 											input: 'text',
 											operator: 'contains',
 											type: 'string',
-											value: value
+											value: value,
 										});
 									}
 								} else {
@@ -1328,7 +1614,7 @@ class Filters extends Module {
 										input: 'radio',
 										operator: 'equal',
 										type: 'boolean',
-										value: true
+										value: true,
 									});
 								}
 							}
@@ -1362,7 +1648,7 @@ class Filters extends Module {
 				newPreset.valid = true;
 				newPresets.push({
 					name: `__old-preset__${preset.name}`,
-					rules: newPreset
+					rules: newPreset,
 				});
 			}
 		}
@@ -1370,17 +1656,20 @@ class Filters extends Module {
 	}
 
 	filters_changeRules(obj, event) {
-		let out = [{
-			condition: 'AND',
-			not: false,
-			rules: [],
-			valid: true
-		}, {
-			condition: 'AND',
-			not: false,
-			rules: [],
-			valid: true
-		}];
+		let out = [
+			{
+				condition: 'AND',
+				not: false,
+				rules: [],
+				valid: true,
+			},
+			{
+				condition: 'AND',
+				not: false,
+				rules: [],
+				valid: true,
+			},
+		];
 		let valid = false;
 		try {
 			valid = obj.builder.validate();
@@ -1398,93 +1687,99 @@ class Filters extends Module {
 			const groupData = {
 				condition: group.condition,
 				data: {
-					count: group.$el[0].getElementsByClassName('esgst-gf-filter-count')[0]
+					count: group.$el[0].getElementsByClassName('esgst-gf-filter-count')[0],
 				},
-				rules: []
+				rules: [],
 			};
 			const groupData_save = {
 				condition: group.condition,
-				rules: []
+				rules: [],
 			};
-			group.each(function (rule) {
-				if (!event) {
-					if (rule.data && rule.data.paused) {
-						rule.$el[0].setAttribute('data-esgst-paused', true);
-					} else {
-						rule.$el[0].removeAttribute('data-esgst-paused');
+			group.each(
+				function (rule) {
+					if (!event) {
+						if (rule.data && rule.data.paused) {
+							rule.$el[0].setAttribute('data-esgst-paused', true);
+						} else {
+							rule.$el[0].removeAttribute('data-esgst-paused');
+						}
 					}
-				}
 
-				let value = null;
-				if (!rule.operator || rule.operator.nb_inputs !== 0) {
-					value = rule.value;
-				}
-				const ruleData = {
-					data: rule.data,
-					id: rule.filter ? rule.filter.id : null,
-					field: rule.filter ? rule.filter.field : null,
-					type: rule.filter ? rule.filter.type : null,
-					input: rule.filter ? rule.filter.input : null,
-					operator: rule.operator ? rule.operator.type : null,
-					value: value
-				};
-				if (groupData.condition === 'AND') {
-					if (!ruleData.data) {
-						ruleData.data = {};
+					let value = null;
+					if (!rule.operator || rule.operator.nb_inputs !== 0) {
+						value = rule.value;
 					}
-					ruleData.data.count = rule.$el[0].getElementsByClassName('esgst-gf-filter-count')[0];
-					ruleData.data.count.classList.remove('esgst-hidden');
-				} else {
-					rule.$el[0].getElementsByClassName('esgst-gf-filter-count')[0].classList.add('esgst-hidden');
-				}
-				const ruleData_save = {
-					id: rule.filter ? rule.filter.id : null,
-					field: rule.filter ? rule.filter.field : null,
-					type: rule.filter ? rule.filter.type : null,
-					input: rule.filter ? rule.filter.input : null,
-					operator: rule.operator ? rule.operator.type : null,
-					value: value
-				};
-				if (rule.$el[0].getAttribute('data-esgst-paused')) {
-					if (!ruleData.data) {
-						ruleData.data = {};
-					}
-					ruleData.data.paused = true;
-					ruleData_save.data = {
-						paused: true
+					const ruleData = {
+						data: rule.data,
+						id: rule.filter ? rule.filter.id : null,
+						field: rule.filter ? rule.filter.field : null,
+						type: rule.filter ? rule.filter.type : null,
+						input: rule.filter ? rule.filter.input : null,
+						operator: rule.operator ? rule.operator.type : null,
+						value: value,
 					};
-				} else if (ruleData.data && ruleData.data.paused) {
-					delete ruleData.data.paused;
-				}
-				groupData.rules.push(obj.builder.change('ruleToJson', ruleData, rule));
-				groupData_save.rules.push(obj.builder.change('ruleToJson', ruleData_save, rule));
-			}, function (model) {
-				if (!event) {
-					if (model.data && model.data.paused) {
-						model.$el[0].setAttribute('data-esgst-paused', true);
+					if (groupData.condition === 'AND') {
+						if (!ruleData.data) {
+							ruleData.data = {};
+						}
+						ruleData.data.count = rule.$el[0].getElementsByClassName('esgst-gf-filter-count')[0];
+						ruleData.data.count.classList.remove('esgst-hidden');
 					} else {
-						model.$el[0].removeAttribute('data-esgst-paused');
+						rule.$el[0]
+							.getElementsByClassName('esgst-gf-filter-count')[0]
+							.classList.add('esgst-hidden');
 					}
-				}
-
-				const [data, data_save] = parse(model);
-				if (data.rules.length !== 0) {
-					if (model.$el[0].getAttribute('data-esgst-paused')) {
-						data_save.data = {
-							paused: true
+					const ruleData_save = {
+						id: rule.filter ? rule.filter.id : null,
+						field: rule.filter ? rule.filter.field : null,
+						type: rule.filter ? rule.filter.type : null,
+						input: rule.filter ? rule.filter.input : null,
+						operator: rule.operator ? rule.operator.type : null,
+						value: value,
+					};
+					if (rule.$el[0].getAttribute('data-esgst-paused')) {
+						if (!ruleData.data) {
+							ruleData.data = {};
+						}
+						ruleData.data.paused = true;
+						ruleData_save.data = {
+							paused: true,
 						};
-					} else {
-						groupData.rules.push(data);
+					} else if (ruleData.data && ruleData.data.paused) {
+						delete ruleData.data.paused;
 					}
-					groupData_save.rules.push(data_save);
-				}
-			}, obj.builder);
+					groupData.rules.push(obj.builder.change('ruleToJson', ruleData, rule));
+					groupData_save.rules.push(obj.builder.change('ruleToJson', ruleData_save, rule));
+				},
+				function (model) {
+					if (!event) {
+						if (model.data && model.data.paused) {
+							model.$el[0].setAttribute('data-esgst-paused', true);
+						} else {
+							model.$el[0].removeAttribute('data-esgst-paused');
+						}
+					}
+
+					const [data, data_save] = parse(model);
+					if (data.rules.length !== 0) {
+						if (model.$el[0].getAttribute('data-esgst-paused')) {
+							data_save.data = {
+								paused: true,
+							};
+						} else {
+							groupData.rules.push(data);
+						}
+						groupData_save.rules.push(data_save);
+					}
+				},
+				obj.builder
+			);
 
 			return [
 				obj.builder.change('groupToJson', groupData, group),
-				obj.builder.change('groupToJson', groupData_save, group)
+				obj.builder.change('groupToJson', groupData_save, group),
 			];
-		}(obj.builder.model.root));
+		})(obj.builder.model.root);
 
 		out[0].valid = valid;
 		out[1].valid = valid;
@@ -1501,7 +1796,7 @@ class Filters extends Module {
 			condition: 'AND',
 			not: false,
 			rules: [],
-			valid: true
+			valid: true,
 		};
 		for (const id in obj.basicFilters) {
 			if (obj.basicFilters.hasOwnProperty(id)) {
@@ -1517,7 +1812,7 @@ class Filters extends Module {
 							input: filter.input,
 							operator: filter.operator,
 							type: filter.type,
-							value: filter.checkbox.value === 'none'
+							value: filter.checkbox.value === 'none',
 						});
 						break;
 					case 'number':
@@ -1536,7 +1831,7 @@ class Filters extends Module {
 									filter.maxInput.setCustomValidity(`Must be lower than ${filter.maxValue}`);
 								} else if (parsedValue < filter.minValue) {
 									filter.maxInput.setCustomValidity(`Must be greater than ${filter.minValue}`);
-								}  else {
+								} else {
 									filter.maxInput.setCustomValidity('');
 									isValid = true;
 								}
@@ -1552,7 +1847,7 @@ class Filters extends Module {
 									type: filter.type,
 									value,
 								});
-							} else {								
+							} else {
 								filter.maxInput.classList.add('has-error');
 							}
 						}
@@ -1569,7 +1864,7 @@ class Filters extends Module {
 									filter.minInput.setCustomValidity('Not an integer');
 								} else if (parsedValue > filter.maxValue) {
 									filter.minInput.setCustomValidity(`Must be lower than ${filter.maxValue}`);
-								}  else if (parsedValue < filter.minValue) {
+								} else if (parsedValue < filter.minValue) {
 									filter.minInput.setCustomValidity(`Must be greater than ${filter.minValue}`);
 								} else {
 									filter.minInput.setCustomValidity('');
@@ -1587,7 +1882,7 @@ class Filters extends Module {
 									type: filter.type,
 									value,
 								});
-							} else {								
+							} else {
 								filter.minInput.classList.add('has-error');
 							}
 						}
@@ -1610,7 +1905,7 @@ class Filters extends Module {
 							input: filter.input,
 							operator: filter.checkbox.value === 'disabled' ? 'not_contains' : 'contains',
 							type: filter.type,
-							value: filter.textInput.value
+							value: filter.textInput.value,
 						});
 						break;
 				}
@@ -1625,10 +1920,8 @@ class Filters extends Module {
 				if (!obj.rules.rules.length) {
 					obj.rules = {
 						condition: 'AND',
-						rules: [
-							{empty: true}
-						],
-						valid: true
+						rules: [{ empty: true }],
+						valid: true,
 					};
 				}
 				obj.basicApplied = true;
@@ -1667,13 +1960,13 @@ class Filters extends Module {
 								filter.maxInput.setCustomValidity(`Must be lower than ${filter.maxValue}`);
 							} else if (parsedValue < filter.minValue) {
 								filter.maxInput.setCustomValidity(`Must be greater than ${filter.minValue}`);
-							}  else {
+							} else {
 								filter.maxInput.setCustomValidity('');
 								isValid = true;
 							}
-							if (isValid) {								
+							if (isValid) {
 								filter.maxInput.classList.remove('has-error');
-							} else {								
+							} else {
 								filter.maxInput.classList.add('has-error');
 							}
 						}
@@ -1689,15 +1982,15 @@ class Filters extends Module {
 								filter.minInput.setCustomValidity('Not an integer');
 							} else if (parsedValue > filter.maxValue) {
 								filter.minInput.setCustomValidity(`Must be lower than ${filter.maxValue}`);
-							}  else if (parsedValue < filter.minValue) {
+							} else if (parsedValue < filter.minValue) {
 								filter.minInput.setCustomValidity(`Must be greater than ${filter.minValue}`);
 							} else {
 								filter.minInput.setCustomValidity('');
 								isValid = true;
 							}
-							if (isValid) {								
+							if (isValid) {
 								filter.minInput.classList.remove('has-error');
-							} else {								
+							} else {
 								filter.minInput.classList.add('has-error');
 							}
 						}
@@ -1706,7 +1999,14 @@ class Filters extends Module {
 					break;
 				}
 				case 'string':
-					filter.checkbox.change(false, rule.operator === 'contains' ? (rule.data && rule.data.paused ? 'enabled' : 'none') : 'disabled');
+					filter.checkbox.change(
+						false,
+						rule.operator === 'contains'
+							? rule.data && rule.data.paused
+								? 'enabled'
+								: 'none'
+							: 'disabled'
+					);
 					filter.textInput.value = rule.value;
 					break;
 			}
@@ -1745,12 +2045,11 @@ class Filters extends Module {
 		obj.presetWarning.classList.add('esgst-hidden');
 		const preset = {
 			name,
-			rules: obj.rules_save
+			rules: obj.rules_save,
 		};
 		let i;
 		const presets = Settings.get(obj.key);
-		for (i = presets.length - 1; i > -1 && presets[i].name !== name; i--) {
-		}
+		for (i = presets.length - 1; i > -1 && presets[i].name !== name; i--) {}
 		if (i > -1) {
 			presets[i] = preset;
 		} else {
@@ -1759,107 +2058,138 @@ class Filters extends Module {
 		await setSetting([
 			{
 				id: `${obj.id}_preset${obj.type}`,
-				value: name
+				value: name,
 			},
 			{
 				id: obj.key,
-				value: presets
-			}
+				value: presets,
+			},
 		]);
 		createFadeMessage(obj.presetMessage, 'Saved!');
 	}
 
 	async filters_openPresetPopup(obj) {
-		const popup = new Popup({addScrollable: true, icon: 'fa-sliders', isTemp: true, title: `Manage presets:`});
-		createElements(popup.description, 'afterBegin', [{
-			attributes: {
-				class: 'esgst-description'
-			},
-			text: `To edit a preset, apply it and save it with the same name. To rename a preset, click the edit icon, enter the new name and hit "Enter". Drag and drop presets to move them.`,
-			type: 'div'
-		}]);
-		let deleted = [];
-		const undoButton = createElements(popup.description, 'beforeEnd', [{
-			attributes: {
-				class: 'esgst-clickable esgst-hidden'
-			},
-			type: 'div',
-			children: [{
+		const popup = new Popup({
+			addScrollable: true,
+			icon: 'fa-sliders',
+			isTemp: true,
+			title: `Manage presets:`,
+		});
+		createElements(popup.description, 'afterBegin', [
+			{
 				attributes: {
-					class: 'fa fa-rotate-left',
+					class: 'esgst-description',
 				},
-				type: 'i'
-			}, {
-				text: 'Undo Delete',
-				type: 'span'
-			}]
-		}]);
-		undoButton.addEventListener('click', this.filters_undoDeletePreset.bind(this, obj, deleted, undoButton));
-		const table = createElements(popup.scrollable, 'beforeEnd', [{
-			attributes: {
-				class: 'esgst-text-left popup__keys__list'
+				text: `To edit a preset, apply it and save it with the same name. To rename a preset, click the edit icon, enter the new name and hit "Enter". Drag and drop presets to move them.`,
+				type: 'div',
 			},
-			type: 'div'
-		}]);
+		]);
+		let deleted = [];
+		const undoButton = createElements(popup.description, 'beforeEnd', [
+			{
+				attributes: {
+					class: 'esgst-clickable esgst-hidden',
+				},
+				type: 'div',
+				children: [
+					{
+						attributes: {
+							class: 'fa fa-rotate-left',
+						},
+						type: 'i',
+					},
+					{
+						text: 'Undo Delete',
+						type: 'span',
+					},
+				],
+			},
+		]);
+		undoButton.addEventListener(
+			'click',
+			this.filters_undoDeletePreset.bind(this, obj, deleted, undoButton)
+		);
+		const table = createElements(popup.scrollable, 'beforeEnd', [
+			{
+				attributes: {
+					class: 'esgst-text-left popup__keys__list',
+				},
+				type: 'div',
+			},
+		]);
 		for (const preset of Settings.get(obj.key)) {
 			const attributes = {
-				draggable: true
+				draggable: true,
 			};
 			if (obj.presetInput.value === preset.name) {
 				attributes.class = 'esgst-green-highlight';
 			}
-			const row = createElements(table, 'beforeEnd', [{
-				attributes,
-				type: 'div',
-				children: [{
-					attributes: {
-						class: 'esgst-float-left'
-					},
+			const row = createElements(table, 'beforeEnd', [
+				{
+					attributes,
 					type: 'div',
-					children: [{
-						attributes: {
-							class: 'esgst-hidden',
-							type: 'text',
-							value: preset.name
-						},
-						type: 'input'
-					}, {
-						attributes: {
-							class: 'esgst-clickable'
-						},
-						text: preset.name,
-						type: 'strong'
-					}]
-				}, {
-					attributes: {
-						class: 'esgst-clickable esgst-float-right'
-					},
-					type: 'div',
-					children: [{
-						attributes: {
-							class: 'fa fa-edit',
-							title: 'Rename preset'
-						},
-						type: 'i'
-					}, {
-						attributes: {
-							title: 'Delete preset'
-						},
-						type: 'span',
-						children: [{
+					children: [
+						{
 							attributes: {
-								class: 'fa fa-trash'
+								class: 'esgst-float-left',
 							},
-							type: 'i'
-						}]
-					}]
-				}, {
-					attributes: {
-						class: 'esgst-clear'
-					},
-					type: 'div'
-				}]
-			}]);
+							type: 'div',
+							children: [
+								{
+									attributes: {
+										class: 'esgst-hidden',
+										type: 'text',
+										value: preset.name,
+									},
+									type: 'input',
+								},
+								{
+									attributes: {
+										class: 'esgst-clickable',
+									},
+									text: preset.name,
+									type: 'strong',
+								},
+							],
+						},
+						{
+							attributes: {
+								class: 'esgst-clickable esgst-float-right',
+							},
+							type: 'div',
+							children: [
+								{
+									attributes: {
+										class: 'fa fa-edit',
+										title: 'Rename preset',
+									},
+									type: 'i',
+								},
+								{
+									attributes: {
+										title: 'Delete preset',
+									},
+									type: 'span',
+									children: [
+										{
+											attributes: {
+												class: 'fa fa-trash',
+											},
+											type: 'i',
+										},
+									],
+								},
+							],
+						},
+						{
+							attributes: {
+								class: 'esgst-clear',
+							},
+							type: 'div',
+						},
+					],
+				},
+			]);
 			const renameInput = row.firstElementChild.firstElementChild;
 			const heading = renameInput.nextElementSibling;
 			const renameButton = row.firstElementChild.nextElementSibling.firstElementChild;
@@ -1867,10 +2197,19 @@ class Filters extends Module {
 			row.addEventListener('dragstart', this.filters_setSource.bind(this, obj, preset, row));
 			row.addEventListener('dragenter', this.filters_getSource.bind(this, obj, row, table));
 			row.addEventListener('dragend', this.filters_saveSource.bind(this, obj));
-			renameInput.addEventListener('keypress', this.filters_renamePreset.bind(this, obj, heading, preset));
+			renameInput.addEventListener(
+				'keypress',
+				this.filters_renamePreset.bind(this, obj, heading, preset)
+			);
 			heading.addEventListener('click', this.filters_applyPreset.bind(this, obj, popup, preset));
-			renameButton.addEventListener('click', this.filters_showRenameInput.bind(this, heading, renameInput));
-			renameButton.nextElementSibling.addEventListener('click', this.filters_deletePreset.bind(this, obj, deleted, preset, row, undoButton));
+			renameButton.addEventListener(
+				'click',
+				this.filters_showRenameInput.bind(this, heading, renameInput)
+			);
+			renameButton.nextElementSibling.addEventListener(
+				'click',
+				this.filters_deletePreset.bind(this, obj, deleted, preset, row, undoButton)
+			);
 		}
 		popup.open();
 	}
@@ -1880,8 +2219,7 @@ class Filters extends Module {
 		obj.source = row;
 		let i;
 		const presets = Settings.get(obj.key);
-		for (i = presets.length - 1; i > -1 && presets[i].name !== preset.name; i--) {
-		}
+		for (i = presets.length - 1; i > -1 && presets[i].name !== preset.name; i--) {}
 		obj.sourceIndex = i;
 	}
 
@@ -1911,10 +2249,8 @@ class Filters extends Module {
 		if (!preset.rules || !preset.rules.rules || !preset.rules.rules.length) {
 			preset.rules = {
 				condition: 'AND',
-				rules: [
-					{empty: true}
-				],
-				valid: true
+				rules: [{ empty: true }],
+				valid: true,
 			};
 		}
 
@@ -1951,23 +2287,38 @@ class Filters extends Module {
 		const newName = event.currentTarget.value;
 		let i;
 		const presets = Settings.get(obj.key);
-		for (i = presets.length - 1; i > -1 && presets[i].name !== oldName; i--) {
-		}
+		for (i = presets.length - 1; i > -1 && presets[i].name !== oldName; i--) {}
 		preset.name = presets[i].name = newName;
-		const values = [{
-			id: obj.key,
-			value: presets
-		}];
+		const values = [
+			{
+				id: obj.key,
+				value: presets,
+			},
+		];
 		heading.textContent = newName;
 		if (obj.presetInput.value === oldName) {
 			obj.presetDisplay.textContent = obj.presetInput.value = newName;
 		}
-		const types = ['', 'Wishlist', 'Recommended', 'Group', 'New', 'Created', 'Entered', 'Won', 'Groups', 'User', 'Gb', 'Ge', 'Ged'];
+		const types = [
+			'',
+			'Wishlist',
+			'Recommended',
+			'Group',
+			'New',
+			'Created',
+			'Entered',
+			'Won',
+			'Groups',
+			'User',
+			'Gb',
+			'Ge',
+			'Ged',
+		];
 		for (const type of types) {
 			if (Settings.get(`${obj.id}_preset${type}`) === oldName) {
 				values.push({
 					id: `${obj.id}_preset${type}`,
-					value: newName
+					value: newName,
 				});
 			}
 		}
@@ -1978,28 +2329,31 @@ class Filters extends Module {
 
 	async filters_deletePreset(obj, deleted, preset, row, undoButton, event) {
 		const deleteButton = event.currentTarget;
-		createElements(deleteButton, 'inner', [{
-			attributes: {
-				class: 'fa fa-circle-o-notch fa-spin'
+		createElements(deleteButton, 'inner', [
+			{
+				attributes: {
+					class: 'fa fa-circle-o-notch fa-spin',
+				},
+				type: 'i',
 			},
-			type: 'i'
-		}]);
+		]);
 		let i;
 		const presets = Settings.get(obj.key);
-		for (i = presets.length - 1; i > -1 && presets[i].name !== preset.name; i--) {
-		}
+		for (i = presets.length - 1; i > -1 && presets[i].name !== preset.name; i--) {}
 		presets.splice(i, 1);
 		await setSetting(obj.key, presets);
-		createElements(deleteButton, 'inner', [{
-			attributes: {
-				class: 'fa fa-trash'
+		createElements(deleteButton, 'inner', [
+			{
+				attributes: {
+					class: 'fa fa-trash',
+				},
+				type: 'i',
 			},
-			type: 'i'
-		}]);
+		]);
 		row.classList.add('esgst-hidden');
 		deleted.push({
 			details: preset,
-			row: row
+			row: row,
 		});
 		undoButton.classList.remove('esgst-hidden');
 	}
@@ -2023,7 +2377,6 @@ class Filters extends Module {
 			obj.warningsPanel.classList.toggle('esgst-hidden');
 		}
 		obj.filtersPanel.classList.toggle('esgst-hidden');
-
 	}
 
 	filters_filter(obj, unfilter, endless) {
@@ -2037,7 +2390,7 @@ class Filters extends Module {
 		} else if (obj.id === 'tf') {
 			items = this.esgst.currentScope.trades;
 		} else if (obj.id === 'gmf') {
-			items = this.esgst.currentScope.games.map(game => game.game);
+			items = this.esgst.currentScope.games.map((game) => game.game);
 		} else if (obj.id === 'gpf') {
 			items = this.esgst.currentScope.groups;
 		} else {
@@ -2056,30 +2409,59 @@ class Filters extends Module {
 				tableRow = item.container.closest('tr');
 			}
 
-			const outerWrap = tableRow && tableRow.querySelectorAll('.esgst-gc-panel').length < 2 ? tableRow : item.outerWrap;
+			const outerWrap =
+				tableRow && tableRow.querySelectorAll('.esgst-gc-panel').length < 2
+					? tableRow
+					: item.outerWrap;
 
 			if (unfilter) {
-				if (outerWrap.classList.contains('esgst-hidden') && !outerWrap.getAttribute('data-esgst-not-filterable')) {
+				if (
+					outerWrap.classList.contains('esgst-hidden') &&
+					!outerWrap.getAttribute('data-esgst-not-filterable')
+				) {
 					outerWrap.classList.remove('esgst-hidden');
 				}
-				if (obj.id === 'cf' && outerWrap.parentElement.classList.contains('esgst-hidden') && !outerWrap.parentElement.getAttribute('data-esgst-not-filterable')) {
+				if (
+					obj.id === 'cf' &&
+					outerWrap.parentElement.classList.contains('esgst-hidden') &&
+					!outerWrap.parentElement.getAttribute('data-esgst-not-filterable')
+				) {
 					outerWrap.parentElement.classList.remove('esgst-hidden');
 				}
 			} else if (this.filters_filterItem(obj.filters, item, obj.rules)) {
-				if (outerWrap.classList.contains('esgst-hidden') && !outerWrap.getAttribute('data-esgst-not-filterable')) {
+				if (
+					outerWrap.classList.contains('esgst-hidden') &&
+					!outerWrap.getAttribute('data-esgst-not-filterable')
+				) {
 					outerWrap.classList.remove('esgst-hidden');
 				}
-				if (obj.id === 'cf' && outerWrap.parentElement.classList.contains('esgst-hidden') && !outerWrap.parentElement.getAttribute('data-esgst-not-filterable')) {
+				if (
+					obj.id === 'cf' &&
+					outerWrap.parentElement.classList.contains('esgst-hidden') &&
+					!outerWrap.parentElement.getAttribute('data-esgst-not-filterable')
+				) {
 					outerWrap.parentElement.classList.remove('esgst-hidden');
 				}
-				if (!outerWrap.classList.contains('esgst-hidden') && !outerWrap.parentElement.classList.contains('esgst-hidden') && item.points && !item.entered) {
+				if (
+					!outerWrap.classList.contains('esgst-hidden') &&
+					!outerWrap.parentElement.classList.contains('esgst-hidden') &&
+					item.points &&
+					!item.entered
+				) {
 					pointsCount += item.points;
 				}
 			} else {
-				if (!outerWrap.classList.contains('esgst-hidden') && !outerWrap.getAttribute('data-esgst-not-filterable')) {
+				if (
+					!outerWrap.classList.contains('esgst-hidden') &&
+					!outerWrap.getAttribute('data-esgst-not-filterable')
+				) {
 					outerWrap.classList.add('esgst-hidden');
 				}
-				if (obj.id === 'cf' && !outerWrap.parentElement.classList.contains('esgst-hidden') && !outerWrap.parentElement.getAttribute('data-esgst-not-filterable')) {
+				if (
+					obj.id === 'cf' &&
+					!outerWrap.parentElement.classList.contains('esgst-hidden') &&
+					!outerWrap.parentElement.getAttribute('data-esgst-not-filterable')
+				) {
 					outerWrap.parentElement.classList.add('esgst-hidden');
 				}
 				filteredCount += 1;
@@ -2092,7 +2474,7 @@ class Filters extends Module {
 			obj.pointsCount.textContent = pointsCount;
 		}
 		if ((obj.id === 'gf' || obj.id === 'gmf') && this.esgst.gcToFetch) {
-			const games = {apps: {}, subs: {}};
+			const games = { apps: {}, subs: {} };
 			for (const id in this.esgst.gcToFetch.apps) {
 				if (this.esgst.gcToFetch.apps.hasOwnProperty(id)) {
 					games.apps[id] = [...this.esgst.gcToFetch.apps[id]];
@@ -2164,7 +2546,8 @@ class Filters extends Module {
 
 		if (
 			!filter.check ||
-			(filter.category && (!Settings.get('gc') || !Settings.get(filter.category) || !item.gcReady)) ||
+			(filter.category &&
+				(!Settings.get('gc') || !Settings.get(filter.category) || !item.gcReady)) ||
 			(item.sgTools && key.match(/^(chance|chancePerPoint|comments|entries|ratio)$/))
 		) {
 			return filtered;
@@ -2183,13 +2566,12 @@ class Filters extends Module {
 
 				const ruleValue = rules.type === 'date' ? new Date(rules.value).getTime() : rules.value;
 
-				const value = key === 'minutesToEnd'
-					? ((item.endTime - Date.now()) / 60000)
-					: (
-						key === 'minutesFromStart'
-						? ((Date.now() - item.startTime) / 60000)
-						: item[key]
-					);
+				const value =
+					key === 'minutesToEnd'
+						? (item.endTime - Date.now()) / 60000
+						: key === 'minutesFromStart'
+						? (Date.now() - item.startTime) / 60000
+						: item[key];
 				/**
 				 * @property {string} rules.operator
 				 */
@@ -2226,22 +2608,26 @@ class Filters extends Module {
 				if (key === 'regionRestricted' && this.esgst.parameters.region_restricted) break;
 
 				if (
-					(
-						key !== 'fullCV' || (
-							(rules.value || item.reducedCV || item.noCV) &&
-							(!rules.value || (!item.reducedCV && !item.noCV))
-						)
-					) &&
-					(
-						key === 'fullCV' || (
-							(!rules.value || item[key]) && (rules.value || !item[key])
-						)
-					)
-				) break;
+					(key !== 'fullCV' ||
+						((rules.value || item.reducedCV || item.noCV) &&
+							(!rules.value || (!item.reducedCV && !item.noCV)))) &&
+					(key === 'fullCV' || ((!rules.value || item[key]) && (rules.value || !item[key])))
+				)
+					break;
 
 				filtered = false;
 
-				if (!notMain && !item.deleted && key === 'ended' && !rules.value && (this.esgst.createdPath || this.esgst.enteredPath || this.esgst.wonPath || this.esgst.userPath || this.esgst.groupPath)) {
+				if (
+					!notMain &&
+					!item.deleted &&
+					key === 'ended' &&
+					!rules.value &&
+					(this.esgst.createdPath ||
+						this.esgst.enteredPath ||
+						this.esgst.wonPath ||
+						this.esgst.userPath ||
+						this.esgst.groupPath)
+				) {
 					this.esgst.stopEs = true;
 				}
 
@@ -2260,8 +2646,7 @@ class Filters extends Module {
 					}
 
 					let i;
-					for (i = list.length - 1; i > -1 && item[key].indexOf(list[i]) < 0; i--) {
-					}
+					for (i = list.length - 1; i > -1 && item[key].indexOf(list[i]) < 0; i--) {}
 					filtered = i > -1;
 				} else {
 					if (!item[key] || !Array.isArray(item[key])) {
@@ -2269,8 +2654,7 @@ class Filters extends Module {
 					}
 
 					let i;
-					for (i = list.length - 1; i > -1 && item[key].indexOf(list[i]) < 0; i--) {
-					}
+					for (i = list.length - 1; i > -1 && item[key].indexOf(list[i]) < 0; i--) {}
 					filtered = i < 0;
 				}
 

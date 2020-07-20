@@ -18,12 +18,24 @@ class GeneralHeaderRefresher extends Module {
 		super();
 		this.info = {
 			description: [
-				['ul', [
-					['li', `Refreshes the header icons (created/won/inbox for SteamGIFTS and inbox for SteamTrades) and the points on SteamGifts (in any page) every specified number of minutes.`],
-					['li', `There are also options to notify you when there are new wishlist giveaways open, when the key for a game you won is delivered, when you reach 400P and when you receive a new message.`],
-					['li', 'You can upload a custom sound for the browser notifications.'],
-					['li', `If you enable the options to show browser notifications, you will be asked to give the permission to ESGST by your browser.`]
-				]]
+				[
+					'ul',
+					[
+						[
+							'li',
+							`Refreshes the header icons (created/won/inbox for SteamGIFTS and inbox for SteamTrades) and the points on SteamGifts (in any page) every specified number of minutes.`,
+						],
+						[
+							'li',
+							`There are also options to notify you when there are new wishlist giveaways open, when the key for a game you won is delivered, when you reach 400P and when you receive a new message.`,
+						],
+						['li', 'You can upload a custom sound for the browser notifications.'],
+						[
+							'li',
+							`If you enable the options to show browser notifications, you will be asked to give the permission to ESGST by your browser.`,
+						],
+					],
+				],
 			],
 			features: {
 				hr_w: {
@@ -33,32 +45,32 @@ class GeneralHeaderRefresher extends Module {
 								hr_w_n_s: {
 									name: 'Play a sound with this notification.',
 									inputItems: true,
-									sg: true
-								}
+									sg: true,
+								},
 							},
 							name: 'Also show as a browser notification.',
-							sg: true
+							sg: true,
 						},
 						hr_w_h: {
 							name: 'Only indicate for giveaways ending in a specified number of hours.',
 							inputItems: [
 								{
 									id: 'hr_w_hours',
-									prefix: `Hours: `
-								}
+									prefix: `Hours: `,
+								},
 							],
-							sg: true
-						}
+							sg: true,
+						},
 					},
 					inputItems: [
 						{
 							id: 'hr_w_format',
 							prefix: `Format: `,
-							tooltip: `Use # to represent a number. For example, '(#❤)' would show '(8❤)' if there are 8 unentered wishlist giveaways open.`
-						}
+							tooltip: `Use # to represent a number. For example, '(#❤)' would show '(8❤)' if there are 8 unentered wishlist giveaways open.`,
+						},
 					],
-					name: 'Indicate if there are unentered wishlist giveaways open in the tab\'s title.',
-					sg: true
+					name: "Indicate if there are unentered wishlist giveaways open in the tab's title.",
+					sg: true,
 				},
 				hr_g: {
 					features: {
@@ -67,58 +79,65 @@ class GeneralHeaderRefresher extends Module {
 								hr_g_n_s: {
 									name: 'Play a sound with this notification.',
 									inputItems: true,
-									sg: true
-								}
+									sg: true,
+								},
 							},
 							name: 'Also show as a browser notification.',
-							sg: true
-						}
+							sg: true,
+						},
 					},
 					inputItems: [
 						{
 							id: 'hr_g_format',
-							prefix: `Format: `
-						}
+							prefix: `Format: `,
+						},
 					],
-					name: 'Indicate if there are unviewed keys for won gifts in the tab\'s title.',
-					sg: true
+					name: "Indicate if there are unviewed keys for won gifts in the tab's title.",
+					sg: true,
 				},
 				hr_b: {
-					name: 'Keep refreshing in the background when you go to another tab or minimize the browser.',
+					name:
+						'Keep refreshing in the background when you go to another tab or minimize the browser.',
 					sg: true,
-					st: true
+					st: true,
 				},
 				hr_c: {
 					description: [
-						['ul', [
-							['li', `With this option disabled, notifications will automatically close after a few seconds.`]
-						]]
+						[
+							'ul',
+							[
+								[
+									'li',
+									`With this option disabled, notifications will automatically close after a few seconds.`,
+								],
+							],
+						],
 					],
 					name: 'Only close notifications manually.',
 					sg: true,
-					st: true
+					st: true,
 				},
 				hr_fp: {
 					features: {
 						hr_fp_s: {
 							name: 'Play a sound with this notification.',
 							inputItems: true,
-							sg: true
-						}
+							sg: true,
+						},
 					},
 					name: 'Show a browser notification if there are 400P or more.',
-					sg: true
+					sg: true,
 				},
 				hr_p: {
 					inputItems: [
 						{
 							id: 'hr_p_format',
 							prefix: `Format: `,
-							tooltip: `Use # to represent a number. For example, '(#P)' would show '(100P)' if you have 100 points.`
-						}
+							tooltip: `Use # to represent a number. For example, '(#P)' would show '(100P)' if you have 100 points.`,
+						},
 					],
-					name: 'Show the number of points in the tab\'s title.',
-					sg: true
+					name: "Show the number of points in the tab's title.",
+					sg: true,
 				},
 				hr_m: {
 					features: {
@@ -128,54 +147,60 @@ class GeneralHeaderRefresher extends Module {
 									name: 'Play a sound with this notification.',
 									inputItems: true,
 									sg: true,
-									st: true
-								}
+									st: true,
+								},
 							},
 							name: 'Also show as a browser notification.',
 							sg: true,
-							st: true
-						}
+							st: true,
+						},
 					},
-					name: 'Show the number of unread messages in the tab\'s icon.',
+					name: "Show the number of unread messages in the tab's icon.",
 					sg: true,
-					st: true
+					st: true,
 				},
 				hr_a: {
 					description: [
-						['ul', [
-							['li', `With this option disabled, clicking on a notification will always open a new tab.`]
-						]]
+						[
+							'ul',
+							[
+								[
+									'li',
+									`With this option disabled, clicking on a notification will always open a new tab.`,
+								],
+							],
+						],
 					],
 					features: {
 						hr_a_r: {
 							name: 'Refresh the page after setting it as active.',
 							sg: true,
-							st: true
+							st: true,
 						},
 						hr_a_a: {
 							name: `If the page is not open, set any SteamGifts/SteamTrades tab as active.`,
 							sg: true,
-							st: true
-						}
+							st: true,
+						},
 					},
 					extensionOnly: true,
 					name: `When clicking on a browser notification, check if the related page is open and set it as active.`,
 					sg: true,
-					st: true
-				}
+					st: true,
+				},
 			},
 			inputItems: [
 				{
 					id: 'hr_minutes',
 					prefix: 'Refresh every ',
-					suffix: ' minutes'
-				}
+					suffix: ' minutes',
+				},
 			],
 			id: 'hr',
 			name: 'Header Refresher',
 			sg: true,
 			st: true,
-			type: 'general'
+			type: 'general',
 		};
 	}
 
@@ -198,33 +223,49 @@ class GeneralHeaderRefresher extends Module {
 	}
 
 	async startRefresher() {
-		const response = await FetchRequest.get(Shared.esgst.sg ? '/giveaways/search?type=wishlist' : '/');
+		const response = await FetchRequest.get(
+			Shared.esgst.sg ? '/giveaways/search?type=wishlist' : '/'
+		);
 
 		await this.refreshHeader(response.html);
 
-		this.refresher = window.setTimeout(() => this.continueRefresher(), Settings.get('hr_minutes') * 60000);
+		this.refresher = window.setTimeout(
+			() => this.continueRefresher(),
+			Settings.get('hr_minutes') * 60000
+		);
 	}
 
 	async continueRefresher() {
 		const cache = JSON.parse(LocalStorage.get('hrCache'));
 		const now = Date.now();
 
-		if (cache.username !== Settings.get('username') || now - cache.timestamp > Settings.get('hr_minutes') * 60000) {
+		if (
+			cache.username !== Settings.get('username') ||
+			now - cache.timestamp > Settings.get('hr_minutes') * 60000
+		) {
 			cache.timestamp = now;
 			LocalStorage.set('hrCache', JSON.stringify(cache));
 
-			const response = await FetchRequest.get(Shared.esgst.sg ? '/giveaways/search?type=wishlist' : '/');
+			const response = await FetchRequest.get(
+				Shared.esgst.sg ? '/giveaways/search?type=wishlist' : '/'
+			);
 
 			await this.refreshHeader(response.html);
 
-			this.refresher = window.setTimeout(() => this.continueRefresher(), Settings.get('hr_minutes') * 60000);
+			this.refresher = window.setTimeout(
+				() => this.continueRefresher(),
+				Settings.get('hr_minutes') * 60000
+			);
 		} else {
 			await this.refreshHeader(null, cache);
 
 			this.wishlist = cache.wishlist;
 			this.newWishlist = cache.newWishlist;
 
-			this.refresher = window.setTimeout(() => this.continueRefresher(), Settings.get('hr_minutes') * 60000);
+			this.refresher = window.setTimeout(
+				() => this.continueRefresher(),
+				Settings.get('hr_minutes') * 60000
+			);
 		}
 	}
 
@@ -250,7 +291,11 @@ class GeneralHeaderRefresher extends Module {
 					const wonContainer = header.buttonContainers['giveawaysWon'];
 
 					if (wonContainer) {
-						await Shared.header.updateCounter('giveawaysWon', wonContainer.data.counter, wonContainer.data.isFlashing);
+						await Shared.header.updateCounter(
+							'giveawaysWon',
+							wonContainer.data.counter,
+							wonContainer.data.isFlashing
+						);
 					}
 
 					const messagesContainer = header.buttonContainers['messages'];
@@ -274,12 +319,27 @@ class GeneralHeaderRefresher extends Module {
 						const codes = [];
 						const now = Date.now();
 
-						const giveaways = await Shared.esgst.modules.giveaways.giveaways_get(context, false, null, true);
+						const giveaways = await Shared.esgst.modules.giveaways.giveaways_get(
+							context,
+							false,
+							null,
+							true
+						);
 
 						for (const giveaway of giveaways) {
 							codes.push(giveaway.code);
 
-							if (giveaway && giveaway.level <= Session.counters.level.base && !giveaway.pinned && !giveaway.entered && (!Shared.esgst.giveaways[giveaway.code] || (!Shared.esgst.giveaways[giveaway.code].visited && !Shared.esgst.giveaways[giveaway.code].hidden)) && (!Settings.get('hr_w_h') || giveaway.endTime - now < Settings.get('hr_w_hours') * 3600000)) {
+							if (
+								giveaway &&
+								giveaway.level <= Session.counters.level.base &&
+								!giveaway.pinned &&
+								!giveaway.entered &&
+								(!Shared.esgst.giveaways[giveaway.code] ||
+									(!Shared.esgst.giveaways[giveaway.code].visited &&
+										!Shared.esgst.giveaways[giveaway.code].hidden)) &&
+								(!Settings.get('hr_w_h') ||
+									giveaway.endTime - now < Settings.get('hr_w_hours') * 3600000)
+							) {
 								this.wishlist += 1;
 
 								if (cache.indexOf(giveaway.code) < 0) {
@@ -298,7 +358,12 @@ class GeneralHeaderRefresher extends Module {
 
 						LocalStorage.set('hrWishlistCache', JSON.stringify(cache));
 
-						await EventDispatcher.dispatch(Events.WISHLIST_UPDATED, 0, this.newWishlist, this.wishlist);
+						await EventDispatcher.dispatch(
+							Events.WISHLIST_UPDATED,
+							0,
+							this.newWishlist,
+							this.wishlist
+						);
 					}
 
 					break;
@@ -328,7 +393,12 @@ class GeneralHeaderRefresher extends Module {
 					await Shared.header.updatePoints(cache.points);
 					await Shared.header.updateLevel(cache.level);
 
-					await EventDispatcher.dispatch(Events.WISHLIST_UPDATED, this.newWishlist, cache.newWishlist, cache.wishlist);
+					await EventDispatcher.dispatch(
+						Events.WISHLIST_UPDATED,
+						this.newWishlist,
+						cache.newWishlist,
+						cache.wishlist
+					);
 
 					break;
 				}
@@ -415,7 +485,9 @@ class GeneralHeaderRefresher extends Module {
 			});
 		}
 
-		this.pointsTitle = Settings.get('hr_p') ? `${Settings.get('hr_p_format').replace(/#/, newPoints)}` : null;
+		this.pointsTitle = Settings.get('hr_p')
+			? `${Settings.get('hr_p_format').replace(/#/, newPoints)}`
+			: null;
 
 		this.notifyTitleChange();
 	}
@@ -423,12 +495,19 @@ class GeneralHeaderRefresher extends Module {
 	notifyWishlist(firstRun, oldWishlist, newWishlist, wishlist) {
 		if (newWishlist && Settings.get('hr_w') && Settings.get('hr_w_n') && !firstRun) {
 			this.showNotification({
-				msg: Settings.get('hr_w_h') ? `You have ${newWishlist} new wishlist giveaways ending in ${Settings.get('hr_w_hours')} hours.` : `You have ${newWishlist} new wishlist giveaways.`,
+				msg: Settings.get('hr_w_h')
+					? `You have ${newWishlist} new wishlist giveaways ending in ${Settings.get(
+							'hr_w_hours'
+					  )} hours.`
+					: `You have ${newWishlist} new wishlist giveaways.`,
 				wishlist: true,
 			});
 		}
 
-		this.wishlistTitle = wishlist && Settings.get('hr_w') ? `${Settings.get('hr_w_format').replace(/#/, wishlist)}` : null;
+		this.wishlistTitle =
+			wishlist && Settings.get('hr_w')
+				? `${Settings.get('hr_w_format').replace(/#/, wishlist)}`
+				: null;
 
 		this.notifyTitleChange();
 	}
@@ -460,18 +539,21 @@ class GeneralHeaderRefresher extends Module {
 	}
 
 	updateCache() {
-		LocalStorage.set('hrCache', JSON.stringify({
-			created: Session.counters.created,
-			level: Session.counters.level,
-			messages: Session.counters.messages,
-			newWishlist: this.newWishlist,
-			points: Session.counters.points,
-			timestamp: Date.now(),
-			username: Session.user.username,
-			wishlist: this.wishlist,
-			won: Session.counters.won,
-			wonDelivered: Session.counters.wonDelivered,
-		}));
+		LocalStorage.set(
+			'hrCache',
+			JSON.stringify({
+				created: Session.counters.created,
+				level: Session.counters.level,
+				messages: Session.counters.messages,
+				newWishlist: this.newWishlist,
+				points: Session.counters.points,
+				timestamp: Date.now(),
+				username: Session.user.username,
+				wishlist: this.wishlist,
+				won: Session.counters.won,
+				wonDelivered: Session.counters.wonDelivered,
+			})
+		);
 	}
 
 	async showNotification(details) {
@@ -481,15 +563,28 @@ class GeneralHeaderRefresher extends Module {
 			return;
 		}
 
-		if ((details.won && Settings.get('hr_g_n_s')) || (details.inbox && Settings.get('hr_m_n_s')) || (details.points && Settings.get('hr_fp_s')) || (details.wishlist && Settings.get('hr_w_n_s'))) {
+		if (
+			(details.won && Settings.get('hr_g_n_s')) ||
+			(details.inbox && Settings.get('hr_m_n_s')) ||
+			(details.points && Settings.get('hr_fp_s')) ||
+			(details.wishlist && Settings.get('hr_w_n_s'))
+		) {
 			try {
 				if (!this.audioContext) {
 					this.audioContext = new AudioContext();
 
-					this.wonPlayer = await this.createPlayer(Settings.get('hr_g_n_s_sound') || this.getDefaultSound());
-					this.messagesPlayer = await this.createPlayer(Settings.get('hr_m_n_s_sound') || this.getDefaultSound());
-					this.pointsPlayer = await this.createPlayer(Settings.get('hr_fp_s_sound') || this.getDefaultSound());
-					this.wishlistPlayer = await this.createPlayer(Settings.get('hr_w_n_s_sound') || this.getDefaultSound());
+					this.wonPlayer = await this.createPlayer(
+						Settings.get('hr_g_n_s_sound') || this.getDefaultSound()
+					);
+					this.messagesPlayer = await this.createPlayer(
+						Settings.get('hr_m_n_s_sound') || this.getDefaultSound()
+					);
+					this.pointsPlayer = await this.createPlayer(
+						Settings.get('hr_fp_s_sound') || this.getDefaultSound()
+					);
+					this.wishlistPlayer = await this.createPlayer(
+						Settings.get('hr_w_n_s_sound') || this.getDefaultSound()
+					);
 				}
 
 				if (details.won && this.wonPlayer) {
@@ -554,7 +649,7 @@ class GeneralHeaderRefresher extends Module {
 		const bytes = new Uint8Array(buffer);
 
 		for (let i = buffer.byteLength - 1; i > -1; i--) {
-			bytes[i] = binary.charCodeAt(i) & 0xFF;
+			bytes[i] = binary.charCodeAt(i) & 0xff;
 		}
 
 		if (!this.audioContext) {

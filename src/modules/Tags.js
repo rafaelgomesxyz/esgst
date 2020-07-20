@@ -5,8 +5,7 @@ import { Utils } from '../lib/jsUtils';
 import { common } from './Common';
 import { Settings } from '../class/Settings';
 
-const
-	createElements = common.createElements.bind(common),
+const createElements = common.createElements.bind(common),
 	formatTags = common.formatTags.bind(common),
 	lockAndSaveDiscussions = common.lockAndSaveDiscussions.bind(common),
 	lockAndSaveGames = common.lockAndSaveGames.bind(common),
@@ -17,9 +16,7 @@ const
 	saveUser = common.saveUser.bind(common),
 	saveUsers = common.saveUsers.bind(common),
 	setSetting = common.setSetting.bind(common),
-	triggerSetOnEnter = common.triggerSetOnEnter.bind(common)
-;
-
+	triggerSetOnEnter = common.triggerSetOnEnter.bind(common);
 class Tags extends Module {
 	constructor(id) {
 		super();
@@ -96,11 +93,13 @@ class Tags extends Module {
 			if (tagCount.hasOwnProperty(tag)) {
 				this.esgst[`${this.id}Tags`].push({
 					count: tagCount[tag],
-					tag
+					tag,
 				});
 			}
 		}
-		this.esgst[`${this.id}Tags`] = Utils.sortArray(this.esgst[`${this.id}Tags`], true, 'count').map(x => x.tag);
+		this.esgst[`${this.id}Tags`] = Utils.sortArray(this.esgst[`${this.id}Tags`], true, 'count').map(
+			(x) => x.tag
+		);
 		if (Settings.get(`${this.id}_s`)) {
 			this.esgst.documentEvents.keydown.add(this.tags_navigateSuggestions.bind(this));
 			this.esgst.documentEvents.click.add(this.tags_closeSuggestions.bind(this));
@@ -157,30 +156,35 @@ class Tags extends Module {
 	async tags_addButtons(items) {
 		items = items.all || items;
 		for (const item of items) {
-			const obj = {item, key: this.id, colorSetting: Settings.get(`${this.id}_colors`)};
+			const obj = { item, key: this.id, colorSetting: Settings.get(`${this.id}_colors`) };
 			if (!item.container.getElementsByClassName('esgst-tag-button')[0]) {
-				createElements(item.tagContext, item.tagPosition, [{
-					attributes: {
-						class: 'esgst-tag-button esgst-faded',
-						['data-draggable-id']: this.id,
-						title: getFeatureTooltip(this.id, 'Edit tags')
+				createElements(item.tagContext, item.tagPosition, [
+					{
+						attributes: {
+							class: 'esgst-tag-button esgst-faded',
+							['data-draggable-id']: this.id,
+							title: getFeatureTooltip(this.id, 'Edit tags'),
+						},
+						type: 'a',
+						children: [
+							{
+								attributes: {
+									class: 'fa fa-tag',
+								},
+								type: 'i',
+							},
+							{
+								attributes: {
+									class: 'esgst-tags',
+								},
+								type: 'span',
+							},
+						],
 					},
-					type: 'a',
-					children: [{
-						attributes: {
-							class: 'fa fa-tag'
-						},
-						type: 'i'
-					}, {
-						attributes: {
-							class: 'esgst-tags'
-						},
-						type: 'span'
-					}]
-				}]).addEventListener('click', this.tags_openPopup.bind(this, obj), true);
+				]).addEventListener('click', this.tags_openPopup.bind(this, obj), true);
 			}
 			if (item.saved && item.saved.tags) {
-				item.tags = item.saved.tags.map(tag => tag.toLowerCase());
+				item.tags = item.saved.tags.map((tag) => tag.toLowerCase());
 				await this.tags_addTags(item, obj, item.saved.tags);
 			}
 		}
@@ -191,10 +195,19 @@ class Tags extends Module {
 			Discussions: 'dt',
 			Games: 'gt',
 			Groups: 'gpt',
-			Users: 'ut'
+			Users: 'ut',
 		}[this.id];
-		const obj = {items: [], key};
-		obj.items = sortArray(items.filter(item => item.mm && (item.outerWrap.offsetParent || item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))), false, 'code');
+		const obj = { items: [], key };
+		obj.items = sortArray(
+			items.filter(
+				(item) =>
+					item.mm &&
+					(item.outerWrap.offsetParent ||
+						item.outerWrap.closest(`.esgst-gv-container:not(.is-hidden):not(.esgst-hidden)`))
+			),
+			false,
+			'code'
+		);
 		const savedDiscussions = JSON.parse(getValue('discussions'));
 		const savedGames = JSON.parse(getValue('games'));
 		const savedGroups = JSON.parse(getValue('groups'));
@@ -211,7 +224,7 @@ class Tags extends Module {
 					break;
 				}
 				case 'gpt': {
-					const group = savedGroups.filter(subGroup => subGroup.code === item.code)[0];
+					const group = savedGroups.filter((subGroup) => subGroup.code === item.code)[0];
 					if (group && group.tags && Array.isArray(group.tags)) {
 						item.tags = group.tags;
 					}
@@ -225,7 +238,7 @@ class Tags extends Module {
 					break;
 				}
 				case 'ut': {
-					const user = await getUser(savedUsers, {username: item.code});
+					const user = await getUser(savedUsers, { username: item.code });
 					if (user && user.tags && Array.isArray(user.tags)) {
 						item.tags = user.tags;
 					}
@@ -237,7 +250,9 @@ class Tags extends Module {
 		obj.sharedTags = new Set();
 		for (const item of obj.items) {
 			for (const tag of item.tags) {
-				if (obj.items.length === obj.items.filter(subItem => subItem.tags.indexOf(tag) > -1).length) {
+				if (
+					obj.items.length === obj.items.filter((subItem) => subItem.tags.indexOf(tag) > -1).length
+				) {
 					obj.sharedTags.add(tag);
 				} else {
 					obj.hasUnique = true;
@@ -260,98 +275,122 @@ class Tags extends Module {
 		}
 		obj.popup = new Popup({
 			addScrollable: true,
-			buttons: [{
-				color1: 'green',
-				color2: 'grey',
-				icon1: 'fa-check',
-				icon2: 'fa-circle-o-notch fa-spin',
-				title1: 'Save',
-				title2: 'Saving...',
-				callback1: this.tags_saveTags.bind(this, obj)
-			}],
+			buttons: [
+				{
+					color1: 'green',
+					color2: 'grey',
+					icon1: 'fa-check',
+					icon2: 'fa-circle-o-notch fa-spin',
+					title1: 'Save',
+					title2: 'Saving...',
+					callback1: this.tags_saveTags.bind(this, obj),
+				},
+			],
 			icon: 'fa-tag',
 			isTemp: true,
 			title: [
 				'Edit tags for ',
 				['span', (obj.items && `${obj.items.length} items`) || obj.item.name || obj.item.id],
-				`:`
-			]
+				`:`,
+			],
 		});
-		createElements(obj.popup.description, 'beforeEnd', [{
-			attributes: {
-				class: 'esgst-description'
+		createElements(obj.popup.description, 'beforeEnd', [
+			{
+				attributes: {
+					class: 'esgst-description',
+				},
+				type: 'div',
+				children: [
+					{
+						text: 'Drag the tags to move them.',
+						type: 'p',
+					},
+					{
+						type: 'br',
+					},
+					{
+						text: `When editing a tag color, it will also alter the color for all items with that tag (you have to refresh the page for it to take effect).`,
+						type: 'p',
+					},
+					...(obj.hasUnique
+						? [
+								{
+									type: 'br',
+								},
+								{
+									text: `[*] means that there are tags that are not shared between all items. If you delete the [*] tag, those unique tags will be deleted.`,
+									type: 'p',
+								},
+						  ]
+						: []),
+				],
 			},
-			type: 'div',
-			children: [{
-				text: 'Drag the tags to move them.',
-				type: 'p'
-			}, {
-				type: 'br'
-			}, {
-				text: `When editing a tag color, it will also alter the color for all items with that tag (you have to refresh the page for it to take effect).`,
-				type: 'p'
-			}, ...(obj.hasUnique ? [{
-				type: 'br'
-			}, {
-				text: `[*] means that there are tags that are not shared between all items. If you delete the [*] tag, those unique tags will be deleted.`,
-				type: 'p'
-			}] : [])]
-		}]);
-		obj.tags = createElements(obj.popup.description, 'beforeEnd', [{
-			attributes: {
-				class: 'esgst-tags'
+		]);
+		obj.tags = createElements(obj.popup.description, 'beforeEnd', [
+			{
+				attributes: {
+					class: 'esgst-tags',
+				},
+				type: 'div',
 			},
-			type: 'div'
-		}]);
-		obj.input = createElements(obj.popup.description, 'beforeEnd', [{
-			attributes: {
-				type: 'text'
+		]);
+		obj.input = createElements(obj.popup.description, 'beforeEnd', [
+			{
+				attributes: {
+					type: 'text',
+				},
+				events: {
+					focus: this.tags_createTags.bind(this, obj),
+					input: this.tags_createTags.bind(this, obj),
+					keydown: triggerSetOnEnter.bind(this, obj.popup.buttons[0]),
+				},
+				type: 'input',
 			},
-			events: {
-				focus: this.tags_createTags.bind(this, obj),
-				input: this.tags_createTags.bind(this, obj),
-				keydown: triggerSetOnEnter.bind(this, obj.popup.buttons[0])
+		]);
+		createElements(obj.popup.description, 'beforeEnd', [
+			{
+				attributes: {
+					class: 'esgst-tag-list-button esgst-clickable fa fa-list',
+					title: 'Select from existing tags',
+				},
+				type: 'i',
 			},
-			type: 'input'
-		}]);
-		createElements(obj.popup.description, 'beforeEnd', [{
-			attributes: {
-				class: 'esgst-tag-list-button esgst-clickable fa fa-list',
-				title: 'Select from existing tags'
-			},
-			type: 'i'
-		}]).addEventListener('click', this.tags_showTagList.bind(this, obj));
+		]).addEventListener('click', this.tags_showTagList.bind(this, obj));
 		const children = [];
 		if (Settings.get(`${obj.key}_s`)) {
-			obj.suggestions = createElements(obj.popup.description, 'beforeEnd', [{
-				attributes: {
-					class: 'esgst-tag-suggestions esgst-hidden'
+			obj.suggestions = createElements(obj.popup.description, 'beforeEnd', [
+				{
+					attributes: {
+						class: 'esgst-tag-suggestions esgst-hidden',
+					},
+					type: 'div',
 				},
-				type: 'div'
-			}]);
+			]);
 			for (const tag of this.esgst[`${obj.key}Tags`]) {
 				children.push({
 					attributes: {
-						class: 'esgst-tag-suggestion esgst-hidden'
+						class: 'esgst-tag-suggestion esgst-hidden',
 					},
 					events: {
 						click: this.tags_addSuggestion.bind(this, obj),
 						mouseenter: this.tags_selectSuggestion,
-						mouseleave: this.tags_unselectSuggestion
+						mouseleave: this.tags_unselectSuggestion,
 					},
 					text: tag,
-					type: 'div'
+					type: 'div',
 				});
 			}
 			createElements(obj.suggestions, 'inner', children);
 		}
-		createElements(obj.popup.description, 'beforeEnd', [{
-			attributes: {
-				class: 'esgst-description'
+		createElements(obj.popup.description, 'beforeEnd', [
+			{
+				attributes: {
+					class: 'esgst-description',
+				},
+				text: `Use commas to separate tags, for example: Tag1, Tag2, ...`,
+				type: 'div',
 			},
-			text: `Use commas to separate tags, for example: Tag1, Tag2, ...`,
-			type: 'div'
-		}]);
+		]);
 		obj.popup.description.appendChild(obj.popup.buttons[0].set);
 		obj.popup.open(this.tags_loadTags.bind(this, obj));
 	}
@@ -376,13 +415,13 @@ class Tags extends Module {
 						}
 						discussions[item.code] = {
 							name: item.name,
-							tags: item.multiTags
+							tags: item.multiTags,
 						};
 					}
 				} else {
 					discussions[obj.item.id] = {
 						name: obj.item.name,
-						tags
+						tags,
 					};
 				}
 				await lockAndSaveDiscussions(discussions);
@@ -403,21 +442,21 @@ class Tags extends Module {
 						groups[item.code] = {
 							code: item.code,
 							name: item.name,
-							tags: item.multiTags
+							tags: item.multiTags,
 						};
 					}
 				} else {
 					groups[obj.item.id] = {
 						code: obj.item.id,
 						name: obj.item.name,
-						tags
+						tags,
 					};
 				}
 				await lockAndSaveGroups(groups);
 				break;
 			}
 			case 'gt': {
-				const games = {apps: {}, subs: {}};
+				const games = { apps: {}, subs: {} };
 				if (obj.items) {
 					for (const item of obj.items) {
 						item.multiTags = tags;
@@ -428,10 +467,10 @@ class Tags extends Module {
 								item.multiTags.splice(index, 1, ...item.uniqueTags);
 							}
 						}
-						games[item.type][item.code] = {tags: item.multiTags};
+						games[item.type][item.code] = { tags: item.multiTags };
 					}
 				} else {
-					games[obj.item.type][obj.item.id] = {tags};
+					games[obj.item.type][obj.item.id] = { tags };
 				}
 				await lockAndSaveGames(games);
 				break;
@@ -452,8 +491,8 @@ class Tags extends Module {
 							steamId: item.sg ? null : item.code,
 							username: item.sg ? item.code : null,
 							values: {
-								tags: item.multiTags
-							}
+								tags: item.multiTags,
+							},
 						});
 					}
 					await saveUsers(users);
@@ -461,7 +500,7 @@ class Tags extends Module {
 					const user = {
 						steamId: obj.item.steamId,
 						username: obj.item.username,
-						values: {tags}
+						values: { tags },
 					};
 					await saveUser(null, null, user);
 				}
@@ -486,14 +525,20 @@ class Tags extends Module {
 				items = [];
 				for (const scopeKey in this.esgst.scopes) {
 					const scope = this.esgst.scopes[scopeKey];
-					items = items.concat(scope.discussions.filter(discussion => discussion.code === item.code || discussion.code === item.id));
+					items = items.concat(
+						scope.discussions.filter(
+							(discussion) => discussion.code === item.code || discussion.code === item.id
+						)
+					);
 				}
 				break;
 			case 'gpt':
 				items = this.esgst.currentGroups[item.code || item.id].elements;
 				break;
 			case 'gt':
-				items = (await this.esgst.modules.games.games_get(document, true, this.esgst.games))[item.type][item.id || item.code];
+				items = (await this.esgst.modules.games.games_get(document, true, this.esgst.games))[
+					item.type
+				][item.id || item.code];
 				break;
 			case 'ut':
 				items = this.esgst.currentUsers[item.code || item.id].elements;
@@ -502,10 +547,15 @@ class Tags extends Module {
 		if (!items) {
 			return;
 		}
-		const elements = tags.length && tags[0] ? tags.map(x => this.tags_template(x)) : [{
-			text: '',
-			type: 'node'
-		}];
+		const elements =
+			tags.length && tags[0]
+				? tags.map((x) => this.tags_template(x))
+				: [
+						{
+							text: '',
+							type: 'node',
+						},
+				  ];
 		for (const subItem of items) {
 			let context = null;
 			switch (obj.key) {
@@ -552,16 +602,19 @@ class Tags extends Module {
 	tags_template(text) {
 		return {
 			attributes: {
-				class: 'esgst-tag global__image-outer-wrap author_avatar is_icon'
+				class: 'esgst-tag global__image-outer-wrap author_avatar is_icon',
 			},
 			text,
-			type: 'span'
+			type: 'span',
 		};
 	}
 
 	tags_createTags(obj) {
 		obj.tags.innerHTML = '';
-		const tags = obj.input.value.replace(/(,\s*)+/g, formatTags).split(`, `).filter(x => x);
+		const tags = obj.input.value
+			.replace(/(,\s*)+/g, formatTags)
+			.split(`, `)
+			.filter((x) => x);
 		if (tags.length) {
 			if (Settings.get(`${obj.key}_s`)) {
 				if (obj.input.value.slice(-1).match(/\s|,/)) {
@@ -600,62 +653,74 @@ class Tags extends Module {
 	}
 
 	tags_createTag(obj, tag) {
-		const container = createElements(obj.tags, 'beforeEnd', [{
-			attributes: {
-				class: 'esgst-tag-preview',
-				draggable: true
-			},
-			type: 'div',
-			children: [{
+		const container = createElements(obj.tags, 'beforeEnd', [
+			{
 				attributes: {
-					class: 'esgst-tags'
+					class: 'esgst-tag-preview',
+					draggable: true,
 				},
 				type: 'div',
-				children: [{
-					attributes: {
-						class: 'esgst-tag global__image-outer-wrap author_avatar is_icon'
+				children: [
+					{
+						attributes: {
+							class: 'esgst-tags',
+						},
+						type: 'div',
+						children: [
+							{
+								attributes: {
+									class: 'esgst-tag global__image-outer-wrap author_avatar is_icon',
+								},
+								text: tag,
+								type: 'span',
+							},
+						],
 					},
-					text: tag,
-					type: 'span'
-				}]
-			}, {
-				attributes: {
-					class: 'esgst-hidden',
-					type: 'text'
-				},
-				type: 'input'
-			}, {
-				attributes: {
-					title: 'Set text color for this tag',
-					type: 'color'
-				},
-				type: 'input'
-			}, {
-				attributes: {
-					title: 'Set background color for this tag',
-					type: 'color'
-				},
-				type: 'input'
-			}, {
-				attributes: {
-					class: 'esgst-clickable fa fa-edit',
-					title: 'Edit tag'
-				},
-				type: 'i'
-			}, {
-				attributes: {
-					class: 'esgst-clickable fa fa-trash',
-					title: 'Delete tag'
-				},
-				type: 'i'
-			}, {
-				attributes: {
-					class: 'esgst-clickable fa fa-rotate-left',
-					title: 'Reset tag color'
-				},
-				type: 'i'
-			}]
-		}]);
+					{
+						attributes: {
+							class: 'esgst-hidden',
+							type: 'text',
+						},
+						type: 'input',
+					},
+					{
+						attributes: {
+							title: 'Set text color for this tag',
+							type: 'color',
+						},
+						type: 'input',
+					},
+					{
+						attributes: {
+							title: 'Set background color for this tag',
+							type: 'color',
+						},
+						type: 'input',
+					},
+					{
+						attributes: {
+							class: 'esgst-clickable fa fa-edit',
+							title: 'Edit tag',
+						},
+						type: 'i',
+					},
+					{
+						attributes: {
+							class: 'esgst-clickable fa fa-trash',
+							title: 'Delete tag',
+						},
+						type: 'i',
+					},
+					{
+						attributes: {
+							class: 'esgst-clickable fa fa-rotate-left',
+							title: 'Reset tag color',
+						},
+						type: 'i',
+					},
+				],
+			},
+		]);
 		const tagContainer = container.firstElementChild;
 		const tagBox = tagContainer.firstElementChild;
 		const input = tagContainer.nextElementSibling;
@@ -672,12 +737,27 @@ class Tags extends Module {
 		container.addEventListener('dragstart', this.tags_startDrag.bind(this, container, obj));
 		container.addEventListener('dragenter', this.tags_continueDrag.bind(this, container, obj));
 		container.addEventListener('dragend', this.tags_endDrag.bind(this, obj));
-		input.addEventListener('keydown', this.tags_editTag.bind(this, bgColorInput, colorInput, input, obj, tagBox, tagContainer));
-		colorInput.addEventListener('change', this.tags_saveColor.bind(this, colorInput, 'color', obj, 'color', tagBox));
-		bgColorInput.addEventListener('change', this.tags_saveColor.bind(this, bgColorInput, 'backgroundColor', obj, 'bgColor', tagBox));
-		editButton.addEventListener('click', this.tags_showEdit.bind(this, input, tagBox, tagContainer));
+		input.addEventListener(
+			'keydown',
+			this.tags_editTag.bind(this, bgColorInput, colorInput, input, obj, tagBox, tagContainer)
+		);
+		colorInput.addEventListener(
+			'change',
+			this.tags_saveColor.bind(this, colorInput, 'color', obj, 'color', tagBox)
+		);
+		bgColorInput.addEventListener(
+			'change',
+			this.tags_saveColor.bind(this, bgColorInput, 'backgroundColor', obj, 'bgColor', tagBox)
+		);
+		editButton.addEventListener(
+			'click',
+			this.tags_showEdit.bind(this, input, tagBox, tagContainer)
+		);
 		deleteButton.addEventListener('click', this.tags_deleteTag.bind(this, container, obj));
-		resetButton.addEventListener('click', this.tags_resetColor.bind(this, bgColorInput, colorInput, obj, tagBox));
+		resetButton.addEventListener(
+			'click',
+			this.tags_resetColor.bind(this, bgColorInput, colorInput, obj, tagBox)
+		);
 	}
 
 	tags_startDrag(container, obj, event) {
@@ -727,7 +807,7 @@ class Tags extends Module {
 		if (!obj.colorSetting[tag]) {
 			obj.colorSetting[tag] = {
 				bgColor: '',
-				color: ''
+				color: '',
 			};
 		}
 		obj.colorSetting[tag][saveKey] = tagBox.style[key] = input.value;
@@ -756,36 +836,45 @@ class Tags extends Module {
 	async tags_showTagList(obj) {
 		obj.listPopup = new Popup({
 			addScrollable: true,
-			buttons: [{
-				color1: 'green',
-				color2: '',
-				icon1: 'fa-check',
-				icon2: '',
-				title1: 'Add Tags',
-				title2: '',
-				callback1: this.tags_addTagsFromList.bind(this, obj)
-			}],
+			buttons: [
+				{
+					color1: 'green',
+					color2: '',
+					icon1: 'fa-check',
+					icon2: '',
+					title1: 'Add Tags',
+					title2: '',
+					callback1: this.tags_addTagsFromList.bind(this, obj),
+				},
+			],
 			icon: 'fa-list',
 			isTemp: true,
-			title: `Select from existing tags:`
+			title: `Select from existing tags:`,
 		});
-		const list = createElements(obj.listPopup.scrollable, 'beforeEnd', [{
-			attributes: {
-				class: 'esgst-tag-list popup__keys__list'
+		const list = createElements(obj.listPopup.scrollable, 'beforeEnd', [
+			{
+				attributes: {
+					class: 'esgst-tag-list popup__keys__list',
+				},
+				type: 'div',
 			},
-			type: 'div'
-		}]);
+		]);
 		obj.selectedTags = [];
 		for (const tag of this.esgst[`${obj.key}Tags`]) {
-			const item = createElements(list, 'beforeEnd', [{
-				type: 'div',
-				children: [{
-					type: 'span'
-				}, {
-					text: ` ${tag}`,
-					type: 'node'
-				}]
-			}]);
+			const item = createElements(list, 'beforeEnd', [
+				{
+					type: 'div',
+					children: [
+						{
+							type: 'span',
+						},
+						{
+							text: ` ${tag}`,
+							type: 'node',
+						},
+					],
+				},
+			]);
 			if (obj.colorSetting[tag]) {
 				item.style.color = obj.colorSetting[tag].color;
 				item.style.backgroundColor = obj.colorSetting[tag].bgColor;
@@ -850,7 +939,7 @@ class Tags extends Module {
 	async tags_loadTags(obj) {
 		let item = null;
 		if (obj.items) {
-			item = {tags: obj.sharedTags};
+			item = { tags: obj.sharedTags };
 		} else {
 			switch (obj.key) {
 				case 'dt': {
@@ -860,7 +949,7 @@ class Tags extends Module {
 				}
 				case 'gpt': {
 					const savedGroups = JSON.parse(getValue('groups'));
-					item = savedGroups.filter(group => group.code === obj.item.id)[0];
+					item = savedGroups.filter((group) => group.code === obj.item.id)[0];
 					break;
 				}
 				case 'gt': {
@@ -871,7 +960,7 @@ class Tags extends Module {
 				case 'ut': {
 					item = await getUser(null, {
 						steamId: obj.item.steamId,
-						username: obj.item.username
+						username: obj.item.username,
 					});
 					break;
 				}

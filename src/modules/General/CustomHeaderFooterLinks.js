@@ -13,30 +13,48 @@ class GeneralCustomHeaderFooterLinks extends Module {
 		super();
 		this.info = {
 			description: [
-				['ul', [
-					['li', 'Allows you to add custom links to the header dropdowns/footer of any page.'],
-					['li', 'Already comes with some predefined links:'],
-					['ul', [
-						['li', 'Giveaways: Hidden Games, Reduced CV Games, Browse Wishlist, Browse Recommended, Browse Group, Browse New'],
-						['li', 'Discussions: Categorize Discussions, Browse Announcements, Browse Bugs / Suggestions, Browse Deals, Browse General, Browse Group Recruitment, Browse Let\'s Play Together, Browse Off-Topic, Browse Puzzles, Browse Uncategorized'],
-						['li', 'Support: Real CV, Not Activated Wins, Multiple Wins'],
-						['li', 'Help: Change Log'],
-						['li', 'Account: Whitelist, Blacklist, Games, Groups, Wishlist'],
-					]],
-					['li', [
-						'If you press the Ctrl key with a dropdown open, the feature adds two buttons ("',
-						['i', { class: 'fa fa-plus-circle' }],
-						' Add Custom Link" and "',
-						['i', { class: 'fa fa-undo' }],
-						' Reset Links") to the end of the dropdown that allow you to add/reset the custom links. It also adds two other buttons (',
-						['i', { class: 'fa fa-edit' }],
-						' to edit and ',
-						['i', { class: 'fa fa-trash' }],
-						' to remove) to each custom link in the dropdown that allow you to edit/remove the custom link.',
-					]],
-					['li', 'If you press the Ctrl key with no dropdown open, those same buttons will be added to the footer of the page.'],
-					['li', 'You can move the custom links by dragging and dropping them.'],
-				]],
+				[
+					'ul',
+					[
+						['li', 'Allows you to add custom links to the header dropdowns/footer of any page.'],
+						['li', 'Already comes with some predefined links:'],
+						[
+							'ul',
+							[
+								[
+									'li',
+									'Giveaways: Hidden Games, Reduced CV Games, Browse Wishlist, Browse Recommended, Browse Group, Browse New',
+								],
+								[
+									'li',
+									"Discussions: Categorize Discussions, Browse Announcements, Browse Bugs / Suggestions, Browse Deals, Browse General, Browse Group Recruitment, Browse Let's Play Together, Browse Off-Topic, Browse Puzzles, Browse Uncategorized",
+								],
+								['li', 'Support: Real CV, Not Activated Wins, Multiple Wins'],
+								['li', 'Help: Change Log'],
+								['li', 'Account: Whitelist, Blacklist, Games, Groups, Wishlist'],
+							],
+						],
+						[
+							'li',
+							[
+								'If you press the Ctrl key with a dropdown open, the feature adds two buttons ("',
+								['i', { class: 'fa fa-plus-circle' }],
+								' Add Custom Link" and "',
+								['i', { class: 'fa fa-undo' }],
+								' Reset Links") to the end of the dropdown that allow you to add/reset the custom links. It also adds two other buttons (',
+								['i', { class: 'fa fa-edit' }],
+								' to edit and ',
+								['i', { class: 'fa fa-trash' }],
+								' to remove) to each custom link in the dropdown that allow you to edit/remove the custom link.',
+							],
+						],
+						[
+							'li',
+							'If you press the Ctrl key with no dropdown open, those same buttons will be added to the footer of the page.',
+						],
+						['li', 'You can move the custom links by dragging and dropping them.'],
+					],
+				],
 			],
 			inputItems: 'chfl_key',
 			id: 'chfl',
@@ -48,48 +66,48 @@ class GeneralCustomHeaderFooterLinks extends Module {
 
 		this.newIds = {
 			giveaways: {
-				'new': 'createANewGiveaway',
-				'wishlist': 'communityWishlist',
-				'created': 'viewCreated',
-				'entered': 'viewEntered',
-				'won': 'viewWon',
+				new: 'createANewGiveaway',
+				wishlist: 'communityWishlist',
+				created: 'viewCreated',
+				entered: 'viewEntered',
+				won: 'viewWon',
 			},
 			discussions: {
-				'new': 'createANewDiscussion',
-				'created': 'viewCreated',
-				'bookmarked': 'viewBookmarked',
+				new: 'createANewDiscussion',
+				created: 'viewCreated',
+				bookmarked: 'viewBookmarked',
 			},
 			support: {
-				'new': 'createANewTicket',
+				new: 'createANewTicket',
 			},
 			help: {
 				'comment-formatting': 'commentFormatting',
-				'faq': 'faq',
-				'guidelines': 'guidelines',
+				faq: 'faq',
+				guidelines: 'guidelines',
 			},
 			account: {
-				'profile': 'syncWithSteam',
-				'stats': 'myStats',
-				'et': 'myEntryHistory',
-				'ch': 'myCommentHistory',
+				profile: 'syncWithSteam',
+				stats: 'myStats',
+				et: 'myEntryHistory',
+				ch: 'myCommentHistory',
 				'user=[steamId]': 'reviews',
 			},
 			footer: {
-				'archive': 'archive',
-				'stats': 'stats',
-				'roles': 'roles',
-				'users': 'users',
-				'steamgifts': 'steamGroup',
+				archive: 'archive',
+				stats: 'stats',
+				roles: 'roles',
+				users: 'users',
+				steamgifts: 'steamGroup',
 				'103582791432125620': 'chat',
 				'privacy-policy': 'privacyPolicy',
 				'cookie-policy': 'cookiePolicy',
 				'terms-of-service': 'termsOfService',
-				'advertising': 'advertise',
-				'guidelines': 'guidelines',
+				advertising: 'advertise',
+				guidelines: 'guidelines',
 				'comment-formatting': 'commentFormatting',
 			},
 			trades: {
-				'new': 'newTrade',
+				new: 'newTrade',
 				'user=[steamId]': 'myTrades',
 			},
 			myProfile: {
@@ -119,7 +137,10 @@ class GeneralCustomHeaderFooterLinks extends Module {
 		for (const key of Object.keys(this.sources)) {
 			const source = this.sources[key];
 
-			const items = key === 'footer' ? Shared.footer.linkContainers : Shared.header.buttonContainers[source].dropdownItems;
+			const items =
+				key === 'footer'
+					? Shared.footer.linkContainers
+					: Shared.header.buttonContainers[source].dropdownItems;
 
 			for (const itemKey of Object.keys(items)) {
 				const item = items[itemKey];
@@ -128,7 +149,11 @@ class GeneralCustomHeaderFooterLinks extends Module {
 					continue;
 				}
 
-				if (!item.data.url || item.data.url.match(/^javascript/) || (item.data.name === 'Steam' && key === 'footer')) {
+				if (
+					!item.data.url ||
+					item.data.url.match(/^javascript/) ||
+					(item.data.name === 'Steam' && key === 'footer')
+				) {
 					continue;
 				}
 
@@ -155,7 +180,10 @@ class GeneralCustomHeaderFooterLinks extends Module {
 				const objOrId = objs[i];
 
 				if (objOrId.id) {
-					let item = key === 'footer' ? Shared.footer.linkContainers[objOrId.id] : Shared.header.buttonContainers[source].dropdownItems[objOrId.id];
+					let item =
+						key === 'footer'
+							? Shared.footer.linkContainers[objOrId.id]
+							: Shared.header.buttonContainers[source].dropdownItems[objOrId.id];
 
 					if (!item || firstRun) {
 						if (key === 'footer') {
@@ -204,16 +232,25 @@ class GeneralCustomHeaderFooterLinks extends Module {
 						}
 					}
 
-					item.nodes.outer.parentElement.insertBefore(item.nodes.outer, item.nodes.outer.parentElement.firstElementChild);
+					item.nodes.outer.parentElement.insertBefore(
+						item.nodes.outer,
+						item.nodes.outer.parentElement.firstElementChild
+					);
 
 					this.makeDraggable(item.nodes.outer);
 
 					ids.push(objOrId.id);
 				} else {
-					const item = key === 'footer' ? Shared.footer.linkContainers[objOrId] : Shared.header.buttonContainers[source].dropdownItems[objOrId];
+					const item =
+						key === 'footer'
+							? Shared.footer.linkContainers[objOrId]
+							: Shared.header.buttonContainers[source].dropdownItems[objOrId];
 
 					if (item) {
-						item.nodes.outer.parentElement.insertBefore(item.nodes.outer, item.nodes.outer.parentElement.firstElementChild);
+						item.nodes.outer.parentElement.insertBefore(
+							item.nodes.outer,
+							item.nodes.outer.parentElement.firstElementChild
+						);
 
 						this.makeDraggable(item.nodes.outer);
 					}
@@ -222,7 +259,10 @@ class GeneralCustomHeaderFooterLinks extends Module {
 				}
 			}
 
-			const items = key === 'footer' ? Shared.footer.linkContainers : Shared.header.buttonContainers[source].dropdownItems;
+			const items =
+				key === 'footer'
+					? Shared.footer.linkContainers
+					: Shared.header.buttonContainers[source].dropdownItems;
 
 			for (const itemKey of Object.keys(items)) {
 				const item = items[itemKey];
@@ -290,7 +330,10 @@ class GeneralCustomHeaderFooterLinks extends Module {
 			const setting = [];
 			const source = this.sources[key];
 
-			const container = key === 'footer' ? Shared.footer.nodes.rightNav : Shared.header.buttonContainers[source].nodes.absoluteDropdown;
+			const container =
+				key === 'footer'
+					? Shared.footer.nodes.rightNav
+					: Shared.header.buttonContainers[source].nodes.absoluteDropdown;
 
 			for (const child of container.children) {
 				const id = child.dataset.linkId;
@@ -319,9 +362,15 @@ class GeneralCustomHeaderFooterLinks extends Module {
 		for (const key of Object.keys(this.sources)) {
 			const source = this.sources[key];
 
-			const container = key === 'footer' ? Shared.footer.nodes.outer : Shared.header.buttonContainers[source].nodes.relativeDropdown;
+			const container =
+				key === 'footer'
+					? Shared.footer.nodes.outer
+					: Shared.header.buttonContainers[source].nodes.relativeDropdown;
 
-			if (key !== forceKey && (container.classList.contains('is-hidden') || container.classList.contains('is_hidden'))) {
+			if (
+				key !== forceKey &&
+				(container.classList.contains('is-hidden') || container.classList.contains('is_hidden'))
+			) {
 				continue;
 			}
 
@@ -345,7 +394,9 @@ class GeneralCustomHeaderFooterLinks extends Module {
 				}
 			} else {
 				if (Shared.header.buttonContainers[source].dropdownItems['addCustomLink']) {
-					Shared.header.buttonContainers[source].dropdownItems['addCustomLink'].nodes.outer.remove();
+					Shared.header.buttonContainers[source].dropdownItems[
+						'addCustomLink'
+					].nodes.outer.remove();
 					delete Shared.header.buttonContainers[source].dropdownItems['addCustomLink'];
 
 					Shared.header.buttonContainers[source].dropdownItems['resetLinks'].nodes.outer.remove();
@@ -353,7 +404,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
 				}
 			}
 
-			return (found ? key : null);
+			return found ? key : null;
 		}
 	}
 
@@ -365,13 +416,22 @@ class GeneralCustomHeaderFooterLinks extends Module {
 
 			const source = this.sources[key];
 
-			const container = key === 'footer' ? Shared.footer.nodes.outer : Shared.header.buttonContainers[source].nodes.relativeDropdown;
+			const container =
+				key === 'footer'
+					? Shared.footer.nodes.outer
+					: Shared.header.buttonContainers[source].nodes.relativeDropdown;
 
-			if (key !== forceKey && (container.classList.contains('is-hidden') || container.classList.contains('is_hidden'))) {
+			if (
+				key !== forceKey &&
+				(container.classList.contains('is-hidden') || container.classList.contains('is_hidden'))
+			) {
 				continue;
 			}
 
-			const items = key === 'footer' ? Shared.footer.linkContainers : Shared.header.buttonContainers[source].dropdownItems;
+			const items =
+				key === 'footer'
+					? Shared.footer.linkContainers
+					: Shared.header.buttonContainers[source].dropdownItems;
 
 			for (const itemKey of Object.keys(items)) {
 				const item = items[itemKey];
@@ -381,10 +441,14 @@ class GeneralCustomHeaderFooterLinks extends Module {
 				}
 
 				const panel = DOM.build(item.nodes.outer, 'beforeEnd', [
-					['div', { class: 'esgst-chfl-panel' }, [
-						['i', { class: 'esgst-chfl-edit-button fa fa-edit grey icon-grey' }],
-						['i', { class: 'esgst-chfl-remove-button fa fa-trash grey icon-grey' }],
-					]],
+					[
+						'div',
+						{ class: 'esgst-chfl-panel' },
+						[
+							['i', { class: 'esgst-chfl-edit-button fa fa-edit grey icon-grey' }],
+							['i', { class: 'esgst-chfl-remove-button fa fa-trash grey icon-grey' }],
+						],
+					],
 				]);
 
 				panel.firstElementChild.addEventListener('click', this.openPopup.bind(this, item, key));
@@ -435,7 +499,15 @@ class GeneralCustomHeaderFooterLinks extends Module {
 
 			resetButton.nodes.outer.classList.add('esgst-chfl-button');
 
-			resetButton.nodes.outer.addEventListener('click', Shared.common.createConfirmation.bind(Shared.common, 'Are you sure you want to reset the links? Any custom links you added will be deleted.', this.resetLinks.bind(this, key), null));
+			resetButton.nodes.outer.addEventListener(
+				'click',
+				Shared.common.createConfirmation.bind(
+					Shared.common,
+					'Are you sure you want to reset the links? Any custom links you added will be deleted.',
+					this.resetLinks.bind(this, key),
+					null
+				)
+			);
 
 			return;
 		}
@@ -450,120 +522,162 @@ class GeneralCustomHeaderFooterLinks extends Module {
 				isTemp: true,
 				title: `${editItem ? 'Edit' : 'Add'} Custom Link`,
 			});
-			let description = Shared.common.createElements(popup.description, 'beforeEnd', [{
-				type: 'div',
-				children: [{
-					text: 'URL:',
-					type: 'span',
-				}, {
-					attributes: {
-						class: 'fa fa-question-circle',
-						title: 'Instead of entering "https://www.steamgifts.com/url", you can simply enter "/url".',
-					},
-					type: 'i',
-				}, {
-					attributes: {
-						class: 'esgst-switch-input esgst-switch-input-large',
-						type: 'text',
-					},
-					type: 'input',
-				}],
-			}, {
-				type: 'div',
-				children: [{
-					text: 'Color:',
-					type: 'span',
-				}, {
-					attributes: {
-						class: 'esgst-switch-input esgst-switch-input-large',
-					},
-					type: 'select',
-					children: [{
-						attributes: {
-							value: 'grey',
+			let description = Shared.common.createElements(popup.description, 'beforeEnd', [
+				{
+					type: 'div',
+					children: [
+						{
+							text: 'URL:',
+							type: 'span',
 						},
-						text: 'Grey (Default)',
-						type: 'option',
-					}, {
-						attributes: {
-							value: 'blue',
+						{
+							attributes: {
+								class: 'fa fa-question-circle',
+								title:
+									'Instead of entering "https://www.steamgifts.com/url", you can simply enter "/url".',
+							},
+							type: 'i',
 						},
-						text: 'Blue',
-						type: 'option',
-					}, {
-						attributes: {
-							value: 'green',
+						{
+							attributes: {
+								class: 'esgst-switch-input esgst-switch-input-large',
+								type: 'text',
+							},
+							type: 'input',
 						},
-						text: 'Green',
-						type: 'option',
-					}, {
-						attributes: {
-							value: 'red',
+					],
+				},
+				{
+					type: 'div',
+					children: [
+						{
+							text: 'Color:',
+							type: 'span',
 						},
-						text: 'Red',
-						type: 'option',
-					}, {
-						attributes: {
-							value: 'yellow',
+						{
+							attributes: {
+								class: 'esgst-switch-input esgst-switch-input-large',
+							},
+							type: 'select',
+							children: [
+								{
+									attributes: {
+										value: 'grey',
+									},
+									text: 'Grey (Default)',
+									type: 'option',
+								},
+								{
+									attributes: {
+										value: 'blue',
+									},
+									text: 'Blue',
+									type: 'option',
+								},
+								{
+									attributes: {
+										value: 'green',
+									},
+									text: 'Green',
+									type: 'option',
+								},
+								{
+									attributes: {
+										value: 'red',
+									},
+									text: 'Red',
+									type: 'option',
+								},
+								{
+									attributes: {
+										value: 'yellow',
+									},
+									text: 'Yellow',
+									type: 'option',
+								},
+							],
 						},
-						text: 'Yellow',
-						type: 'option',
-					}],
-				}],
-			}, {
-				type: 'div',
-				children: [{
-					text: 'Icon:',
-					type: 'span',
-				}, {
-					attributes: {
-						href: 'https://fontawesome.com/v4.7.0/icons/',
-					},
-					type: 'a',
-					children: [{
-						attributes: {
-							class: 'fa fa-question-circle',
-							title: 'You must use an icon from FontAwesome (click on this icon to go to the FontAwesome page). The icon must be in the format "fa-icon", without the quotes.',
+					],
+				},
+				{
+					type: 'div',
+					children: [
+						{
+							text: 'Icon:',
+							type: 'span',
 						},
-						type: 'i',
-					}],
-				}, {
-					attributes: {
-						class: 'esgst-switch-input esgst-switch-input-large',
-						type: 'text',
-					},
-					type: 'input',
-				}],
-			}, {
-				type: 'div',
-				children: [{
-					text: 'Name:',
-					type: 'span',
-				}, {
-					attributes: {
-						class: 'esgst-switch-input esgst-switch-input-large',
-						type: 'text',
-					},
-					type: 'input',
-				}],
-			}, {
-				type: 'div',
-				children: [{
-					text: 'Description:',
-					type: 'span',
-				}, {
-					attributes: {
-						class: 'esgst-switch-input esgst-switch-input-large',
-						type: 'text',
-					},
-					type: 'input',
-				}],
-			}]);
+						{
+							attributes: {
+								href: 'https://fontawesome.com/v4.7.0/icons/',
+							},
+							type: 'a',
+							children: [
+								{
+									attributes: {
+										class: 'fa fa-question-circle',
+										title:
+											'You must use an icon from FontAwesome (click on this icon to go to the FontAwesome page). The icon must be in the format "fa-icon", without the quotes.',
+									},
+									type: 'i',
+								},
+							],
+						},
+						{
+							attributes: {
+								class: 'esgst-switch-input esgst-switch-input-large',
+								type: 'text',
+							},
+							type: 'input',
+						},
+					],
+				},
+				{
+					type: 'div',
+					children: [
+						{
+							text: 'Name:',
+							type: 'span',
+						},
+						{
+							attributes: {
+								class: 'esgst-switch-input esgst-switch-input-large',
+								type: 'text',
+							},
+							type: 'input',
+						},
+					],
+				},
+				{
+					type: 'div',
+					children: [
+						{
+							text: 'Description:',
+							type: 'span',
+						},
+						{
+							attributes: {
+								class: 'esgst-switch-input esgst-switch-input-large',
+								type: 'text',
+							},
+							type: 'input',
+						},
+					],
+				},
+			]);
 			let name = description.previousElementSibling;
 			let icon = name.previousElementSibling;
 			let color = icon.previousElementSibling;
 			let url = color.previousElementSibling.lastElementChild;
-			let compactSwitch = new ToggleSwitch(popup.description, null, null, 'Use compact size.', false, false, 'The bottom/top padding of the link will be reduced to 8px.', false);
+			let compactSwitch = new ToggleSwitch(
+				popup.description,
+				null,
+				null,
+				'Use compact size.',
+				false,
+				false,
+				'The bottom/top padding of the link will be reduced to 8px.',
+				false
+			);
 			description = description.lastElementChild;
 			name = name.lastElementChild;
 			icon = icon.lastElementChild;
@@ -602,15 +716,28 @@ class GeneralCustomHeaderFooterLinks extends Module {
 					break;
 				}
 			}
-			popup.description.appendChild(new ButtonSet({
-				color1: 'green',
-				color2: 'grey',
-				icon1: editItem ? 'fa-edit' : 'fa-plus-circle',
-				icon2: 'fa-circle-o-notch fa-spin',
-				title1: editItem ? 'Edit' : 'Add',
-				title2: editItem ? 'Editing...' : 'Adding...',
-				callback1: this.addLink.bind(this, color, compactSwitch, description, editItem, icon, key, name, popup, url),
-			}).set);
+			popup.description.appendChild(
+				new ButtonSet({
+					color1: 'green',
+					color2: 'grey',
+					icon1: editItem ? 'fa-edit' : 'fa-plus-circle',
+					icon2: 'fa-circle-o-notch fa-spin',
+					title1: editItem ? 'Edit' : 'Add',
+					title2: editItem ? 'Editing...' : 'Adding...',
+					callback1: this.addLink.bind(
+						this,
+						color,
+						compactSwitch,
+						description,
+						editItem,
+						icon,
+						key,
+						name,
+						popup,
+						url
+					),
+				}).set
+			);
 			popup.open();
 		} catch (error) {
 			Logger.error(error.message);
@@ -724,7 +851,10 @@ class GeneralCustomHeaderFooterLinks extends Module {
 
 				const source = this.sources[key];
 
-				const item = key === 'footer' ? Shared.footer.linkContainers[obj.id] : Shared.header.buttonContainers[source].dropdownItems[obj.id];
+				const item =
+					key === 'footer'
+						? Shared.footer.linkContainers[obj.id]
+						: Shared.header.buttonContainers[source].dropdownItems[obj.id];
 
 				if (!item || !item.nodes.outer.dataset.linkId) {
 					continue;
@@ -739,7 +869,10 @@ class GeneralCustomHeaderFooterLinks extends Module {
 				}
 			}
 
-			await Shared.common.setSetting(`chfl_${key}_${this.esgst.name}`, Settings.defaultValues[`chfl_${key}_${this.esgst.name}`]);
+			await Shared.common.setSetting(
+				`chfl_${key}_${this.esgst.name}`,
+				Settings.defaultValues[`chfl_${key}_${this.esgst.name}`]
+			);
 
 			this.reorder(key);
 		} catch (error) {
@@ -756,7 +889,10 @@ class GeneralCustomHeaderFooterLinks extends Module {
 
 			const id = itemToRemove.nodes.outer.dataset.linkId;
 
-			const item = key === 'footer' ? Shared.footer.linkContainers[id] : Shared.header.buttonContainers[source].dropdownItems[id];
+			const item =
+				key === 'footer'
+					? Shared.footer.linkContainers[id]
+					: Shared.header.buttonContainers[source].dropdownItems[id];
 
 			if (item && item.nodes.outer.dataset.linkId) {
 				item.nodes.outer.remove();

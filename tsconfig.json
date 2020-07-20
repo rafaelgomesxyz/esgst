@@ -1,5 +1,5 @@
 {
-	"exclude": ["./node_modules", "./build"],
+	"exclude": ["./node_modules", "./build", "./dist"],
 	"compilerOptions": {
 		"allowJs": true,
 		"checkJs": true,

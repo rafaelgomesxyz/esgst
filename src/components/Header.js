@@ -96,8 +96,8 @@ class IHeader {
 			.replace(/[^A-Za-z\s].*/, '') // Only gets the name until a non-letter character
 			.trim()
 			.split(' ')
-			.filter(word => word)
-			.map(word => `${word[0].toUpperCase()}${word.slice(1).toLowerCase()}`) // Applies CamelCase format
+			.filter((word) => word)
+			.map((word) => `${word[0].toUpperCase()}${word.slice(1).toLowerCase()}`) // Applies CamelCase format
 			.join('')
 			.replace(/^(.)/, (fullMatch, group1) => group1.toLowerCase()); // Applies camelCase format
 	}
@@ -112,51 +112,99 @@ class SgHeader extends IHeader {
 	 * @param {IHeaderButtonContainerParams} params
 	 */
 	addButtonContainer(params) {
-		const [context, position] = params.context ? [params.context, params.position] : (params.side === 'left' ? [this.nodes.leftNav, 'beforeEnd'] : [this.nodes.rightNav, 'afterBegin']);
+		const [context, position] = params.context
+			? [params.context, params.position]
+			: params.side === 'left'
+			? [this.nodes.leftNav, 'beforeEnd']
+			: [this.nodes.rightNav, 'afterBegin'];
 
 		let buttonContainerNode = null;
 
 		if (params.isDropdown) {
 			buttonContainerNode = DOM.build(context, position, [
-				['div', { class: 'nav__button-container' }, [
-					['div', { class: 'nav__relative-dropdown is-hidden' }, [
-						['div', { class: 'nav__absolute-dropdown' }],
-					]],
-					['a', { class: 'nav__button nav__button--is-dropdown', href: params.url || null, onclick: params.onClick, target: params.openInNewTab ? '_blank' : null }, [
-						...(params.buttonIcon ? [
-							['i', { class: params.buttonIcon }],
-						] : []),
-						...(params.buttonImage ? [
-							['img', { src: params.buttonImage }],
-						] : []),
-						params.buttonName,
-					]],
-					['div', { class: 'nav__button nav__button--is-dropdown-arrow' }, [
-						['i', { class: 'fa fa-angle-down' }],
-					]],
-				]],
+				[
+					'div',
+					{ class: 'nav__button-container' },
+					[
+						[
+							'div',
+							{ class: 'nav__relative-dropdown is-hidden' },
+							[['div', { class: 'nav__absolute-dropdown' }]],
+						],
+						[
+							'a',
+							{
+								class: 'nav__button nav__button--is-dropdown',
+								href: params.url || null,
+								onclick: params.onClick,
+								target: params.openInNewTab ? '_blank' : null,
+							},
+							[
+								...(params.buttonIcon ? [['i', { class: params.buttonIcon }]] : []),
+								...(params.buttonImage ? [['img', { src: params.buttonImage }]] : []),
+								params.buttonName,
+							],
+						],
+						[
+							'div',
+							{ class: 'nav__button nav__button--is-dropdown-arrow' },
+							[['i', { class: 'fa fa-angle-down' }]],
+						],
+					],
+				],
 			]);
 		} else if (params.isNotification) {
 			buttonContainerNode = DOM.build(context, position, [
-				['div', { class: `nav__button-container nav__button-container--notification ${params.isActive ? 'nav__button-container--active' : 'nav__button-container--inactive'}` }, [
-					['a', { class: 'nav__button', href: params.url, target: params.openInNewTab ? '_blank' : null, title: params.buttonName }, [
-						...(params.buttonIcon ? [
-							['i', { class: params.buttonIcon }],
-						] : []),
-						...(params.buttonImage ? [
-							['img', { src: params.buttonImage }],
-						] : []),
-						...(params.isActive && params.counter ? [
-							['div', { class: `nav__notification ${params.isFlashing ? 'fade_infinite' : ''}` }, params.counter.toLocaleString('en-US')],
-						] : []),
-					]],
-				]],
+				[
+					'div',
+					{
+						class: `nav__button-container nav__button-container--notification ${
+							params.isActive ? 'nav__button-container--active' : 'nav__button-container--inactive'
+						}`,
+					},
+					[
+						[
+							'a',
+							{
+								class: 'nav__button',
+								href: params.url,
+								target: params.openInNewTab ? '_blank' : null,
+								title: params.buttonName,
+							},
+							[
+								...(params.buttonIcon ? [['i', { class: params.buttonIcon }]] : []),
+								...(params.buttonImage ? [['img', { src: params.buttonImage }]] : []),
+								...(params.isActive && params.counter
+									? [
+											[
+												'div',
+												{ class: `nav__notification ${params.isFlashing ? 'fade_infinite' : ''}` },
+												params.counter.toLocaleString('en-US'),
+											],
+									  ]
+									: []),
+							],
+						],
+					],
+				],
 			]);
 		} else {
 			buttonContainerNode = DOM.build(context, position, [
-				['div', { class: 'nav__button-container' }, [
-					['a', { class: 'nav__button', href: params.url, target: params.openInNewTab ? '_blank' : null }, params.buttonName],
-				]],
+				[
+					'div',
+					{ class: 'nav__button-container' },
+					[
+						[
+							'a',
+							{
+								class: 'nav__button',
+								href: params.url,
+								target: params.openInNewTab ? '_blank' : null,
+							},
+							params.buttonName,
+						],
+					],
+				],
 			]);
 		}
 
@@ -188,13 +236,26 @@ class SgHeader extends IHeader {
 		}
 
 		const dropdownItemNode = DOM.build(buttonContainer.nodes.absoluteDropdown, 'beforeEnd', [
-			[params.url ? 'a' : 'div', { class: `nav__row ${params.url ? '' : 'is-clickable'}`, href: params.url || null, onclick: params.onClick, target: params.openInNewTab ? '_blank' : null }, [
-				['i', { class: params.icon }],
-				['div', { class: 'nav__row__summary' }, [
-					['p', { class: 'nav__row__summary__name' }, params.name],
-					['p', { class: 'nav__row__summary__description' }, params.description],
-				]],
-			]],
+			[
+				params.url ? 'a' : 'div',
+				{
+					class: `nav__row ${params.url ? '' : 'is-clickable'}`,
+					href: params.url || null,
+					onclick: params.onClick,
+					target: params.openInNewTab ? '_blank' : null,
+				},
+				[
+					['i', { class: params.icon }],
+					[
+						'div',
+						{ class: 'nav__row__summary' },
+						[
+							['p', { class: 'nav__row__summary__name' }, params.name],
+							['p', { class: 'nav__row__summary__description' }, params.description],
+						],
+					],
+				],
+			],
 		]);
 
 		return this.parseDropdownItem(buttonContainer.dropdownItems, dropdownItemNode);
@@ -220,7 +281,9 @@ class SgHeader extends IHeader {
 		this.nodes.leftNav = this.nodes.nav.querySelector('.nav__left-container');
 		this.nodes.rightNav = this.nodes.nav.querySelector('.nav__right-container');
 
-		const buttonContainerNodes = Array.from(this.nodes.nav.querySelectorAll('.nav__button-container'));
+		const buttonContainerNodes = Array.from(
+			this.nodes.nav.querySelectorAll('.nav__button-container')
+		);
 
 		for (const buttonContainerNode of buttonContainerNodes) {
 			this.parseButtonContainer(buttonContainerNode);
@@ -228,7 +291,9 @@ class SgHeader extends IHeader {
 
 		if (this.buttonContainers['account'] && Session.namespace === Namespaces.SG) {
 			Session.isLoggedIn = true;
-			Session.xsrfToken = ISession.extractXsrfToken(this.buttonContainers['account'].dropdownItems['logout'].nodes.outer.dataset.form);
+			Session.xsrfToken = ISession.extractXsrfToken(
+				this.buttonContainers['account'].dropdownItems['logout'].nodes.outer.dataset.form
+			);
 		}
 
 		this.nodes.outer.dataset.esgstParsed = 'true';
@@ -261,22 +326,32 @@ class SgHeader extends IHeader {
 			},
 		};
 
-		const relativeDropdownNode = buttonContainer.nodes.outer.querySelector('.nav__relative-dropdown');
+		const relativeDropdownNode = buttonContainer.nodes.outer.querySelector(
+			'.nav__relative-dropdown'
+		);
 
 		if (relativeDropdownNode) {
 			buttonContainer.nodes.relativeDropdown = relativeDropdownNode;
-			buttonContainer.nodes.absoluteDropdown = buttonContainer.nodes.relativeDropdown.querySelector('.nav__absolute-dropdown');
+			buttonContainer.nodes.absoluteDropdown = buttonContainer.nodes.relativeDropdown.querySelector(
+				'.nav__absolute-dropdown'
+			);
 
 			buttonContainer.dropdownItems = {};
 
-			const dropdownItemNodes = buttonContainer.nodes.absoluteDropdown.querySelectorAll('.nav__row:not(.category)');
+			const dropdownItemNodes = buttonContainer.nodes.absoluteDropdown.querySelectorAll(
+				'.nav__row:not(.category)'
+			);
 
 			for (const dropdownItemNode of dropdownItemNodes) {
 				this.parseDropdownItem(buttonContainer.dropdownItems, dropdownItemNode);
 			}
 
-			buttonContainer.nodes.button = buttonContainer.nodes.outer.querySelector('.nav__button--is-dropdown');
-			buttonContainer.nodes.arrow = buttonContainer.nodes.outer.querySelector('.nav__button--is-dropdown-arrow');
+			buttonContainer.nodes.button = buttonContainer.nodes.outer.querySelector(
+				'.nav__button--is-dropdown'
+			);
+			buttonContainer.nodes.arrow = buttonContainer.nodes.outer.querySelector(
+				'.nav__button--is-dropdown-arrow'
+			);
 			buttonContainer.nodes.arrowIcon = buttonContainer.nodes.arrow.querySelector('.fa');
 
 			const pointsNode = buttonContainer.nodes.button.querySelector('.nav__points');
@@ -284,7 +359,9 @@ class SgHeader extends IHeader {
 			if (pointsNode) {
 				buttonContainer.nodes.points = pointsNode;
 
-				buttonContainer.data.points = IHeader.extractPoints(buttonContainer.nodes.points.textContent);
+				buttonContainer.data.points = IHeader.extractPoints(
+					buttonContainer.nodes.points.textContent
+				);
 
 				if (Session.namespace === Namespaces.SG) {
 					Session.counters.points = buttonContainer.data.points;
@@ -341,18 +418,28 @@ class SgHeader extends IHeader {
 			}
 
 			buttonContainer.data.url = buttonContainer.nodes.button.getAttribute('href');
-			buttonContainer.data.buttonName = buttonContainer.nodes.buttonName.title || buttonContainer.nodes.buttonName.textContent.trim();
+			buttonContainer.data.buttonName =
+				buttonContainer.nodes.buttonName.title ||
+				buttonContainer.nodes.buttonName.textContent.trim();
 		}
 
 		if (buttonContainer.nodes.outer.classList.contains('nav__button-container--notification')) {
-			buttonContainer.nodes.counter = buttonContainer.nodes.outer.querySelector('.nav__notification');
+			buttonContainer.nodes.counter = buttonContainer.nodes.outer.querySelector(
+				'.nav__notification'
+			);
 
 			if (buttonContainer.nodes.counter) {
-				buttonContainer.data.counter = IHeader.extractCounter(buttonContainer.nodes.counter.textContent);
-				buttonContainer.data.isFlashing = buttonContainer.nodes.counter.classList.contains('fade_infinite');
+				buttonContainer.data.counter = IHeader.extractCounter(
+					buttonContainer.nodes.counter.textContent
+				);
+				buttonContainer.data.isFlashing = buttonContainer.nodes.counter.classList.contains(
+					'fade_infinite'
+				);
 			}
 
-			buttonContainer.data.isActive = buttonContainer.nodes.outer.classList.contains('nav__button-container--active');
+			buttonContainer.data.isActive = buttonContainer.nodes.outer.classList.contains(
+				'nav__button-container--active'
+			);
 			buttonContainer.data.isNotification = true;
 		}
 
@@ -414,7 +501,9 @@ class SgHeader extends IHeader {
 		dropdownItem.nodes.icon = dropdownItem.nodes.outer.querySelector('.fa');
 		dropdownItem.nodes.summary = dropdownItem.nodes.outer.querySelector('.nav__row__summary');
 		dropdownItem.nodes.name = dropdownItem.nodes.summary.querySelector('.nav__row__summary__name');
-		dropdownItem.nodes.description = dropdownItem.nodes.summary.querySelector('.nav__row__summary__description');
+		dropdownItem.nodes.description = dropdownItem.nodes.summary.querySelector(
+			'.nav__row__summary__description'
+		);
 
 		dropdownItem.data.url = dropdownItem.nodes.outer.getAttribute('href') || '';
 		dropdownItem.data.icon = dropdownItem.nodes.icon.className;
@@ -568,67 +657,108 @@ class StHeader extends IHeader {
 	 * @param {IHeaderButtonContainerParams} params
 	 */
 	addButtonContainer(params) {
-		const [context, position] = params.context ? [params.context, params.position] : [this.nodes.logo, 'afterEnd'];
+		const [context, position] = params.context
+			? [params.context, params.position]
+			: [this.nodes.logo, 'afterEnd'];
 
 		let buttonContainerNode = null;
 
 		if (params.isDropdown) {
 			buttonContainerNode = DOM.build(context, position, [
-				['div', { class: 'nav_btn_container' }, [
-					['div', { class: 'dropdown is_hidden' }, [
-						['div'],
-					]],
-					['a', { class: 'nav_btn nav_btn_left', href: params.url || null, onclick: params.onClick, target: params.openInNewTab ? '_blank' : null }, [
-						...(params.buttonIcon ? [
-							['i', { class: params.buttonIcon }],
-						] : []),
-						...(params.buttonImage ? [
-							['img', { src: params.buttonImage }],
-						] : []),
-						['span', [
-							params.buttonName,
-							...(params.isNotification && params.counter ? [
-								['span', { class: 'message_count' }, params.counter.toLocaleString('en-US')],
-							] : []),
-						]],
-					]],
-					['div', { class: 'nav_btn nav_btn_right nav_btn_dropdown' }, [
-						['i', { class: 'fa fa-angle-down' }],
-					]],
-				]],
+				[
+					'div',
+					{ class: 'nav_btn_container' },
+					[
+						['div', { class: 'dropdown is_hidden' }, [['div']]],
+						[
+							'a',
+							{
+								class: 'nav_btn nav_btn_left',
+								href: params.url || null,
+								onclick: params.onClick,
+								target: params.openInNewTab ? '_blank' : null,
+							},
+							[
+								...(params.buttonIcon ? [['i', { class: params.buttonIcon }]] : []),
+								...(params.buttonImage ? [['img', { src: params.buttonImage }]] : []),
+								[
+									'span',
+									[
+										params.buttonName,
+										...(params.isNotification && params.counter
+											? [
+													[
+														'span',
+														{ class: 'message_count' },
+														params.counter.toLocaleString('en-US'),
+													],
+											  ]
+											: []),
+									],
+								],
+							],
+						],
+						[
+							'div',
+							{ class: 'nav_btn nav_btn_right nav_btn_dropdown' },
+							[['i', { class: 'fa fa-angle-down' }]],
+						],
+					],
+				],
 			]);
 		} else if (params.isNotification) {
 			buttonContainerNode = DOM.build(context, position, [
-				['div', { class: 'nav_btn_container' }, [
-					['a', { class: 'nav_btn', href: params.url, target: params.openInNewTab ? '_blank' : null }, [
-						...(params.buttonIcon ? [
-							['i', { class: params.buttonIcon }],
-						] : []),
-						...(params.buttonImage ? [
-							['img', { src: params.buttonImage }],
-						] : []),
-						params.counter && ['span', { class: 'message_count' }, params.counter.toLocaleString('en-US')],
-					]],
-				]],
+				[
+					'div',
+					{ class: 'nav_btn_container' },
+					[
+						[
+							'a',
+							{ class: 'nav_btn', href: params.url, target: params.openInNewTab ? '_blank' : null },
+							[
+								...(params.buttonIcon ? [['i', { class: params.buttonIcon }]] : []),
+								...(params.buttonImage ? [['img', { src: params.buttonImage }]] : []),
+								params.counter && [
+									'span',
+									{ class: 'message_count' },
+									params.counter.toLocaleString('en-US'),
+								],
+							],
+						],
+					],
+				],
 			]);
 		} else {
 			buttonContainerNode = DOM.build(context, position, [
-				['div', { class: 'nav_btn_container' }, [
-					['a', { class: 'nav_btn', href: params.url, target: params.openInNewTab ? '_blank' : null }, [
-						...(params.buttonIcon ? [
-							['i', { class: params.buttonIcon }],
-						] : []),
-						...(params.buttonImage ? [
-							['img', { src: params.buttonImage }],
-						] : []),
-						['span', [
-							params.buttonName,
-							...(params.isNotification && params.counter ? [
-								['span', { class: 'message_count' }, params.counter.toLocaleString('en-US')],
-							] : []),
-						]],
-					]],
-				]],
+				[
+					'div',
+					{ class: 'nav_btn_container' },
+					[
+						[
+							'a',
+							{ class: 'nav_btn', href: params.url, target: params.openInNewTab ? '_blank' : null },
+							[
+								...(params.buttonIcon ? [['i', { class: params.buttonIcon }]] : []),
+								...(params.buttonImage ? [['img', { src: params.buttonImage }]] : []),
+								[
+									'span',
+									[
+										params.buttonName,
+										...(params.isNotification && params.counter
+											? [
+													[
+														'span',
+														{ class: 'message_count' },
+														params.counter.toLocaleString('en-US'),
+													],
+											  ]
+											: []),
+									],
+								],
+							],
+						],
+					],
+				],
 			]);
 		}
 
@@ -660,10 +790,19 @@ class StHeader extends IHeader {
 		}
 
 		const dropdownItemNode = DOM.build(buttonContainer.nodes.absoluteDropdown, 'beforeEnd', [
-			[params.url ? 'a' : 'div', { class: 'dropdown_btn', href: params.url || null, onclick: params.onClick, target: params.openInNewTab ? '_blank' : null }, [
-				['i', { class: params.icon }],
-				['span', params.name],
-			]],
+			[
+				params.url ? 'a' : 'div',
+				{
+					class: 'dropdown_btn',
+					href: params.url || null,
+					onclick: params.onClick,
+					target: params.openInNewTab ? '_blank' : null,
+				},
+				[
+					['i', { class: params.icon }],
+					['span', params.name],
+				],
+			],
 		]);
 
 		return this.parseDropdownItem(buttonContainer.dropdownItems, dropdownItemNode);
@@ -690,7 +829,9 @@ class StHeader extends IHeader {
 		this.nodes.rightNav = this.nodes.nav;
 		this.nodes.logo = this.nodes.nav.querySelector('.nav_logo');
 
-		const buttonContainerNodes = Array.from(this.nodes.nav.querySelectorAll('.nav_btn_container, .nav_avatar'));
+		const buttonContainerNodes = Array.from(
+			this.nodes.nav.querySelectorAll('.nav_btn_container, .nav_avatar')
+		);
 
 		for (const buttonContainerNode of buttonContainerNodes) {
 			this.parseButtonContainer(buttonContainerNode);
@@ -698,7 +839,9 @@ class StHeader extends IHeader {
 
 		if (this.buttonContainers['myProfile'] && Session.namespace === Namespaces.ST) {
 			Session.isLoggedIn = true;
-			Session.xsrfToken = ISession.extractXsrfToken(this.buttonContainers['myProfile'].dropdownItems['logout'].nodes.outer.dataset.form);
+			Session.xsrfToken = ISession.extractXsrfToken(
+				this.buttonContainers['myProfile'].dropdownItems['logout'].nodes.outer.dataset.form
+			);
 		}
 
 		this.nodes.outer.dataset.esgstParsed = 'true';
@@ -735,11 +878,15 @@ class StHeader extends IHeader {
 
 		if (relativeDropdownNode) {
 			buttonContainer.nodes.relativeDropdown = relativeDropdownNode;
-			buttonContainer.nodes.absoluteDropdown = buttonContainer.nodes.relativeDropdown.querySelector(':scope > div');
+			buttonContainer.nodes.absoluteDropdown = buttonContainer.nodes.relativeDropdown.querySelector(
+				':scope > div'
+			);
 
 			buttonContainer.dropdownItems = {};
 
-			const dropdownItemNodes = buttonContainer.nodes.absoluteDropdown.querySelectorAll('.dropdown_btn');
+			const dropdownItemNodes = buttonContainer.nodes.absoluteDropdown.querySelectorAll(
+				'.dropdown_btn'
+			);
 
 			for (const dropdownItemNode of dropdownItemNodes) {
 				this.parseDropdownItem(buttonContainer.dropdownItems, dropdownItemNode);
@@ -754,7 +901,9 @@ class StHeader extends IHeader {
 			if (reputationNode) {
 				buttonContainer.nodes.reputation = reputationNode;
 
-				buttonContainer.data.reputation = IHeader.extractReputation(buttonContainer.nodes.reputation.textContent);
+				buttonContainer.data.reputation = IHeader.extractReputation(
+					buttonContainer.nodes.reputation.textContent
+				);
 
 				if (Session.namespace === Namespaces.ST) {
 					Session.counters.reputation = buttonContainer.data.reputation;
@@ -780,7 +929,9 @@ class StHeader extends IHeader {
 		}
 
 		if (buttonContainer.nodes.button) {
-			buttonContainer.nodes.buttonName = (!buttonContainer.data.isDropdown && buttonContainer.nodes.button.querySelector('span')) || buttonContainer.nodes.button;
+			buttonContainer.nodes.buttonName =
+				(!buttonContainer.data.isDropdown && buttonContainer.nodes.button.querySelector('span')) ||
+				buttonContainer.nodes.button;
 
 			const buttonIconNode = buttonContainer.nodes.button.querySelector('.fa');
 
@@ -804,14 +955,18 @@ class StHeader extends IHeader {
 				buttonContainer.nodes.counter = counterNode;
 
 				if (buttonContainer.nodes.counter) {
-					buttonContainer.data.counter = IHeader.extractCounter(buttonContainer.nodes.counter.textContent);
+					buttonContainer.data.counter = IHeader.extractCounter(
+						buttonContainer.nodes.counter.textContent
+					);
 				}
 
 				buttonContainer.data.isNotification = true;
 			}
 
 			buttonContainer.data.url = buttonContainer.nodes.button.getAttribute('href');
-			buttonContainer.data.buttonName = buttonContainer.nodes.buttonName.title || buttonContainer.nodes.buttonName.textContent.trim();
+			buttonContainer.data.buttonName =
+				buttonContainer.nodes.buttonName.title ||
+				buttonContainer.nodes.buttonName.textContent.trim();
 		}
 
 		buttonContainer.data.id = IHeader.generateId(buttonContainer.data.buttonName);

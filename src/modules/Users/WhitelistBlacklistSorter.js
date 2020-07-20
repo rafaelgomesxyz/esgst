@@ -5,49 +5,54 @@ import { common } from '../Common';
 import { Shared } from '../../class/Shared';
 import { Session } from '../../class/Session';
 
-const
-	createElements = common.createElements.bind(common),
+const createElements = common.createElements.bind(common),
 	createHeadingButton = common.createHeadingButton.bind(common),
 	createLock = common.createLock.bind(common),
 	endless_load = common.endless_load.bind(common),
 	getTimestamp = common.getTimestamp.bind(common),
 	getValue = common.getValue.bind(common),
 	request = common.request.bind(common),
-	setValue = common.setValue.bind(common)
-	;
-
+	setValue = common.setValue.bind(common);
 class UsersWhitelistBlacklistSorter extends Module {
 	constructor() {
 		super();
 		this.info = {
 			description: [
-				['ul', [
-					['li', [
-						`Adds 2 buttons (`,
-						['i', { class: 'fa fa-sort-amount-asc' }],
-						' to sort in ascending order and ',
-						['i', { class: 'fa fa-sort-amount-desc' }],
-						` to sort in descending order) to the main page heading of your `,
-						['a', { href: `https://www.steamgifts.com/account/manage/whitelist` }, 'whitelist'],
-						'/',
-						['a', { href: `https://www.steamgifts.com/account/manage/blacklist` }, 'blacklist'],
-						' pages that allow you to view all of the users in your whitelist/blacklist at once sorted by added date.'
-					]]
-				]]
+				[
+					'ul',
+					[
+						[
+							'li',
+							[
+								`Adds 2 buttons (`,
+								['i', { class: 'fa fa-sort-amount-asc' }],
+								' to sort in ascending order and ',
+								['i', { class: 'fa fa-sort-amount-desc' }],
+								` to sort in descending order) to the main page heading of your `,
+								['a', { href: `https://www.steamgifts.com/account/manage/whitelist` }, 'whitelist'],
+								'/',
+								['a', { href: `https://www.steamgifts.com/account/manage/blacklist` }, 'blacklist'],
+								' pages that allow you to view all of the users in your whitelist/blacklist at once sorted by added date.',
+							],
+						],
+					],
+				],
 			],
 			id: 'wbs',
 			name: 'Whitelist/Blacklist Sorter',
 			sg: true,
 			sync: `Blacklist, Whitelist`,
 			syncKeys: ['Blacklist', 'Whitelist'],
-			type: 'users'
+			type: 'users',
 		};
 	}
 
 	init() {
 		if (!Shared.esgst.whitelistPath && !Shared.esgst.blacklistPath) return;
 
-		let [dateKey, mainKey, saveKey] = Shared.esgst.whitelistPath ? ['whitelistedDate', 'whitelist', 'whitelisted'] : ['blacklistedDate', 'blacklist', 'blacklisted'];
+		let [dateKey, mainKey, saveKey] = Shared.esgst.whitelistPath
+			? ['whitelistedDate', 'whitelist', 'whitelisted']
+			: ['blacklistedDate', 'blacklist', 'blacklisted'];
 
 		// add ascending button
 		let object = {
@@ -55,13 +60,13 @@ class UsersWhitelistBlacklistSorter extends Module {
 			icon: 'fa-sort-amount-asc',
 			key: mainKey,
 			saveKey,
-			title: `Oldest to newest ${saveKey} users:`
+			title: `Oldest to newest ${saveKey} users:`,
 		};
 		createHeadingButton({
 			featureId: 'wbs',
 			id: 'wbsAsc',
 			icons: ['fa-sort-amount-asc'],
-			title: 'Sort by added date from oldest to newest'
+			title: 'Sort by added date from oldest to newest',
 		}).addEventListener('click', this.wbs_sort.bind(this, object));
 
 		// add descending button
@@ -71,13 +76,13 @@ class UsersWhitelistBlacklistSorter extends Module {
 			isDescending: true,
 			key: mainKey,
 			saveKey,
-			title: `Newest to oldest ${saveKey} users:`
+			title: `Newest to oldest ${saveKey} users:`,
 		};
 		createHeadingButton({
 			featureId: 'wbs',
 			id: 'wbsDesc',
 			icons: ['fa-sort-amount-desc'],
-			title: 'Sort by added date from newest to oldest'
+			title: 'Sort by added date from newest to oldest',
 		}).addEventListener('click', this.wbs_sort.bind(this, object));
 	}
 
@@ -96,132 +101,164 @@ class UsersWhitelistBlacklistSorter extends Module {
 
 		let popup = new Popup({ addScrollable: true, icon: obj.icon, isTemp: true, title: obj.title });
 		popup.popup.classList.add('esgst-wbs-popup');
-		let table = createElements(popup.scrollable, 'beforeEnd', [{
-			attributes: {
-				class: 'esgst-text-left table'
-			},
-			type: 'div',
-			children: [{
+		let table = createElements(popup.scrollable, 'beforeEnd', [
+			{
 				attributes: {
-					class: 'table__heading'
+					class: 'esgst-text-left table',
 				},
 				type: 'div',
-				children: [{
-					attributes: {
-						class: 'table__column--width-fill'
-					},
-					text: 'User',
-					type: 'div'
-				}, {
-					attributes: {
-						class: 'table__column--width-small text-center'
-					},
-					text: 'Added',
-					type: 'div'
-				}, {
-					attributes: {
-						class: 'table__column--width-small text-center'
-					},
-					text: 'Remove',
-					type: 'div'
-				}]
-			}, {
-				attributes: {
-					class: 'table__rows'
-				},
-				type: 'div'
-			}]
-		}]);
-		let rows = table.lastElementChild;
-		users.forEach(user => {
-			let row = createElements(rows, 'beforeEnd', [{
-				attributes: {
-					class: 'table__row-outer-wrap'
-				},
-				type: 'div',
-				children: [{
-					attributes: {
-						class: 'table__row-inner-wrap'
-					},
-					type: 'div',
-					children: [{
+				children: [
+					{
 						attributes: {
-							class: 'table__column--width-fill'
+							class: 'table__heading',
 						},
 						type: 'div',
-						children: [{
-							attributes: {
-								class: 'table__column__heading',
-								href: `/user/${user.username}`
-							},
-							text: user.username,
-							type: 'a'
-						}]
-					}, {
-						attributes: {
-							class: 'table__column--width-small text-center'
-						},
-						text: getTimestamp(user[obj.dateKey]),
-						type: 'div'
-					}, {
-						attributes: {
-							class: 'table__column--width-small text-center'
-						},
-						type: 'div',
-						children: [{
-							attributes: {
-								class: 'table__remove-default esgst-clickable'
-							},
-							type: 'div',
-							children: [{
+						children: [
+							{
 								attributes: {
-									class: 'icon-red fa fa-times-circle'
+									class: 'table__column--width-fill',
 								},
-								type: 'i'
-							}, {
+								text: 'User',
+								type: 'div',
+							},
+							{
 								attributes: {
-									class: 'table__column__secondary-link'
+									class: 'table__column--width-small text-center',
+								},
+								text: 'Added',
+								type: 'div',
+							},
+							{
+								attributes: {
+									class: 'table__column--width-small text-center',
 								},
 								text: 'Remove',
-								type: 'span'
-							}]
-						}, {
+								type: 'div',
+							},
+						],
+					},
+					{
+						attributes: {
+							class: 'table__rows',
+						},
+						type: 'div',
+					},
+				],
+			},
+		]);
+		let rows = table.lastElementChild;
+		users.forEach((user) => {
+			let row = createElements(rows, 'beforeEnd', [
+				{
+					attributes: {
+						class: 'table__row-outer-wrap',
+					},
+					type: 'div',
+					children: [
+						{
 							attributes: {
-								class: 'table__remove-loading esgst-hidden'
+								class: 'table__row-inner-wrap',
 							},
 							type: 'div',
-							children: [{
-								attributes: {
-									class: 'fa fa-refresh fa-spin'
+							children: [
+								{
+									attributes: {
+										class: 'table__column--width-fill',
+									},
+									type: 'div',
+									children: [
+										{
+											attributes: {
+												class: 'table__column__heading',
+												href: `/user/${user.username}`,
+											},
+											text: user.username,
+											type: 'a',
+										},
+									],
 								},
-								type: 'i'
-							}, {
-								text: ' Removing',
-								type: 'node'
-							}]
-						}, {
-							attributes: {
-								class: 'table__remove-complete esgst-hidden'
-							},
-							type: 'div',
-							children: [{
-								attributes: {
-									class: 'fa fa-times-circle'
+								{
+									attributes: {
+										class: 'table__column--width-small text-center',
+									},
+									text: getTimestamp(user[obj.dateKey]),
+									type: 'div',
 								},
-								type: 'i'
-							}, {
-								text: ' Removed',
-								type: 'node'
-							}]
-						}]
-					}]
-				}]
-			}]);
+								{
+									attributes: {
+										class: 'table__column--width-small text-center',
+									},
+									type: 'div',
+									children: [
+										{
+											attributes: {
+												class: 'table__remove-default esgst-clickable',
+											},
+											type: 'div',
+											children: [
+												{
+													attributes: {
+														class: 'icon-red fa fa-times-circle',
+													},
+													type: 'i',
+												},
+												{
+													attributes: {
+														class: 'table__column__secondary-link',
+													},
+													text: 'Remove',
+													type: 'span',
+												},
+											],
+										},
+										{
+											attributes: {
+												class: 'table__remove-loading esgst-hidden',
+											},
+											type: 'div',
+											children: [
+												{
+													attributes: {
+														class: 'fa fa-refresh fa-spin',
+													},
+													type: 'i',
+												},
+												{
+													text: ' Removing',
+													type: 'node',
+												},
+											],
+										},
+										{
+											attributes: {
+												class: 'table__remove-complete esgst-hidden',
+											},
+											type: 'div',
+											children: [
+												{
+													attributes: {
+														class: 'fa fa-times-circle',
+													},
+													type: 'i',
+												},
+												{
+													text: ' Removed',
+													type: 'node',
+												},
+											],
+										},
+									],
+								},
+							],
+						},
+					],
+				},
+			]);
 			let object = {
 				dateKey: obj.dateKey,
 				key: obj.key,
 				saveKey: obj.saveKey,
-				user
+				user,
 			};
 			object.removeButton = row.firstElementChild.lastElementChild.firstElementChild;
 			object.removingButton = object.removeButton.nextElementSibling;
@@ -238,7 +275,7 @@ class UsersWhitelistBlacklistSorter extends Module {
 		await request({
 			data: `xsrf_token=${Session.xsrfToken}&do=${obj.key}&action=delete&child_user_id=${obj.user.id}`,
 			method: 'POST',
-			url: '/ajax.php'
+			url: '/ajax.php',
 		});
 		let deleteLock = await createLock('userLock', 300);
 		let savedUsers = JSON.parse(getValue('users'));

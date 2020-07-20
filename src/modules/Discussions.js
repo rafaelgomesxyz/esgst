@@ -1,13 +1,10 @@
 import { Module } from '../class/Module';
-import {common} from './Common';
+import { common } from './Common';
 import { Settings } from '../class/Settings';
 import { Shared } from '../class/Shared';
 
-const
-	getUser = common.getUser.bind(common),
-	sortContent = common.sortContent.bind(common)
-;
-
+const getUser = common.getUser.bind(common),
+	sortContent = common.sortContent.bind(common);
 class Discussions extends Module {
 	constructor() {
 		super();
@@ -15,8 +12,8 @@ class Discussions extends Module {
 			endless: true,
 			id: 'discussions',
 			featureMap: {
-				endless: this.discussions_load.bind(this)
-			}
+				endless: this.discussions_load.bind(this),
+			},
 		};
 	}
 
@@ -35,15 +32,29 @@ class Discussions extends Module {
 			}
 		}
 		if (!main || this.esgst.discussionsPath) {
-			if (main && Shared.esgst.df && this.esgst.df.filteredCount && Settings.get(`df_enable${this.esgst.df.type}`)) {
-				this.esgst.modules.discussionsDiscussionFilters.filters_filter(this.esgst.df, false, endless);
+			if (
+				main &&
+				Shared.esgst.df &&
+				this.esgst.df.filteredCount &&
+				Settings.get(`df_enable${this.esgst.df.type}`)
+			) {
+				this.esgst.modules.discussionsDiscussionFilters.filters_filter(
+					this.esgst.df,
+					false,
+					endless
+				);
 			}
 			if (Settings.get('ds') && Settings.get('ds_auto')) {
 				sortContent(this.esgst.scopes.main.discussions, Settings.get('ds_option'));
 			}
 		}
 		if (!main || this.esgst.tradesPath) {
-			if (main && Shared.esgst.tf && this.esgst.tf.filteredCount && Settings.get(`tf_enable${this.esgst.tf.type}`)) {
+			if (
+				main &&
+				Shared.esgst.tf &&
+				this.esgst.tf.filteredCount &&
+				Settings.get(`tf_enable${this.esgst.tf.type}`)
+			) {
 				this.esgst.modules.tradesTradeFilters.filters_filter(this.esgst.tf, false, endless);
 			}
 		}
@@ -51,10 +62,16 @@ class Discussions extends Module {
 			this.esgst.mm_enable(this.esgst.currentScope.discussions, 'Discussions');
 		}
 		for (const feature of this.esgst.discussionFeatures) {
-			await feature(discussions.filter(x => !x.menu && x.type === 'discussion'), main);
+			await feature(
+				discussions.filter((x) => !x.menu && x.type === 'discussion'),
+				main
+			);
 		}
 		for (const feature of this.esgst.tradeFeatures) {
-			await feature(discussions.filter(x => !x.menu && x.type === 'trade'), main);
+			await feature(
+				discussions.filter((x) => !x.menu && x.type === 'trade'),
+				main
+			);
 		}
 	}
 
@@ -74,10 +91,16 @@ class Discussions extends Module {
 				tagContext: element,
 				tagPosition: 'afterEnd',
 				sortIndex: 0,
-				type: ''
+				type: '',
 			});
 		}
-		elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .table__row-outer-wrap, .esgst-es-page-${endless} .row_outer_wrap, .esgst-es-page-${endless}.table__row-outer-wrap, .esgst-es-page-${endless}.row_outer_wrap` : `.table__row-outer-wrap, .row_outer_wrap`}`);
+		elements = context.querySelectorAll(
+			`${
+				endless
+					? `.esgst-es-page-${endless} .table__row-outer-wrap, .esgst-es-page-${endless} .row_outer_wrap, .esgst-es-page-${endless}.table__row-outer-wrap, .esgst-es-page-${endless}.row_outer_wrap`
+					: `.table__row-outer-wrap, .row_outer_wrap`
+			}`
+		);
 		for (let i = elements.length - 1; i > -1; --i) {
 			let discussion = await this.discussions_getInfo(elements[i], main);
 			if (!discussion) continue;
@@ -90,7 +113,7 @@ class Discussions extends Module {
 				headingContainer: document.getElementsByClassName('page__heading')[0],
 				menu: false,
 				sortIndex: 0,
-				type: ''
+				type: '',
 			};
 			discussion.id = discussion.code;
 			discussion.container = discussion.headingContainer;
@@ -99,7 +122,8 @@ class Discussions extends Module {
 			discussion.tagPosition = 'afterEnd';
 			discussion.saved = this.esgst.discussions[discussion.code];
 			discussion.title = discussion.heading.getElementsByTagName('H1')[0].textContent.trim();
-			discussion.category = discussion.heading.firstElementChild.nextElementSibling.nextElementSibling.textContent;
+			discussion.category =
+				discussion.heading.firstElementChild.nextElementSibling.nextElementSibling.textContent;
 			discussion.type = 'discussion';
 			discussions.push(discussion);
 		}
@@ -115,7 +139,9 @@ class Discussions extends Module {
 		discussion.menu = false;
 		discussion.sortIndex = 0;
 		discussion.outerWrap = context;
-		discussion.innerWrap = discussion.outerWrap.querySelector(`.table__row-inner-wrap, .row_inner_wrap`);
+		discussion.innerWrap = discussion.outerWrap.querySelector(
+			`.table__row-inner-wrap, .row_inner_wrap`
+		);
 		if (!discussion.innerWrap) {
 			return;
 		}
@@ -132,7 +158,9 @@ class Discussions extends Module {
 		if (!discussion.headingContainer) {
 			return;
 		}
-		discussion.bookmarkNode = discussion.headingColumn.querySelector('.icon-heading.fa.fa-bookmark, .icon-heading.fa.fa-bookmark-o');
+		discussion.bookmarkNode = discussion.headingColumn.querySelector(
+			'.icon-heading.fa.fa-bookmark, .icon-heading.fa.fa-bookmark-o'
+		);
 		discussion.closed = discussion.headingContainer.querySelector('.fa-lock');
 		discussion.heading = discussion.headingContainer.lastElementChild;
 		discussion.info = discussion.headingContainer.nextElementSibling;
@@ -153,7 +181,13 @@ class Discussions extends Module {
 		switch (discussion.type) {
 			case 'discussion':
 				discussion.saved = this.esgst.discussions[discussion.code];
-				if (main && Settings.get('df') && Settings.get('df_s') && discussion.saved && discussion.saved.hidden) {
+				if (
+					main &&
+					Settings.get('df') &&
+					Settings.get('df_s') &&
+					discussion.saved &&
+					discussion.saved.hidden
+				) {
 					discussion.outerWrap.classList.add('esgst-hidden');
 					discussion.outerWrap.setAttribute('data-esgst-not-filterable', 'df');
 					if (Settings.get('df_s_s')) {
@@ -164,9 +198,11 @@ class Discussions extends Module {
 				discussion.categoryContainer = discussion.info.firstElementChild;
 				if (discussion.headingColumn.nextElementSibling) {
 					discussion.category = discussion.categoryContainer.textContent;
-					discussion[discussion.category.replace(/\W/g, '').replace(/^(.)/, (m, p1) => {
-						return p1.toLowerCase();
-					})] = true;
+					discussion[
+						discussion.category.replace(/\W/g, '').replace(/^(.)/, (m, p1) => {
+							return p1.toLowerCase();
+						})
+					] = true;
 				} else {
 					discussion.category = '';
 				}
@@ -174,7 +210,13 @@ class Discussions extends Module {
 				break;
 			case 'trade':
 				discussion.saved = this.esgst.trades[discussion.code];
-				if (main && Settings.get('tf') && Settings.get('tf_s') && discussion.saved && discussion.saved.hidden) {
+				if (
+					main &&
+					Settings.get('tf') &&
+					Settings.get('tf_s') &&
+					discussion.saved &&
+					discussion.saved.hidden
+				) {
 					discussion.outerWrap.classList.add('esgst-hidden');
 					discussion.outerWrap.setAttribute('data-esgst-not-filterable', 'df');
 					if (Settings.get('tf_s_s')) {
@@ -184,10 +226,18 @@ class Discussions extends Module {
 				}
 				discussion.createdContainer = discussion.info.firstElementChild;
 				discussion.reputationElement = discussion.info.querySelector('.reputation');
-				discussion.positiveReputationElement = discussion.reputationElement.querySelector('.is_positive');
-				discussion.negativeReputationElement = discussion.reputationElement.querySelector('.is_negative');
-				discussion.positiveReputation = parseInt(discussion.positiveReputationElement.textContent.replace(/[^\d]/g, ''));
-				discussion.negativeReputation = parseInt(discussion.negativeReputationElement.textContent.replace(/[^\d]/g, ''));
+				discussion.positiveReputationElement = discussion.reputationElement.querySelector(
+					'.is_positive'
+				);
+				discussion.negativeReputationElement = discussion.reputationElement.querySelector(
+					'.is_negative'
+				);
+				discussion.positiveReputation = parseInt(
+					discussion.positiveReputationElement.textContent.replace(/[^\d]/g, '')
+				);
+				discussion.negativeReputation = parseInt(
+					discussion.negativeReputationElement.textContent.replace(/[^\d]/g, '')
+				);
 				break;
 		}
 		discussion.bookmarked = !!discussion.bookmarkNode;
@@ -197,9 +247,12 @@ class Discussions extends Module {
 		}
 		if (discussion.createdContainer) {
 			discussion.createdTime = discussion.createdContainer.textContent;
-			discussion.createdTimestamp = parseInt(discussion.createdContainer.getAttribute('data-timestamp')) * 1e3;
+			discussion.createdTimestamp =
+				parseInt(discussion.createdContainer.getAttribute('data-timestamp')) * 1e3;
 			if (this.esgst.giveawaysPath) {
-				discussion.author = (discussion.avatar.getAttribute('href') || discussion.avatar.dataset.href).match(/\/user\/(.+)/)[1];
+				discussion.author = (
+					discussion.avatar.getAttribute('href') || discussion.avatar.dataset.href
+				).match(/\/user\/(.+)/)[1];
 			} else {
 				discussion.author = discussion.createdContainer.nextElementSibling.textContent;
 			}
@@ -210,18 +263,33 @@ class Discussions extends Module {
 		discussion.authors = [discussion.author.toLowerCase()];
 		discussion.created = discussion.author === Settings.get('username');
 		discussion.poll = discussion.outerWrap.querySelector('.fa-align-left');
-		discussion.commentsColumn = discussion.headingColumn.nextElementSibling || discussion.headingColumn.children[1];
+		discussion.commentsColumn =
+			discussion.headingColumn.nextElementSibling || discussion.headingColumn.children[1];
 		if (discussion.commentsColumn) {
-			discussion.comments = parseInt(discussion.commentsColumn.firstElementChild.textContent.replace(/,/g, ''));
-			if (this.esgst.giveawaysPath && Settings.get('adots') && Settings.get('adots_index') === 1 && Settings.get('ns')) {
-				discussion.commentsColumn.firstElementChild.textContent = discussion.commentsColumn.firstElementChild.textContent.replace(/\sComments/, '');
+			discussion.comments = parseInt(
+				discussion.commentsColumn.firstElementChild.textContent.replace(/,/g, '')
+			);
+			if (
+				this.esgst.giveawaysPath &&
+				Settings.get('adots') &&
+				Settings.get('adots_index') === 1 &&
+				Settings.get('ns')
+			) {
+				discussion.commentsColumn.firstElementChild.textContent = discussion.commentsColumn.firstElementChild.textContent.replace(
+					/\sComments/,
+					''
+				);
 			}
 		}
-		discussion.lastPost = discussion.outerWrap.querySelector(`.table__column--last-comment, .column_last_update`);
+		discussion.lastPost = discussion.outerWrap.querySelector(
+			`.table__column--last-comment, .column_last_update`
+		);
 		if (discussion.lastPost && discussion.lastPost.firstElementChild) {
 			discussion.lastPostTime = discussion.lastPost.firstElementChild.firstElementChild;
 			discussion.lastPostAuthor = discussion.lastPostTime.nextElementSibling;
-			discussion.lastPostCode = discussion.lastPostAuthor.lastElementChild.getAttribute('href').match(/\/comment\/(.+)/);
+			discussion.lastPostCode = discussion.lastPostAuthor.lastElementChild
+				.getAttribute('href')
+				.match(/\/comment\/(.+)/);
 			if (discussion.lastPostCode) {
 				discussion.lastPostCode = discussion.lastPostCode[1];
 				discussion.wasLastPostBump = false;

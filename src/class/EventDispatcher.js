@@ -27,7 +27,9 @@ class _EventDispatcher {
 			return;
 		}
 
-		this.subscribers[event] = this.subscribers[event].filter(subscriber => subscriber !== callback);
+		this.subscribers[event] = this.subscribers[event].filter(
+			(subscriber) => subscriber !== callback
+		);
 	}
 
 	/**

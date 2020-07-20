@@ -55,14 +55,22 @@ class Process {
 				title1: 'Start',
 				title2: 'Stop',
 				callback1: this.start.bind(this),
-				callback2: this.stop.bind(this)
-			}
+				callback2: this.stop.bind(this),
+			},
 		];
 		this.popup = new Popup(this.popupDetails);
 		if (this.urls && this.urls.id && !this.urls.lockPerLoad) {
 			DOM.build(this.popup.description, 'afterBegin', [
 				`Items per load: `,
-				['input', { class: 'esgst-switch-input', type: 'number', value: Settings.get(`${this.urls.id}_perLoad`), ref: ref => Shared.common.observeNumChange(ref, `${this.urls.id}_perLoad`, true) }]
+				[
+					'input',
+					{
+						class: 'esgst-switch-input',
+						type: 'number',
+						value: Settings.get(`${this.urls.id}_perLoad`),
+						ref: (ref) => Shared.common.observeNumChange(ref, `${this.urls.id}_perLoad`, true),
+					},
+				],
 			]);
 		}
 		this.popup.open();
@@ -70,14 +78,18 @@ class Process {
 			this.index = 0;
 			this.items = [];
 			// noinspection JSAnnotator
-			await this.urls.init(this, ...this.urls.arguments || []);
+			await this.urls.init(this, ...(this.urls.arguments || []));
 			this.total = this.items.length;
 			if (!this.urls.doNotTrigger) {
 				this.popup.triggerButton(0);
 			}
 			if (Settings.get(`es_${this.urls.id}`)) {
 				this.popup.scrollable.addEventListener('scroll', () => {
-					if (this.popup.scrollable.scrollTop + this.popup.scrollable.offsetHeight >= this.popup.scrollable.scrollHeight && !this.popup.isButtonBusy(0)) {
+					if (
+						this.popup.scrollable.scrollTop + this.popup.scrollable.offsetHeight >=
+							this.popup.scrollable.scrollHeight &&
+						!this.popup.isButtonBusy(0)
+					) {
 						this.popup.triggerButton(0);
 					}
 				});
@@ -137,14 +149,25 @@ class Process {
 		}
 		this.popup.setProgress('Loading more...');
 		this.popup.setOverallProgress(`${this.index} of ${this.total} loaded.`);
-		this.context = this.mainContext ? DOM.build(this.mainContext, 'beforeEnd', this.contextHtml) : this.popup.getScrollable(this.contextHtml);
+		this.context = this.mainContext
+			? DOM.build(this.mainContext, 'beforeEnd', this.contextHtml)
+			: this.popup.getScrollable(this.contextHtml);
 		let i = 0;
-		while (!this.isCanceled && (i < (this.urls.lockPerLoad ? this.urls.perLoad : Settings.get(`${this.urls.id}_perLoad`)) || (Settings.get(`es_${this.urls.id}`) && this.popup.scrollable.scrollHeight <= this.popup.scrollable.offsetHeight))) {
+		while (
+			!this.isCanceled &&
+			(i < (this.urls.lockPerLoad ? this.urls.perLoad : Settings.get(`${this.urls.id}_perLoad`)) ||
+				(Settings.get(`es_${this.urls.id}`) &&
+					this.popup.scrollable.scrollHeight <= this.popup.scrollable.offsetHeight))
+		) {
 			let url = this.items[this.index];
 			if (!url) break;
 			url = url.url || url;
 			try {
-				const response = await Shared.common.request({method: 'GET', queue: details.queue, url: url});
+				const response = await Shared.common.request({
+					method: 'GET',
+					queue: details.queue,
+					url: url,
+				});
 				const responseHtml = DOM.parse(response.responseText);
 				await details.request(this, details, response, responseHtml);
 				i += 1;
@@ -172,19 +195,37 @@ class Process {
 		let pagination = null;
 		let stop = false;
 		do {
-			let response = await Shared.common.request({method: 'GET', queue: details.queue, url: `${details.url}${details.nextPage}`});
+			let response = await Shared.common.request({
+				method: 'GET',
+				queue: details.queue,
+				url: `${details.url}${details.nextPage}`,
+			});
 			let responseHtml = DOM.parse(response.responseText);
 			if (details.nextPage === backup) {
-				details.lastPage = Shared.esgst.modules.generalLastPageLink.lpl_getLastPage(responseHtml, false, details.discussion, details.user, details.userWon, details.group, details.groupUsers, details.groupWishlist);
+				details.lastPage = Shared.esgst.modules.generalLastPageLink.lpl_getLastPage(
+					responseHtml,
+					false,
+					details.discussion,
+					details.user,
+					details.userWon,
+					details.group,
+					details.groupUsers,
+					details.groupWishlist
+				);
 				details.lastPage = details.lastPage === 999999999 ? '' : ` of ${details.lastPage}`;
 			}
 			stop = await details.request(this, details, response, responseHtml);
 			details.nextPage += 1;
 			pagination = responseHtml.getElementsByClassName('pagination__navigation')[0];
-		} while (!stop && !this.isCanceled && (!details.maxPage || details.nextPage <= details.maxPage) && pagination && !pagination.lastElementChild.classList.contains(Shared.esgst.selectedClass));
+		} while (
+			!stop &&
+			!this.isCanceled &&
+			(!details.maxPage || details.nextPage <= details.maxPage) &&
+			pagination &&
+			!pagination.lastElementChild.classList.contains(Shared.esgst.selectedClass)
+		);
 		details.nextPage = backup;
 	}
 }
 
 export { Process };
-

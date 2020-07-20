@@ -21,7 +21,9 @@ async function notify() {
 				break;
 			}
 
-			const permalinkMatch = payload.body.match(/(https:\/\/www\.steamgifts\.com\/go\/comment\/([A-Za-z0-9]+))/);
+			const permalinkMatch = payload.body.match(
+				/(https:\/\/www\.steamgifts\.com\/go\/comment\/([A-Za-z0-9]+))/
+			);
 
 			if (!permalinkMatch) {
 				console.log('Permalink not found.');
@@ -34,7 +36,7 @@ async function notify() {
 
 			const permalinkResponse = await fetch(permalink, {
 				headers: {
-					'Cookie': `PHPSESSID=${args.steamgiftsToken}`,
+					Cookie: `PHPSESSID=${args.steamgiftsToken}`,
 					'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:71.0) Gecko/20100101 Firefox/71.0',
 				},
 			});
@@ -51,7 +53,9 @@ async function notify() {
 
 			const xsrfToken = xsrfTokenMatch[1];
 
-			const commentIdMatch = permalinkText.match(new RegExp(`data-comment-id="([A-Za-z0-9]+?)"(?:(?!data-comment-id)[\\S\\s])*?id="${id}"`));
+			const commentIdMatch = permalinkText.match(
+				new RegExp(`data-comment-id="([A-Za-z0-9]+?)"(?:(?!data-comment-id)[\\S\\s])*?id="${id}"`)
+			);
 
 			if (!commentIdMatch) {
 				console.log('Comment ID not found.');
@@ -66,10 +70,12 @@ async function notify() {
 			const message = `Beep bop! ESGST bot here to let you know that your report / suggestion is being looked into. For reference, visit the GitLab issue: [#${issueNumber}](https://gitlab.com/rafaelgssa/esgst/-/issues/${issueNumber})`;
 
 			await fetch(url, {
-				body: `xsrf_token=${xsrfToken}&do=comment_new&parent_id=${commentId}&description=${encodeURIComponent(message)}`,
+				body: `xsrf_token=${xsrfToken}&do=comment_new&parent_id=${commentId}&description=${encodeURIComponent(
+					message
+				)}`,
 				headers: {
 					'Content-Type': 'application/x-www-form-urlencoded',
-					'Cookie': `PHPSESSID=${args.steamgiftsToken}`,
+					Cookie: `PHPSESSID=${args.steamgiftsToken}`,
 					'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:71.0) Gecko/20100101 Firefox/71.0',
 				},
 				method: 'POST',
@@ -89,7 +95,9 @@ async function notify() {
 				break;
 			}
 
-			const permalinkMatch = payload.body.match(/(https:\/\/www\.steamgifts\.com\/go\/comment\/([A-Za-z0-9]+))/);
+			const permalinkMatch = payload.body.match(
+				/(https:\/\/www\.steamgifts\.com\/go\/comment\/([A-Za-z0-9]+))/
+			);
 
 			if (!permalinkMatch) {
 				console.log('Permalink not found.');
@@ -102,7 +110,7 @@ async function notify() {
 
 			const permalinkResponse = await fetch(permalink, {
 				headers: {
-					'Cookie': `PHPSESSID=${args.steamgiftsToken}`,
+					Cookie: `PHPSESSID=${args.steamgiftsToken}`,
 					'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:71.0) Gecko/20100101 Firefox/71.0',
 				},
 			});
@@ -119,7 +127,9 @@ async function notify() {
 
 			const xsrfToken = xsrfTokenMatch[1];
 
-			const commentIdMatch = permalinkText.match(new RegExp(`data-comment-id="([A-Za-z0-9]+?)"(?:(?!data-comment-id)[\\S\\s])*?id="${id}"`));
+			const commentIdMatch = permalinkText.match(
+				new RegExp(`data-comment-id="([A-Za-z0-9]+?)"(?:(?!data-comment-id)[\\S\\s])*?id="${id}"`)
+			);
 
 			if (!commentIdMatch) {
 				console.log('Comment ID not found.');
@@ -134,10 +144,12 @@ async function notify() {
 			const message = `Beep bop! ESGST bot here to let you know that a new version is being deployed which should fix your issue. If you're on Chrome, it may take a while until the update is available. For reference, visit the GitLab issue: [#${issueNumber}](https://gitlab.com/rafaelgssa/esgst/-/issues/${issueNumber})`;
 
 			await fetch(url, {
-				body: `xsrf_token=${xsrfToken}&do=comment_new&parent_id=${commentId}&description=${encodeURIComponent(message)}`,
+				body: `xsrf_token=${xsrfToken}&do=comment_new&parent_id=${commentId}&description=${encodeURIComponent(
+					message
+				)}`,
 				headers: {
 					'Content-Type': 'application/x-www-form-urlencoded',
-					'Cookie': `PHPSESSID=${args.steamgiftsToken}`,
+					Cookie: `PHPSESSID=${args.steamgiftsToken}`,
 					'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:71.0) Gecko/20100101 Firefox/71.0',
 				},
 				method: 'POST',

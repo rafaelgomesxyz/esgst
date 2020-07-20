@@ -90,32 +90,32 @@ class _Settings {
 			ul_links: [
 				{
 					label: `https://cdn.steamtrades.com/img/favicon.ico`,
-					url: `https://www.steamtrades.com/user/%steamid%`
+					url: `https://www.steamtrades.com/user/%steamid%`,
 				},
 				{
 					label: `https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/79/7967e1ee4973a92886fe737d90f0a0b20b6f94a1_full.jpg`,
-					url: `https://www.backlog-assassins.net/users/+%steamid%`
+					url: `https://www.backlog-assassins.net/users/+%steamid%`,
 				},
 				{
 					label: `https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/91/91b23515a62b46eaa46cedab5bbe8085aa11ce1d_full.jpg`,
-					url: `https://www.playingappreciated.com/profile.php?u=%steamid%`
+					url: `https://www.playingappreciated.com/profile.php?u=%steamid%`,
 				},
 				{
 					label: `https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/0a/0a603fdbfb5d1283132c6558390ef71c1f48fc51_full.jpg`,
-					url: `https://touhou.justarchi.net/user/%steamid%/profile`
+					url: `https://touhou.justarchi.net/user/%steamid%/profile`,
 				},
 				{
 					label: `https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/1a/1ad341114c26138740b405595f9ecf140f6b647f_full.jpg`,
-					url: `https://astats.astats.nl/astats/User_Info.php?steamID64=%steamid%`
+					url: `https://astats.astats.nl/astats/User_Info.php?steamID64=%steamid%`,
 				},
 				{
 					label: `https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/41/41d0a0ca20c6b460c10e03c6ff8ef23bc6bb7f9d_full.jpg`,
-					url: `https://barter.vg/steam/%steamid%`
+					url: `https://barter.vg/steam/%steamid%`,
 				},
 				{
 					label: 'SteamRep',
-					url: `https://steamrep.com/profiles/%steamid%`
-				}
+					url: `https://steamrep.com/profiles/%steamid%`,
+				},
 			],
 			cgb_b_bgColor: '#000000',
 			cgb_p_bgColor: '#000000',
@@ -138,8 +138,34 @@ class _Settings {
 			giveawayLinks_gv: ['entries', 'winners_count', 'comments'],
 			giveawayExtraPanel: ['ggl'],
 			giveawayExtraPanel_gv: ['ggl'],
-			giveawayHeading: ['gr', 'gb', 'gf', 'egh', 'name', 'points', 'copies', 'steam', 'screenshots-videos', 'search', 'hideGame', 'gt'],
-			giveawayHeading_gv: ['gr', 'gb', 'gf', 'egh', 'name', 'points', 'copies', 'steam', 'screenshots-videos', 'search', 'hideGame', 'gt'],
+			giveawayHeading: [
+				'gr',
+				'gb',
+				'gf',
+				'egh',
+				'name',
+				'points',
+				'copies',
+				'steam',
+				'screenshots-videos',
+				'search',
+				'hideGame',
+				'gt',
+			],
+			giveawayHeading_gv: [
+				'gr',
+				'gb',
+				'gf',
+				'egh',
+				'name',
+				'points',
+				'copies',
+				'steam',
+				'screenshots-videos',
+				'search',
+				'hideGame',
+				'gt',
+			],
 			nrf_clearCache: false,
 			dt_s_sg: true,
 			gt_s_sg: true,
@@ -224,7 +250,7 @@ class _Settings {
 					icon: 'fa-eye',
 					id: 'hiddenGames',
 					name: 'Hidden Games',
-					url: '/account/settings/giveaways/filters'
+					url: '/account/settings/giveaways/filters',
 				},
 				{
 					color: 'grey',
@@ -232,44 +258,104 @@ class _Settings {
 					icon: 'fa-calendar-minus-o',
 					id: 'reducedCvGames',
 					name: 'Reduced CV Games',
-					url: '/bundle-games'
+					url: '/bundle-games',
 				},
-				{id: `browseWishlistGiveaways`, name: 'Browse Wishlist Giveaways', url: `/giveaways/search?type=wishlist`},
-				{id: `browseFollowedGiveaways`, name: 'Browse Followed Giveaways', url: `/giveaways/search?esgst=fgp`},
-				{id: `browseRecommendedGiveaways`, name: 'Browse Recommended Giveaways', url: `/giveaways/search?type=recommended`},
-				{id: `browseGroupGiveaways`, name: 'Browse Group Giveaways', url: `/giveaways/search?type=group`},
-				{id: `browseNewGiveaways`, name: 'Browse New Giveaways', url: `/giveaways/search?type=new`}
+				{
+					id: `browseWishlistGiveaways`,
+					name: 'Browse Wishlist Giveaways',
+					url: `/giveaways/search?type=wishlist`,
+				},
+				{
+					id: `browseFollowedGiveaways`,
+					name: 'Browse Followed Giveaways',
+					url: `/giveaways/search?esgst=fgp`,
+				},
+				{
+					id: `browseRecommendedGiveaways`,
+					name: 'Browse Recommended Giveaways',
+					url: `/giveaways/search?type=recommended`,
+				},
+				{
+					id: `browseGroupGiveaways`,
+					name: 'Browse Group Giveaways',
+					url: `/giveaways/search?type=group`,
+				},
+				{
+					id: `browseNewGiveaways`,
+					name: 'Browse New Giveaways',
+					url: `/giveaways/search?type=new`,
+				},
 			],
 			chfl_discussions_sg: [
 				'createANewDiscussion',
 				'viewCreated',
 				'viewBookmarked',
-				{id: 'browseAddonsTools', name: 'Browse Add-ons / Tools', url: '/discussions/addons-tools'},
-				{id: 'browseAnnouncements', name: 'Browse Announcements', url: '/discussions/announcements'},
-				{id: 'browseBugs', name: 'Browse Bugs / Suggestions', url: '/discussions/bugs-suggestions'},
-				{id: 'browseDeals', name: 'Browse Deals', url: '/discussions/deals'},
-				{id: 'browseGameShowcase', name: 'Browse Game Showcase', url: '/discussions/game-showcase'},
-				{id: 'browseGeneral', name: 'Browse General', url: '/discussions/general'},
-				{id: 'browseGroupRecruitment', name: 'Browse Group Recruitment', url: '/discussions/group-recruitment'},
-				{id: 'browseHardware', name: 'Browse Hardware', url: '/discussions/hardware'},
-				{id: 'browseHelp', name: 'Browse Help', url: '/discussions/help'},
-				{id: 'browseLet', name: 'Browse Let\'s Play Together', url: '/discussions/lets-play-together'},
-				{id: 'browseMoviesTv', name: 'Browse Movies / TV', url: '/discussions/movies-tv'},
-				{id: 'browseOff', name: 'Browse Off Topic', url: '/discussions/off-topic'},
-				{id: 'browsePuzzles', name: 'Browse Puzzles / Events', url: '/discussions/puzzles-events'},
-				{id: 'browseUncategorized', name: 'Browse Uncategorized', url: '/discussions/uncategorized'},
-				{id: 'browseUserProjects', name: 'Browse User Projects', url: '/discussions/user-projects'},
-				{id: 'browseWhitelistRecruitment', name: 'Browse Whitelist / Recruitment', url: '/discussions/whitelist-recruitment'},
+				{
+					id: 'browseAddonsTools',
+					name: 'Browse Add-ons / Tools',
+					url: '/discussions/addons-tools',
+				},
+				{
+					id: 'browseAnnouncements',
+					name: 'Browse Announcements',
+					url: '/discussions/announcements',
+				},
+				{
+					id: 'browseBugs',
+					name: 'Browse Bugs / Suggestions',
+					url: '/discussions/bugs-suggestions',
+				},
+				{ id: 'browseDeals', name: 'Browse Deals', url: '/discussions/deals' },
+				{
+					id: 'browseGameShowcase',
+					name: 'Browse Game Showcase',
+					url: '/discussions/game-showcase',
+				},
+				{ id: 'browseGeneral', name: 'Browse General', url: '/discussions/general' },
+				{
+					id: 'browseGroupRecruitment',
+					name: 'Browse Group Recruitment',
+					url: '/discussions/group-recruitment',
+				},
+				{ id: 'browseHardware', name: 'Browse Hardware', url: '/discussions/hardware' },
+				{ id: 'browseHelp', name: 'Browse Help', url: '/discussions/help' },
+				{
+					id: 'browseLet',
+					name: "Browse Let's Play Together",
+					url: '/discussions/lets-play-together',
+				},
+				{ id: 'browseMoviesTv', name: 'Browse Movies / TV', url: '/discussions/movies-tv' },
+				{ id: 'browseOff', name: 'Browse Off Topic', url: '/discussions/off-topic' },
+				{
+					id: 'browsePuzzles',
+					name: 'Browse Puzzles / Events',
+					url: '/discussions/puzzles-events',
+				},
+				{
+					id: 'browseUncategorized',
+					name: 'Browse Uncategorized',
+					url: '/discussions/uncategorized',
+				},
+				{
+					id: 'browseUserProjects',
+					name: 'Browse User Projects',
+					url: '/discussions/user-projects',
+				},
+				{
+					id: 'browseWhitelistRecruitment',
+					name: 'Browse Whitelist / Recruitment',
+					url: '/discussions/whitelist-recruitment',
+				},
 			],
 			chfl_support_sg: [
 				'createANewTicket',
 				{
 					color: 'grey',
-					description: "Check a user`s real CV.",
+					description: 'Check a user`s real CV.',
 					icon: 'fa-dollar',
 					id: 'realCv',
 					name: 'Real CV',
-					url: `https://www.sgtools.info/real-cv`
+					url: `https://www.sgtools.info/real-cv`,
 				},
 				{
 					color: 'red',
@@ -277,7 +363,7 @@ class _Settings {
 					icon: 'fa-exchange',
 					id: 'notActivatedWins',
 					name: 'Not Activated Wins',
-					url: `https://www.sgtools.info/activation`
+					url: `https://www.sgtools.info/activation`,
 				},
 				{
 					color: 'red',
@@ -285,7 +371,7 @@ class _Settings {
 					icon: 'fa-clone',
 					id: 'multipleWins',
 					name: 'Multiple Wins',
-					url: `https://www.sgtools.info/multiple-wins`
+					url: `https://www.sgtools.info/multiple-wins`,
 				},
 				{
 					color: 'grey',
@@ -293,8 +379,8 @@ class _Settings {
 					icon: 'fa-percent',
 					id: 'lastBundled',
 					name: 'Last Bundled',
-					url: `https://www.sgtools.info/lastbundled`
-				}
+					url: `https://www.sgtools.info/lastbundled`,
+				},
 			],
 			chfl_help_sg: [
 				'commentFormatting',
@@ -302,23 +388,53 @@ class _Settings {
 				'guidelines',
 				{
 					color: 'grey',
-					description: "View SteamGifts` change log.",
+					description: 'View SteamGifts` change log.',
 					icon: 'fa-file-text-o',
 					id: 'changeLog',
 					name: 'Change Log',
-					url: '/discussion/e9zDo/'
-				}
+					url: '/discussion/e9zDo/',
+				},
 			],
 			chfl_account_sg: [
 				'syncWithSteam',
 				'myStats',
 				'myEntryHistory',
 				'myCommentHistory',
-				{color: 'blue', icon: 'fa-heart', id: 'whitelist', name: 'Whitelist', url: '/account/manage/whitelist'},
-				{color: 'red', icon: 'fa-ban', id: 'blacklist', name: 'Blacklist', url: '/account/manage/blacklist'},
-				{color: 'grey', icon: 'fa-folder', id: 'games', name: 'Games', url: '/account/steam/games'},
-				{color: 'grey', icon: 'fa-user', id: 'groups', name: 'Groups', url: '/account/steam/groups'},
-				{color: 'grey', icon: 'fa-star', id: 'wishlist', name: 'Wishlist', url: '/account/steam/wishlist'},
+				{
+					color: 'blue',
+					icon: 'fa-heart',
+					id: 'whitelist',
+					name: 'Whitelist',
+					url: '/account/manage/whitelist',
+				},
+				{
+					color: 'red',
+					icon: 'fa-ban',
+					id: 'blacklist',
+					name: 'Blacklist',
+					url: '/account/manage/blacklist',
+				},
+				{
+					color: 'grey',
+					icon: 'fa-folder',
+					id: 'games',
+					name: 'Games',
+					url: '/account/steam/games',
+				},
+				{
+					color: 'grey',
+					icon: 'fa-user',
+					id: 'groups',
+					name: 'Groups',
+					url: '/account/steam/groups',
+				},
+				{
+					color: 'grey',
+					icon: 'fa-star',
+					id: 'wishlist',
+					name: 'Wishlist',
+					url: '/account/steam/wishlist',
+				},
 			],
 			chfl_footer_sg: [
 				'archive',
@@ -330,24 +446,17 @@ class _Settings {
 				'privacyPolicy',
 				'cookiePolicy',
 				'termsOfService',
-				'advertise'
+				'advertise',
 			],
-			chfl_trades_st: [
-				'newTrade',
-				'myTrades'
-			],
-			chfl_account_st: [
-				'reviews',
-				'comments',
-				'settings',
-			],
+			chfl_trades_st: ['newTrade', 'myTrades'],
+			chfl_account_st: ['reviews', 'comments', 'settings'],
 			chfl_footer_st: [
 				'guidelines',
 				'commentFormatting',
 				'privacyPolicy',
 				'cookiePolicy',
 				'termsOfService',
-				'advertise'
+				'advertise',
 			],
 			cdr_days: 7,
 			cdr_aDays: 7,
@@ -362,9 +471,30 @@ class _Settings {
 			hgm_removeTagged: false,
 			hgm_tags: [],
 			hgm_removeBanned: false,
-			giveawayColumns: ['ged', 'endTime', 'winners', 'startTime', 'touhou', 'inviteOnly', 'whitelist', 'group', 'regionRestricted', 'level'],
+			giveawayColumns: [
+				'ged',
+				'endTime',
+				'winners',
+				'startTime',
+				'touhou',
+				'inviteOnly',
+				'whitelist',
+				'group',
+				'regionRestricted',
+				'level',
+			],
 			giveawayPanel: ['ttec', 'gwc', 'gwr', 'gptw', 'gp', 'elgb', 'sgTools'],
-			giveawayColumns_gv: ['sgTools', 'ged', 'time', 'touhou', 'inviteOnly', 'whitelist', 'group', 'regionRestricted', 'level'],
+			giveawayColumns_gv: [
+				'sgTools',
+				'ged',
+				'time',
+				'touhou',
+				'inviteOnly',
+				'whitelist',
+				'group',
+				'regionRestricted',
+				'level',
+			],
 			giveawayPanel_gv: ['ttec', 'gwc', 'gwr', 'gptw', 'gp', 'elgb'],
 			enableByDefault_sg: false,
 			enableByDefault_st: false,
@@ -487,15 +617,75 @@ class _Settings {
 			gas_autoPopup: false,
 			gas_optionPopup: 'sortIndex_asc',
 			gb_hours: 1,
-			gc_categories: ['gc_gi', 'gc_r', 'gc_hltb', 'gc_ocv', 'gc_fcv', 'gc_rcv', 'gc_ncv', 'gc_h', 'gc_i', 'gc_o', 'gc_w', 'gc_f', 'gc_pw', 'gc_a', 'gc_bd', 'gc_bvg', 'gc_sp', 'gc_mp', 'gc_sc', 'gc_tc', 'gc_l', 'gc_m', 'gc_ea', 'gc_lg', 'gc_rm', 'gc_dlc', 'gc_p', 'gc_rd', 'gc_g'],
-			gc_categories_gv: ['gc_gi', 'gc_r', 'gc_hltb', 'gc_ocv', 'gc_fcv', 'gc_rcv', 'gc_ncv', 'gc_h', 'gc_i', 'gc_o', 'gc_w', 'gc_f', 'gc_pw', 'gc_a', 'gc_bd', 'gc_bvg', 'gc_sp', 'gc_mp', 'gc_sc', 'gc_tc', 'gc_l', 'gc_m', 'gc_ea', 'gc_lg', 'gc_rm', 'gc_dlc', 'gc_p', 'gc_rd', 'gc_g'],
+			gc_categories: [
+				'gc_gi',
+				'gc_r',
+				'gc_hltb',
+				'gc_ocv',
+				'gc_fcv',
+				'gc_rcv',
+				'gc_ncv',
+				'gc_h',
+				'gc_i',
+				'gc_o',
+				'gc_w',
+				'gc_f',
+				'gc_pw',
+				'gc_a',
+				'gc_bd',
+				'gc_bvg',
+				'gc_sp',
+				'gc_mp',
+				'gc_sc',
+				'gc_tc',
+				'gc_l',
+				'gc_m',
+				'gc_ea',
+				'gc_lg',
+				'gc_rm',
+				'gc_dlc',
+				'gc_p',
+				'gc_rd',
+				'gc_g',
+			],
+			gc_categories_gv: [
+				'gc_gi',
+				'gc_r',
+				'gc_hltb',
+				'gc_ocv',
+				'gc_fcv',
+				'gc_rcv',
+				'gc_ncv',
+				'gc_h',
+				'gc_i',
+				'gc_o',
+				'gc_w',
+				'gc_f',
+				'gc_pw',
+				'gc_a',
+				'gc_bd',
+				'gc_bvg',
+				'gc_sp',
+				'gc_mp',
+				'gc_sc',
+				'gc_tc',
+				'gc_l',
+				'gc_m',
+				'gc_ea',
+				'gc_lg',
+				'gc_rm',
+				'gc_dlc',
+				'gc_p',
+				'gc_rd',
+				'gc_g',
+			],
 			gc_o_altAccounts: [],
 			gc_g_colors: [],
 			gc_g_filters: '',
 			gc_r_colors: [
-				{bgColor: '#a34c25', color: '#ffffff', icon: 'thumbs-down', lower: 0, upper: 39},
-				{bgColor: '#b9a074', color: '#ffffff', icon: 'minus-circle', lower: 40, upper: 69},
-				{bgColor: '#66c0f4', color: '#ffffff', icon: 'thumbs-up', lower: 70, upper: 100}
+				{ bgColor: '#a34c25', color: '#ffffff', icon: 'thumbs-down', lower: 0, upper: 39 },
+				{ bgColor: '#b9a074', color: '#ffffff', icon: 'minus-circle', lower: 40, upper: 69 },
+				{ bgColor: '#66c0f4', color: '#ffffff', icon: 'thumbs-up', lower: 70, upper: 100 },
 			],
 			gc_ocvIcon: 'history',
 			gc_fcvIcon: 'calendar',
@@ -672,7 +862,42 @@ class _Settings {
 			lastSyncDelistedGames: 0,
 			lastSyncGiveaways: 0,
 			lastSyncWonGiveaways: 0,
-			leftMainPageHeadingIds: ['wbsDesc', 'wbsAsc', 'wbm', 'wbc', 'ust', 'usc', 'ugs', 'uf_s_s', 'tf_s_s', 'tf', 'tb', 'sks', 'rbp', 'namwc', 'mpp', 'hgm', 'gv', 'gts', 'glwc', 'gf_s_s', 'gf', 'ge', 'gas', 'ds', 'df_s_s', 'df', 'ctUnread', 'ctRead', 'ctGo', 'cs', 'cf', 'cec', 'as', 'aic'],
+			leftMainPageHeadingIds: [
+				'wbsDesc',
+				'wbsAsc',
+				'wbm',
+				'wbc',
+				'ust',
+				'usc',
+				'ugs',
+				'uf_s_s',
+				'tf_s_s',
+				'tf',
+				'tb',
+				'sks',
+				'rbp',
+				'namwc',
+				'mpp',
+				'hgm',
+				'gv',
+				'gts',
+				'glwc',
+				'gf_s_s',
+				'gf',
+				'ge',
+				'gas',
+				'ds',
+				'df_s_s',
+				'df',
+				'ctUnread',
+				'ctRead',
+				'ctGo',
+				'cs',
+				'cf',
+				'cec',
+				'as',
+				'aic',
+			],
 			leftButtonIds: [],
 			mgc_createTrain: true,
 			mgc_bumpLast: true,
@@ -685,7 +910,17 @@ class _Settings {
 			npth_previousKey: 'ArrowLeft',
 			npth_nextKey: 'ArrowRight',
 			nrf_searchMultiple: false,
-			rightMainPageHeadingIds: ['esResume', 'esPause', 'esContinuous', 'esNext', 'esRefresh', 'esRefreshAll', 'stbb', 'sttb', 'mm'],
+			rightMainPageHeadingIds: [
+				'esResume',
+				'esPause',
+				'esContinuous',
+				'esNext',
+				'esRefresh',
+				'esRefreshAll',
+				'stbb',
+				'sttb',
+				'mm',
+			],
 			rightButtonIds: [],
 			sal_index: 2,
 			sk_closePopups: 'escape',
@@ -770,7 +1005,8 @@ class _Settings {
 
 		this.oldValues = {
 			df_puzzles_sg: 'df_puzzlesEvents_sg',
-			gc_o_a_sg: () => this.settings.gc_o_altAccounts && this.settings.gc_o_altAccounts.length > 0 ? 1 : 0,
+			gc_o_a_sg: () =>
+				this.settings.gc_o_altAccounts && this.settings.gc_o_altAccounts.length > 0 ? 1 : 0,
 			idb_sg: 'dh_sg',
 			idb_t_sg: 'dh_t_sg',
 			cl_gc_index: () => (this.settings.gcl_index || 0) + 1,
@@ -821,7 +1057,9 @@ class _Settings {
 		const settings = Shared.esgst.settings;
 
 		const enableByDefaultSetting = settings[`enableByDefault_${Shared.esgst.name}`];
-		this.enableByDefault = !!(typeof enableByDefaultSetting === 'object' ? enableByDefaultSetting.enabled : enableByDefaultSetting);
+		this.enableByDefault = !!(typeof enableByDefaultSetting === 'object'
+			? enableByDefaultSetting.enabled
+			: enableByDefaultSetting);
 
 		for (const key of Object.keys(settings)) {
 			const match = key.match(/(.+?)_(sg|st|sgt)$/);
@@ -926,7 +1164,7 @@ class _Settings {
 				enabled: this.getSetting(key) ? 1 : 0,
 				include: [],
 				exclude: [],
-				new: typeof setting === 'undefined'
+				new: typeof setting === 'undefined',
 			};
 			if (feature[namespace].include) {
 				setting.include = feature[namespace].include;
@@ -953,12 +1191,20 @@ class _Settings {
 					path = `${window.location.pathname}${window.location.search}`;
 				}
 				let i = setting.include.length - 1;
-				while (i > -1 && (!setting.include[i].enabled || !path.match(new RegExp(setting.include[i].pattern)))) i--;
+				while (
+					i > -1 &&
+					(!setting.include[i].enabled || !path.match(new RegExp(setting.include[i].pattern)))
+				)
+					i--;
 				if (i > -1) {
 					value = setting.include[i] || true;
 				}
 				i = setting.exclude.length - 1;
-				while (i > -1 && (!setting.exclude[i].enabled || !path.match(new RegExp(setting.exclude[i].pattern)))) i--;
+				while (
+					i > -1 &&
+					(!setting.exclude[i].enabled || !path.match(new RegExp(setting.exclude[i].pattern)))
+				)
+					i--;
 				if (i > -1) {
 					value = false;
 				}
@@ -966,7 +1212,7 @@ class _Settings {
 		}
 		return {
 			full: setting,
-			current: value
+			current: value,
 		};
 	}
 }

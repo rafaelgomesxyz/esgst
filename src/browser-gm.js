@@ -7,12 +7,12 @@ const browser = {
 	gm: null,
 	runtime: {
 		onMessage: {
-			addListener: callback => browser.gm.listener = callback
+			addListener: (callback) => (browser.gm.listener = callback),
 		},
 		getBrowserInfo: () => Promise.resolve({ name: 'userscript' }),
 		getManifest: () => Promise.resolve(browser.gm.info.script),
-		sendMessage: obj => {
-			return new Promise(async resolve => {
+		sendMessage: (obj) => {
+			return new Promise(async (resolve) => {
 				switch (obj.action) {
 					case 'get-tds':
 						resolve(JSON.stringify(tdsData));
@@ -21,10 +21,12 @@ const browser = {
 					case 'notify-tds':
 						tdsData = JSON.parse(obj.data);
 
-						browser.gm.listener(JSON.stringify({
-							action: 'notify-tds',
-							values: tdsData
-						}));
+						browser.gm.listener(
+							JSON.stringify({
+								action: 'notify-tds',
+								values: tdsData,
+							})
+						);
 
 						resolve();
 
@@ -74,13 +76,15 @@ const browser = {
 							method: parameters.method,
 							overrideMimeType: obj.blob ? `text/plain; charset=x-user-defined` : '',
 							url: obj.url,
-							onload: async response => {
+							onload: async (response) => {
 								if (obj.blob) {
-									response.responseText = (await Shared.common.readZip(response.responseText))[0].value;
+									response.responseText = (
+										await Shared.common.readZip(response.responseText)
+									)[0].value;
 								}
 								resolve(response);
 							},
-							onerror: response => resolve({ error: response.responseText })
+							onerror: (response) => resolve({ error: response.responseText }),
 						});
 						break;
 					}
@@ -91,7 +95,7 @@ const browser = {
 					}
 				}
 			});
-		}
+		},
 	},
 	storage: {
 		local: {
@@ -101,14 +105,14 @@ const browser = {
 				const storage = {};
 				for (const key of keys) {
 					const promise = browser.gm.getValue(key);
-					promise.then(value => storage[key] = value);
+					promise.then((value) => (storage[key] = value));
 					promises.push(promise);
 				}
 				await Promise.all(promises);
 
 				return storage;
 			},
-			remove: async keys => {
+			remove: async (keys) => {
 				const promises = [];
 				for (const key of keys) {
 					promises.push(browser.gm.deleteValue(key));
@@ -116,7 +120,7 @@ const browser = {
 				await Promise.all(promises);
 				await browser.gm.setValue('storageChanged', JSON.stringify(Date.now()));
 			},
-			set: async values => {
+			set: async (values) => {
 				const promises = [];
 				for (const key in values) {
 					if (values.hasOwnProperty(key)) {
@@ -125,12 +129,12 @@ const browser = {
 				}
 				await Promise.all(promises);
 				await browser.gm.setValue('storageChanged', JSON.stringify(Date.now()));
-			}
+			},
 		},
 		onChanged: {
-			addListener: () => {}
-		}
-	}
+			addListener: () => {},
+		},
+	},
 };
 
 // @ts-ignore
@@ -139,7 +143,8 @@ if (typeof GM === 'undefined') {
 	browser.gm = {
 		// @ts-ignore
 		// eslint-disable-next-line no-undef
-		addValueChangeListener: typeof GM_addValueChangeListener === 'undefined' ? null : GM_addValueChangeListener,
+		addValueChangeListener:
+			typeof GM_addValueChangeListener === 'undefined' ? null : GM_addValueChangeListener,
 		// @ts-ignore
 		deleteValue: GM_deleteValue,
 		// @ts-ignore
@@ -151,7 +156,7 @@ if (typeof GM === 'undefined') {
 		// @ts-ignore
 		setValue: GM_setValue,
 		// @ts-ignore
-		xmlHttpRequest: GM_xmlhttpRequest
+		xmlHttpRequest: GM_xmlhttpRequest,
 	};
 	for (const key in browser.gm) {
 		const old = browser.gm[key];
@@ -201,23 +206,32 @@ browser.gm.addValueChangeListener('storageChanged', async (name, oldValue, newVa
 		const changes = {};
 		for (const key in storage) {
 			changes[key] = {
-				newValue: storage[key]
+				newValue: storage[key],
 			};
 		}
-		browser.gm.listener(JSON.stringify({
-			action: 'storageChanged',
-			values: { changes, areaName: 'local' }
-		}));
+		browser.gm.listener(
+			JSON.stringify({
+				action: 'storageChanged',
+				values: { changes, areaName: 'local' },
+			})
+		);
 	}
 });
 
 browser.gm.doLock = async (lock) => {
 	let locked = JSON.parse(await browser.gm.getValue(lock.key, '{}'));
-	if (!locked || !locked.uuid || locked.timestamp < Date.now() - (lock.threshold + (lock.timeout || 15000))) {
-		await browser.gm.setValue(lock.key, JSON.stringify({
-			timestamp: Date.now(),
-			uuid: lock.uuid
-		}));
+	if (
+		!locked ||
+		!locked.uuid ||
+		locked.timestamp < Date.now() - (lock.threshold + (lock.timeout || 15000))
+	) {
+		await browser.gm.setValue(
+			lock.key,
+			JSON.stringify({
+				timestamp: Date.now(),
+				uuid: lock.uuid,
+			})
+		);
 		await Shared.common.timeout(lock.threshold / 2);
 		locked = JSON.parse(await browser.gm.getValue(lock.key, '{}'));
 		if (!locked || locked.uuid !== lock.uuid) {

@@ -13,41 +13,44 @@ class GeneralCakeDayReminder extends Module {
 		super();
 		this.info = {
 			description: [
-				['ul', [
-					['li', 'Shows a popup reminding you of your cake day on SteamGifts.'],
-					['li', 'You can set it to remind you a specified number of days before your cake day.']
-				]]
+				[
+					'ul',
+					[
+						['li', 'Shows a popup reminding you of your cake day on SteamGifts.'],
+						['li', 'You can set it to remind you a specified number of days before your cake day.'],
+					],
+				],
 			],
 			features: {
 				cdr_b: {
 					inputItems: [
 						{
 							id: 'cdr_days',
-							prefix: `Days: `
-						}
+							prefix: `Days: `,
+						},
 					],
 					name: 'Remind you a specified number of days before your cake day.',
-					sg: true
+					sg: true,
 				},
 				cdr_d: {
 					name: 'Remind you on your cake day.',
-					sg: true
+					sg: true,
 				},
 				cdr_a: {
 					inputItems: [
 						{
 							id: 'cdr_aDays',
-							prefix: `Days: `
-						}
+							prefix: `Days: `,
+						},
 					],
 					name: 'Remind you a specified number of days after your cake day.',
-					sg: true
+					sg: true,
 				},
 			},
 			id: 'cdr',
 			name: 'Cake Day Reminder',
 			sg: true,
-			type: 'general'
+			type: 'general',
 		};
 	}
 
@@ -58,8 +61,11 @@ class GeneralCakeDayReminder extends Module {
 			cache: JSON.parse(LocalStorage.get('cdrCache', '{}')),
 			currentDate: new Date(),
 			elements: [
-				[{ size: 'fill', value: 'User' }, { size: 'fill', value: 'When' }]
-			]
+				[
+					{ size: 'fill', value: 'User' },
+					{ size: 'fill', value: 'When' },
+				],
+			],
 		};
 		cdrObj.currentYear = cdrObj.currentDate.getFullYear();
 		cdrObj.currentTime = cdrObj.currentDate.getTime();
@@ -70,9 +76,9 @@ class GeneralCakeDayReminder extends Module {
 				aDays: parseFloat(Settings.get('cdr_aDays')),
 				b: Settings.get('cdr_b'),
 				bDays: parseFloat(Settings.get('cdr_days')),
-				d: Settings.get('cdr_d')
+				d: Settings.get('cdr_d'),
 			},
-			registrationDate: parseInt(Settings.get('registrationDate'))
+			registrationDate: parseInt(Settings.get('registrationDate')),
 		});
 
 		for (const steamId in Shared.esgst.users.users) {
@@ -92,7 +98,7 @@ class GeneralCakeDayReminder extends Module {
 				addScrollable: true,
 				icon: 'fa-birthday-cake',
 				isTemp: true,
-				title: `ESGST reminder about cake days:`
+				title: `ESGST reminder about cake days:`,
 			});
 			popup.scrollable.appendChild(new Table(cdrObj.elements).table);
 			popup.open();
@@ -115,53 +121,101 @@ class GeneralCakeDayReminder extends Module {
 		const dYear = parseInt((cdrObj.cache[steamId] && cdrObj.cache[steamId].dYear) || 0);
 		const aYear = parseInt((cdrObj.cache[steamId] && cdrObj.cache[steamId].aYear) || 0);
 
-		if (user.cdr.b && bYear !== cdrObj.currentYear && cdrObj.currentTime < registrationTime && (registrationTime - cdrObj.currentTime) <= (user.cdr.bDays * 86400000)) {
+		if (
+			user.cdr.b &&
+			bYear !== cdrObj.currentYear &&
+			cdrObj.currentTime < registrationTime &&
+			registrationTime - cdrObj.currentTime <= user.cdr.bDays * 86400000
+		) {
 			if (!cdrObj.cache[steamId]) {
 				cdrObj.cache[steamId] = {};
 			}
 			cdrObj.cache[steamId].bYear = cdrObj.currentYear;
 
 			cdrObj.elements.push([
-				{ size: 'fill', value: [
-					className
-						? ['span', { class: className }, 'YOU']
-						: ['a', { class: 'table__column__secondary-link', href: `/user/${user.username}` }, user.username]
-				]},
-				{ size: 'fill', value: [
-					['span', { class: className }, `In ${Math.floor((registrationTime - cdrObj.currentTime) / 86400000)} days`]
-				]}
+				{
+					size: 'fill',
+					value: [
+						className
+							? ['span', { class: className }, 'YOU']
+							: [
+									'a',
+									{ class: 'table__column__secondary-link', href: `/user/${user.username}` },
+									user.username,
+							  ],
+					],
+				},
+				{
+					size: 'fill',
+					value: [
+						[
+							'span',
+							{ class: className },
+							`In ${Math.floor((registrationTime - cdrObj.currentTime) / 86400000)} days`,
+						],
+					],
+				},
 			]);
-		} else if (user.cdr.d && dYear !== cdrObj.currentYear && cdrObj.currentTime >= registrationTime && cdrObj.currentTime < registrationTime + 86400000) {
+		} else if (
+			user.cdr.d &&
+			dYear !== cdrObj.currentYear &&
+			cdrObj.currentTime >= registrationTime &&
+			cdrObj.currentTime < registrationTime + 86400000
+		) {
 			if (!cdrObj.cache[steamId]) {
 				cdrObj.cache[steamId] = {};
 			}
 			cdrObj.cache[steamId].dYear = cdrObj.currentYear;
 
 			cdrObj.elements.push([
-				{ size: 'fill', value: [
-					className
-						? ['span', { class: className }, 'YOU']
-						: ['a', { class: 'table__column__secondary-link', href: `/user/${user.username}` }, user.username]
-				]},
-				{ size: 'fill', value: [
-					['span', { class: className }, 'Today! Happy cake day!']
-				]}
+				{
+					size: 'fill',
+					value: [
+						className
+							? ['span', { class: className }, 'YOU']
+							: [
+									'a',
+									{ class: 'table__column__secondary-link', href: `/user/${user.username}` },
+									user.username,
+							  ],
+					],
+				},
+				{ size: 'fill', value: [['span', { class: className }, 'Today! Happy cake day!']] },
 			]);
-		} else if (user.cdr.a && aYear !== cdrObj.currentYear && cdrObj.currentTime >= registrationTime + 86400000 && (cdrObj.currentTime - registrationTime) <= (user.cdr.aDays * 86400000)) {
+		} else if (
+			user.cdr.a &&
+			aYear !== cdrObj.currentYear &&
+			cdrObj.currentTime >= registrationTime + 86400000 &&
+			cdrObj.currentTime - registrationTime <= user.cdr.aDays * 86400000
+		) {
 			if (!cdrObj.cache[steamId]) {
 				cdrObj.cache[steamId] = {};
 			}
 			cdrObj.cache[steamId].aYear = cdrObj.currentYear;
 
 			cdrObj.elements.push([
-				{ size: 'fill', value: [
-					className
-						? ['span', { class: className }, 'YOU']
-						: ['a', { class: 'table__column__secondary-link', href: `/user/${user.username}` }, user.username]
-				]},
-				{ size: 'fill', value: [
-					['span', { class: className }, `${Math.floor((cdrObj.currentTime - registrationTime) / 86400000)} days ago`]
-				]}
+				{
+					size: 'fill',
+					value: [
+						className
+							? ['span', { class: className }, 'YOU']
+							: [
+									'a',
+									{ class: 'table__column__secondary-link', href: `/user/${user.username}` },
+									user.username,
+							  ],
+					],
+				},
+				{
+					size: 'fill',
+					value: [
+						[
+							'span',
+							{ class: className },
+							`${Math.floor((cdrObj.currentTime - registrationTime) / 86400000)} days ago`,
+						],
+					],
+				},
 			]);
 		}
 	}
@@ -172,9 +226,16 @@ class GeneralCakeDayReminder extends Module {
 		}
 
 		const button = DOM.build(profile.heading, 'beforeEnd', [
-			['a', { title: Shared.common.getFeatureTooltip('cdr', `Get notified about ${profile.username}'s cake day`) }, [
-				['i', { class: 'fa fa-gift' }]
-			]]
+			[
+				'a',
+				{
+					title: Shared.common.getFeatureTooltip(
+						'cdr',
+						`Get notified about ${profile.username}'s cake day`
+					),
+				},
+				[['i', { class: 'fa fa-gift' }]],
+			],
 		]);
 
 		button.addEventListener('click', async () => {
@@ -182,14 +243,14 @@ class GeneralCakeDayReminder extends Module {
 				addScrollable: true,
 				icon: 'fa-gift',
 				isTemp: true,
-				title: `Get notified about ${profile.username}'s cake day:`
+				title: `Get notified about ${profile.username}'s cake day:`,
 			});
 
 			const user = {
 				id: profile.id,
 				steamId: profile.steamId,
 				username: profile.username,
-				values: {}
+				values: {},
 			};
 			const savedUser = await Shared.common.getUser(Shared.esgst.users, user);
 			if (savedUser && savedUser.cdr) {
@@ -200,47 +261,92 @@ class GeneralCakeDayReminder extends Module {
 					aDays: 0,
 					b: false,
 					bDays: 0,
-					d: true
+					d: true,
 				};
 			}
 
-			const bSwitch = new ToggleSwitch(null, null, false, [
-				'Notify ',
-				['input', { class: 'esgst-switch-input', onchange: event => user.values.cdr.bDays = parseFloat(event.currentTarget.value), type: 'number', value: user.values.cdr.bDays }],
-				' days before their cake day.'
-			], false, false, null, user.values.cdr.b);
-			const dSwitch = new ToggleSwitch(null, null, false, 'Notify on their cake day.', false, false, null, user.values.cdr_d);
-			const aSwitch = new ToggleSwitch(null, null, false, [
-				'Notify ',
-				['input', { class: 'esgst-switch-input', onchange: event => user.values.cdr.aDays = parseFloat(event.currentTarget.value), type: 'number', value: user.values.cdr.aDays }],
-				' days after their cake day.'
-			], false, false, null, user.values.cdr.b);
+			const bSwitch = new ToggleSwitch(
+				null,
+				null,
+				false,
+				[
+					'Notify ',
+					[
+						'input',
+						{
+							class: 'esgst-switch-input',
+							onchange: (event) => (user.values.cdr.bDays = parseFloat(event.currentTarget.value)),
+							type: 'number',
+							value: user.values.cdr.bDays,
+						},
+					],
+					' days before their cake day.',
+				],
+				false,
+				false,
+				null,
+				user.values.cdr.b
+			);
+			const dSwitch = new ToggleSwitch(
+				null,
+				null,
+				false,
+				'Notify on their cake day.',
+				false,
+				false,
+				null,
+				user.values.cdr_d
+			);
+			const aSwitch = new ToggleSwitch(
+				null,
+				null,
+				false,
+				[
+					'Notify ',
+					[
+						'input',
+						{
+							class: 'esgst-switch-input',
+							onchange: (event) => (user.values.cdr.aDays = parseFloat(event.currentTarget.value)),
+							type: 'number',
+							value: user.values.cdr.aDays,
+						},
+					],
+					' days after their cake day.',
+				],
+				false,
+				false,
+				null,
+				user.values.cdr.b
+			);
 
-			bSwitch.onChange = value => user.values.cdr.b = value;
-			dSwitch.onChange = value => user.values.cdr.d = value;
-			aSwitch.onChange = value => user.values.cdr.a = value;
+			bSwitch.onChange = (value) => (user.values.cdr.b = value);
+			dSwitch.onChange = (value) => (user.values.cdr.d = value);
+			aSwitch.onChange = (value) => (user.values.cdr.a = value);
 
 			popup.scrollable.appendChild(bSwitch.container);
 			popup.scrollable.appendChild(dSwitch.container);
 			popup.scrollable.appendChild(aSwitch.container);
 
-			popup.description.appendChild(new ButtonSet({
-				color1: 'green',
-				color2: 'grey',
-				icon1: 'fa-check',
-				icon2: 'fa-circle-o-notch fa-spin',
-				title1: 'Save',
-				title2: 'Saving...',
-				callback1: async () => {
-					if (user.values.cdr.b || user.values.cdr.d || user.values.cdr.a) {
-						user.values.registrationDate = profile.registrationDate;
-					} else {
-						user.values.cdr = null;
-					}
-					await Shared.common.saveUser(null, null, user);
-					popup.close();
-				}
-			}).set);
+			popup.description.appendChild(
+				new ButtonSet({
+					color1: 'green',
+					color2: 'grey',
+					icon1: 'fa-check',
+					icon2: 'fa-circle-o-notch fa-spin',
+					title1: 'Save',
+					title2: 'Saving...',
+					callback1: async () => {
+						if (user.values.cdr.b || user.values.cdr.d || user.values.cdr.a) {
+							user.values.registrationDate = profile.registrationDate;
+						} else {
+							user.values.cdr = null;
+						}
+						await Shared.common.saveUser(null, null, user);
+						popup.close();
+					},
+				}).set
+			);
 
 			popup.open();
 		});

@@ -9,28 +9,34 @@ class UsersLevelUpCalculator extends Module {
 		super();
 		this.info = {
 			description: [
-				['ul', [
-					['li', 'Shows how much real CV a user needs to level up in their profile page.'],
-					['li', [
-						'Uses the values mentioned on ',
-						['a', { href: 'https://www.steamgifts.com/discussion/XaCbA/' }, 'this discussion'],
-						' for the calculation.',
-					]],
-				]],
+				[
+					'ul',
+					[
+						['li', 'Shows how much real CV a user needs to level up in their profile page.'],
+						[
+							'li',
+							[
+								'Uses the values mentioned on ',
+								['a', { href: 'https://www.steamgifts.com/discussion/XaCbA/' }, 'this discussion'],
+								' for the calculation.',
+							],
+						],
+					],
+				],
 			],
 			features: {
 				luc_c: {
 					name: 'Display current user level.',
-					sg: true
-				}
+					sg: true,
+				},
 			},
 			id: 'luc',
 			name: 'Level Up Calculator',
 			sg: true,
 			type: 'users',
 			featureMap: {
-				profile: this.luc_calculate.bind(this)
-			}
+				profile: this.luc_calculate.bind(this),
+			},
 		};
 	}
 
@@ -39,7 +45,13 @@ class UsersLevelUpCalculator extends Module {
 			const cvRounded = Math.round(profile.realSentCV);
 			if (cvRounded < value) {
 				DOM.build(profile.levelRowRight, 'beforeEnd', [
-					['span', { class: 'esgst-luc-value', title: Shared.common.getFeatureTooltip('luc') }, `(${Settings.get('luc_c') ? `${profile.level} / ` : ''}~$${Shared.common.round(value - cvRounded)} real CV to level ${index})`]
+					[
+						'span',
+						{ class: 'esgst-luc-value', title: Shared.common.getFeatureTooltip('luc') },
+						`(${Settings.get('luc_c') ? `${profile.level} / ` : ''}~$${Shared.common.round(
+							value - cvRounded
+						)} real CV to level ${index})`,
+					],
 				]);
 				break;
 			}

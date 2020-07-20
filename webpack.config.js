@@ -23,15 +23,15 @@ const packageJson = require(path.resolve(BASE_PATH, 'package.json'));
 
 const loaders = {
 	css: {
-		loader: 'css-loader'
+		loader: 'css-loader',
 	},
 	style: {
 		loader: 'style-loader',
 		options: {
 			injectType: 'singletonStyleTag',
-			insert: 'html'
-		}
-	}
+			insert: 'html',
+		},
+	},
 };
 
 const plugins = {
@@ -42,10 +42,10 @@ const plugins = {
 	provide: webpack.ProvidePlugin,
 
 	runAfterBuild: function (callback) {
-		this.apply = compiler => {
+		this.apply = (compiler) => {
 			compiler.hooks.afterEmit.tap('RunAfterBuild', callback);
 		};
-	}
+	},
 };
 
 /**
@@ -59,37 +59,23 @@ function getWebExtensionManifest(env, browserName) {
 		version: packageJson.version,
 		description: packageJson.description,
 		icons: {
-			64: 'icon.png'
+			64: 'icon.png',
 		},
 		author: packageJson.author,
 		background: {
-			scripts: [
-				'lib/browser-polyfill.js',
-				'eventPage.js'
-			]
+			scripts: ['lib/browser-polyfill.js', 'eventPage.js'],
 		},
 		content_scripts: [
 			{
-				matches: [
-					'*://*.steamgifts.com/*',
-					'*://*.steamtrades.com/*'
-				],
-				js: [
-					'lib/browser-polyfill.js',
-					'esgst.js'
-				],
-				run_at: 'document_start'
+				matches: ['*://*.steamgifts.com/*', '*://*.steamtrades.com/*'],
+				js: ['lib/browser-polyfill.js', 'esgst.js'],
+				run_at: 'document_start',
 			},
 			{
-				matches: [
-					'*://*.sgtools.info/*'
-				],
-				js: [
-					'lib/browser-polyfill.js',
-					'esgst_sgtools.js'
-				],
-				run_at: 'document_start'
-			}
+				matches: ['*://*.sgtools.info/*'],
+				js: ['lib/browser-polyfill.js', 'esgst_sgtools.js'],
+				run_at: 'document_start',
+			},
 		],
 		permissions: [
 			'storage',
@@ -119,13 +105,10 @@ function getWebExtensionManifest(env, browserName) {
 			'*://*.steam-tracker.com/*',
 			'*://*.steamcommunity.com/*',
 			'*://*.store.steampowered.com/*',
-			'*://*.userstyles.org/*'
+			'*://*.userstyles.org/*',
 		],
 		short_name: 'ESGST',
-		web_accessible_resources: [
-			'icon.png',
-			'permissions.html'
-		]
+		web_accessible_resources: ['icon.png', 'permissions.html'],
 	};
 
 	switch (browserName) {
@@ -141,8 +124,8 @@ function getWebExtensionManifest(env, browserName) {
 			if (!env.temporary) {
 				manifest.browser_specific_settings = {
 					gecko: {
-						id: configJson.firefox.extensionId
-					}
+						id: configJson.firefox.extensionId,
+					},
 				};
 			}
 
@@ -172,14 +155,14 @@ function getLegacyExtensionManifest(env, browserName) {
 		keywords: ['jetpack'],
 		license: 'MIT',
 		main: 'index.js',
-		title: packageJson.title
+		title: packageJson.title,
 	};
 
 	switch (browserName) {
 		case 'palemoon':
 			manifest.engines = {
 				firefox: '>=52.0 <=52.*',
-				'{8de7fcbb-c55c-4fbe-bfc5-fc555c87dbc4}': '>=27.1.0b1 <=28.*'
+				'{8de7fcbb-c55c-4fbe-bfc5-fc555c87dbc4}': '>=27.1.0b1 <=28.*',
 			};
 
 			break;
@@ -212,7 +195,8 @@ function packageWebExtension(env, browserName) {
 		const zip = new JSZip();
 
 		zip.file('manifest.json', manifestStr);
-		zip.folder('lib')
+		zip
+			.folder('lib')
 			.file('browser-polyfill.js', fs.readFileSync(path.resolve(libPath, 'browser-polyfill.js')));
 		zip.file('eventPage.js', fs.readFileSync(path.resolve(extensionPath, 'eventPage.js')));
 		zip.file('esgst.js', fs.readFileSync(path.resolve(extensionPath, 'esgst.js')));
@@ -221,17 +205,18 @@ function packageWebExtension(env, browserName) {
 		zip.file('permissions.html', fs.readFileSync(path.resolve(extensionPath, 'permissions.html')));
 		zip.file('permissions.js', fs.readFileSync(path.resolve(extensionPath, 'permissions.js')));
 
-		zip.generateNodeStream({
-			compression: 'DEFLATE',
-			compressionOptions: {
-				level: 9
-			},
-			streamFiles: true,
-			type: 'nodebuffer'
-		})
+		zip
+			.generateNodeStream({
+				compression: 'DEFLATE',
+				compressionOptions: {
+					level: 9,
+				},
+				streamFiles: true,
+				type: 'nodebuffer',
+			})
 			.pipe(fs.createWriteStream(path.resolve(BASE_PATH, 'dist', `${browserName}.zip`)))
 			.on('finish', () => resolve())
-			.on('error', error => reject(error));
+			.on('error', (error) => reject(error));
 	});
 }
 
@@ -254,7 +239,7 @@ async function packageLegacyExtension(env, browserName) {
 
 	await jpm(manifestJson, {
 		addonDir: extensionPath,
-		xpiPath: path.resolve(BASE_PATH, 'dist')
+		xpiPath: path.resolve(BASE_PATH, 'dist'),
 	});
 }
 
@@ -283,42 +268,45 @@ async function runFinalSteps(env) {
 		{ from: './src/assets/images/icon-16.png', to: './build/palemoon/data/icon-16.png' },
 		{ from: './src/assets/images/icon-32.png', to: './build/palemoon/data/icon-32.png' },
 		{ from: './src/assets/images/icon-64.png', to: './build/palemoon/data/icon-64.png' },
-		{ from: './build/userscript/esgst.user.js', to: `./dist/userscript.user.js` }
+		{ from: './build/userscript/esgst.user.js', to: `./dist/userscript.user.js` },
 	];
 
 	for (const fileToCopy of filesToCopy) {
 		fs.copyFileSync(fileToCopy.from, fileToCopy.to);
 	}
 
-	let polyfillFile = fs.readFileSync('./node_modules/webextension-polyfill/dist/browser-polyfill.min.js', 'utf8');
+	let polyfillFile = fs.readFileSync(
+		'./node_modules/webextension-polyfill/dist/browser-polyfill.min.js',
+		'utf8'
+	);
 
 	polyfillFile = polyfillFile.replace('getBrowserInfo:{minArgs:0,maxArgs:0},', '');
 
 	const filesToCreate = [
 		{
 			data: polyfillFile,
-			path: './build/chrome/lib/browser-polyfill.js'
+			path: './build/chrome/lib/browser-polyfill.js',
 		},
 		{
 			data: JSON.stringify(getWebExtensionManifest(env, 'chrome'), null, 2),
-			path: './build/chrome/manifest.json'
+			path: './build/chrome/manifest.json',
 		},
 		{
 			data: polyfillFile,
-			path: './build/firefox/lib/browser-polyfill.js'
+			path: './build/firefox/lib/browser-polyfill.js',
 		},
 		{
 			data: JSON.stringify(getWebExtensionManifest(env, 'firefox'), null, 2),
-			path: './build/firefox/manifest.json'
+			path: './build/firefox/manifest.json',
 		},
 		{
 			data: JSON.stringify(getLegacyExtensionManifest(env, 'palemoon'), null, 2),
-			path: './build/palemoon/package.json'
+			path: './build/palemoon/package.json',
 		},
 		{
 			data: `// ==UserScript==\n// @version ${packageJson.version}\n// ==/UserScript==`,
-			path: './dist/userscript.meta.js'
-		}
+			path: './dist/userscript.meta.js',
+		},
 	];
 
 	for (const fileToCreate of filesToCreate) {
@@ -329,7 +317,7 @@ async function runFinalSteps(env) {
 		await Promise.all([
 			packageWebExtension(env, 'chrome'),
 			packageWebExtension(env, 'firefox'),
-			packageLegacyExtension(env, 'palemoon')
+			packageLegacyExtension(env, 'palemoon'),
 		]);
 	} catch (error) {
 		console.log(error);
@@ -350,7 +338,7 @@ async function getWebpackConfig(env) {
 		mode = 'none';
 	}
 
- return {
+	return {
 		devtool: env.production ? false : 'source-map',
 		entry: {
 			'./chrome/eventPage': ['./src/entry/eventPage_index.js'],
@@ -364,34 +352,34 @@ async function getWebpackConfig(env) {
 			'./palemoon/index': ['./src/entry/eventPage_sdk_index.js'],
 			'./palemoon/data/esgst': ['./src/entry/sdk_index.js'],
 			'./palemoon/data/esgst_sgtools': ['./src/entry/sdk_index_sgtools.js'],
-			'./userscript/esgst.user': ['./src/entry/gm_index.js']
+			'./userscript/esgst.user': ['./src/entry/gm_index.js'],
 		},
 		mode,
 		module: {
 			rules: [
 				{
 					loaders: [loaders.style, loaders.css],
-					test: /\.css$/
+					test: /\.css$/,
 				},
 				{
 					exclude: /node_modules/,
 					test: /\.(t|j)sx?$/,
 					use: {
-						loader: 'babel-loader'
-					}
-				}
-			]
+						loader: 'babel-loader',
+					},
+				},
+			],
 		},
 		output: {
 			filename: '[name].js',
-			path: path.resolve(BASE_PATH, 'build')
+			path: path.resolve(BASE_PATH, 'build'),
 		},
 		plugins: [
 			new plugins.banner({
 				banner: fs.readFileSync('./src/entry/eventPage_sdk_banner.js', 'utf8'),
 				entryOnly: true,
 				raw: true,
-				test: /index\.js$/
+				test: /index\.js$/,
 			}),
 			// @ts-ignore
 			new plugins.banner({
@@ -403,7 +391,7 @@ async function getWebpackConfig(env) {
 					}
 
 					return calfinated.process(fs.readFileSync(bannerFilePath, 'utf8'), {
-						package: packageJson
+						package: packageJson,
 					});
 				},
 				entryOnly: true,
@@ -413,7 +401,7 @@ async function getWebpackConfig(env) {
 			new plugins.circularDependency({
 				cwd: process.cwd(),
 				exclude: /node_modules/,
-				failOnError: true
+				failOnError: true,
 			}),
 			new plugins.clean({
 				cleanOnceBeforeBuildPatterns: [
@@ -422,27 +410,27 @@ async function getWebpackConfig(env) {
 					path.join(process.cwd(), './dist/*.xpi'),
 					path.join(process.cwd(), './dist/*.meta.js'),
 					path.join(process.cwd(), `./dist/*.user.js`),
-				]
+				],
 			}),
 			// @ts-ignore
 			new plugins.progressBar(),
 			new plugins.provide({
-				'$': 'jquery',
+				$: 'jquery',
 				'window.$': 'jquery',
-				'jQuery': 'jquery',
-				'window.jQuery': 'jquery'
+				jQuery: 'jquery',
+				'window.jQuery': 'jquery',
 			}),
-			new plugins.runAfterBuild(() => runFinalSteps(env))
+			new plugins.runAfterBuild(() => runFinalSteps(env)),
 		],
 		resolve: {
-			extensions: ['.js', '.jsx', '.ts', '.tsx', '.json']
+			extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
 		},
 		watch: env.development && env.withWatch,
 		watchOptions: {
 			aggregateTimeout: 1000,
 			ignored: /node_modules/,
-			poll: 1000
-		}
+			poll: 1000,
+		},
 	};
 }
 

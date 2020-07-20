@@ -9,10 +9,16 @@ class GiveawaysFollowedGamesPage extends Module {
 		super();
 		this.info = {
 			description: [
-				['ul', [
-					['li', 'Adds a new giveaway page where you can see open giveaways for all of your followed games.'],
-					['li', 'To access this page, use the sidebar navigation from the main page.']
-				]]
+				[
+					'ul',
+					[
+						[
+							'li',
+							'Adds a new giveaway page where you can see open giveaways for all of your followed games.',
+						],
+						['li', 'To access this page, use the sidebar navigation from the main page.'],
+					],
+				],
 			],
 			id: 'fgp',
 			name: 'Followed Games Page',
@@ -26,16 +32,20 @@ class GiveawaysFollowedGamesPage extends Module {
 			check: Shared.common.isCurrentPath('Browse Giveaways'),
 			load: async () => await this.load(),
 		};
-		const sidebarLink = document.querySelector('.sidebar__navigation__item__link[href="/giveaways/search?type=wishlist"]');
+		const sidebarLink = document.querySelector(
+			'.sidebar__navigation__item__link[href="/giveaways/search?type=wishlist"]'
+		);
 		if (sidebarLink) {
-			DOM.insert(sidebarLink.parentElement, 'afterEnd', (
+			DOM.insert(
+				sidebarLink.parentElement,
+				'afterEnd',
 				<li class="sidebar__navigation__item">
 					<a class="sidebar__navigation__item__link" href="/giveaways/search?esgst=fgp">
 						<div class="sidebar__navigation__item__name">Followed</div>
 						<div class="sidebar__navigation__item__underline"></div>
 					</a>
 				</li>
-			));
+			);
 		}
 	}
 
@@ -51,7 +61,7 @@ class GiveawaysFollowedGamesPage extends Module {
 			set: null,
 			url: `${Shared.esgst.path}/search?page=`,
 		};
-		obj.context = DOM.insert(obj.container, 'inner', <div/>);
+		obj.context = DOM.insert(obj.container, 'inner', <div />);
 		obj.set = new ButtonSet({
 			color1: 'green',
 			color2: 'grey',
@@ -66,7 +76,7 @@ class GiveawaysFollowedGamesPage extends Module {
 	}
 
 	async loadNextPage(obj) {
-		const context = DOM.insert(obj.context, 'beforeEnd', <div/>);
+		const context = DOM.insert(obj.context, 'beforeEnd', <div />);
 		obj.count = 0;
 		while (obj.leftovers.length > 0 && obj.count < obj.perPage) {
 			const leftover = obj.leftovers.splice(0, 1)[0];
@@ -87,7 +97,11 @@ class GiveawaysFollowedGamesPage extends Module {
 			const elements = html.querySelectorAll('.giveaway__row-outer-wrap');
 			for (const element of elements) {
 				const gameInfo = await Shared.esgst.modules.games.games_getInfo(element);
-				if (gameInfo && Shared.esgst.games[gameInfo.type][gameInfo.id] && Shared.esgst.games[gameInfo.type][gameInfo.id].followed) {
+				if (
+					gameInfo &&
+					Shared.esgst.games[gameInfo.type][gameInfo.id] &&
+					Shared.esgst.games[gameInfo.type][gameInfo.id].followed
+				) {
 					if (obj.count < obj.perPage) {
 						context.appendChild(element.cloneNode(true));
 						obj.count += 1;
@@ -98,7 +112,8 @@ class GiveawaysFollowedGamesPage extends Module {
 			}
 			obj.page += 1;
 			const pagination = html.querySelector('.pagination__navigation');
-			obj.reachedEnd = !pagination || pagination.lastElementChild.classList.contains(Shared.esgst.selectedClass);
+			obj.reachedEnd =
+				!pagination || pagination.lastElementChild.classList.contains(Shared.esgst.selectedClass);
 		} while (!obj.reachedEnd && obj.count < obj.perPage);
 		await Shared.common.endless_load(context, true);
 	}

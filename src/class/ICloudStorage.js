@@ -2,10 +2,12 @@ import { Shared } from './Shared';
 import { Utils } from '../lib/jsUtils';
 
 class ICloudStorage {
-	static get REDIRECT_URL() { return `https://www.steamgifts.com/account/settings/profile`; }
+	static get REDIRECT_URL() {
+		return `https://www.steamgifts.com/account/settings/profile`;
+	}
 
 	static getToken(key) {
-		return new Promise(resolve => {
+		return new Promise((resolve) => {
 			ICloudStorage.checkToken(key, resolve);
 		});
 	}

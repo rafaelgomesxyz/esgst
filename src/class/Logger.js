@@ -43,7 +43,9 @@ class _Logger {
 	}
 
 	getMessage(args) {
-		return `[ESGST] ${Array.from(args).map(x => typeof x === 'string' ? x : JSON.stringify(x)).join(' ')}`;
+		return `[ESGST] ${Array.from(args)
+			.map((x) => (typeof x === 'string' ? x : JSON.stringify(x)))
+			.join(' ')}`;
 	}
 
 	addButton(level) {
@@ -76,10 +78,14 @@ class _Logger {
 			addScrollable: 'left',
 			icon: 'fa-bug',
 			isTemp: true,
-			title: 'Logs'
+			title: 'Logs',
 		});
 		DOM.build(popup.scrollable, 'beforeEnd', [
-			['div', { class: 'popup__keys__list' }, this.logs.map(x => ['div', { class: `esgst-log esgst-log-${x.level}` }, x.message])]
+			[
+				'div',
+				{ class: 'popup__keys__list' },
+				this.logs.map((x) => ['div', { class: `esgst-log esgst-log-${x.level}` }, x.message]),
+			],
 		]);
 		popup.open();
 	}

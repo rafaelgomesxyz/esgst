@@ -25,16 +25,22 @@ class ToggleSwitch {
 		this.st = st;
 		this.value = value;
 		this.container = DOM.build(context, 'beforeEnd', [
-			['div', { class: `esgst-toggle-switch-container ${inline ? 'inline' : ''}` }, [
-				['label', { class: 'esgst-toggle-switch' }, [
-					['input', { type: 'checkbox' }],
-					['div', { class: 'esgst-toggle-switch-slider' }]
-				]],
-				['span', name],
-				tooltip
-					? ['i', { class: 'fa fa-question-circle', title: tooltip }]
-					: null
-			]]
+			[
+				'div',
+				{ class: `esgst-toggle-switch-container ${inline ? 'inline' : ''}` },
+				[
+					[
+						'label',
+						{ class: 'esgst-toggle-switch' },
+						[
+							['input', { type: 'checkbox' }],
+							['div', { class: 'esgst-toggle-switch-slider' }],
+						],
+					],
+					['span', name],
+					tooltip ? ['i', { class: 'fa fa-question-circle', title: tooltip }] : null,
+				],
+			],
 		]);
 		if (!context) {
 			this.container = this.container.firstElementChild;
@@ -63,28 +69,28 @@ class ToggleSwitch {
 				setting.enabled = this.value ? 1 : 0;
 			}
 			if (!settings) {
-				let message = DOM.insert(this.container, 'beforeEnd', (
+				let message = DOM.insert(
+					this.container,
+					'beforeEnd',
 					<div class="esgst-description esgst-bold">
 						<i class="fa fa-circle-o-notch fa-spin" title="Saving..."></i>
 					</div>
-				));
+				);
 				await Shared.common.setSetting(key, setting);
 				message.classList.add('esgst-green');
-				DOM.insert(message, 'inner', (
-					<i class="fa fa-check" title="Saved!"></i>
-				));
+				DOM.insert(message, 'inner', <i class="fa fa-check" title="Saved!"></i>);
 				window.setTimeout(() => message.remove(), 2500);
 			}
 		}
 		if (this.value) {
-			this.dependencies.forEach(dependency => dependency.classList.remove('esgst-hidden'));
-			this.exclusions.forEach(exclusion => exclusion.classList.add('esgst-hidden'));
+			this.dependencies.forEach((dependency) => dependency.classList.remove('esgst-hidden'));
+			this.exclusions.forEach((exclusion) => exclusion.classList.add('esgst-hidden'));
 			if (!settings && this.onEnabled) {
 				this.onEnabled();
 			}
 		} else {
-			this.dependencies.forEach(dependency => dependency.classList.add('esgst-hidden'));
-			this.exclusions.forEach(exclusion => exclusion.classList.remove('esgst-hidden'));
+			this.dependencies.forEach((dependency) => dependency.classList.add('esgst-hidden'));
+			this.exclusions.forEach((exclusion) => exclusion.classList.remove('esgst-hidden'));
 			if (!settings && this.onDisabled) {
 				this.onDisabled();
 			}
@@ -117,4 +123,3 @@ class ToggleSwitch {
 }
 
 export { ToggleSwitch };
-

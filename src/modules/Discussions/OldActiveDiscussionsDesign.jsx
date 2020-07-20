@@ -3,40 +3,52 @@ import { common } from '../Common';
 import { Settings } from '../../class/Settings';
 import { DOM } from '../../class/DOM';
 
-const
-	endless_load = common.endless_load.bind(common),
-	request = common.request.bind(common)
-	;
-
+const endless_load = common.endless_load.bind(common),
+	request = common.request.bind(common);
 class DiscussionsOldActiveDiscussionsDesign extends Module {
 	constructor() {
 		super();
 		this.info = {
 			description: [
-				['ul', [
-					['li', `Brings back the SteamGifts' old active discussions design, while keeping the new "Deals" section.`],
-					['li', [
-						`Only one section ("Discussions" or "Deals") can be shown at a time. There is a button (`,
-						['i', { class: 'fa fa-retweet' }],
-						`) in the page heading of the active discussions that allows you to switch sections.`
-					]]
-				]]
+				[
+					'ul',
+					[
+						[
+							'li',
+							`Brings back the SteamGifts' old active discussions design, while keeping the new "Deals" section.`,
+						],
+						[
+							'li',
+							[
+								`Only one section ("Discussions" or "Deals") can be shown at a time. There is a button (`,
+								['i', { class: 'fa fa-retweet' }],
+								`) in the page heading of the active discussions that allows you to switch sections.`,
+							],
+						],
+					],
+				],
 			],
 			features: {
 				oadd_d: {
 					description: [
-						['ul', [
-							['li', `With this option enabled, the deals are included in the "Discussions" section instead of being exclusive to the "Deals" section.`]
-						]]
+						[
+							'ul',
+							[
+								[
+									'li',
+									`With this option enabled, the deals are included in the "Discussions" section instead of being exclusive to the "Deals" section.`,
+								],
+							],
+						],
 					],
 					name: 'Show deals in the "Discussions" section.',
-					sg: true
-				}
+					sg: true,
+				},
 			},
 			id: 'oadd',
 			name: 'Old Active Discussions Design',
 			sg: true,
-			type: 'discussions'
+			type: 'discussions',
 		};
 	}
 
@@ -46,21 +58,32 @@ class DiscussionsOldActiveDiscussionsDesign extends Module {
 	}
 
 	async oadd_load(refresh, callback) {
-		let deals, dealsRows, dealsSwitch, discussions, discussionsRows, discussionsSwitch, i, j, response1Html,
-			response2Html, revisedElements;
+		let deals,
+			dealsRows,
+			dealsSwitch,
+			discussions,
+			discussionsRows,
+			discussionsSwitch,
+			i,
+			j,
+			response1Html,
+			response2Html,
+			revisedElements;
 		response1Html = DOM.parse((await request({ method: 'GET', url: '/discussions' })).responseText);
-		response2Html = DOM.parse((await request({ method: 'GET', url: '/discussions/deals' })).responseText);
+		response2Html = DOM.parse(
+			(await request({ method: 'GET', url: '/discussions/deals' })).responseText
+		);
 		this.esgst.activeDiscussions.classList.add('esgst-oadd');
-		DOM.insert(this.esgst.activeDiscussions, 'inner', (
+		DOM.insert(
+			this.esgst.activeDiscussions,
+			'inner',
 			<>
-				<div
-					ref={ref => discussions = ref}
-				>
+				<div ref={(ref) => (discussions = ref)}>
 					<div class="page__heading">
 						<div
 							class="esgst-heading-button"
 							title="Switch to Deals"
-							ref={ref => discussionsSwitch = ref}
+							ref={(ref) => (discussionsSwitch = ref)}
 						>
 							<i class="fa fa-retweet"></i>
 						</div>
@@ -77,21 +100,15 @@ class DiscussionsOldActiveDiscussionsDesign extends Module {
 							<div class="table__column--width-small text-center">Comments</div>
 							<div class="table__column--width-medium text-right">Last Post</div>
 						</div>
-						<div
-							class="table__rows"
-							ref={ref => discussionsRows = ref}
-						></div>
+						<div class="table__rows" ref={(ref) => (discussionsRows = ref)}></div>
 					</div>
 				</div>
-				<div
-					class="esgst-hidden"
-					ref={ref => deals = ref}
-				>
+				<div class="esgst-hidden" ref={(ref) => (deals = ref)}>
 					<div class="page__heading">
 						<div
 							class="esgst-heading-button"
 							title="Switch to Discussions"
-							ref={ref => dealsSwitch = ref}
+							ref={(ref) => (dealsSwitch = ref)}
 						>
 							<i class="fa fa-retweet"></i>
 						</div>
@@ -108,21 +125,21 @@ class DiscussionsOldActiveDiscussionsDesign extends Module {
 							<div class="table__column--width-small text-center">Comments</div>
 							<div class="table__column--width-medium text-right">Last Post</div>
 						</div>
-						<div
-							class="table__rows"
-							ref={ref => dealsRows = ref}
-						></div>
+						<div class="table__rows" ref={(ref) => (dealsRows = ref)}></div>
 					</div>
 				</div>
 			</>
-		));
+		);
 		let preset = null;
 		if (Settings.get('df') && Settings.get('df_m') && Settings.get('df_enable')) {
 			let name = Settings.get('df_preset');
 			if (name) {
 				let i;
-				for (i = Settings.get('df_presets').length - 1; i > -1 && Settings.get('df_presets')[i].name !== name; i--) {
-				}
+				for (
+					i = Settings.get('df_presets').length - 1;
+					i > -1 && Settings.get('df_presets')[i].name !== name;
+					i--
+				) {}
 				if (i > -1) {
 					preset = Settings.get('df_presets')[i];
 				}
@@ -131,7 +148,7 @@ class DiscussionsOldActiveDiscussionsDesign extends Module {
 		let elements = await this.esgst.modules.discussions.discussions_get(response1Html, true);
 		if (!Settings.get('oadd_d')) {
 			revisedElements = [];
-			elements.forEach(element => {
+			elements.forEach((element) => {
 				// @ts-ignore
 				if (element.category !== 'Deals') {
 					revisedElements.push(element);
@@ -141,7 +158,14 @@ class DiscussionsOldActiveDiscussionsDesign extends Module {
 		}
 		const filters = this.esgst.modules.discussionsDiscussionFilters.getFilters();
 		for (i = 0, j = elements.length - 1; i < 5 && j > -1; j--) {
-			if (!preset || this.esgst.modules.discussionsDiscussionFilters.filters_filterItem(filters, elements[j], preset.rules)) {
+			if (
+				!preset ||
+				this.esgst.modules.discussionsDiscussionFilters.filters_filterItem(
+					filters,
+					elements[j],
+					preset.rules
+				)
+			) {
 				// @ts-ignore
 				discussionsRows.appendChild(elements[j].outerWrap);
 				i += 1;
@@ -149,7 +173,14 @@ class DiscussionsOldActiveDiscussionsDesign extends Module {
 		}
 		elements = await this.esgst.modules.discussions.discussions_get(response2Html, true);
 		for (i = 0, j = elements.length - 1; i < 5 && j > -1; j--) {
-			if (!preset || this.esgst.modules.discussionsDiscussionFilters.filters_filterItem(filters, elements[j], preset.rules)) {
+			if (
+				!preset ||
+				this.esgst.modules.discussionsDiscussionFilters.filters_filterItem(
+					filters,
+					elements[j],
+					preset.rules
+				)
+			) {
 				// @ts-ignore
 				dealsRows.appendChild(elements[j].outerWrap);
 				i += 1;

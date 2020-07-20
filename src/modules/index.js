@@ -329,7 +329,7 @@ const modules = {
 	generalSearchClearButton,
 	profile,
 	generalQuickInboxView,
-	generalEndlessScrolling
+	generalEndlessScrolling,
 };
 
 export { modules };

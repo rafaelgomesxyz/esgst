@@ -5,15 +5,21 @@ class GeneralURLRedirector extends Module {
 		super();
 		this.info = {
 			description: [
-				['ul', [
-					['li', `Redirects broken URLs to the correct URLs. For example, "/giveaway/XXXXX" redirects to "/giveaway/XXXXX/".`]
-				]]
+				[
+					'ul',
+					[
+						[
+							'li',
+							`Redirects broken URLs to the correct URLs. For example, "/giveaway/XXXXX" redirects to "/giveaway/XXXXX/".`,
+						],
+					],
+				],
 			],
 			id: 'urlr',
 			name: 'URL Redirector',
 			sg: true,
 			st: true,
-			type: 'general'
+			type: 'general',
 		};
 	}
 }

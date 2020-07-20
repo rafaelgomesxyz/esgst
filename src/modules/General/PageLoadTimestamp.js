@@ -1,6 +1,6 @@
 import { Module } from '../../class/Module';
 import dateFns_format from 'date-fns/format';
-import {common} from '../Common';
+import { common } from '../Common';
 import { Settings } from '../../class/Settings';
 import { DOM } from '../../class/DOM';
 import { Shared } from '../../class/Shared';
@@ -10,9 +10,15 @@ class GeneralPageLoadTimestamp extends Module {
 		super();
 		this.info = {
 			description: [
-				['ul', [
-					['li', `Adds a timestamp indicating when the page was loaded to any page, in the preferred location.`]
-				]]
+				[
+					'ul',
+					[
+						[
+							'li',
+							`Adds a timestamp indicating when the page was loaded to any page, in the preferred location.`,
+						],
+					],
+				],
 			],
 			id: 'plt',
 			name: 'Page Load Timestamp',
@@ -20,29 +26,36 @@ class GeneralPageLoadTimestamp extends Module {
 				{
 					id: 'plt_format',
 					prefix: `Timestamp format: `,
-					tooltip: `ESGST uses date-fns v2.0.0-alpha.25, so check the accepted tokens here: https://date-fns.org/v2.0.0-alpha.25/docs/Getting-Started.`
-				}
+					tooltip: `ESGST uses date-fns v2.0.0-alpha.25, so check the accepted tokens here: https://date-fns.org/v2.0.0-alpha.25/docs/Getting-Started.`,
+				},
 			],
 			options: {
 				title: `Position:`,
-				values: ['Sidebar', 'Footer']
+				values: ['Sidebar', 'Footer'],
 			},
 			sg: true,
 			st: true,
-			type: 'general'
+			type: 'general',
 		};
 	}
 
 	init() {
-		const timestamp = dateFns_format(Date.now(), (Settings.get('plt_format') || `MMM dd, yyyy, HH:mm:ss`));
+		const timestamp = dateFns_format(
+			Date.now(),
+			Settings.get('plt_format') || `MMM dd, yyyy, HH:mm:ss`
+		);
 		switch (Settings.get('plt_index')) {
 			case 0:
 				if (this.esgst.sidebar) {
 					DOM.build(this.esgst.sidebar, 'afterBegin', [
-						['span', { class: 'esgst-plt' }, [
-							['h3', { class: 'sidebar__heading' }, 'Page Load Timestamp'],
-							['div', { class: 'sidebar__navigation' }, timestamp]
-						]]
+						[
+							'span',
+							{ class: 'esgst-plt' },
+							[
+								['h3', { class: 'sidebar__heading' }, 'Page Load Timestamp'],
+								['div', { class: 'sidebar__navigation' }, timestamp],
+							],
+						],
 					]);
 					break;
 				}

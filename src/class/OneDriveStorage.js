@@ -7,18 +7,34 @@ import { FetchRequest } from './FetchRequest';
  * @see https://docs.microsoft.com/en-us/onedrive/developer/rest-api/?view=odsp-graph-online
  */
 class OneDriveStorage extends ICloudStorage {
-	static get CLIENT_ID() { return '1781429b-289b-4e6e-877a-e50015c0af21'; }
-	static get AUTH_URL() { return `https://login.microsoftonline.com/common/oauth2/v2.0/authorize`; }
-	static get API_BASE_URL() { return `https://graph.microsoft.com/v1.0`; }
-	static get UPLOAD_URL() { return `${OneDriveStorage.API_BASE_URL}/me/drive/special/approot:/%fileName%:/content`; }
-	static get DOWNLOAD_URL() { return `${OneDriveStorage.API_BASE_URL}/me/drive/items/%fileId%/content` }
-	static get DELETE_URL() { return `${OneDriveStorage.API_BASE_URL}/me/drive/items/%fileId%` }
-	static get DELETE_BATCH_URL() { return `${OneDriveStorage.API_BASE_URL}/$batch`; }
-	static get LIST_URL() { return `${OneDriveStorage.API_BASE_URL}/me/drive/special/approot/children` }
+	static get CLIENT_ID() {
+		return '1781429b-289b-4e6e-877a-e50015c0af21';
+	}
+	static get AUTH_URL() {
+		return `https://login.microsoftonline.com/common/oauth2/v2.0/authorize`;
+	}
+	static get API_BASE_URL() {
+		return `https://graph.microsoft.com/v1.0`;
+	}
+	static get UPLOAD_URL() {
+		return `${OneDriveStorage.API_BASE_URL}/me/drive/special/approot:/%fileName%:/content`;
+	}
+	static get DOWNLOAD_URL() {
+		return `${OneDriveStorage.API_BASE_URL}/me/drive/items/%fileId%/content`;
+	}
+	static get DELETE_URL() {
+		return `${OneDriveStorage.API_BASE_URL}/me/drive/items/%fileId%`;
+	}
+	static get DELETE_BATCH_URL() {
+		return `${OneDriveStorage.API_BASE_URL}/$batch`;
+	}
+	static get LIST_URL() {
+		return `${OneDriveStorage.API_BASE_URL}/me/drive/special/approot/children`;
+	}
 
 	static getDefaultHeaders(token) {
 		return {
-			Authorization: `bearer ${token}`
+			Authorization: `bearer ${token}`,
 		};
 	}
 
@@ -29,7 +45,7 @@ class OneDriveStorage extends ICloudStorage {
 			redirect_uri: OneDriveStorage.REDIRECT_URL,
 			response_type: 'token',
 			scope: 'files.readwrite',
-			state: 'onedrive'
+			state: 'onedrive',
 		};
 		if (Settings.get('usePreferredMicrosoft')) {
 			params['login_hint'] = Settings.get('preferredMicrosoft');
@@ -37,7 +53,7 @@ class OneDriveStorage extends ICloudStorage {
 		const url = FetchRequest.addQueryParams(OneDriveStorage.AUTH_URL, params);
 		await Shared.common.delValue(key);
 		Shared.common.openSmallWindow(url);
-		return (await OneDriveStorage.getToken(key));
+		return await OneDriveStorage.getToken(key);
 	}
 
 	static async upload(token, data, fileName) {
@@ -49,11 +65,11 @@ class OneDriveStorage extends ICloudStorage {
 			data,
 			fileName: Settings.get('backupZip') ? `${fileName}.json` : null,
 			headers: Object.assign(OneDriveStorage.getDefaultHeaders(token), {
-				'Content-Type': Settings.get('backupZip') ? 'application/zip' : 'text/plain'
+				'Content-Type': Settings.get('backupZip') ? 'application/zip' : 'text/plain',
 			}),
 			pathParams: {
-				fileName: `${fileName}.${Settings.get('backupZip') ? 'zip' : 'json'}`
-			}
+				fileName: `${fileName}.${Settings.get('backupZip') ? 'zip' : 'json'}`,
+			},
 		};
 		const response = await FetchRequest.put(OneDriveStorage.UPLOAD_URL, requestOptions);
 		if (!response.json || !response.json.id) {
@@ -70,8 +86,8 @@ class OneDriveStorage extends ICloudStorage {
 			blob: fileInfo.name.match(/\.zip$/),
 			headers: Object.assign(OneDriveStorage.getDefaultHeaders(token), {}),
 			pathParams: {
-				fileId: fileInfo.id
-			}
+				fileId: fileInfo.id,
+			},
 		};
 		const response = await FetchRequest.get(OneDriveStorage.DOWNLOAD_URL, requestOptions);
 		return response.text;
@@ -85,8 +101,8 @@ class OneDriveStorage extends ICloudStorage {
 			anon: true,
 			headers: Object.assign(OneDriveStorage.getDefaultHeaders(token), {}),
 			pathParams: {
-				fileId: fileInfo.id
-			}
+				fileId: fileInfo.id,
+			},
 		};
 		const response = await FetchRequest.delete(OneDriveStorage.DELETE_URL, requestOptions);
 		if (response.text) {
@@ -100,19 +116,21 @@ class OneDriveStorage extends ICloudStorage {
 		}
 		const output = {
 			success: [],
-			error: []
+			error: [],
 		};
-		const batchRequests = JSON.stringify(fileIds.map(x => ({
-			id: x,
-			method: 'DELETE',
-			url: `/me/drive/items/${x}`
-		})));
+		const batchRequests = JSON.stringify(
+			fileIds.map((x) => ({
+				id: x,
+				method: 'DELETE',
+				url: `/me/drive/items/${x}`,
+			}))
+		);
 		const requestOptions = {
 			anon: true,
 			data: `{ "requests": ${batchRequests} }`,
 			headers: Object.assign(OneDriveStorage.getDefaultHeaders(token), {
-				'Content-Type': 'application/json'
-			})
+				'Content-Type': 'application/json',
+			}),
 		};
 		const response = await FetchRequest.post(OneDriveStorage.DELETE_BATCH_URL, requestOptions);
 		if (!response.json || !response.json.responses) {
@@ -134,13 +152,13 @@ class OneDriveStorage extends ICloudStorage {
 		}
 		const requestOptions = {
 			anon: true,
-			headers: Object.assign(OneDriveStorage.getDefaultHeaders(token), {})
+			headers: Object.assign(OneDriveStorage.getDefaultHeaders(token), {}),
 		};
 		const response = await FetchRequest.get(OneDriveStorage.LIST_URL, requestOptions);
 		if (!response.json || !response.json.value) {
 			throw new Error(response.text);
 		}
-		return response.json.value.reverse().map(x => (x.date = x.lastModifiedDateTime) && x);
+		return response.json.value.reverse().map((x) => (x.date = x.lastModifiedDateTime) && x);
 	}
 }
 

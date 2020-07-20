@@ -7,20 +7,40 @@ import { FetchRequest } from './FetchRequest';
  * @see https://developers.google.com/drive/api/v3/reference/
  */
 class GoogleDriveStorage extends ICloudStorage {
-	static get CLIENT_ID() { return '102804278399-95kit5e09mdskdta7eq97ra7tuj20qps.apps.googleusercontent.com'; }
-	static get AUTH_URL() { return `https://accounts.google.com/o/oauth2/v2/auth`; }
-	static get BASE_URL() { return `https://www.googleapis.com`; }
-	static get API_BASE_URL() { return `${GoogleDriveStorage.BASE_URL}/drive/v3`; }
-	static get UPLOAD_METADATA_URL() { return `${GoogleDriveStorage.API_BASE_URL}/files`; }
-	static get UPLOAD_URL() { return `${GoogleDriveStorage.BASE_URL}/upload/drive/v3/files/%fileId%`; }
-	static get DOWNLOAD_URL() { return `${GoogleDriveStorage.API_BASE_URL}/files/%fileId%`}
-	static get DELETE_URL() { return `${GoogleDriveStorage.API_BASE_URL}/files/%fileId%`}
-	static get DELETE_BATCH_URL() { return `${GoogleDriveStorage.BASE_URL}/batch/drive/v3`; }
-	static get LIST_URL() { return `${GoogleDriveStorage.API_BASE_URL}/files`; }
+	static get CLIENT_ID() {
+		return '102804278399-95kit5e09mdskdta7eq97ra7tuj20qps.apps.googleusercontent.com';
+	}
+	static get AUTH_URL() {
+		return `https://accounts.google.com/o/oauth2/v2/auth`;
+	}
+	static get BASE_URL() {
+		return `https://www.googleapis.com`;
+	}
+	static get API_BASE_URL() {
+		return `${GoogleDriveStorage.BASE_URL}/drive/v3`;
+	}
+	static get UPLOAD_METADATA_URL() {
+		return `${GoogleDriveStorage.API_BASE_URL}/files`;
+	}
+	static get UPLOAD_URL() {
+		return `${GoogleDriveStorage.BASE_URL}/upload/drive/v3/files/%fileId%`;
+	}
+	static get DOWNLOAD_URL() {
+		return `${GoogleDriveStorage.API_BASE_URL}/files/%fileId%`;
+	}
+	static get DELETE_URL() {
+		return `${GoogleDriveStorage.API_BASE_URL}/files/%fileId%`;
+	}
+	static get DELETE_BATCH_URL() {
+		return `${GoogleDriveStorage.BASE_URL}/batch/drive/v3`;
+	}
+	static get LIST_URL() {
+		return `${GoogleDriveStorage.API_BASE_URL}/files`;
+	}
 
 	static getDefaultHeaders(token) {
 		return {
-			authorization: `Bearer ${token}`
+			authorization: `Bearer ${token}`,
 		};
 	}
 
@@ -31,7 +51,7 @@ class GoogleDriveStorage extends ICloudStorage {
 			redirect_uri: GoogleDriveStorage.REDIRECT_URL,
 			response_type: 'token',
 			scope: `https://www.googleapis.com/auth/drive.appdata`,
-			state: 'google-drive'
+			state: 'google-drive',
 		};
 		if (Settings.get('usePreferredGoogle')) {
 			params['login_hint'] = Settings.get('preferredGoogle');
@@ -39,7 +59,7 @@ class GoogleDriveStorage extends ICloudStorage {
 		const url = FetchRequest.addQueryParams(GoogleDriveStorage.AUTH_URL, params);
 		await Shared.common.delValue(key);
 		Shared.common.openSmallWindow(url);
-		return (await GoogleDriveStorage.getToken(key));
+		return await GoogleDriveStorage.getToken(key);
 	}
 
 	static async upload(token, data, fileName) {
@@ -47,12 +67,17 @@ class GoogleDriveStorage extends ICloudStorage {
 			token = await GoogleDriveStorage.authenticate();
 		}
 		const metadataRequestOptions = {
-			data: Settings.get('backupZip') ? `{ "name": "${fileName}.zip", "parents": ["appDataFolder"]}` : `{"name": "${fileName}.json", "parents": ["appDataFolder"] }`,
+			data: Settings.get('backupZip')
+				? `{ "name": "${fileName}.zip", "parents": ["appDataFolder"]}`
+				: `{"name": "${fileName}.json", "parents": ["appDataFolder"] }`,
 			headers: Object.assign(GoogleDriveStorage.getDefaultHeaders(token), {
-				'Content-Type': 'application/json'
-			})
+				'Content-Type': 'application/json',
+			}),
 		};
-		const metadataResponse = await FetchRequest.post(GoogleDriveStorage.UPLOAD_METADATA_URL, metadataRequestOptions);
+		const metadataResponse = await FetchRequest.post(
+			GoogleDriveStorage.UPLOAD_METADATA_URL,
+			metadataRequestOptions
+		);
 		if (!metadataResponse.json || !metadataResponse.json.id) {
 			throw new Error(metadataResponse.text);
 		}
@@ -60,14 +85,14 @@ class GoogleDriveStorage extends ICloudStorage {
 			data,
 			fileName: Settings.get('backupZip') ? `${fileName}.json` : null,
 			headers: Object.assign(GoogleDriveStorage.getDefaultHeaders(token), {
-				'Content-Type': Settings.get('backupZip') ? 'application/zip' : 'text/plain'
+				'Content-Type': Settings.get('backupZip') ? 'application/zip' : 'text/plain',
 			}),
 			pathParams: {
-				fileId: metadataResponse.json.id
+				fileId: metadataResponse.json.id,
 			},
 			queryParams: {
-				uploadType: 'media'
-			}
+				uploadType: 'media',
+			},
 		};
 		const response = await FetchRequest.patch(GoogleDriveStorage.UPLOAD_URL, requestOptions);
 		if (!response.json || !response.json.id) {
@@ -83,11 +108,11 @@ class GoogleDriveStorage extends ICloudStorage {
 			blob: fileInfo.name.match(/\.zip$/),
 			headers: Object.assign(GoogleDriveStorage.getDefaultHeaders(token), {}),
 			pathParams: {
-				fileId: fileInfo.id
+				fileId: fileInfo.id,
 			},
 			queryParams: {
-				alt: 'media'
-			}
+				alt: 'media',
+			},
 		};
 		const response = await FetchRequest.get(GoogleDriveStorage.DOWNLOAD_URL, requestOptions);
 		return response.text;
@@ -100,8 +125,8 @@ class GoogleDriveStorage extends ICloudStorage {
 		const requestOptions = {
 			headers: Object.assign(GoogleDriveStorage.getDefaultHeaders(token), {}),
 			pathParams: {
-				fileId: fileInfo.id
-			}
+				fileId: fileInfo.id,
+			},
 		};
 		const response = await FetchRequest.delete(GoogleDriveStorage.DELETE_URL, requestOptions);
 		if (response.text) {
@@ -115,7 +140,7 @@ class GoogleDriveStorage extends ICloudStorage {
 		}
 		const output = {
 			success: [],
-			error: []
+			error: [],
 		};
 		// Google Drive only allows 100 file deletions per request
 		for (let i = 0, n = fileIds.length; i < n; i += 100) {
@@ -136,8 +161,8 @@ class GoogleDriveStorage extends ICloudStorage {
 			const requestOptions = {
 				data,
 				headers: Object.assign(GoogleDriveStorage.getDefaultHeaders(token), {
-					'Content-Type': 'multipart/mixed; boundary=ESGST'
-				})
+					'Content-Type': 'multipart/mixed; boundary=ESGST',
+				}),
 			};
 			const response = await FetchRequest.post(GoogleDriveStorage.DELETE_BATCH_URL, requestOptions);
 			if (!response.text) {
@@ -147,8 +172,8 @@ class GoogleDriveStorage extends ICloudStorage {
 				.replace(/\r?\n|\r/g, '\n')
 				.replace(/\n\n+/g, '\n\n')
 				.split(/--batch.*\n/)
-				.filter(x => x)
-				.map(x => x.split(/\n\n/)[2]);
+				.filter((x) => x)
+				.map((x) => x.split(/\n\n/)[2]);
 			for (const [index, part] of parts.entries()) {
 				if (part) {
 					output.error.push(chunk[index]);
@@ -168,14 +193,14 @@ class GoogleDriveStorage extends ICloudStorage {
 			headers: Object.assign(GoogleDriveStorage.getDefaultHeaders(token), {}),
 			queryParams: {
 				fields: `files(kind,id,name,mimeType,size,modifiedTime)`,
-				spaces: 'appDataFolder'
-			}
+				spaces: 'appDataFolder',
+			},
 		};
 		const response = await FetchRequest.get(GoogleDriveStorage.LIST_URL, requestOptions);
 		if (!response.json || !response.json.files) {
 			throw new Error(response.text);
 		}
-		return response.json.files.map(x => (x.date = x.modifiedTime) && x);
+		return response.json.files.map((x) => (x.date = x.modifiedTime) && x);
 	}
 }
 

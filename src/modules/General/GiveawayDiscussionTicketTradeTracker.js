@@ -3,57 +3,60 @@ import { common } from '../Common';
 import { Settings } from '../../class/Settings';
 import { LocalStorage } from '../../class/LocalStorage';
 
-const
-	createElements = common.createElements.bind(common),
+const createElements = common.createElements.bind(common),
 	createLock = common.createLock.bind(common),
 	getFeatureTooltip = common.getFeatureTooltip.bind(common),
 	getValue = common.getValue.bind(common),
 	getValues = common.getValues.bind(common),
 	setHoverOpacity = common.setHoverOpacity.bind(common),
-	setValue = common.setValue.bind(common)
-	;
-
+	setValue = common.setValue.bind(common);
 class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
 	constructor() {
 		super();
 		this.info = {
 			description: [
-				['ul', [
-					['li', [
-						`Adds a button (`,
-						['i', { class: 'fa fa-check' }],
-						` if the thread is not marked as visited and <i class="fa fa-times"></i> if it is) to the "Comments" column of any `,
-						['a', { href: `https://www.steamgifts.com/discussions` }, 'discussions'],
-						'/',
-						['a', { href: `https://www.steamgifts.com/support/tickets` }, 'tickets'],
-						'/',
-						['a', { href: `https://www.steamtrades.com/trades` }, 'trades'],
-						' pages and to the main page heading of any discussion/ticket/trade page that allows you to mark the thread as visited.'
-					]],
-					['li', 'Giveaways/threads marked as visited are faded out in the page.']
-				]]
+				[
+					'ul',
+					[
+						[
+							'li',
+							[
+								`Adds a button (`,
+								['i', { class: 'fa fa-check' }],
+								` if the thread is not marked as visited and <i class="fa fa-times"></i> if it is) to the "Comments" column of any `,
+								['a', { href: `https://www.steamgifts.com/discussions` }, 'discussions'],
+								'/',
+								['a', { href: `https://www.steamgifts.com/support/tickets` }, 'tickets'],
+								'/',
+								['a', { href: `https://www.steamtrades.com/trades` }, 'trades'],
+								' pages and to the main page heading of any discussion/ticket/trade page that allows you to mark the thread as visited.',
+							],
+						],
+						['li', 'Giveaways/threads marked as visited are faded out in the page.'],
+					],
+				],
 			],
 			features: {
 				gdttt_g: {
 					name: 'Fade visited giveaways.',
-					sg: true
+					sg: true,
 				},
 				gdttt_vd: {
 					name: 'Mark discussions as visited when visiting them.',
-					sg: true
+					sg: true,
 				},
 				gdttt_vg: {
 					name: 'Mark giveaways as visited when visiting them.',
-					sg: true
+					sg: true,
 				},
 				gdttt_vt: {
 					name: 'Mark tickets as visited when visiting them.',
-					sg: true
+					sg: true,
 				},
 				gdttt_vts: {
 					name: 'Mark trades as visited when visiting them.',
-					st: true
-				}
+					st: true,
+				},
 			},
 			id: 'gdttt',
 			name: 'Giveaway/Discussion/Ticket/Trade Tracker',
@@ -61,8 +64,8 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
 			st: true,
 			type: 'general',
 			featureMap: {
-				endless: this.gdttt_checkVisited.bind(this)
-			}
+				endless: this.gdttt_checkVisited.bind(this),
+			},
 		};
 	}
 
@@ -72,14 +75,25 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
 		let type = `${match[1]}s`;
 		let code = match[2];
 		let savedComments = JSON.parse(this.esgst.storage[type]);
-		if (Settings.get(`gdttt_v${{
-			giveaways: 'g',
-			discussions: 'd',
-			tickets: 't',
-			trades: 'ts'
-		}[type]}`)) {
+		if (
+			Settings.get(
+				`gdttt_v${
+					{
+						giveaways: 'g',
+						discussions: 'd',
+						tickets: 't',
+						trades: 'ts',
+					}[type]
+				}`
+			)
+		) {
 			if (!Settings.get('ct')) {
-				let cache = JSON.parse(LocalStorage.get('gdtttCache', `{"giveaways":[],"discussions":[],"tickets":[],"trades":[]}`));
+				let cache = JSON.parse(
+					LocalStorage.get(
+						'gdtttCache',
+						`{"giveaways":[],"discussions":[],"tickets":[],"trades":[]}`
+					)
+				);
 				if (cache[type].indexOf(code) < 0) {
 					cache[type].push(code);
 					LocalStorage.set('gdtttCache', JSON.stringify(cache));
@@ -87,7 +101,7 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
 				let deleteLock = await createLock('commentLock', 300);
 				if (!savedComments[code]) {
 					savedComments[code] = {
-						readComments: {}
+						readComments: {},
 					};
 				}
 				savedComments[code].visited = true;
@@ -97,9 +111,21 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
 			}
 		} else if (this.esgst.discussionPath || this.esgst.tradePath) {
 			if (savedComments[code] && savedComments[code].visited) {
-				this.gdttt_addMarkUnvisitedButton(null, code, document.querySelector(`.page__heading, .page_heading`), null, type);
+				this.gdttt_addMarkUnvisitedButton(
+					null,
+					code,
+					document.querySelector(`.page__heading, .page_heading`),
+					null,
+					type
+				);
 			} else {
-				this.gdttt_addMarkVisitedButton(null, code, document.querySelector(`.page__heading, .page_heading`), null, type);
+				this.gdttt_addMarkVisitedButton(
+					null,
+					code,
+					document.querySelector(`.page__heading, .page_heading`),
+					null,
+					type
+				);
 			}
 		}
 	}
@@ -110,7 +136,7 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
 				comments = JSON.parse(getValue(type));
 			if (!comments[code]) {
 				comments[code] = {
-					readComments: {}
+					readComments: {},
 				};
 			}
 			if (Settings.get('ct_s')) {
@@ -155,13 +181,31 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
 	 * @returns {Promise<void>}
 	 */
 	async gdttt_checkVisited(context, main, src, endless) {
-		let matches = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} .homepage_table_column_heading, .esgst-es-page-${endless}.homepage_table_column_heading` : '.homepage_table_column_heading'}, ${endless ? `.esgst-es-page-${endless} .table__column__heading, .esgst-es-page-${endless}.table__column__heading` : '.table__column__heading'}, ${endless ? `.esgst-es-page-${endless} .giveaway__heading__name, .esgst-es-page-${endless}.giveaway__heading__name` : '.giveaway__heading__name'}, ${endless ? `.esgst-es-page-${endless} .column_flex h3 a, .esgst-es-page-${endless}.column_flex h3 a` : '.column_flex h3 a'}`);
+		let matches = context.querySelectorAll(
+			`${
+				endless
+					? `.esgst-es-page-${endless} .homepage_table_column_heading, .esgst-es-page-${endless}.homepage_table_column_heading`
+					: '.homepage_table_column_heading'
+			}, ${
+				endless
+					? `.esgst-es-page-${endless} .table__column__heading, .esgst-es-page-${endless}.table__column__heading`
+					: '.table__column__heading'
+			}, ${
+				endless
+					? `.esgst-es-page-${endless} .giveaway__heading__name, .esgst-es-page-${endless}.giveaway__heading__name`
+					: '.giveaway__heading__name'
+			}, ${
+				endless
+					? `.esgst-es-page-${endless} .column_flex h3 a, .esgst-es-page-${endless}.column_flex h3 a`
+					: '.column_flex h3 a'
+			}`
+		);
 		if (!matches.length) return;
 		let values = getValues({
 			giveaways: '{}',
 			discussions: '{}',
 			tickets: '{}',
-			trades: '{}'
+			trades: '{}',
 		});
 		for (let key in values) {
 			if (values.hasOwnProperty(key)) {
@@ -176,7 +220,9 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
 				if (source) {
 					let type = `${source[1]}s`;
 					let code = source[2];
-					let container = match.closest(`.table__row-outer-wrap, .giveaway__row-outer-wrap, .row_outer_wrap`);
+					let container = match.closest(
+						`.table__row-outer-wrap, .giveaway__row-outer-wrap, .row_outer_wrap`
+					);
 					let comment = values[type][code];
 					if (comment && comment.visited && container) {
 						if ((type === 'giveaways' && Settings.get('gdttt_g')) || type !== 'giveaways') {
@@ -194,34 +240,40 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
 		let comments;
 		let busy = false;
 		if (!button) {
-			button = createElements(context, 'afterBegin', [{
-				attributes: {
-					class: 'esgst-gdttt-button page_heading_btn'
+			button = createElements(context, 'afterBegin', [
+				{
+					attributes: {
+						class: 'esgst-gdttt-button page_heading_btn',
+					},
+					type: 'div',
 				},
-				type: 'div'
-			}]);
+			]);
 		}
-		createElements(button, 'inner', [{
-			attributes: {
-				class: 'fa fa-check',
-				title: `${getFeatureTooltip('gdttt', 'Mark as visited')}`
+		createElements(button, 'inner', [
+			{
+				attributes: {
+					class: 'fa fa-check',
+					title: `${getFeatureTooltip('gdttt', 'Mark as visited')}`,
+				},
+				type: 'i',
 			},
-			type: 'i'
-		}]);
+		]);
 		button.addEventListener('click', async () => {
 			if (!busy) {
 				busy = true;
-				createElements(button, 'inner', [{
-					attributes: {
-						class: 'fa fa-circle-o-notch fa-spin'
+				createElements(button, 'inner', [
+					{
+						attributes: {
+							class: 'fa fa-circle-o-notch fa-spin',
+						},
+						type: 'i',
 					},
-					type: 'i'
-				}]);
+				]);
 				let deleteLock = await createLock('commentLock', 300);
 				comments = JSON.parse(getValue(type));
 				if (!comments[code]) {
 					comments[code] = {
-						readComments: {}
+						readComments: {},
 					};
 				}
 				if (Settings.get('ct_s')) {
@@ -240,29 +292,35 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
 		let comments;
 		let busy = false;
 		if (!button) {
-			button = createElements(context, 'afterBegin', [{
-				attributes: {
-					class: 'esgst-gdttt-button page_heading_btn'
+			button = createElements(context, 'afterBegin', [
+				{
+					attributes: {
+						class: 'esgst-gdttt-button page_heading_btn',
+					},
+					type: 'div',
 				},
-				type: 'div'
-			}]);
+			]);
 		}
-		createElements(button, 'inner', [{
-			attributes: {
-				class: 'fa fa-times',
-				title: `${getFeatureTooltip('gdttt', 'Mark as unvisited')}`
+		createElements(button, 'inner', [
+			{
+				attributes: {
+					class: 'fa fa-times',
+					title: `${getFeatureTooltip('gdttt', 'Mark as unvisited')}`,
+				},
+				type: 'i',
 			},
-			type: 'i'
-		}]);
+		]);
 		button.addEventListener('click', async () => {
 			if (!busy) {
 				busy = true;
-				createElements(button, 'inner', [{
-					attributes: {
-						class: 'fa fa-circle-o-notch fa-spin'
+				createElements(button, 'inner', [
+					{
+						attributes: {
+							class: 'fa fa-circle-o-notch fa-spin',
+						},
+						type: 'i',
 					},
-					type: 'i'
-				}]);
+				]);
 				let deleteLock = await createLock('commentLock', 300);
 				comments = JSON.parse(getValue(type));
 				if (Settings.get('ct_s')) {

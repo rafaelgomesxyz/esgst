@@ -74,7 +74,10 @@ class Esgst {
 				{ name: 'Browse Giveaways', pattern: `^/($|giveaways($|/search))` },
 				{ name: 'Browse Giveaways - All', pattern: `^/($|giveaways($|/search\\?(?!type)))` },
 				{ name: 'Browse Giveaways - Wishlist', pattern: `^/giveaways/search\\?type=wishlist` },
-				{ name: 'Browse Giveaways - Recommended', pattern: `^/giveaways/search\\?type=recommended` },
+				{
+					name: 'Browse Giveaways - Recommended',
+					pattern: `^/giveaways/search\\?type=recommended`,
+				},
 				{ name: 'Browse Giveaways - Group', pattern: `^/giveaways/search\\?type=group` },
 				{ name: 'Browse Giveaways - New', pattern: `^/giveaways/search\\?type=new` },
 				{ name: 'Community Wishlist', pattern: '^/giveaways/wishlist' },
@@ -94,7 +97,10 @@ class Esgst {
 				{ name: 'Giveaway - Entries', pattern: `^/giveaway/.+?/[^/]+/entries` },
 				{ name: 'Giveaway - Winners', pattern: `^/giveaway/.+?/[^/]+/winners` },
 				{ name: 'Giveaway - Groups', pattern: `^/giveaway/.+?/[^/]+/groups` },
-				{ name: 'Giveaway - Region Restrictions', pattern: `^/giveaway/.{5}/[A-Za-z0-9-]+/region-restrictions` },
+				{
+					name: 'Giveaway - Region Restrictions',
+					pattern: `^/giveaway/.{5}/[A-Za-z0-9-]+/region-restrictions`,
+				},
 				{ name: 'Group', pattern: '^/group/' },
 				{ name: 'Group - Giveaways', pattern: `^/group/.+?/[^/]+($|/search)` },
 				{ name: 'Group - Users', pattern: `^/group/.+?/[^/]+/users` },
@@ -111,13 +117,16 @@ class Esgst {
 				{ name: 'Discussions - Group Recruitment', pattern: '^/discussions/group-recruitment' },
 				{ name: 'Discussions - Hardware', pattern: '^/discussions/hardware' },
 				{ name: 'Discussions - Help', pattern: '^/discussions/help' },
-				{ name: 'Discussions - Let\'s Play Together', pattern: '^/discussions/lets-play-together' },
+				{ name: "Discussions - Let's Play Together", pattern: '^/discussions/lets-play-together' },
 				{ name: 'Discussions - Movies / TV', pattern: '^/discussions/movies-tv' },
 				{ name: 'Discussions - Off Topic', pattern: '^/discussions/off-topic' },
 				{ name: 'Discussions - Puzzles / Events', pattern: '^/discussions/puzzles-events' },
 				{ name: 'Discussions - Uncategorized', pattern: '^/discussions/uncategorized' },
 				{ name: 'Discussions - User Projects', pattern: '^/discussions/user-projects' },
-				{ name: 'Discussions - Whitelist Recruitment', pattern: '^/discussions/whitelist-recruitment' },
+				{
+					name: 'Discussions - Whitelist Recruitment',
+					pattern: '^/discussions/whitelist-recruitment',
+				},
 				{ name: 'My Discussions - New', pattern: '^/discussions/new' },
 				{ name: 'My Discussions - Edit', pattern: '^/discussions/edit' },
 				{ name: 'My Discussions - Subscribed', pattern: '^/discussions/subscribed' },
@@ -126,7 +135,10 @@ class Esgst {
 				{ name: 'Discussion', pattern: '^/discussion/' },
 				{ name: 'Tickets', pattern: '^/support/tickets' },
 				{ name: 'Tickets - All', pattern: `^/support/tickets($|/search)` },
-				{ name: 'Tickets - Change Giveaway Game', pattern: '^/support/tickets/change-giveaway-game' },
+				{
+					name: 'Tickets - Change Giveaway Game',
+					pattern: '^/support/tickets/change-giveaway-game',
+				},
 				{ name: 'Tickets - Delete Giveaway', pattern: '^/support/tickets/delete-giveaway' },
 				{ name: 'Tickets - Other', pattern: '^/support/tickets/other' },
 				{ name: 'Tickets - Request New Winner', pattern: '^/support/tickets/request-new-winner' },
@@ -158,7 +170,10 @@ class Esgst {
 				{ name: 'Settings - Patreon', pattern: '^/account/settings/patreon' },
 				{ name: 'Settings - Giveaways', pattern: '^/account/settings/giveaways' },
 				{ name: 'Settings - Giveaways - Filters', pattern: '^/account/settings/giveaways/filters' },
-				{ name: 'Settings - Email Notifications', pattern: '^/account/settings/email-notifications' },
+				{
+					name: 'Settings - Email Notifications',
+					pattern: '^/account/settings/email-notifications',
+				},
 				{ name: 'Settings - Referrals', pattern: '^/account/settings/referrals' },
 				{ name: 'Privacy - Delete Account', pattern: '^/account/privacy/delete-account' },
 				{ name: 'Stats - Personal - Community', pattern: '^/stats/personal/community' },
@@ -175,13 +190,25 @@ class Esgst {
 				{ name: 'ESGST - Restore', pattern: `^/account/settings/profile\\?esgst=restore` },
 				{ name: 'ESGST - Delete', pattern: `^/account/settings/profile\\?esgst=delete` },
 				{ name: 'ESGST - Clean', pattern: `^/account/settings/profile\\?esgst=clean` },
-				{ name: 'ESGST - Data Management', pattern: `^/account/settings/profile\\?esgst=data-management` },
+				{
+					name: 'ESGST - Data Management',
+					pattern: `^/account/settings/profile\\?esgst=data-management`,
+				},
 				{ name: 'ESGST - Archive Searcher', pattern: `^/account/settings/profile\\?esgst=as` },
-				{ name: 'ESGST - Comment / Entry Checker', pattern: `^/account/settings/profile\\?esgst=cec` },
+				{
+					name: 'ESGST - Comment / Entry Checker',
+					pattern: `^/account/settings/profile\\?esgst=cec`,
+				},
 				{ name: 'ESGST - Giveaway Bookmarks', pattern: `^/account/settings/profile\\?esgst=gb` },
-				{ name: 'ESGST - Giveaway Encryptor / Decryptor', pattern: `^/account/settings/profile\\?esgst=ged` },
+				{
+					name: 'ESGST - Giveaway Encryptor / Decryptor',
+					pattern: `^/account/settings/profile\\?esgst=ged`,
+				},
 				{ name: 'ESGST - Giveaway Extractor', pattern: `^/account/settings/profile\\?esgst=ge` },
-				{ name: 'ESGST - Group Library / Wishlist Checker', pattern: `^/account/settings/profile\\?esgst=glwc` }
+				{
+					name: 'ESGST - Group Library / Wishlist Checker',
+					pattern: `^/account/settings/profile\\?esgst=glwc`,
+				},
 			],
 			st: [
 				{ name: 'Everywhere', pattern: '.*' },
@@ -200,11 +227,9 @@ class Esgst {
 				{ name: 'About - Guidelines', pattern: '^/about/guidelines' },
 				{ name: 'Legal - Privacy Policy', pattern: '^/legal/privacy-policy' },
 				{ name: 'Legal - Cookie Policy', pattern: '^/legal/cookie-policy' },
-				{ name: 'Legal - Terms Of Service', pattern: '^/legal/terms-of-service' }
+				{ name: 'Legal - Terms Of Service', pattern: '^/legal/terms-of-service' },
 			],
-			sgtools: [
-				{ name: 'Everywhere', pattern: '.*' }
-			]
+			sgtools: [{ name: 'Everywhere', pattern: '.*' }],
 		};
 		this.formatDistanceLocale = {
 			formatDistance: (token, count) => {
@@ -222,11 +247,11 @@ class Esgst {
 					case 'xYears':
 						return `${count}y`;
 				}
-			}
+			},
 		};
 		this.newGiveawayDateFormat = `MMM d, yyyy h:mm a`;
 		this.triggerFunctions = {
-			onBeforeCommentSubmit: []
+			onBeforeCommentSubmit: [],
 		};
 
 		for (const key in this.triggerFunctions) {
@@ -238,7 +263,7 @@ class Esgst {
 
 		this.documentEvents = {
 			click: null,
-			keydown: null
+			keydown: null,
 		};
 
 		this.windowEvents = {};
@@ -451,7 +476,37 @@ class Esgst {
 
 		this.cfPopup = null;
 
-		this.gc_categories_ids = ['gc_gi', 'gc_r', 'gc_hltb', 'gc_ocv', 'gc_fcv', 'gc_rcv', 'gc_ncv', 'gc_h', 'gc_i', 'gc_o', 'gc_w', 'gc_f', 'gc_pw', 'gc_a', 'gc_bd', 'gc_bvg', 'gc_sp', 'gc_mp', 'gc_sc', 'gc_tc', 'gc_l', 'gc_m', 'gc_ea', 'gc_lg', 'gc_rm', 'gc_dlc', 'gc_p', 'gc_rd', 'gc_g'];
+		this.gc_categories_ids = [
+			'gc_gi',
+			'gc_r',
+			'gc_hltb',
+			'gc_ocv',
+			'gc_fcv',
+			'gc_rcv',
+			'gc_ncv',
+			'gc_h',
+			'gc_i',
+			'gc_o',
+			'gc_w',
+			'gc_f',
+			'gc_pw',
+			'gc_a',
+			'gc_bd',
+			'gc_bvg',
+			'gc_sp',
+			'gc_mp',
+			'gc_sc',
+			'gc_tc',
+			'gc_l',
+			'gc_m',
+			'gc_ea',
+			'gc_lg',
+			'gc_rm',
+			'gc_dlc',
+			'gc_p',
+			'gc_rd',
+			'gc_g',
+		];
 
 		this.giveawayErrorButton = null;
 
@@ -480,8 +535,8 @@ class Esgst {
 				this.modules[key].setEsgst.call(this.modules[key], this);
 			}
 		}
-		this.documentEvents.click = new Set;
-		this.documentEvents.keydown = new Set;
+		this.documentEvents.click = new Set();
+		this.documentEvents.keydown = new Set();
 
 		this.scopes = {};
 		this.currentScope = null;
@@ -493,10 +548,12 @@ class Esgst {
 
 		this.locationHref = window.location.href;
 
-		this.markdownParser = new Parsedown;
+		this.markdownParser = new Parsedown();
 		this.sg = window.location.hostname.match(/www.steamgifts.com/);
 		this.st = window.location.hostname.match(/www.steamtrades.com/);
-		this.elgbCache = JSON.parse(LocalStorage.get('elgbCache', `{"descriptions": {}, "timestamp": ${Date.now()}}`));
+		this.elgbCache = JSON.parse(
+			LocalStorage.get('elgbCache', `{"descriptions": {}, "timestamp": ${Date.now()}}`)
+		);
 
 		this.userPath = window.location.pathname.match(/^\/user\//);
 		this.userWonPath = this.userPath && window.location.pathname.match(/\/giveaways\/won/);
@@ -505,13 +562,23 @@ class Esgst {
 		this.groupWishlistPath = window.location.pathname.match(/^\/group\/(.*?)\/wishlist/);
 		this.mainPath = window.location.pathname.match(/^\/$/);
 		this.winnersPath = window.location.pathname.match(/^\/giveaway\/.+\/winners/);
-		this.giveawaysPath = this.locationHref.match(/steamgifts.com($|\/$|\/giveaways(?!.*\/(new|wishlist|created|entered|won)))/);
-		this.giveawayCommentsPath = window.location.pathname.match(/^\/giveaway\/(?!.+\/(entries|winners|groups|region-restrictions))/);
-		this.discussionsTicketsPath = window.location.pathname.match(/^\/(discussions|support\/tickets)/);
+		this.giveawaysPath = this.locationHref.match(
+			/steamgifts.com($|\/$|\/giveaways(?!.*\/(new|wishlist|created|entered|won)))/
+		);
+		this.giveawayCommentsPath = window.location.pathname.match(
+			/^\/giveaway\/(?!.+\/(entries|winners|groups|region-restrictions))/
+		);
+		this.discussionsTicketsPath = window.location.pathname.match(
+			/^\/(discussions|support\/tickets)/
+		);
 		this.ticketsPath = window.location.pathname.match(/^\/support\/tickets/);
 		this.tradesPath = this.locationHref.match(/steamtrades.com($|\/$|\/trades(?!\/(new|edit)))/);
-		this.discussionsTicketsTradesPath = this.locationHref.match(/steamtrades.com($|\/$)/) || window.location.pathname.match(/^\/(discussions|support\/tickets|trades)/);
-		this.discussionTicketTradeCommentsPath = window.location.pathname.match(/^\/(discussion|support\/ticket|trade)\//);
+		this.discussionsTicketsTradesPath =
+			this.locationHref.match(/steamtrades.com($|\/$)/) ||
+			window.location.pathname.match(/^\/(discussions|support\/tickets|trades)/);
+		this.discussionTicketTradeCommentsPath = window.location.pathname.match(
+			/^\/(discussion|support\/ticket|trade)\//
+		);
 		this.archivePath = window.location.pathname.match(/^\/archive/);
 		this.profilePath = window.location.pathname.match(/^\/account\/settings\/profile/);
 		this.giveawayPath = window.location.pathname.match(/^\/giveaway\//);
@@ -530,7 +597,9 @@ class Esgst {
 		this.createdPath = window.location.pathname.match(/^\/giveaways\/created/);
 		this.wonPath = window.location.pathname.match(/^\/giveaways\/won/);
 		this.enteredPath = window.location.pathname.match(/^\/giveaways\/entered/);
-		this.commentsPath = window.location.pathname.match(/^\/(giveaway\/(?!.*\/(entries|winners|groups|region-restrictions))|discussion\/|support\/ticket\/|trade\/)/);
+		this.commentsPath = window.location.pathname.match(
+			/^\/(giveaway\/(?!.*\/(entries|winners|groups|region-restrictions))|discussion\/|support\/ticket\/|trade\/)/
+		);
 		this.aboutPath = window.location.pathname.match(/^\/(about|legal)/);
 		this.whitelistPath = window.location.pathname.match(/^\/account\/manage\/whitelist/);
 		this.blacklistPath = window.location.pathname.match(/^\/account\/manage\/blacklist/);
@@ -551,4 +620,3 @@ const esgst = new Esgst();
 Shared.add({ esgst, modules });
 
 export { esgst };
-

@@ -8,7 +8,7 @@ class ButtonSet {
 			green: 'form__submit-button',
 			grey: 'form__saving-button',
 			red: 'sidebar__error',
-			yellow: 'sidebar__entry-delete'
+			yellow: 'sidebar__entry-delete',
 		};
 		if (details.set) {
 			this.set = details.set;
@@ -21,18 +21,28 @@ class ButtonSet {
 		}
 		const icons1 = Array.isArray(details.icon1) ? details.icon1 : [details.icon1];
 		const icons2 = Array.isArray(details.icon2) ? details.icon2 : [details.icon2];
-		DOM.insert(this.set, 'inner', (
+		DOM.insert(
+			this.set,
+			'inner',
 			<>
 				<div class={`${classes[details.color1]} btn_action ${details.color1}`}>
-					{icons1.map(icon => <i class={`fa ${icon}`}></i>)}
+					{icons1.map((icon) => (
+						<i class={`fa ${icon}`}></i>
+					))}
 					<span>{details.title1}</span>
 				</div>
-				<div class={`${classes[details.color2]} btn_action ${details.color2} is-disabled is_disabled esgst-hidden`}>
-					{icons2.map(icon => <i class={`fa ${icon}`}></i>)}
+				<div
+					class={`${classes[details.color2]} btn_action ${
+						details.color2
+					} is-disabled is_disabled esgst-hidden`}
+				>
+					{icons2.map((icon) => (
+						<i class={`fa ${icon}`}></i>
+					))}
 					<span>{details.title2}</span>
 				</div>
 			</>
-		));
+		);
 		this.button1 = this.set.firstElementChild;
 		this.button2 = this.set.lastElementChild;
 		this.callback1 = details.callback1;
@@ -45,7 +55,7 @@ class ButtonSet {
 			this.button2.addEventListener('click', this.triggerButton2.bind(this));
 		}
 		if (details.input) {
-			details.input.addEventListener('keydown', event => {
+			details.input.addEventListener('keydown', (event) => {
 				if (event.key === 'Enter') {
 					this.trigger();
 				}
@@ -54,7 +64,7 @@ class ButtonSet {
 	}
 
 	toggle() {
-		this.dependencies.forEach(dependency => dependency.classList.toggle('esgst-hidden'));
+		this.dependencies.forEach((dependency) => dependency.classList.toggle('esgst-hidden'));
 		this.busy = !this.busy;
 		this.button1.classList.toggle('esgst-hidden');
 		this.button2.classList.toggle('esgst-hidden');
@@ -82,7 +92,7 @@ class ButtonSet {
 	changeButton(i) {
 		return {
 			setIcon: this.setIcon.bind(this, this[`button${i}`]),
-			setTitle: this.setTitle.bind(this, this[`button${i}`])
+			setTitle: this.setTitle.bind(this, this[`button${i}`]),
 		};
 	}
 
@@ -96,4 +106,3 @@ class ButtonSet {
 }
 
 export { ButtonSet };
-

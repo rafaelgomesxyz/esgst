@@ -8,42 +8,45 @@ import { Shared } from '../../class/Shared';
 import { DOM } from '../../class/DOM';
 import { Session } from '../../class/Session';
 
-const
-	createConfirmation = common.createConfirmation.bind(common),
+const createConfirmation = common.createConfirmation.bind(common),
 	createElements = common.createElements.bind(common),
 	createFadeMessage = common.createFadeMessage.bind(common),
 	createHeadingButton = common.createHeadingButton.bind(common),
 	downloadFile = common.downloadFile.bind(common),
 	formatTags = common.formatTags.bind(common),
 	request = common.request.bind(common),
-	setSetting = common.setSetting.bind(common)
-	;
-
+	setSetting = common.setSetting.bind(common);
 class UsersWhitelistBlacklistManager extends Module {
 	constructor() {
 		super();
 		this.info = {
 			description: [
-				['ul', [
-					['li', [
-						`Adds a button (`,
-						['i', { class: 'fa fa-arrow-up' }],
-						' ',
-						['i', { class: 'fa fa-arrow-down' }],
-						' ',
-						['i', { class: 'fa fa-trash' }],
-						`) to the main page heading of your `,
-						['a', { href: `https://www.steamgifts.com/account/manage/whitelist` }, 'whitelist'],
-						'/',
-						['a', { href: `https://www.steamgifts.com/account/manage/blacklist` }, 'blacklist'],
-						' pages that allows you to import/export/clear your whitelist/blacklist.'
-					]]
-				]]
+				[
+					'ul',
+					[
+						[
+							'li',
+							[
+								`Adds a button (`,
+								['i', { class: 'fa fa-arrow-up' }],
+								' ',
+								['i', { class: 'fa fa-arrow-down' }],
+								' ',
+								['i', { class: 'fa fa-trash' }],
+								`) to the main page heading of your `,
+								['a', { href: `https://www.steamgifts.com/account/manage/whitelist` }, 'whitelist'],
+								'/',
+								['a', { href: `https://www.steamgifts.com/account/manage/blacklist` }, 'blacklist'],
+								' pages that allows you to import/export/clear your whitelist/blacklist.',
+							],
+						],
+					],
+				],
 			],
 			id: 'wbm',
 			name: 'Whitelist/Blacklist Manager',
 			sg: true,
-			type: 'users'
+			type: 'users',
 		};
 	}
 
@@ -60,7 +63,7 @@ class UsersWhitelistBlacklistManager extends Module {
 		wbm.button = createHeadingButton({
 			id: 'wbm',
 			icons: ['fa-arrow-up', 'fa-arrow-down', 'fa-trash'],
-			title: `Manage ${wbm.key}`
+			title: `Manage ${wbm.key}`,
 		});
 		wbm.button.addEventListener('click', this.wbm_openPopup.bind(this, wbm));
 	}
@@ -68,89 +71,147 @@ class UsersWhitelistBlacklistManager extends Module {
 	wbm_openPopup(wbm) {
 		if (!wbm.popup) {
 			wbm.popup = new Popup({ addScrollable: true, icon: 'fa-gear', title: `Manage ${wbm.name}:` });
-			const useCacheSwitch = new ToggleSwitch(wbm.popup.description, 'wbm_useCache', false, 'Use cache.', false, false, `Uses the cache created the last time you synced your whitelist/blacklist. This speeds up the process, but could lead to incomplete results if your cache isn't up-to-date.`, Settings.get('wbm_useCache'));
-			const exportSteamIdsSwitch = new ToggleSwitch(wbm.popup.description, 'wbm_exportSteamIds', false, 'Export Steam IDs.', false, false, `When exporting the whitelist/blacklist, the Steam IDs of the users will be exported instead of their SteamGifts IDs. This is useful, for example, for blocking / unblocking the users on Steam with the Steam IDs.`, Settings.get('wbm_exportSteamIds'));
+			const useCacheSwitch = new ToggleSwitch(
+				wbm.popup.description,
+				'wbm_useCache',
+				false,
+				'Use cache.',
+				false,
+				false,
+				`Uses the cache created the last time you synced your whitelist/blacklist. This speeds up the process, but could lead to incomplete results if your cache isn't up-to-date.`,
+				Settings.get('wbm_useCache')
+			);
+			const exportSteamIdsSwitch = new ToggleSwitch(
+				wbm.popup.description,
+				'wbm_exportSteamIds',
+				false,
+				'Export Steam IDs.',
+				false,
+				false,
+				`When exporting the whitelist/blacklist, the Steam IDs of the users will be exported instead of their SteamGifts IDs. This is useful, for example, for blocking / unblocking the users on Steam with the Steam IDs.`,
+				Settings.get('wbm_exportSteamIds')
+			);
 			useCacheSwitch.dependencies.push(exportSteamIdsSwitch.container);
 			if (!Settings.get('wbm_useCache')) {
 				exportSteamIdsSwitch.container.classList.add('esgst-hidden');
 			}
-			new ToggleSwitch(wbm.popup.description, 'wbm_clearTags', false, [
-				`Only clear users who are tagged with these specific tags (separate with comma): `,
-				['input', { class: 'esgst-switch-input esgst-switch-input-large', type: 'text', value: Settings.get('wbm_tags').join(`, `) }]
-			], false, false, 'Uses the User Tags database to remove only users with the specified tags.', Settings.get('wbm_clearTags')).name.firstElementChild.addEventListener('change', event => {
+			new ToggleSwitch(
+				wbm.popup.description,
+				'wbm_clearTags',
+				false,
+				[
+					`Only clear users who are tagged with these specific tags (separate with comma): `,
+					[
+						'input',
+						{
+							class: 'esgst-switch-input esgst-switch-input-large',
+							type: 'text',
+							value: Settings.get('wbm_tags').join(`, `),
+						},
+					],
+				],
+				false,
+				false,
+				'Uses the User Tags database to remove only users with the specified tags.',
+				Settings.get('wbm_clearTags')
+			).name.firstElementChild.addEventListener('change', (event) => {
 				const element = event.currentTarget;
 				let tags = element.value.replace(/(,\s*)+/g, formatTags).split(`, `);
 				setSetting('wbm_tags', tags);
 			});
-			wbm.input = createElements(wbm.popup.description, 'beforeEnd', [{
-				attributes: {
-					type: 'file'
+			wbm.input = createElements(wbm.popup.description, 'beforeEnd', [
+				{
+					attributes: {
+						type: 'file',
+					},
+					type: 'input',
 				},
-				type: 'input'
-			}]);
-			wbm.message = createElements(wbm.popup.description, 'beforeEnd', [{
-				attributes: {
-					class: 'esgst-description'
+			]);
+			wbm.message = createElements(wbm.popup.description, 'beforeEnd', [
+				{
+					attributes: {
+						class: 'esgst-description',
+					},
+					type: 'div',
 				},
-				type: 'div'
-			}]);
-			wbm.warning = createElements(wbm.popup.description, 'beforeEnd', [{
-				attributes: {
-					class: 'esgst-description esgst-warning'
+			]);
+			wbm.warning = createElements(wbm.popup.description, 'beforeEnd', [
+				{
+					attributes: {
+						class: 'esgst-description esgst-warning',
+					},
+					type: 'div',
 				},
-				type: 'div'
-			}]);
-			wbm.popup.description.appendChild(new ButtonSet({
-				color1: 'green',
-				color2: 'grey',
-				icon1: 'fa-arrow-up',
-				icon2: 'fa-times',
-				title1: 'Import',
-				title2: 'Cancel',
-				callback1: () => {
-					return new Promise(resolve => this.wbm_start(wbm, this.wbm_importList.bind(this, wbm), resolve));
+			]);
+			wbm.popup.description.appendChild(
+				new ButtonSet({
+					color1: 'green',
+					color2: 'grey',
+					icon1: 'fa-arrow-up',
+					icon2: 'fa-times',
+					title1: 'Import',
+					title2: 'Cancel',
+					callback1: () => {
+						return new Promise((resolve) =>
+							this.wbm_start(wbm, this.wbm_importList.bind(this, wbm), resolve)
+						);
+					},
+					callback2: this.wbm_cancel.bind(this, wbm),
+				}).set
+			);
+			wbm.popup.description.appendChild(
+				new ButtonSet({
+					color1: 'green',
+					color2: 'grey',
+					icon1: 'fa-arrow-down',
+					icon2: 'fa-times',
+					title1: 'Export',
+					title2: 'Cancel',
+					callback1: () => {
+						return new Promise((resolve) =>
+							this.wbm_start(wbm, this.wbm_exportList.bind(this, wbm, [], 1), resolve)
+						);
+					},
+					callback2: this.wbm_cancel.bind(this, wbm),
+				}).set
+			);
+			wbm.popup.description.appendChild(
+				new ButtonSet({
+					color1: 'green',
+					color2: 'grey',
+					icon1: 'fa-trash',
+					icon2: 'fa-times',
+					title1: 'Clear',
+					title2: 'Cancel',
+					callback1: () => {
+						return new Promise((resolve) =>
+							this.wbm_start(wbm, this.wbm_clearList.bind(this, wbm, [], 1), resolve)
+						);
+					},
+					callback2: this.wbm_cancel.bind(this, wbm),
+				}).set
+			);
+			wbm.results = createElements(wbm.popup.scrollable, 'beforeEnd', [
+				{
+					type: 'div',
 				},
-				callback2: this.wbm_cancel.bind(this, wbm)
-			}).set);
-			wbm.popup.description.appendChild(new ButtonSet({
-				color1: 'green',
-				color2: 'grey',
-				icon1: 'fa-arrow-down',
-				icon2: 'fa-times',
-				title1: 'Export',
-				title2: 'Cancel',
-				callback1: () => {
-					return new Promise(resolve => this.wbm_start(wbm, this.wbm_exportList.bind(this, wbm, [], 1), resolve));
-				},
-				callback2: this.wbm_cancel.bind(this, wbm)
-			}).set);
-			wbm.popup.description.appendChild(new ButtonSet({
-				color1: 'green',
-				color2: 'grey',
-				icon1: 'fa-trash',
-				icon2: 'fa-times',
-				title1: 'Clear',
-				title2: 'Cancel',
-				callback1: () => {
-					return new Promise(resolve => this.wbm_start(wbm, this.wbm_clearList.bind(this, wbm, [], 1), resolve));
-				},
-				callback2: this.wbm_cancel.bind(this, wbm)
-			}).set);
-			wbm.results = createElements(wbm.popup.scrollable, 'beforeEnd', [{
-				type: 'div'
-			}]);
+			]);
 		}
 		wbm.popup.open();
 	}
 
 	wbm_start(wbm, callback, mainCallback) {
-		createConfirmation('Are you sure you want to do this?', () => {
-			wbm.isCanceled = false;
-			wbm.button.classList.add('esgst-busy');
-			wbm.usernames = [];
-			wbm.results.innerHTML = '';
-			callback(this.wbm_complete.bind(this, wbm, mainCallback));
-		}, mainCallback);
+		createConfirmation(
+			'Are you sure you want to do this?',
+			() => {
+				wbm.isCanceled = false;
+				wbm.button.classList.add('esgst-busy');
+				wbm.usernames = [];
+				wbm.results.innerHTML = '';
+				callback(this.wbm_complete.bind(this, wbm, mainCallback));
+			},
+			mainCallback
+		);
 	}
 
 	wbm_complete(wbm, callback) {
@@ -187,20 +248,23 @@ class UsersWhitelistBlacklistManager extends Module {
 
 	async wbm_insertUsers(wbm, list, i, n, callback) {
 		if (wbm.isCanceled) return;
-		createElements(wbm.message, 'inner', [{
-			attributes: {
-				class: 'fa fa-circle-o-notch fa-spin'
+		createElements(wbm.message, 'inner', [
+			{
+				attributes: {
+					class: 'fa fa-circle-o-notch fa-spin',
+				},
+				type: 'i',
 			},
-			type: 'i'
-		}, {
-			text: `Importing list (${i} of ${n})...`,
-			type: 'span'
-		}]);
+			{
+				text: `Importing list (${i} of ${n})...`,
+				type: 'span',
+			},
+		]);
 		if (i < n) {
 			await request({
 				data: `xsrf_token=${Session.xsrfToken}&do=${wbm.key}&action=insert&child_user_id=${list[i]}`,
 				method: 'POST',
-				url: '/ajax.php'
+				url: '/ajax.php',
 			});
 			window.setTimeout(() => this.wbm_insertUsers(wbm, list, ++i, n, callback), 0);
 		} else {
@@ -224,20 +288,27 @@ class UsersWhitelistBlacklistManager extends Module {
 			createFadeMessage(wbm.message, 'List exported with success!');
 			callback();
 		} else {
-			createElements(wbm.message, 'inner', [{
-				attributes: {
-					class: 'fa fa-circle-o-notch fa-spin'
+			createElements(wbm.message, 'inner', [
+				{
+					attributes: {
+						class: 'fa fa-circle-o-notch fa-spin',
+					},
+					type: 'i',
 				},
-				type: 'i'
-			}, {
-				text: `Retrieving list (page ${nextPage})...`,
-				type: 'span'
-			}]);
+				{
+					text: `Retrieving list (page ${nextPage})...`,
+					type: 'span',
+				},
+			]);
 			let elements, i, n, pagination, responseHtml;
-			responseHtml = DOM.parse((await request({
-				method: 'GET',
-				url: `https://www.steamgifts.com/account/manage/${wbm.key}/search?page=${nextPage}`
-			})).responseText);
+			responseHtml = DOM.parse(
+				(
+					await request({
+						method: 'GET',
+						url: `https://www.steamgifts.com/account/manage/${wbm.key}/search?page=${nextPage}`,
+					})
+				).responseText
+			);
 			elements = responseHtml.querySelectorAll(`[name="child_user_id"]`);
 			for (i = 0, n = elements.length; i < n; ++i) {
 				list.push(elements[i].value);
@@ -264,8 +335,11 @@ class UsersWhitelistBlacklistManager extends Module {
 						if (Settings.get('wbm_clearTags')) {
 							if (user.tags) {
 								let i;
-								for (i = user.tags.length - 1; i > -1 && Settings.get('wbm_tags').indexOf(user.tags[i]) < 0; --i) {
-								}
+								for (
+									i = user.tags.length - 1;
+									i > -1 && Settings.get('wbm_tags').indexOf(user.tags[i]) < 0;
+									--i
+								) {}
 								if (i > -1) {
 									list.push(user.id);
 									wbm.usernames.push(user.username);
@@ -280,33 +354,45 @@ class UsersWhitelistBlacklistManager extends Module {
 			// noinspection JSIgnoredPromiseFromCall
 			this.wbm_deleteUsers(wbm, list, 0, list.length, callback);
 		} else {
-			createElements(wbm.message, 'inner', [{
-				attributes: {
-					class: 'fa fa-circle-o-notch fa-spin'
+			createElements(wbm.message, 'inner', [
+				{
+					attributes: {
+						class: 'fa fa-circle-o-notch fa-spin',
+					},
+					type: 'i',
 				},
-				type: 'i'
-			}, {
-				text: `Retrieving list (page ${nextPage})...`,
-				type: 'span'
-			}]);
+				{
+					text: `Retrieving list (page ${nextPage})...`,
+					type: 'span',
+				},
+			]);
 			let element, elements, i, n, pagination, responseHtml;
-			responseHtml = DOM.parse((await request({
-				method: 'GET',
-				url: `https://www.steamgifts.com/account/manage/${wbm.key}/search?page=${nextPage}`
-			})).responseText);
+			responseHtml = DOM.parse(
+				(
+					await request({
+						method: 'GET',
+						url: `https://www.steamgifts.com/account/manage/${wbm.key}/search?page=${nextPage}`,
+					})
+				).responseText
+			);
 			elements = responseHtml.querySelectorAll(`[name="child_user_id"]`);
 			for (i = 0, n = elements.length; i < n; ++i) {
 				element = elements[i];
 				if (Settings.get('wbm_clearTags')) {
 					let steamId, username;
-					username = element.closest('.table__row-inner-wrap').getElementsByClassName('table__column__heading')[0].textContent;
+					username = element
+						.closest('.table__row-inner-wrap')
+						.getElementsByClassName('table__column__heading')[0].textContent;
 					steamId = Shared.esgst.users.steamIds[username];
 					if (steamId) {
 						let user = Shared.esgst.users.users[steamId];
 						if (user.tags) {
 							let j;
-							for (j = user.tags.length - 1; j > -1 && Settings.get('wbm_tags').indexOf(user.tags[j]) < 0; --j) {
-							}
+							for (
+								j = user.tags.length - 1;
+								j > -1 && Settings.get('wbm_tags').indexOf(user.tags[j]) < 0;
+								--j
+							) {}
 							if (j > -1) {
 								list.push(element.value);
 								wbm.usernames.push(username);
@@ -329,44 +415,52 @@ class UsersWhitelistBlacklistManager extends Module {
 
 	async wbm_deleteUsers(wbm, list, i, n, callback) {
 		if (wbm.isCanceled) return;
-		createElements(wbm.message, 'inner', [{
-			attributes: {
-				class: 'fa fa-circle-o-notch fa-spin'
+		createElements(wbm.message, 'inner', [
+			{
+				attributes: {
+					class: 'fa fa-circle-o-notch fa-spin',
+				},
+				type: 'i',
 			},
-			type: 'i'
-		}, {
-			text: `Clearing list (${i} of ${n})...`,
-			type: 'span'
-		}]);
+			{
+				text: `Clearing list (${i} of ${n})...`,
+				type: 'span',
+			},
+		]);
 		if (i < n) {
 			await request({
 				data: `xsrf_token=${Session.xsrfToken}&do=${wbm.key}&action=delete&child_user_id=${list[i]}`,
 				method: 'POST',
-				url: '/ajax.php'
+				url: '/ajax.php',
 			});
 			window.setTimeout(() => this.wbm_deleteUsers(wbm, list, ++i, n, callback), 0);
 		} else {
 			createFadeMessage(wbm.message, 'List cleared with success!');
-			createElements(wbm.results, 'inner', [{
-				attributes: {
-					class: 'esgst-bold'
-				},
-				text: `Users cleared (${wbm.usernames.length}):`,
-				type: 'span'
-			}, {
-				attributes: {
-					class: 'esgst-popup-actions'
-				},
-				type: 'span'
-			}]);
-			wbm.usernames.forEach(username => {
-				createElements(wbm.results.lastElementChild, 'beforeEnd', [{
+			createElements(wbm.results, 'inner', [
+				{
 					attributes: {
-						href: `/user/${username}`
+						class: 'esgst-bold',
 					},
-					text: username,
-					type: 'a'
-				}]);
+					text: `Users cleared (${wbm.usernames.length}):`,
+					type: 'span',
+				},
+				{
+					attributes: {
+						class: 'esgst-popup-actions',
+					},
+					type: 'span',
+				},
+			]);
+			wbm.usernames.forEach((username) => {
+				createElements(wbm.results.lastElementChild, 'beforeEnd', [
+					{
+						attributes: {
+							href: `/user/${username}`,
+						},
+						text: username,
+						type: 'a',
+					},
+				]);
 			});
 			callback();
 		}

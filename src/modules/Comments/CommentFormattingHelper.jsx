@@ -14,339 +14,485 @@ class CommentsCommentFormattingHelper extends Module {
 		super();
 		this.info = {
 			description: [
-				['ul', [
-					['li', [
-						`When you click on any text area (in any page) to start writing a comment, a panel is added above it that helps you use SteamGifts' `,
-						['a', { href: `https://www.steamgifts.com/about/comment-formatting` }, 'comment formatting'],
-						'.'
-					]],
-					['li', [
-						`There is a button (`,
-						['i', { class: 'fa fa-paste' }],
-						' if enabled and ',
-						['i', { class: 'fa fa-paste esgst-faded' }],
-						` if disabled) in the panel that allows the feature to automatically format links/images pasted into the text area.`
-					]],
-					['li', [
-						`There are also buttons (`,
-						['i', { class: 'fa fa-rotate-right' }],
-						' to redo and ',
-						['i', { class: 'fa fa-rotate-left' }],
-						` to undo) in the panel that allow you to redo/undo any formatting added.`
-					]],
-				]]
+				[
+					'ul',
+					[
+						[
+							'li',
+							[
+								`When you click on any text area (in any page) to start writing a comment, a panel is added above it that helps you use SteamGifts' `,
+								[
+									'a',
+									{ href: `https://www.steamgifts.com/about/comment-formatting` },
+									'comment formatting',
+								],
+								'.',
+							],
+						],
+						[
+							'li',
+							[
+								`There is a button (`,
+								['i', { class: 'fa fa-paste' }],
+								' if enabled and ',
+								['i', { class: 'fa fa-paste esgst-faded' }],
+								` if disabled) in the panel that allows the feature to automatically format links/images pasted into the text area.`,
+							],
+						],
+						[
+							'li',
+							[
+								`There are also buttons (`,
+								['i', { class: 'fa fa-rotate-right' }],
+								' to redo and ',
+								['i', { class: 'fa fa-rotate-left' }],
+								` to undo) in the panel that allow you to redo/undo any formatting added.`,
+							],
+						],
+					],
+				],
 			],
 			features: {
 				cfh_bq: {
 					description: [
-						['ul', [
-							['li', [
-								`Adds a button (`,
-								['i', { class: 'fa fa-quote-left' }],
-								` ) to the panel that allows you to write text like shown below.`
-							]]
-						]],
-						['blockquote', 'Blockquote']
+						[
+							'ul',
+							[
+								[
+									'li',
+									[
+										`Adds a button (`,
+										['i', { class: 'fa fa-quote-left' }],
+										` ) to the panel that allows you to write text like shown below.`,
+									],
+								],
+							],
+						],
+						['blockquote', 'Blockquote'],
 					],
 					name: 'Blockquote',
 					sg: true,
-					st: true
+					st: true,
 				},
 				cfh_b: {
 					description: [
-						['ul', [
-							['li', `Adds a button (B) to the panel that allows you to write text like shown below.`]
-						]],
-						['strong', 'Bold']
+						[
+							'ul',
+							[
+								[
+									'li',
+									`Adds a button (B) to the panel that allows you to write text like shown below.`,
+								],
+							],
+						],
+						['strong', 'Bold'],
 					],
 					name: 'Bold',
 					sg: true,
-					st: true
+					st: true,
 				},
 				cfh_h1: {
 					description: [
-						['ul', [
-							['li', `Adds a button (H¹) to the panel that allows you to write text like shown below.`]
-						]],
-						['h1', 'Heading 1']
+						[
+							'ul',
+							[
+								[
+									'li',
+									`Adds a button (H¹) to the panel that allows you to write text like shown below.`,
+								],
+							],
+						],
+						['h1', 'Heading 1'],
 					],
 					name: 'Heading 1',
 					sg: true,
-					st: true
+					st: true,
 				},
 				cfh_h2: {
 					description: [
-						['ul', [
-							['li', `Adds a button (H²) to the panel that allows you to write text like shown below.`]
-						]],
-						['h2', 'Heading 2']
+						[
+							'ul',
+							[
+								[
+									'li',
+									`Adds a button (H²) to the panel that allows you to write text like shown below.`,
+								],
+							],
+						],
+						['h2', 'Heading 2'],
 					],
 					name: 'Heading 2',
 					sg: true,
-					st: true
+					st: true,
 				},
 				cfh_h3: {
 					description: [
-						['ul', [
-							['li', `Adds a button (H³) to the panel that allows you to write text like shown below.`]
-						]],
-						['h3', 'Heading 3']
+						[
+							'ul',
+							[
+								[
+									'li',
+									`Adds a button (H³) to the panel that allows you to write text like shown below.`,
+								],
+							],
+						],
+						['h3', 'Heading 3'],
 					],
 					name: 'Heading 3',
 					sg: true,
-					st: true
+					st: true,
 				},
 				cfh_ic: {
 					description: [
-						['ul', [
-							['li', [
-								`Adds a button (`,
-								['i', { class: 'fa fa-code' }],
-								` ) to the panel that allows you to write text like shown below.`
-							]]
-						]],
-						['p', [
-							'Inline ',
-							['code', 'Code']
-						]]
+						[
+							'ul',
+							[
+								[
+									'li',
+									[
+										`Adds a button (`,
+										['i', { class: 'fa fa-code' }],
+										` ) to the panel that allows you to write text like shown below.`,
+									],
+								],
+							],
+						],
+						['p', ['Inline ', ['code', 'Code']]],
 					],
 					name: 'Inline Code',
 					sg: true,
-					st: true
+					st: true,
 				},
 				cfh_i: {
 					description: [
-						['ul', [
-							['li', `Adds a button (I) to the panel that allows you to write text like shown below.`]
-						]],
-						['em', 'Italic']
+						[
+							'ul',
+							[
+								[
+									'li',
+									`Adds a button (I) to the panel that allows you to write text like shown below.`,
+								],
+							],
+						],
+						['em', 'Italic'],
 					],
 					name: 'Italic',
 					sg: true,
-					st: true
+					st: true,
 				},
 				cfh_lb: {
 					description: [
-						['ul', [
-							['li', [
-								`Adds a button (`,
-								['i', { class: 'fa fa-minus' }],
-								`) to the panel that allows you to write text like shown below.`
-							]]
-						]],
+						[
+							'ul',
+							[
+								[
+									'li',
+									[
+										`Adds a button (`,
+										['i', { class: 'fa fa-minus' }],
+										`) to the panel that allows you to write text like shown below.`,
+									],
+								],
+							],
+						],
 						['p', 'Line'],
 						['hr'],
-						['p', 'Break']
+						['p', 'Break'],
 					],
 					name: 'Line Break',
 					sg: true,
-					st: true
+					st: true,
 				},
 				cfh_lc: {
 					description: [
-						['ul', [
-							['li', [
-								`Adds a button (`,
-								['i', { class: 'fa fa-code' }],
-								['i', { class: 'fa fa-indent' }],
-								`) to the panel that allows you to write text like shown below.`
-							]]
-						]],
-						['code', 'Line Code']
+						[
+							'ul',
+							[
+								[
+									'li',
+									[
+										`Adds a button (`,
+										['i', { class: 'fa fa-code' }],
+										['i', { class: 'fa fa-indent' }],
+										`) to the panel that allows you to write text like shown below.`,
+									],
+								],
+							],
+						],
+						['code', 'Line Code'],
 					],
 					name: 'Line Code',
 					sg: true,
-					st: true
+					st: true,
 				},
 				cfh_ol: {
 					description: [
-						['ul', [
-							['li', [
-								`Adds a button (`,
-								['i', { class: 'fa fa-list-ol' }],
-								`) to the panel that allows you to write text like shown below.`
-							]]
-						]],
-						['ol', [
-							['li', 'Ordered'],
-							['li', 'List']
-						]]
+						[
+							'ul',
+							[
+								[
+									'li',
+									[
+										`Adds a button (`,
+										['i', { class: 'fa fa-list-ol' }],
+										`) to the panel that allows you to write text like shown below.`,
+									],
+								],
+							],
+						],
+						[
+							'ol',
+							[
+								['li', 'Ordered'],
+								['li', 'List'],
+							],
+						],
 					],
 					name: 'Ordered List',
 					sg: true,
-					st: true
+					st: true,
 				},
 				cfh_pc: {
 					description: [
-						['ul', [
-							['li', [
-								`Adds a button (`,
-								['i', { class: 'fa fa-code' }],
-								['i', { class: 'fa fa-paragraph' }],
-								`) to the panel that allows you to write text like shown below.`
-							]]
-						]],
-						['pre', [
-							['code', 'Paragraph Code']
-						]]
+						[
+							'ul',
+							[
+								[
+									'li',
+									[
+										`Adds a button (`,
+										['i', { class: 'fa fa-code' }],
+										['i', { class: 'fa fa-paragraph' }],
+										`) to the panel that allows you to write text like shown below.`,
+									],
+								],
+							],
+						],
+						['pre', [['code', 'Paragraph Code']]],
 					],
 					name: 'Paragraph Code',
 					sg: true,
-					st: true
+					st: true,
 				},
 				cfh_s: {
 					description: [
-						['ul', [
-							['li', [
-								`Adds a button (`,
-								['i', { class: 'fa fa-eye-slash' }],
-								`) to the panel that allows you to write text like shown below.`
-							]]
-						]],
-						['span', { class: 'spoiler' }, 'Spoiler']
+						[
+							'ul',
+							[
+								[
+									'li',
+									[
+										`Adds a button (`,
+										['i', { class: 'fa fa-eye-slash' }],
+										`) to the panel that allows you to write text like shown below.`,
+									],
+								],
+							],
+						],
+						['span', { class: 'spoiler' }, 'Spoiler'],
 					],
 					name: 'Spoiler',
 					sg: true,
-					st: true
+					st: true,
 				},
 				cfh_st: {
 					description: [
-						['ul', [
-							['li', [
-								`Adds a button (`,
-								['i', { class: 'fa fa- strikethrough' }],
-								`) to the panel that allows you to write text like shown below.`
-							]]
-						]],
-						['del', 'Strikethrough']
+						[
+							'ul',
+							[
+								[
+									'li',
+									[
+										`Adds a button (`,
+										['i', { class: 'fa fa- strikethrough' }],
+										`) to the panel that allows you to write text like shown below.`,
+									],
+								],
+							],
+						],
+						['del', 'Strikethrough'],
 					],
 					name: 'Strikethrough',
 					sg: true,
-					st: true
+					st: true,
 				},
 				cfh_ul: {
 					description: [
-						['ul', [
-							['li', [
-								`Adds a button (`,
-								['i', { class: 'fa fa-list-ul' }],
-								`) to the panel that allows you to write text like shown below.`
-							]]
-						]],
-						['ul', [
-							['li', 'Unordered'],
-							['li', 'LIst']
-						]]
+						[
+							'ul',
+							[
+								[
+									'li',
+									[
+										`Adds a button (`,
+										['i', { class: 'fa fa-list-ul' }],
+										`) to the panel that allows you to write text like shown below.`,
+									],
+								],
+							],
+						],
+						[
+							'ul',
+							[
+								['li', 'Unordered'],
+								['li', 'LIst'],
+							],
+						],
 					],
 					name: 'Unordered List',
 					sg: true,
-					st: true
+					st: true,
 				},
 				cfh_img: {
 					description: [
-						['ul', [
-							['li', [
-								`Adds a button(`,
-								['i', { class: 'fa fa-image' }],
-								`) to the panel that allows you to add images to your comments with an interface where you can enter the title and the URL of the image and let ESGST format it.`
-							]],
-							['li', [
-								'You can also upload images from your computer instead of using a URL. The images will be uploaded to ',
-								['a', { href: `https://imgur.com` }, 'Imgur'],
-								'.'
-							]]
-						]]
+						[
+							'ul',
+							[
+								[
+									'li',
+									[
+										`Adds a button(`,
+										['i', { class: 'fa fa-image' }],
+										`) to the panel that allows you to add images to your comments with an interface where you can enter the title and the URL of the image and let ESGST format it.`,
+									],
+								],
+								[
+									'li',
+									[
+										'You can also upload images from your computer instead of using a URL. The images will be uploaded to ',
+										['a', { href: `https://imgur.com` }, 'Imgur'],
+										'.',
+									],
+								],
+							],
+						],
 					],
 					name: 'Image',
 					sg: true,
-					st: true
+					st: true,
 				},
 				cfh_l: {
 					description: [
-						['ul', [
-							['li', [
-								`Adds a button(`,
-								['i', { class: 'fa fa-globe' }],
-								`) to the panel that allows you to add links to your comments with an interface where you can enter the title and the URL of the link and let ESGST format it.`
-							]]
-						]]
+						[
+							'ul',
+							[
+								[
+									'li',
+									[
+										`Adds a button(`,
+										['i', { class: 'fa fa-globe' }],
+										`) to the panel that allows you to add links to your comments with an interface where you can enter the title and the URL of the link and let ESGST format it.`,
+									],
+								],
+							],
+						],
 					],
 					name: 'Link',
 					sg: true,
-					st: true
+					st: true,
 				},
 				cfh_t: {
 					description: [
-						['ul', [
-							['li', [
-								`Adds a button(`,
-								['i', { class: 'fa fa-table' }],
-								`) to the panel that allows you to add tables to your comments with an interface where you can dynamically add as many rows / columns as you want, align each column however you want, enter the value for each cell and let ESGST format it.`
-							]]
-						]]
+						[
+							'ul',
+							[
+								[
+									'li',
+									[
+										`Adds a button(`,
+										['i', { class: 'fa fa-table' }],
+										`) to the panel that allows you to add tables to your comments with an interface where you can dynamically add as many rows / columns as you want, align each column however you want, enter the value for each cell and let ESGST format it.`,
+									],
+								],
+							],
+						],
 					],
 					name: 'Table',
 					sg: true,
-					st: true
+					st: true,
 				},
 				cfh_e: {
 					description: [
-						['ul', [
-							['li', [
-								`Adds a button(`,
-								['i', { class: 'fa fa-smile-o' }],
-								`) to the panel that allows you to add emojis to your comments by selecting them out of a huge list of emojis.`
-							]]
-						]]
+						[
+							'ul',
+							[
+								[
+									'li',
+									[
+										`Adds a button(`,
+										['i', { class: 'fa fa-smile-o' }],
+										`) to the panel that allows you to add emojis to your comments by selecting them out of a huge list of emojis.`,
+									],
+								],
+							],
+						],
 					],
 					name: 'Emoji',
 					sg: true,
-					st: true
+					st: true,
 				},
 				cfh_g: {
 					description: [
-						['ul', [
-							['li', [
-								`Adds a button(`,
-								['i', { class: 'fa fa-star' }],
-								`) to the panel that allows you to add encrypted giveaways(see [id=ged] for more details about them) to your comments.`
-							]]
-						]]
+						[
+							'ul',
+							[
+								[
+									'li',
+									[
+										`Adds a button(`,
+										['i', { class: 'fa fa-star' }],
+										`) to the panel that allows you to add encrypted giveaways(see [id=ged] for more details about them) to your comments.`,
+									],
+								],
+							],
+						],
 					],
 					name: 'Giveaway Encrypter',
 					sg: true,
-					st: true
+					st: true,
 				},
 				cfh_p: {
 					description: [
-						['ul', [
-							['li', [
-								`Adds a button(`,
-								['i', { class: 'fa fa-eye' }],
-								`) to the panel that allows you to preview your comment before submitting it.`
-							]]
-						]]
+						[
+							'ul',
+							[
+								[
+									'li',
+									[
+										`Adds a button(`,
+										['i', { class: 'fa fa-eye' }],
+										`) to the panel that allows you to preview your comment before submitting it.`,
+									],
+								],
+							],
+						],
 					],
 					features: {
 						cfh_p_a: {
 							name: 'Automatically preview while typing.',
 							sg: true,
-							st: true
-						}
+							st: true,
+						},
 					},
 					name: 'Preview',
 					sg: true,
-					st: true
+					st: true,
 				},
 				cfh_sr: {
 					description: [
-						['ul', [
-							['li', [
-								`Adds a button(`,
-								['i', { class: 'fa fa-floppy-o' }],
-								` ) to the panel that allows you to save replies that you frequently use so that you can reuse them later.`
-							]]
-						]]
+						[
+							'ul',
+							[
+								[
+									'li',
+									[
+										`Adds a button(`,
+										['i', { class: 'fa fa-floppy-o' }],
+										` ) to the panel that allows you to save replies that you frequently use so that you can reuse them later.`,
+									],
+								],
+							],
+						],
 					],
 					name: 'Saved Replies',
 					sg: true,
@@ -354,48 +500,70 @@ class CommentsCommentFormattingHelper extends Module {
 					features: {
 						cfh_sr_s: {
 							name: 'Use separate storage on SteamTrades.',
-							st: true
-						}
-					}
+							st: true,
+						},
+					},
 				},
 				cfh_cf: {
 					description: [
-						['ul', [
-							['li', [
-								`Adds a button(`,
-								['i', { class: 'fa fa-question-circle' }],
-								` ) to the panel that links to SteamGifts' `,
-								['a', { href: `https://www.steamgifts.com/about/comment-formatting` }, 'comment formatting page'],
-								'.'
-							]]
-						]]
+						[
+							'ul',
+							[
+								[
+									'li',
+									[
+										`Adds a button(`,
+										['i', { class: 'fa fa-question-circle' }],
+										` ) to the panel that links to SteamGifts' `,
+										[
+											'a',
+											{ href: `https://www.steamgifts.com/about/comment-formatting` },
+											'comment formatting page',
+										],
+										'.',
+									],
+								],
+							],
+						],
 					],
 					name: 'Comment Formatting',
 					sg: true,
-					st: true
+					st: true,
 				},
 				cfh_ghwsgi: {
 					description: [
-						['ul', [
-							['li', [
-								`Adds a button (`,
-								['i', { class: 'fa fa-github' }],
-								` ) to the panel that allows you to easily generate links for `,
-								['a', { href: `https://www.steamgifts.com/discussion/fVwFM/github-wiki-steamgifts-integration` }, 'GitHub Wiki SteamGifts Integration'],
-								'.'
-							]]
-						]]
+						[
+							'ul',
+							[
+								[
+									'li',
+									[
+										`Adds a button (`,
+										['i', { class: 'fa fa-github' }],
+										` ) to the panel that allows you to easily generate links for `,
+										[
+											'a',
+											{
+												href: `https://www.steamgifts.com/discussion/fVwFM/github-wiki-steamgifts-integration`,
+											},
+											'GitHub Wiki SteamGifts Integration',
+										],
+										'.',
+									],
+								],
+							],
+						],
 					],
 					name: 'GitHub Wiki SteamGifts Integration',
 					sg: true,
-					st: true
-				}
+					st: true,
+				},
 			},
 			id: 'cfh',
 			name: 'Comment Formatting Helper',
 			sg: true,
 			st: true,
-			type: 'comments'
+			type: 'comments',
 		};
 	}
 
@@ -406,7 +574,7 @@ class CommentsCommentFormattingHelper extends Module {
 			backup: [],
 			history: [],
 			panel: document.createElement('div'),
-			preview: document.createElement('div')
+			preview: document.createElement('div'),
 		};
 		this.esgst.cfh.panel.className = 'esgst-cfh-panel';
 		let items = [
@@ -415,119 +583,117 @@ class CommentsCommentFormattingHelper extends Module {
 				icons: ['fa-italic'],
 				name: 'Italic',
 				prefix: '*',
-				suffix: '*'
+				suffix: '*',
 			},
 			{
 				id: 'cfh_b',
 				icons: ['fa-bold'],
 				name: 'Bold',
 				prefix: '**',
-				suffix: '**'
+				suffix: '**',
 			},
 			{
 				id: 'cfh_s',
 				icons: ['fa-eye-slash'],
 				name: 'Spoiler',
 				prefix: '~',
-				suffix: '~'
+				suffix: '~',
 			},
 			{
 				id: 'cfh_st',
 				icons: ['fa-strikethrough'],
 				name: 'Strikethrough',
 				prefix: '~~',
-				suffix: '~~'
+				suffix: '~~',
 			},
 			{
 				id: 'cfh_h1',
 				icons: ['fa-header'],
 				name: 'Heading 1',
 				prefix: '# ',
-				text: '1'
+				text: '1',
 			},
 			{
 				id: 'cfh_h2',
 				icons: ['fa-header'],
 				name: 'Heading 2',
 				prefix: '## ',
-				text: '2'
+				text: '2',
 			},
 			{
 				id: 'cfh_h3',
 				icons: ['fa-header'],
 				name: 'Heading 3',
 				prefix: '### ',
-				text: '3'
+				text: '3',
 			},
 			{
 				id: 'cfh_bq',
 				icons: ['fa-quote-left'],
 				name: 'Blockquote',
-				prefix: '> '
+				prefix: '> ',
 			},
 			{
 				id: 'cfh_lb',
 				icons: ['fa-minus'],
 				name: 'Line Break',
-				prefix: '---'
+				prefix: '---',
 			},
 			{
 				id: 'cfh_ol',
 				icons: ['fa-list-ol'],
 				multiline: true,
 				name: 'Ordered List',
-				prefix: `[n]. `
+				prefix: `[n]. `,
 			},
 			{
 				id: 'cfh_ul',
 				icons: ['fa-list-ul'],
 				multiline: true,
 				name: 'Unordered List',
-				prefix: '* '
+				prefix: '* ',
 			},
 			{
 				id: 'cfh_ic',
 				icons: ['fa-code'],
 				name: 'Inline Code',
 				prefix: '`',
-				suffix: '`'
+				suffix: '`',
 			},
 			{
 				id: 'cfh_lc',
 				icons: ['fa-code', 'fa-indent'],
 				name: 'Line Code',
-				prefix: '    '
+				prefix: '    ',
 			},
 			{
 				id: 'cfh_pc',
 				icons: ['fa-code', 'fa-paragraph'],
 				name: 'Paragraph Code',
 				prefix: '```\n',
-				suffix: '\n```'
+				suffix: '\n```',
 			},
 			{
 				id: 'cfh_l',
 				icons: ['fa-globe'],
 				name: 'Link',
-				setPopout: popout => {
+				setPopout: (popout) => {
 					let title, url;
-					DOM.insert(popout.popout, 'inner', (
+					DOM.insert(
+						popout.popout,
+						'inner',
 						<>
 							<div>
 								URL:
 								<input
 									placeholder="http://www.example.com"
 									type="text"
-									ref={ref => url = ref}
+									ref={(ref) => (url = ref)}
 								/>
 							</div>
 							<div>
 								Title:
-								<input
-									placeholder="Cat"
-									type="text"
-									ref={ref => title = ref}
-								/>
+								<input placeholder="Cat" type="text" ref={(ref) => (title = ref)} />
 							</div>
 							<div
 								class="form__saving-button btn_action white"
@@ -541,13 +707,16 @@ class CommentsCommentFormattingHelper extends Module {
 								Add
 							</div>
 						</>
-					));
+					);
 				},
-				callback: popout => {
+				callback: (popout) => {
 					let title, url;
 					url = popout.firstElementChild.firstElementChild;
 					title = popout.firstElementChild.nextElementSibling.firstElementChild;
-					title.value = this.esgst.cfh.textArea.value.slice(this.esgst.cfh.textArea.selectionStart, this.esgst.cfh.textArea.selectionEnd);
+					title.value = this.esgst.cfh.textArea.value.slice(
+						this.esgst.cfh.textArea.selectionStart,
+						this.esgst.cfh.textArea.selectionEnd
+					);
 					if (url.value && title.value) {
 						popout.lastElementChild.click();
 					} else if (url.value) {
@@ -555,22 +724,24 @@ class CommentsCommentFormattingHelper extends Module {
 					} else {
 						url.focus();
 					}
-				}
+				},
 			},
 			{
 				id: 'cfh_img',
 				icons: ['fa-image'],
 				name: 'Image',
-				setPopout: popout => {
+				setPopout: (popout) => {
 					let title, url;
-					DOM.insert(popout.popout, 'inner', (
+					DOM.insert(
+						popout.popout,
+						'inner',
 						<>
 							<div>
 								URL:
 								<input
 									placeholder="http://www.example.com/image.jpg"
 									type="text"
-									ref={ref => url = ref}
+									ref={(ref) => (url = ref)}
 								/>
 								<i
 									class="fa fa-upload esgst-clickable"
@@ -580,22 +751,30 @@ class CommentsCommentFormattingHelper extends Module {
 											return;
 										}
 
-										Shared.common.multiChoice('grey', 'fa-user-secret', 'Anonymously', 'grey', 'fa-user', 'Through Account', 'How would you like to upload?', this.cfh_uploadImage.bind(this, 'Client-ID e25283ef48ab9aa', popout, url), async () => {
-											await Shared.common.delValue('imgurToken');
-											Shared.common.openSmallWindow(`https://api.imgur.com/oauth2/authorize?client_id=e25283ef48ab9aa&response_type=token&state=imgur`);
-											// noinspection JSIgnoredPromiseFromCall
-											this.cfh_checkImgur(popout, url);
-										});
+										Shared.common.multiChoice(
+											'grey',
+											'fa-user-secret',
+											'Anonymously',
+											'grey',
+											'fa-user',
+											'Through Account',
+											'How would you like to upload?',
+											this.cfh_uploadImage.bind(this, 'Client-ID e25283ef48ab9aa', popout, url),
+											async () => {
+												await Shared.common.delValue('imgurToken');
+												Shared.common.openSmallWindow(
+													`https://api.imgur.com/oauth2/authorize?client_id=e25283ef48ab9aa&response_type=token&state=imgur`
+												);
+												// noinspection JSIgnoredPromiseFromCall
+												this.cfh_checkImgur(popout, url);
+											}
+										);
 									}}
 								></i>
 							</div>
 							<div>
 								Title:
-								<input
-									placeholder="Cat"
-									type="text"
-									ref={ref => title = ref}
-								/>
+								<input placeholder="Cat" type="text" ref={(ref) => (title = ref)} />
 							</div>
 							<div
 								class="form__saving-button btn_action white"
@@ -609,13 +788,16 @@ class CommentsCommentFormattingHelper extends Module {
 								Add
 							</div>
 						</>
-					));
+					);
 				},
-				callback: popout => {
+				callback: (popout) => {
 					let title, url;
 					url = popout.firstElementChild.firstElementChild;
 					title = popout.firstElementChild.nextElementSibling.firstElementChild;
-					title.value = this.esgst.cfh.textArea.value.slice(this.esgst.cfh.textArea.selectionStart, this.esgst.cfh.textArea.selectionEnd);
+					title.value = this.esgst.cfh.textArea.value.slice(
+						this.esgst.cfh.textArea.selectionStart,
+						this.esgst.cfh.textArea.selectionEnd
+					);
 					if (url.value && title.value) {
 						popout.lastElementChild.click();
 					} else if (url.value) {
@@ -623,19 +805,19 @@ class CommentsCommentFormattingHelper extends Module {
 					} else {
 						url.focus();
 					}
-				}
+				},
 			},
 			{
 				id: 'cfh_t',
 				icons: ['fa-table'],
 				name: 'Table',
-				setPopup: popup => {
+				setPopup: (popup) => {
 					let table;
-					DOM.insert(popup.scrollable, 'inner', (
+					DOM.insert(
+						popup.scrollable,
+						'inner',
 						<>
-							<table
-								ref={ref => table = ref}
-							></table>
+							<table ref={(ref) => (table = ref)}></table>
 							<div
 								class="form__saving-button btn_action white"
 								onclick={() => this.cfh_insertTableRows(1, table)}
@@ -661,19 +843,33 @@ class CommentsCommentFormattingHelper extends Module {
 											}
 										}
 									}
-									if (i <= numRows || (i > numRows && window.confirm('Some cells are empty. This might lead to unexpected results. Are you sure you want to continue?'))) {
+									if (
+										i <= numRows ||
+										(i > numRows &&
+											window.confirm(
+												'Some cells are empty. This might lead to unexpected results. Are you sure you want to continue?'
+											))
+									) {
 										value = '';
 										for (i = 1; i < numRows; ++i) {
 											value += '\n';
 											for (j = 1; j < numColumns; ++j) {
-												value += `${rows[i].cells[j].firstElementChild.value}${j < numColumns - 1 ? ' | ' : ''}`;
+												value += `${rows[i].cells[j].firstElementChild.value}${
+													j < numColumns - 1 ? ' | ' : ''
+												}`;
 											}
 										}
 										value = value.replace(/^\n/, '');
 										start = this.esgst.cfh.textArea.selectionStart;
 										end = this.esgst.cfh.textArea.selectionEnd;
-										this.esgst.cfh.textArea.value = `${this.esgst.cfh.textArea.value.slice(0, start)}${value}${this.esgst.cfh.textArea.value.slice(end)}`;
-										this.esgst.cfh.textArea.setSelectionRange(end + value.length, end + value.length);
+										this.esgst.cfh.textArea.value = `${this.esgst.cfh.textArea.value.slice(
+											0,
+											start
+										)}${value}${this.esgst.cfh.textArea.value.slice(end)}`;
+										this.esgst.cfh.textArea.setSelectionRange(
+											end + value.length,
+											end + value.length
+										);
 										this.esgst.cfh.textArea.focus();
 										popup.close();
 									}
@@ -682,23 +878,22 @@ class CommentsCommentFormattingHelper extends Module {
 								Add
 							</div>
 						</>
-					));
+					);
 					this.cfh_insertTableRows(4, table);
 					this.cfh_insertTableColumns(2, table);
-				}
+				},
 			},
 			{
 				id: 'cfh_e',
 				icons: ['fa-smile-o'],
 				name: 'Emojis',
-				setPopout: async popout => {
+				setPopout: async (popout) => {
 					let emojis, popup;
-					DOM.insert(popout.popout, 'inner', (
+					DOM.insert(
+						popout.popout,
+						'inner',
 						<>
-							<div
-								class="esgst-cfh-emojis"
-								ref={ref => emojis = ref}
-							>
+							<div class="esgst-cfh-emojis" ref={(ref) => (emojis = ref)}>
 								{await this.cfh_getEmojis()}
 							</div>
 							<div
@@ -711,14 +906,16 @@ class CommentsCommentFormattingHelper extends Module {
 											codes.push(emoji.codePointAt(i));
 										}
 										emoji = String.fromCodePoint(...codes);
-										this.cfh_setEmoji(DOM.build(emojis, 'beforeEnd', [
-											['span', { 'data-draggable-id': emoji }, emoji]
-										]));
+										this.cfh_setEmoji(
+											DOM.build(emojis, 'beforeEnd', [
+												['span', { 'data-draggable-id': emoji }, emoji],
+											])
+										);
 										Shared.common.draggable_set({
 											addTrash: true,
 											context: emojis,
 											id: 'emojis',
-											item: {}
+											item: {},
 										});
 										const emojiArray = [];
 										for (const element of emojis.children) {
@@ -738,51 +935,59 @@ class CommentsCommentFormattingHelper extends Module {
 								onclick={async () => {
 									if (popup) {
 										popup.open(() => {
-											popout.popout.classList.add('esgst-hidden')
+											popout.popout.classList.add('esgst-hidden');
 										});
 									} else {
 										let emoji, emojis, filter, i;
-										popup = new Popup({ icon: 'fa-smile-o', title: `Select emojis:`, addScrollable: true });
+										popup = new Popup({
+											icon: 'fa-smile-o',
+											title: `Select emojis:`,
+											addScrollable: true,
+										});
 										filter = popup.getScrollable([
 											['input', { placeholder: 'Filter emojis...', type: 'text' }],
 											['div', { class: 'esgst-cfh-emojis' }],
-											['div', { class: 'esgst-description' }, `Simply click on an emoji above to add it to your selection. You can re-order emojis in your selection by dragging and dropping them. To remove an emoji from your selection, start dragging it and a trash area will appear, then drop it there.`],
-											['div', { class: 'global__image-outer-wrap page_heading_btn esgst-cfh-emojis' }]
+											[
+												'div',
+												{ class: 'esgst-description' },
+												`Simply click on an emoji above to add it to your selection. You can re-order emojis in your selection by dragging and dropping them. To remove an emoji from your selection, start dragging it and a trash area will appear, then drop it there.`,
+											],
+											[
+												'div',
+												{ class: 'global__image-outer-wrap page_heading_btn esgst-cfh-emojis' },
+											],
 										]).firstElementChild;
 										emojis = filter.nextElementSibling;
 										const savedEmojis = emojis.nextElementSibling.nextElementSibling;
-										DOM.insert(savedEmojis, 'inner', (
-											<>
-												{await this.cfh_getEmojis()}
-											</>
-										));
+										DOM.insert(savedEmojis, 'inner', <>{await this.cfh_getEmojis()}</>);
 										const obj = {
 											addTrash: true,
 											context: savedEmojis,
 											id: 'emojis',
-											item: {}
+											item: {},
 										};
 										Shared.common.draggable_set(obj);
 										for (const emojiData of EMOJIS) {
-											DOM.insert(emojis, 'beforeEnd', (
+											DOM.insert(
+												emojis,
+												'beforeEnd',
 												<span
 													data-draggable-id={emojiData.emoji}
 													title={emojiData.name}
 													onclick={() => {
-														DOM.insert(savedEmojis, 'beforeEnd', (
-															<span
-																data-draggable-id={emojiData.emoji}
-																title={emojiData.name}
-															>
+														DOM.insert(
+															savedEmojis,
+															'beforeEnd',
+															<span data-draggable-id={emojiData.emoji} title={emojiData.name}>
 																{emojiData.emoji}
 															</span>
-														));
+														);
 														Shared.common.draggable_set(obj);
 													}}
 												>
 													{emojiData.emoji}
 												</span>
-											));
+											);
 										}
 										popup.onClose = () => {
 											const emojiArray = [];
@@ -808,7 +1013,7 @@ class CommentsCommentFormattingHelper extends Module {
 											}
 										});
 										popup.open(() => {
-											popout.popout.classList.add('esgst-hidden')
+											popout.popout.classList.add('esgst-hidden');
 										});
 									}
 								}}
@@ -816,50 +1021,46 @@ class CommentsCommentFormattingHelper extends Module {
 								Select Emojis
 							</div>
 						</>
-					));
+					);
 					Shared.common.draggable_set({
 						addTrash: true,
 						context: emojis,
 						id: 'emojis',
-						item: {}
+						item: {},
 					});
 					this.cfh_setEmojis(emojis);
 				},
-				callback: async popout => {
+				callback: async (popout) => {
 					let emojis = popout.firstElementChild;
-					DOM.insert(emojis, 'inner', (
-						<>
-							{await this.cfh_getEmojis()}
-						</>
-					));
+					DOM.insert(emojis, 'inner', <>{await this.cfh_getEmojis()}</>);
 					Shared.common.draggable_set({
 						addTrash: true,
 						context: emojis,
 						id: 'emojis',
-						item: {}
+						item: {},
 					});
 					this.cfh_setEmojis(emojis);
-				}
+				},
 			},
 			{
 				id: 'cfh_g',
 				icons: ['fa-star'],
 				name: 'Giveaway Encrypter',
-				setPopout: popout => {
+				setPopout: (popout) => {
 					let code;
-					DOM.insert(popout.popout, 'inner', (
+					DOM.insert(
+						popout.popout,
+						'inner',
 						<>
 							Giveaway Code:
-							<input
-								placeholder="XXXXX"
-								type="text"
-								ref={ref => code = ref}
-							/>
+							<input placeholder="XXXXX" type="text" ref={(ref) => (code = ref)} />
 							<div
 								class="form__saving-button btn_action white"
 								onclick={async () => {
 									if (code.value.match(/^[\d\w]{5}$/)) {
-										let encodedCode = this.esgst.modules.giveawaysGiveawayEncrypterDecrypter.ged_encryptCode(code.value);
+										let encodedCode = this.esgst.modules.giveawaysGiveawayEncrypterDecrypter.ged_encryptCode(
+											code.value
+										);
 										await this.cfh_formatLink('', `ESGST-${encodedCode}`);
 										code.value = '';
 										popout.close();
@@ -871,23 +1072,28 @@ class CommentsCommentFormattingHelper extends Module {
 								Add
 							</div>
 						</>
-					));
+					);
 				},
-				callback: popout => {
+				callback: (popout) => {
 					let code = popout.firstElementChild;
-					code.value = this.esgst.cfh.textArea.value.slice(this.esgst.cfh.textArea.selectionStart, this.esgst.cfh.textArea.selectionEnd);
+					code.value = this.esgst.cfh.textArea.value.slice(
+						this.esgst.cfh.textArea.selectionStart,
+						this.esgst.cfh.textArea.selectionEnd
+					);
 					code.focus();
-				}
+				},
 			},
 			{
 				id: 'cfh_sr',
 				icons: ['fa-floppy-o'],
 				name: 'Saved Replies',
-				setPopout: async popout => {
+				setPopout: async (popout) => {
 					let i, n, replies, savedReplies;
 					this.esgst.cfh.deletedReplies = [];
 					savedReplies = JSON.parse(Shared.common.getValue(this.savedRepliesId, '[]'));
-					DOM.insert(popout.popout, 'inner', (
+					DOM.insert(
+						popout.popout,
+						'inner',
 						<>
 							<div>
 								<input
@@ -896,10 +1102,7 @@ class CommentsCommentFormattingHelper extends Module {
 									oninput={this.cfh_filterReplies.bind(this, replies)}
 								/>
 							</div>
-							<div
-								class="esgst-cfh-sr-container"
-								ref={ref => replies = ref}
-							></div>
+							<div class="esgst-cfh-sr-container" ref={(ref) => (replies = ref)}></div>
 							<div
 								class="form__saving-button btn_action white"
 								onclick={this.cfh_openReplyPopup.bind(this, null, null, replies, null)}
@@ -908,48 +1111,66 @@ class CommentsCommentFormattingHelper extends Module {
 							</div>
 							<div
 								class="form__saving-button btn_action white"
-								onclick={() => this.cfh_saveReply(this.esgst.cfh.textArea.value, null, 'Untitled', null, null, replies, null)}
+								onclick={() =>
+									this.cfh_saveReply(
+										this.esgst.cfh.textArea.value,
+										null,
+										'Untitled',
+										null,
+										null,
+										replies,
+										null
+									)
+								}
 							>
 								Save Reply
 							</div>
 							<div
 								class="esgst-clickable esgst-hidden"
-								ref={ref => this.esgst.cfh.undoDelete = ref}
+								ref={(ref) => (this.esgst.cfh.undoDelete = ref)}
 								onclick={this.cfh_undoDelete.bind(this)}
 							>
 								<i class="fa fa-rotate-left"></i>
 								<span>Undo Delete</span>
 							</div>
 						</>
-					));
+					);
 					for (i = 0, n = savedReplies.length; i < n; ++i) {
 						this.cfh_setReply(replies, savedReplies[i]);
 					}
 				},
-				callback: popout => {
+				callback: (popout) => {
 					popout.firstElementChild.firstElementChild.focus();
 				},
-			}, {
+			},
+			{
 				id: 'cfh_ghwsgi',
 				icons: ['fa-github'],
 				name: 'GitHub Wiki SteamGifts Integration',
-				setPopout: popout => {
+				setPopout: (popout) => {
 					let url;
-					DOM.insert(popout.popout, 'inner', (
+					DOM.insert(
+						popout.popout,
+						'inner',
 						<>
 							<div>
 								Wiki URL:
 								<input
 									placeholder="https://github.com/username/repository/wiki"
 									type="text"
-									ref={ref => url = ref}
+									ref={(ref) => (url = ref)}
 								/>
 							</div>
 							<div
 								class="form__saving-button btn_action white"
 								onclick={async () => {
-									const ghwsgiLink = `wiki-gh/${url.value.replace(/https?:\/\/(www\.)?github\.com\//, '')}`;
-									await this.cfh_formatItem(`This thread contains a Wiki visible with the [GHWSGI userscript](https://www.steamgifts.com/discussion/fVwFM/). If you prefer to see it directly on GitHub instead, [click here](${url.value}).\n`);
+									const ghwsgiLink = `wiki-gh/${url.value.replace(
+										/https?:\/\/(www\.)?github\.com\//,
+										''
+									)}`;
+									await this.cfh_formatItem(
+										`This thread contains a Wiki visible with the [GHWSGI userscript](https://www.steamgifts.com/discussion/fVwFM/). If you prefer to see it directly on GitHub instead, [click here](${url.value}).\n`
+									);
 									await this.cfh_formatLink('', ghwsgiLink);
 									url.value = '';
 									popout.close();
@@ -958,25 +1179,27 @@ class CommentsCommentFormattingHelper extends Module {
 								Add
 							</div>
 						</>
-					));
+					);
 				},
-				callback: popout => {
+				callback: (popout) => {
 					let url = popout.firstElementChild.firstElementChild;
 					url.focus();
-				}
-			}, {
+				},
+			},
+			{
 				addSpan: true,
 				icons: ['fa-paste'],
 				name: `Automatic Links / Images Paste Formatting: OFF`,
-				callback: context => {
+				callback: (context) => {
 					this.esgst.cfh.alipf = context;
 					this.cfh_setAlipf(Settings.get('cfh_pasteFormatting'), true);
 				},
-				onClick: () => this.cfh_setAlipf()
-			}, {
+				onClick: () => this.cfh_setAlipf(),
+			},
+			{
 				icons: ['fa-rotate-left'],
 				name: 'Undo Formatting',
-				callback: context => {
+				callback: (context) => {
 					this.esgst.cfh.undo = context.firstElementChild;
 					this.esgst.cfh.undo.classList.add('esgst-faded');
 				},
@@ -985,7 +1208,9 @@ class CommentsCommentFormattingHelper extends Module {
 					if (this.esgst.cfh.history.length) {
 						this.cfh_redo(this.esgst.cfh.textArea, this.esgst.cfh.textArea.value);
 						value = this.esgst.cfh.history.pop();
-						end = this.esgst.cfh.textArea.selectionEnd - (this.esgst.cfh.textArea.value.length - value.length);
+						end =
+							this.esgst.cfh.textArea.selectionEnd -
+							(this.esgst.cfh.textArea.value.length - value.length);
 						this.esgst.cfh.textArea.value = value;
 						this.esgst.cfh.textArea.setSelectionRange(end, end);
 						if (!this.esgst.cfh.history.length) {
@@ -993,11 +1218,12 @@ class CommentsCommentFormattingHelper extends Module {
 						}
 						this.esgst.cfh.textArea.focus();
 					}
-				}
-			}, {
+				},
+			},
+			{
 				icons: ['fa-rotate-right'],
 				name: 'Redo Formatting',
-				callback: context => {
+				callback: (context) => {
 					this.esgst.cfh.redo = context.firstElementChild;
 					this.esgst.cfh.redo.classList.add('esgst-faded');
 				},
@@ -1006,7 +1232,9 @@ class CommentsCommentFormattingHelper extends Module {
 					if (this.esgst.cfh.backup.length) {
 						this.cfh_undo(this.esgst.cfh.textArea, this.esgst.cfh.textArea.value);
 						value = this.esgst.cfh.backup.pop();
-						end = this.esgst.cfh.textArea.selectionEnd + (value.length - this.esgst.cfh.textArea.value.length);
+						end =
+							this.esgst.cfh.textArea.selectionEnd +
+							(value.length - this.esgst.cfh.textArea.value.length);
 						this.esgst.cfh.textArea.value = value;
 						this.esgst.cfh.textArea.setSelectionRange(end, end);
 						if (!this.esgst.cfh.backup.length) {
@@ -1014,28 +1242,30 @@ class CommentsCommentFormattingHelper extends Module {
 						}
 						this.esgst.cfh.textArea.focus();
 					}
-				}
-			}
+				},
+			},
 		];
 		for (let i = 0, n = items.length; i < n; i++) {
 			let item = items[i];
 			if (!item.id || Settings.get(item.id)) {
-				let button = DOM.insert(this.esgst.cfh.panel, 'beforeEnd', (
+				let button = DOM.insert(
+					this.esgst.cfh.panel,
+					'beforeEnd',
 					<div title={`${Shared.common.getFeatureTooltip(item.id || 'cfh', item.name)}`}></div>
-				));
-				item.icons.forEach(icon => {
-					DOM.insert(button, 'beforeEnd', (
-						<i class={`fa ${icon}`}></i>
-					));
+				);
+				item.icons.forEach((icon) => {
+					DOM.insert(button, 'beforeEnd', <i class={`fa ${icon}`}></i>);
 				});
 				if (item.addSpan) {
 					DOM.build(button, 'beforeEnd', [['span']]);
 				}
 				if (item.text) {
-					button.insertAdjacentText("beforeend", item.text);
+					button.insertAdjacentText('beforeend', item.text);
 				}
 				if (item.setPopout) {
-					await item.setPopout(new Popout('esgst-cfh-popout', button, 0, true, null, item.callback));
+					await item.setPopout(
+						new Popout('esgst-cfh-popout', button, 0, true, null, item.callback)
+					);
 				} else if (item.setPopup) {
 					let popup;
 					button.addEventListener('click', () => {
@@ -1062,27 +1292,38 @@ class CommentsCommentFormattingHelper extends Module {
 			}
 		}
 		if (Settings.get('cfh_cf')) {
-			DOM.insert(this.esgst.cfh.panel, 'beforeEnd', (
+			DOM.insert(
+				this.esgst.cfh.panel,
+				'beforeEnd',
 				<a
 					href="/about/comment-formatting"
 					title={Shared.common.getFeatureTooltip('cfh_cf', 'Comment Formatting')}
 				>
 					<i class="fa fa-question-circle"></i>
 				</a>
-			));
+			);
 		}
 		if (Settings.get('cfh_p') && !Settings.get('cfh_p_a')) {
-			DOM.insert(this.esgst.cfh.panel, 'beforeEnd', (
+			DOM.insert(
+				this.esgst.cfh.panel,
+				'beforeEnd',
 				<div
 					title={Shared.common.getFeatureTooltip('cfh_p', 'Preview')}
 					onclick={async () => {
-						DOM.build(this.esgst.cfh.preview, 'inner', await Shared.common.parseMarkdown(this.esgst.cfh.textArea, this.esgst.cfh.textArea.value));
+						DOM.build(
+							this.esgst.cfh.preview,
+							'inner',
+							await Shared.common.parseMarkdown(
+								this.esgst.cfh.textArea,
+								this.esgst.cfh.textArea.value
+							)
+						);
 						this.cfh_formatImages(this.esgst.cfh.preview);
 					}}
 				>
 					<i class="fa fa-eye"></i>
 				</div>
-			));
+			);
 		}
 		this.esgst.cfh.preview.className = 'esgst-cfh-preview markdown';
 	}
@@ -1090,22 +1331,26 @@ class CommentsCommentFormattingHelper extends Module {
 	async cfh_getEmojis() {
 		let emojis = JSON.parse(Shared.common.getValue('emojis', '[]'));
 		return emojis
-			.map(emoji => {
-				const emojiData = EMOJIS.filter(x => x.emoji === emoji || x.entity === emoji)[0];
+			.map((emoji) => {
+				const emojiData = EMOJIS.filter((x) => x.emoji === emoji || x.entity === emoji)[0];
 				emoji = emojiData ? emojiData.emoji : emoji;
 				return (
-					<span
-						data-draggable-id={emoji}
-						title={emojiData ? emojiData.name : ''}
-					>
+					<span data-draggable-id={emoji} title={emojiData ? emojiData.name : ''}>
 						{emoji}
 					</span>
 				);
-			}).filter(emoji => emoji !== null);
+			})
+			.filter((emoji) => emoji !== null);
 	}
 
 	cfh_setTextAreas(context, main, source, endless) {
-		const elements = context.querySelectorAll(`${endless ? `.esgst-es-page-${endless} textarea[name*="description"], .esgst-es-page-${endless}textarea[name*="description"]` : `textarea[name*="description"]`}`);
+		const elements = context.querySelectorAll(
+			`${
+				endless
+					? `.esgst-es-page-${endless} textarea[name*="description"], .esgst-es-page-${endless}textarea[name*="description"]`
+					: `textarea[name*="description"]`
+			}`
+		);
 		let hasAdded = false;
 		for (const element of elements) {
 			element.onfocus = this.cfh_addPanel.bind(this, element);
@@ -1116,7 +1361,13 @@ class CommentsCommentFormattingHelper extends Module {
 		}
 		const descriptionEdit = context.querySelector('.page__description__edit');
 		if (descriptionEdit) {
-			descriptionEdit.addEventListener('click', this.cfh_addPanel.bind(this, descriptionEdit.closest('.page__description').querySelector('textarea')));
+			descriptionEdit.addEventListener(
+				'click',
+				this.cfh_addPanel.bind(
+					this,
+					descriptionEdit.closest('.page__description').querySelector('textarea')
+				)
+			);
 		}
 	}
 
@@ -1132,20 +1383,30 @@ class CommentsCommentFormattingHelper extends Module {
 
 		textArea.parentElement.insertBefore(this.esgst.cfh.panel, textArea);
 		textArea.onfocus = this.cfh_addPanel.bind(this, textArea);
-		textArea.onpaste = async event => {
+		textArea.onpaste = async (event) => {
 			if (Settings.get('cfh_pasteFormatting')) {
 				let clipboard, value;
 				clipboard = event.clipboardData.getData('text/plain');
 				if (clipboard.match(/^https?:/)) {
 					event.preventDefault();
 					value = textArea.value;
-					this.cfh_undo(textArea, `${value.slice(0, textArea.selectionStart)}${clipboard}${value.slice(textArea.selectionEnd)}`);
-					await this.cfh_formatLink('', clipboard, clipboard.match(/\.(jpg|jpeg|gif|bmp|png)/i), true);
+					this.cfh_undo(
+						textArea,
+						`${value.slice(0, textArea.selectionStart)}${clipboard}${value.slice(
+							textArea.selectionEnd
+						)}`
+					);
+					await this.cfh_formatLink(
+						'',
+						clipboard,
+						clipboard.match(/\.(jpg|jpeg|gif|bmp|png)/i),
+						true
+					);
 				}
 			}
 		};
-		textArea.onclick = () => Shared.esgst.cfh.recent = false;
-		textArea.onkeydown = event => {
+		textArea.onclick = () => (Shared.esgst.cfh.recent = false);
+		textArea.onkeydown = (event) => {
 			if (event.key === 'Backspace' && this.esgst.cfh.recent) {
 				event.preventDefault();
 				this.esgst.cfh.undo.click();
@@ -1167,7 +1428,11 @@ class CommentsCommentFormattingHelper extends Module {
 			textArea.parentElement.insertBefore(this.esgst.cfh.preview, textArea.nextElementSibling);
 			if (Settings.get('cfh_p_a')) {
 				textArea.oninput = async () => {
-					DOM.build(this.esgst.cfh.preview, 'inner', await Shared.common.parseMarkdown(textArea, textArea.value));
+					DOM.build(
+						this.esgst.cfh.preview,
+						'inner',
+						await Shared.common.parseMarkdown(textArea, textArea.value)
+					);
 					this.cfh_formatImages(this.esgst.cfh.preview);
 				};
 			}
@@ -1195,7 +1460,7 @@ class CommentsCommentFormattingHelper extends Module {
 		range = text.length;
 		if (multiline) {
 			n = 0;
-			text = text.replace(/^|\n/g, match => {
+			text = text.replace(/^|\n/g, (match) => {
 				n += 1;
 				return `${match}${prefix.replace(/\[n]/, n)}`;
 			});
@@ -1207,7 +1472,11 @@ class CommentsCommentFormattingHelper extends Module {
 		this.esgst.cfh.textArea.setSelectionRange(range, range);
 		this.esgst.cfh.textArea.focus();
 		if (Settings.get('cfh_p') && Settings.get('cfh_p_a')) {
-			DOM.build(this.esgst.cfh.preview, 'inner', await Shared.common.parseMarkdown(this.esgst.cfh.textArea, this.esgst.cfh.textArea.value));
+			DOM.build(
+				this.esgst.cfh.preview,
+				'inner',
+				await Shared.common.parseMarkdown(this.esgst.cfh.textArea, this.esgst.cfh.textArea.value)
+			);
 			this.cfh_formatImages(this.esgst.cfh.preview);
 		}
 	}
@@ -1227,15 +1496,25 @@ class CommentsCommentFormattingHelper extends Module {
 			.replace(/\(/g, '%28')
 			.replace(/\)/g, '%29');
 		value = isImage ? `![${title}](${url})` : `[${title}](${url})`;
-		this.esgst.cfh.textArea.value = `${this.esgst.cfh.textArea.value.slice(0, start)}${value}${this.esgst.cfh.textArea.value.slice(end)}`;
+		this.esgst.cfh.textArea.value = `${this.esgst.cfh.textArea.value.slice(
+			0,
+			start
+		)}${value}${this.esgst.cfh.textArea.value.slice(end)}`;
 		if (title) {
 			this.esgst.cfh.textArea.setSelectionRange(end + value.length, end + value.length);
 		} else {
-			this.esgst.cfh.textArea.setSelectionRange(end + value.indexOf(`[`) + 1, end + value.indexOf(`[`) + 1);
+			this.esgst.cfh.textArea.setSelectionRange(
+				end + value.indexOf(`[`) + 1,
+				end + value.indexOf(`[`) + 1
+			);
 		}
 		this.esgst.cfh.textArea.focus();
 		if (Settings.get('cfh_p') && Settings.get('cfh_p_a')) {
-			DOM.build(this.esgst.cfh.preview, 'inner', await Shared.common.parseMarkdown(this.esgst.cfh.textArea, this.esgst.cfh.textArea.value));
+			DOM.build(
+				this.esgst.cfh.preview,
+				'inner',
+				await Shared.common.parseMarkdown(this.esgst.cfh.textArea, this.esgst.cfh.textArea.value)
+			);
 			this.cfh_formatImages(this.esgst.cfh.preview);
 		}
 	}
@@ -1251,68 +1530,90 @@ class CommentsCommentFormattingHelper extends Module {
 
 	cfh_uploadImage(authorization, popout, url) {
 		let input, popup, warning;
-		popup = new Popup({ addScrollable: true, icon: 'fa-upload', isTemp: true, title: 'Upload Image' });
-		input = DOM.insert(popup.description, 'beforeEnd', (
-			<input type="file"/>
-		));
-		warning = DOM.insert(popup.description, 'beforeEnd', (
+		popup = new Popup({
+			addScrollable: true,
+			icon: 'fa-upload',
+			isTemp: true,
+			title: 'Upload Image',
+		});
+		input = DOM.insert(popup.description, 'beforeEnd', <input type="file" />);
+		warning = DOM.insert(
+			popup.description,
+			'beforeEnd',
 			<div class="esgst-description esgst-warning"></div>
-		));
-		popup.description.appendChild(new ButtonSet({
-			color1: 'green',
-			color2: 'grey',
-			icon1: 'fa-upload',
-			icon2: 'fa-circle-o-notch fa-spin',
-			title1: 'Upload',
-			title2: 'Uploading...',
-			callback1: () => {
-				return new Promise(resolve => {
-					let file = input.files[0];
-					if (file) {
-						if (file.type.match(/^image/)) {
-							if (file.size / 1024 / 1024 <= 10) {
-								let reader = new FileReader();
-								reader.onload = this.cfh_readImgur.bind(this, authorization, popout, popup, reader, url, warning, resolve);
-								reader.readAsDataURL(file);
+		);
+		popup.description.appendChild(
+			new ButtonSet({
+				color1: 'green',
+				color2: 'grey',
+				icon1: 'fa-upload',
+				icon2: 'fa-circle-o-notch fa-spin',
+				title1: 'Upload',
+				title2: 'Uploading...',
+				callback1: () => {
+					return new Promise((resolve) => {
+						let file = input.files[0];
+						if (file) {
+							if (file.type.match(/^image/)) {
+								if (file.size / 1024 / 1024 <= 10) {
+									let reader = new FileReader();
+									reader.onload = this.cfh_readImgur.bind(
+										this,
+										authorization,
+										popout,
+										popup,
+										reader,
+										url,
+										warning,
+										resolve
+									);
+									reader.readAsDataURL(file);
+								} else {
+									Shared.common.createFadeMessage(warning, 'Image is larger than 10 MB!');
+									resolve();
+								}
 							} else {
-								Shared.common.createFadeMessage(warning, 'Image is larger than 10 MB!');
+								Shared.common.createFadeMessage(warning, 'File is not an image!');
 								resolve();
 							}
 						} else {
-							Shared.common.createFadeMessage(warning, 'File is not an image!');
+							Shared.common.createFadeMessage(warning, 'No file was loaded!');
 							resolve();
 						}
-					} else {
-						Shared.common.createFadeMessage(warning, 'No file was loaded!');
-						resolve();
-					}
-				});
-			}
-		}).set);
+					});
+				},
+			}).set
+		);
 		if (Settings.get('cfh_img_remember')) {
-			popup.description.appendChild(new ButtonSet({
-				color1: 'grey',
-				color2: 'grey',
-				icon1: 'fa-rotate-left',
-				icon2: 'fa-circle-o-notch fa-spin',
-				title1: 'Reset',
-				title2: 'Resetting...',
-				callback1: async () => {
-					await Shared.common.setSetting('cfh_img_remember', false);
-					popup.close();
-				}
-			}).set);
+			popup.description.appendChild(
+				new ButtonSet({
+					color1: 'grey',
+					color2: 'grey',
+					icon1: 'fa-rotate-left',
+					icon2: 'fa-circle-o-notch fa-spin',
+					title1: 'Reset',
+					title2: 'Resetting...',
+					callback1: async () => {
+						await Shared.common.setSetting('cfh_img_remember', false);
+						popup.close();
+					},
+				}).set
+			);
 		}
 		popup.open();
 	}
 
 	async cfh_readImgur(authorization, popout, popup, reader, url, warning, callback) {
-		let responseJson = JSON.parse((await Shared.common.request({
-			data: `image=${encodeURIComponent(reader.result.match(/base64,(.+)/)[1])}`,
-			headers: { authorization },
-			method: 'POST',
-			url: `https://api.imgur.com/3/image`
-		})).responseText);
+		let responseJson = JSON.parse(
+			(
+				await Shared.common.request({
+					data: `image=${encodeURIComponent(reader.result.match(/base64,(.+)/)[1])}`,
+					headers: { authorization },
+					method: 'POST',
+					url: `https://api.imgur.com/3/image`,
+				})
+			).responseText
+		);
 		if (responseJson.success) {
 			callback();
 			popup.close();
@@ -1330,13 +1631,13 @@ class CommentsCommentFormattingHelper extends Module {
 			n = table.rows.length;
 			row = table.insertRow(n);
 			for (i = 0, j = table.rows[0].cells.length - 1; i < j; ++i) {
-				DOM.insert(row.insertCell(0), 'inner', (
-					<input placeholder="Value" type="text"/>
-				));
+				DOM.insert(row.insertCell(0), 'inner', <input placeholder="Value" type="text" />);
 			}
 			deleteRow = row.insertCell(0);
 			if (n > 2) {
-				DOM.insert(deleteRow, 'inner', (
+				DOM.insert(
+					deleteRow,
+					'inner',
 					<a>
 						<i
 							class="fa fa-times-circle"
@@ -1351,7 +1652,7 @@ class CommentsCommentFormattingHelper extends Module {
 							}}
 						></i>
 					</a>
-				));
+				);
 			}
 			--rows;
 		}
@@ -1363,22 +1664,22 @@ class CommentsCommentFormattingHelper extends Module {
 			rows = table.rows;
 			n = rows[0].cells.length;
 			for (i = 3, j = rows.length; i < j; ++i) {
-				DOM.insert(rows[i].insertCell(n), 'inner', (
-					<input placeholder="Value" type="text"/>
-				));
+				DOM.insert(rows[i].insertCell(n), 'inner', <input placeholder="Value" type="text" />);
 			}
-			DOM.insert(rows[2].insertCell(n), 'inner', (
+			DOM.insert(
+				rows[2].insertCell(n),
+				'inner',
 				<select>
 					<option value=":-">Left</option>
 					<option value=":-:">Center</option>
 					<option value="-:">Right</option>
 				</select>
-			));
+			);
 			column = rows[1].insertCell(n);
-			DOM.insert(column, 'inner', (
-				<input placeholder="Header" type="text"/>
-			));
-			DOM.insert(rows[0].insertCell(n), 'inner', (
+			DOM.insert(column, 'inner', <input placeholder="Header" type="text" />);
+			DOM.insert(
+				rows[0].insertCell(n),
+				'inner',
 				<a>
 					<i
 						class="fa fa-times-circle"
@@ -1399,7 +1700,7 @@ class CommentsCommentFormattingHelper extends Module {
 						}}
 					></i>
 				</a>
-			));
+			);
 			--columns;
 		}
 	}
@@ -1418,7 +1719,9 @@ class CommentsCommentFormattingHelper extends Module {
 
 	cfh_setReply(replies, savedReply) {
 		let description, name, reply, summary;
-		reply = DOM.insert(replies, 'beforeEnd', (
+		reply = DOM.insert(
+			replies,
+			'beforeEnd',
 			<div
 				class="esgst-cfh-sr-box"
 				draggable="true"
@@ -1428,7 +1731,7 @@ class CommentsCommentFormattingHelper extends Module {
 			>
 				<div
 					class="esgst-cfh-sr-summary"
-					ref={ref => summary = ref}
+					ref={(ref) => (summary = ref)}
 					onclick={() => {
 						this.cfh_undo(this.esgst.cfh.textArea, this.esgst.cfh.textArea.value);
 						let end, i, matches, n, value;
@@ -1440,22 +1743,19 @@ class CommentsCommentFormattingHelper extends Module {
 							i = Math.floor(Math.random() * n);
 							value = matches[i].match(/\[ESGST-R]([\s\S]+?)\[\/ESGST-R]/)[1];
 						}
-						this.esgst.cfh.textArea.value = `${this.esgst.cfh.textArea.value.slice(0, this.esgst.cfh.textArea.selectionStart)}${value}${this.esgst.cfh.textArea.value.slice(end)}`;
+						this.esgst.cfh.textArea.value = `${this.esgst.cfh.textArea.value.slice(
+							0,
+							this.esgst.cfh.textArea.selectionStart
+						)}${value}${this.esgst.cfh.textArea.value.slice(end)}`;
 						this.esgst.cfh.textArea.dispatchEvent(new Event('input'));
 						this.esgst.cfh.textArea.setSelectionRange(end + value.length, end + value.length);
 						this.esgst.cfh.textArea.focus();
 					}}
 				>
-					<div
-						class="esgst-cfh-sr-name"
-						ref={ref => name = ref}
-					>
+					<div class="esgst-cfh-sr-name" ref={(ref) => (name = ref)}>
 						{savedReply.name}
 					</div>
-					<div
-						class="esgst-cfh-sr-description"
-						description={ref => description = ref}
-					>
+					<div class="esgst-cfh-sr-description" description={(ref) => (description = ref)}>
 						{savedReply.description}
 					</div>
 				</div>
@@ -1463,12 +1763,26 @@ class CommentsCommentFormattingHelper extends Module {
 					<i
 						class="esgst-clickable fa fa-retweet"
 						title="Replace description with current reply"
-						onclick={this.cfh_saveReply(savedReply.description, this.esgst.cfh.textArea, savedReply.name, null, null, replies, summary)}
+						onclick={this.cfh_saveReply(
+							savedReply.description,
+							this.esgst.cfh.textArea,
+							savedReply.name,
+							null,
+							null,
+							replies,
+							summary
+						)}
 					></i>
 					<i
 						class="esgst-clickable fa fa-edit"
 						title="Edit reply"
-						onclick={this.cfh_openReplyPopup.bind(this, savedReply.description, savedReply.name, replies, summary)}
+						onclick={this.cfh_openReplyPopup.bind(
+							this,
+							savedReply.description,
+							savedReply.name,
+							replies,
+							summary
+						)}
 					></i>
 					<i
 						class="esgst-clickable fa fa-trash"
@@ -1476,27 +1790,29 @@ class CommentsCommentFormattingHelper extends Module {
 						onclick={async () => {
 							let savedReplies = JSON.parse(Shared.common.getValue(this.savedRepliesId, '[]'));
 							let i;
-							for (i = savedReplies.length - 1; i > -1 && (savedReplies[i].name !== name.textContent || savedReplies[i].description !== description.textContent); i--) {
-							}
+							for (
+								i = savedReplies.length - 1;
+								i > -1 &&
+								(savedReplies[i].name !== name.textContent ||
+									savedReplies[i].description !== description.textContent);
+								i--
+							) {}
 							if (i > -1) {
 								savedReplies.splice(i, 1);
 								Shared.common.setValue(this.savedRepliesId, JSON.stringify(savedReplies));
 								reply.classList.add('esgst-hidden');
 								this.esgst.cfh.deletedReplies.push({
 									reply: reply,
-									savedReply: savedReply
+									savedReply: savedReply,
 								});
 								this.esgst.cfh.undoDelete.classList.remove('esgst-hidden');
 							}
 						}}
 					></i>
-					<i
-						class="fa fa-question-circle"
-						title="Drag the reply to move it"
-					></i>
+					<i class="fa fa-question-circle" title="Drag the reply to move it"></i>
 				</div>
 			</div>
-		));
+		);
 	}
 
 	async cfh_setSource(description, name, reply, event) {
@@ -1504,8 +1820,13 @@ class CommentsCommentFormattingHelper extends Module {
 		event.dataTransfer.setData('text/plain', '');
 		this.esgst.cfh.source = reply;
 		savedReplies = JSON.parse(Shared.common.getValue(this.savedRepliesId, '[]'));
-		for (i = savedReplies.length - 1; i > -1 && (savedReplies[i].name !== name.textContent || savedReplies[i].description !== description.textContent); --i) {
-		}
+		for (
+			i = savedReplies.length - 1;
+			i > -1 &&
+			(savedReplies[i].name !== name.textContent ||
+				savedReplies[i].description !== description.textContent);
+			--i
+		) {}
 		if (i > -1) {
 			this.esgst.cfh.sourceIndex = i;
 		}
@@ -1530,7 +1851,11 @@ class CommentsCommentFormattingHelper extends Module {
 
 	async cfh_saveSource() {
 		let savedReplies = JSON.parse(Shared.common.getValue(this.savedRepliesId, '[]'));
-		savedReplies.splice(this.esgst.cfh.sourceNewIndex, 0, savedReplies.splice(this.esgst.cfh.sourceIndex, 1)[0]);
+		savedReplies.splice(
+			this.esgst.cfh.sourceNewIndex,
+			0,
+			savedReplies.splice(this.esgst.cfh.sourceIndex, 1)[0]
+		);
 		Shared.common.setValue(this.savedRepliesId, JSON.stringify(savedReplies));
 	}
 
@@ -1540,33 +1865,41 @@ class CommentsCommentFormattingHelper extends Module {
 			addScrollable: true,
 			icon: 'fa-floppy-o',
 			isTemp: true,
-			title: summary ? `Edit reply:` : `Save new reply:`
+			title: summary ? `Edit reply:` : `Save new reply:`,
 		});
-		DOM.insert(popup.scrollable, 'beforeEnd', (
+		DOM.insert(
+			popup.scrollable,
+			'beforeEnd',
 			<div class="esgst-description">
-				You can save a defined list of replies to be picked at random when using it. To do so, enclose each option with <span class="esgst-bold">[ESGST-R][/ESGST-R]</span>. For example, a defined list that renders a random "thank you" comment when using it would look like this:
-				<br/><br/>
+				You can save a defined list of replies to be picked at random when using it. To do so,
+				enclose each option with <span class="esgst-bold">[ESGST-R][/ESGST-R]</span>. For example, a
+				defined list that renders a random "thank you" comment when using it would look like this:
+				<br />
+				<br />
 				[ESGST-R]Thanks![/ESGST-R]
-				<br/>
+				<br />
 				[ESGST-R]Thank you![/ESGST-R]
-				<br/>
+				<br />
 				[ESGST-R]Thank you so much!
-				<br/><br/>
+				<br />
+				<br />
 				Can't wait to play this game![/ESGST-R]
 			</div>
-		));
-		panel = DOM.insert(popup.scrollable, 'beforeEnd', (
+		);
+		panel = DOM.insert(
+			popup.scrollable,
+			'beforeEnd',
 			<div>
 				<div>
 					<div>Name</div>
-					<input type="text" value={name || ''}/>
+					<input type="text" value={name || ''} />
 				</div>
 				<div>
 					<div>Description</div>
 					<textarea>{description || ''}</textarea>
 				</div>
 			</div>
-		));
+		);
 		nameArea = panel.firstElementChild;
 		descriptionArea = nameArea.nextElementSibling;
 		nameArea = nameArea.lastElementChild;
@@ -1574,30 +1907,47 @@ class CommentsCommentFormattingHelper extends Module {
 		if (Settings.get('cfh')) {
 			this.cfh_addPanel(descriptionArea);
 		}
-		popup.description.appendChild(new ButtonSet({
-			color1: 'green',
-			color2: 'grey',
-			icon1: 'fa-check',
-			icon2: 'fa-circle-o-notch fa-spin',
-			title1: 'Save',
-			title2: 'Saving...',
-			callback1: this.cfh_saveReply.bind(this, description, descriptionArea, name, nameArea, popup, replies, summary)
-		}).set);
+		popup.description.appendChild(
+			new ButtonSet({
+				color1: 'green',
+				color2: 'grey',
+				icon1: 'fa-check',
+				icon2: 'fa-circle-o-notch fa-spin',
+				title1: 'Save',
+				title2: 'Saving...',
+				callback1: this.cfh_saveReply.bind(
+					this,
+					description,
+					descriptionArea,
+					name,
+					nameArea,
+					popup,
+					replies,
+					summary
+				),
+			}).set
+		);
 		popup.open();
 	}
 
 	async cfh_saveReply(description, descriptionArea, name, nameArea, popup, replies, summary) {
-		let [descVal, nameVal] = [descriptionArea ? descriptionArea.value.trim() : description, nameArea ? nameArea.value.trim() : name];
+		let [descVal, nameVal] = [
+			descriptionArea ? descriptionArea.value.trim() : description,
+			nameArea ? nameArea.value.trim() : name,
+		];
 		if (descVal && nameVal) {
 			let savedReplies = JSON.parse(Shared.common.getValue(this.savedRepliesId, '[]'));
 			let savedReply = {
 				description: descVal,
-				name: nameVal
+				name: nameVal,
 			};
 			if (summary) {
 				let i;
-				for (i = savedReplies.length - 1; i > -1 && (savedReplies[i].name !== name || savedReplies[i].description !== description); i--) {
-				}
+				for (
+					i = savedReplies.length - 1;
+					i > -1 && (savedReplies[i].name !== name || savedReplies[i].description !== description);
+					i--
+				) {}
 				if (i > -1) {
 					savedReplies[i] = savedReply;
 					summary.firstElementChild.textContent = nameVal;
@@ -1650,11 +2000,17 @@ class CommentsCommentFormattingHelper extends Module {
 			Shared.common.setSetting('cfh_pasteFormatting', value);
 		}
 		if (value) {
-			this.esgst.cfh.alipf.title = Shared.common.getFeatureTooltip('cfh', `Automatic Links / Images Paste Formatting: ON`);
+			this.esgst.cfh.alipf.title = Shared.common.getFeatureTooltip(
+				'cfh',
+				`Automatic Links / Images Paste Formatting: ON`
+			);
 			this.esgst.cfh.alipf.classList.remove('esgst-faded');
 			this.esgst.cfh.alipf.lastElementChild.textContent = 'ON';
 		} else {
-			this.esgst.cfh.alipf.title = Shared.common.getFeatureTooltip('cfh', `Automatic Links / Images Paste Formatting: OFF`);
+			this.esgst.cfh.alipf.title = Shared.common.getFeatureTooltip(
+				'cfh',
+				`Automatic Links / Images Paste Formatting: OFF`
+			);
 			this.esgst.cfh.alipf.classList.add('esgst-faded');
 			this.esgst.cfh.alipf.lastElementChild.textContent = 'OFF';
 		}
@@ -1670,18 +2026,18 @@ class CommentsCommentFormattingHelper extends Module {
 			const image = images[0];
 			context.appendChild(image);
 			image.classList.add('is-hidden', 'is_hidden');
-			DOM.insert(image, 'outer', (
+			DOM.insert(
+				image,
+				'outer',
 				<div>
-					<div class={`${this.esgst.sg ? 'comment__toggle-attached' : 'view_attached'}`}>View attached image.</div>
-					<a
-						href={image.getAttribute('src')}
-						ref="nofollow noreferrer"
-						target="_blank"
-					>
+					<div class={`${this.esgst.sg ? 'comment__toggle-attached' : 'view_attached'}`}>
+						View attached image.
+					</div>
+					<a href={image.getAttribute('src')} ref="nofollow noreferrer" target="_blank">
 						{image.cloneNode(true)}
 					</a>
 				</div>
-			));
+			);
 		}
 	}
 }

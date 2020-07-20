@@ -7,9 +7,15 @@ class DiscussionsReversedActiveDiscussions extends Module {
 		super();
 		this.info = {
 			description: [
-				['ul', [
-					['li', 'Reverses the active discussions (in the main page) so that discussions come before deals (original order).']
-				]]
+				[
+					'ul',
+					[
+						[
+							'li',
+							'Reverses the active discussions (in the main page) so that discussions come before deals (original order).',
+						],
+					],
+				],
 			],
 			id: 'rad',
 			name: 'Reversed Active Discussions',
@@ -20,10 +26,13 @@ class DiscussionsReversedActiveDiscussions extends Module {
 	}
 
 	async init() {
-        if (!Shared.esgst.giveawaysPath || !Shared.esgst.activeDiscussions || Settings.get('oadd')) {
-            return;
-        }
-        Shared.esgst.activeDiscussions.insertBefore(Shared.esgst.activeDiscussions.lastElementChild, Shared.esgst.activeDiscussions.firstElementChild);
+		if (!Shared.esgst.giveawaysPath || !Shared.esgst.activeDiscussions || Settings.get('oadd')) {
+			return;
+		}
+		Shared.esgst.activeDiscussions.insertBefore(
+			Shared.esgst.activeDiscussions.lastElementChild,
+			Shared.esgst.activeDiscussions.firstElementChild
+		);
 	}
 }
 

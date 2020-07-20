@@ -8,19 +8,28 @@ class CommentsCommentHistory extends Module {
 		super();
 		this.info = {
 			description: [
-				['ul', [
-					['li', `Replaces SteamGifts' native comment button with a new one, so that ESGST can track your comments.`],
-					['li', [
-						`Adds a button (`,
-						['i', { class: 'fa fa-comments esgst-yellow' }],
-						` My Comment History) to the dropdown menu accessible by clicking on the arrow next to your avatar at the header of any page that allows you to view your comment history.`
-					]]
-				]]
+				[
+					'ul',
+					[
+						[
+							'li',
+							`Replaces SteamGifts' native comment button with a new one, so that ESGST can track your comments.`,
+						],
+						[
+							'li',
+							[
+								`Adds a button (`,
+								['i', { class: 'fa fa-comments esgst-yellow' }],
+								` My Comment History) to the dropdown menu accessible by clicking on the arrow next to your avatar at the header of any page that allows you to view your comment history.`,
+							],
+						],
+					],
+				],
 			],
 			id: 'ch',
 			name: 'Comment History',
 			sg: true,
-			type: 'comments'
+			type: 'comments',
 		};
 	}
 
@@ -49,15 +58,15 @@ class CommentsCommentHistory extends Module {
 				icon: 'fa-comments',
 				title: 'Comment History',
 				addProgress: true,
-				addScrollable: 'left'
+				addScrollable: 'left',
 			},
 			urls: {
 				id: 'ch',
 				init: this.ch_initUrls.bind(this),
 				request: {
-					request: this.ch_requestUrl.bind(this)
-				}
-			}
+					request: this.ch_requestUrl.bind(this),
+				},
+			},
 		});
 	}
 
@@ -82,15 +91,19 @@ class CommentsCommentHistory extends Module {
 		const fragmentChildren = [];
 		if (parent) {
 			parent.lastElementChild.remove();
-			DOM.insert(parent, 'beforeEnd', (
+			DOM.insert(
+				parent,
+				'beforeEnd',
 				<div class="comment__children comment_children">{comment}</div>
-			));
+			);
 			fragmentChildren.push(parent);
 		} else {
 			if (Shared.esgst.st) {
-				DOM.insert(comment.getElementsByClassName('action_list')[0].firstElementChild, 'afterEnd', (
+				DOM.insert(
+					comment.getElementsByClassName('action_list')[0].firstElementChild,
+					'afterEnd',
 					<a href={response.finalUrl}>{responseHtml.title}</a>
-				));
+				);
 			}
 			if (Shared.esgst.sg) {
 				fragmentChildren.push(
@@ -101,13 +114,13 @@ class CommentsCommentHistory extends Module {
 					</div>
 				);
 			}
-			fragmentChildren.push(
-				<div class="comment__children comment_children">{comment}</div>
-			);
+			fragmentChildren.push(<div class="comment__children comment_children">{comment}</div>);
 		}
-		DOM.insert(obj.context, 'beforeEnd', (
+		DOM.insert(
+			obj.context,
+			'beforeEnd',
 			<div class="comment comments comment_outer">{fragmentChildren}</div>
-		));
+		);
 	}
 
 	async ch_saveComment(id, timestamp) {
@@ -116,7 +129,7 @@ class CommentsCommentHistory extends Module {
 		let comments = JSON.parse(Shared.common.getValue(key, '[]'));
 		comments.unshift({
 			id: id,
-			timestamp: timestamp
+			timestamp: timestamp,
 		});
 		await Shared.common.setValue(key, JSON.stringify(comments));
 		deleteLock();

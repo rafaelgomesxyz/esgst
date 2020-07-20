@@ -11,20 +11,26 @@ class GeneralTimeToPointCapCalculator extends Module {
 		super();
 		this.info = {
 			description: [
-				['ul', [
-					['li', `If you have less than 400P and you hover over the number of points at the header of any page, it shows how much time you have to wait until you have 400P.`]
-				]]
+				[
+					'ul',
+					[
+						[
+							'li',
+							`If you have less than 400P and you hover over the number of points at the header of any page, it shows how much time you have to wait until you have 400P.`,
+						],
+					],
+				],
 			],
 			features: {
 				ttpcc_a: {
 					name: 'Show time alongside points.',
-					sg: true
-				}
+					sg: true,
+				},
 			},
 			id: 'ttpcc',
 			name: 'Time To Point Cap Calculator',
 			sg: true,
-			type: 'general'
+			type: 'general',
 		};
 	}
 
@@ -45,10 +51,14 @@ class GeneralTimeToPointCapCalculator extends Module {
 			nextRefresh -= 15;
 		}
 
-		const time = this.esgst.modules.giveawaysTimeToEnterCalculator.ttec_getTime(Math.round((nextRefresh + (15 * Math.floor((400 - newPoints) / 6))) * 100) / 100);
+		const time = this.esgst.modules.giveawaysTimeToEnterCalculator.ttec_getTime(
+			Math.round((nextRefresh + 15 * Math.floor((400 - newPoints) / 6)) * 100) / 100
+		);
 
 		const pointsNode = Shared.header.buttonContainers['account'].nodes.points;
-		pointsNode.textContent = `${newPoints.toLocaleString('en-US')}${Settings.get('ttpcc_a') ? `P / ${time} to 400` : ''}`;
+		pointsNode.textContent = `${newPoints.toLocaleString('en-US')}${
+			Settings.get('ttpcc_a') ? `P / ${time} to 400` : ''
+		}`;
 		pointsNode.title = common.getFeatureTooltip('ttpcc', `${time} to 400P`);
 	}
 }

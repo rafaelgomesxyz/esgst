@@ -5,38 +5,44 @@ import { common } from '../Common';
 import { Settings } from '../../class/Settings';
 import { Shared } from '../../class/Shared';
 
-const
-	createElements = common.createElements.bind(common),
+const createElements = common.createElements.bind(common),
 	getFeatureTooltip = common.getFeatureTooltip.bind(common),
 	getValue = common.getValue.bind(common),
 	removeDuplicateNotes = common.removeDuplicateNotes.bind(common),
-	saveUser = common.saveUser.bind(common)
-	;
-
+	saveUser = common.saveUser.bind(common);
 class UsersUserNotes extends Module {
 	constructor() {
 		super();
 		this.info = {
 			description: [
-				['ul', [
-					['li', [
-						`Adds a button (`,
-						['i', { class: 'fa fa-sticky-note' }],
-						' if there are notes saved and ',
-						['i', { class: 'fa fa-sticky-note-o' }],
-						` if there are not) next to a user's username (in their `,
-						['a', { href: `https://www.steamgifts.com/user/cg` }, 'profile'],
-						` page) that allows you to save notes for them (only visible to you).`
-					]],
-					['li', 'You can press Ctrl + Enter to save the notes.'],
-					['li', `This feature is recommended for cases where you want to associate a long text with a user, since the notes are not displayed in the page.For a short text, check [id=ut].`]
-				]]
+				[
+					'ul',
+					[
+						[
+							'li',
+							[
+								`Adds a button (`,
+								['i', { class: 'fa fa-sticky-note' }],
+								' if there are notes saved and ',
+								['i', { class: 'fa fa-sticky-note-o' }],
+								` if there are not) next to a user's username (in their `,
+								['a', { href: `https://www.steamgifts.com/user/cg` }, 'profile'],
+								` page) that allows you to save notes for them (only visible to you).`,
+							],
+						],
+						['li', 'You can press Ctrl + Enter to save the notes.'],
+						[
+							'li',
+							`This feature is recommended for cases where you want to associate a long text with a user, since the notes are not displayed in the page.For a short text, check [id=ut].`,
+						],
+					],
+				],
 			],
 			features: {
 				un_p: {
 					name: 'Pop up when whitelisting/blacklisting a user.',
-					sg: true
-				}
+					sg: true,
+				},
 			},
 			id: 'un',
 			name: 'User Notes',
@@ -44,8 +50,8 @@ class UsersUserNotes extends Module {
 			st: true,
 			type: 'users',
 			featureMap: {
-				profile: this.un_add.bind(this)
-			}
+				profile: this.un_add.bind(this),
+			},
 		};
 	}
 
@@ -54,11 +60,15 @@ class UsersUserNotes extends Module {
 		if (Shared.esgst.sg) {
 			position = 'beforeEnd';
 			if (Settings.get('un_p')) {
-				whitelistButton = profile.steamButtonContainer.getElementsByClassName('sidebar__shortcut__whitelist')[0];
+				whitelistButton = profile.steamButtonContainer.getElementsByClassName(
+					'sidebar__shortcut__whitelist'
+				)[0];
 				if (whitelistButton) {
 					whitelistButton.addEventListener('click', this.un_open.bind(this, profile));
 				}
-				blacklistButton = profile.steamButtonContainer.getElementsByClassName('sidebar__shortcut__blacklist')[0];
+				blacklistButton = profile.steamButtonContainer.getElementsByClassName(
+					'sidebar__shortcut__blacklist'
+				)[0];
 				if (blacklistButton) {
 					blacklistButton.addEventListener('click', this.un_open.bind(this, profile));
 				}
@@ -66,19 +76,23 @@ class UsersUserNotes extends Module {
 		} else {
 			position = 'afterBegin';
 		}
-		profile.unButton = createElements(profile.heading, position, [{
-			attributes: {
-				class: 'esgst-un-button',
-				title: getFeatureTooltip('un', 'Edit user notes')
-			},
-			type: 'a',
-			children: [{
+		profile.unButton = createElements(profile.heading, position, [
+			{
 				attributes: {
-					class: 'fa'
+					class: 'esgst-un-button',
+					title: getFeatureTooltip('un', 'Edit user notes'),
 				},
-				type: 'i'
-			}]
-		}]);
+				type: 'a',
+				children: [
+					{
+						attributes: {
+							class: 'fa',
+						},
+						type: 'i',
+					},
+				],
+			},
+		]);
 		profile.unIcon = profile.unButton.firstElementChild;
 		if (savedUser && savedUser.notes) {
 			profile.unIcon.classList.add('fa-sticky-note');
@@ -91,15 +105,16 @@ class UsersUserNotes extends Module {
 	un_open(profile) {
 		let set;
 		profile.unPopup = new Popup({
-			addScrollable: true, icon: 'fa-sticky-note', isTemp: true, title: [
-				'Edit user notes for ',
-				['span', profile.name],
-				`:`
-			]
+			addScrollable: true,
+			icon: 'fa-sticky-note',
+			isTemp: true,
+			title: ['Edit user notes for ', ['span', profile.name], `:`],
 		});
-		profile.unTextArea = createElements(profile.unPopup.scrollable, 'beforeEnd', [{
-			type: 'textarea'
-		}]);
+		profile.unTextArea = createElements(profile.unPopup.scrollable, 'beforeEnd', [
+			{
+				type: 'textarea',
+			},
+		]);
 		if (Settings.get('cfh')) {
 			Shared.esgst.modules.commentsCommentFormattingHelper.cfh_addPanel(profile.unTextArea);
 		}
@@ -110,9 +125,9 @@ class UsersUserNotes extends Module {
 			icon2: 'fa-circle-o-notch fa-spin',
 			title1: 'Save',
 			title2: 'Saving...',
-			callback1: this.un_save.bind(this, profile)
+			callback1: this.un_save.bind(this, profile),
 		});
-		profile.unTextArea.addEventListener('keydown', event => {
+		profile.unTextArea.addEventListener('keydown', (event) => {
 			if (event.ctrlKey && event.key === 'Enter') {
 				set.trigger();
 			}
@@ -128,8 +143,8 @@ class UsersUserNotes extends Module {
 			id: profile.id,
 			username: profile.username,
 			values: {
-				notes: notes
-			}
+				notes: notes,
+			},
 		};
 		if (notes) {
 			profile.unIcon.classList.remove('fa-sticky-note-o');

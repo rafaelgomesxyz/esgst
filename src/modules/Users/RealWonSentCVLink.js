@@ -2,39 +2,42 @@ import { Module } from '../../class/Module';
 import { common } from '../Common';
 import { Settings } from '../../class/Settings';
 
-const
-	createElements = common.createElements.bind(common),
-	getFeatureTooltip = common.getFeatureTooltip.bind(common)
-	;
-
+const createElements = common.createElements.bind(common),
+	getFeatureTooltip = common.getFeatureTooltip.bind(common);
 class UsersRealWonSentCVLink extends Module {
 	constructor() {
 		super();
 		this.info = {
 			description: [
-				['ul', [
-					['li', [
-						'Turns "Gifts Won" and "Gifts Sent" in a user\'s ',
-						['a', { href: `https://www.steamgifts.com/user/cg` }, 'profile'],
-						' page into links that take you to their real won/sent CV pages on ',
-						['a', { href: `https://www.sgtools.info/` }, 'SGTools'],
-						'.'
-					]]
-				]]
+				[
+					'ul',
+					[
+						[
+							'li',
+							[
+								'Turns "Gifts Won" and "Gifts Sent" in a user\'s ',
+								['a', { href: `https://www.steamgifts.com/user/cg` }, 'profile'],
+								' page into links that take you to their real won/sent CV pages on ',
+								['a', { href: `https://www.sgtools.info/` }, 'SGTools'],
+								'.',
+							],
+						],
+					],
+				],
 			],
 			features: {
 				rwscvl_r: {
 					name: `Link SGTools' reverse pages (from newest to oldest).`,
-					sg: true
-				}
+					sg: true,
+				},
 			},
 			id: 'rwscvl',
 			name: 'Real Won/Sent CV Link',
 			sg: true,
 			type: 'users',
 			featureMap: {
-				profile: this.rwscvl_add.bind(this)
-			}
+				profile: this.rwscvl_add.bind(this),
+			},
 		};
 	}
 
@@ -46,26 +49,30 @@ class UsersRealWonSentCVLink extends Module {
 			wonUrl += '/newestfirst';
 			sentUrl += '/newestfirst';
 		}
-		createElements(profile.wonRowLeft, 'inner', [{
-			attributes: {
-				class: 'esgst-rwscvl-link',
-				href: wonUrl,
-				target: '_blank',
-				title: getFeatureTooltip('rwscvl')
+		createElements(profile.wonRowLeft, 'inner', [
+			{
+				attributes: {
+					class: 'esgst-rwscvl-link',
+					href: wonUrl,
+					target: '_blank',
+					title: getFeatureTooltip('rwscvl'),
+				},
+				text: 'Gifts Won',
+				type: 'a',
 			},
-			text: 'Gifts Won',
-			type: 'a'
-		}]);
-		createElements(profile.sentRowLeft, 'inner', [{
-			attributes: {
-				class: 'esgst-rwscvl-link',
-				href: sentUrl,
-				target: '_blank',
-				title: getFeatureTooltip('rwscvl')
+		]);
+		createElements(profile.sentRowLeft, 'inner', [
+			{
+				attributes: {
+					class: 'esgst-rwscvl-link',
+					href: sentUrl,
+					target: '_blank',
+					title: getFeatureTooltip('rwscvl'),
+				},
+				text: 'Gifts Sent',
+				type: 'a',
 			},
-			text: 'Gifts Sent',
-			type: 'a'
-		}]);
+		]);
 	}
 }
 

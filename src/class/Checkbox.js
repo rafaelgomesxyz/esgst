@@ -12,12 +12,16 @@ class Checkbox {
 		this.value = defaultValue;
 		this.isThreeState = threeState;
 		const items = [
-			['span', {class: 'esgst-checkbox'}, [
-				['input', {class: 'esgst-hidden', type: 'checkbox'}],
-				['i', {class: 'fa fa-square-o'}],
-				['i', {class: 'fa fa-square', type: messages.select || ''}],
-				['i', {class: 'fa fa-check-square', type: messages.unselect || ''}]
-			]]
+			[
+				'span',
+				{ class: 'esgst-checkbox' },
+				[
+					['input', { class: 'esgst-hidden', type: 'checkbox' }],
+					['i', { class: 'fa fa-square-o' }],
+					['i', { class: 'fa fa-square', type: messages.select || '' }],
+					['i', { class: 'fa fa-check-square', type: messages.unselect || '' }],
+				],
+			],
 		];
 		if (context) {
 			this.checkbox = DOM.build(context, 'afterBegin', items);
@@ -39,7 +43,7 @@ class Checkbox {
 				this.disabled.classList.add('esgst-hidden');
 				this.none.classList.add('esgst-hidden');
 			}
-			this.checkbox.addEventListener('click', event => this.change(false, null, null, event));
+			this.checkbox.addEventListener('click', (event) => this.change(false, null, null, event));
 		} else {
 			this.input.checked = this.value;
 			if (this.value) {
@@ -49,7 +53,7 @@ class Checkbox {
 				this.none.classList.add('esgst-hidden');
 				this.disabled.classList.add('esgst-hidden');
 			}
-			this.checkbox.addEventListener('click', event => this.change(true, null, null, event));
+			this.checkbox.addEventListener('click', (event) => this.change(true, null, null, event));
 			this.checkbox.addEventListener('mouseenter', () => this.showNone());
 			this.checkbox.addEventListener('mouseleave', () => this.hideNone());
 			this.change();
@@ -61,12 +65,12 @@ class Checkbox {
 			event.stopPropagation();
 		}
 		if (this.isThreeState) {
-			if ((this.value === 'disabled' && !value) || (value === 'none')) {
+			if ((this.value === 'disabled' && !value) || value === 'none') {
 				this.enabled.classList.add('esgst-hidden');
 				this.disabled.classList.add('esgst-hidden');
 				this.none.classList.remove('esgst-hidden');
 				this.value = 'none';
-			} else if ((this.value === 'none' && !value) || (value === 'enabled')) {
+			} else if ((this.value === 'none' && !value) || value === 'enabled') {
 				this.none.classList.add('esgst-hidden');
 				this.disabled.classList.add('esgst-hidden');
 				this.enabled.classList.remove('esgst-hidden');
@@ -151,4 +155,3 @@ class Checkbox {
 }
 
 export { Checkbox };
-

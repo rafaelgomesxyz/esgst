@@ -6,15 +6,21 @@ class GeneralFixedHeader extends Module {
 		super();
 		this.info = {
 			description: [
-				['ul', [
-					['li', 'Keeps the header of any page at the top of the window while you scroll down the page.']
-				]]
+				[
+					'ul',
+					[
+						[
+							'li',
+							'Keeps the header of any page at the top of the window while you scroll down the page.',
+						],
+					],
+				],
 			],
 			id: 'fh',
 			name: 'Fixed Header',
 			sg: true,
 			st: true,
-			type: 'general'
+			type: 'general',
 		};
 	}
 

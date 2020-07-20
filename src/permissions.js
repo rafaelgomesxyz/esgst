@@ -23,7 +23,9 @@ async function loadPermissions() {
 			usageArray.push(permission.messages[messageKey], '<br/>', '<br/>');
 		}
 
-		table.insertAdjacentHTML('beforeend', `
+		table.insertAdjacentHTML(
+			'beforeend',
+			`
 			<tr>
 				<td>
 					<input name="${key}" type="checkbox"/>
@@ -31,7 +33,8 @@ async function loadPermissions() {
 				<td>${permissionArray.join('')}</td>
 				<td>${usageArray.join('')}</td>
 			</tr>
-		`);
+		`
+		);
 
 		const checkbox = table.querySelector(`[name="${key}"]`);
 		checkbox.checked = await permissions.contains([[key]]);
@@ -48,9 +51,9 @@ async function loadPermissions() {
 }
 
 function savePermissions() {
-	permissions.request(Array.from(grantedPermissions), granted => {
-		permissions.remove(Array.from(deniedPermissions), denied => {
-			if (granted && denied) {			
+	permissions.request(Array.from(grantedPermissions), (granted) => {
+		permissions.remove(Array.from(deniedPermissions), (denied) => {
+			if (granted && denied) {
 				window.alert('Permissions saved!');
 			} else {
 				window.alert('Error saving permissions!');

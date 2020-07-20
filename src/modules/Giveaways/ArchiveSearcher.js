@@ -8,39 +8,42 @@ import { Settings } from '../../class/Settings';
 import { permissions } from '../../class/Permissions';
 import { DOM } from '../../class/DOM';
 
-const
-	endless_load = common.endless_load.bind(common),
-	request = common.request.bind(common)
-	;
-
+const endless_load = common.endless_load.bind(common),
+	request = common.request.bind(common);
 class GiveawaysArchiveSearcher extends Module {
 	constructor() {
 		super();
 		this.info = {
 			description: [
-				['ul', [
-					['li','Allows you to search the archive by exact title or app id.'],
-					['li', `To search by exact title, wrap the title in double quotes, for example: "Dream"`],
-					['li', `To search by app id, use the "id:[id]" format, for example: id:229580`]
-				]]
+				[
+					'ul',
+					[
+						['li', 'Allows you to search the archive by exact title or app id.'],
+						[
+							'li',
+							`To search by exact title, wrap the title in double quotes, for example: "Dream"`,
+						],
+						['li', `To search by app id, use the "id:[id]" format, for example: id:229580`],
+					],
+				],
 			],
 			features: {
 				as_t: {
 					name: 'Open results in a new tab.',
-					sg: true
-				}
+					sg: true,
+				},
 			},
 			id: 'as',
 			name: 'Archive Searcher',
 			sg: true,
-			type: 'giveaways'
+			type: 'giveaways',
 		};
 	}
 
 	async init() {
 		this.esgst.customPages.as = {
 			check: this.esgst.archivePath,
-			load: async () => await this.as_init({})
+			load: async () => await this.as_init({}),
 		};
 
 		if (!this.esgst.archivePath) return;
@@ -49,7 +52,7 @@ class GiveawaysArchiveSearcher extends Module {
 		const temp = input.parentElement;
 		input.outerHTML = `${input.outerHTML}`;
 		input = temp.firstElementChild;
-		input.addEventListener('keypress', event => {
+		input.addEventListener('keypress', (event) => {
 			if (event.key === 'Enter') {
 				if (input.value.match(/"|id:/)) {
 					this.as_openPage(input);
@@ -71,9 +74,11 @@ class GiveawaysArchiveSearcher extends Module {
 			isAppId = true;
 		}
 		if (Settings.get('as_t')) {
-			window.location.href = `?esgst=as&query=${encodeURIComponent(query)}${isAppId ? `&isAppId=true` : ''}`;
+			window.location.href = `?esgst=as&query=${encodeURIComponent(query)}${
+				isAppId ? `&isAppId=true` : ''
+			}`;
 		} else {
-			this.as_init({query, isAppId, isPopup: true});
+			this.as_init({ query, isAppId, isPopup: true });
 		}
 	}
 
@@ -94,7 +99,7 @@ class GiveawaysArchiveSearcher extends Module {
 		if (obj.isPopup) {
 			const popup = new Popup({
 				addScrollable: 'left',
-				isTemp: true
+				isTemp: true,
 			});
 			container = popup.description;
 			context = popup.scrollable;
@@ -110,13 +115,13 @@ class GiveawaysArchiveSearcher extends Module {
 			breadcrumbs: [
 				{
 					name: 'ESGST',
-					url: this.esgst.settingsUrl
+					url: this.esgst.settingsUrl,
 				},
 				{
 					name: 'Archive Searcher',
-					url: `?esgst=as`
-				}
-			]
+					url: `?esgst=as`,
+				},
+			],
 		});
 		obj.context = context;
 
@@ -125,10 +130,14 @@ class GiveawaysArchiveSearcher extends Module {
 
 		// retrieve the game title from Steam
 		if (this.esgst.parameters.isAppId) {
-			let title = DOM.parse((await request({
-				method: 'GET',
-				url: `https://steamcommunity.com/app/${obj.query}`
-			})).responseText).getElementsByClassName('apphub_AppName')[0];
+			let title = DOM.parse(
+				(
+					await request({
+						method: 'GET',
+						url: `https://steamcommunity.com/app/${obj.query}`,
+					})
+				).responseText
+			).getElementsByClassName('apphub_AppName')[0];
 			if (title) {
 				obj.query = title.textContent;
 			} else {
@@ -139,7 +148,7 @@ class GiveawaysArchiveSearcher extends Module {
 
 		progress.innerHTML = '';
 
-		obj.query = ((obj.query.length >= 50) ? obj.query.slice(0, 50) : obj.query).toLowerCase();
+		obj.query = (obj.query.length >= 50 ? obj.query.slice(0, 50) : obj.query).toLowerCase();
 		obj.page = 1;
 		obj.url = `${this.esgst.path}/search?q=${encodeURIComponent(obj.query)}&page=`;
 		obj.leftovers = [];
@@ -150,7 +159,7 @@ class GiveawaysArchiveSearcher extends Module {
 			icon2: '',
 			title1: 'Load More',
 			title2: 'Loading...',
-			callback1: async () => await this.as_request(obj)
+			callback1: async () => await this.as_request(obj),
 		});
 		obj.container = DOM.build(obj.context, 'beforeEnd', [['div']]);
 		obj.context.appendChild(set.set);
@@ -169,12 +178,17 @@ class GiveawaysArchiveSearcher extends Module {
 		do {
 			const response = await request({
 				method: 'GET',
-				url: `${obj.url}${obj.page}`
+				url: `${obj.url}${obj.page}`,
 			});
 			const responseHtml = DOM.parse(response.responseText);
 			const elements = responseHtml.querySelectorAll('.table__row-outer-wrap');
 			for (const element of elements) {
-				if (element.querySelector('.table__column__heading').textContent.match(/(.+?)( \(.+ Copies\))?$/)[1].toLowerCase() === obj.query) {
+				if (
+					element
+						.querySelector('.table__column__heading')
+						.textContent.match(/(.+?)( \(.+ Copies\))?$/)[1]
+						.toLowerCase() === obj.query
+				) {
 					if (obj.count < 25) {
 						context.appendChild(element.cloneNode(true));
 						obj.count += 1;
@@ -185,7 +199,11 @@ class GiveawaysArchiveSearcher extends Module {
 			}
 			obj.page += 1;
 			pagination = responseHtml.querySelector('.pagination__navigation');
-		} while (obj.count < 25 && pagination && !pagination.lastElementChild.classList.contains(this.esgst.selectedClass));
+		} while (
+			obj.count < 25 &&
+			pagination &&
+			!pagination.lastElementChild.classList.contains(this.esgst.selectedClass)
+		);
 		await endless_load(context);
 	}
 }

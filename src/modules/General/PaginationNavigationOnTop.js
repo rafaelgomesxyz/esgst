@@ -3,31 +3,34 @@ import { common } from '../Common';
 import { Settings } from '../../class/Settings';
 import { DOM } from '../../class/DOM';
 
-const
-	getFeatureTooltip = common.getFeatureTooltip.bind(common)
-	;
-
+const getFeatureTooltip = common.getFeatureTooltip.bind(common);
 class GeneralPaginationNavigationOnTop extends Module {
 	constructor() {
 		super();
 		this.info = {
 			description: [
-				['ul', [
-					['li', 'Moves the pagination navigation of any page to the main page heading of the page.']
-				]]
+				[
+					'ul',
+					[
+						[
+							'li',
+							'Moves the pagination navigation of any page to the main page heading of the page.',
+						],
+					],
+				],
 			],
 			features: {
 				pnot_s: {
 					name: `Enable simplified view (will show only the numbers and arrows).`,
 					sg: true,
-					st: true
-				}
+					st: true,
+				},
 			},
 			id: 'pnot',
 			name: 'Pagination Navigation On Top',
 			sg: true,
 			st: true,
-			type: 'general'
+			type: 'general',
 		};
 	}
 
@@ -39,7 +42,13 @@ class GeneralPaginationNavigationOnTop extends Module {
 		}
 		this.esgst.paginationNavigation.title = getFeatureTooltip('pnot');
 		this.pnot_simplify();
-		DOM.build(this.esgst.mainPageHeading.querySelector(`.page__heading__breadcrumbs, .page_heading_breadcrumbs`), 'afterEnd', [this.esgst.paginationNavigation]);
+		DOM.build(
+			this.esgst.mainPageHeading.querySelector(
+				`.page__heading__breadcrumbs, .page_heading_breadcrumbs`
+			),
+			'afterEnd',
+			[this.esgst.paginationNavigation]
+		);
 	}
 
 	pnot_simplify() {

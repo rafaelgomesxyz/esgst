@@ -2,32 +2,35 @@ import { Button } from '../../class/Button';
 import { Module } from '../../class/Module';
 import { common } from '../Common';
 
-const
-	getValue = common.getValue.bind(common),
-	setValue = common.setValue.bind(common)
-	;
-
+const getValue = common.getValue.bind(common),
+	setValue = common.setValue.bind(common);
 class GiveawaysStickiedGiveawayCountries extends Module {
 	constructor() {
 		super();
 		this.info = {
 			description: [
-				['ul', [
-					['li', [
-						`Adds a button (`,
-						['i', { class: 'fa fa-thumb-stack' }],
-						' if the country is stickied and ',
-						['i', { class: 'fa fa-thumb-stack esgst-faded' }],
-						` if it is not) next to each country in the `,
-						['a', { href: `https://www.steamgifts.com/giveaways/new` }, 'new giveaway'],
-						' page that allows you to sticky the country so that it appears at the top of the country list when creating a giveaway for quick use.'
-					]]
-				]]
+				[
+					'ul',
+					[
+						[
+							'li',
+							[
+								`Adds a button (`,
+								['i', { class: 'fa fa-thumb-stack' }],
+								' if the country is stickied and ',
+								['i', { class: 'fa fa-thumb-stack esgst-faded' }],
+								` if it is not) next to each country in the `,
+								['a', { href: `https://www.steamgifts.com/giveaways/new` }, 'new giveaway'],
+								' page that allows you to sticky the country so that it appears at the top of the country list when creating a giveaway for quick use.',
+							],
+						],
+					],
+				],
 			],
 			id: 'sgac',
 			name: 'Stickied Giveaway Countries',
 			sg: true,
-			type: 'giveaways'
+			type: 'giveaways',
 		};
 	}
 
@@ -40,7 +43,7 @@ class GiveawaysStickiedGiveawayCountries extends Module {
 		container = document.querySelector(`.form_list[data-input="country_item_string"]`);
 		elements = container.children;
 		const obj = {
-			separator: container.firstElementChild
+			separator: container.firstElementChild,
 		};
 		for (i = 0, n = elements.length; i < n; ++i) {
 			context = elements[i];
@@ -52,12 +55,22 @@ class GiveawaysStickiedGiveawayCountries extends Module {
 				container.insertBefore(context, obj.separator);
 			}
 			new Button(context, 'afterBegin', {
-				callbacks: [this.sgac_stickyCountry.bind(this, obj, container, context, id), null, this.sgac_unstickyCountry.bind(this, obj, container, context, id), null],
+				callbacks: [
+					this.sgac_stickyCountry.bind(this, obj, container, context, id),
+					null,
+					this.sgac_unstickyCountry.bind(this, obj, container, context, id),
+					null,
+				],
 				className: 'esgst-sgac-button',
-				icons: ['fa-thumb-tack esgst-clickable esgst-faded', 'fa-circle-o-notch fa-spin', 'fa-thumb-tack esgst-clickable', 'fa-circle-o-notch fa-spin'],
+				icons: [
+					'fa-thumb-tack esgst-clickable esgst-faded',
+					'fa-circle-o-notch fa-spin',
+					'fa-thumb-tack esgst-clickable',
+					'fa-circle-o-notch fa-spin',
+				],
 				id: 'sgac',
 				index: stickiedCountries.indexOf(id) >= 0 ? 2 : 0,
-				titles: ['Sticky country', 'Stickying...', 'Unsticky country', 'Unstickying...']
+				titles: ['Sticky country', 'Stickying...', 'Unsticky country', 'Unstickying...'],
 			});
 		}
 	}

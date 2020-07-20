@@ -26,17 +26,14 @@ import { MessageNotifier } from './class/MessageNotifier';
 window.interact = interact;
 
 (() => {
-	const
-		common = esgst.modules.common
-	;
-
-// @ts-ignore
+	const common = esgst.modules.common;
+	// @ts-ignore
 	if (!window.NodeList.prototype[Symbol.iterator]) {
 		// @ts-ignore
 		window.NodeList.prototype[Symbol.iterator] = Array.prototype[Symbol.iterator];
 	}
 
-// @ts-ignore
+	// @ts-ignore
 	if (!window.HTMLCollection.prototype[Symbol.iterator]) {
 		// @ts-ignore
 		window.HTMLCollection.prototype[Symbol.iterator] = Array.prototype[Symbol.iterator];
@@ -68,7 +65,7 @@ window.interact = interact;
 		esgst.markdownParser.setMarkupEscaped(true);
 		esgst.name = esgst.sg ? 'sg' : 'st';
 
-		browser.runtime.onMessage.addListener(message => {
+		browser.runtime.onMessage.addListener((message) => {
 			message = JSON.parse(message);
 			switch (message.action) {
 				case 'notify-tds':
@@ -81,7 +78,7 @@ window.interact = interact;
 					common.createConfirmation(
 						`Hi! A new version of ESGST (${message.values.version}) is available. Do you want to force an update now? If you choose to force an update, ESGST will stop working in any SteamGifts/SteamTrades tab that is open, along with any operation that you might be performing (such as syncing, checking something etc), so you will have to refresh them. If you choose not to force an update, your browser will automatically update the extension when you are not using it (for example, when you restart the browser).`,
 						() => {
-							browser.runtime.sendMessage({ action: 'reload' }).then(() => {})
+							browser.runtime.sendMessage({ action: 'reload' }).then(() => {});
 						},
 						() => {}
 					);
@@ -134,7 +131,9 @@ window.interact = interact;
 
 		if (esgst.sg) {
 			try {
-				const avatar = document.getElementsByClassName('nav__avatar-inner-wrap')[0].style.backgroundImage.match(/\("(.+)"\)/)[1];
+				const avatar = document
+					.getElementsByClassName('nav__avatar-inner-wrap')[0]
+					.style.backgroundImage.match(/\("(.+)"\)/)[1];
 
 				if (esgst.settings.avatar !== avatar) {
 					esgst.settings.avatar = avatar;
@@ -142,7 +141,9 @@ window.interact = interact;
 					settingsChanged = true;
 				}
 
-				const username = document.getElementsByClassName('nav__avatar-outer-wrap')[0].href.match(/\/user\/(.+)/)[1];
+				const username = document
+					.getElementsByClassName('nav__avatar-outer-wrap')[0]
+					.href.match(/\/user\/(.+)/)[1];
 
 				if (esgst.settings.username_sg !== username) {
 					esgst.settings.username_sg = username;
@@ -151,29 +152,40 @@ window.interact = interact;
 				}
 
 				if (!esgst.settings.registrationDate_sg || !esgst.settings.steamId) {
-					const responseHtml = DOM.parse((await common.request({
-						method: 'GET',
-						url: `https://www.steamgifts.com/user/${esgst.settings.username_sg}`
-					})).responseText);
+					const responseHtml = DOM.parse(
+						(
+							await common.request({
+								method: 'GET',
+								url: `https://www.steamgifts.com/user/${esgst.settings.username_sg}`,
+							})
+						).responseText
+					);
 
 					const elements = responseHtml.getElementsByClassName('featured__table__row__left');
 
 					for (const element of elements) {
 						if (element.textContent === 'Registered') {
-							esgst.settings.registrationDate_sg = parseInt(element.nextElementSibling.firstElementChild.getAttribute('data-timestamp'));
+							esgst.settings.registrationDate_sg = parseInt(
+								element.nextElementSibling.firstElementChild.getAttribute('data-timestamp')
+							);
 
 							break;
 						}
 					}
 
-					esgst.settings.steamId = responseHtml.querySelector(`a[href*="/profiles/"]`).getAttribute('href').match(/\d+/)[0];
+					esgst.settings.steamId = responseHtml
+						.querySelector(`a[href*="/profiles/"]`)
+						.getAttribute('href')
+						.match(/\d+/)[0];
 
 					settingsChanged = true;
 				}
 			} catch (e) {}
 		} else {
 			try {
-				const avatar = document.getElementsByClassName('nav_avatar')[0].style.backgroundImage.match(/\("(.+)"\)/)[1];
+				const avatar = document
+					.getElementsByClassName('nav_avatar')[0]
+					.style.backgroundImage.match(/\("(.+)"\)/)[1];
 
 				if (esgst.settings.avatar !== avatar) {
 					esgst.settings.avatar = avatar;
@@ -181,7 +193,9 @@ window.interact = interact;
 					settingsChanged = true;
 				}
 
-				const username = document.querySelector(`.author_name[href*="/user/${esgst.settings.steamId}"], .underline[href*="/user/${esgst.settings.steamId}"]`).textContent;
+				const username = document.querySelector(
+					`.author_name[href*="/user/${esgst.settings.steamId}"], .underline[href*="/user/${esgst.settings.steamId}"]`
+				).textContent;
 
 				if (esgst.settings.username_st !== username) {
 					esgst.settings.username_st = username;
@@ -213,14 +227,16 @@ window.interact = interact;
 		addStyle();
 
 		/* [URLR] URL Redirector */
-		if (Settings.get('urlr') && window.location.pathname.match(/^\/(giveaway|discussion|support\/ticket|trade)\/.{5}$/)) {
+		if (
+			Settings.get('urlr') &&
+			window.location.pathname.match(/^\/(giveaway|discussion|support\/ticket|trade)\/.{5}$/)
+		) {
 			window.location.href = `${window.location.href}/`;
 		}
 
 		for (const key in esgst.paths) {
 			for (const item of esgst.paths[key]) {
-				item.pattern = item.pattern
-					.replace(/%steamId%/, Settings.get('steamId'));
+				item.pattern = item.pattern.replace(/%steamId%/, Settings.get('steamId'));
 			}
 		}
 
@@ -237,10 +253,16 @@ window.interact = interact;
 				await common.setValue('dropboxToken', window.location.hash.match(/access_token=(.+?)&/)[1]);
 				window.close();
 			} else if (window.location.href.match(/state=google-drive/)) {
-				await common.setValue('googleDriveToken', window.location.hash.match(/access_token=(.+?)&/)[1]);
+				await common.setValue(
+					'googleDriveToken',
+					window.location.hash.match(/access_token=(.+?)&/)[1]
+				);
 				window.close();
 			} else if (window.location.href.match(/state=onedrive/)) {
-				await common.setValue('oneDriveToken', window.location.hash.match(/access_token=(.+?)&/)[1]);
+				await common.setValue(
+					'oneDriveToken',
+					window.location.hash.match(/access_token=(.+?)&/)[1]
+				);
 				window.close();
 			} else if (window.location.href.match(/state=imgur/)) {
 				await common.setValue('imgurToken', window.location.hash.match(/access_token=(.+?)&/)[1]);

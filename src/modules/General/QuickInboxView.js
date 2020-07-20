@@ -8,43 +8,55 @@ import { Shared } from '../../class/Shared';
 import { EventDispatcher } from '../../class/EventDispatcher';
 import { Events } from '../../constants/Events';
 
-const
-	createElements = common.createElements.bind(common),
+const createElements = common.createElements.bind(common),
 	endless_load = common.endless_load.bind(common),
-	request = common.request.bind(common)
-	;
-
+	request = common.request.bind(common);
 class GeneralQuickInboxView extends Module {
 	constructor() {
 		super();
 		this.info = {
 			description: [
-				['ul', [
-					['li', [
-						`If you hover over the inbox icon (`,
-						['i', { class: 'fa fa-envelope' }],
-						`) at the header, it shows a popout with your messages so that you do not need to access your inbox page to read them.`
-					]],
-					['li', `You can also mark the messages as read from the popout and reply to them if [id=rfi] is enabled.`]
-				]]
+				[
+					'ul',
+					[
+						[
+							'li',
+							[
+								`If you hover over the inbox icon (`,
+								['i', { class: 'fa fa-envelope' }],
+								`) at the header, it shows a popout with your messages so that you do not need to access your inbox page to read them.`,
+							],
+						],
+						[
+							'li',
+							`You can also mark the messages as read from the popout and reply to them if [id=rfi] is enabled.`,
+						],
+					],
+				],
 			],
 			features: {
 				qiv_p: {
 					description: [
-						['ul', [
-							['li', `Preloads the first page so that you do not have to wait for it to load after hovering over the inbox icon (this can slow down the page load though).`]
-						]]
+						[
+							'ul',
+							[
+								[
+									'li',
+									`Preloads the first page so that you do not have to wait for it to load after hovering over the inbox icon (this can slow down the page load though).`,
+								],
+							],
+						],
 					],
 					name: 'Preload the first page.',
 					sg: true,
-					st: true
-				}
+					st: true,
+				},
 			},
 			id: 'qiv',
 			name: 'Quick Inbox View',
 			sg: true,
 			st: true,
-			type: 'general'
+			type: 'general',
 		};
 	}
 
@@ -69,7 +81,7 @@ class GeneralQuickInboxView extends Module {
 
 		if (typeof this.esgst.qiv !== 'object') {
 			this.esgst.qiv = {
-				nextPage: 1
+				nextPage: 1,
 			};
 		}
 
@@ -79,28 +91,39 @@ class GeneralQuickInboxView extends Module {
 			if (Session.counters.messages > 0) {
 				this.qiv_addMarkReadButton();
 			}
-			this.esgst.qiv.comments = createElements(this.esgst.qiv.popout.popout, 'beforeEnd', [{
-				attributes: {
-					class: 'esgst-qiv-comments'
+			this.esgst.qiv.comments = createElements(this.esgst.qiv.popout.popout, 'beforeEnd', [
+				{
+					attributes: {
+						class: 'esgst-qiv-comments',
+					},
+					type: 'div',
 				},
-				type: 'div'
-			}]);
+			]);
 			this.esgst.qiv.comments.addEventListener('scroll', this.qiv_scroll.bind(this, false, false));
 			// noinspection JSIgnoredPromiseFromCall
 			this.qiv_scroll(true);
 		}
-		Shared.header.buttonContainers['messages'].nodes.outer.addEventListener('mouseenter', this.qiv_openPopout.bind(this));
-		Shared.header.buttonContainers['messages'].nodes.outer.addEventListener('mouseleave', event => {
-			if (this.esgst.qiv.timeout) {
-				window.clearTimeout(this.esgst.qiv.timeout);
-				this.esgst.qiv.timeout = null;
-			}
-			this.esgst.qiv.exitTimeout = window.setTimeout(() => {
-				if (this.esgst.qiv.popout && !this.esgst.qiv.popout.popout.contains(event.relatedTarget)) {
-					this.esgst.qiv.popout.close();
+		Shared.header.buttonContainers['messages'].nodes.outer.addEventListener(
+			'mouseenter',
+			this.qiv_openPopout.bind(this)
+		);
+		Shared.header.buttonContainers['messages'].nodes.outer.addEventListener(
+			'mouseleave',
+			(event) => {
+				if (this.esgst.qiv.timeout) {
+					window.clearTimeout(this.esgst.qiv.timeout);
+					this.esgst.qiv.timeout = null;
 				}
-			}, 1000);
-		});
+				this.esgst.qiv.exitTimeout = window.setTimeout(() => {
+					if (
+						this.esgst.qiv.popout &&
+						!this.esgst.qiv.popout.popout.contains(event.relatedTarget)
+					) {
+						this.esgst.qiv.popout.close();
+					}
+				}, 1000);
+			}
+		);
 	}
 
 	qiv_openPopout() {
@@ -113,14 +136,19 @@ class GeneralQuickInboxView extends Module {
 				if (Session.counters.messages > 0) {
 					this.qiv_addMarkReadButton();
 				}
-				this.esgst.qiv.comments = createElements(this.esgst.qiv.popout.popout, 'beforeEnd', [{
-					attributes: {
-						class: 'esgst-qiv-comments'
+				this.esgst.qiv.comments = createElements(this.esgst.qiv.popout.popout, 'beforeEnd', [
+					{
+						attributes: {
+							class: 'esgst-qiv-comments',
+						},
+						type: 'div',
 					},
-					type: 'div'
-				}]);
+				]);
 				this.esgst.qiv.popout.open(Shared.header.buttonContainers['messages'].nodes.outer);
-				this.esgst.qiv.comments.addEventListener('scroll', this.qiv_scroll.bind(this, false, false));
+				this.esgst.qiv.comments.addEventListener(
+					'scroll',
+					this.qiv_scroll.bind(this, false, false)
+				);
 				// noinspection JSIgnoredPromiseFromCall
 				this.qiv_scroll(true);
 			}
@@ -141,39 +169,64 @@ class GeneralQuickInboxView extends Module {
 	}
 
 	async qiv_scroll(first, preload) {
-		if ((first || preload || this.esgst.qiv.comments.scrollTop + this.esgst.qiv.comments.offsetHeight >= this.esgst.qiv.comments.scrollHeight) && !this.esgst.qiv.busy) {
+		if (
+			(first ||
+				preload ||
+				this.esgst.qiv.comments.scrollTop + this.esgst.qiv.comments.offsetHeight >=
+					this.esgst.qiv.comments.scrollHeight) &&
+			!this.esgst.qiv.busy
+		) {
 			this.esgst.qiv.busy = true;
 			const firstPage = this.esgst.qiv.comments.firstElementChild;
 			let doContinue = false;
 			do {
 				const loading = createElements(
 					this.esgst.qiv.popout.popout,
-					first || preload ? 'afterBegin' : 'beforeEnd', [{
-						type: 'span',
-						children: [{
-							attributes: {
-								class: 'fa fa-circle-o-notch fa-spin'
-							},
-							type: 'i'
-						}, {
-							text: ' Loading...',
-							type: 'node'
-						}]
-					}]
+					first || preload ? 'afterBegin' : 'beforeEnd',
+					[
+						{
+							type: 'span',
+							children: [
+								{
+									attributes: {
+										class: 'fa fa-circle-o-notch fa-spin',
+									},
+									type: 'i',
+								},
+								{
+									text: ' Loading...',
+									type: 'node',
+								},
+							],
+						},
+					]
 				);
 				this.esgst.qiv.popout.reposition(Shared.header.buttonContainers['messages'].nodes.outer);
-				const context = DOM.parse((await request({
-					method: 'GET',
-					url: `/messages/search?page=${this.esgst.qiv.nextPage}`
-				})).responseText).querySelector(`.page__heading, .page_heading`).nextElementSibling;
+				const context = DOM.parse(
+					(
+						await request({
+							method: 'GET',
+							url: `/messages/search?page=${this.esgst.qiv.nextPage}`,
+						})
+					).responseText
+				).querySelector(`.page__heading, .page_heading`).nextElementSibling;
 				loading.remove();
 
 				if (preload) {
-					const currentId = this.esgst.qiv.comments.querySelector(`[href*="/go/comment/"]`)
-						.getAttribute('href').match(/\/go\/comment\/(.+)/)[1],
+					const currentId = this.esgst.qiv.comments
+							.querySelector(`[href*="/go/comment/"]`)
+							.getAttribute('href')
+							.match(/\/go\/comment\/(.+)/)[1],
 						comments = context.querySelectorAll(`.comment, .comment_outer`);
 					let i = comments.length - 1;
-					while (i > -1 && comments[i].querySelector(`[href*="/go/comment/"]`).getAttribute('href').match(/\/go\/comment\/(.+)/)[1] !== currentId) i--;
+					while (
+						i > -1 &&
+						comments[i]
+							.querySelector(`[href*="/go/comment/"]`)
+							.getAttribute('href')
+							.match(/\/go\/comment\/(.+)/)[1] !== currentId
+					)
+						i--;
 					if (i > -1) {
 						doContinue = false;
 						i--;
@@ -190,20 +243,33 @@ class GeneralQuickInboxView extends Module {
 					}
 					if (context.children.length) {
 						for (const element of comments) {
-							createElements(element, 'afterBegin', [{
-								attributes: {
-									class: 'esgst-qiv-new esgst-warning'
+							createElements(element, 'afterBegin', [
+								{
+									attributes: {
+										class: 'esgst-qiv-new esgst-warning',
+									},
+									text: `[NEW]`,
+									type: 'div',
 								},
-								text: `[NEW]`,
-								type: 'div'
-							}]);
+							]);
 						}
 						this.esgst.qiv.comments.insertBefore(context, firstPage);
 					}
 				} else {
 					const comments = context.querySelectorAll(`.comment, .comment_outer`);
 					let i = comments.length - 1;
-					while (i > -1 && !this.esgst.qiv.comments.querySelector(`[href*="/go/comment/${comments[i].querySelector(`[href*="/go/comment/"]`).getAttribute('href').match(/\/go\/comment\/(.+)/)[1]}"]`)) i--;
+					while (
+						i > -1 &&
+						!this.esgst.qiv.comments.querySelector(
+							`[href*="/go/comment/${
+								comments[i]
+									.querySelector(`[href*="/go/comment/"]`)
+									.getAttribute('href')
+									.match(/\/go\/comment\/(.+)/)[1]
+							}"]`
+						)
+					)
+						i--;
 					if (i > -1) {
 						while (i > -1) {
 							const container = comments[i].parentElement;
@@ -239,39 +305,49 @@ class GeneralQuickInboxView extends Module {
 		let key, url;
 		if (this.esgst.qiv.markReadButton) return;
 		if (this.esgst.sg) {
-			this.esgst.qiv.markReadButton = createElements(this.esgst.qiv.popout.popout, 'afterBegin', [{
-				attributes: {
-					class: 'sidebar__action-button'
-				},
-				type: 'div',
-				children: [{
+			this.esgst.qiv.markReadButton = createElements(this.esgst.qiv.popout.popout, 'afterBegin', [
+				{
 					attributes: {
-						class: 'fa fa-check-circle'
+						class: 'sidebar__action-button',
 					},
-					type: 'i'
-				}, {
-					text: ' Mark as Read',
-					type: 'node'
-				}]
-			}]);
+					type: 'div',
+					children: [
+						{
+							attributes: {
+								class: 'fa fa-check-circle',
+							},
+							type: 'i',
+						},
+						{
+							text: ' Mark as Read',
+							type: 'node',
+						},
+					],
+				},
+			]);
 			key = 'read_messages';
 			url = '/messages';
 		} else {
-			this.esgst.qiv.markReadButton = createElements(this.esgst.qiv.popout.popout, 'afterBegin', [{
-				attributes: {
-					class: 'page_heading_btn green'
-				},
-				type: 'a',
-				children: [{
+			this.esgst.qiv.markReadButton = createElements(this.esgst.qiv.popout.popout, 'afterBegin', [
+				{
 					attributes: {
-						class: 'fa fa-check-square-o'
+						class: 'page_heading_btn green',
 					},
-					type: 'i'
-				}, {
-					text: 'Mark as Read',
-					type: 'span'
-				}]
-			}]);
+					type: 'a',
+					children: [
+						{
+							attributes: {
+								class: 'fa fa-check-square-o',
+							},
+							type: 'i',
+						},
+						{
+							text: 'Mark as Read',
+							type: 'span',
+						},
+					],
+				},
+			]);
 			key = 'mark_as_read';
 			url = '/ajax.php';
 		}

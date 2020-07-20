@@ -17,107 +17,168 @@ class GeneralContentLoader extends Module {
 		super();
 		this.info = {
 			description: [
-				['ul', [
-					['li', `Allows you to load many different content (such as giveaway groups) without leaving the page.`]
-				]]
+				[
+					'ul',
+					[
+						[
+							'li',
+							`Allows you to load many different content (such as giveaway groups) without leaving the page.`,
+						],
+					],
+				],
 			],
 			features: {
 				cl_gc: {
 					description: [
-						['ul', [
-							['li', [
-								`Loads a giveaway's countries when clicking / hovering over (depending on preference) on its region restriction icon (`,
-								['i', { class: 'fa fa-globe' }],
-								`).`
-							]]
-						]]
+						[
+							'ul',
+							[
+								[
+									'li',
+									[
+										`Loads a giveaway's countries when clicking / hovering over (depending on preference) on its region restriction icon (`,
+										['i', { class: 'fa fa-globe' }],
+										`).`,
+									],
+								],
+							],
+						],
 					],
 					name: 'Giveaway Countries',
 					options: {
 						title: `Load as:`,
-						values: [`~Panel (On Page Load)`, `Popout (On Hover)`, `Popout (On Click)`, `Popup (On Click)`]
+						values: [
+							`~Panel (On Page Load)`,
+							`Popout (On Hover)`,
+							`Popout (On Click)`,
+							`Popup (On Click)`,
+						],
 					},
-					sg: true
+					sg: true,
 				},
 				cl_ge: {
 					description: [
-						['ul', [
-							['li', [
-								`Loads a giveaway's entries when clicking / hovering over (depending on preference) on its "Entries" link.`
-							]]
-						]]
+						[
+							'ul',
+							[
+								[
+									'li',
+									[
+										`Loads a giveaway's entries when clicking / hovering over (depending on preference) on its "Entries" link.`,
+									],
+								],
+							],
+						],
 					],
 					name: 'Giveaway Entries',
 					options: {
 						title: `Load as:`,
-						values: [`~Panel (On Page Load)`, `Popout (On Hover)`, `Popout (On Click)`, `Popup (On Click)`]
+						values: [
+							`~Panel (On Page Load)`,
+							`Popout (On Hover)`,
+							`Popout (On Click)`,
+							`Popup (On Click)`,
+						],
 					},
-					sg: true
+					sg: true,
 				},
 				ggl: {
 					description: [
-						['ul', [
-							['li', [
-								`Loads a giveaway's groups when clicking / hovering over (depending on preference) on its group icon (`,
-								['i', { class: 'fa fa-user' }],
-								`) or automatically when loading the page (extends to your `,
-								['a', { href: `https://www.steamgifts.com/giveaways/created` }, 'created'],
-								' / ',
-								['a', { href: `https://www.steamgifts.com/giveaways/entered` }, 'entered'],
-								' / ',
-								['a', { href: `https://www.steamgifts.com/giveaways/won` }, 'won'],
-								` pages if [id=cewgd] is enabled).`
-							]],
-							['li', `Has [id=gh] built-in.`]
-						]]
+						[
+							'ul',
+							[
+								[
+									'li',
+									[
+										`Loads a giveaway's groups when clicking / hovering over (depending on preference) on its group icon (`,
+										['i', { class: 'fa fa-user' }],
+										`) or automatically when loading the page (extends to your `,
+										['a', { href: `https://www.steamgifts.com/giveaways/created` }, 'created'],
+										' / ',
+										['a', { href: `https://www.steamgifts.com/giveaways/entered` }, 'entered'],
+										' / ',
+										['a', { href: `https://www.steamgifts.com/giveaways/won` }, 'won'],
+										` pages if [id=cewgd] is enabled).`,
+									],
+								],
+								['li', `Has [id=gh] built-in.`],
+							],
+						],
 					],
 					features: {
 						ggl_m: {
 							name: 'Only show groups that you are a member of.',
-							sg: true
-						}
+							sg: true,
+						},
 					},
 					name: 'Giveaway Groups',
 					options: {
 						title: `Load as:`,
-						values: [`Panel (On Page Load)`, `Popout (On Hover)`, `Popout (On Click)`, `Popup (On Click)`]
+						values: [
+							`Panel (On Page Load)`,
+							`Popout (On Hover)`,
+							`Popout (On Click)`,
+							`Popup (On Click)`,
+						],
 					},
 					sg: true,
 					sync: 'Steam Groups',
-					syncKeys: ['Groups']
+					syncKeys: ['Groups'],
 				},
 				cl_gi: {
 					description: [
-						['ul', [
-							['li', `Loads a group's info when clicking / hovering over (depending on preference) its avatar.`]
-						]]
+						[
+							'ul',
+							[
+								[
+									'li',
+									`Loads a group's info when clicking / hovering over (depending on preference) its avatar.`,
+								],
+							],
+						],
 					],
 					name: 'Group Info',
 					options: {
 						title: `Load as:`,
-						values: [`~Panel (On Page Load)`, `Popout (On Hover)`, `Popout (On Click)`, `~Popup (On Click)`]
+						values: [
+							`~Panel (On Page Load)`,
+							`Popout (On Hover)`,
+							`Popout (On Click)`,
+							`~Popup (On Click)`,
+						],
 					},
-					sg: true
+					sg: true,
 				},
 				cl_ui: {
 					description: [
-						['ul', [
-							['li', `Loads a user's info when clicking / hovering over (depending on preference) its avatar.`]
-						]]
+						[
+							'ul',
+							[
+								[
+									'li',
+									`Loads a user's info when clicking / hovering over (depending on preference) its avatar.`,
+								],
+							],
+						],
 					],
 					name: 'User Info',
 					options: {
 						title: `Load as:`,
-						values: [`~Panel (On Page Load)`, `Popout (On Hover)`, `Popout (On Click)`, `~Popup (On Click)`]
+						values: [
+							`~Panel (On Page Load)`,
+							`Popout (On Hover)`,
+							`Popout (On Click)`,
+							`~Popup (On Click)`,
+						],
 					},
-					sg: true
-				}
+					sg: true,
+				},
 			},
 			id: 'cl',
 			name: 'Content Loader',
 			sg: true,
 			st: true,
-			type: 'general'
+			type: 'general',
 		};
 	}
 
@@ -145,15 +206,18 @@ class GeneralContentLoader extends Module {
 
 		switch (id) {
 			case 'cl_gc':
-				targetObjs = items.filter(x => x.regionRestricted);
-				if (!main || (!Shared.esgst.createdPath && !Shared.esgst.enteredPath && !Shared.esgst.wonPath)) {
+				targetObjs = items.filter((x) => x.regionRestricted);
+				if (
+					!main ||
+					(!Shared.esgst.createdPath && !Shared.esgst.enteredPath && !Shared.esgst.wonPath)
+				) {
 					for (const targetObj of targetObjs) {
 						this.setTrigger(main, id, targetObj, targetObj.regionRestricted);
 					}
 				}
 				break;
 			case 'cl_ge':
-				targetObjs = items.filter(x => x.entriesLink);
+				targetObjs = items.filter((x) => x.entriesLink);
 				if (!main || !Shared.esgst.wonPath) {
 					for (const targetObj of targetObjs) {
 						let entriesLink = targetObj.entriesLink;
@@ -168,10 +232,13 @@ class GeneralContentLoader extends Module {
 				}
 				break;
 			case 'ggl':
-				targetObjs = items.filter(x => x.group);
+				targetObjs = items.filter((x) => x.group);
 				if (Settings.get(`${id}_index`) === ON_LOAD) {
 					this.load(main, id, targetObjs);
-				} else if (!main || (!Shared.esgst.createdPath && !Shared.esgst.enteredPath && !Shared.esgst.wonPath)) {
+				} else if (
+					!main ||
+					(!Shared.esgst.createdPath && !Shared.esgst.enteredPath && !Shared.esgst.wonPath)
+				) {
 					for (const targetObj of targetObjs) {
 						this.setTrigger(main, id, targetObj, targetObj.group);
 					}
@@ -180,7 +247,9 @@ class GeneralContentLoader extends Module {
 			case 'cl_gi':
 			case 'cl_ui':
 				if (Array.isArray(items)) {
-					targetObjs = items.filter(x => x.oldElement && !x.oldElement.classList.contains('esgst-ap-avatar'));
+					targetObjs = items.filter(
+						(x) => x.oldElement && !x.oldElement.classList.contains('esgst-ap-avatar')
+					);
 					for (const targetObj of targetObjs) {
 						this.setTrigger(main, id, {}, targetObj.oldElement);
 					}
@@ -190,7 +259,7 @@ class GeneralContentLoader extends Module {
 						'X.giveaway_image_avatar',
 						'X.table_image_avatar',
 						'X.featured_giveaway_image_avatar',
-						'X.nav__avatar-outer-wrap'
+						'X.nav__avatar-outer-wrap',
 					]);
 					targetObjs = items.querySelectorAll(selectors);
 					for (const targetObj of targetObjs) {
@@ -220,7 +289,11 @@ class GeneralContentLoader extends Module {
 			targetObj.url = url.match(/\/profiles\//) ? `/user/${target.textContent}` : url;
 
 			const match = targetObj.url.match(/\/(user|group)\/(.+?)(\/.*)?$/);
-			if (!match || (match[1] === 'user' && id !== 'cl_ui') || (match[1] === 'group' && id != 'cl_gi')) {
+			if (
+				!match ||
+				(match[1] === 'user' && id !== 'cl_ui') ||
+				(match[1] === 'group' && id != 'cl_gi')
+			) {
 				return;
 			}
 
@@ -235,7 +308,7 @@ class GeneralContentLoader extends Module {
 				eventType = 'mouseenter';
 				onClick = false;
 
-				target.addEventListener('mouseleave', event => {
+				target.addEventListener('mouseleave', (event) => {
 					if (enterTimeout) {
 						window.clearTimeout(enterTimeout);
 						enterTimeout = null;
@@ -269,7 +342,7 @@ class GeneralContentLoader extends Module {
 				break;
 		}
 
-		target.addEventListener(eventType, event => {
+		target.addEventListener(eventType, (event) => {
 			event.preventDefault();
 			enterTimeout = window.setTimeout(async () => {
 				if (id === 'cl_gi' || id === 'cl_ui') {
@@ -281,7 +354,7 @@ class GeneralContentLoader extends Module {
 				if (triggerObj) {
 					switch (Settings.get(`${id}_index`)) {
 						case ON_HOVER_POPOUT:
-								triggerObj.open(target);
+							triggerObj.open(target);
 							break;
 						case ON_CLICK_POPOUT:
 							if (triggerObj.isOpen) {
@@ -322,7 +395,12 @@ class GeneralContentLoader extends Module {
 					}
 
 					if (id === 'cl_gi' || id === 'cl_ui') {
-						Shared.esgst.apPopouts[targetObj.id] = triggerObj = new Popout('esgst-ap-popout', undefined, undefined, onClick);
+						Shared.esgst.apPopouts[targetObj.id] = triggerObj = new Popout(
+							'esgst-ap-popout',
+							undefined,
+							undefined,
+							onClick
+						);
 						context = triggerObj.popout;
 
 						triggerObj.open(target);
@@ -330,9 +408,7 @@ class GeneralContentLoader extends Module {
 						triggerObj = new Popup({
 							addScrollable: true,
 							icon: `fa-${icon}`,
-							title: [
-								['a', { href: url }, name]
-							]
+							title: [['a', { href: url }, name]],
 						});
 						context = triggerObj.scrollable;
 
@@ -342,9 +418,7 @@ class GeneralContentLoader extends Module {
 						context = triggerObj.popout;
 
 						DOM.build(context, 'beforeEnd', [
-							['div', [
-								['a', { class: `esgst-${id}-heading`, href: url }, name]
-							]]
+							['div', [['a', { class: `esgst-${id}-heading`, href: url }, name]]],
 						]);
 
 						triggerObj.open(target);
@@ -352,9 +426,16 @@ class GeneralContentLoader extends Module {
 
 					DOM.build(context, 'beforeEnd', [
 						addSearchBox
-							? ['input', { placeholder: 'Search...', type: 'text', ref: ref=> triggerObj.custom.searchBox = ref }]
+							? [
+									'input',
+									{
+										placeholder: 'Search...',
+										type: 'text',
+										ref: (ref) => (triggerObj.custom.searchBox = ref),
+									},
+							  ]
 							: null,
-						['div']
+						['div'],
 					]);
 					if (triggerObj.custom.searchBox) {
 						triggerObj.custom.searchBox.addEventListener('input', () => {
@@ -383,7 +464,7 @@ class GeneralContentLoader extends Module {
 
 					DOM.build(context.lastElementChild, 'inner', [
 						['i', { class: 'fa fa-circle-o-notch fa-spin' }],
-						' Loading content...'
+						' Loading content...',
 					]);
 
 					triggerObj.reposition();
@@ -465,34 +546,55 @@ class GeneralContentLoader extends Module {
 			let table;
 
 			DOM.build(context.lastElementChild, 'inner', [
-				['div', { class: 'esgst-text-left table esgst-hidden', ref: ref => table = ref }, [
-					['div', { class: 'table__rows', ref: ref => triggerObj.custom.rows = ref }]
-				]]
+				[
+					'div',
+					{ class: 'esgst-text-left table esgst-hidden', ref: (ref) => (table = ref) },
+					[['div', { class: 'table__rows', ref: (ref) => (triggerObj.custom.rows = ref) }]],
+				],
 			]);
 
 			let numCountries = countries.length;
 
 			for (const country of countries) {
 				DOM.build(triggerObj.custom.rows, 'beforeEnd', [
-					['div', { class: 'table__row-outer-wrap' }, [
-						['div', { class: 'table__row-inner-wrap' }, [
-							['div', [
-								country.hasFlag
-									? ['div', { class: 'table_image_flag', style: `background-image:url(https://cdn.steamgifts.com/img/flags/${country.code}.png)` }]
-									: ['div', { class: 'table_image_flag_missing' }]
-							]],
-							['div', { class: 'table__column--width-fill' }, [
-								['p', { class: 'table__column__heading' }, country.name]
-							]]
-						]]
-					]]
+					[
+						'div',
+						{ class: 'table__row-outer-wrap' },
+						[
+							[
+								'div',
+								{ class: 'table__row-inner-wrap' },
+								[
+									[
+										'div',
+										[
+											country.hasFlag
+												? [
+														'div',
+														{
+															class: 'table_image_flag',
+															style: `background-image:url(https://cdn.steamgifts.com/img/flags/${country.code}.png)`,
+														},
+												  ]
+												: ['div', { class: 'table_image_flag_missing' }],
+										],
+									],
+									[
+										'div',
+										{ class: 'table__column--width-fill' },
+										[['p', { class: 'table__column__heading' }, country.name]],
+									],
+								],
+							],
+						],
+					],
 				]);
 			}
 
 			if (numCountries === 0) {
 				DOM.build(context.lastElementChild, 'inner', [
 					['i', { class: 'fa fa-exclamation-mark' }],
-					['span', 'You cannot see the countries of this giveaway.']
+					['span', 'You cannot see the countries of this giveaway.'],
 				]);
 			} else if (table) {
 				table.classList.remove('esgst-hidden');
@@ -503,7 +605,7 @@ class GeneralContentLoader extends Module {
 		} else {
 			DOM.build(context.lastElementChild, 'inner', [
 				['i', { class: 'fa fa-times-circle' }],
-				['span', 'An error occurred.']
+				['span', 'An error occurred.'],
 			]);
 		}
 		triggerObj.reposition();
@@ -531,10 +633,13 @@ class GeneralContentLoader extends Module {
 			isLoading = true;
 
 			const loadingElement = DOM.build(context, 'beforeEnd', [
-				['div', [
-					['i', { class: 'fa fa-circle-o-notch fa-spin' }],
-					['span', 'Loading next page...']
-				]]
+				[
+					'div',
+					[
+						['i', { class: 'fa fa-circle-o-notch fa-spin' }],
+						['span', 'Loading next page...'],
+					],
+				],
 			]);
 
 			const response = await FetchRequest.get(`${url}${nextPage}`);
@@ -547,7 +652,7 @@ class GeneralContentLoader extends Module {
 
 				DOM.build(context.lastElementChild, 'inner', [
 					['i', { class: 'fa fa-exclamation-mark' }],
-					['span', 'You cannot see the entries of this giveaway.']
+					['span', 'You cannot see the entries of this giveaway.'],
 				]);
 
 				return;
@@ -560,7 +665,9 @@ class GeneralContentLoader extends Module {
 			const elements = response.html.querySelectorAll('.table__row-inner-wrap');
 			for (const element of elements) {
 				const imageElement = element.querySelector('.table_image_avatar');
-				const avatar = imageElement ? imageElement.style.backgroundImage.match(/\/avatars\/(.+)_medium/)[1] : null;
+				const avatar = imageElement
+					? imageElement.style.backgroundImage.match(/\/avatars\/(.+)_medium/)[1]
+					: null;
 				const heading = element.querySelector('.table__column__heading');
 				const name = heading.textContent;
 
@@ -570,18 +677,44 @@ class GeneralContentLoader extends Module {
 			const currentRows = document.createDocumentFragment();
 			for (const entry of entries) {
 				DOM.build(currentRows, 'beforeEnd', [
-					['div', { class: 'table__row-outer-wrap' }, [
-						['div', { class: 'table__row-inner-wrap' }, [
-							['div', [
-								entry.avatar
-									? ['a', { class: 'table_image_avatar', href: `/user/${entry.name}`, style: `background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/${entry.avatar}_medium.jpg)` }]
-									: ['div', { class: 'table_image_avatar_missing' }]
-							]],
-							['div', { class: 'table__column--width-fill' }, [
-								['a', { class: 'table__column__heading', href: `/user/${entry.name}` }, entry.name]
-							]]
-						]]
-					]]
+					[
+						'div',
+						{ class: 'table__row-outer-wrap' },
+						[
+							[
+								'div',
+								{ class: 'table__row-inner-wrap' },
+								[
+									[
+										'div',
+										[
+											entry.avatar
+												? [
+														'a',
+														{
+															class: 'table_image_avatar',
+															href: `/user/${entry.name}`,
+															style: `background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/${entry.avatar}_medium.jpg)`,
+														},
+												  ]
+												: ['div', { class: 'table_image_avatar_missing' }],
+										],
+									],
+									[
+										'div',
+										{ class: 'table__column--width-fill' },
+										[
+											[
+												'a',
+												{ class: 'table__column__heading', href: `/user/${entry.name}` },
+												entry.name,
+											],
+										],
+									],
+								],
+							],
+						],
+					],
 				]);
 			}
 
@@ -612,9 +745,11 @@ class GeneralContentLoader extends Module {
 		});
 
 		DOM.build(context.lastElementChild, 'inner', [
-			['div', { class: 'esgst-text-left table' }, [
-				['div', { class: 'table__rows', ref: ref => triggerObj.custom.rows = ref }]
-			]]
+			[
+				'div',
+				{ class: 'esgst-text-left table' },
+				[['div', { class: 'table__rows', ref: (ref) => (triggerObj.custom.rows = ref) }]],
+			],
 		]);
 
 		triggerObj.reposition();
@@ -628,33 +763,50 @@ class GeneralContentLoader extends Module {
 
 		for (const giveaway of giveaways) {
 			try {
-				await this.fetchGiveawayGroups(giveaway, triggerObj, context, giveawaysToSave, groupsToSave);
+				await this.fetchGiveawayGroups(
+					giveaway,
+					triggerObj,
+					context,
+					giveawaysToSave,
+					groupsToSave
+				);
 			} catch (e) {
 				Logger.warning(e.message, e.stack);
 			}
 		}
 
-		if (main && Shared.esgst.gf && Shared.esgst.gf.filteredCount && Settings.get(`gf_enable${Shared.esgst.gf.type}`)) {
+		if (
+			main &&
+			Shared.esgst.gf &&
+			Shared.esgst.gf.filteredCount &&
+			Settings.get(`gf_enable${Shared.esgst.gf.type}`)
+		) {
 			Shared.esgst.modules.giveawaysGiveawayFilters.filters_filter(Shared.esgst.gf);
 		}
-		if (!main && Shared.esgst.gfPopup && Shared.esgst.gfPopup.filteredCount && Settings.get(`gf_enable${Shared.esgst.gfPopup.type}`)) {
+		if (
+			!main &&
+			Shared.esgst.gfPopup &&
+			Shared.esgst.gfPopup.filteredCount &&
+			Settings.get(`gf_enable${Shared.esgst.gfPopup.type}`)
+		) {
 			Shared.esgst.modules.giveawaysGiveawayFilters.filters_filter(Shared.esgst.gfPopup);
 		}
 
 		await Promise.all([
 			Shared.common.lockAndSaveGiveaways(giveawaysToSave),
-			Shared.common.lockAndSaveGroups(groupsToSave)
+			Shared.common.lockAndSaveGroups(groupsToSave),
 		]);
 	}
 
 	async fetchGiveawayGroups(giveaway, triggerObj, context, giveawaysToSave, groupsToSave) {
 		let groups;
 
-		const found = Shared.esgst.giveaways[giveaway.code]
-			&& Array.isArray(Shared.esgst.giveaways[giveaway.code].groups)
-			&& Shared.esgst.giveaways[giveaway.code].groups.length
-			&& !Shared.esgst.giveaways[giveaway.code].groups.filter(x =>
-				!Shared.esgst.groups.filter(y => x === y.code)[0]
+		const found =
+			Shared.esgst.giveaways[giveaway.code] &&
+			Array.isArray(Shared.esgst.giveaways[giveaway.code].groups) &&
+			Shared.esgst.giveaways[giveaway.code].groups.length &&
+			!Shared.esgst.giveaways[giveaway.code].groups.filter(
+				(x) => !Shared.esgst.groups.filter((y) => x === y.code)[0]
 			)[0];
 		if (found) {
 			groups = Shared.esgst.giveaways[giveaway.code].groups;
@@ -677,7 +829,9 @@ class GeneralContentLoader extends Module {
 				const elements = response.html.querySelectorAll('.table__row-inner-wrap');
 				for (const element of elements) {
 					const imageElement = element.querySelector('.table_image_avatar');
-					const avatar = imageElement ? imageElement.style.backgroundImage.match(/\/avatars\/(.+)_medium/)[1] : null;
+					const avatar = imageElement
+						? imageElement.style.backgroundImage.match(/\/avatars\/(.+)_medium/)[1]
+						: null;
 					const heading = element.querySelector('.table__column__heading');
 					const code = heading.getAttribute('href').match(/group\/(.+?)\//)[1];
 					const name = heading.textContent;
@@ -700,9 +854,11 @@ class GeneralContentLoader extends Module {
 				let table;
 
 				DOM.build(context.lastElementChild, 'inner', [
-					['div', { class: 'esgst-text-left table esgst-hidden', ref: ref => table = ref }, [
-						['div', { class: 'table__rows', ref: ref => triggerObj.custom.rows = ref }]
-					]]
+					[
+						'div',
+						{ class: 'esgst-text-left table esgst-hidden', ref: (ref) => (table = ref) },
+						[['div', { class: 'table__rows', ref: (ref) => (triggerObj.custom.rows = ref) }]],
+					],
 				]);
 
 				let numGroups = 0;
@@ -710,7 +866,7 @@ class GeneralContentLoader extends Module {
 				for (const code of groups) {
 					let className;
 
-					const group = Shared.esgst.groups.filter(x => x.code === code)[0] || groupsToSave[code];
+					const group = Shared.esgst.groups.filter((x) => x.code === code)[0] || groupsToSave[code];
 					if (group.member) {
 						className = 'esgst-ggl-member';
 						numGroups += 1;
@@ -723,18 +879,44 @@ class GeneralContentLoader extends Module {
 
 					if (className !== 'esgst-hidden') {
 						DOM.build(triggerObj.custom.rows, 'beforeEnd', [
-							['div', { class: `table__row-outer-wrap ${className}` }, [
-								['div', { class: 'table__row-inner-wrap' }, [
-									['div', [
-										group.avatar
-											? ['a', { class: 'table_image_avatar', href: `/group/${group.code}/`, style: `background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/${group.avatar}_medium.jpg)` }]
-											: ['div', { class: 'table_image_avatar_missing' }]
-									]],
-									['div', { class: 'table__column--width-fill' }, [
-										['a', { class: 'table__column__heading', href: `/group/${group.code}/` }, group.name]
-									]]
-								]]
-							]]
+							[
+								'div',
+								{ class: `table__row-outer-wrap ${className}` },
+								[
+									[
+										'div',
+										{ class: 'table__row-inner-wrap' },
+										[
+											[
+												'div',
+												[
+													group.avatar
+														? [
+																'a',
+																{
+																	class: 'table_image_avatar',
+																	href: `/group/${group.code}/`,
+																	style: `background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/${group.avatar}_medium.jpg)`,
+																},
+														  ]
+														: ['div', { class: 'table_image_avatar_missing' }],
+												],
+											],
+											[
+												'div',
+												{ class: 'table__column--width-fill' },
+												[
+													[
+														'a',
+														{ class: 'table__column__heading', href: `/group/${group.code}/` },
+														group.name,
+													],
+												],
+											],
+										],
+									],
+								],
+							],
 						]);
 					}
 				}
@@ -742,7 +924,7 @@ class GeneralContentLoader extends Module {
 				if (numGroups === 0) {
 					DOM.build(context.lastElementChild, 'inner', [
 						['i', { class: 'fa fa-exclamation-mark' }],
-						['span', 'You are not a member of any group in this giveaway.']
+						['span', 'You are not a member of any group in this giveaway.'],
 					]);
 				} else if (table) {
 					table.classList.remove('esgst-hidden');
@@ -754,13 +936,13 @@ class GeneralContentLoader extends Module {
 			} else {
 				DOM.build(context.lastElementChild, 'inner', [
 					['i', { class: 'fa fa-times-circle' }],
-					['span', 'An error occurred.']
+					['span', 'An error occurred.'],
 				]);
 			}
 			triggerObj.reposition();
 		} else if (groups && !giveaway.summary.querySelector('.esgst-ggl-panel')) {
 			const panel = DOM.build(giveaway.extraPanel || giveaway.summary, 'beforeEnd', [
-				['div', { class: 'esgst-ggl-panel', 'data-draggable-id': 'ggl' }]
+				['div', { class: 'esgst-ggl-panel', 'data-draggable-id': 'ggl' }],
 			]);
 
 			Shared.esgst.modules.giveaways.giveaways_reorder(giveaway);
@@ -773,7 +955,7 @@ class GeneralContentLoader extends Module {
 			for (const code of groups) {
 				let className;
 
-				const group = Shared.esgst.groups.filter(x => x.code === code)[0] || groupsToSave[code];
+				const group = Shared.esgst.groups.filter((x) => x.code === code)[0] || groupsToSave[code];
 				if (group.member) {
 					className = 'esgst-ggl-member';
 					numGroups += 1;
@@ -789,12 +971,23 @@ class GeneralContentLoader extends Module {
 
 				if (className !== 'esgst-hidden') {
 					DOM.build(panel, 'beforeEnd', [
-						['div', { class: className }, [
-							group.avatar
-								? ['a', { class: 'table_image_avatar', href: `/group/${group.code}/`, style: `background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/${group.avatar}_medium.jpg)` }]
-								: ['div', { class: 'table_image_avatar_missing' }],
-							['a', { href: `/group/${group.code}/` }, group.name]
-						]]
+						[
+							'div',
+							{ class: className },
+							[
+								group.avatar
+									? [
+											'a',
+											{
+												class: 'table_image_avatar',
+												href: `/group/${group.code}/`,
+												style: `background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/${group.avatar}_medium.jpg)`,
+											},
+									  ]
+									: ['div', { class: 'table_image_avatar_missing' }],
+								['a', { href: `/group/${group.code}/` }, group.name],
+							],
+						],
 					]);
 
 					if (Settings.get('cl_gi')) {
@@ -826,10 +1019,8 @@ class GeneralContentLoader extends Module {
 
 		context.appendChild(response.html.querySelector('.featured__outer-wrap'));
 
-		const avatar = context.querySelector('.global__image-outer-wrap--avatar-large')
-		const link = DOM.build(avatar, 'afterEnd', [
-			['a', { class: 'esgst-ap-link' }]
-		]);
+		const avatar = context.querySelector('.global__image-outer-wrap--avatar-large');
+		const link = DOM.build(avatar, 'afterEnd', [['a', { class: 'esgst-ap-link' }]]);
 		link.appendChild(avatar);
 		link.setAttribute('href', targetObj.url);
 
@@ -847,13 +1038,21 @@ class GeneralContentLoader extends Module {
 		}
 		columns[1].remove();
 
-		const suspensionElement = response.html.querySelector('.sidebar__suspension')
+		const suspensionElement = response.html.querySelector('.sidebar__suspension');
 		if (suspensionElement) {
 			DOM.build(columns[0], 'beforeEnd', [
-				['div', { class: 'esgst-ap-suspended featured__table__row' }, [
-					['div', { class: 'featured__table__row__left' }, suspensionElement.textContent],
-					['div', { class: 'featured__table__row__right' }, suspensionElement.nextElementSibling.textContent]
-				]]
+				[
+					'div',
+					{ class: 'esgst-ap-suspended featured__table__row' },
+					[
+						['div', { class: 'featured__table__row__left' }, suspensionElement.textContent],
+						[
+							'div',
+							{ class: 'featured__table__row__right' },
+							suspensionElement.nextElementSibling.textContent,
+						],
+					],
+				],
 			]);
 		}
 
@@ -865,10 +1064,18 @@ class GeneralContentLoader extends Module {
 			}
 
 			DOM.build(columns[0], 'beforeEnd', [
-				['div', { class: 'featured__table__row' }, [
-					['div', { class: 'featured__table__row__left' }, match[0]],
-					['div', { class: 'featured__table__row__right' }, element.nextElementSibling.nextElementSibling.textContent]
-				]]
+				[
+					'div',
+					{ class: 'featured__table__row' },
+					[
+						['div', { class: 'featured__table__row__left' }, match[0]],
+						[
+							'div',
+							{ class: 'featured__table__row__right' },
+							element.nextElementSibling.nextElementSibling.textContent,
+						],
+					],
+				],
 			]);
 		}
 
@@ -892,4 +1099,3 @@ class GeneralContentLoader extends Module {
 const generalContentLoader = new GeneralContentLoader();
 
 export { generalContentLoader };
-

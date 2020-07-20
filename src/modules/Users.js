@@ -9,16 +9,15 @@ class Users extends Module {
 			endless: true,
 			id: 'users',
 			featureMap: {
-				endless: this.users_load.bind(this)
-			}
+				endless: this.users_load.bind(this),
+			},
 		};
 	}
 
 	async users_load(mainContext, main, source, endless) {
-		const elements = mainContext.querySelectorAll(Shared.common.getSelectors(endless, [
-			`Xa[href*='/user/']`,
-			`Xa[href*='/profiles/']`
-		]));
+		const elements = mainContext.querySelectorAll(
+			Shared.common.getSelectors(endless, [`Xa[href*='/user/']`, `Xa[href*='/profiles/']`])
+		);
 		if (!elements.length) {
 			return;
 		}
@@ -26,7 +25,8 @@ class Users extends Module {
 		const users = [];
 		for (let i = elements.length - 1; i > -1; i--) {
 			let element = elements[i];
-			const sg = (this.esgst.sg && !element.getAttribute('data-st')) || element.getAttribute('data-sg');
+			const sg =
+				(this.esgst.sg && !element.getAttribute('data-st')) || element.getAttribute('data-sg');
 			let isSteamLink = false;
 			let match = element.getAttribute('href').match(/\/user\/(.+)/);
 			if (!match) {
@@ -40,12 +40,16 @@ class Users extends Module {
 			if (!id) {
 				continue;
 			}
-			if (((!sg || element.textContent !== id) && (sg || !element.textContent || element.children.length)) || element.closest('.markdown')) {
+			if (
+				((!sg || element.textContent !== id) &&
+					(sg || !element.textContent || element.children.length)) ||
+				element.closest('.markdown')
+			) {
 				continue;
 			}
 			if (!this.esgst.currentUsers[id]) {
 				this.esgst.currentUsers[id] = {
-					elements: []
+					elements: [],
 				};
 				const steamId = sg ? this.esgst.users.steamIds[id] : id;
 				this.esgst.currentUsers[id].savedUser = this.esgst.users.users[steamId];
@@ -54,8 +58,11 @@ class Users extends Module {
 				}
 			}
 			let j;
-			for (j = this.esgst.currentUsers[id].elements.length - 1; j > -1 && this.esgst.currentUsers[id].elements[j] !== element; j--) {
-			}
+			for (
+				j = this.esgst.currentUsers[id].elements.length - 1;
+				j > -1 && this.esgst.currentUsers[id].elements[j] !== element;
+				j--
+			) {}
 			if (j > -1) {
 				continue;
 			}
@@ -72,7 +79,7 @@ class Users extends Module {
 				code: id,
 				innerWrap: context,
 				outerWrap: context,
-				sg
+				sg,
 			};
 
 			if (Shared.esgst.groupPath) {
@@ -113,7 +120,7 @@ class Users extends Module {
 				steamId: sg ? savedUser && savedUser.steamId : id,
 				tagContext: isHeading ? tagContainer : tagContext,
 				tagPosition: isHeading ? 'beforeEnd' : 'afterEnd',
-				username: sg ? id : savedUser && savedUser.username
+				username: sg ? id : savedUser && savedUser.username,
 			});
 		}
 		for (const feature of this.esgst.userFeatures) {

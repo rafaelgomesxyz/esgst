@@ -5,18 +5,24 @@ class GeneralHiddenBlacklistStats extends Module {
 		super();
 		this.info = {
 			description: [
-				['ul', [
-					['li', [
-						'Hides the blacklist stats of your ',
-						['a', { href: `https://www.steamgifts.com/stats/personal/community` }, 'stats'],
-						' page.'
-					]]
-				]]
+				[
+					'ul',
+					[
+						[
+							'li',
+							[
+								'Hides the blacklist stats of your ',
+								['a', { href: `https://www.steamgifts.com/stats/personal/community` }, 'stats'],
+								' page.',
+							],
+						],
+					],
+				],
 			],
 			id: 'hbs',
 			name: 'Hidden Blacklist Stats',
 			sg: true,
-			type: 'general'
+			type: 'general',
 		};
 	}
 
@@ -34,7 +40,10 @@ class GeneralHiddenBlacklistStats extends Module {
 
 		// create a new graph without the blacklist points
 		let script = document.createElement('script');
-		script.textContent = chart.previousElementSibling.textContent.replace(/,{name:\s"Blacklists".+?}/, '');
+		script.textContent = chart.previousElementSibling.textContent.replace(
+			/,{name:\s"Blacklists".+?}/,
+			''
+		);
 		document.body.appendChild(script);
 		script.remove();
 	}

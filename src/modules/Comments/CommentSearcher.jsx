@@ -9,74 +9,105 @@ class CommentsCommentSearcher extends Module {
 		super();
 		this.info = {
 			description: [
-				['ul', [
-					['li', [
-						`Adds a button (`,
-						['i', { class: 'fa fa-comments' }],
-						' ',
-						['i', { class: 'fa fa-search' }],
-						`) to the main page heading of any page that allows you to search for comments made by specific users in the page.`
-					]]
-				]]
+				[
+					'ul',
+					[
+						[
+							'li',
+							[
+								`Adds a button (`,
+								['i', { class: 'fa fa-comments' }],
+								' ',
+								['i', { class: 'fa fa-search' }],
+								`) to the main page heading of any page that allows you to search for comments made by specific users in the page.`,
+							],
+						],
+					],
+				],
 			],
 			id: 'cs',
 			name: 'Comment Searcher',
 			sg: true,
 			st: true,
-			type: 'comments'
+			type: 'comments',
 		};
 	}
 
 	init() {
-		if (!Shared.esgst.commentsPath || (Shared.esgst.giveawayPath && document.getElementsByClassName('table--summary')[0])) return;
+		if (
+			!Shared.esgst.commentsPath ||
+			(Shared.esgst.giveawayPath && document.getElementsByClassName('table--summary')[0])
+		)
+			return;
 		new Process({
 			headingButton: {
 				id: 'cs',
 				icons: ['fa-comments', 'fa-search'],
-				title: 'Search comments from specific users'
+				title: 'Search comments from specific users',
 			},
 			popup: {
 				icon: 'fa-comments',
 				title: `Search comments from specific users:`,
 				textInputs: [
 					{
-						placeholder: `username1, username2, ...`
-					}
+						placeholder: `username1, username2, ...`,
+					},
 				],
 				options: [
 					{
 						check: true,
 						description: [
 							`Limit search by pages, from `,
-							['input', { class: 'esgst-switch-input', min: 'i', name: 'cs_minPage', type: 'number', value: Settings.get('cs_minPage') }],
+							[
+								'input',
+								{
+									class: 'esgst-switch-input',
+									min: 'i',
+									name: 'cs_minPage',
+									type: 'number',
+									value: Settings.get('cs_minPage'),
+								},
+							],
 							' to ',
-							['input', { class: 'esgst-switch-input', min: 'i', name: 'cs_maxPage', type: 'number', value: Settings.get('cs_maxPage') }],
-							'.'
+							[
+								'input',
+								{
+									class: 'esgst-switch-input',
+									min: 'i',
+									name: 'cs_maxPage',
+									type: 'number',
+									value: Settings.get('cs_maxPage'),
+								},
+							],
+							'.',
 						],
 						id: 'cs_limitPages',
-						tooltip: `If unchecked, all pages will be searched.`
-					}
+						tooltip: `If unchecked, all pages will be searched.`,
+					},
 				],
 				addProgress: true,
-				addScrollable: 'left'
+				addScrollable: 'left',
 			},
 			init: this.cs_init.bind(this),
 			requests: [
 				{
 					source: Shared.esgst.discussionPath,
 					url: Shared.esgst.searchUrl,
-					request: this.cs_request.bind(this)
-				}
-			]
+					request: this.cs_request.bind(this),
+				},
+			],
 		});
 	}
 
 	cs_init(obj) {
-		obj.usernames = obj.popup.getTextInputValue(0)
+		obj.usernames = obj.popup
+			.getTextInputValue(0)
 			.toLowerCase()
 			.replace(/(,\s*)+/g, this.cs_format.bind(this))
 			.split(`, `);
-		let match = window.location.pathname.match(/^\/(giveaway|discussion|support\/ticket|trade)\/(.+?)\//);
+		let match = window.location.pathname.match(
+			/^\/(giveaway|discussion|support\/ticket|trade)\/(.+?)\//
+		);
 		obj.code = match[2];
 		obj.type = match[1];
 		obj.title = Shared.esgst.originalTitle.replace(/\s-\sPage\s\d+/, '');
@@ -88,14 +119,20 @@ class CommentsCommentSearcher extends Module {
 	}
 
 	cs_format(match, p1, offset, string) {
-		return (((offset === 0) || (offset === (string.length - match.length))) ? '' : `, `);
+		return offset === 0 || offset === string.length - match.length ? '' : `, `;
 	}
 
 	async cs_request(obj, details, response, responseHtml) {
-		obj.popup.setProgress(`Searching comments (page ${details.nextPage}${details.maxPage ? ` of ${details.maxPage}` : details.lastPage})..`);
+		obj.popup.setProgress(
+			`Searching comments (page ${details.nextPage}${
+				details.maxPage ? ` of ${details.maxPage}` : details.lastPage
+			})..`
+		);
 		obj.popup.setOverallProgress(`${obj.results} results found.`);
 		let comments = responseHtml.getElementsByClassName('comments');
-		let elements = (comments[1] || comments[0]).querySelectorAll(`.comment:not(.comment--submit), .comment_outer`);
+		let elements = (comments[1] || comments[0]).querySelectorAll(
+			`.comment:not(.comment--submit), .comment_outer`
+		);
 		let context = obj.popup.getScrollable();
 		for (let i = 0, n = elements.length; i < n; i++) {
 			let element = elements[i];
@@ -110,33 +147,43 @@ class CommentsCommentSearcher extends Module {
 			if (parent) {
 				parent = parent.cloneNode(true);
 				parent.lastElementChild.remove();
-				DOM.insert(parent, 'beforeEnd', (
+				DOM.insert(
+					parent,
+					'beforeEnd',
 					<div class="comment__children comment_children">{element}</div>
-				));
+				);
 				fragmentChildren.push(parent);
 			} else {
 				if (Shared.esgst.st) {
-					DOM.insert(element.getElementsByClassName('action_list')[0].firstElementChild, 'afterEnd', (
+					DOM.insert(
+						element.getElementsByClassName('action_list')[0].firstElementChild,
+						'afterEnd',
 						<a href={`/${obj.type}/${obj.code}/`}>{`${obj.title} - Page ${details.nextPage}`}</a>
-					));
+					);
 				}
 				if (Shared.esgst.sg) {
 					fragmentChildren.push(
 						<div class="comments__entity">
 							<p class="comments__entity__name">
-								<a href={`/${obj.type}/${obj.code}/`}>{`${obj.title} - Page ${details.nextPage}`}</a>
+								<a
+									href={`/${obj.type}/${obj.code}/`}
+								>{`${obj.title} - Page ${details.nextPage}`}</a>
 							</p>
 						</div>
 					);
 				}
-				fragmentChildren.push(
-					<div class="comment__children comment_children">{element}</div>
-				);
+				fragmentChildren.push(<div class="comment__children comment_children">{element}</div>);
 			}
-			if (obj.usernames.indexOf(element.querySelector(`.comment__username, .author_name`).textContent.trim().toLowerCase()) > -1) {
-				DOM.insert(context, 'beforeEnd', (
+			if (
+				obj.usernames.indexOf(
+					element.querySelector(`.comment__username, .author_name`).textContent.trim().toLowerCase()
+				) > -1
+			) {
+				DOM.insert(
+					context,
+					'beforeEnd',
 					<div class="comment comments comment_outer">{fragmentChildren}</div>
-				));
+				);
 				obj.results += 1;
 			}
 		}

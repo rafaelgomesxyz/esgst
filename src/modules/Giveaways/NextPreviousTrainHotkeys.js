@@ -3,21 +3,27 @@ import { common } from '../Common';
 import { Settings } from '../../class/Settings';
 import { Tabs } from '../../class/Tabs';
 
-const
-	createAlert = common.createAlert.bind(common)
-	;
-
+const createAlert = common.createAlert.bind(common);
 class GiveawaysNextPreviousTrainHotkeys extends Module {
 	constructor() {
 		super();
 		this.info = {
 			description: [
-				['ul', [
-					['li', 'Allows you to navigate through a train using hotkeys.'],
-					['li', `This feature is not 100% accurate, because the feature looks for a link with any variation of "previous"/"next" in the giveaway's description to make sure that it is going backward/forward, so if it does not find such a link, it will not work.`],
-					['li', 'It also does not work if you press the hotkey inside of an input/text area.'],
-					['li', `If you press Ctrl together with the hotkey, the giveaway is open in a new tab.`]
-				]]
+				[
+					'ul',
+					[
+						['li', 'Allows you to navigate through a train using hotkeys.'],
+						[
+							'li',
+							`This feature is not 100% accurate, because the feature looks for a link with any variation of "previous"/"next" in the giveaway's description to make sure that it is going backward/forward, so if it does not find such a link, it will not work.`,
+						],
+						['li', 'It also does not work if you press the hotkey inside of an input/text area.'],
+						[
+							'li',
+							`If you press Ctrl together with the hotkey, the giveaway is open in a new tab.`,
+						],
+					],
+				],
 			],
 			id: 'npth',
 			name: 'Next/Previous Train Hotkeys',
@@ -25,24 +31,24 @@ class GiveawaysNextPreviousTrainHotkeys extends Module {
 				{
 					event: 'keydown',
 					id: 'npth_previousKey',
-					prefix: `Enter the key you want to use for previous links: `
+					prefix: `Enter the key you want to use for previous links: `,
 				},
 				{
 					event: 'keydown',
 					id: 'npth_nextKey',
-					prefix: `Enter the key you want to use for next links: `
+					prefix: `Enter the key you want to use for next links: `,
 				},
 				{
 					id: 'npth_previousRegex',
-					prefix: `Enter the regex you want to use to detect previous links: `
+					prefix: `Enter the regex you want to use to detect previous links: `,
 				},
 				{
 					id: 'npth_nextRegex',
-					prefix: `Enter the regex you want to use to detect next links: `
-				}
+					prefix: `Enter the regex you want to use to detect next links: `,
+				},
 			],
 			sg: true,
-			type: 'giveaways'
+			type: 'giveaways',
 		};
 	}
 
@@ -91,7 +97,10 @@ class GiveawaysNextPreviousTrainHotkeys extends Module {
 					}
 				} else {
 					referrer = document.referrer;
-					if (referrer.match(/\/giveaway\//) && ((next && referrer !== next.getAttribute('href')) || !next)) {
+					if (
+						referrer.match(/\/giveaway\//) &&
+						((next && referrer !== next.getAttribute('href')) || !next)
+					) {
 						if (event.ctrlKey) {
 							Tabs.open(referrer);
 						} else {

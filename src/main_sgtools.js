@@ -23,7 +23,7 @@ if (customTheme) {
 	document.documentElement.appendChild(style);
 }
 
-browser.storage.local.get(null).then(storage => {
+browser.storage.local.get(null).then((storage) => {
 	const settings = JSON.parse(storage.settings);
 	if (themeElement) {
 		themeElement.remove();
@@ -48,9 +48,7 @@ async function setTheme(settings) {
 			const theme = storage[key];
 			if (!theme) continue;
 			const css = getThemeCss(JSON.parse(theme));
-			themeElement = DOM.build(document.head, 'beforeEnd', [
-				['style', { id: 'esgst-theme' }, css]
-			]);
+			themeElement = DOM.build(document.head, 'beforeEnd', [['style', { id: 'esgst-theme' }, css]]);
 			const revisedCss = css.replace(/!important;/g, ';').replace(/;/g, '!important;');
 			if (revisedCss !== LocalStorage.get('theme')) {
 				LocalStorage.set('theme', revisedCss);
@@ -63,7 +61,7 @@ async function setTheme(settings) {
 		if (!customTheme) return;
 		const css = JSON.parse(customTheme);
 		customThemeElement = DOM.build(document.head, 'beforeEnd', [
-			['style', { id: 'esgst-custom-theme' }, css]
+			['style', { id: 'esgst-custom-theme' }, css],
 		]);
 		const revisedCss = css.replace(/!important;/g, ';').replace(/;/g, '!important;');
 		if (revisedCss !== LocalStorage.get('customTheme')) {
@@ -111,15 +109,15 @@ function getThemeCss(theme) {
 		return theme;
 	}
 	let css = [];
-	separators.forEach(separator => {
+	separators.forEach((separator) => {
 		let check = false;
-		for (const domain of (separator.match(/domain\(.+?\)/g) || [])) {
+		for (const domain of separator.match(/domain\(.+?\)/g) || []) {
 			if (window.location.hostname.match(domain.match(/\("(.+?)"\)/)[1])) {
 				check = true;
 				break;
 			}
 		}
-		for (const url of (separator.match(/url(-prefix)?\(.+?\)/g) || [])) {
+		for (const url of separator.match(/url(-prefix)?\(.+?\)/g) || []) {
 			if (window.location.href.match(url.match(/\("(.+?)"\)/)[1])) {
 				check = true;
 				break;

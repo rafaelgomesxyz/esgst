@@ -13,7 +13,7 @@ class _Utils {
 	 * @returns {string[]}
 	 */
 	_getPath(pathString) {
-		return pathString.split(/\.|\[|]/).filter(x => x);
+		return pathString.split(/\.|\[|]/).filter((x) => x);
 	}
 
 	/**
@@ -21,8 +21,8 @@ class _Utils {
 	 * @returns {string}
 	 */
 	createUuid(c) {
-		const r = Math.random() * 16 | 0;
-		const v = c === 'x' ? r : (r & 0x3 | 0x8);
+		const r = (Math.random() * 16) | 0;
+		const v = c === 'x' ? r : (r & 0x3) | 0x8;
 
 		return v.toString(16);
 	}
@@ -37,7 +37,7 @@ class _Utils {
 			path = this._getPath(path);
 		}
 
-		return path.reduce((obj, key) => (obj && obj[key]) ? obj[key] : null, obj);
+		return path.reduce((obj, key) => (obj && obj[key] ? obj[key] : null), obj);
 	}
 
 	/**
@@ -164,9 +164,11 @@ class _Utils {
 						return 0;
 					}
 
-					return a[key].localeCompare(b[key], {
-						sensitivity: 'base',
-					}) * modifier;
+					return (
+						a[key].localeCompare(b[key], {
+							sensitivity: 'base',
+						}) * modifier
+					);
 				}
 
 				return 0;
@@ -184,9 +186,11 @@ class _Utils {
 				return 0;
 			}
 
-			return a.localeCompare(b, {
-				sensitivity: 'base',
-			}) * modifier;
+			return (
+				a.localeCompare(b, {
+					sensitivity: 'base',
+				}) * modifier
+			);
 		});
 	}
 }

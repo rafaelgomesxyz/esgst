@@ -14,68 +14,108 @@ import { LocalStorage } from '../class/LocalStorage';
 function getDataMenu(option, switches, type) {
 	let i, m, menu, n, options, toggleSwitch;
 	menu = document.createElement('div');
-	switches[option.key] = toggleSwitch = new ToggleSwitch(menu, `${type}_${option.key}`, false, option.name, false, false, null, Settings.get(`${type}_${option.key}`));
-	switches[option.key].size = Shared.common.createElements(switches[option.key].name, 'beforeEnd', [{
-		attributes: {
-			class: 'esgst-bold'
-		},
-		type: 'span'
-	}]);
-	if (option.name === 'Main') {
-		Shared.common.createElements(switches[option.key].name, 'beforeEnd', [{
+	switches[option.key] = toggleSwitch = new ToggleSwitch(
+		menu,
+		`${type}_${option.key}`,
+		false,
+		option.name,
+		false,
+		false,
+		null,
+		Settings.get(`${type}_${option.key}`)
+	);
+	switches[option.key].size = Shared.common.createElements(switches[option.key].name, 'beforeEnd', [
+		{
 			attributes: {
-				class: 'fa fa-question-circle',
-				title: `Main data is the data that is needed by other sub-options. Because of that dependency, when deleting main data not all data may be deleted, but if you delete another sub-option first and then delete main data, all data that was required exclusively by that sub-option will be deleted.`
+				class: 'esgst-bold',
 			},
-			type: 'i'
-		}]);
+			type: 'span',
+		},
+	]);
+	if (option.name === 'Main') {
+		Shared.common.createElements(switches[option.key].name, 'beforeEnd', [
+			{
+				attributes: {
+					class: 'fa fa-question-circle',
+					title: `Main data is the data that is needed by other sub-options. Because of that dependency, when deleting main data not all data may be deleted, but if you delete another sub-option first and then delete main data, all data that was required exclusively by that sub-option will be deleted.`,
+				},
+				type: 'i',
+			},
+		]);
 	}
 	if (option.options) {
-		options = Shared.common.createElements(menu, 'beforeEnd', [{
-			attributes: {
-				class: 'esgst-form-row-indent SMFeatures esgst-hidden'
-			},
-			type: 'div'
-		}]);
-		const optionSwitches = {};
-		if (option.options.length > 1) {
-			const group = Shared.common.createElements(options, 'beforeEnd', [{
+		options = Shared.common.createElements(menu, 'beforeEnd', [
+			{
 				attributes: {
-					class: 'esgst-button-group'
+					class: 'esgst-form-row-indent SMFeatures esgst-hidden',
 				},
 				type: 'div',
-				children: [{
-					text: `Select:`,
-					type: 'span'
-				}]
-			}]);
-			group.appendChild(new ButtonSet({
-				color1: 'grey',
-				color2: 'grey',
-				icon1: 'fa-square',
-				icon2: 'fa-circle-o-notch fa-spin',
-				title1: 'All',
-				title2: '',
-				callback1: Shared.common.selectSwitches.bind(Shared.common, optionSwitches, 'enable', group)
-			}).set);
-			group.appendChild(new ButtonSet({
-				color1: 'grey',
-				color2: 'grey',
-				icon1: 'fa-square-o',
-				icon2: 'fa-circle-o-notch fa-spin',
-				title1: 'None',
-				title2: '',
-				callback1: Shared.common.selectSwitches.bind(Shared.common, optionSwitches, 'disable', group)
-			}).set);
-			group.appendChild(new ButtonSet({
-				color1: 'grey',
-				color2: 'grey',
-				icon1: 'fa-plus-square-o',
-				icon2: 'fa-circle-o-notch fa-spin',
-				title1: 'Inverse',
-				title2: '',
-				callback1: Shared.common.selectSwitches.bind(Shared.common, optionSwitches, 'toggle', group)
-			}).set);
+			},
+		]);
+		const optionSwitches = {};
+		if (option.options.length > 1) {
+			const group = Shared.common.createElements(options, 'beforeEnd', [
+				{
+					attributes: {
+						class: 'esgst-button-group',
+					},
+					type: 'div',
+					children: [
+						{
+							text: `Select:`,
+							type: 'span',
+						},
+					],
+				},
+			]);
+			group.appendChild(
+				new ButtonSet({
+					color1: 'grey',
+					color2: 'grey',
+					icon1: 'fa-square',
+					icon2: 'fa-circle-o-notch fa-spin',
+					title1: 'All',
+					title2: '',
+					callback1: Shared.common.selectSwitches.bind(
+						Shared.common,
+						optionSwitches,
+						'enable',
+						group
+					),
+				}).set
+			);
+			group.appendChild(
+				new ButtonSet({
+					color1: 'grey',
+					color2: 'grey',
+					icon1: 'fa-square-o',
+					icon2: 'fa-circle-o-notch fa-spin',
+					title1: 'None',
+					title2: '',
+					callback1: Shared.common.selectSwitches.bind(
+						Shared.common,
+						optionSwitches,
+						'disable',
+						group
+					),
+				}).set
+			);
+			group.appendChild(
+				new ButtonSet({
+					color1: 'grey',
+					color2: 'grey',
+					icon1: 'fa-plus-square-o',
+					icon2: 'fa-circle-o-notch fa-spin',
+					title1: 'Inverse',
+					title2: '',
+					callback1: Shared.common.selectSwitches.bind(
+						Shared.common,
+						optionSwitches,
+						'toggle',
+						group
+					),
+				}).set
+			);
 		}
 		for (i = 0, n = option.options.length; i < n; ++i) {
 			m = getDataMenu(option.options[i], switches, type);
@@ -104,7 +144,7 @@ function getDataSizes(dm) {
 	let spacePopup = new Popup({
 		addScrollable: true,
 		icon: 'fa-circle-o-notch fa-spin',
-		title: 'Calculating data sizes...'
+		title: 'Calculating data sizes...',
 	});
 	spacePopup.open(manageData.bind(null, dm, false, false, false, spacePopup));
 }
@@ -122,7 +162,16 @@ async function loadImportFile(dm, dropbox, googleDrive, oneDrive, space, callbac
 		if (file) {
 			dm.reader = new FileReader();
 			const isZip = file.name.match(/\.zip$/);
-			dm.reader.onload = readImportFile.bind(null, dm, dropbox, googleDrive, oneDrive, space, isZip, callback);
+			dm.reader.onload = readImportFile.bind(
+				null,
+				dm,
+				dropbox,
+				googleDrive,
+				oneDrive,
+				space,
+				isZip,
+				callback
+			);
 			if (isZip) {
 				dm.reader.readAsBinaryString(file);
 			} else {
@@ -138,12 +187,15 @@ async function loadImportFile(dm, dropbox, googleDrive, oneDrive, space, callbac
 async function readImportFile(dm, dropbox, googleDrive, oneDrive, space, isZip, callback) {
 	try {
 		if (dm.reader) {
-			dm.data = JSON.parse(isZip
-				? (await Shared.common.readZip(dm.reader.result))[0].value
-				: dm.reader.result
+			dm.data = JSON.parse(
+				isZip ? (await Shared.common.readZip(dm.reader.result))[0].value : dm.reader.result
 			);
 		}
-		Shared.common.createConfirmation('Are you sure you want to restore the selected data?', manageData.bind(null, dm, dropbox, googleDrive, oneDrive, space, callback), callback);
+		Shared.common.createConfirmation(
+			'Are you sure you want to restore the selected data?',
+			manageData.bind(null, dm, dropbox, googleDrive, oneDrive, space, callback),
+			callback
+		);
 	} catch (error) {
 		Shared.common.createFadeMessage(dm.warning, 'Cannot parse file!');
 		callback();
@@ -151,14 +203,18 @@ async function readImportFile(dm, dropbox, googleDrive, oneDrive, space, isZip, 
 }
 
 function confirmDataDeletion(dm, dropbox, googleDrive, oneDrive, space, callback) {
-	Shared.common.createConfirmation('Are you sure you want to delete the selected data?', manageData.bind(null, dm, dropbox, googleDrive, oneDrive, space, callback), callback);
+	Shared.common.createConfirmation(
+		'Are you sure you want to delete the selected data?',
+		manageData.bind(null, dm, dropbox, googleDrive, oneDrive, space, callback),
+		callback
+	);
 }
 
 function loadDataManagement(type, isPopup, callback) {
 	let containerr, context, group1, group2, i, n, onClick, option, prep, section, title1, title2;
 	let dm = {
 		autoBackup: callback && Shared.esgst.parameters.autoBackup,
-		type: type
+		type: type,
 	};
 	dm[type] = true;
 	switch (type) {
@@ -190,7 +246,7 @@ function loadDataManagement(type, isPopup, callback) {
 			popup = new Popup({
 				addScrollable: 'left',
 				settings: true,
-				isTemp: true
+				isTemp: true,
 			});
 			containerr = popup.description;
 			context = popup.scrollable;
@@ -206,35 +262,41 @@ function loadDataManagement(type, isPopup, callback) {
 			breadcrumbs: [
 				{
 					name: 'ESGST',
-					url: Shared.esgst.settingsUrl
+					url: Shared.esgst.settingsUrl,
 				},
 				{
 					name: title1,
-					url: Shared.esgst[`${title1.toLowerCase()}Url`]
-				}
-			]
+					url: Shared.esgst[`${title1.toLowerCase()}Url`],
+				},
+			],
 		}).pageHeading;
 		if (!isPopup) {
 			Shared.esgst.mainPageHeading = heading;
 		}
-		dm.computerSpace = Shared.common.createElements(containerr, 'beforeEnd', [{
-			type: 'div',
-			children: [{
-				text: `Total: `,
-				type: 'node'
-			}, {
-				attributes: {
-					class: 'esgst-bold'
-				},
-				type: 'span'
-			}, {
-				attributes: {
-					class: 'esgst-clickable fa fa-refresh',
-					title: 'Calculate/refresh data sizes'
-				},
-				type: 'i'
-			}]
-		}]);
+		dm.computerSpace = Shared.common.createElements(containerr, 'beforeEnd', [
+			{
+				type: 'div',
+				children: [
+					{
+						text: `Total: `,
+						type: 'node',
+					},
+					{
+						attributes: {
+							class: 'esgst-bold',
+						},
+						type: 'span',
+					},
+					{
+						attributes: {
+							class: 'esgst-clickable fa fa-refresh',
+							title: 'Calculate/refresh data sizes',
+						},
+						type: 'i',
+					},
+				],
+			},
+		]);
 		dm.computerSpaceCount = dm.computerSpace.firstElementChild;
 		dm.computerSpaceCount.nextElementSibling.addEventListener('click', () => getDataSizes(dm));
 		section = settingsModule.createMenuSection(context, null, 1, title1);
@@ -244,7 +306,7 @@ function loadDataManagement(type, isPopup, callback) {
 		{
 			check: true,
 			key: 'decryptedGiveaways',
-			name: 'Decrypted Giveaways'
+			name: 'Decrypted Giveaways',
 		},
 		{
 			check: true,
@@ -253,47 +315,47 @@ function loadDataManagement(type, isPopup, callback) {
 			options: [
 				{
 					key: 'discussions_main',
-					name: 'Main'
+					name: 'Main',
 				},
 				{
 					key: 'discussions_ct',
-					name: 'Comment Tracker'
+					name: 'Comment Tracker',
 				},
 				{
 					key: 'discussions_df',
-					name: 'Discussion Filters'
+					name: 'Discussion Filters',
 				},
 				{
 					key: 'discussions_dh',
-					name: 'Discussion Highlighter'
+					name: 'Discussion Highlighter',
 				},
 				{
 					key: 'discussions_dt',
-					name: 'Discussion Tags'
+					name: 'Discussion Tags',
 				},
 				{
 					key: 'discussions_gdttt',
-					name: 'Giveaway/Discussion/Ticket/Trade Tracker'
+					name: 'Giveaway/Discussion/Ticket/Trade Tracker',
 				},
 				{
 					key: 'discussions_tds',
-					name: 'Thread Subscription'
+					name: 'Thread Subscription',
 				},
 				{
 					key: 'discussions_pm',
-					name: 'Puzzle Marker'
-				}
-			]
+					name: 'Puzzle Marker',
+				},
+			],
 		},
 		{
 			check: true,
 			key: 'emojis',
-			name: 'Emojis'
+			name: 'Emojis',
 		},
 		{
 			check: true,
 			key: 'entries',
-			name: 'Entries'
+			name: 'Entries',
 		},
 		{
 			check: true,
@@ -302,21 +364,21 @@ function loadDataManagement(type, isPopup, callback) {
 			options: [
 				{
 					key: 'games_main',
-					name: 'Main'
+					name: 'Main',
 				},
 				{
 					key: 'games_egh',
-					name: 'Entered Game Highlighter'
+					name: 'Entered Game Highlighter',
 				},
 				{
 					key: 'games_gt',
-					name: 'Game Tags'
+					name: 'Game Tags',
 				},
 				{
 					key: 'games_itadi',
-					name: 'IsThereAnyDeal Info'
-				}
-			]
+					name: 'IsThereAnyDeal Info',
+				},
+			],
 		},
 		{
 			check: true,
@@ -325,29 +387,29 @@ function loadDataManagement(type, isPopup, callback) {
 			options: [
 				{
 					key: 'giveaways_main',
-					name: 'Main'
+					name: 'Main',
 				},
 				{
 					key: 'giveaways_ct',
-					name: 'Comment Tracker'
+					name: 'Comment Tracker',
 				},
 				{
 					key: 'giveaways_gb',
-					name: 'Giveaway Bookmarks'
+					name: 'Giveaway Bookmarks',
 				},
 				{
 					key: 'giveaways_gdttt',
-					name: 'Giveaway/Discussion/Ticket/Trade Tracker'
+					name: 'Giveaway/Discussion/Ticket/Trade Tracker',
 				},
 				{
 					key: 'giveaways_gf',
-					name: 'Giveaway Filters'
+					name: 'Giveaway Filters',
 				},
 				{
 					key: 'giveaways_ggl',
-					name: 'Giveaway Group Loader'
-				}
-			]
+					name: 'Giveaway Group Loader',
+				},
+			],
 		},
 		{
 			check: true,
@@ -356,57 +418,57 @@ function loadDataManagement(type, isPopup, callback) {
 			options: [
 				{
 					key: 'groups_main',
-					name: 'Main'
+					name: 'Main',
 				},
 				{
 					key: 'groups_gpt',
-					name: 'Group Tags'
+					name: 'Group Tags',
 				},
 				{
 					key: 'groups_sgg',
-					name: 'Stickied Giveaway Groups'
-				}
-			]
+					name: 'Stickied Giveaway Groups',
+				},
+			],
 		},
 		{
 			check: true,
 			key: 'rerolls',
-			name: 'Rerolls'
+			name: 'Rerolls',
 		},
 		{
 			check: true,
 			key: 'savedReplies',
-			name: 'Saved Replies'
+			name: 'Saved Replies',
 		},
 		{
 			check: true,
 			key: 'savedReplies_st',
-			name: `Saved Replies (SteamTrades)`
+			name: `Saved Replies (SteamTrades)`,
 		},
 		{
 			check: true,
 			key: 'settings',
-			name: 'Settings'
+			name: 'Settings',
 		},
 		{
 			check: true,
 			key: 'sgCommentHistory',
-			name: 'SG Comment History'
+			name: 'SG Comment History',
 		},
 		{
 			check: true,
 			key: 'stickiedCountries',
-			name: 'Stickied Giveaway Countries'
+			name: 'Stickied Giveaway Countries',
 		},
 		{
 			check: true,
 			key: 'templates',
-			name: 'Templates'
+			name: 'Templates',
 		},
 		{
 			check: true,
 			key: 'themes',
-			name: 'Themes'
+			name: 'Themes',
 		},
 		{
 			check: true,
@@ -415,21 +477,21 @@ function loadDataManagement(type, isPopup, callback) {
 			options: [
 				{
 					key: 'tickets_main',
-					name: 'Main'
+					name: 'Main',
 				},
 				{
 					key: 'tickets_ct',
-					name: 'Comment Tracker'
+					name: 'Comment Tracker',
 				},
 				{
 					key: 'tickets_gdttt',
-					name: 'Giveaway/Discussion/Ticket/Trade Tracker'
+					name: 'Giveaway/Discussion/Ticket/Trade Tracker',
 				},
 				{
 					key: 'tickets_ust',
-					name: 'User Suspension Tracker'
-				}
-			]
+					name: 'User Suspension Tracker',
+				},
+			],
 		},
 		{
 			check: true,
@@ -438,25 +500,25 @@ function loadDataManagement(type, isPopup, callback) {
 			options: [
 				{
 					key: 'trades_main',
-					name: 'Main'
+					name: 'Main',
 				},
 				{
 					key: 'trades_ct',
-					name: 'Comment Tracker'
+					name: 'Comment Tracker',
 				},
 				{
 					key: 'trades_tf',
-					name: 'Trade Filters'
+					name: 'Trade Filters',
 				},
 				{
 					key: 'trades_gdttt',
-					name: 'Giveaway/Discussion/Ticket/Trade Tracker'
+					name: 'Giveaway/Discussion/Ticket/Trade Tracker',
 				},
 				{
 					key: 'trades_tds',
-					name: 'Thread Subscription'
-				}
-			]
+					name: 'Thread Subscription',
+				},
+			],
 		},
 		{
 			check: true,
@@ -465,47 +527,47 @@ function loadDataManagement(type, isPopup, callback) {
 			options: [
 				{
 					key: 'users_main',
-					name: 'Main'
+					name: 'Main',
 				},
 				{
 					key: 'users_cdr',
-					name: 'Cake Day Reminder'
+					name: 'Cake Day Reminder',
 				},
 				{
 					key: 'users_namwc',
-					name: 'Not Activated/Multiple Win  Checker'
+					name: 'Not Activated/Multiple Win  Checker',
 				},
 				{
 					key: 'users_nrf',
-					name: 'Not Received Finder'
+					name: 'Not Received Finder',
 				},
 				{
 					key: 'users_uf',
-					name: 'User Filters'
+					name: 'User Filters',
 				},
 				{
 					key: 'users_giveaways',
-					name: 'Giveaways Data'
+					name: 'Giveaways Data',
 				},
 				{
 					key: 'users_notes',
-					name: 'User Notes'
+					name: 'User Notes',
 				},
 				{
 					key: 'users_tags',
-					name: 'User Tags'
+					name: 'User Tags',
 				},
 				{
 					key: 'users_wbc',
-					name: 'Whitelist/Blacklist Checker'
-				}
-			]
+					name: 'Whitelist/Blacklist Checker',
+				},
+			],
 		},
 		{
 			check: true,
 			key: 'winners',
-			name: 'Winners'
-		}
+			name: 'Winners',
+		},
 	];
 	if (dm.autoBackup) {
 		let dropbox, googleDrive, oneDrive;
@@ -537,23 +599,46 @@ function loadDataManagement(type, isPopup, callback) {
 		}
 		if (type === 'import' || type === 'delete') {
 			if (type === 'import') {
-				dm.input = Shared.common.createElements(containerr, 'beforeEnd', [{
-					attributes: {
-						type: 'file'
+				dm.input = Shared.common.createElements(containerr, 'beforeEnd', [
+					{
+						attributes: {
+							type: 'file',
+						},
+						type: 'input',
 					},
-					type: 'input'
-				}]);
-				new ToggleSwitch(containerr, 'importAndMerge', false, 'Merge', false, false, 'Merges the current data with the backup instead of replacing it.', Settings.get('importAndMerge'));
+				]);
+				new ToggleSwitch(
+					containerr,
+					'importAndMerge',
+					false,
+					'Merge',
+					false,
+					false,
+					'Merges the current data with the backup instead of replacing it.',
+					Settings.get('importAndMerge')
+				);
 			}
-			let select = new ToggleSwitch(containerr, 'exportBackup', false, [
-				'Backup to ',
-				['select', [
-					['option', 'Computer'],
-					['option', 'Dropbox'],
-					['option', 'Google Drive'],
-					['option', 'OneDrive']
-				]]
-			], false, false, 'Backs up the current data to one of the selected places before restoring another backup.', Settings.get('exportBackup')).name.firstElementChild;
+			let select = new ToggleSwitch(
+				containerr,
+				'exportBackup',
+				false,
+				[
+					'Backup to ',
+					[
+						'select',
+						[
+							['option', 'Computer'],
+							['option', 'Dropbox'],
+							['option', 'Google Drive'],
+							['option', 'OneDrive'],
+						],
+					],
+				],
+				false,
+				false,
+				'Backs up the current data to one of the selected places before restoring another backup.',
+				Settings.get('exportBackup')
+			).name.firstElementChild;
 			select.selectedIndex = Settings.get('exportBackupIndex');
 			select.addEventListener('change', () => {
 				// noinspection JSIgnoredPromiseFromCall
@@ -561,84 +646,174 @@ function loadDataManagement(type, isPopup, callback) {
 			});
 		}
 		if (type === 'export') {
-			const input = new ToggleSwitch(containerr, 'deleteOldBackups', false, [
-				'Delete backups older than ',
-				['input', { class: 'esgst-switch-input', type: 'number', value: Settings.get('deleteOldBackups_days') }],
-				' days when backing up to the cloud.'
-			], false, false, '', Settings.get('deleteOldBackups')).name.firstElementChild;
+			const input = new ToggleSwitch(
+				containerr,
+				'deleteOldBackups',
+				false,
+				[
+					'Delete backups older than ',
+					[
+						'input',
+						{
+							class: 'esgst-switch-input',
+							type: 'number',
+							value: Settings.get('deleteOldBackups_days'),
+						},
+					],
+					' days when backing up to the cloud.',
+				],
+				false,
+				false,
+				'',
+				Settings.get('deleteOldBackups')
+			).name.firstElementChild;
 			Shared.common.observeNumChange(input, 'deleteOldBackups_days', true);
 		}
 		if (type === 'import' || type === 'export') {
-			Shared.common.observeChange(new ToggleSwitch(containerr, 'usePreferredGoogle', false, [
-				`Use preferred Google account: `,
-				['input', { class: 'esgst-switch-input esgst-switch-input-large', placeholder: 'example@gmail.com', type: 'text' }],
-				['span', { class: 'esgst-bold esgst-clickable', onclick: () => window.alert(Settings.get('preferredGoogle') || 'No email address defined') }, 'Reveal']
-			], false, false, `With this option enabled, you will not be prompted to select an account when restoring/backing up to Google Drive. The account associated with the email address entered here will be automatically selected if you're already logged in. For security purposes, the email address will not be visible if you re-open the menu. After that, you have to click on "Reveal" to see it.`, Settings.get('usePreferredGoogle')).name.firstElementChild, 'preferredGoogle', true);
-			Shared.common.observeChange(new ToggleSwitch(containerr, 'usePreferredMicrosoft', false, [
-				`Use preferred Microsoft account: `,
-				['input', { class: 'esgst-switch-input esgst-switch-input-large', placeholder: 'example@outlook.com', type: 'text' }],
-				['span', { class: 'esgst-bold esgst-clickable', onclick: () => window.alert(Settings.get('preferredMicrosoft') || 'No email address defined') }, 'Reveal']
-			], false, false, `With this option enabled, you will not be prompted to select an account when restoring/backing up to OneDrive. The account associated with the email address entered here will be automatically selected if you're already logged in. For security purposes, the email address will not be visible if you re-open the menu. After that, you have to click on "Reveal" to see it.`, Settings.get('usePreferredMicrosoft')).name.firstElementChild, 'preferredMicrosoft', true);
+			Shared.common.observeChange(
+				new ToggleSwitch(
+					containerr,
+					'usePreferredGoogle',
+					false,
+					[
+						`Use preferred Google account: `,
+						[
+							'input',
+							{
+								class: 'esgst-switch-input esgst-switch-input-large',
+								placeholder: 'example@gmail.com',
+								type: 'text',
+							},
+						],
+						[
+							'span',
+							{
+								class: 'esgst-bold esgst-clickable',
+								onclick: () =>
+									window.alert(Settings.get('preferredGoogle') || 'No email address defined'),
+							},
+							'Reveal',
+						],
+					],
+					false,
+					false,
+					`With this option enabled, you will not be prompted to select an account when restoring/backing up to Google Drive. The account associated with the email address entered here will be automatically selected if you're already logged in. For security purposes, the email address will not be visible if you re-open the menu. After that, you have to click on "Reveal" to see it.`,
+					Settings.get('usePreferredGoogle')
+				).name.firstElementChild,
+				'preferredGoogle',
+				true
+			);
+			Shared.common.observeChange(
+				new ToggleSwitch(
+					containerr,
+					'usePreferredMicrosoft',
+					false,
+					[
+						`Use preferred Microsoft account: `,
+						[
+							'input',
+							{
+								class: 'esgst-switch-input esgst-switch-input-large',
+								placeholder: 'example@outlook.com',
+								type: 'text',
+							},
+						],
+						[
+							'span',
+							{
+								class: 'esgst-bold esgst-clickable',
+								onclick: () =>
+									window.alert(Settings.get('preferredMicrosoft') || 'No email address defined'),
+							},
+							'Reveal',
+						],
+					],
+					false,
+					false,
+					`With this option enabled, you will not be prompted to select an account when restoring/backing up to OneDrive. The account associated with the email address entered here will be automatically selected if you're already logged in. For security purposes, the email address will not be visible if you re-open the menu. After that, you have to click on "Reveal" to see it.`,
+					Settings.get('usePreferredMicrosoft')
+				).name.firstElementChild,
+				'preferredMicrosoft',
+				true
+			);
 		}
-		dm.message = Shared.common.createElements(containerr, 'beforeEnd', [{
-			attributes: {
-				class: 'esgst-description'
+		dm.message = Shared.common.createElements(containerr, 'beforeEnd', [
+			{
+				attributes: {
+					class: 'esgst-description',
+				},
+				type: 'div',
 			},
-			type: 'div'
-		}]);
-		dm.warning = Shared.common.createElements(containerr, 'beforeEnd', [{
-			attributes: {
-				class: 'esgst-description esgst-warning'
+		]);
+		dm.warning = Shared.common.createElements(containerr, 'beforeEnd', [
+			{
+				attributes: {
+					class: 'esgst-description esgst-warning',
+				},
+				type: 'div',
 			},
-			type: 'div'
-		}]);
-		group1 = Shared.common.createElements(containerr, 'beforeEnd', [{
-			attributes: {
-				class: 'esgst-button-group'
+		]);
+		group1 = Shared.common.createElements(containerr, 'beforeEnd', [
+			{
+				attributes: {
+					class: 'esgst-button-group',
+				},
+				type: 'div',
+				children: [
+					{
+						text: `Select:`,
+						type: 'span',
+					},
+				],
 			},
-			type: 'div',
-			children: [{
-				text: `Select:`,
-				type: 'span'
-			}]
-		}]);
-		group1.appendChild(new ButtonSet({
-			color1: 'grey',
-			color2: 'grey',
-			icon1: 'fa-square',
-			icon2: 'fa-circle-o-notch fa-spin',
-			title1: 'All',
-			title2: '',
-			callback1: Shared.common.selectSwitches.bind(Shared.common, dm.switches, 'enable', group1)
-		}).set);
-		group1.appendChild(new ButtonSet({
-			color1: 'grey',
-			color2: 'grey',
-			icon1: 'fa-square-o',
-			icon2: 'fa-circle-o-notch fa-spin',
-			title1: 'None',
-			title2: '',
-			callback1: Shared.common.selectSwitches.bind(Shared.common, dm.switches, 'disable', group1)
-		}).set);
-		group1.appendChild(new ButtonSet({
-			color1: 'grey',
-			color2: 'grey',
-			icon1: 'fa-plus-square-o',
-			icon2: 'fa-circle-o-notch fa-spin',
-			title1: 'Inverse',
-			title2: '',
-			callback1: Shared.common.selectSwitches.bind(Shared.common, dm.switches, 'toggle', group1)
-		}).set);
-		group2 = Shared.common.createElements(containerr, 'beforeEnd', [{
-			attributes: {
-				class: 'esgst-button-group'
+		]);
+		group1.appendChild(
+			new ButtonSet({
+				color1: 'grey',
+				color2: 'grey',
+				icon1: 'fa-square',
+				icon2: 'fa-circle-o-notch fa-spin',
+				title1: 'All',
+				title2: '',
+				callback1: Shared.common.selectSwitches.bind(Shared.common, dm.switches, 'enable', group1),
+			}).set
+		);
+		group1.appendChild(
+			new ButtonSet({
+				color1: 'grey',
+				color2: 'grey',
+				icon1: 'fa-square-o',
+				icon2: 'fa-circle-o-notch fa-spin',
+				title1: 'None',
+				title2: '',
+				callback1: Shared.common.selectSwitches.bind(Shared.common, dm.switches, 'disable', group1),
+			}).set
+		);
+		group1.appendChild(
+			new ButtonSet({
+				color1: 'grey',
+				color2: 'grey',
+				icon1: 'fa-plus-square-o',
+				icon2: 'fa-circle-o-notch fa-spin',
+				title1: 'Inverse',
+				title2: '',
+				callback1: Shared.common.selectSwitches.bind(Shared.common, dm.switches, 'toggle', group1),
+			}).set
+		);
+		group2 = Shared.common.createElements(containerr, 'beforeEnd', [
+			{
+				attributes: {
+					class: 'esgst-button-group',
+				},
+				type: 'div',
+				children: [
+					{
+						text: `${title1} ${prep}:`,
+						type: 'span',
+					},
+				],
 			},
-			type: 'div',
-			children: [{
-				text: `${title1} ${prep}:`,
-				type: 'span'
-			}]
-		}]);
+		]);
 		const computerButton = new ButtonSet({
 			color1: 'green',
 			color2: 'grey',
@@ -647,7 +822,7 @@ function loadDataManagement(type, isPopup, callback) {
 			title1: 'Computer',
 			title2: title2,
 			callback1: () => {
-				return new Promise(async resolve => {
+				return new Promise(async (resolve) => {
 					if (dm.type !== 'export') {
 						let result;
 						switch (Settings.get('exportBackupIndex')) {
@@ -676,7 +851,7 @@ function loadDataManagement(type, isPopup, callback) {
 						resolve();
 					});
 				});
-			}
+			},
 		});
 		group2.appendChild(computerButton.set);
 		let dropboxButton;
@@ -691,7 +866,7 @@ function loadDataManagement(type, isPopup, callback) {
 				title1: 'Dropbox',
 				title2: title2,
 				callback1: () => {
-					return new Promise(async resolve => {
+					return new Promise(async (resolve) => {
 						if (!(await permissions.contains([['dropbox']]))) {
 							resolve();
 							return;
@@ -703,7 +878,7 @@ function loadDataManagement(type, isPopup, callback) {
 							resolve();
 						});
 					});
-				}
+				},
 			});
 			googleDriveButton = new ButtonSet({
 				color1: 'green',
@@ -713,7 +888,7 @@ function loadDataManagement(type, isPopup, callback) {
 				title1: 'Google Drive',
 				title2: title2,
 				callback1: () => {
-					return new Promise(async resolve => {
+					return new Promise(async (resolve) => {
 						if (!(await permissions.contains([['googleDrive']]))) {
 							resolve();
 							return;
@@ -725,7 +900,7 @@ function loadDataManagement(type, isPopup, callback) {
 							resolve();
 						});
 					});
-				}
+				},
 			});
 			oneDriveButton = new ButtonSet({
 				color1: 'green',
@@ -735,7 +910,7 @@ function loadDataManagement(type, isPopup, callback) {
 				title1: 'OneDrive',
 				title2: title2,
 				callback1: () => {
-					return new Promise(async resolve => {
+					return new Promise(async (resolve) => {
 						if (!(await permissions.contains([['oneDrive']]))) {
 							resolve();
 							return;
@@ -747,7 +922,7 @@ function loadDataManagement(type, isPopup, callback) {
 							resolve();
 						});
 					});
-				}
+				},
 			});
 			group2.appendChild(dropboxButton.set);
 			group2.appendChild(googleDriveButton.set);
@@ -785,7 +960,7 @@ function loadDataCleaner(isPopup) {
 		const popup = new Popup({
 			addScrollable: 'left',
 			settings: true,
-			isTemp: true
+			isTemp: true,
 		});
 		containerr = popup.description;
 		context = popup.scrollable;
@@ -799,442 +974,580 @@ function loadDataCleaner(isPopup) {
 	const heading = new elementBuilder[Shared.esgst.name].pageHeading({
 		context: containerr,
 		position: 'afterBegin',
-		breadcrumbs: [{
-			name: 'ESGST',
-			url: Shared.esgst.settingsUrl
-		}, {
-			name: 'Clean',
-			url: Shared.esgst.cleanUrl
-		}]
+		breadcrumbs: [
+			{
+				name: 'ESGST',
+				url: Shared.esgst.settingsUrl,
+			},
+			{
+				name: 'Clean',
+				url: Shared.esgst.cleanUrl,
+			},
+		],
 	}).pageHeading;
 	if (!isPopup) {
 		Shared.esgst.mainPageHeading = heading;
 	}
-	Shared.common.createElements(context, 'beforeEnd', [{
-		attributes: {
-			class: 'esgst-bold esgst-description esgst-red'
+	Shared.common.createElements(context, 'beforeEnd', [
+		{
+			attributes: {
+				class: 'esgst-bold esgst-description esgst-red',
+			},
+			text: 'Make sure to backup your data before using the cleaner.',
+			type: 'div',
 		},
-		text: 'Make sure to backup your data before using the cleaner.',
-		type: 'div'
-	}]);
-	Shared.common.observeNumChange(new ToggleSwitch(context, 'cleanDiscussions', false, [
-		'Discussions data older than ',
-		['input', { class: 'esgst-switch-input', type: 'text', value: Settings.get('cleanDiscussions_days') }],
-		' days.'
-	], false, false, `Discussions data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, Settings.get('cleanDiscussions')).name.firstElementChild, 'cleanDiscussions_days', true);
-	Shared.common.observeNumChange(new ToggleSwitch(context, 'cleanEntries', false, [
-		'Entries data older than ',
-		['input', { class: 'esgst-switch-input', type: 'text', value: Settings.get('cleanEntries_days') }],
-		' days.'
-	], false, false, '', Settings.get('cleanEntries')).name.firstElementChild, 'cleanEntries_days', true);
-	Shared.common.observeNumChange(new ToggleSwitch(context, 'cleanGiveaways', false, [
-		'Giveaways data older than ',
-		['input', { class: 'esgst-switch-input', type: 'text', value: Settings.get('cleanGiveaways_days') }],
-		' days.'
-	], false, false, `Some giveaways data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, Settings.get('cleanGiveaways')).name.firstElementChild, 'cleanGiveaways_days', true);
-	Shared.common.observeNumChange(new ToggleSwitch(context, 'cleanSgCommentHistory', false, [
-		'SteamGifts comment history data older than ',
-		['input', { class: 'esgst-switch-input', type: 'text', value: Settings.get('cleanSgCommentHistory_days') }],
-		' days.'
-	], false, false, '', Settings.get('cleanSgCommentHistory')).name.firstElementChild, 'cleanSgCommentHistory_days', true);
-	Shared.common.observeNumChange(new ToggleSwitch(context, 'cleanTickets', false, [
-		'Tickets data older than ',
-		['input', { class: 'esgst-switch-input', type: 'text', value: Settings.get('cleanTickets_days') }],
-		' days.'
-	], false, false, `Tickets data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, Settings.get('cleanTickets')).name.firstElementChild, 'cleanTickets_days', true);
-	Shared.common.observeNumChange(new ToggleSwitch(context, 'cleanTrades', false, [
-		'Trades data older than ',
-		['input', { class: 'esgst-switch-input', type: 'text', value: Settings.get('cleanTrades_days') }],
-		' days.'
-	], false, false, `Trades data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`, Settings.get('cleanTrades')).name.firstElementChild, 'cleanTrades_days' , true);
-	new ToggleSwitch(context, 'cleanDuplicates', false, 'Duplicate data.', false, false, 'Cleans up any duplicate data it finds.', Settings.get('cleanDuplicates'));
-	context.appendChild(new ButtonSet({
-		color1: 'green',
-		color2: 'grey',
-		icon1: 'fa-check',
-		icon2: 'fa-circle-o-notch fa-spin',
-		title1: 'Clean',
-		title2: 'Cleaning...',
-		callback1: async () => {
-			const dm = {};
-			dm.options = [
-				{
-					check: true,
-					key: 'decryptedGiveaways',
-					name: 'Decrypted Giveaways'
-				},
-				{
-					check: true,
-					key: 'discussions',
-					name: 'Discussions',
-					options: [
-						{
-							key: 'discussions_main',
-							name: 'Main'
-						},
-						{
-							key: 'discussions_ct',
-							name: 'Comment Tracker'
-						},
-						{
-							key: 'discussions_df',
-							name: 'Discussion Filters'
-						},
-						{
-							key: 'discussions_dh',
-							name: 'Discussion Highlighter'
-						},
-						{
-							key: 'discussions_dt',
-							name: 'Discussion Tags'
-						},
-						{
-							key: 'discussions_gdttt',
-							name: 'Giveaway/Discussion/Ticket/Trade Tracker'
-						},
-						{
-							key: 'discussions_tds',
-							name: 'Thread Subscription'
-						},
-						{
-							key: 'discussions_pm',
-							name: 'Puzzle Marker'
-						}
-					]
-				},
-				{
-					check: true,
-					key: 'emojis',
-					name: 'Emojis'
-				},
-				{
-					check: true,
-					key: 'entries',
-					name: 'Entries'
-				},
-				{
-					check: true,
-					key: 'games',
-					name: 'Games',
-					options: [
-						{
-							key: 'games_main',
-							name: 'Main'
-						},
-						{
-							key: 'games_egh',
-							name: 'Entered Game Highlighter'
-						},
-						{
-							key: 'games_gt',
-							name: 'Game Tags'
-						},
-						{
-							key: 'games_itadi',
-							name: 'IsThereAnyDeal Info'
-						}
-					]
-				},
-				{
-					check: true,
-					key: 'giveaways',
-					name: 'Giveaways',
-					options: [
-						{
-							key: 'giveaways_main',
-							name: 'Main'
-						},
-						{
-							key: 'giveaways_ct',
-							name: 'Comment Tracker'
-						},
-						{
-							key: 'giveaways_gb',
-							name: 'Giveaway Bookmarks'
-						},
-						{
-							key: 'giveaways_gdttt',
-							name: 'Giveaway/Discussion/Ticket/Trade Tracker'
-						},
-						{
-							key: 'giveaways_gf',
-							name: 'Giveaway Filters'
-						},
-						{
-							key: 'giveaways_ggl',
-							name: 'Giveaway Group Loader'
-						}
-					]
-				},
-				{
-					check: true,
-					key: 'groups',
-					name: 'Groups',
-					options: [
-						{
-							key: 'groups_main',
-							name: 'Main'
-						},
-						{
-							key: 'groups_gpt',
-							name: 'Group Tags'
-						},
-						{
-							key: 'groups_sgg',
-							name: 'Stickied Giveaway Groups'
-						}
-					]
-				},
-				{
-					check: true,
-					key: 'rerolls',
-					name: 'Rerolls'
-				},
-				{
-					check: true,
-					key: 'savedReplies',
-					name: 'Saved Replies'
-				},
-				{
-					check: true,
-					key: 'savedReplies_st',
-					name: `Saved Replies (SteamTrades)`
-				},
-				{
-					check: true,
-					key: 'settings',
-					name: 'Settings'
-				},
-				{
-					check: true,
-					key: 'sgCommentHistory',
-					name: 'SG Comment History'
-				},
-				{
-					check: true,
-					key: 'stickiedCountries',
-					name: 'Stickied Giveaway Countries'
-				},
-				{
-					check: true,
-					key: 'templates',
-					name: 'Templates'
-				},
-				{
-					check: true,
-					key: 'tickets',
-					name: 'Tickets',
-					options: [
-						{
-							key: 'tickets_main',
-							name: 'Main'
-						},
-						{
-							key: 'tickets_ct',
-							name: 'Comment Tracker'
-						},
-						{
-							key: 'tickets_gdttt',
-							name: 'Giveaway/Discussion/Ticket/Trade Tracker'
-						},
-						{
-							key: 'tickets_ust',
-							name: 'User Suspension Tracker'
-						}
-					]
-				},
-				{
-					check: true,
-					key: 'trades',
-					name: 'Trades',
-					options: [
-						{
-							key: 'trades_main',
-							name: 'Main'
-						},
-						{
-							key: 'trades_ct',
-							name: 'Comment Tracker'
-						},
-						{
-							key: 'trades_tf',
-							name: 'Trade Filters'
-						},
-						{
-							key: 'trades_gdttt',
-							name: 'Giveaway/Discussion/Ticket/Trade Tracker'
-						},
-						{
-							key: 'trades_tds',
-							name: 'Thread Subscription'
-						}
-					]
-				},
-				{
-					check: true,
-					key: 'users',
-					name: 'Users',
-					options: [
-						{
-							key: 'users_main',
-							name: 'Main'
-						},
-						{
-							key: 'users_cdr',
-							name: 'Cake Day Reminder'
-						},
-						{
-							key: 'users_namwc',
-							name: 'Not Activated/Multiple Win  Checker'
-						},
-						{
-							key: 'users_nrf',
-							name: 'Not Received Finder'
-						},
-						{
-							key: 'users_uf',
-							name: 'User Filters'
-						},
-						{
-							key: 'users_giveaways',
-							name: 'Giveaways Data'
-						},
-						{
-							key: 'users_notes',
-							name: 'User Notes'
-						},
-						{
-							key: 'users_tags',
-							name: 'User Tags'
-						},
-						{
-							key: 'users_wbc',
-							name: 'Whitelist/Blacklist Checker'
-						}
-					]
-				},
-				{
-					check: true,
-					key: 'winners',
-					name: 'Winners'
-				}
-			];
-			const oldSize = await manageData(dm, false, false, false, true);
-			let currentTime = Date.now();
-			let toSave = {};
-			if (Settings.get('cleanDiscussions')) {
-				let days = Settings.get('cleanDiscussions_days') * 86400000;
-				toSave.discussions = JSON.parse(Shared.common.getValue('discussions', '{}'));
-				for (let code in toSave.discussions) {
-					if (toSave.discussions.hasOwnProperty(code)) {
-						let item = toSave.discussions[code];
-						if (item.author !== Settings.get('username') && item.lastUsed && currentTime - item.lastUsed > days) {
-							delete toSave.discussions[code];
+	]);
+	Shared.common.observeNumChange(
+		new ToggleSwitch(
+			context,
+			'cleanDiscussions',
+			false,
+			[
+				'Discussions data older than ',
+				[
+					'input',
+					{
+						class: 'esgst-switch-input',
+						type: 'text',
+						value: Settings.get('cleanDiscussions_days'),
+					},
+				],
+				' days.',
+			],
+			false,
+			false,
+			`Discussions data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`,
+			Settings.get('cleanDiscussions')
+		).name.firstElementChild,
+		'cleanDiscussions_days',
+		true
+	);
+	Shared.common.observeNumChange(
+		new ToggleSwitch(
+			context,
+			'cleanEntries',
+			false,
+			[
+				'Entries data older than ',
+				[
+					'input',
+					{ class: 'esgst-switch-input', type: 'text', value: Settings.get('cleanEntries_days') },
+				],
+				' days.',
+			],
+			false,
+			false,
+			'',
+			Settings.get('cleanEntries')
+		).name.firstElementChild,
+		'cleanEntries_days',
+		true
+	);
+	Shared.common.observeNumChange(
+		new ToggleSwitch(
+			context,
+			'cleanGiveaways',
+			false,
+			[
+				'Giveaways data older than ',
+				[
+					'input',
+					{ class: 'esgst-switch-input', type: 'text', value: Settings.get('cleanGiveaways_days') },
+				],
+				' days.',
+			],
+			false,
+			false,
+			`Some giveaways data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`,
+			Settings.get('cleanGiveaways')
+		).name.firstElementChild,
+		'cleanGiveaways_days',
+		true
+	);
+	Shared.common.observeNumChange(
+		new ToggleSwitch(
+			context,
+			'cleanSgCommentHistory',
+			false,
+			[
+				'SteamGifts comment history data older than ',
+				[
+					'input',
+					{
+						class: 'esgst-switch-input',
+						type: 'text',
+						value: Settings.get('cleanSgCommentHistory_days'),
+					},
+				],
+				' days.',
+			],
+			false,
+			false,
+			'',
+			Settings.get('cleanSgCommentHistory')
+		).name.firstElementChild,
+		'cleanSgCommentHistory_days',
+		true
+	);
+	Shared.common.observeNumChange(
+		new ToggleSwitch(
+			context,
+			'cleanTickets',
+			false,
+			[
+				'Tickets data older than ',
+				[
+					'input',
+					{ class: 'esgst-switch-input', type: 'text', value: Settings.get('cleanTickets_days') },
+				],
+				' days.',
+			],
+			false,
+			false,
+			`Tickets data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`,
+			Settings.get('cleanTickets')
+		).name.firstElementChild,
+		'cleanTickets_days',
+		true
+	);
+	Shared.common.observeNumChange(
+		new ToggleSwitch(
+			context,
+			'cleanTrades',
+			false,
+			[
+				'Trades data older than ',
+				[
+					'input',
+					{ class: 'esgst-switch-input', type: 'text', value: Settings.get('cleanTrades_days') },
+				],
+				' days.',
+			],
+			false,
+			false,
+			`Trades data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`,
+			Settings.get('cleanTrades')
+		).name.firstElementChild,
+		'cleanTrades_days',
+		true
+	);
+	new ToggleSwitch(
+		context,
+		'cleanDuplicates',
+		false,
+		'Duplicate data.',
+		false,
+		false,
+		'Cleans up any duplicate data it finds.',
+		Settings.get('cleanDuplicates')
+	);
+	context.appendChild(
+		new ButtonSet({
+			color1: 'green',
+			color2: 'grey',
+			icon1: 'fa-check',
+			icon2: 'fa-circle-o-notch fa-spin',
+			title1: 'Clean',
+			title2: 'Cleaning...',
+			callback1: async () => {
+				const dm = {};
+				dm.options = [
+					{
+						check: true,
+						key: 'decryptedGiveaways',
+						name: 'Decrypted Giveaways',
+					},
+					{
+						check: true,
+						key: 'discussions',
+						name: 'Discussions',
+						options: [
+							{
+								key: 'discussions_main',
+								name: 'Main',
+							},
+							{
+								key: 'discussions_ct',
+								name: 'Comment Tracker',
+							},
+							{
+								key: 'discussions_df',
+								name: 'Discussion Filters',
+							},
+							{
+								key: 'discussions_dh',
+								name: 'Discussion Highlighter',
+							},
+							{
+								key: 'discussions_dt',
+								name: 'Discussion Tags',
+							},
+							{
+								key: 'discussions_gdttt',
+								name: 'Giveaway/Discussion/Ticket/Trade Tracker',
+							},
+							{
+								key: 'discussions_tds',
+								name: 'Thread Subscription',
+							},
+							{
+								key: 'discussions_pm',
+								name: 'Puzzle Marker',
+							},
+						],
+					},
+					{
+						check: true,
+						key: 'emojis',
+						name: 'Emojis',
+					},
+					{
+						check: true,
+						key: 'entries',
+						name: 'Entries',
+					},
+					{
+						check: true,
+						key: 'games',
+						name: 'Games',
+						options: [
+							{
+								key: 'games_main',
+								name: 'Main',
+							},
+							{
+								key: 'games_egh',
+								name: 'Entered Game Highlighter',
+							},
+							{
+								key: 'games_gt',
+								name: 'Game Tags',
+							},
+							{
+								key: 'games_itadi',
+								name: 'IsThereAnyDeal Info',
+							},
+						],
+					},
+					{
+						check: true,
+						key: 'giveaways',
+						name: 'Giveaways',
+						options: [
+							{
+								key: 'giveaways_main',
+								name: 'Main',
+							},
+							{
+								key: 'giveaways_ct',
+								name: 'Comment Tracker',
+							},
+							{
+								key: 'giveaways_gb',
+								name: 'Giveaway Bookmarks',
+							},
+							{
+								key: 'giveaways_gdttt',
+								name: 'Giveaway/Discussion/Ticket/Trade Tracker',
+							},
+							{
+								key: 'giveaways_gf',
+								name: 'Giveaway Filters',
+							},
+							{
+								key: 'giveaways_ggl',
+								name: 'Giveaway Group Loader',
+							},
+						],
+					},
+					{
+						check: true,
+						key: 'groups',
+						name: 'Groups',
+						options: [
+							{
+								key: 'groups_main',
+								name: 'Main',
+							},
+							{
+								key: 'groups_gpt',
+								name: 'Group Tags',
+							},
+							{
+								key: 'groups_sgg',
+								name: 'Stickied Giveaway Groups',
+							},
+						],
+					},
+					{
+						check: true,
+						key: 'rerolls',
+						name: 'Rerolls',
+					},
+					{
+						check: true,
+						key: 'savedReplies',
+						name: 'Saved Replies',
+					},
+					{
+						check: true,
+						key: 'savedReplies_st',
+						name: `Saved Replies (SteamTrades)`,
+					},
+					{
+						check: true,
+						key: 'settings',
+						name: 'Settings',
+					},
+					{
+						check: true,
+						key: 'sgCommentHistory',
+						name: 'SG Comment History',
+					},
+					{
+						check: true,
+						key: 'stickiedCountries',
+						name: 'Stickied Giveaway Countries',
+					},
+					{
+						check: true,
+						key: 'templates',
+						name: 'Templates',
+					},
+					{
+						check: true,
+						key: 'tickets',
+						name: 'Tickets',
+						options: [
+							{
+								key: 'tickets_main',
+								name: 'Main',
+							},
+							{
+								key: 'tickets_ct',
+								name: 'Comment Tracker',
+							},
+							{
+								key: 'tickets_gdttt',
+								name: 'Giveaway/Discussion/Ticket/Trade Tracker',
+							},
+							{
+								key: 'tickets_ust',
+								name: 'User Suspension Tracker',
+							},
+						],
+					},
+					{
+						check: true,
+						key: 'trades',
+						name: 'Trades',
+						options: [
+							{
+								key: 'trades_main',
+								name: 'Main',
+							},
+							{
+								key: 'trades_ct',
+								name: 'Comment Tracker',
+							},
+							{
+								key: 'trades_tf',
+								name: 'Trade Filters',
+							},
+							{
+								key: 'trades_gdttt',
+								name: 'Giveaway/Discussion/Ticket/Trade Tracker',
+							},
+							{
+								key: 'trades_tds',
+								name: 'Thread Subscription',
+							},
+						],
+					},
+					{
+						check: true,
+						key: 'users',
+						name: 'Users',
+						options: [
+							{
+								key: 'users_main',
+								name: 'Main',
+							},
+							{
+								key: 'users_cdr',
+								name: 'Cake Day Reminder',
+							},
+							{
+								key: 'users_namwc',
+								name: 'Not Activated/Multiple Win  Checker',
+							},
+							{
+								key: 'users_nrf',
+								name: 'Not Received Finder',
+							},
+							{
+								key: 'users_uf',
+								name: 'User Filters',
+							},
+							{
+								key: 'users_giveaways',
+								name: 'Giveaways Data',
+							},
+							{
+								key: 'users_notes',
+								name: 'User Notes',
+							},
+							{
+								key: 'users_tags',
+								name: 'User Tags',
+							},
+							{
+								key: 'users_wbc',
+								name: 'Whitelist/Blacklist Checker',
+							},
+						],
+					},
+					{
+						check: true,
+						key: 'winners',
+						name: 'Winners',
+					},
+				];
+				const oldSize = await manageData(dm, false, false, false, true);
+				let currentTime = Date.now();
+				let toSave = {};
+				if (Settings.get('cleanDiscussions')) {
+					let days = Settings.get('cleanDiscussions_days') * 86400000;
+					toSave.discussions = JSON.parse(Shared.common.getValue('discussions', '{}'));
+					for (let code in toSave.discussions) {
+						if (toSave.discussions.hasOwnProperty(code)) {
+							let item = toSave.discussions[code];
+							if (
+								item.author !== Settings.get('username') &&
+								item.lastUsed &&
+								currentTime - item.lastUsed > days
+							) {
+								delete toSave.discussions[code];
+							}
 						}
 					}
 				}
-			}
-			if (Settings.get('cleanEntries')) {
-				let days = Settings.get('cleanEntries_days') * 86400000;
-				let items = JSON.parse(Shared.common.getValue('entries', '[]'));
-				toSave.entries = [];
-				items.forEach(item => {
-					if (currentTime - item.timestamp <= days) {
-						toSave.entries.push(item);
-					}
-				});
-			}
-			if (Settings.get('cleanGiveaways')) {
-				let days = Settings.get('cleanGiveaways_days') * 86400000;
-				toSave.giveaways = JSON.parse(Shared.common.getValue('giveaways', '{}'));
-				for (let code in toSave.giveaways) {
-					if (toSave.giveaways.hasOwnProperty(code)) {
-						let item = toSave.giveaways[code];
-						if (item.creator !== Settings.get('username') && ((item.endTime && currentTime - item.endTime > days) || (item.lastUsed && currentTime - item.lastUsed > days))) {
-							delete toSave.giveaways[code];
+				if (Settings.get('cleanEntries')) {
+					let days = Settings.get('cleanEntries_days') * 86400000;
+					let items = JSON.parse(Shared.common.getValue('entries', '[]'));
+					toSave.entries = [];
+					items.forEach((item) => {
+						if (currentTime - item.timestamp <= days) {
+							toSave.entries.push(item);
+						}
+					});
+				}
+				if (Settings.get('cleanGiveaways')) {
+					let days = Settings.get('cleanGiveaways_days') * 86400000;
+					toSave.giveaways = JSON.parse(Shared.common.getValue('giveaways', '{}'));
+					for (let code in toSave.giveaways) {
+						if (toSave.giveaways.hasOwnProperty(code)) {
+							let item = toSave.giveaways[code];
+							if (
+								item.creator !== Settings.get('username') &&
+								((item.endTime && currentTime - item.endTime > days) ||
+									(item.lastUsed && currentTime - item.lastUsed > days))
+							) {
+								delete toSave.giveaways[code];
+							}
 						}
 					}
 				}
-			}
-			if (Settings.get('cleanSgCommentHistory')) {
-				let days = Settings.get('cleanSgCommentHistory_days') * 86400000;
-				let items = JSON.parse(Shared.common.getValue('sgCommentHistory', '[]'));
-				toSave.sgCommentHistory = [];
-				items.forEach(item => {
-					if (currentTime - item.timestamp <= days) {
-						toSave.sgCommentHistory.push(item);
-					}
-				});
-			}
-			if (Settings.get('cleanTickets')) {
-				let days = Settings.get('cleanTickets_days') * 86400000;
-				toSave.tickets = JSON.parse(Shared.common.getValue('tickets', '{}'));
-				for (let code in toSave.tickets) {
-					if (toSave.tickets.hasOwnProperty(code)) {
-						let item = toSave.tickets[code];
-						if (item.author !== Settings.get('username') && item.lastUsed && currentTime - item.lastUsed > days) {
-							delete toSave.tickets[code];
+				if (Settings.get('cleanSgCommentHistory')) {
+					let days = Settings.get('cleanSgCommentHistory_days') * 86400000;
+					let items = JSON.parse(Shared.common.getValue('sgCommentHistory', '[]'));
+					toSave.sgCommentHistory = [];
+					items.forEach((item) => {
+						if (currentTime - item.timestamp <= days) {
+							toSave.sgCommentHistory.push(item);
+						}
+					});
+				}
+				if (Settings.get('cleanTickets')) {
+					let days = Settings.get('cleanTickets_days') * 86400000;
+					toSave.tickets = JSON.parse(Shared.common.getValue('tickets', '{}'));
+					for (let code in toSave.tickets) {
+						if (toSave.tickets.hasOwnProperty(code)) {
+							let item = toSave.tickets[code];
+							if (
+								item.author !== Settings.get('username') &&
+								item.lastUsed &&
+								currentTime - item.lastUsed > days
+							) {
+								delete toSave.tickets[code];
+							}
 						}
 					}
 				}
-			}
-			if (Settings.get('cleanTrades')) {
-				let days = Settings.get('cleanTrades_days') * 86400000;
-				toSave.trades = JSON.parse(Shared.common.getValue('trades', '{}'));
-				for (let code in toSave.trades) {
-					if (toSave.trades.hasOwnProperty(code)) {
-						let item = toSave.trades[code];
-						if (item.author !== Settings.get('username') && item.lastUsed && currentTime - item.lastUsed > days) {
-							delete toSave.trades[code];
+				if (Settings.get('cleanTrades')) {
+					let days = Settings.get('cleanTrades_days') * 86400000;
+					toSave.trades = JSON.parse(Shared.common.getValue('trades', '{}'));
+					for (let code in toSave.trades) {
+						if (toSave.trades.hasOwnProperty(code)) {
+							let item = toSave.trades[code];
+							if (
+								item.author !== Settings.get('username') &&
+								item.lastUsed &&
+								currentTime - item.lastUsed > days
+							) {
+								delete toSave.trades[code];
+							}
 						}
 					}
 				}
-			}
-			if (Settings.get('cleanDuplicates')) {
-				toSave.users = JSON.parse(Shared.common.getValue('users', `{"steamIds":{},"users":{}}`));
-				for (let id in toSave.users.users) {
-					if (toSave.users.users.hasOwnProperty(id)) {
-						let giveaways = toSave.users.users[id].giveaways;
-						if (giveaways) {
-							['sent', 'won'].forEach(mainType => {
-								['apps', 'subs'].forEach(type => {
-									for (let code in giveaways[mainType][type]) {
-										if (giveaways[mainType][type].hasOwnProperty(code)) {
-											giveaways[mainType][type][code] = Array.from(/** @type {ArrayLike} */ new Set(giveaways[mainType][type][code]));
+				if (Settings.get('cleanDuplicates')) {
+					toSave.users = JSON.parse(Shared.common.getValue('users', `{"steamIds":{},"users":{}}`));
+					for (let id in toSave.users.users) {
+						if (toSave.users.users.hasOwnProperty(id)) {
+							let giveaways = toSave.users.users[id].giveaways;
+							if (giveaways) {
+								['sent', 'won'].forEach((mainType) => {
+									['apps', 'subs'].forEach((type) => {
+										for (let code in giveaways[mainType][type]) {
+											if (giveaways[mainType][type].hasOwnProperty(code)) {
+												giveaways[mainType][type][code] = Array.from(
+													/** @type {ArrayLike} */ new Set(giveaways[mainType][type][code])
+												);
+											}
 										}
-									}
+									});
 								});
-							});
+							}
 						}
 					}
 				}
-			}
-			for (let key in toSave) {
-				if (toSave.hasOwnProperty(key)) {
-					toSave[key] = JSON.stringify(toSave[key]);
+				for (let key in toSave) {
+					if (toSave.hasOwnProperty(key)) {
+						toSave[key] = JSON.stringify(toSave[key]);
+					}
 				}
-			}
-			await Shared.common.setValues(toSave);
-			const newSize = await manageData(dm, false, false, false, true);
-			const successPopup = new Popup({
-				icon: 'fa-check',
-				title: [
-					'Success! The selected data was cleaned.',
-					['br'],
-					['br'],
-					`Size before cleaning: `,
-					['span', { class: 'esgst-bold' }, Shared.common.convertBytes(oldSize)],
-					['br'],
-					`Size after cleaning: `,
-					['span', { class: 'esgst-bold' }, Shared.common.convertBytes(newSize)],
-					['br'],
-					['br'],
-					`${Math.round((100 - (newSize / oldSize * 100)) * 100) / 100}% reduction`
-				]
-			});
-			successPopup.open();
-		}
-	}).set);
+				await Shared.common.setValues(toSave);
+				const newSize = await manageData(dm, false, false, false, true);
+				const successPopup = new Popup({
+					icon: 'fa-check',
+					title: [
+						'Success! The selected data was cleaned.',
+						['br'],
+						['br'],
+						`Size before cleaning: `,
+						['span', { class: 'esgst-bold' }, Shared.common.convertBytes(oldSize)],
+						['br'],
+						`Size after cleaning: `,
+						['span', { class: 'esgst-bold' }, Shared.common.convertBytes(newSize)],
+						['br'],
+						['br'],
+						`${Math.round((100 - (newSize / oldSize) * 100) * 100) / 100}% reduction`,
+					],
+				});
+				successPopup.open();
+			},
+		}).set
+	);
 }
 
 async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
@@ -1260,8 +1573,12 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
 				dm.data[key] = JSON.parse(dm.data[key]);
 			}
 
-			let notifiedMessages = JSON.parse(Shared.common.getValue('notifiedMessages', '{ "lastCheck": 0, "ids": [] }'));
-			notifiedMessages.ids = Array.from(new Set([...notifiedMessages.ids, ...(dm.data.notifiedMessages.ids || [])]));
+			let notifiedMessages = JSON.parse(
+				Shared.common.getValue('notifiedMessages', '{ "lastCheck": 0, "ids": [] }')
+			);
+			notifiedMessages.ids = Array.from(
+				new Set([...notifiedMessages.ids, ...(dm.data.notifiedMessages.ids || [])])
+			);
 			await Shared.common.setValue('notifiedMessages', JSON.stringify(notifiedMessages));
 		} else if (dm.type === 'export') {
 			data.notifiedMessages = Shared.esgst.storage.notifiedMessages;
@@ -1320,18 +1637,41 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
 						dt: ['tags'],
 						gdttt: ['visited'],
 						tds: ['name', 'subscribed'],
-						pm: ['status']
+						pm: ['status'],
 					};
 				}
 			case 'giveaways':
 				if (!values) {
 					values = {
-						main: ['code', 'comments', 'copies', 'creator', 'endTime', 'entries', 'gameId', 'gameName', 'gameSteamId', 'gameType', 'group', 'inviteOnly', 'lastUsed', 'level', 'numWinners', 'points', 'regionRestricted', 'started', 'startTime', 'whitelist', 'winners', 'v'],
+						main: [
+							'code',
+							'comments',
+							'copies',
+							'creator',
+							'endTime',
+							'entries',
+							'gameId',
+							'gameName',
+							'gameSteamId',
+							'gameType',
+							'group',
+							'inviteOnly',
+							'lastUsed',
+							'level',
+							'numWinners',
+							'points',
+							'regionRestricted',
+							'started',
+							'startTime',
+							'whitelist',
+							'winners',
+							'v',
+						],
 						ct: ['count', 'readComments'],
 						gb: ['bookmarked'],
 						gdttt: ['visited'],
 						gf: ['hidden'],
-						ggl: ['groups']
+						ggl: ['groups'],
 					};
 				}
 			case 'tickets':
@@ -1340,7 +1680,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
 						main: ['lastUsed'],
 						ct: ['count', 'readComments'],
 						gdttt: ['visited'],
-						ust: ['sent']
+						ust: ['sent'],
 					};
 				}
 			case 'trades':
@@ -1350,7 +1690,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
 						ct: ['count', 'readComments'],
 						tf: ['hidden'],
 						gdttt: ['visited'],
-						tds: ['name', 'subscribed']
+						tds: ['name', 'subscribed'],
 					};
 				}
 				data[optionKey] = {};
@@ -1369,7 +1709,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
 					main: 0,
 					pm: 0,
 					total: 0,
-					ust: 0
+					ust: 0,
 				};
 				mainFound = false;
 				for (let mergedDataKey in mergedData) {
@@ -1392,7 +1732,11 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
 										if (value !== 'main') {
 											foundSub += 1;
 										}
-										if (dm.autoBackup || Settings.get(`${dm.type}_${optionKey}_${value}`) || value === 'main') {
+										if (
+											dm.autoBackup ||
+											Settings.get(`${dm.type}_${optionKey}_${value}`) ||
+											value === 'main'
+										) {
 											newData[valueKey] = mergedDataValue;
 											if (value !== 'main') {
 												toExport = true;
@@ -1402,7 +1746,12 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
 										sizes[value] += size;
 										sizes.total += size;
 										found = value;
-										if (!space && dm.delete && Settings.get(`${dm.type}_${optionKey}_${value}`) && value !== 'main') {
+										if (
+											!space &&
+											dm.delete &&
+											Settings.get(`${dm.type}_${optionKey}_${value}`) &&
+											value !== 'main'
+										) {
 											deletedSub += 1;
 											delete mergedData[mergedDataKey][valueKey];
 										}
@@ -1421,7 +1770,12 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
 						let size = `"${mergedDataKey}":{},`.length;
 						sizes.main += size;
 						sizes.total += size;
-						if (!space && dm.delete && ((Settings.get(`${dm.type}_${optionKey}_main`) && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
+						if (
+							!space &&
+							dm.delete &&
+							((Settings.get(`${dm.type}_${optionKey}_main`) && foundSub === deletedSub) ||
+								toDelete === Object.keys(values).length)
+						) {
 							delete mergedData[mergedDataKey];
 						}
 					}
@@ -1459,13 +1813,18 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
 																if (mergedData[newDataKey].readComments) {
 																	for (let id in mergedData[newDataKey].readComments) {
 																		if (mergedData[newDataKey].readComments.hasOwnProperty(id)) {
-																			if (newData[newDataKey].readComments[id] > mergedData[newDataKey].readComments[id]) {
-																				mergedData[newDataKey].readComments[id] = newData[newDataKey].readComments[id];
+																			if (
+																				newData[newDataKey].readComments[id] >
+																				mergedData[newDataKey].readComments[id]
+																			) {
+																				mergedData[newDataKey].readComments[id] =
+																					newData[newDataKey].readComments[id];
 																			}
 																		}
 																	}
 																} else {
-																	mergedData[newDataKey].readComments = newData[newDataKey].readComments;
+																	mergedData[newDataKey].readComments =
+																		newData[newDataKey].readComments;
 																}
 																break;
 															default:
@@ -1502,7 +1861,9 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
 						for (let value in values) {
 							if (values.hasOwnProperty(value)) {
 								if (dm.switches[`${optionKey}_${value}`]) {
-									dm.switches[`${optionKey}_${value}`].size.textContent = Shared.common.convertBytes(sizes[value]);
+									dm.switches[
+										`${optionKey}_${value}`
+									].size.textContent = Shared.common.convertBytes(sizes[value]);
 								}
 							}
 						}
@@ -1556,15 +1917,14 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
 						let newData = JSON.stringify(dm.data.emojis);
 						if (newData) {
 							if (Settings.get('importAndMerge')) {
-								await Shared.common.setValue('emojis', JSON.stringify(
-									Array.from(
-										new Set(
-											data.emojis.concat(
-												JSON.parse(Shared.common.fixEmojis(newData))
-											)
+								await Shared.common.setValue(
+									'emojis',
+									JSON.stringify(
+										Array.from(
+											new Set(data.emojis.concat(JSON.parse(Shared.common.fixEmojis(newData))))
 										)
 									)
-								));
+								);
 							} else {
 								await Shared.common.setValue('emojis', Shared.common.fixEmojis(newData));
 							}
@@ -1596,8 +1956,11 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
 								for (let j = 0, numNew = newData.length; j < numNew; ++j) {
 									let newDataValue = newData[j];
 									let k, numMerged;
-									for (k = 0, numMerged = mergedData.length; k < numMerged && mergedData[k][dataKey] !== newDataValue[dataKey]; ++k) {
-									}
+									for (
+										k = 0, numMerged = mergedData.length;
+										k < numMerged && mergedData[k][dataKey] !== newDataValue[dataKey];
+										++k
+									) {}
 									if (k < numMerged) {
 										mergedData[k] = newDataValue;
 									} else {
@@ -1626,14 +1989,25 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
 				break;
 			case 'games':
 				values = {
-					main: ['apps', 'packages', 'reducedCV', 'noCV', 'hidden', 'ignored', 'owned', 'wishlisted', 'followed', 'sgId'],
+					main: [
+						'apps',
+						'packages',
+						'reducedCV',
+						'noCV',
+						'hidden',
+						'ignored',
+						'owned',
+						'wishlisted',
+						'followed',
+						'sgId',
+					],
 					gt: ['tags'],
 					egh: ['entered'],
-					itadi: ['itadi']
+					itadi: ['itadi'],
 				};
 				data.games = {
 					apps: {},
-					subs: {}
+					subs: {},
 				};
 				mergedData = JSON.parse(Shared.common.getValue('games', `{"apps":{},"subs":{}}`));
 				sizes = {
@@ -1641,7 +2015,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
 					gt: 0,
 					itadi: 0,
 					main: 0,
-					total: 0
+					total: 0,
 				};
 				mainFound = false;
 				for (let mergedDataKey in mergedData.apps) {
@@ -1665,7 +2039,11 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
 										if (value !== 'main') {
 											foundSub += 1;
 										}
-										if (dm.autoBackup || Settings.get(`${dm.type}_games_${value}`) || value === 'main') {
+										if (
+											dm.autoBackup ||
+											Settings.get(`${dm.type}_games_${value}`) ||
+											value === 'main'
+										) {
 											newData[valueKey] = newDataValue;
 											if (value !== 'main') {
 												toExport = true;
@@ -1675,7 +2053,12 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
 										sizes[value] += size;
 										sizes.total += size;
 										found = value;
-										if (!space && dm.delete && Settings.get(`${dm.type}_games_${value}`) && value !== 'main') {
+										if (
+											!space &&
+											dm.delete &&
+											Settings.get(`${dm.type}_games_${value}`) &&
+											value !== 'main'
+										) {
 											deletedSub += 1;
 											delete mergedDataValue[valueKey];
 										}
@@ -1694,7 +2077,12 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
 						let size = `"${mergedDataKey}":{},`.length;
 						sizes.main += size;
 						sizes.total += size;
-						if (!space && dm.delete && ((Settings.get(`${dm.type}_${optionKey}_main`) && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
+						if (
+							!space &&
+							dm.delete &&
+							((Settings.get(`${dm.type}_${optionKey}_main`) && foundSub === deletedSub) ||
+								toDelete === Object.keys(values).length)
+						) {
 							delete mergedData.apps[mergedDataKey];
 						}
 					}
@@ -1725,7 +2113,11 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
 										if (value !== 'main') {
 											foundSub += 1;
 										}
-										if (dm.autoBackup || Settings.get(`${dm.type}_games_${value}`) || value === 'main') {
+										if (
+											dm.autoBackup ||
+											Settings.get(`${dm.type}_games_${value}`) ||
+											value === 'main'
+										) {
 											newData[valueKey] = newDataValue;
 											if (value !== 'main') {
 												toExport = true;
@@ -1735,7 +2127,12 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
 										sizes[value] += size;
 										sizes.total += size;
 										found = value;
-										if (!space && dm.delete && Settings.get(`${dm.type}_games_${value}`) && value !== 'main') {
+										if (
+											!space &&
+											dm.delete &&
+											Settings.get(`${dm.type}_games_${value}`) &&
+											value !== 'main'
+										) {
 											deletedSub += 1;
 											delete mergedDataValue[valueKey];
 										}
@@ -1754,7 +2151,12 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
 						let size = `"${mergedDataKey}":{},`.length;
 						sizes.main += size;
 						sizes.total += size;
-						if (!space && dm.delete && ((Settings.get(`${dm.type}_${optionKey}_main`) && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
+						if (
+							!space &&
+							dm.delete &&
+							((Settings.get(`${dm.type}_${optionKey}_main`) && foundSub === deletedSub) ||
+								toDelete === Object.keys(values).length)
+						) {
 							delete mergedData.subs[mergedDataKey];
 						}
 					}
@@ -1786,7 +2188,9 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
 																break;
 															case 'itadi':
 																if (mergedDataValue.itadi) {
-																	if (newDataValue.itadi.lastCheck > mergedDataValue.itadi.lastCheck) {
+																	if (
+																		newDataValue.itadi.lastCheck > mergedDataValue.itadi.lastCheck
+																	) {
 																		mergedDataValue.itadi = newDataValue.itadi;
 																	}
 																} else {
@@ -1838,7 +2242,9 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
 																break;
 															case 'itadi':
 																if (mergedDataValue.itadi) {
-																	if (newDataValue.itadi.lastCheck > mergedDataValue.itadi.lastCheck) {
+																	if (
+																		newDataValue.itadi.lastCheck > mergedDataValue.itadi.lastCheck
+																	) {
 																		mergedDataValue.itadi = newDataValue.itadi;
 																	}
 																} else {
@@ -1885,7 +2291,9 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
 						for (let value in values) {
 							if (values.hasOwnProperty(value)) {
 								if (dm.switches[`${optionKey}_${value}`]) {
-									dm.switches[`${optionKey}_${value}`].size.textContent = Shared.common.convertBytes(sizes[value]);
+									dm.switches[
+										`${optionKey}_${value}`
+									].size.textContent = Shared.common.convertBytes(sizes[value]);
 								}
 							}
 						}
@@ -1898,7 +2306,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
 				values = {
 					main: ['avatar', 'code', 'member', 'name', 'steamId'],
 					gpt: ['tags'],
-					sgg: ['stickied']
+					sgg: ['stickied'],
 				};
 				mergedData = JSON.parse(Shared.common.getValue(optionKey, '[]'));
 				if (!Array.isArray(mergedData)) {
@@ -1915,7 +2323,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
 					main: 0,
 					gpt: 0,
 					sgg: 0,
-					total: 0
+					total: 0,
 				};
 				mainFound = false;
 				for (let j = mergedData.length - 1; j > -1; --j) {
@@ -1938,7 +2346,11 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
 										if (value !== 'main') {
 											foundSub += 1;
 										}
-										if (dm.autoBackup || Settings.get(`${dm.type}_${optionKey}_${value}`) || value === 'main') {
+										if (
+											dm.autoBackup ||
+											Settings.get(`${dm.type}_${optionKey}_${value}`) ||
+											value === 'main'
+										) {
 											newData[valueKey] = mergedDataValue;
 											if (value !== 'main') {
 												toExport = true;
@@ -1948,7 +2360,12 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
 										sizes[value] += size;
 										sizes.total += size;
 										found = value;
-										if (!space && dm.delete && Settings.get(`${dm.type}_${optionKey}_${value}`) && value !== 'main') {
+										if (
+											!space &&
+											dm.delete &&
+											Settings.get(`${dm.type}_${optionKey}_${value}`) &&
+											value !== 'main'
+										) {
 											deletedSub += 1;
 											delete mergedData[j][valueKey];
 										}
@@ -1968,7 +2385,12 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
 					let size = `{},`.length;
 					sizes.main += size;
 					sizes.total += size;
-					if (!space && dm.delete && ((Settings.get(`${dm.type}_${optionKey}_main`) && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
+					if (
+						!space &&
+						dm.delete &&
+						((Settings.get(`${dm.type}_${optionKey}_main`) && foundSub === deletedSub) ||
+							toDelete === Object.keys(values).length)
+					) {
 						mergedData.pop();
 					}
 				}
@@ -1992,8 +2414,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
 							for (let j = newData.length - 1; j > -1; --j) {
 								let code = newData[j].code;
 								let k, mergedDataValue;
-								for (k = mergedData.length - 1; k > -1 && mergedData[k].code !== code; --k) {
-								}
+								for (k = mergedData.length - 1; k > -1 && mergedData[k].code !== code; --k) {}
 								if (k > -1) {
 									mergedDataValue = mergedData[k];
 								} else {
@@ -2042,7 +2463,9 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
 						for (let value in values) {
 							if (values.hasOwnProperty(value)) {
 								if (dm.switches[`${optionKey}_${value}`]) {
-									dm.switches[`${optionKey}_${value}`].size.textContent = Shared.common.convertBytes(sizes[value]);
+									dm.switches[
+										`${optionKey}_${value}`
+									].size.textContent = Shared.common.convertBytes(sizes[value]);
 								}
 							}
 						}
@@ -2105,8 +2528,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
 									} else {
 										let l;
 										// noinspection JSUnusedAssignment
-										for (l = 0; l < numOld && oldData[l].id !== newDataValue.id; ++l) {
-										}
+										for (l = 0; l < numOld && oldData[l].id !== newDataValue.id; ++l) {}
 										// noinspection JSUnusedAssignment
 										if (l >= numOld) {
 											mergedData.push(newDataValue);
@@ -2122,8 +2544,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
 									let newDataValue = newData[k];
 									let l;
 									// noinspection JSUnusedAssignment
-									for (l = 0; l < numOld && oldData[l].id !== newDataValue.id; ++l) {
-									}
+									for (l = 0; l < numOld && oldData[l].id !== newDataValue.id; ++l) {}
 									// noinspection JSUnusedAssignment
 									if (l >= numOld) {
 										mergedData.push(newDataValue);
@@ -2157,11 +2578,11 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
 					nrf: ['nrf'],
 					tags: ['tags'],
 					uf: ['uf'],
-					wbc: ['wbc']
+					wbc: ['wbc'],
 				};
 				data.users = {
 					steamIds: {},
-					users: {}
+					users: {},
 				};
 				mergedData = JSON.parse(Shared.common.getValue('users', `{"steamIds":{},"users":{}}`));
 				sizes = {
@@ -2174,7 +2595,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
 					tags: 0,
 					total: 0,
 					uf: 0,
-					wbc: 0
+					wbc: 0,
 				};
 				mainFound = false;
 				mainUsernameFound = false;
@@ -2198,7 +2619,11 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
 										if (value !== 'main') {
 											foundSub += 1;
 										}
-										if (dm.autoBackup || Settings.get(`${dm.type}_users_${value}`) || value === 'main') {
+										if (
+											dm.autoBackup ||
+											Settings.get(`${dm.type}_users_${value}`) ||
+											value === 'main'
+										) {
 											newData[valueKey] = mergedDataValue[valueKey];
 											if (value !== 'main') {
 												toExport = true;
@@ -2208,7 +2633,12 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
 										sizes[value] += size;
 										sizes.total += size;
 										found = value;
-										if (!space && dm.delete && Settings.get(`${dm.type}_users_${value}`) && value !== 'main') {
+										if (
+											!space &&
+											dm.delete &&
+											Settings.get(`${dm.type}_users_${value}`) &&
+											value !== 'main'
+										) {
 											deletedSub += 1;
 											delete mergedDataValue[valueKey];
 										}
@@ -2244,7 +2674,12 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
 						size += `"${mergedDataKey}":{},`.length;
 						sizes.main += size;
 						sizes.total += size;
-						if (!space && dm.delete && ((Settings.get(`${dm.type}_${optionKey}_main`) && foundSub === deletedSub) || toDelete === Object.keys(values).length)) {
+						if (
+							!space &&
+							dm.delete &&
+							((Settings.get(`${dm.type}_${optionKey}_main`) && foundSub === deletedSub) ||
+								toDelete === Object.keys(values).length)
+						) {
 							delete mergedData.steamIds[mergedDataValue.username];
 							delete mergedData.users[mergedDataKey];
 						}
@@ -2268,7 +2703,7 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
 									if (!mergedData.users[newDataKey]) {
 										mergedData.users[newDataKey] = {
 											id: newDataValue.id,
-											username: newDataValue.username
+											username: newDataValue.username,
 										};
 										mergedData.steamIds[newDataValue.username] = newDataKey;
 									}
@@ -2289,7 +2724,11 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
 																	mergedDataValue[valueKey] = newDataValue[valueKey];
 																	break;
 																case 'notes':
-																	mergedDataValue.notes = Shared.common.removeDuplicateNotes(mergedDataValue.notes ? `${mergedDataValue.notes}\n\n${newDataValue.notes}` : newDataValue.notes);
+																	mergedDataValue.notes = Shared.common.removeDuplicateNotes(
+																		mergedDataValue.notes
+																			? `${mergedDataValue.notes}\n\n${newDataValue.notes}`
+																			: newDataValue.notes
+																	);
 																	break;
 																case 'tags':
 																	if (mergedDataValue.tags) {
@@ -2306,21 +2745,35 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
 																	break;
 																case 'giveaways':
 																	if (mergedDataValue.giveaways) {
-																		if (newDataValue.giveaways.wonTimestamp > mergedDataValue.giveaways.wonTimestamp) {
+																		if (
+																			newDataValue.giveaways.wonTimestamp >
+																			mergedDataValue.giveaways.wonTimestamp
+																		) {
 																			mergedDataValue.giveaways.won = newDataValue.giveaways.won;
-																			mergedDataValue.giveaways.wonTimestamp = newDataValue.giveaways.wonTimestamp;
+																			mergedDataValue.giveaways.wonTimestamp =
+																				newDataValue.giveaways.wonTimestamp;
 																		}
-																		if (newDataValue.giveaways.sentTimestamp > mergedDataValue.giveaways.sentTimestamp) {
+																		if (
+																			newDataValue.giveaways.sentTimestamp >
+																			mergedDataValue.giveaways.sentTimestamp
+																		) {
 																			mergedDataValue.giveaways.sent = newDataValue.giveaways.sent;
-																			mergedDataValue.giveaways.sentTimestamp = newDataValue.giveaways.sentTimestamp;
+																			mergedDataValue.giveaways.sentTimestamp =
+																				newDataValue.giveaways.sentTimestamp;
 																		}
 																	} else {
 																		mergedDataValue.giveaways = newDataValue.giveaways;
 																	}
 																	break;
 																default:
-																	if (mergedDataValue[valueKey] && mergedDataValue[valueKey].lastCheck) {
-																		if (newDataValue[valueKey].lastCheck > mergedDataValue[valueKey].lastCheck) {
+																	if (
+																		mergedDataValue[valueKey] &&
+																		mergedDataValue[valueKey].lastCheck
+																	) {
+																		if (
+																			newDataValue[valueKey].lastCheck >
+																			mergedDataValue[valueKey].lastCheck
+																		) {
 																			mergedDataValue[valueKey] = newDataValue[valueKey];
 																		}
 																	} else {
@@ -2352,7 +2805,9 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
 						for (const value in values) {
 							if (values.hasOwnProperty(value)) {
 								if (dm.switches[`${optionKey}_${value}`]) {
-									dm.switches[`${optionKey}_${value}`].size.textContent = Shared.common.convertBytes(sizes[value]);
+									dm.switches[
+										`${optionKey}_${value}`
+									].size.textContent = Shared.common.convertBytes(sizes[value]);
 								}
 							}
 						}
@@ -2420,7 +2875,14 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
 			} else if (oneDrive || (dm.type !== 'export' && Settings.get('exportBackupIndex') === 3)) {
 				CloudStorage.manage(CloudStorage.ONEDRIVE, data, dm, callback);
 			} else {
-				const name = `${Settings.get('askFileName') ? window.prompt(`Enter the name of the file:`, `esgst_data_${new Date().toISOString().replace(/:/g, '_')}`) : `esgst_data_${new Date().toISOString().replace(/:/g, '_')}`}`;
+				const name = `${
+					Settings.get('askFileName')
+						? window.prompt(
+								`Enter the name of the file:`,
+								`esgst_data_${new Date().toISOString().replace(/:/g, '_')}`
+						  )
+						: `esgst_data_${new Date().toISOString().replace(/:/g, '_')}`
+				}`;
 				if (name === 'null') {
 					callback();
 					return;
@@ -2443,4 +2905,3 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
 }
 
 export { loadDataCleaner, loadDataManagement, manageData };
-

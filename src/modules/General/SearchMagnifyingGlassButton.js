@@ -6,24 +6,32 @@ class GeneralSearchMagnifyingGlassButton extends Module {
 		super();
 		this.info = {
 			description: [
-				['ul', [
-					['li', [
-						`Turns the magnifying glass icon (`,
-						['i', { class: 'fa fa-search' }],
-						`) in the search field of any page into a button that submits the search when you click on it.`
-					]]
-				]]
+				[
+					'ul',
+					[
+						[
+							'li',
+							[
+								`Turns the magnifying glass icon (`,
+								['i', { class: 'fa fa-search' }],
+								`) in the search field of any page into a button that submits the search when you click on it.`,
+							],
+						],
+					],
+				],
 			],
 			id: 'smgb',
 			name: 'Search Magnifying Glass Button',
 			sg: true,
-			type: 'general'
+			type: 'general',
 		};
 	}
 
 	init() {
 		let buttons, i;
-		buttons = document.querySelectorAll(`.sidebar__search-container .fa-search, .esgst-qgs-container .fa-search`);
+		buttons = document.querySelectorAll(
+			`.sidebar__search-container .fa-search, .esgst-qgs-container .fa-search`
+		);
 		for (i = buttons.length - 1; i > -1; --i) {
 			let button, input;
 			button = buttons[i];

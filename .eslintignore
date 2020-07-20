@@ -1,4 +1,5 @@
 build/*
+dist/*
 local-eslint-plugins/*
 !.eslintrc.js
 !.eslintrc.typed.js

@@ -12,27 +12,33 @@ class DiscussionsImprovedDiscussionBookmarks extends Module {
 
 		this.info = {
 			description: [
-				['ul', [
-					['li', [
-						'Replaces the native ',
-						['i', { class: 'fa fa-bookmark' }],
-						' button if the discussion is bookmarked and adds a ',
-						['i', { class: 'fa fa-bookmark-o' }],
-						' button if it is not, next to a discussion\'s title (in any page) that allows you to add / remove the discussion to / from SteamGifts\' native bookmark list.'
-					]],
-					['li', 'Bookmarked discussions have a green background.']
-				]]
+				[
+					'ul',
+					[
+						[
+							'li',
+							[
+								'Replaces the native ',
+								['i', { class: 'fa fa-bookmark' }],
+								' button if the discussion is bookmarked and adds a ',
+								['i', { class: 'fa fa-bookmark-o' }],
+								" button if it is not, next to a discussion's title (in any page) that allows you to add / remove the discussion to / from SteamGifts' native bookmark list.",
+							],
+						],
+						['li', 'Bookmarked discussions have a green background.'],
+					],
+				],
 			],
 			features: {
 				idb_t: {
 					name: 'Pin any bookmarked discussions in the page.',
-					sg: true
-				}
+					sg: true,
+				},
 			},
 			id: 'idb',
 			name: 'Improved Discussion Bookmarks',
 			sg: true,
-			type: 'discussions'
+			type: 'discussions',
 		};
 	}
 
@@ -44,7 +50,7 @@ class DiscussionsImprovedDiscussionBookmarks extends Module {
 
 			if (discussion.highlighted) {
 				highlightedDiscussions[code] = {
-					highlighted: null
+					highlighted: null,
 				};
 			}
 		}
@@ -56,7 +62,8 @@ class DiscussionsImprovedDiscussionBookmarks extends Module {
 				addProgress: true,
 				icon: 'fa-exchange',
 				isTemp: true,
-				title: 'Discussion Highlighter has been renamed to Improved Discussion Bookmarks because the ability to bookmark discussions has been added to SteamGifts, so ESGST no longer handles the data. Do you want to transfer the discussions you had previously highlighted to the SteamGifts bookmark list or do you want to delete them from your data?',
+				title:
+					'Discussion Highlighter has been renamed to Improved Discussion Bookmarks because the ability to bookmark discussions has been added to SteamGifts, so ESGST no longer handles the data. Do you want to transfer the discussions you had previously highlighted to the SteamGifts bookmark list or do you want to delete them from your data?',
 				buttons: [
 					{
 						color1: 'green',
@@ -71,13 +78,15 @@ class DiscussionsImprovedDiscussionBookmarks extends Module {
 							for (const code in highlightedDiscussions) {
 								await this.bookmarkDiscussion(code);
 
-								popup.setProgress(`${current++} of ${numHighlightedDiscussions} discussions transferred...`);
+								popup.setProgress(
+									`${current++} of ${numHighlightedDiscussions} discussions transferred...`
+								);
 							}
 
-							await Shared.common.lockAndSaveDiscussions(highlightedDiscussions)
+							await Shared.common.lockAndSaveDiscussions(highlightedDiscussions);
 
 							popup.close();
-						}
+						},
 					},
 					{
 						color1: 'red',
@@ -87,12 +96,12 @@ class DiscussionsImprovedDiscussionBookmarks extends Module {
 						title1: 'Delete',
 						title2: 'Deleting...',
 						callback1: async () => {
-							await Shared.common.lockAndSaveDiscussions(highlightedDiscussions)
+							await Shared.common.lockAndSaveDiscussions(highlightedDiscussions);
 
 							popup.close();
-						}
-					}
-				]
+						},
+					},
+				],
 			});
 			popup.open();
 		}
@@ -106,7 +115,8 @@ class DiscussionsImprovedDiscussionBookmarks extends Module {
 				continue;
 			}
 
-			const context = main && Shared.esgst.discussionPath ? discussion.heading : discussion.outerWrap;
+			const context =
+				main && Shared.esgst.discussionPath ? discussion.heading : discussion.outerWrap;
 
 			let index = 0;
 
@@ -114,7 +124,10 @@ class DiscussionsImprovedDiscussionBookmarks extends Module {
 				await this.bookmarkDiscussion(null, context);
 
 				if (Settings.get('idb_t') && main && Shared.esgst.discussionsPath) {
-					discussion.outerWrap.parentElement.insertBefore(discussion.outerWrap, discussion.outerWrap.parentElement.firstElementChild);
+					discussion.outerWrap.parentElement.insertBefore(
+						discussion.outerWrap,
+						discussion.outerWrap.parentElement.firstElementChild
+					);
 					discussion.isPinned = true;
 				}
 
@@ -130,12 +143,27 @@ class DiscussionsImprovedDiscussionBookmarks extends Module {
 			}
 
 			discussion.idbButton = new Button(discussion.heading.parentElement, 'afterBegin', {
-				callbacks: [this.bookmarkDiscussion.bind(this, discussion.code, context), null, this.unbookmarkDiscussion.bind(this, discussion.code, context), null],
+				callbacks: [
+					this.bookmarkDiscussion.bind(this, discussion.code, context),
+					null,
+					this.unbookmarkDiscussion.bind(this, discussion.code, context),
+					null,
+				],
 				className: 'esgst-idb-button',
-				icons: ['fa-bookmark-o esgst-clickable', 'fa-circle-o-notch fa-spin', `fa-bookmark esgst-clickable ${isNavy ? 'icon-navy' : ''}`, 'fa-circle-o-notch fa-spin'],
+				icons: [
+					'fa-bookmark-o esgst-clickable',
+					'fa-circle-o-notch fa-spin',
+					`fa-bookmark esgst-clickable ${isNavy ? 'icon-navy' : ''}`,
+					'fa-circle-o-notch fa-spin',
+				],
 				id: 'idb',
 				index: index,
-				titles: ['Click to bookmark this discussion', 'Bookmarking discussion...', 'Click to unbookmark this discussion', 'Unbookmarking discussion...']
+				titles: [
+					'Click to bookmark this discussion',
+					'Bookmarking discussion...',
+					'Click to unbookmark this discussion',
+					'Unbookmarking discussion...',
+				],
 			});
 		}
 	}
@@ -143,7 +171,7 @@ class DiscussionsImprovedDiscussionBookmarks extends Module {
 	async bookmarkDiscussion(code, context) {
 		if (code) {
 			await FetchRequest.post(`/discussion/${code}/`, {
-				data: `xsrf_token=${Session.xsrfToken}&do=bookmark_insert`
+				data: `xsrf_token=${Session.xsrfToken}&do=bookmark_insert`,
 			});
 		}
 
@@ -157,7 +185,7 @@ class DiscussionsImprovedDiscussionBookmarks extends Module {
 	async unbookmarkDiscussion(code, context) {
 		if (code) {
 			await FetchRequest.post(`/discussion/${code}/`, {
-				data: `xsrf_token=${Session.xsrfToken}&do=bookmark_delete`
+				data: `xsrf_token=${Session.xsrfToken}&do=bookmark_delete`,
 			});
 		}
 

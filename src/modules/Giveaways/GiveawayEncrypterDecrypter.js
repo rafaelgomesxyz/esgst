@@ -9,8 +9,7 @@ import { Settings } from '../../class/Settings';
 import { DOM } from '../../class/DOM';
 import { Tabs } from '../../class/Tabs';
 
-const
-	buildGiveaway = common.buildGiveaway.bind(common),
+const buildGiveaway = common.buildGiveaway.bind(common),
 	createElements = common.createElements.bind(common),
 	createLock = common.createLock.bind(common),
 	endless_load = common.endless_load.bind(common),
@@ -19,61 +18,77 @@ const
 	lockAndSaveGiveaways = common.lockAndSaveGiveaways.bind(common),
 	request = common.request.bind(common),
 	rot = common.rot.bind(common),
-	setValue = common.setValue.bind(common)
-	;
-
+	setValue = common.setValue.bind(common);
 class GiveawaysGiveawayEncrypterDecrypter extends Module {
 	constructor() {
 		super();
 		this.info = {
 			description: [
-				['ul', [
-					['li', [
-						`Adds an icon (`,
-						['i', { class: 'fa fa-star' }],
-						` if the giveaway is open, `,
-						['i', { class: 'fa fa-star esgst-green' }],
-						` if it is open and new, `,
-						['i', { class: 'fa fa-star esgst-yellow' }],
-						' if it is not open yet and ',
-						['i', { class: 'fa fa-star esgst-red' }],
-						` if it has already ended) next to a comment's "Permalink" (in any page) for each encrypted giveaway that the comment has (if it has any). The icon links to the giveaway.`
-					]],
-					['li', `Encrypted giveaways are basically invite only giveaway codes that ESGST encrypts using various encryption methods and hides in your comments so that they can only be visible through the source code of the page. Other ESGST users are able to easily see these giveaways if they have this feature enabled, but since the codes are visible through the source code of the page, anyone who finds them and manages to decrypt them can access the giveaways. So it is more like a puzzle that ESGST users can solve instantly and non-ESGST users can solve if they give it some effort, though it is doubtful that someone will check the source code of every page they open on SteamGifts looking for the codes.`],
-					['li', `To add encrypted giveaways to your comments, check [id=cfh_g].`],
-					['li', [
-						`Adds a button (`,
-						['i', { class: 'fa fa-star' }],
-						`) next to the ESGST button at the header of any page that allows you to view all of the currently open decrypted giveaways that you have unlocked (they are unlocked whenever you visit a page that contains them).`
-					]]
-				]]
+				[
+					'ul',
+					[
+						[
+							'li',
+							[
+								`Adds an icon (`,
+								['i', { class: 'fa fa-star' }],
+								` if the giveaway is open, `,
+								['i', { class: 'fa fa-star esgst-green' }],
+								` if it is open and new, `,
+								['i', { class: 'fa fa-star esgst-yellow' }],
+								' if it is not open yet and ',
+								['i', { class: 'fa fa-star esgst-red' }],
+								` if it has already ended) next to a comment's "Permalink" (in any page) for each encrypted giveaway that the comment has (if it has any). The icon links to the giveaway.`,
+							],
+						],
+						[
+							'li',
+							`Encrypted giveaways are basically invite only giveaway codes that ESGST encrypts using various encryption methods and hides in your comments so that they can only be visible through the source code of the page. Other ESGST users are able to easily see these giveaways if they have this feature enabled, but since the codes are visible through the source code of the page, anyone who finds them and manages to decrypt them can access the giveaways. So it is more like a puzzle that ESGST users can solve instantly and non-ESGST users can solve if they give it some effort, though it is doubtful that someone will check the source code of every page they open on SteamGifts looking for the codes.`,
+						],
+						['li', `To add encrypted giveaways to your comments, check [id=cfh_g].`],
+						[
+							'li',
+							[
+								`Adds a button (`,
+								['i', { class: 'fa fa-star' }],
+								`) next to the ESGST button at the header of any page that allows you to view all of the currently open decrypted giveaways that you have unlocked (they are unlocked whenever you visit a page that contains them).`,
+							],
+						],
+					],
+				],
 			],
 			features: {
 				ged_b: {
 					description: [
-						['ul', [
-							['li', `With this option enabled, the header button will always appear if there are decrypted giveaways in the page, even if they have already ended (but they will not be listed in the popup).`]
-						]]
+						[
+							'ul',
+							[
+								[
+									'li',
+									`With this option enabled, the header button will always appear if there are decrypted giveaways in the page, even if they have already ended (but they will not be listed in the popup).`,
+								],
+							],
+						],
 					],
 					name: 'Always show the header button if there are decrypted giveaways in the page.',
-					sg: true
+					sg: true,
 				},
 				ged_t: {
 					name: 'Open the list of decrypted giveaways in a new tab.',
-					sg: true
-				}
+					sg: true,
+				},
 			},
 			id: 'ged',
 			name: 'Giveaway Encrypter/Decrypter',
 			sg: true,
-			type: 'giveaways'
+			type: 'giveaways',
 		};
 	}
 
 	init() {
 		if (!this.esgst.sg) return;
 		let ged = {
-			newGiveaways: []
+			newGiveaways: [],
 		};
 		if (Shared.common.isCurrentPath('Account') && this.esgst.parameters.esgst === 'ged') {
 			// noinspection JSIgnoredPromiseFromCall
@@ -94,7 +109,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
 				if (Settings.get('ged_t')) {
 					Tabs.open(`https://www.steamgifts.com/account/settings/profile?esgst=ged`);
 				} else {
-					this.ged_openPopup({isPopup: true});
+					this.ged_openPopup({ isPopup: true });
 				}
 			});
 			// noinspection JSIgnoredPromiseFromCall
@@ -107,7 +122,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
 		if (ged.isPopup) {
 			ged.popup = new Popup({
 				addScrollable: true,
-				isTemp: true
+				isTemp: true,
 			});
 			ged.container = ged.popup.description;
 			ged.context = ged.popup.scrollable;
@@ -126,48 +141,57 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
 			breadcrumbs: [
 				{
 					name: 'ESGST',
-					url: this.esgst.settingsUrl
+					url: this.esgst.settingsUrl,
 				},
 				{
 					name: 'Decrypted Giveaways',
-					url: `https://www.steamgifts.com/account/settings/profile?esgst=ged`
-				}
-			]
+					url: `https://www.steamgifts.com/account/settings/profile?esgst=ged`,
+				},
+			],
 		});
-		createElements(ged.context, 'inner', [{
-			attributes: {
-				class: 'fa fa-circle-o-notch fa-spin'
+		createElements(ged.context, 'inner', [
+			{
+				attributes: {
+					class: 'fa fa-circle-o-notch fa-spin',
+				},
+				type: 'i',
 			},
-			type: 'i'
-		}, {
-			text: 'Loading...',
-			type: 'node'
-		}]);
+			{
+				text: 'Loading...',
+				type: 'node',
+			},
+		]);
 		await this.ged_getGiveaways(ged);
 		ged.context.innerHTML = '';
 		if (Settings.get('gas') || (Settings.get('gf') && Settings.get('gf_m')) || Settings.get('mm')) {
-			let heading = createElements(ged.context, 'afterBegin', [{
-				attributes: {
-					class: 'page__heading'
+			let heading = createElements(ged.context, 'afterBegin', [
+				{
+					attributes: {
+						class: 'page__heading',
+					},
+					type: 'div',
 				},
-				type: 'div'
-			}]);
+			]);
 			if (Settings.get('gas')) {
 				this.esgst.modules.giveawaysGiveawaysSorter.init(heading);
 			}
 			if (Settings.get('gf') && Settings.get('gf_m')) {
-				heading.appendChild(this.esgst.modules.giveawaysGiveawayFilters.filters_addContainer(heading, 'Ged'));
+				heading.appendChild(
+					this.esgst.modules.giveawaysGiveawayFilters.filters_addContainer(heading, 'Ged')
+				);
 			}
 			if (Settings.get('mm')) {
 				this.esgst.modules.generalMultiManager.mm(heading);
 			}
 		}
-		ged.results = createElements(ged.context, 'beforeEnd', [{
-			attributes: {
-				class: 'esgst-text-left'
+		ged.results = createElements(ged.context, 'beforeEnd', [
+			{
+				attributes: {
+					class: 'esgst-text-left',
+				},
+				type: 'div',
 			},
-			type: 'div'
-		}]);
+		]);
 		ged.set = new ButtonSet({
 			color1: 'green',
 			color2: 'grey',
@@ -175,7 +199,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
 			icon2: 'fa-circle-o-notch fa-spin',
 			title1: 'Load More',
 			title2: 'Loading more...',
-			callback1: this.ged_loadGiveaways.bind(this, ged)
+			callback1: this.ged_loadGiveaways.bind(this, ged),
 		});
 		ged.container.appendChild(ged.set.set);
 		if (ged.isPopup) {
@@ -206,11 +230,19 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
 					const name = Settings.get('gf_presetGed');
 					if (name) {
 						let i;
-						for (i = Settings.get('gf_presets').length - 1; i > -1 && Settings.get('gf_presets')[i].name !== name; i--) {
-						}
+						for (
+							i = Settings.get('gf_presets').length - 1;
+							i > -1 && Settings.get('gf_presets')[i].name !== name;
+							i--
+						) {}
 						if (i > -1) {
 							const preset = Settings.get('gf_presets')[i];
-							filtered = this.esgst.modules.giveawaysGiveawayFilters.filters_filterItem(this.esgst.modules.giveawaysGiveawayFilters.getFilters(true), giveaway, preset.rules, true);
+							filtered = this.esgst.modules.giveawaysGiveawayFilters.filters_filterItem(
+								this.esgst.modules.giveawaysGiveawayFilters.getFilters(true),
+								giveaway,
+								preset.rules,
+								true
+							);
 						}
 					}
 					if (filtered && isEnded && !giveaway.started) {
@@ -222,7 +254,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
 					ged.giveaways.push({
 						code: code,
 						source: this.esgst.decryptedGiveaways[code].source,
-						timestamp: this.esgst.decryptedGiveaways[code].timestamp
+						timestamp: this.esgst.decryptedGiveaways[code].timestamp,
 					});
 				}
 			}
@@ -241,7 +273,16 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
 
 	async ged_getGiveaway(code, currentGiveaways, isEnded, source) {
 		let response = await request({ method: 'GET', url: `/giveaway/${code}/` });
-		let giveaway = (await this.esgst.modules.giveaways.giveaways_get(DOM.parse(response.responseText), false, response.finalUrl, false, null, true))[0];
+		let giveaway = (
+			await this.esgst.modules.giveaways.giveaways_get(
+				DOM.parse(response.responseText),
+				false,
+				response.finalUrl,
+				false,
+				null,
+				true
+			)
+		)[0];
 		if (giveaway) {
 			currentGiveaways[code] = giveaway;
 			if (giveaway.started && isEnded) {
@@ -251,7 +292,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
 		if (source) {
 			this.esgst.decryptedGiveaways[code] = {
 				source: source,
-				timestamp: (giveaway && giveaway.endTime) || 0
+				timestamp: (giveaway && giveaway.endTime) || 0,
 			};
 		}
 		return giveaway;
@@ -259,7 +300,15 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
 
 	async ged_loadGiveaways(ged) {
 		let i = 0;
-		while ((i < 5 || (Settings.get('es_ged') && ged.context.scrollHeight <= ged.context.offsetHeight) || ((ged.results.children.length - ((this.esgst.gfPopup && parseInt(this.esgst.gfPopup.filteredCount.textContent)) || 0)) % 5 !== 0)) && ged.i < ged.n) {
+		while (
+			(i < 5 ||
+				(Settings.get('es_ged') && ged.context.scrollHeight <= ged.context.offsetHeight) ||
+				(ged.results.children.length -
+					((this.esgst.gfPopup && parseInt(this.esgst.gfPopup.filteredCount.textContent)) || 0)) %
+					5 !==
+					0) &&
+			ged.i < ged.n
+		) {
 			i += 1;
 			let giveaway = ged.giveaways[ged.i];
 			ged.i += 1;
@@ -270,18 +319,26 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
 			}
 			let context = createElements(ged.results, 'beforeEnd', builtGiveaway.html);
 			if (giveaway.source) {
-				createElements(context.getElementsByClassName('giveaway__columns')[0], 'afterBegin', [{
-					attributes: {
-						class: 'esgst-ged-source',
-						href: `${giveaway.source.match(/\/discussion\//) ? giveaway.source : `/go/comment/${giveaway.source}`}`
+				createElements(context.getElementsByClassName('giveaway__columns')[0], 'afterBegin', [
+					{
+						attributes: {
+							class: 'esgst-ged-source',
+							href: `${
+								giveaway.source.match(/\/discussion\//)
+									? giveaway.source
+									: `/go/comment/${giveaway.source}`
+							}`,
+						},
+						text: 'Source',
+						type: 'a',
 					},
-					text: 'Source',
-					type: 'a'
-				}]);
+				]);
 			}
 			await endless_load(context, false, 'ged');
 			if (ged.newGiveaways.indexOf(giveaway.code) > -1) {
-				context.getElementsByClassName('giveaway__heading__name')[0].insertAdjacentText("afterbegin", `[NEW] `);
+				context
+					.getElementsByClassName('giveaway__heading__name')[0]
+					.insertAdjacentText('afterbegin', `[NEW] `);
 			}
 		}
 		if (ged.i >= ged.n) {
@@ -290,7 +347,10 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
 	}
 
 	ged_checkEndless(ged) {
-		if ((ged.context.scrollTop + ged.context.offsetHeight) >= ged.context.scrollHeight && !ged.set.busy) {
+		if (
+			ged.context.scrollTop + ged.context.offsetHeight >= ged.context.scrollHeight &&
+			!ged.set.busy
+		) {
 			ged.set.trigger();
 		}
 	}
@@ -316,11 +376,18 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
 					this.esgst.decryptedGiveaways = JSON.parse(getValue('decryptedGiveaways'));
 				}
 				code = this.ged_decryptCode(code);
-				let isEnded = this.esgst.decryptedGiveaways[code] && currentTime > this.esgst.decryptedGiveaways[code].timestamp;
+				let isEnded =
+					this.esgst.decryptedGiveaways[code] &&
+					currentTime > this.esgst.decryptedGiveaways[code].timestamp;
 				let isNew = false;
 				let isStarted = this.esgst.giveaways[code] && this.esgst.giveaways[code].started;
 				if (!this.esgst.decryptedGiveaways[code] || (isEnded && !isStarted)) {
-					let giveaway = await this.ged_getGiveaway(code, currentGiveaways, false, comment.id || window.location.href);
+					let giveaway = await this.ged_getGiveaway(
+						code,
+						currentGiveaways,
+						false,
+						comment.id || window.location.href
+					);
 					ged.newGiveaways.push(code);
 					if (giveaway) {
 						isEnded = giveaway.ended;
@@ -334,20 +401,26 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
 				} else {
 					hasNew = isNew = true;
 				}
-				createElements(comment.actions, 'beforeEnd', [{
-					attributes: {
-						class: `esgst-ged-icon${isEnded ? ' esgst-red' : (isStarted ? (isNew ? ' esgst-green' : '') : ' esgst-yellow')}`,
-						href: `/giveaway/${code}/`,
-						title: getFeatureTooltip('ged', 'ESGST Decrypted Giveaway')
-					},
-					type: 'a',
-					children: [{
+				createElements(comment.actions, 'beforeEnd', [
+					{
 						attributes: {
-							class: 'fa fa-star'
+							class: `esgst-ged-icon${
+								isEnded ? ' esgst-red' : isStarted ? (isNew ? ' esgst-green' : '') : ' esgst-yellow'
+							}`,
+							href: `/giveaway/${code}/`,
+							title: getFeatureTooltip('ged', 'ESGST Decrypted Giveaway'),
 						},
-						type: 'i'
-					}]
-				}]);
+						type: 'a',
+						children: [
+							{
+								attributes: {
+									class: 'fa fa-star',
+								},
+								type: 'i',
+							},
+						],
+					},
+				]);
 			}
 		}
 		if (deleteLock) {
@@ -380,7 +453,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
 				for (i = 0, n = rotated.length; i < n; ++i) {
 					encrypted += rotated.charCodeAt(i).toString(16);
 				}
-				encrypted = encrypted.replace(/\d/g, n => {
+				encrypted = encrypted.replace(/\d/g, (n) => {
 					return alphabet[parseInt(n)];
 				});
 				return encrypted;
@@ -401,7 +474,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
 					encrypted += rotated.charCodeAt(i).toString(16);
 				}
 				encrypted += rotation.toString(16);
-				encrypted = encrypted.replace(/\d/g, n => {
+				encrypted = encrypted.replace(/\d/g, (n) => {
 					return alphabet[parseInt(n)];
 				});
 				return encrypted;
@@ -411,7 +484,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
 	ged_decryptCode(encrypted) {
 		let alphabet, code, rotation;
 		alphabet = 'NOPQRSTUVWXYZABCDEFGHIJKLM';
-		encrypted = encrypted.replace(/-/g, '').replace(/[A-Z]/g, n => {
+		encrypted = encrypted.replace(/-/g, '').replace(/[A-Z]/g, (n) => {
 			return `${alphabet.indexOf(n)}`;
 		});
 		rotation = encrypted.slice(10);
@@ -421,9 +494,12 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
 			rotation = 13;
 		}
 		code = '';
-		encrypted.slice(0, 10).match(/../g).forEach(n => {
-			code += String.fromCharCode(parseInt(n, 16));
-		});
+		encrypted
+			.slice(0, 10)
+			.match(/../g)
+			.forEach((n) => {
+				code += String.fromCharCode(parseInt(n, 16));
+			});
 		return rot(code, 26 - rotation);
 	}
 
@@ -438,11 +514,11 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
 			return;
 		}
 		let ged = {
-			giveaways: {}
+			giveaways: {},
 		};
 		this.esgst.decryptedGiveaways = JSON.parse(getValue('decryptedGiveaways'));
 		let promises = [];
-		codes.forEach(code => {
+		codes.forEach((code) => {
 			if (this.esgst.decryptedGiveaways[code]) {
 				return;
 			}
@@ -450,7 +526,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
 			if (giveaway && giveaway.endTime) {
 				this.esgst.decryptedGiveaways[code] = {
 					source: source,
-					timestamp: giveaway.endTime
+					timestamp: giveaway.endTime,
 				};
 				return;
 			}

@@ -7,20 +7,40 @@ import { FetchRequest } from './FetchRequest';
  * @see https://www.dropbox.com/developers/documentation/http/documentation
  */
 class DropboxStorage extends ICloudStorage {
-	static get CLIENT_ID() { return 'nix7kvchwa8wdvj'; }
-	static get AUTH_URL() { return `https://www.dropbox.com/oauth2/authorize`; }
-	static get API_BASE_URL() { return `https://api.dropboxapi.com/2`; }
-	static get CONTENT_BASE_URL() { return `https://content.dropboxapi.com/2`; }
-	static get UPLOAD_URL() { return `${DropboxStorage.CONTENT_BASE_URL}/files/upload`; }
-	static get DOWNLOAD_URL() { return `${DropboxStorage.CONTENT_BASE_URL}/files/download`; }
-	static get DELETE_URL() { return `${DropboxStorage.API_BASE_URL}/files/delete_v2`; }
-	static get DELETE_BATCH_URL() { return `${DropboxStorage.API_BASE_URL}/files/delete_batch`; }
-	static get DELETE_BATCH_CHECK_URL() { return `${DropboxStorage.API_BASE_URL}/files/delete_batch/check`; }
-	static get LIST_URL() { return `${DropboxStorage.API_BASE_URL}/files/list_folder`; }
+	static get CLIENT_ID() {
+		return 'nix7kvchwa8wdvj';
+	}
+	static get AUTH_URL() {
+		return `https://www.dropbox.com/oauth2/authorize`;
+	}
+	static get API_BASE_URL() {
+		return `https://api.dropboxapi.com/2`;
+	}
+	static get CONTENT_BASE_URL() {
+		return `https://content.dropboxapi.com/2`;
+	}
+	static get UPLOAD_URL() {
+		return `${DropboxStorage.CONTENT_BASE_URL}/files/upload`;
+	}
+	static get DOWNLOAD_URL() {
+		return `${DropboxStorage.CONTENT_BASE_URL}/files/download`;
+	}
+	static get DELETE_URL() {
+		return `${DropboxStorage.API_BASE_URL}/files/delete_v2`;
+	}
+	static get DELETE_BATCH_URL() {
+		return `${DropboxStorage.API_BASE_URL}/files/delete_batch`;
+	}
+	static get DELETE_BATCH_CHECK_URL() {
+		return `${DropboxStorage.API_BASE_URL}/files/delete_batch/check`;
+	}
+	static get LIST_URL() {
+		return `${DropboxStorage.API_BASE_URL}/files/list_folder`;
+	}
 
 	static getDefaultHeaders(token) {
 		return {
-			authorization: `Bearer ${token}`
+			authorization: `Bearer ${token}`,
 		};
 	}
 
@@ -30,12 +50,12 @@ class DropboxStorage extends ICloudStorage {
 			client_id: DropboxStorage.CLIENT_ID,
 			redirect_uri: DropboxStorage.REDIRECT_URL,
 			response_type: 'token',
-			state: 'dropbox'
+			state: 'dropbox',
 		};
 		const url = FetchRequest.addQueryParams(DropboxStorage.AUTH_URL, params);
 		await Shared.common.delValue(key);
 		Shared.common.openSmallWindow(url);
-		return (await DropboxStorage.getToken(key));
+		return await DropboxStorage.getToken(key);
 	}
 
 	static async upload(token, data, fileName) {
@@ -46,9 +66,11 @@ class DropboxStorage extends ICloudStorage {
 			data,
 			fileName: Settings.get('backupZip') ? `${fileName}.json` : null,
 			headers: Object.assign(DropboxStorage.getDefaultHeaders(token), {
-				'Dropbox-API-Arg': Settings.get('backupZip') ? `{"path": "/${fileName}.zip"}` : `{"path": "/${fileName}.json"}`,
-				'Content-Type': 'application/octet-stream'
-			})
+				'Dropbox-API-Arg': Settings.get('backupZip')
+					? `{"path": "/${fileName}.zip"}`
+					: `{"path": "/${fileName}.json"}`,
+				'Content-Type': 'application/octet-stream',
+			}),
 		};
 		const response = await FetchRequest.post(DropboxStorage.UPLOAD_URL, requestOptions);
 		if (!response.json || !response.json.id) {
@@ -64,8 +86,8 @@ class DropboxStorage extends ICloudStorage {
 			blob: fileInfo.name.match(/\.zip$/),
 			headers: Object.assign(DropboxStorage.getDefaultHeaders(token), {
 				'Dropbox-API-Arg': `{"path": "/${fileInfo.name}"}`,
-				'Content-Type': 'text/plain'
-			})
+				'Content-Type': 'text/plain',
+			}),
 		};
 		const response = await FetchRequest.get(DropboxStorage.DOWNLOAD_URL, requestOptions);
 		return response.text;
@@ -78,8 +100,8 @@ class DropboxStorage extends ICloudStorage {
 		const requestOptions = {
 			data: `{ "path": "/${fileInfo.name}" }`,
 			headers: Object.assign(DropboxStorage.getDefaultHeaders(token), {
-				'Content-Type': 'application/json'
-			})
+				'Content-Type': 'application/json',
+			}),
 		};
 		const response = await FetchRequest.post(DropboxStorage.DELETE_URL, requestOptions);
 		if (!response.json || response.json.error) {
@@ -93,14 +115,14 @@ class DropboxStorage extends ICloudStorage {
 		}
 		const output = {
 			success: [],
-			error: []
+			error: [],
 		};
-		const batchRequests = JSON.stringify(fileIds.map(x => ({ path: `/${x}` })));
+		const batchRequests = JSON.stringify(fileIds.map((x) => ({ path: `/${x}` })));
 		const requestOptions = {
 			data: `{ "entries": ${batchRequests} }`,
 			headers: Object.assign(DropboxStorage.getDefaultHeaders(token), {
-				'Content-Type': 'application/json'
-			})
+				'Content-Type': 'application/json',
+			}),
 		};
 		const response = await FetchRequest.post(DropboxStorage.DELETE_BATCH_URL, requestOptions);
 		if (!response.json) {
@@ -120,17 +142,17 @@ class DropboxStorage extends ICloudStorage {
 	}
 
 	static waitDeleteBatch(token, jobId) {
-		return new Promise(resolve => {
+		return new Promise((resolve) => {
 			DropboxStorage.checkDeleteBatch(token, jobId, resolve);
 		});
 	}
-	
-	static async checkDeleteBatch(token, jobId, resolve) {  
+
+	static async checkDeleteBatch(token, jobId, resolve) {
 		const requestOptions = {
 			data: `{ "async_job_id": ${JSON.stringify(jobId)} }`,
 			headers: Object.assign(DropboxStorage.getDefaultHeaders(token), {
-				'Content-Type': 'application/json'
-			})
+				'Content-Type': 'application/json',
+			}),
 		};
 		const response = await FetchRequest.post(DropboxStorage.DELETE_BATCH_CHECK_URL, requestOptions);
 		if (response.json && response.json['.tag'] === 'complete') {
@@ -147,14 +169,16 @@ class DropboxStorage extends ICloudStorage {
 		const requestOptions = {
 			data: `{ "path": "" }`,
 			headers: Object.assign(DropboxStorage.getDefaultHeaders(token), {
-				'Content-Type': 'application/json'
+				'Content-Type': 'application/json',
 			}),
 		};
 		const response = await FetchRequest.post(DropboxStorage.LIST_URL, requestOptions);
 		if (!response.json || !response.json.entries) {
 			throw new Error(response.text);
 		}
-		return response.json.entries.reverse().map(x => (x.id = x.name) && (x.date = x.server_modified) && x);
+		return response.json.entries
+			.reverse()
+			.map((x) => (x.id = x.name) && (x.date = x.server_modified) && x);
 	}
 }
 

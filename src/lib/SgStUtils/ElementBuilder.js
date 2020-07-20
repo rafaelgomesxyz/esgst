@@ -5,13 +5,13 @@ const CLASS_NAMES = {
 	sg: {
 		pageHeading: 'page__heading',
 		pageHeadingBreadcrumbs: 'page__heading__breadcrumbs',
-		pageHeadingButton: 'page__heading__button'
+		pageHeadingButton: 'page__heading__button',
 	},
 	st: {
 		pageHeading: 'page_heading',
 		pageHeadingBreadcrumbs: 'page_heading_breadcrumbs',
-		pageHeadingButton: 'page_heading_btn'
-	}
+		pageHeadingButton: 'page_heading_btn',
+	},
 };
 
 class SgNotification {
@@ -24,19 +24,26 @@ class SgNotification {
 	 * @param {String} options.message
 	 */
 	constructor(options) {
-		options = Object.assign({
-			context: null,
-			position: null,
-			type: 'warning',
-			icons: [],
-			message: ''
-		}, options);
+		options = Object.assign(
+			{
+				context: null,
+				position: null,
+				type: 'warning',
+				icons: [],
+				message: '',
+			},
+			options
+		);
 		DOM.build(options.context, options.position, [
-			['div', { ref: ref => this.notification = ref }, [
-				['i', { ref: ref => this.icon = ref }],
-				' ',
-				['span', { ref: ref => this.message = ref }]
-			]]
+			[
+				'div',
+				{ ref: (ref) => (this.notification = ref) },
+				[
+					['i', { ref: (ref) => (this.icon = ref) }],
+					' ',
+					['span', { ref: (ref) => (this.message = ref) }],
+				],
+			],
 		]);
 		this.setType(options.type);
 		this.setIcons(options.icons);
@@ -63,14 +70,27 @@ class PageHeading {
 	 */
 	constructor(options, namespace) {
 		this.namespace = namespace;
-		options = Object.assign({
-			context: null,
-			position: null
-		}, options);
+		options = Object.assign(
+			{
+				context: null,
+				position: null,
+			},
+			options
+		);
 		DOM.build(options.context, options.position, [
-			['div', { class: CLASS_NAMES[this.namespace].pageHeading, ref: ref => this.pageHeading = ref }, [
-				['div', { class: CLASS_NAMES[this.namespace].pageHeadingBreadcrumbs, ref: ref => this.breadcrumbs = ref }]
-			]]
+			[
+				'div',
+				{ class: CLASS_NAMES[this.namespace].pageHeading, ref: (ref) => (this.pageHeading = ref) },
+				[
+					[
+						'div',
+						{
+							class: CLASS_NAMES[this.namespace].pageHeadingBreadcrumbs,
+							ref: (ref) => (this.breadcrumbs = ref),
+						},
+					],
+				],
+			],
 		]);
 		if (Settings.get('fmph')) {
 			this.pageHeading.classList.add('esgst-fmph');
@@ -105,13 +125,20 @@ class PageHeading {
 	addButton(options) {
 		let icons = [];
 		for (const icon of options.icons) {
-			icons.push(
-				['i', { class: `fa ${icon}`, style: `margin: 0` }],
-				' '
-			);
+			icons.push(['i', { class: `fa ${icon}`, style: `margin: 0` }], ' ');
 		}
 		return DOM.build(this.pageHeading, options.position, [
-			['a', { class: `${CLASS_NAMES[this.namespace].pageHeadingButton} is-clickable`, title: options.title, onclick: options.onclick, ref: options.ref, style: `display: inline-block;` }, icons.slice(0, -1)]
+			[
+				'a',
+				{
+					class: `${CLASS_NAMES[this.namespace].pageHeadingButton} is-clickable`,
+					title: options.title,
+					onclick: options.onclick,
+					ref: options.ref,
+					style: `display: inline-block;`,
+				},
+				icons.slice(0, -1),
+			],
 		]);
 	}
 }
@@ -131,11 +158,11 @@ class StPageHeading extends PageHeading {
 const elementBuilder = {
 	sg: {
 		notification: SgNotification,
-		pageHeading: SgPageHeading
+		pageHeading: SgPageHeading,
 	},
 	st: {
-		pageHeading: StPageHeading
-	}
+		pageHeading: StPageHeading,
+	},
 };
 
 export { elementBuilder };

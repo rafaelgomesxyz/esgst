@@ -79,11 +79,13 @@ abstract class CommentBox implements ICommentBox {
 class SgCommentBox extends CommentBox {
 	constructor(parent: IComment = null) {
 		super(parent);
-	}	
+	}
 
 	static parseAll(context: HTMLElement, parent: IComment = null): SgCommentBox[] {
 		const boxes: SgCommentBox[] = [];
-		const elements = context.querySelectorAll('.comments > .comment--submit:not([data-esgst-parsed]), :scope > .comment--submit:not([data-esgst-parsed])');
+		const elements = context.querySelectorAll(
+			'.comments > .comment--submit:not([data-esgst-parsed]), :scope > .comment--submit:not([data-esgst-parsed])'
+		);
 		for (const element of elements) {
 			const box = new SgCommentBox(parent);
 			box.parse(element as HTMLDivElement);
@@ -137,11 +139,19 @@ class SgCommentBox extends CommentBox {
 		if (this.nodes.outer) {
 			this.nodes.outer.remove();
 		}
-		const outer = DOM.insert(context, position, (
+		const outer = DOM.insert(
+			context,
+			position,
 			<div class="comment comment--submit">
 				<div class="comment__parent">
-					<a href={this.author.data.url} class="global__image-outer-wrap global__image-outer-wrap--avatar-small">
-						<div class="global__image-inner-wrap" style={`background-image:url(${this.author.data.avatar});`}></div>
+					<a
+						href={this.author.data.url}
+						class="global__image-outer-wrap global__image-outer-wrap--avatar-small"
+					>
+						<div
+							class="global__image-inner-wrap"
+							style={`background-image:url(${this.author.data.avatar});`}
+						></div>
 					</a>
 					<div class="comment__summary">
 						<div class="comment__author">
@@ -152,13 +162,21 @@ class SgCommentBox extends CommentBox {
 						<div class="comment__display-state">
 							<div class="comment__description">
 								<form method="post">
-									<input type="hidden" name="do" value="comment_new"/>
-									<input type="hidden" name="xsrf_token" value={Session.xsrfToken}/>
-									<input type="hidden" name="parent_id" value={this.parent ? this.parent.data.id : ''}/>
+									<input type="hidden" name="do" value="comment_new" />
+									<input type="hidden" name="xsrf_token" value={Session.xsrfToken} />
+									<input
+										type="hidden"
+										name="parent_id"
+										value={this.parent ? this.parent.data.id : ''}
+									/>
 									<textarea name="description">{this.data.markdown}</textarea>
 									<div class="align-button-container">
-										<a href="" class="comment__submit-button js__submit-form">Submit Comment</a>
-										<div class="comment__cancel-button js__comment-reply-cancel"><span>Cancel</span></div>
+										<a href="" class="comment__submit-button js__submit-form">
+											Submit Comment
+										</a>
+										<div class="comment__cancel-button js__comment-reply-cancel">
+											<span>Cancel</span>
+										</div>
 									</div>
 								</form>
 							</div>
@@ -166,7 +184,7 @@ class SgCommentBox extends CommentBox {
 					</div>
 				</div>
 			</div>
-		));
+		);
 		this.parseNodes(outer);
 	}
 }
@@ -174,11 +192,13 @@ class SgCommentBox extends CommentBox {
 class StCommentBox extends CommentBox {
 	constructor(parent: IComment = null) {
 		super(parent);
-	}	
+	}
 
 	static parseAll(context: HTMLElement, parent: IComment = null): StCommentBox[] {
 		const boxes: StCommentBox[] = [];
-		const elements = context.querySelectorAll('.comments > .reply_form:not([data-esgst-parsed]), :scope > .reply_form:not([data-esgst-parsed])');
+		const elements = context.querySelectorAll(
+			'.comments > .reply_form:not([data-esgst-parsed]), :scope > .reply_form:not([data-esgst-parsed])'
+		);
 		for (const element of elements) {
 			const box = new StCommentBox(parent);
 			box.parse(element as HTMLDivElement);
@@ -231,26 +251,41 @@ class StCommentBox extends CommentBox {
 		if (this.nodes.outer) {
 			this.nodes.outer.remove();
 		}
-		const outer = DOM.insert(context, position, (
+		const outer = DOM.insert(
+			context,
+			position,
 			<div class="reply_form">
 				<div class="heading">{this.data.isReview ? 'Add Review' : 'Add Comment'}</div>
 				<form>
-					<input type="hidden" name="do" value={this.data.isReview ? 'review_insert' : 'comment_insert'}/>
+					<input
+						type="hidden"
+						name="do"
+						value={this.data.isReview ? 'review_insert' : 'comment_insert'}
+					/>
 					{!this.data.isReview && (
-						<input type="hidden" name="trade_code" value={this.data.tradeCode}/>
+						<input type="hidden" name="trade_code" value={this.data.tradeCode} />
 					)}
-					<input type="hidden" name="xsrf_token" value={Session.xsrfToken}/>
+					<input type="hidden" name="xsrf_token" value={Session.xsrfToken} />
 					{this.data.isReview ? (
 						<fragment>
-							<input type="hidden" name="profile_id" value={this.data.profileId}/>
-							<input type="hidden" name="rating" value=""/>
+							<input type="hidden" name="profile_id" value={this.data.profileId} />
+							<input type="hidden" name="rating" value="" />
 						</fragment>
 					) : (
-						<input type="hidden" name="parent_id" value={this.parent ? this.parent.data.id : ''}/>
+						<input type="hidden" name="parent_id" value={this.parent ? this.parent.data.id : ''} />
 					)}
-					<textarea placeholder={this.data.isReview ? 'Write about your trading experience with this user...' : `Write a reply${this.parent ? ` to ${this.parent.author.data.username}` : ''}...`} name="description">{this.data.markdown}</textarea>
+					<textarea
+						placeholder={
+							this.data.isReview
+								? 'Write about your trading experience with this user...'
+								: `Write a reply${this.parent ? ` to ${this.parent.author.data.username}` : ''}...`
+						}
+						name="description"
+					>
+						{this.data.markdown}
+					</textarea>
 					<div class="btn_actions">
-						{this.data.isReview && (							
+						{this.data.isReview && (
 							<div class="rating_checkbox_container">
 								<div data-rating="1" class="rating_checkbox is_positive">
 									<i class="is_default fa fa-fw fa-thumbs-o-up"></i>
@@ -278,7 +313,7 @@ class StCommentBox extends CommentBox {
 					</div>
 				</form>
 			</div>
-		));
+		);
 		this.parseNodes(outer);
 	}
 }

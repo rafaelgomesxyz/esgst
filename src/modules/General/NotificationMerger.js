@@ -14,20 +14,26 @@ class GeneralNotificationMerger extends Module {
 		this.info = {
 			// by Royalgamer06
 			description: [
-				['ul', [
-					['li', [
-						`Adds a second inbox icon colored as red (`,
-						['i', { class: 'fa fa-envelope esgst-red' }],
-						`) to the header of any page that allows you to be notified about messages from SteamTrades on SteamGifts and vice-versa.`
-					]],
-					['li', `This feature is compatible with [id=hr_b].`]
-				]]
+				[
+					'ul',
+					[
+						[
+							'li',
+							[
+								`Adds a second inbox icon colored as red (`,
+								['i', { class: 'fa fa-envelope esgst-red' }],
+								`) to the header of any page that allows you to be notified about messages from SteamTrades on SteamGifts and vice-versa.`,
+							],
+						],
+						['li', `This feature is compatible with [id=hr_b].`],
+					],
+				],
 			],
 			id: 'nm',
 			name: 'Notification Merger',
 			sg: true,
 			st: true,
-			type: 'general'
+			type: 'general',
 		};
 	}
 
@@ -64,7 +70,10 @@ class GeneralNotificationMerger extends Module {
 				if (Shared.header.buttonContainers['stMessages']) {
 					Shared.header.buttonContainers['stMessages'].nodes.outer.classList.remove('esgst-hidden');
 
-					Shared.header.updateCounter('stMessages', header.buttonContainers['messages'].data.counter);
+					Shared.header.updateCounter(
+						'stMessages',
+						header.buttonContainers['messages'].data.counter
+					);
 				} else {
 					Shared.header.addButtonContainer({
 						buttonIcon: 'fa fa-envelope esgst-nm-icon',
@@ -108,7 +117,10 @@ class GeneralNotificationMerger extends Module {
 				if (Shared.header.buttonContainers['sgMessages']) {
 					Shared.header.buttonContainers['sgMessages'].nodes.outer.classList.remove('esgst-hidden');
 
-					Shared.header.updateCounter('sgMessages', header.buttonContainers['messages'].data.counter);
+					Shared.header.updateCounter(
+						'sgMessages',
+						header.buttonContainers['messages'].data.counter
+					);
 				} else {
 					Shared.header.addButtonContainer({
 						buttonIcon: 'fa fa-envelope esgst-nm-icon',

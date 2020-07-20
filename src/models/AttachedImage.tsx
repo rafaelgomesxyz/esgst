@@ -62,7 +62,7 @@ class SgAttachedImage extends AttachedImage {
 		super();
 	}
 
-	static parseAll(context: HTMLElement): SgAttachedImage[] {    
+	static parseAll(context: HTMLElement): SgAttachedImage[] {
 		const images: SgAttachedImage[] = [];
 		const elements = context.querySelectorAll('.comment__toggle-attached');
 		for (const element of elements) {
@@ -99,14 +99,21 @@ class SgAttachedImage extends AttachedImage {
 		if (this.nodes.outer) {
 			this.nodes.outer.remove();
 		}
-		const outer = DOM.insert(context, position, (
+		const outer = DOM.insert(
+			context,
+			position,
 			<div>
 				<div class="comment__toggle-attached">View attached image.</div>
 				<a href={this.data.url} rel="nofollow noopener" target="_blank">
-					<img alt={this.data.title} title={this.data.title} class="is-hidden" src={this.data.url}/>
+					<img
+						alt={this.data.title}
+						title={this.data.title}
+						class="is-hidden"
+						src={this.data.url}
+					/>
 				</a>
 			</div>
-		));
+		);
 		this.parseNodes(outer);
 	}
 }
@@ -116,7 +123,7 @@ class StAttachedImage extends AttachedImage {
 		super();
 	}
 
-	static parseAll(context: HTMLElement): StAttachedImage[] {    
+	static parseAll(context: HTMLElement): StAttachedImage[] {
 		const images: StAttachedImage[] = [];
 		const elements = context.querySelectorAll('.view_attached');
 		for (const element of elements) {
@@ -153,14 +160,21 @@ class StAttachedImage extends AttachedImage {
 		if (this.nodes.outer) {
 			this.nodes.outer.remove();
 		}
-		const outer = DOM.insert(context, position, (
+		const outer = DOM.insert(
+			context,
+			position,
 			<div>
 				<div class="view_attached">View attached image.</div>
 				<a href={this.data.url}>
-					<img alt={this.data.title} title={this.data.title} class="is_hidden" src={this.data.url}/>
+					<img
+						alt={this.data.title}
+						title={this.data.title}
+						class="is_hidden"
+						src={this.data.url}
+					/>
 				</a>
 			</div>
-		));
+		);
 		this.parseNodes(outer);
 	}
 }

@@ -21,34 +21,34 @@
 	display: none !important;
 }
 
-.query-builder .rules-group-container [data-resume=group] {
+.query-builder .rules-group-container [data-resume='group'] {
 	display: none !important;
 }
 
-.query-builder .rules-group-container[data-esgst-paused=true] [data-resume=group] {
+.query-builder .rules-group-container[data-esgst-paused='true'] [data-resume='group'] {
 	display: block !important;
 }
 
-.query-builder .rules-group-container[data-esgst-paused=true] [data-pause=group] {
+.query-builder .rules-group-container[data-esgst-paused='true'] [data-pause='group'] {
 	display: none !important;
 }
 
-.query-builder .rule-container [data-resume=rule] {
+.query-builder .rule-container [data-resume='rule'] {
 	display: none !important;
 }
 
-.query-builder .rule-container[data-esgst-paused=true] [data-resume=rule] {
+.query-builder .rule-container[data-esgst-paused='true'] [data-resume='rule'] {
 	display: block !important;
 }
 
-.query-builder .rule-container[data-esgst-paused=true] [data-pause=rule] {
+.query-builder .rule-container[data-esgst-paused='true'] [data-pause='rule'] {
 	display: none !important;
 }
 
-.query-builder .rule-container[data-esgst-paused=true] {
+.query-builder .rule-container[data-esgst-paused='true'] {
 	opacity: 0.5 !important;
 }
 
-.query-builder .rules-group-container[data-esgst-paused=true] {
+.query-builder .rules-group-container[data-esgst-paused='true'] {
 	opacity: 0.5 !important;
 }

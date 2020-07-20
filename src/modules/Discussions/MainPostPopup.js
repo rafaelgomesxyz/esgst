@@ -3,35 +3,41 @@ import { Popup } from '../../class/Popup';
 import { common } from '../Common';
 import { Settings } from '../../class/Settings';
 
-const
-	createHeadingButton = common.createHeadingButton.bind(common)
-	;
-
+const createHeadingButton = common.createHeadingButton.bind(common);
 class DiscussionsMainPostPopup extends Module {
 	constructor() {
 		super();
 		this.info = {
 			description: [
-				['ul', [
-					['li', [
-						`Hides the main post of a discussion and adds a button (`,
-						['i', { class: 'fa fa-home' }],
-						`) to its main page heading that allows you to open the main post through a popup.`
-					]],
-					['li', `This feature is useful if you have [id=fmph] enabled, which allows you to view the main post of a discussion from any scrolling position.`]
-				]]
+				[
+					'ul',
+					[
+						[
+							'li',
+							[
+								`Hides the main post of a discussion and adds a button (`,
+								['i', { class: 'fa fa-home' }],
+								`) to its main page heading that allows you to open the main post through a popup.`,
+							],
+						],
+						[
+							'li',
+							`This feature is useful if you have [id=fmph] enabled, which allows you to view the main post of a discussion from any scrolling position.`,
+						],
+					],
+				],
 			],
 			features: {
 				mpp_r: {
 					dependencies: ['ct'],
 					name: 'Only hide the main post if it has been marked as read.',
-					sg: true
-				}
+					sg: true,
+				},
 			},
 			id: 'mpp',
 			name: 'Main Post Popup',
 			sg: true,
-			type: 'discussions'
+			type: 'discussions',
 		};
 	}
 
@@ -39,7 +45,11 @@ class DiscussionsMainPostPopup extends Module {
 		if (!this.esgst.discussionPath) {
 			return;
 		}
-		let button = createHeadingButton({ id: 'mpp', icons: ['fa-home'], title: 'Open the main post' });
+		let button = createHeadingButton({
+			id: 'mpp',
+			icons: ['fa-home'],
+			title: 'Open the main post',
+		});
 		let MPPPost = document.createElement('div');
 		MPPPost.className = 'page__outer-wrap';
 		let Sibling;
@@ -52,7 +62,9 @@ class DiscussionsMainPostPopup extends Module {
 		this.esgst.mainPageHeading.parentElement.insertBefore(MPPPost, this.esgst.mainPageHeading);
 		let Hidden;
 		if (Settings.get('mpp_r')) {
-			let discussion = JSON.parse(this.esgst.storage.discussions)[window.location.pathname.match(/^\/discussion\/(.+?)\//)[1]];
+			let discussion = JSON.parse(this.esgst.storage.discussions)[
+				window.location.pathname.match(/^\/discussion\/(.+?)\//)[1]
+			];
 			if (discussion) {
 				if (discussion.readComments && discussion.readComments['']) {
 					Hidden = true;
@@ -82,7 +94,10 @@ class DiscussionsMainPostPopup extends Module {
 					MPPPost.classList.remove('esgst-mpp-hidden');
 					MPPPost.classList.add('esgst-mpp-visible');
 					MPPPost.removeAttribute('style');
-					this.esgst.mainPageHeading.parentElement.insertBefore(MPPPost, this.esgst.mainPageHeading);
+					this.esgst.mainPageHeading.parentElement.insertBefore(
+						MPPPost,
+						this.esgst.mainPageHeading
+					);
 				}
 			};
 		});

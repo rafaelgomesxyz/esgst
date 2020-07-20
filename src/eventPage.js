@@ -8,9 +8,9 @@ if (browser.webRequest) {
 }
 
 // getBrowserInfo must be removed from webextension-polyfill/browser-polyfill.min.js for this to work on Chrome
-browser.runtime.getBrowserInfo().then(result => browserInfo = result);
+browser.runtime.getBrowserInfo().then((result) => (browserInfo = result));
 
-browser.storage.local.get('settings').then(async result => {
+browser.storage.local.get('settings').then(async (result) => {
 	/**
 	 * @type {object}
 	 * @property {boolean} activateTab_sg
@@ -19,7 +19,7 @@ browser.storage.local.get('settings').then(async result => {
 	const settings = result.settings ? JSON.parse(result.settings) : {};
 	if (settings.activateTab_sg || settings.activateTab_st) {
 		// Get the currently active tab.
-		const currentTab = (await queryTabs({active: true}))[0];
+		const currentTab = (await queryTabs({ active: true }))[0];
 		if (settings.activateTab_sg) {
 			// Set the SG tab as active.
 			await activateTab('steamgifts');
@@ -30,7 +30,7 @@ browser.storage.local.get('settings').then(async result => {
 		}
 		// Go back to the previously active tab.
 		if (currentTab && currentTab.id) {
-			await updateTab(currentTab.id, {active: true});
+			await updateTab(currentTab.id, { active: true });
 		}
 	}
 	if (settings.notifyNewVersion_sg || settings.notifyNewVersion_st) {
@@ -41,14 +41,19 @@ browser.storage.local.get('settings').then(async result => {
 		if (settings.notifyNewVersion_st) {
 			url.push(`*://*.steamtrades.com/*`);
 		}
-		browser.runtime.onUpdateAvailable.addListener(details => {
-			browser.tabs.query({ url }).then(tabs => {
+		browser.runtime.onUpdateAvailable.addListener((details) => {
+			browser.tabs.query({ url }).then((tabs) => {
 				const tab = tabs[0];
 				if (tab) {
-					browser.tabs.sendMessage(tab.id, JSON.stringify({
-						action: 'update',
-						values: details
-					})).then(() => {});
+					browser.tabs
+						.sendMessage(
+							tab.id,
+							JSON.stringify({
+								action: 'update',
+								values: details,
+							})
+						)
+						.then(() => {});
 				} else {
 					browser.runtime.reload();
 				}
@@ -71,29 +76,40 @@ function addWebRequestListener() {
 		],
 	};
 
-	browser.webRequest.onBeforeSendHeaders.addListener(details => {
-		const esgstCookie = details.requestHeaders.filter(header => header.name.toLowerCase() === 'esgst-cookie')[0];
+	browser.webRequest.onBeforeSendHeaders.addListener(
+		(details) => {
+			const esgstCookie = details.requestHeaders.filter(
+				(header) => header.name.toLowerCase() === 'esgst-cookie'
+			)[0];
 
-		if (esgstCookie) {
-			esgstCookie.name = 'Cookie';
+			if (esgstCookie) {
+				esgstCookie.name = 'Cookie';
 
-			return {
-				requestHeaders: details.requestHeaders,
-			};
-		}
-	}, webRequestFilters, ['blocking', 'requestHeaders']);
+				return {
+					requestHeaders: details.requestHeaders,
+				};
+			}
+		},
+		webRequestFilters,
+		['blocking', 'requestHeaders']
+	);
 }
 
 async function sendMessage(action, sender, values, sendToAll) {
-	const tabs = await browser.tabs.query({ url: [`*://*.steamgifts.com/*`, `*://*.steamtrades.com/*`] });
+	const tabs = await browser.tabs.query({
+		url: [`*://*.steamgifts.com/*`, `*://*.steamtrades.com/*`],
+	});
 	for (const tab of tabs) {
 		if (sender && tab.id === sender.tab.id) {
 			continue;
 		}
-		await browser.tabs.sendMessage(tab.id, JSON.stringify({
-			action: action,
-			values: values
-		}));
+		await browser.tabs.sendMessage(
+			tab.id,
+			JSON.stringify({
+				action: action,
+				values: values,
+			})
+		);
 		if (!sender && !sendToAll) {
 			return;
 		}
@@ -103,13 +119,13 @@ async function sendMessage(action, sender, values, sendToAll) {
 async function getZip(data, fileName) {
 	const zip = new JSZip();
 	zip.file(fileName, data);
-	return (await zip.generateAsync({
+	return await zip.generateAsync({
 		compression: 'DEFLATE',
 		compressionOptions: {
-			level: 9
+			level: 9,
 		},
-		type: 'blob'
-	}));
+		type: 'blob',
+	});
 }
 
 async function readZip(data) {
@@ -121,7 +137,7 @@ async function readZip(data) {
 	for (const key of keys) {
 		output.push({
 			name: key,
-			value: await zip.file(key).async('text')
+			value: await zip.file(key).async('text'),
 		});
 	}
 	return output;
@@ -132,7 +148,10 @@ async function doFetch(parameters, request, sender, callback) {
 		parameters.body = await getZip(parameters.body, request.fileName);
 	}
 
-	if (request.manipulateCookies && (await browser.permissions.contains({ permissions: ['cookies'] }))) {
+	if (
+		request.manipulateCookies &&
+		(await browser.permissions.contains({ permissions: ['cookies'] }))
+	) {
 		let esgstCookie = parameters.headers.get('Esgst-Cookie') || '';
 
 		const domain = request.url.match(/https?:\/\/(.+?)(\/.*)?$/)[1];
@@ -166,17 +185,19 @@ async function doFetch(parameters, request, sender, callback) {
 		callback(JSON.stringify({ error }));
 		return;
 	}
-	callback(JSON.stringify({
-		finalUrl: response.url,
-		redirected: response.redirected,
-		responseText: responseText
-	}));
+	callback(
+		JSON.stringify({
+			finalUrl: response.url,
+			redirected: response.redirected,
+			responseText: responseText,
+		})
+	);
 }
 
 const locks = {};
 
 function do_lock(lock) {
-	return new Promise(resolve => {
+	return new Promise((resolve) => {
 		_do_lock(lock, resolve);
 	});
 }
@@ -184,10 +205,14 @@ function do_lock(lock) {
 function _do_lock(lock, resolve) {
 	const now = Date.now();
 	let locked = locks[lock.key];
-	if (!locked || !locked.uuid || locked.timestamp < now - (lock.threshold + (lock.timeout || 15000))) {
+	if (
+		!locked ||
+		!locked.uuid ||
+		locked.timestamp < now - (lock.threshold + (lock.timeout || 15000))
+	) {
 		locks[lock.key] = {
 			timestamp: now,
-			uuid: lock.uuid
+			uuid: lock.uuid,
 		};
 		setTimeout(() => {
 			locked = locks[lock.key];
@@ -224,7 +249,7 @@ function do_unlock(lock) {
 let tdsData = [];
 
 browser.runtime.onMessage.addListener((request, sender) => {
-	return new Promise(async resolve => {
+	return new Promise(async (resolve) => {
 		let parameters;
 		switch (request.action) {
 			case 'get-tds':
@@ -283,14 +308,26 @@ browser.runtime.onMessage.addListener((request, sender) => {
 
 async function getTabs(request) {
 	let items = [
-		{id: 'inbox_sg', pattern: `*://*.steamgifts.com/messages*`, url: `https://www.steamgifts.com/messages`},
-		{id: 'inbox_st', pattern: `*://*.steamtrades.com/messages*`, url: `https://www.steamtrades.com/messages`},
+		{
+			id: 'inbox_sg',
+			pattern: `*://*.steamgifts.com/messages*`,
+			url: `https://www.steamgifts.com/messages`,
+		},
+		{
+			id: 'inbox_st',
+			pattern: `*://*.steamtrades.com/messages*`,
+			url: `https://www.steamtrades.com/messages`,
+		},
 		{
 			id: 'wishlist',
 			pattern: `*://*.steamgifts.com/giveaways/search?*type=wishlist*`,
-			url: `https://www.steamgifts.com/giveaways/search?type=wishlist`
+			url: `https://www.steamgifts.com/giveaways/search?type=wishlist`,
 		},
-		{id: 'won', pattern: `*://*.steamgifts.com/giveaways/won*`, url: `https://www.steamgifts.com/giveaways/won`},
+		{
+			id: 'won',
+			pattern: `*://*.steamgifts.com/giveaways/won*`,
+			url: `https://www.steamgifts.com/giveaways/won`,
+		},
 	];
 	let any = false;
 	for (let i = 0, n = items.length; i < n; i++) {
@@ -298,9 +335,9 @@ async function getTabs(request) {
 		if (!request[item.id]) {
 			continue;
 		}
-		let tab = (await queryTabs({url: item.pattern}))[0];
+		let tab = (await queryTabs({ url: item.pattern }))[0];
 		if (tab && tab.id) {
-			await updateTab(tab.id, {active: true});
+			await updateTab(tab.id, { active: true });
 			if (request.refresh) {
 				browser.tabs.reload(tab.id);
 			}
@@ -311,9 +348,9 @@ async function getTabs(request) {
 		}
 	}
 	if (any) {
-		let tab = (await queryTabs({url: `*://*.steamgifts.com/*`}))[0];
+		let tab = (await queryTabs({ url: `*://*.steamgifts.com/*` }))[0];
 		if (tab && tab.id) {
-			await updateTab(tab.id, {active: true});
+			await updateTab(tab.id, { active: true });
 		}
 	}
 }
@@ -339,8 +376,8 @@ function updateTab(id, parameters) {
 }
 
 async function activateTab(host) {
-	const tab = (await queryTabs({url: `*://*.${host}.com/*`}))[0];
+	const tab = (await queryTabs({ url: `*://*.${host}.com/*` }))[0];
 	if (tab && tab.id) {
-		await updateTab(tab.id, {active: true});
+		await updateTab(tab.id, { active: true });
 	}
 }

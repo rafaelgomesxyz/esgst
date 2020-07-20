@@ -8,59 +8,83 @@ import { Shared } from '../../class/Shared';
 import { Settings } from '../../class/Settings';
 import { DOM } from '../../class/DOM';
 
-const
-	request = common.request.bind(common)
-	;
-
+const request = common.request.bind(common);
 class GiveawaysCommentEntryChecker extends Module {
 	constructor() {
 		super();
 		this.info = {
 			description: [
-				['ul', [
-					['li', [
-						`Adds a button (`,
-						['i', { class: 'fa fa-comments' }],
-						' ',
-						['i', { class: 'fa fa-ticket' }],
-						' ',
-						['i', { class: 'fa fa-question-circle' }],
-						` ) to the main page heading of any `,
-						['a', { href: `https://www.steamgifts.com/giveaway/aeqw7/` }, 'giveaway'],
-						` page that allows you to view the list (including the number and percentage) of users that commented without entering, users that entered without commenting and users that commented & entered.`
-					]],
-					['li', `If the giveaway has a link to a discussion, the feature will also check for comments in the discussion.`]
-				]]
+				[
+					'ul',
+					[
+						[
+							'li',
+							[
+								`Adds a button (`,
+								['i', { class: 'fa fa-comments' }],
+								' ',
+								['i', { class: 'fa fa-ticket' }],
+								' ',
+								['i', { class: 'fa fa-question-circle' }],
+								` ) to the main page heading of any `,
+								['a', { href: `https://www.steamgifts.com/giveaway/aeqw7/` }, 'giveaway'],
+								` page that allows you to view the list (including the number and percentage) of users that commented without entering, users that entered without commenting and users that commented & entered.`,
+							],
+						],
+						[
+							'li',
+							`If the giveaway has a link to a discussion, the feature will also check for comments in the discussion.`,
+						],
+					],
+				],
 			],
 			features: {
 				cec_t: {
 					name: 'Open results in a new tab.',
-					sg: true
-				}
+					sg: true,
+				},
 			},
 			id: 'cec',
 			name: 'Comment/Entry Checker',
 			sg: true,
 			sgPaths: /^Giveaway($|\s-\s.+?)$/,
-			type: 'giveaways'
+			type: 'giveaways',
 		};
 	}
 
 	init() {
 		this.esgst.customPages.cec = {
 			check: this.esgst.giveawayPath,
-			load: async () => await this.cec_openPopup({})
+			load: async () => await this.cec_openPopup({}),
 		};
 
-		if (!this.esgst.giveawayPath || document.getElementsByClassName('table--summary')[0] ||  !this.esgst.mainPageHeading) return;
+		if (
+			!this.esgst.giveawayPath ||
+			document.getElementsByClassName('table--summary')[0] ||
+			!this.esgst.mainPageHeading
+		)
+			return;
 
 		DOM.build(this.esgst.sidebarGroups[0].navigation, 'beforeEnd', [
-			['li', { class: 'sidebar__navigation__item', id: 'cec' }, [
-				['a', { class: 'sidebar__navigation__item__link', href: `${this.esgst.path.replace(/\/entries/, '')}/entries?esgst=cec`, onclick: event => !Settings.get('cec_t') && !event.preventDefault() && this.cec_openPopup(true) }, [
-					['div', { class: 'sidebar__navigation__item__name' }, 'Comments vs Entries'],
-					['div', { class: 'sidebar__navigation__item__underline' }]
-				]]
-			]]
+			[
+				'li',
+				{ class: 'sidebar__navigation__item', id: 'cec' },
+				[
+					[
+						'a',
+						{
+							class: 'sidebar__navigation__item__link',
+							href: `${this.esgst.path.replace(/\/entries/, '')}/entries?esgst=cec`,
+							onclick: (event) =>
+								!Settings.get('cec_t') && !event.preventDefault() && this.cec_openPopup(true),
+						},
+						[
+							['div', { class: 'sidebar__navigation__item__name' }, 'Comments vs Entries'],
+							['div', { class: 'sidebar__navigation__item__underline' }],
+						],
+					],
+				],
+			],
 		]);
 	}
 
@@ -70,7 +94,7 @@ class GiveawaysCommentEntryChecker extends Module {
 		if (isPopup) {
 			const popup = new Popup({
 				addScrollable: 'left',
-				isTemp: true
+				isTemp: true,
 			});
 			container = popup.description;
 			context = popup.scrollable;
@@ -89,13 +113,13 @@ class GiveawaysCommentEntryChecker extends Module {
 			breadcrumbs: [
 				{
 					name: 'ESGST',
-					url: this.esgst.settingsUrl
+					url: this.esgst.settingsUrl,
 				},
 				{
 					name: 'Comment / Entry Checker',
-					url: `?esgst=cec`
-				}
-			]
+					url: `?esgst=cec`,
+				},
+			],
 		}).pageHeading;
 		if (!isPopup) {
 			this.esgst.mainPageHeading = heading;
@@ -116,10 +140,14 @@ class GiveawaysCommentEntryChecker extends Module {
 			let pagination = null;
 			let url = urls[i];
 			do {
-				obj.progress.innerHTML = `Retrieving ${i > 0 ? 'bumps ' : 'comments '} (page ${nextPage})...`;
+				obj.progress.innerHTML = `Retrieving ${
+					i > 0 ? 'bumps ' : 'comments '
+				} (page ${nextPage})...`;
 				let response = await request({ method: 'GET', queue: true, url: `${url}${nextPage}` });
 				let responseHtml = DOM.parse(response.responseText);
-				let elements = responseHtml.querySelectorAll(`.comment:not(.comment--submit) .comment__username:not(.comment__username--op):not(.comment__username--deleted)`);
+				let elements = responseHtml.querySelectorAll(
+					`.comment:not(.comment--submit) .comment__username:not(.comment__username--op):not(.comment__username--deleted)`
+				);
 				for (let j = elements.length - 1; j > -1; j--) {
 					comments.push(elements[j].textContent.trim());
 				}
@@ -136,7 +164,11 @@ class GiveawaysCommentEntryChecker extends Module {
 						urls.push(elements[j].getAttribute('href').match(/\/discussion\/.+?\//)[0]);
 					}
 				}
-			} while (!obj.isCanceled && pagination && !pagination.lastElementChild.classList.contains('is-selected'));
+			} while (
+				!obj.isCanceled &&
+				pagination &&
+				!pagination.lastElementChild.classList.contains('is-selected')
+			);
 		}
 
 		if (obj.isCanceled) return;
@@ -148,18 +180,26 @@ class GiveawaysCommentEntryChecker extends Module {
 		let url = urls[0].replace(/search\?page=/, `entries/search?page=`);
 		do {
 			obj.progress.innerHTML = `Retrieving entries (page ${nextPage})...`;
-			let responseHtml = DOM.parse((await request({
-				method: 'GET',
-				queue: true,
-				url: `${url}${nextPage}`
-			})).responseText);
+			let responseHtml = DOM.parse(
+				(
+					await request({
+						method: 'GET',
+						queue: true,
+						url: `${url}${nextPage}`,
+					})
+				).responseText
+			);
 			let elements = responseHtml.getElementsByClassName('table__column__heading');
 			for (let i = elements.length - 1; i > -1; i--) {
 				entries.push(elements[i].textContent.trim());
 			}
 			nextPage += 1;
 			pagination = responseHtml.getElementsByClassName('pagination__navigation')[0];
-		} while (!obj.isCanceled && pagination && !pagination.lastElementChild.classList.contains('is-selected'));
+		} while (
+			!obj.isCanceled &&
+			pagination &&
+			!pagination.lastElementChild.classList.contains('is-selected')
+		);
 
 		if (obj.isCanceled) return;
 
@@ -175,33 +215,29 @@ class GiveawaysCommentEntryChecker extends Module {
 		for (const user of comments) {
 			if (entries.indexOf(user) > -1) {
 				// user commented and entered
-				rows.push(
-					[
-						{
-							alignment: 'left', size: 'fill', value: [
-								['a', { class: 'table__column__heading', href: `/user/${user}` }, user]
-							]
-						},
-						'Yes',
-						'-',
-						'-'
-					]
-				);
+				rows.push([
+					{
+						alignment: 'left',
+						size: 'fill',
+						value: [['a', { class: 'table__column__heading', href: `/user/${user}` }, user]],
+					},
+					'Yes',
+					'-',
+					'-',
+				]);
 				both += 1;
 			} else {
 				// user commented but did not enter
-				rows.push(
-					[
-						{
-							alignment: 'left', size: 'fill', value: [
-								['a', { class: 'table__column__heading', href: `/user/${user}` }, user]
-							]
-						},
-						'-',
-						'Yes',
-						'-'
-					]
-				);
+				rows.push([
+					{
+						alignment: 'left',
+						size: 'fill',
+						value: [['a', { class: 'table__column__heading', href: `/user/${user}` }, user]],
+					},
+					'-',
+					'Yes',
+					'-',
+				]);
 				commented += 1;
 			}
 		}
@@ -209,18 +245,16 @@ class GiveawaysCommentEntryChecker extends Module {
 		for (const user of entries) {
 			if (comments.indexOf(user) < 0) {
 				// user entered but did not comment
-				rows.push(
-					[
-						{
-							alignment: 'left', size: 'fill', value: [
-								['a', { class: 'table__column__heading', href: `/user/${user}` }, user]
-							]
-						},
-						'-',
-						'-',
-						'Yes'
-					]
-				);
+				rows.push([
+					{
+						alignment: 'left',
+						size: 'fill',
+						value: [['a', { class: 'table__column__heading', href: `/user/${user}` }, user]],
+					},
+					'-',
+					'-',
+					'Yes',
+				]);
 				entered += 1;
 				total += 1;
 			}
@@ -228,18 +262,22 @@ class GiveawaysCommentEntryChecker extends Module {
 		const table = new Table([
 			[
 				{ alignment: 'left', size: 'fill', value: 'User' },
-				`Commented and Entered (${both} - ${Math.round(both / total * 10000) / 100}%)`,
-				`Commented but did not Enter (${commented} - ${Math.round(commented / total * 10000) / 100}%)`,
-				`Entered but did not Comment (${entered} - ${Math.round(entered / total * 10000) / 100}%)`
+				`Commented and Entered (${both} - ${Math.round((both / total) * 10000) / 100}%)`,
+				`Commented but did not Enter (${commented} - ${
+					Math.round((commented / total) * 10000) / 100
+				}%)`,
+				`Entered but did not Comment (${entered} - ${
+					Math.round((entered / total) * 10000) / 100
+				}%)`,
 			],
-			...rows
+			...rows,
 		]);
 		obj.context.appendChild(table.table);
 		await common.endless_load(obj.context);
 	}
 
 	cec_stop(obj) {
-		obj.progress.innerHTML = ''
+		obj.progress.innerHTML = '';
 		obj.isCanceled = true;
 	}
 }

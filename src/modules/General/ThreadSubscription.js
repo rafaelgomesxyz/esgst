@@ -11,14 +11,23 @@ class GeneralThreadSubscription extends Module {
 		super();
 		this.info = {
 			description: [
-				['ul', [
-					['li', 'Allows you to subscribe to threads so that you\'re notified when a new comment is posted.'],
-					['li', [
-						'Adds a ',
-						['i', { class: 'fa fa-bell-o' }],
-						' button to the header that allows you to view your subscriptions.'
-					]]
-				]]
+				[
+					'ul',
+					[
+						[
+							'li',
+							"Allows you to subscribe to threads so that you're notified when a new comment is posted.",
+						],
+						[
+							'li',
+							[
+								'Adds a ',
+								['i', { class: 'fa fa-bell-o' }],
+								' button to the header that allows you to view your subscriptions.',
+							],
+						],
+					],
+				],
 			],
 			id: 'tds',
 			name: 'Thread Subscription',
@@ -29,20 +38,20 @@ class GeneralThreadSubscription extends Module {
 				tds_n: {
 					name: 'Show browser notifications when there are new comments in the subscriptions.',
 					sg: true,
-					st: true
-				}
+					st: true,
+				},
 			},
 			inputItems: [
 				{
 					attributes: {
 						min: 0,
-						type: 'number'
+						type: 'number',
 					},
 					id: 'tds_minutes',
 					prefix: 'Check every ',
-					suffix: ' minutes'
-				}
-			]
+					suffix: ' minutes',
+				},
+			],
 		};
 
 		this.button = null;
@@ -54,19 +63,19 @@ class GeneralThreadSubscription extends Module {
 		this.forumCategories = {
 			'': 'All',
 			'addons-tools': 'Add-ons / Tools',
-			'announcements': 'Announcements',
+			announcements: 'Announcements',
 			'bugs-suggestions': 'Bugs / Suggestions',
-			'deals': 'Deals',
+			deals: 'Deals',
 			'game-showcase': 'Game Showcase',
-			'general': 'General',
+			general: 'General',
 			'group-recruitment': 'Group Recruitment',
-			'hardware': 'Hardware',
-			'help': 'Help',
-			'lets-play-together': 'Let\'s Play Together',
+			hardware: 'Hardware',
+			help: 'Help',
+			'lets-play-together': "Let's Play Together",
 			'movies-tv': 'Movies / TV',
 			'off-topic': 'Off Topic',
 			'puzzles-events': 'Puzzles / Events',
-			'uncategorized': 'Uncategorized',
+			uncategorized: 'Uncategorized',
 			'user-projects': 'User Projects',
 			'whitelist-recruitment': 'Whitelist Recruitment',
 		};
@@ -92,7 +101,9 @@ class GeneralThreadSubscription extends Module {
 			const forumCodes = Object.keys(this.forumCategories);
 
 			for (const forumCode of forumCodes) {
-				const element = document.querySelector(`.sidebar__navigation__item__link[href="/discussions${forumCode ? `/${forumCode}` : ''}"]`);
+				const element = document.querySelector(
+					`.sidebar__navigation__item__link[href="/discussions${forumCode ? `/${forumCode}` : ''}"]`
+				);
 
 				if (!element) {
 					continue;
@@ -101,9 +112,23 @@ class GeneralThreadSubscription extends Module {
 				element.parentElement.classList.add('esgst-tds-sidebar-item');
 
 				if (Settings.get('tds_forums')[forumCode]) {
-					this.addUnsubscribeButton(null, forumCode, element, null, this.forumCategories[forumCode], 'forum');
+					this.addUnsubscribeButton(
+						null,
+						forumCode,
+						element,
+						null,
+						this.forumCategories[forumCode],
+						'forum'
+					);
 				} else {
-					this.addSubscribeButton(null, forumCode, element, null, this.forumCategories[forumCode], 'forum');
+					this.addSubscribeButton(
+						null,
+						forumCode,
+						element,
+						null,
+						this.forumCategories[forumCode],
+						'forum'
+					);
 				}
 			}
 		}
@@ -119,7 +144,9 @@ class GeneralThreadSubscription extends Module {
 		const context = document.querySelector('.page__heading, .page_heading');
 		const name = context.querySelector('h1').textContent.trim();
 
-		const heading = Shared.esgst.mainPageHeading.querySelector('.page__heading__breadcrumbs, .page_heading_breadcrumbs').firstElementChild;
+		const heading = Shared.esgst.mainPageHeading.querySelector(
+			'.page__heading__breadcrumbs, .page_heading_breadcrumbs'
+		).firstElementChild;
 		const count = parseInt(heading.textContent.replace(/,/g, '').match(/\d+/)[0]);
 
 		if (Shared.esgst.discussionPath || Shared.esgst.tradePath) {
@@ -168,23 +195,71 @@ class GeneralThreadSubscription extends Module {
 	async updatePopout() {
 		this.popout.popout.innerHTML = '';
 
-		this.subscribedItems = this.subscribedItems.filter(item => typeof item.subscribed !== 'undefined' || Settings.get('tds_forums')[item.code]);
-		this.subscribedItems.sort((a, b) => a.diff > b.diff ? -1 : 1);
+		this.subscribedItems = this.subscribedItems.filter(
+			(item) => typeof item.subscribed !== 'undefined' || Settings.get('tds_forums')[item.code]
+		);
+		this.subscribedItems.sort((a, b) => (a.diff > b.diff ? -1 : 1));
 
 		for (const item of this.subscribedItems) {
 			const element = DOM.build(this.popout.popout, 'beforeEnd', [
-				['div', { class: `esgst-tds-item ${item.diff ? 'esgst-tds-item-active' : ''}` }, [
-					['div', { class: 'esgst-tds-item-description' }, [
-						['a', { class: 'esgst-tds-item-name', href: item.type === 'forum' ? `https://www.steamgifts.com/discussions${item.code ? `/${item.code}` : ''}` : (item.type === 'discussions' ? `https://www.steamgifts.com/discussion/${item.code}/` : `https://www.steamtrades.com/${item.code}/`) }, item.type === 'forum' ? this.forumCategories[item.code] : item.name],
-						['div', { class: 'esgst-tds-item-count' }, item.diff ? `${item.diff} new ${item.type === 'forum' ? 'threads' : 'comments'}` : `No new ${item.type === 'forum' ? 'threads' : 'comments'}`]
-					]],
-					['div', { class: 'esgst-tds-item-actions' }, [
-						item.diff
-							? ['i', { class: 'fa fa-eye', title: 'Dismiss', onclick: event => this.dismissItem(event, item) }]
-							: null,
-						['i', { class: 'fa fa-bell', title: 'Unsubscribe', onclick: () => this.unsubscribeItem(element, item) }]
-					]]
-				]]
+				[
+					'div',
+					{ class: `esgst-tds-item ${item.diff ? 'esgst-tds-item-active' : ''}` },
+					[
+						[
+							'div',
+							{ class: 'esgst-tds-item-description' },
+							[
+								[
+									'a',
+									{
+										class: 'esgst-tds-item-name',
+										href:
+											item.type === 'forum'
+												? `https://www.steamgifts.com/discussions${
+														item.code ? `/${item.code}` : ''
+												  }`
+												: item.type === 'discussions'
+												? `https://www.steamgifts.com/discussion/${item.code}/`
+												: `https://www.steamtrades.com/${item.code}/`,
+									},
+									item.type === 'forum' ? this.forumCategories[item.code] : item.name,
+								],
+								[
+									'div',
+									{ class: 'esgst-tds-item-count' },
+									item.diff
+										? `${item.diff} new ${item.type === 'forum' ? 'threads' : 'comments'}`
+										: `No new ${item.type === 'forum' ? 'threads' : 'comments'}`,
+								],
+							],
+						],
+						[
+							'div',
+							{ class: 'esgst-tds-item-actions' },
+							[
+								item.diff
+									? [
+											'i',
+											{
+												class: 'fa fa-eye',
+												title: 'Dismiss',
+												onclick: (event) => this.dismissItem(event, item),
+											},
+									  ]
+									: null,
+								[
+									'i',
+									{
+										class: 'fa fa-bell',
+										title: 'Unsubscribe',
+										onclick: () => this.unsubscribeItem(element, item),
+									},
+								],
+							],
+						],
+					],
+				],
 			]);
 		}
 
@@ -194,7 +269,7 @@ class GeneralThreadSubscription extends Module {
 	}
 
 	updateButton() {
-		if (this.subscribedItems.filter(item => item.diff).length) {
+		if (this.subscribedItems.filter((item) => item.diff).length) {
 			this.button.nodes.outer.classList.remove('nav__button-container--inactive');
 			this.button.nodes.outer.classList.add('nav__button-container--active');
 			this.button.nodes.buttonIcon.className = 'fa fa-bell';
@@ -225,7 +300,7 @@ class GeneralThreadSubscription extends Module {
 		new Notification('ESGST Notification', {
 			body: 'There are new comments in your subscriptions.',
 			icon: 'https://dl.dropboxusercontent.com/s/lr3t3bxrxfxylqe/esgstIcon.ico?raw=1',
-			tag: 'TDS'
+			tag: 'TDS',
 		});
 	}
 
@@ -234,7 +309,8 @@ class GeneralThreadSubscription extends Module {
 
 		await Shared.common.updateLock(this.lockObj.lock);
 
-		const oldDiff = this.subscribedItems.filter(item => item.diff)
+		const oldDiff = this.subscribedItems
+			.filter((item) => item.diff)
 			.reduce((sum, currentItem) => sum + currentItem.diff, 0);
 
 		this.subscribedItems = [];
@@ -249,7 +325,7 @@ class GeneralThreadSubscription extends Module {
 					diff: 0,
 					name: discussion.name,
 					subscribed: discussion.subscribed,
-					type: 'discussions'
+					type: 'discussions',
 				});
 			}
 		}
@@ -264,17 +340,23 @@ class GeneralThreadSubscription extends Module {
 					diff: 0,
 					name: trade.name,
 					subscribed: trade.subscribed,
-					type: 'trades'
+					type: 'trades',
 				});
 			}
 		}
 
 		for (const item of this.subscribedItems) {
-			const response = await FetchRequest.get(item.type === 'discussions' ? `https://www.steamgifts.com/discussion/${item.code}/` : `https://www.steamtrades.com/trade/${item.code}/`);
+			const response = await FetchRequest.get(
+				item.type === 'discussions'
+					? `https://www.steamgifts.com/discussion/${item.code}/`
+					: `https://www.steamtrades.com/trade/${item.code}/`
+			);
 
 			const mainPageHeading = response.html.querySelectorAll('.page__heading, .page_heading')[1];
 
-			const heading = mainPageHeading.querySelector('.page__heading__breadcrumbs, .page_heading_breadcrumbs').firstElementChild;
+			const heading = mainPageHeading.querySelector(
+				'.page__heading__breadcrumbs, .page_heading_breadcrumbs'
+			).firstElementChild;
 			const count = parseInt(heading.textContent.replace(/,/g, '').match(/\d+/)[0]);
 
 			if (count !== item.count) {
@@ -286,7 +368,9 @@ class GeneralThreadSubscription extends Module {
 		for (const code in Settings.get('tds_forums')) {
 			const codes = [];
 
-			const response = await FetchRequest.get(`/discussions${code ? `/${code}` : ''}/search?sort=new`);
+			const response = await FetchRequest.get(
+				`/discussions${code ? `/${code}` : ''}/search?sort=new`
+			);
 
 			const elements = response.html.querySelectorAll('.table__column__heading');
 
@@ -294,17 +378,19 @@ class GeneralThreadSubscription extends Module {
 				codes.push(element.getAttribute('href').match(/\/discussion\/(.+?)\//)[1]);
 			}
 
-			const diff = codes.filter(subCode => !Settings.get('tds_forums')[code].includes(subCode)).length;
+			const diff = codes.filter((subCode) => !Settings.get('tds_forums')[code].includes(subCode))
+				.length;
 
 			this.subscribedItems.push({
 				code,
 				codes,
 				diff,
-				type: 'forum'
+				type: 'forum',
 			});
 		}
 
-		const newDiff = this.subscribedItems.filter(item => item.diff)
+		const newDiff = this.subscribedItems
+			.filter((item) => item.diff)
 			.reduce((sum, currentItem) => sum + currentItem.diff, 0);
 
 		if (Settings.get('tds_n') && !firstRun && oldDiff !== newDiff) {
@@ -321,7 +407,7 @@ class GeneralThreadSubscription extends Module {
 	async startDaemon() {
 		this.lockObj = await Shared.common.createLock('tdsLock', 300, {
 			lockOrDie: true,
-			timeout: this.minutes + 15000
+			timeout: this.minutes + 15000,
 		});
 
 		if (!this.lockObj.wasLocked) {
@@ -344,7 +430,9 @@ class GeneralThreadSubscription extends Module {
 			} else {
 				const codes = [];
 
-				const response = await FetchRequest.get(`/discussions${code ? `/${code}` : ''}/search?sort=new`);
+				const response = await FetchRequest.get(
+					`/discussions${code ? `/${code}` : ''}/search?sort=new`
+				);
 
 				const elements = response.html.querySelectorAll('.table__column__heading');
 
@@ -419,12 +507,12 @@ class GeneralThreadSubscription extends Module {
 	addSubscribeButton(button, code, context, count, name, type) {
 		if (!button) {
 			button = DOM.build(context, type === 'forum' ? 'afterEnd' : 'afterBegin', [
-				['div', { class: 'esgst-tds-button page_heading_btn' }]
+				['div', { class: 'esgst-tds-button page_heading_btn' }],
 			]);
 		}
 
 		DOM.build(button, 'inner', [
-			['i', { class: 'fa fa-bell-o', title: Shared.common.getFeatureTooltip('tds', 'Subscribe') }]
+			['i', { class: 'fa fa-bell-o', title: Shared.common.getFeatureTooltip('tds', 'Subscribe') }],
 		]);
 
 		let busy = false;
@@ -436,9 +524,7 @@ class GeneralThreadSubscription extends Module {
 
 			busy = true;
 
-			DOM.build(button, 'inner', [
-				['i', { class: 'fa fa-circle-o-notch fa-spin' }]
-			]);
+			DOM.build(button, 'inner', [['i', { class: 'fa fa-circle-o-notch fa-spin' }]]);
 
 			await this.subscribe(code, count, name, type);
 
@@ -449,12 +535,12 @@ class GeneralThreadSubscription extends Module {
 	addUnsubscribeButton(button, code, context, count, name, type) {
 		if (!button) {
 			button = DOM.build(context, type === 'forum' ? 'afterEnd' : 'afterBegin', [
-				['div', { class: 'esgst-tds-button page_heading_btn' }]
+				['div', { class: 'esgst-tds-button page_heading_btn' }],
 			]);
 		}
 
 		DOM.build(button, 'inner', [
-			['i', { class: 'fa fa-bell', title: Shared.common.getFeatureTooltip('tds', 'Unsubscribe') }]
+			['i', { class: 'fa fa-bell', title: Shared.common.getFeatureTooltip('tds', 'Unsubscribe') }],
 		]);
 
 		let busy = false;
@@ -466,9 +552,7 @@ class GeneralThreadSubscription extends Module {
 
 			busy = true;
 
-			DOM.build(button, 'inner', [
-				['i', { class: 'fa fa-circle-o-notch fa-spin' }]
-			]);
+			DOM.build(button, 'inner', [['i', { class: 'fa fa-circle-o-notch fa-spin' }]]);
 
 			await this.unsubscribe(code, type);
 
