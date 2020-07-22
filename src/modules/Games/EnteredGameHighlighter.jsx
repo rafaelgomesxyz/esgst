@@ -53,29 +53,23 @@ class GamesEnteredGameHighlighter extends Module {
 			const savedGame = Shared.esgst.games[game.type][game.id];
 			if (savedGame && savedGame.entered && !game.container.querySelector('.esgst-egh-button')) {
 				const count = Number(savedGame.entered);
-				DOM.build(
+				DOM.insert(
 					(game.container.closest('.poll') &&
 						game.container.querySelector('.table__column__heading')) ||
 						game.headingName,
-					'beforeBegin',
-					[
-						[
-							'a',
-							{
-								'data-draggable-id': 'egh',
-								class: 'esgst-egh-button esgst-clickable',
-								title: Shared.common.getFeatureTooltip(
-									'egh',
-									`You have entered ${count} giveaways for this game before. Click to unhighlight it (will restart the counter to 0).`
-								),
-								onclick: this.egh_unhighlightGame.bind(this, game.id, game.type),
-							},
-							[
-								['i', { class: 'fa fa-star esgst-egh-icon' }],
-								Settings.get('egh_c') ? ` ${count}` : null,
-							],
-						],
-					]
+					'beforebegin',
+					<a
+						data-draggable-id="egh"
+						className="esgst-egh-button esgst-clickable"
+						title={Shared.common.getFeatureTooltip(
+							'egh',
+							`You have entered ${count} giveaways for this game before. Click to unhighlight it (will restart the counter to 0).`
+						)}
+						onclick={this.egh_unhighlightGame.bind(this, game.id, game.type)}
+					>
+						<i className="fa fa-star esgst-egh-icon"></i>
+						{Settings.get('egh_c') ? ` ${count}` : null}
+					</a>
 				);
 			}
 		}
@@ -101,7 +95,7 @@ class GamesEnteredGameHighlighter extends Module {
 		if (icon.classList.contains('fa-spin')) {
 			return;
 		}
-		DOM.build(icon, 'inner', [['i', { class: 'fa fa-circle-o-notch fa-spin' }]]);
+		DOM.insert(icon, 'atinner', <i className="fa fa-circle-o-notch fa-spin"></i>);
 		let game = Shared.esgst.games[type][id];
 		if (game && game.entered) {
 			game.entered = null;

@@ -1199,37 +1199,27 @@ class GamesGameCategories extends Module {
 						continue;
 					}
 					if (element.container.closest('.poll')) {
-						DOM.build(
+						DOM.insert(
 							element.container.getElementsByClassName('table__column__heading')[0],
-							'afterEnd',
-							[
-								[
-									'div',
-									{ class: 'esgst-gc-panel' },
-									[
-										[
-											'span',
-											{ class: 'esgst-gc-loading', title: 'This game is queued for fetching' },
-											[['i', { class: 'fa fa-hourglass fa-spin' }], ['span']],
-										],
-									],
-								],
-							]
+							'afterend',
+							<div className="esgst-gc-panel">
+								<span className="esgst-gc-loading" title="This game is queued for fetching">
+									<i className="fa fa-hourglass fa-spin"></i>
+									<span></span>
+								</span>
+							</div>
 						);
 					} else {
-						DOM.build(element.heading, 'afterEnd', [
-							[
-								'div',
-								{ class: 'esgst-gc-panel' },
-								[
-									[
-										'span',
-										{ class: 'esgst-gc-loading', title: 'This game is queued for fetching' },
-										[['i', { class: 'fa fa-hourglass fa-spin' }], ['span']],
-									],
-								],
-							],
-						]);
+						DOM.insert(
+							element.heading,
+							'afterend',
+							<div className="esgst-gc-panel">
+								<span className="esgst-gc-loading" title="This game is queued for fetching">
+									<i className="fa fa-hourglass fa-spin"></i>
+									<span></span>
+								</span>
+							</div>
+						);
 					}
 				}
 			}
@@ -1246,37 +1236,27 @@ class GamesGameCategories extends Module {
 						continue;
 					}
 					if (element.container.closest('.poll')) {
-						DOM.build(
+						DOM.insert(
 							element.container.getElementsByClassName('table__column__heading')[0],
-							'afterEnd',
-							[
-								[
-									'div',
-									{ class: 'esgst-gc-panel' },
-									[
-										[
-											'span',
-											{ class: 'esgst-gc-loading', title: 'This game is queued for fetching' },
-											[['i', { class: 'fa fa-hourglass fa-spin' }], ['span']],
-										],
-									],
-								],
-							]
+							'afterend',
+							<div className="esgst-gc-panel">
+								<span className="esgst-gc-loading" title="This game is queued for fetching">
+									<i className="fa fa-hourglass fa-spin"></i>
+									<span></span>
+								</span>
+							</div>
 						);
 					} else {
-						DOM.build(element.heading, 'afterEnd', [
-							[
-								'div',
-								{ class: 'esgst-gc-panel' },
-								[
-									[
-										'span',
-										{ class: 'esgst-gc-loading', title: 'This game is queued for fetching' },
-										[['i', { class: 'fa fa-hourglass fa-spin' }], ['span']],
-									],
-								],
-							],
-						]);
+						DOM.insert(
+							element.heading,
+							'afterend',
+							<div className="esgst-gc-panel">
+								<span className="esgst-gc-loading" title="This game is queued for fetching">
+									<i className="fa fa-hourglass fa-spin"></i>
+									<span></span>
+								</span>
+							</div>
+						);
 					}
 				}
 			}
@@ -1789,7 +1769,7 @@ class GamesGameCategories extends Module {
 		if (borders) {
 			borders.innerHTML = '';
 		} else {
-			borders = createElements(giveaway.outerWrap, 'beforeEnd', [
+			borders = createElements(giveaway.outerWrap, 'beforeend', [
 				{
 					attributes: {
 						class: 'esgst-gc-border',
@@ -1828,7 +1808,7 @@ class GamesGameCategories extends Module {
 			if (!key || !giveaway.innerWrap.getElementsByClassName(`esgst-gc-${key}`)[0]) {
 				continue;
 			}
-			createElements(borders, 'beforeEnd', [
+			createElements(borders, 'beforeend', [
 				{
 					attributes: {
 						class: `esgst-gc-${key}`,
@@ -2283,7 +2263,7 @@ class GamesGameCategories extends Module {
 						if (loading) {
 							loading.remove();
 						}
-						createElements(panel, 'beforeEnd', [
+						createElements(panel, 'beforeend', [
 							{
 								attributes: {
 									class: 'esgst-bold esgst-red',
@@ -4070,7 +4050,7 @@ class GamesGameCategories extends Module {
 						}
 					}
 				}
-				createElements(panel, 'inner', currentElements);
+				createElements(panel, 'atinner', currentElements);
 				if (!Settings.get('gc_lp') || (!Settings.get('gc_lp_gv') && games[i].grid)) {
 					for (j = panel.children.length - 1; j > -1; --j) {
 						panel.children[j].removeAttribute('href');
