@@ -1,13 +1,16 @@
 import { Module } from '../../class/Module';
 import { Settings } from '../../class/Settings';
+import { DOM } from '../../class/DOM';
 
 class GeneralShortcutKeys extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				['ul', [['li', 'Allows you to perform many different tasks by pressing certain keys.']]],
-			],
+			description: () => (
+				<ul>
+					<li>Allows you to perform many different tasks by pressing certain keys.</li>
+				</ul>
+			),
 			features: {
 				sk_cp: {
 					inputItems: 'sk_closePopups',

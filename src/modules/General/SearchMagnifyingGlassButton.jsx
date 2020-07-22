@@ -1,25 +1,19 @@
 import { Module } from '../../class/Module';
 import { Settings } from '../../class/Settings';
+import { DOM } from '../../class/DOM';
 
 class GeneralSearchMagnifyingGlassButton extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							[
-								`Turns the magnifying glass icon (`,
-								['i', { class: 'fa fa-search' }],
-								`) in the search field of any page into a button that submits the search when you click on it.`,
-							],
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Turns the magnifying glass icon (<i className="fa fa-search"></i>) in the search field
+						of any page into a button that submits the search when you click on it.
+					</li>
+				</ul>
+			),
 			id: 'smgb',
 			name: 'Search Magnifying Glass Button',
 			sg: true,

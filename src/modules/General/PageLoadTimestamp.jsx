@@ -9,17 +9,14 @@ class GeneralPageLoadTimestamp extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							`Adds a timestamp indicating when the page was loaded to any page, in the preferred location.`,
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Adds a timestamp indicating when the page was loaded to any page, in the preferred
+						location.
+					</li>
+				</ul>
+			),
 			id: 'plt',
 			name: 'Page Load Timestamp',
 			inputItems: [

@@ -5,22 +5,20 @@ import { EventDispatcher } from '../../class/EventDispatcher';
 import { Events } from '../../constants/Events';
 import { Session } from '../../class/Session';
 import { Shared } from '../../class/Shared';
+import { DOM } from '../../class/DOM';
 
 class GeneralTimeToPointCapCalculator extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							`If you have less than 400P and you hover over the number of points at the header of any page, it shows how much time you have to wait until you have 400P.`,
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						If you have less than 400P and you hover over the number of points at the header of any
+						page, it shows how much time you have to wait until you have 400P.
+					</li>
+				</ul>
+			),
 			features: {
 				ttpcc_a: {
 					name: 'Show time alongside points.',

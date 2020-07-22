@@ -29,63 +29,43 @@ class GeneralMultiManager extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							[
-								`Adds a button (`,
-								['i', { class: 'fa fa-gears' }],
-								`) to the main page heading of any page that allows you to do stuff with multiple giveaways/discussions/users/games at once.`,
-							],
-						],
-						[
-							'li',
-							`When you click on the button, a popout appears where you can select what type of item you want to manage (giveaways, discussions, users or games) and enable the manager for that type. When you do this, checkboxes are added in front of each item in the page, allowing you to select which ones you want to manage.`,
-						],
-						['li', `You can:`],
-						[
-							'ul',
-							[
-								[
-									'li',
-									'Search and replace something in the description of the selected giveaways.',
-								],
-								['li', `Hide the selected giveaways, if [id=gf_s] is enabled.`],
-								['li', `Bookmark/unbookmark the selected giveaways, if [id=gb] is enabled.`],
-								[
-									'li',
-									`Calculate how much time you have to wait until you have enough points to enter the selected giveaways, if [id=ttec] is enabled.`,
-								],
-								[
-									'li',
-									`Export the selected giveaways to encrypted giveaways, if [id=ged] is enabled.`,
-								],
-								['li', `Hide the selected discussions, if [id=df_s] is enabled.`],
-								[
-									'li',
-									`Mark the selected discussions as visited/unvisited, if [id=gdttt] is enabled.`,
-								],
-								['li', `Tag the selected users with the same tags, if [id=ut], is enabled.`],
-								[
-									'li',
-									`Check the selected users for whitelists/blacklists, if [id=wbc] is enabled.`,
-								],
-								['li', `Check the selected users for suspensions, if [id=usc] is enabled.`],
-								['li', `Tag the selected games with the same tags, if [id=gt], is enabled.`],
-								[
-									'li',
-									'Export the selected giveaways/discussions/users/games to links or to a custom format that you can specify.',
-								],
-								['li', `Tag the selected groups with the same tags, if [id=gpt], is enabled.`],
-							],
-						],
-						['li', 'On SteamTrades you can only manage users.'],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Adds a button (<i className="fa fa-gears"></i>) to the main page heading of any page
+						that allows you to do stuff with multiple giveaways/discussions/users/games at once.
+					</li>
+					<li>
+						When you click on the button, a popout appears where you can select what type of item
+						you want to manage (giveaways, discussions, users or games) and enable the manager for
+						that type. When you do this, checkboxes are added in front of each item in the page,
+						allowing you to select which ones you want to manage.
+					</li>
+					<li>You can:</li>
+					<ul>
+						<li>Search and replace something in the description of the selected giveaways.</li>
+						<li>Hide the selected giveaways, if [id=gf_s] is enabled.</li>
+						<li>Bookmark/unbookmark the selected giveaways, if [id=gb] is enabled.</li>
+						<li>
+							Calculate how much time you have to wait until you have enough points to enter the
+							selected giveaways, if [id=ttec] is enabled.
+						</li>
+						<li>Export the selected giveaways to encrypted giveaways, if [id=ged] is enabled.</li>
+						<li>Hide the selected discussions, if [id=df_s] is enabled.</li>
+						<li>Mark the selected discussions as visited/unvisited, if [id=gdttt] is enabled.</li>
+						<li>Tag the selected users with the same tags, if [id=ut], is enabled.</li>
+						<li>Check the selected users for whitelists/blacklists, if [id=wbc] is enabled.</li>
+						<li>Check the selected users for suspensions, if [id=usc] is enabled.</li>
+						<li>Tag the selected games with the same tags, if [id=gt], is enabled.</li>
+						<li>
+							Export the selected giveaways/discussions/users/games to links or to a custom format
+							that you can specify.
+						</li>
+						<li>Tag the selected groups with the same tags, if [id=gpt], is enabled.</li>
+					</ul>
+					<li>On SteamTrades you can only manage users.</li>
+				</ul>
+			),
 			id: 'mm',
 			name: 'Multi-Manager',
 			sg: true,

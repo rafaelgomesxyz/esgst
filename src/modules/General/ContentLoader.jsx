@@ -16,34 +16,24 @@ class GeneralContentLoader extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							`Allows you to load many different content (such as giveaway groups) without leaving the page.`,
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Allows you to load many different content (such as giveaway groups) without leaving the
+						page.
+					</li>
+				</ul>
+			),
 			features: {
 				cl_gc: {
-					description: [
-						[
-							'ul',
-							[
-								[
-									'li',
-									[
-										`Loads a giveaway's countries when clicking / hovering over (depending on preference) on its region restriction icon (`,
-										['i', { class: 'fa fa-globe' }],
-										`).`,
-									],
-								],
-							],
-						],
-					],
+					description: () => (
+						<ul>
+							<li>
+								Loads a giveaway's countries when clicking / hovering over (depending on preference)
+								on its region restriction icon (<i className="fa fa-globe"></i>).
+							</li>
+						</ul>
+					),
 					name: 'Giveaway Countries',
 					options: {
 						title: `Load as:`,
@@ -57,19 +47,14 @@ class GeneralContentLoader extends Module {
 					sg: true,
 				},
 				cl_ge: {
-					description: [
-						[
-							'ul',
-							[
-								[
-									'li',
-									[
-										`Loads a giveaway's entries when clicking / hovering over (depending on preference) on its "Entries" link.`,
-									],
-								],
-							],
-						],
-					],
+					description: () => (
+						<ul>
+							<li>
+								Loads a giveaway's entries when clicking / hovering over (depending on preference)
+								on its "Entries" link.
+							</li>
+						</ul>
+					),
 					name: 'Giveaway Entries',
 					options: {
 						title: `Load as:`,
@@ -83,28 +68,20 @@ class GeneralContentLoader extends Module {
 					sg: true,
 				},
 				ggl: {
-					description: [
-						[
-							'ul',
-							[
-								[
-									'li',
-									[
-										`Loads a giveaway's groups when clicking / hovering over (depending on preference) on its group icon (`,
-										['i', { class: 'fa fa-user' }],
-										`) or automatically when loading the page (extends to your `,
-										['a', { href: `https://www.steamgifts.com/giveaways/created` }, 'created'],
-										' / ',
-										['a', { href: `https://www.steamgifts.com/giveaways/entered` }, 'entered'],
-										' / ',
-										['a', { href: `https://www.steamgifts.com/giveaways/won` }, 'won'],
-										` pages if [id=cewgd] is enabled).`,
-									],
-								],
-								['li', `Has [id=gh] built-in.`],
-							],
-						],
-					],
+					description: () => (
+						<ul>
+							<li>
+								Loads a giveaway's groups when clicking / hovering over (depending on preference) on
+								its group icon (<i className="fa fa-user"></i>) or automatically when loading the
+								page (extends to your{' '}
+								<a href="https://www.steamgifts.com/giveaways/created">created</a> /{' '}
+								<a href="https://www.steamgifts.com/giveaways/entered">entered</a> /{' '}
+								<a href="https://www.steamgifts.com/giveaways/won">won</a> pages if [id=cewgd] is
+								enabled).
+							</li>
+							<li>Has [id=gh] built-in.</li>
+						</ul>
+					),
 					features: {
 						ggl_m: {
 							name: 'Only show groups that you are a member of.',
@@ -126,17 +103,14 @@ class GeneralContentLoader extends Module {
 					syncKeys: ['Groups'],
 				},
 				cl_gi: {
-					description: [
-						[
-							'ul',
-							[
-								[
-									'li',
-									`Loads a group's info when clicking / hovering over (depending on preference) its avatar.`,
-								],
-							],
-						],
-					],
+					description: () => (
+						<ul>
+							<li>
+								Loads a group's info when clicking / hovering over (depending on preference) its
+								avatar.
+							</li>
+						</ul>
+					),
 					name: 'Group Info',
 					options: {
 						title: `Load as:`,
@@ -150,17 +124,14 @@ class GeneralContentLoader extends Module {
 					sg: true,
 				},
 				cl_ui: {
-					description: [
-						[
-							'ul',
-							[
-								[
-									'li',
-									`Loads a user's info when clicking / hovering over (depending on preference) its avatar.`,
-								],
-							],
-						],
-					],
+					description: () => (
+						<ul>
+							<li>
+								Loads a user's info when clicking / hovering over (depending on preference) its
+								avatar.
+							</li>
+						</ul>
+					),
 					name: 'User Info',
 					options: {
 						title: `Load as:`,

@@ -10,25 +10,17 @@ class GeneralThreadSubscription extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							"Allows you to subscribe to threads so that you're notified when a new comment is posted.",
-						],
-						[
-							'li',
-							[
-								'Adds a ',
-								['i', { class: 'fa fa-bell-o' }],
-								' button to the header that allows you to view your subscriptions.',
-							],
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Allows you to subscribe to threads so that you're notified when a new comment is posted.
+					</li>
+					<li>
+						Adds a <i className="fa fa-bell-o"></i> button to the header that allows you to view
+						your subscriptions.
+					</li>
+				</ul>
+			),
 			id: 'tds',
 			name: 'Thread Subscription',
 			sg: true,

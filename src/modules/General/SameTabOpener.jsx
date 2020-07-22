@@ -1,10 +1,15 @@
 import { Module } from '../../class/Module';
+import { DOM } from '../../class/DOM';
 
 class GeneralSameTabOpener extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [['ul', [['li', 'Opens any link in the page in the same tab.']]]],
+			description: () => (
+				<ul>
+					<li>Opens any link in the page in the same tab.</li>
+				</ul>
+			),
 			id: 'sto',
 			name: 'Same Tab Opener',
 			sg: true,

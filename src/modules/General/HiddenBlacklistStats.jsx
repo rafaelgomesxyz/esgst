@@ -1,24 +1,18 @@
 import { Module } from '../../class/Module';
+import { DOM } from '../../class/DOM';
 
 class GeneralHiddenBlacklistStats extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							[
-								'Hides the blacklist stats of your ',
-								['a', { href: `https://www.steamgifts.com/stats/personal/community` }, 'stats'],
-								' page.',
-							],
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Hides the blacklist stats of your{' '}
+						<a href="https://www.steamgifts.com/stats/personal/community">stats</a> page.
+					</li>
+				</ul>
+			),
 			id: 'hbs',
 			name: 'Hidden Blacklist Stats',
 			sg: true,

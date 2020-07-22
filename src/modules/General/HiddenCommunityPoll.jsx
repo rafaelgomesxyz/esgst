@@ -1,13 +1,16 @@
 import { Module } from '../../class/Module';
 import { Settings } from '../../class/Settings';
+import { DOM } from '../../class/DOM';
 
 class GeneralHiddenCommunityPoll extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				['ul', [['li', `Hides the community poll (if there is one) of the main page.`]]],
-			],
+			description: () => (
+				<ul>
+					<li>Hides the community poll (if there is one) of the main page.</li>
+				</ul>
+			),
 			features: {
 				hcp_v: {
 					name: 'Only hide the poll if you already voted in it.',

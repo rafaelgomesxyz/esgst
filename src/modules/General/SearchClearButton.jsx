@@ -6,7 +6,11 @@ class GeneralSearchClearButton extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [['ul', [['li', 'Adds a clear button to each search input in the page.']]]],
+			description: () => (
+				<ul>
+					<li>Adds a clear button to each search input in the page.</li>
+				</ul>
+			),
 			id: 'scb',
 			name: 'Search Clear Button',
 			sg: true,

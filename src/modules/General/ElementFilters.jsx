@@ -1,51 +1,37 @@
 import { Module } from '../../class/Module';
 import { Settings } from '../../class/Settings';
+import { DOM } from '../../class/DOM';
 
 class GeneralElementFilters extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						['li', 'Allows you to hide elements in any page using CSS selectors.'],
-						[
-							'li',
-							`If you do not know how to use CSS selectors or you are having trouble hiding an element, leave a comment in the ESGST thread with a description/image of the element that you want to hide and I will give you the selector that you have to use.`,
-						],
-						['li', `Here are some quick examples:`],
-						[
-							'ul',
-							[
-								[
-									'li',
-									[
-										'To hide the "Redeem" button in your ',
-										['a', { href: `https://www.steamgifts.com/giveaways/won` }, 'won'],
-										` page, use: `,
-										['code', '.table__column__key__redeem'],
-									],
-								],
-								[
-									'li',
-									[
-										`To hide the featured giveaway container (the big giveaway) in the main page, use: `,
-										['code', `[esgst.giveawaysPath].featured__container`],
-									],
-								],
-								[
-									'li',
-									[
-										`To hide the pinned giveaways (the multiple copy giveaways) in the main page, use: `,
-										['code', `[esgst.giveawaysPath].pinned-giveaways__outer-wrap`],
-									],
-								],
-							],
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>Allows you to hide elements in any page using CSS selectors.</li>
+					<li>
+						If you do not know how to use CSS selectors or you are having trouble hiding an element,
+						leave a comment in the ESGST thread with a description/image of the element that you
+						want to hide and I will give you the selector that you have to use.
+					</li>
+					<li>Here are some quick examples:</li>
+					<ul>
+						<li>
+							To hide the "Redeem" button in your{' '}
+							<a href="https://www.steamgifts.com/giveaways/won">won</a> page, use:{' '}
+							<code>.table__column__key__redeem</code>
+						</li>
+						<li>
+							To hide the featured giveaway container (the big giveaway) in the main page, use:{' '}
+							<code>[esgst.giveawaysPath].featured__container</code>
+						</li>
+						<li>
+							To hide the pinned giveaways (the multiple copy giveaways) in the main page, use:{' '}
+							<code>[esgst.giveawaysPath].pinned-giveaways__outer-wrap</code>
+						</li>
+					</ul>
+				</ul>
+			),
 			inputItems: [
 				{
 					id: 'ef_filters',

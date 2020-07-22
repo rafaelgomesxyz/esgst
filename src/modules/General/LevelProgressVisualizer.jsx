@@ -8,6 +8,7 @@ import { EventDispatcher } from '../../class/EventDispatcher';
 import { Events } from '../../constants/Events';
 import { Session } from '../../class/Session';
 import { LocalStorage } from '../../class/LocalStorage';
+import { DOM } from '../../class/DOM';
 
 const createElements = common.createElements.bind(common),
 	getFeatureTooltip = common.getFeatureTooltip.bind(common),
@@ -24,21 +25,19 @@ class GeneralLevelProgressVisualizer extends Module {
 				barColorSelected: `Bar Color (Account Page Hover)`,
 				projectedBarColorSelected: `Projected Bar Color (Account Page Hover)`,
 			},
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							'Displays a green bar in the account button at the header of any page that represents your level progress.',
-						],
-						[
-							'li',
-							`Also displays a lighter green bar, if you have any giveaways open, to estimate what your level will be when the giveaways are marked as received. If you hover over the account button, it shows the number of the estimated level.`,
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Displays a green bar in the account button at the header of any page that represents
+						your level progress.
+					</li>
+					<li>
+						Also displays a lighter green bar, if you have any giveaways open, to estimate what your
+						level will be when the giveaways are marked as received. If you hover over the account
+						button, it shows the number of the estimated level.
+					</li>
+				</ul>
+			),
 			id: 'lpv',
 			name: 'Level Progress Visualizer',
 			sg: true,

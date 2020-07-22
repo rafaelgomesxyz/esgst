@@ -3,22 +3,20 @@ import { EventDispatcher } from '../../class/EventDispatcher';
 import { Events } from '../../constants/Events';
 import { Session } from '../../class/Session';
 import { Shared } from '../../class/Shared';
+import { DOM } from '../../class/DOM';
 
 class GeneralVisibleFullLevel extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							`Displays the full level at the header, instead of only showing it when hovering over the level. For example, "Level 5" becomes "Lvl 5.25".`,
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Displays the full level at the header, instead of only showing it when hovering over the
+						level. For example, "Level 5" becomes "Lvl 5.25".
+					</li>
+				</ul>
+			),
 			id: 'vfl',
 			name: 'Visible Full Level',
 			sg: true,

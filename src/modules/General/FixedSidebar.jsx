@@ -1,21 +1,19 @@
 import { Module } from '../../class/Module';
 import { Settings } from '../../class/Settings';
+import { DOM } from '../../class/DOM';
 
 class GeneralFixedSidebar extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							'Keeps the sidebar of any page at the left side of the window while you scroll down the page.',
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Keeps the sidebar of any page at the left side of the window while you scroll down the
+						page.
+					</li>
+				</ul>
+			),
 			id: 'fs',
 			name: 'Fixed Sidebar',
 			sg: true,

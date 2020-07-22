@@ -7,28 +7,23 @@ import { Shared } from '../../class/Shared';
 import { Header } from '../../components/Header';
 import { EventDispatcher } from '../../class/EventDispatcher';
 import { Events } from '../../constants/Events';
+import { DOM } from '../../class/DOM';
 
 class GeneralNotificationMerger extends Module {
 	constructor() {
 		super();
 		this.info = {
 			// by Royalgamer06
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							[
-								`Adds a second inbox icon colored as red (`,
-								['i', { class: 'fa fa-envelope esgst-red' }],
-								`) to the header of any page that allows you to be notified about messages from SteamTrades on SteamGifts and vice-versa.`,
-							],
-						],
-						['li', `This feature is compatible with [id=hr_b].`],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Adds a second inbox icon colored as red (<i className="fa fa-envelope esgst-red"></i>)
+						to the header of any page that allows you to be notified about messages from SteamTrades
+						on SteamGifts and vice-versa.
+					</li>
+					<li>This feature is compatible with [id=hr_b].</li>
+				</ul>
+			),
 			id: 'nm',
 			name: 'Notification Merger',
 			sg: true,

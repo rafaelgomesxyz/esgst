@@ -8,17 +8,11 @@ class GeneralPaginationNavigationOnTop extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							'Moves the pagination navigation of any page to the main page heading of the page.',
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>Moves the pagination navigation of any page to the main page heading of the page.</li>
+				</ul>
+			),
 			features: {
 				pnot_s: {
 					name: `Enable simplified view (will show only the numbers and arrows).`,

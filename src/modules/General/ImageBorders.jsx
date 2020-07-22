@@ -1,10 +1,15 @@
 import { Module } from '../../class/Module';
+import { DOM } from '../../class/DOM';
 
 class GeneralImageBorders extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [['ul', [['li', 'Brings back image borders to SteamGifts.']]]],
+			description: () => (
+				<ul>
+					<li>Brings back image borders to SteamGifts.</li>
+				</ul>
+			),
 			id: 'ib',
 			name: 'Image Borders',
 			sg: true,

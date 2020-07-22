@@ -1,22 +1,20 @@
 import { Module } from '../../class/Module';
 import { Settings } from '../../class/Settings';
+import { DOM } from '../../class/DOM';
 
 class GeneralAttachedImageLoader extends Module {
 	constructor() {
 		super();
 		this.info = {
 			conflicts: ['vai'],
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							`Only loads an attached image (in any page) when you click on its "View attached image" button, instead of loading it on page load, which should speed up page loads.`,
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Only loads an attached image (in any page) when you click on its "View attached image"
+						button, instead of loading it on page load, which should speed up page loads.
+					</li>
+				</ul>
+			),
 			id: 'ail',
 			name: 'Attached Image Loader',
 			sg: true,

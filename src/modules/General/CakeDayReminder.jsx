@@ -12,15 +12,12 @@ class GeneralCakeDayReminder extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						['li', 'Shows a popup reminding you of your cake day on SteamGifts.'],
-						['li', 'You can set it to remind you a specified number of days before your cake day.'],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>Shows a popup reminding you of your cake day on SteamGifts.</li>
+					<li>You can set it to remind you a specified number of days before your cake day.</li>
+				</ul>
+			),
 			features: {
 				cdr_b: {
 					inputItems: [

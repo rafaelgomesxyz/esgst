@@ -1,22 +1,20 @@
 import { Module } from '../../class/Module';
 import { Settings } from '../../class/Settings';
+import { DOM } from '../../class/DOM';
 
 class GeneralVisibleAttachedImages extends Module {
 	constructor() {
 		super();
 		this.info = {
 			conflicts: ['ail'],
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							`Displays all of the attached images (in any page) by default so that you do not need to click on "View attached image" to view them.`,
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Displays all of the attached images (in any page) by default so that you do not need to
+						click on "View attached image" to view them.
+					</li>
+				</ul>
+			),
 			features: {
 				vai_gifv: {
 					name: 'Rename .gifv images to .gif so that they are properly attached.',

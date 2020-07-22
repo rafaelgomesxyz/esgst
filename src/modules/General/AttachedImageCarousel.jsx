@@ -1,6 +1,7 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
 import { Settings } from '../../class/Settings';
+import { DOM } from '../../class/DOM';
 
 const createElements = common.createElements.bind(common),
 	createHeadingButton = common.createHeadingButton.bind(common);
@@ -8,25 +9,16 @@ class GeneralAttachedImageCarousel extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							[
-								`Adds a button (`,
-								['i', { class: 'fa fa-image' }],
-								`) to the main page heading of any page that allows you to navigate through a carousel containing all of the attached images in the page.`,
-							],
-						],
-						[
-							'li',
-							'The carousel can also be opened by clicking on any attached image in the page.',
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Adds a button (<i className="fa fa-image"></i>) to the main page heading of any page
+						that allows you to navigate through a carousel containing all of the attached images in
+						the page.
+					</li>
+					<li>The carousel can also be opened by clicking on any attached image in the page.</li>
+				</ul>
+			),
 			features: {
 				aic_b: {
 					name: 'Only trigger the carousel when clicking on the button in the main page heading.',

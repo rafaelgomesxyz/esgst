@@ -15,38 +15,29 @@ class GeneralQuickInboxView extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							[
-								`If you hover over the inbox icon (`,
-								['i', { class: 'fa fa-envelope' }],
-								`) at the header, it shows a popout with your messages so that you do not need to access your inbox page to read them.`,
-							],
-						],
-						[
-							'li',
-							`You can also mark the messages as read from the popout and reply to them if [id=rfi] is enabled.`,
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						If you hover over the inbox icon (<i className="fa fa-envelope"></i>) at the header, it
+						shows a popout with your messages so that you do not need to access your inbox page to
+						read them.
+					</li>
+					<li>
+						You can also mark the messages as read from the popout and reply to them if [id=rfi] is
+						enabled.
+					</li>
+				</ul>
+			),
 			features: {
 				qiv_p: {
-					description: [
-						[
-							'ul',
-							[
-								[
-									'li',
-									`Preloads the first page so that you do not have to wait for it to load after hovering over the inbox icon (this can slow down the page load though).`,
-								],
-							],
-						],
-					],
+					description: () => (
+						<ul>
+							<li>
+								Preloads the first page so that you do not have to wait for it to load after
+								hovering over the inbox icon (this can slow down the page load though).
+							</li>
+						</ul>
+					),
 					name: 'Preload the first page.',
 					sg: true,
 					st: true,

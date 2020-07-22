@@ -4,6 +4,7 @@ import { EventDispatcher } from '../../class/EventDispatcher';
 import { Events } from '../../constants/Events';
 import { Session } from '../../class/Session';
 import { Shared } from '../../class/Shared';
+import { DOM } from '../../class/DOM';
 
 class GeneralPointsVisualizer extends Module {
 	constructor() {
@@ -14,17 +15,14 @@ class GeneralPointsVisualizer extends Module {
 				barColorHover: `Bar Color (Hover / Account Page)`,
 				barColorSelected: `Bar Color (Account Page Hover)`,
 			},
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							'Displays a green bar in the account button at the header of any page that represents the amount of points that you have.',
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Displays a green bar in the account button at the header of any page that represents the
+						amount of points that you have.
+					</li>
+				</ul>
+			),
 			id: 'pv',
 			name: 'Points Visualizer',
 			sg: true,

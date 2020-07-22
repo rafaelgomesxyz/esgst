@@ -1,10 +1,15 @@
 import { Module } from '../../class/Module';
+import { DOM } from '../../class/DOM';
 
 class GeneralNarrowSidebar extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [['ul', [['li', 'Keeps the sidebar narrowed in all pages.']]]],
+			description: () => (
+				<ul>
+					<li>Keeps the sidebar narrowed in all pages.</li>
+				</ul>
+			),
 			id: 'ns',
 			name: 'Narrow Sidebar',
 			sg: true,

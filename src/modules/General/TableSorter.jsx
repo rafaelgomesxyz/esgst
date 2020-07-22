@@ -1,6 +1,7 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
 import { Settings } from '../../class/Settings';
+import { DOM } from '../../class/DOM';
 
 const createElements = common.createElements.bind(common),
 	getFeatureTooltip = common.getFeatureTooltip.bind(common),
@@ -9,25 +10,17 @@ class GeneralTableSorter extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							[
-								`Adds a button (`,
-								['i', { class: 'fa fa-sort' }],
-								` if the table is sorted by the default order, `,
-								['i', { class: 'fa fa-sort-asc' }],
-								' if it is sorted by ascending order and ',
-								['i', { class: 'fa fa-sort-desc' }],
-								` if it is sorted by descending order) to the heading of each table's column (in any page) that allows you to sort the table by the values of the column.`,
-							],
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Adds a button (<i className="fa fa-sort"></i> if the table is sorted by the default
+						order, <i className="fa fa-sort-asc"></i> if it is sorted by ascending order and{' '}
+						<i className="fa fa-sort-desc"></i> if it is sorted by descending order) to the heading
+						of each table's column (in any page) that allows you to sort the table by the values of
+						the column.
+					</li>
+				</ul>
+			),
 			id: 'ts',
 			name: 'Table Sorter',
 			sg: true,
