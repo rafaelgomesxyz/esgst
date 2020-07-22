@@ -12,7 +12,6 @@ module.exports = (config) => {
 		files: ['test/**/*.+(js|jsx|ts|tsx)'],
 		frameworks: ['mocha', 'chai'],
 		plugins: [
-			'karma-babel-preprocessor',
 			'karma-chai',
 			'karma-chrome-launcher',
 			'karma-coverage',

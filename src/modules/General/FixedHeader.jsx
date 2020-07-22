@@ -22,10 +22,9 @@ class GeneralFixedHeader extends Module {
 	}
 
 	init() {
-		if (!Shared.header) {
+		if (!Shared.header?.nodes.outer) {
 			return;
 		}
-
 		Shared.header.nodes.outer.classList.add('esgst-fh');
 	}
 }

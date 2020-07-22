@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<link rel="shortcut icon" href="https://cdn.steamtrades.com/img/favicon.ico">
+		<title>Steam Trading and User Reputation</title>
+		<!-- Include FontAwesome -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<!-- Include CSS -->
+		<link rel="stylesheet" type="text/css" href="https://cdn.steamtrades.com/css/minified_v16.css">
+		<!-- Include Scripts -->
+		<script src="https://cdn.steamtrades.com/js/minified_v27.js"></script>
+		<meta name="viewport" content="width=1200">
+		<script>
+			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+			ga('create', 'UA-3791796-10', 'auto');
+			ga('set', 'anonymizeIp', true);
+			ga('send', 'pageview');
+		</script>
+	</head>
+	<body>
+		<div class="popup">
+			<div class="popup_summary">
+				<div class="popup_icon"></div>
+				<div class="popup_heading">
+					<div class="popup_heading_h1"></div>
+					<div class="popup_heading_h2"></div>
+				</div>
+			</div>
+			<div class="popup_description">
+			</div>
+			<p class="popup_actions">
+				<span class="b-close">Close</span>
+			</p>
+		</div>
+				<header class="large">
+			<div class="header_inner_wrap">
+				<nav>
+					<div class="nav_logo">
+						<a href="/">
+							<div></div>
+							<div></div>
+							<div></div>
+							<div></div>
+						</a>
+					</div>
+											<div class="nav_btn_container">
+							<div class="dropdown is_hidden">
+								<div>
+									<a href="/trades/new" class="dropdown_btn">
+										<i class="green fa fa-fw fa-plus"></i>
+										<span>New Trade</span>
+									</a>
+									<a href="/trades/search?user=76561198174510278" class="dropdown_btn">
+										<i class="grey fa fa-fw fa-edit"></i>
+										<span>My Trades</span>
+									</a>
+								</div>
+							</div>
+							<a href="/" class="nav_btn nav_btn_left">
+								<i class="fa fa-exchange"></i>
+								<span>Trades</span>
+							</a>
+							<div class="nav_btn nav_btn_right nav_btn_dropdown">
+								<i class="fa fa-angle-down"></i>
+							</div>
+						</div>
+						<div class="nav_btn_container">
+							<a href="https://www.steamgifts.com" class="nav_btn">
+								<i class="fa fa-gift"></i>
+								<span>Giveaways</span>
+							</a>
+						</div>
+						<div class="nav_btn_container">
+							<a href="/vote" class="nav_btn">
+								<i class="fa fa-check-square-o"></i>
+								<span>Vote On Reviews</span>
+							</a>
+						</div>
+						<div class="nav_btn_container">
+							<a href="/messages" class="nav_btn">
+								<i class="fa fa-envelope"></i>
+								<span>Messages</span>
+							</a>
+						</div>
+						<div class="nav_btn_container">
+							<div class="dropdown is_hidden">
+								<div>
+									<a href="/reviews/search?user=76561198174510278" class="dropdown_btn">
+										<i class="green fa fa-fw fa-thumbs-o-up"></i>
+										<span>Reviews</span>
+									</a>
+									<a href="/comments/search?user=76561198174510278" class="dropdown_btn">
+										<i class="orange fa fa-fw fa-comment"></i>
+										<span>Comments</span>
+									</a>
+									<a href="/settings" class="dropdown_btn">
+										<i class="grey fa fa-fw fa-cog"></i>
+										<span>Settings</span>
+									</a>
+									<div class="dropdown_btn js_logout" data-form="do=logout&xsrf_token=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
+										<i class="blue fa fa-fw fa-sign-out"></i>
+										<span>Logout</span>
+									</div>
+								</div>
+							</div>
+							<a href="/user/76561198174510278" class="nav_btn nav_btn_left">
+								<i class="fa fa-user"></i>
+								<span>My Profile <span class="is_faded">(+3/-0)</span></span>
+							</a>
+							<div class="nav_btn nav_btn_right nav_btn_dropdown">
+								<i class="fa fa-angle-down"></i>
+							</div>
+
+						</div>
+						<a href="/user/76561198174510278" class="nav_avatar" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/57/578e72b28b3b705d8b9f082e1d5f03f30ccc56e2_medium.jpg);"></a>
+										</nav>
+									<div class="header_search">
+						<div>
+							<p class="name">Search trades</p>
+							<h2 class="description">Browse <span class="blue">764,512</span> user posted trades, and find great deals.</h2>
+							<div class="search_trades">
+								<div><input name="have" type="text" placeholder="I have..." value="" /></div>
+								<div><input name="want" type="text" placeholder="I want..." value="" /></div>
+								<div>
+									<i class="is_default fa fa-search"></i>
+									<i class="is_loading fa-spin fa fa-circle-o-notch"></i>
+								</div>
+							</div>
+						</div>
+						<div>
+							<p class="name">Search reputation</p>
+							<h2 class="description">Trade safely and view <span class="red">1,389,992</span> reviews for Steam users, or write your own.</h2>
+							<div class="search_reviews">
+								<div><input type="text" placeholder="Search by Steam ID, vanity name, or profile URL..." value="" /></div>
+								<div>
+									<i class="is_default fa fa-search"></i>
+									<i class="is_loading fa-spin fa fa-circle-o-notch"></i>
+								</div>
+							</div>
+						</div>
+					</div>
+								</div>
+		</header>	<div class="page_outer_wrap">
+		<div class="page_inner_wrap">
+							<div style="padding-bottom: 25px; display: flex; justify-content: center;">
+					<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+					<!-- st_homepage_top_fixed_728x90 -->
+					<ins class="adsbygoogle"
+						 style="display:inline-block;width:728px;height:90px"
+						 data-ad-client="ca-pub-7519145598166360"
+						 data-ad-slot="2986928988"></ins>
+					<script>
+						 (adsbygoogle = window.adsbygoogle || []).push({});
+					</script>
+				</div>
+										<div class="page_heading"><div class="page_heading_breadcrumbs"><a href="/"><h1>Trades</h1></a></div></div>
+			<div class="table">
+				<div class="header">
+					<div class="column_flex">Summary</div>
+					<div class="column_small text_center">Comments</div>
+					<div class="column_medium text_right">Last Update</div>
+				</div>
+				<div class="table__rows">
+
+					<div class="row_outer_wrap">
+						<div class="row_inner_wrap">
+							<div>
+								<a class="avatar" href="/user/76561198257037965" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/0f/0f1d40b006f9914f525e9210a9f32ac02e3f835b_medium.jpg);"></a>
+							</div>
+							<div class="column_flex">
+								<h3><a href="/trade/krGuk/games-x-5-cards-200-gems">Games X 5 Cards  ,  200 Gems</a></h3>
+								<p><span data-timestamp="1595071147">4 days ago</span> by <a class="underline" href="/user/76561198257037965">Italia75</a> <a href="/user/76561198257037965" class="reputation">(<span class="is_positive">+267</span>/<span class="is_negative">-1</span>)</a></p>
+							</div>
+							<div class="column_small text_center"><a class="underline" href="/trade/krGuk/games-x-5-cards-200-gems">1</a></div>
+							<div class="column_last_update column_medium">
+
+										<div class="column_flex text_right">
+											<p><span data-timestamp="1595430763">5 seconds ago</span> by</p>
+											<p><a class="underline" href="/user/76561198257037965">Italia75</a> <a href="/user/76561198257037965" class="reputation">(<span class="is_positive">+267</span>/<span class="is_negative">-1</span>)</a><a href="/trade/krGuk/games-x-5-cards-200-gems"><i class="fa fa-chevron-circle-up"></i></a></p>
+										</div>
+										<div>
+											<a class="avatar" href="/user/76561198257037965" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/0f/0f1d40b006f9914f525e9210a9f32ac02e3f835b_medium.jpg);"></a>
+										</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row_outer_wrap">
+						<div class="row_inner_wrap">
+							<div>
+								<a class="avatar" href="/user/76561198163543978" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/d4/d4f388426debe2710a328f4dc71baae729523e2a_medium.jpg);"></a>
+							</div>
+							<div class="column_flex">
+								<h3><a href="/trade/PtLuB/h-tf2-keys-w-dont-starve-together-gifts-3-keys-for-row">(H) TF2 keys (W) Don&#039;t Starve Together gifts (3 keys for ROW)</a></h3>
+								<p><span data-timestamp="1588491905">2 months ago</span> by <a class="underline" href="/user/76561198163543978">Kunlun</a> <a href="/user/76561198163543978" class="reputation">(<span class="is_positive">+17</span>/<span class="is_negative">-0</span>)</a></p>
+							</div>
+							<div class="column_small text_center"><a class="underline" href="/trade/PtLuB/h-tf2-keys-w-dont-starve-together-gifts-3-keys-for-row">19</a></div>
+							<div class="column_last_update column_medium">
+
+										<div class="column_flex text_right">
+											<p><span data-timestamp="1595430760">8 seconds ago</span> by</p>
+											<p><a class="underline" href="/user/76561198163543978">Kunlun</a> <a href="/user/76561198163543978" class="reputation">(<span class="is_positive">+17</span>/<span class="is_negative">-0</span>)</a><a href="/trade/PtLuB/h-tf2-keys-w-dont-starve-together-gifts-3-keys-for-row"><i class="fa fa-chevron-circle-up"></i></a></p>
+										</div>
+										<div>
+											<a class="avatar" href="/user/76561198163543978" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/d4/d4f388426debe2710a328f4dc71baae729523e2a_medium.jpg);"></a>
+										</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row_outer_wrap">
+						<div class="row_inner_wrap">
+							<div>
+								<a class="avatar" href="/user/76561198163543978" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/d4/d4f388426debe2710a328f4dc71baae729523e2a_medium.jpg);"></a>
+							</div>
+							<div class="column_flex">
+								<h3><a href="/trade/9VZ7n/h-tf2-keys-w-tradable-steam-gifts">[H] TF2 keys [W] tradable steam gifts</a></h3>
+								<p><span data-timestamp="1588755011">2 months ago</span> by <a class="underline" href="/user/76561198163543978">Kunlun</a> <a href="/user/76561198163543978" class="reputation">(<span class="is_positive">+17</span>/<span class="is_negative">-0</span>)</a></p>
+							</div>
+							<div class="column_small text_center"><a class="underline" href="/trade/9VZ7n/h-tf2-keys-w-tradable-steam-gifts">28</a></div>
+							<div class="column_last_update column_medium">
+
+										<div class="column_flex text_right">
+											<p><span data-timestamp="1595430756">12 seconds ago</span> by</p>
+											<p><a class="underline" href="/user/76561198163543978">Kunlun</a> <a href="/user/76561198163543978" class="reputation">(<span class="is_positive">+17</span>/<span class="is_negative">-0</span>)</a><a href="/trade/9VZ7n/h-tf2-keys-w-tradable-steam-gifts"><i class="fa fa-chevron-circle-up"></i></a></p>
+										</div>
+										<div>
+											<a class="avatar" href="/user/76561198163543978" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/d4/d4f388426debe2710a328f4dc71baae729523e2a_medium.jpg);"></a>
+										</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row_outer_wrap">
+						<div class="row_inner_wrap">
+							<div>
+								<a class="avatar" href="/user/76561198257037965" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/0f/0f1d40b006f9914f525e9210a9f32ac02e3f835b_medium.jpg);"></a>
+							</div>
+							<div class="column_flex">
+								<h3><a href="/trade/RUKNO/rogue-company-epic-x-games">Rogue Company (Epic) X Games</a></h3>
+								<p><span data-timestamp="1595351568">22 hours ago</span> by <a class="underline" href="/user/76561198257037965">Italia75</a> <a href="/user/76561198257037965" class="reputation">(<span class="is_positive">+267</span>/<span class="is_negative">-1</span>)</a></p>
+							</div>
+							<div class="column_small text_center"><a class="underline" href="/trade/RUKNO/rogue-company-epic-x-games">0</a></div>
+							<div class="column_last_update column_medium">
+
+										<div class="column_flex text_right">
+											<p><span data-timestamp="1595430753">15 seconds ago</span> by</p>
+											<p><a class="underline" href="/user/76561198257037965">Italia75</a> <a href="/user/76561198257037965" class="reputation">(<span class="is_positive">+267</span>/<span class="is_negative">-1</span>)</a><a href="/trade/RUKNO/rogue-company-epic-x-games"><i class="fa fa-chevron-circle-up"></i></a></p>
+										</div>
+										<div>
+											<a class="avatar" href="/user/76561198257037965" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/0f/0f1d40b006f9914f525e9210a9f32ac02e3f835b_medium.jpg);"></a>
+										</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row_outer_wrap">
+						<div class="row_inner_wrap">
+							<div>
+								<a class="avatar" href="/user/76561198257037965" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/0f/0f1d40b006f9914f525e9210a9f32ac02e3f835b_medium.jpg);"></a>
+							</div>
+							<div class="column_flex">
+								<h3><a href="/trade/gDWG7/h-games-x-w-games">[H] Games X (W) Games</a></h3>
+								<p><span data-timestamp="1591304261">1 month ago</span> by <a class="underline" href="/user/76561198257037965">Italia75</a> <a href="/user/76561198257037965" class="reputation">(<span class="is_positive">+267</span>/<span class="is_negative">-1</span>)</a></p>
+							</div>
+							<div class="column_small text_center"><a class="underline" href="/trade/gDWG7/h-games-x-w-games">30</a></div>
+							<div class="column_last_update column_medium">
+
+										<div class="column_flex text_right">
+											<p><span data-timestamp="1595430743">25 seconds ago</span> by</p>
+											<p><a class="underline" href="/user/76561198257037965">Italia75</a> <a href="/user/76561198257037965" class="reputation">(<span class="is_positive">+267</span>/<span class="is_negative">-1</span>)</a><a href="/trade/gDWG7/h-games-x-w-games"><i class="fa fa-chevron-circle-up"></i></a></p>
+										</div>
+										<div>
+											<a class="avatar" href="/user/76561198257037965" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/0f/0f1d40b006f9914f525e9210a9f32ac02e3f835b_medium.jpg);"></a>
+										</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row_outer_wrap">
+						<div class="row_inner_wrap">
+							<div>
+								<a class="avatar" href="/user/76561198163543978" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/d4/d4f388426debe2710a328f4dc71baae729523e2a_medium.jpg);"></a>
+							</div>
+							<div class="column_flex">
+								<h3><a href="/trade/6EXOe/h-doom-2016-steam-gift-row-w-9-tf2-keys">(H) DOOM 2016 steam gift ROW (W) 9 tf2 keys</a></h3>
+								<p><span data-timestamp="1592120384">1 month ago</span> by <a class="underline" href="/user/76561198163543978">Kunlun</a> <a href="/user/76561198163543978" class="reputation">(<span class="is_positive">+17</span>/<span class="is_negative">-0</span>)</a></p>
+							</div>
+							<div class="column_small text_center"><a class="underline" href="/trade/6EXOe/h-doom-2016-steam-gift-row-w-9-tf2-keys">2</a></div>
+							<div class="column_last_update column_medium">
+
+										<div class="column_flex text_right">
+											<p><span data-timestamp="1595430742">26 seconds ago</span> by</p>
+											<p><a class="underline" href="/user/76561198163543978">Kunlun</a> <a href="/user/76561198163543978" class="reputation">(<span class="is_positive">+17</span>/<span class="is_negative">-0</span>)</a><a href="/trade/6EXOe/h-doom-2016-steam-gift-row-w-9-tf2-keys"><i class="fa fa-chevron-circle-up"></i></a></p>
+										</div>
+										<div>
+											<a class="avatar" href="/user/76561198163543978" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/d4/d4f388426debe2710a328f4dc71baae729523e2a_medium.jpg);"></a>
+										</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row_outer_wrap">
+						<div class="row_inner_wrap">
+							<div>
+								<a class="avatar" href="/user/76561198054879682" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/91/912608e14d3dfa69e4b001aa07108e3fd5ac9556_medium.jpg);"></a>
+							</div>
+							<div class="column_flex">
+								<h3><a href="/trade/6lX4Z/h-2700-games-1-lowest-prices-w-paypalppkeysgems">🔥🔥 [H] 2700+ GAMES #1 💛 LOWEST PRICES 🔥🔥 [W] PAYPAL/PP/KEYS/GEMS</a></h3>
+								<p><span data-timestamp="1482671578">3 years ago</span> by <a class="underline" href="/user/76561198054879682">Nuklon</a> <a href="/user/76561198054879682" class="reputation">(<span class="is_positive">+95</span>/<span class="is_negative">-0</span>)</a></p>
+							</div>
+							<div class="column_small text_center"><a class="underline" href="/trade/6lX4Z/h-2700-games-1-lowest-prices-w-paypalppkeysgems">3,109</a></div>
+							<div class="column_last_update column_medium">
+
+										<div class="column_flex text_right">
+											<p><span data-timestamp="1595430723">45 seconds ago</span> by</p>
+											<p><a class="underline" href="/user/76561198054879682">Nuklon</a> <a href="/user/76561198054879682" class="reputation">(<span class="is_positive">+95</span>/<span class="is_negative">-0</span>)</a><a href="/trade/6lX4Z/h-2700-games-1-lowest-prices-w-paypalppkeysgems"><i class="fa fa-chevron-circle-up"></i></a></p>
+										</div>
+										<div>
+											<a class="avatar" href="/user/76561198054879682" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/91/912608e14d3dfa69e4b001aa07108e3fd5ac9556_medium.jpg);"></a>
+										</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row_outer_wrap">
+						<div class="row_inner_wrap">
+							<div>
+								<a class="avatar" href="/user/76561198109682852" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/9d/9d0c7f357e7f3f8a2d0c5bd55450b019c7a7f71a_medium.jpg);"></a>
+							</div>
+							<div class="column_flex">
+								<h3><a href="/trade/8qsFP/h-turok-2-this-is-the-police-2-games-dlc-w-games">[H] Turok 2, This Is the Police 2, games &amp; DLC [W] Games</a></h3>
+								<p><span data-timestamp="1446633718">4 years ago</span> by <a class="underline" href="/user/76561198109682852">Ma1hi3u</a> <a href="/user/76561198109682852" class="reputation">(<span class="is_positive">+51</span>/<span class="is_negative">-0</span>)</a></p>
+							</div>
+							<div class="column_small text_center"><a class="underline" href="/trade/8qsFP/h-turok-2-this-is-the-police-2-games-dlc-w-games">1,168</a></div>
+							<div class="column_last_update column_medium">
+
+										<div class="column_flex text_right">
+											<p><span data-timestamp="1595430722">46 seconds ago</span> by</p>
+											<p><a class="underline" href="/user/76561198109682852">Ma1hi3u</a> <a href="/user/76561198109682852" class="reputation">(<span class="is_positive">+51</span>/<span class="is_negative">-0</span>)</a><a href="/trade/8qsFP/h-turok-2-this-is-the-police-2-games-dlc-w-games"><i class="fa fa-chevron-circle-up"></i></a></p>
+										</div>
+										<div>
+											<a class="avatar" href="/user/76561198109682852" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/9d/9d0c7f357e7f3f8a2d0c5bd55450b019c7a7f71a_medium.jpg);"></a>
+										</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row_outer_wrap">
+						<div class="row_inner_wrap">
+							<div>
+								<a class="avatar" href="/user/76561198295028921" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/09/091cf401eb99c9b3eb38b7090227d54a649913dc_medium.jpg);"></a>
+							</div>
+							<div class="column_flex">
+								<h3><a href="/trade/jtbBH/h-summer-card-sets-s-51-tf71-cs-13001-gems-w-71">[H] Summer Card Sets S&gt; 5:1 TF,7:1 CS, 1300:1 Gems [W] 7:1</a></h3>
+								<p><span data-timestamp="1576798293">7 months ago</span> by <a class="underline" href="/user/76561198295028921">faXcooL1337</a> <a href="/user/76561198295028921" class="reputation">(<span class="is_positive">+104</span>/<span class="is_negative">-0</span>)</a></p>
+							</div>
+							<div class="column_small text_center"><a class="underline" href="/trade/jtbBH/h-summer-card-sets-s-51-tf71-cs-13001-gems-w-71">0</a></div>
+							<div class="column_last_update column_medium">
+
+										<div class="column_flex text_right">
+											<p><span data-timestamp="1595430718">50 seconds ago</span> by</p>
+											<p><a class="underline" href="/user/76561198295028921">faXcooL1337</a> <a href="/user/76561198295028921" class="reputation">(<span class="is_positive">+104</span>/<span class="is_negative">-0</span>)</a><a href="/trade/jtbBH/h-summer-card-sets-s-51-tf71-cs-13001-gems-w-71"><i class="fa fa-chevron-circle-up"></i></a></p>
+										</div>
+										<div>
+											<a class="avatar" href="/user/76561198295028921" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/09/091cf401eb99c9b3eb38b7090227d54a649913dc_medium.jpg);"></a>
+										</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row_outer_wrap">
+						<div class="row_inner_wrap">
+							<div>
+								<a class="avatar" href="/user/76561198295028921" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/09/091cf401eb99c9b3eb38b7090227d54a649913dc_medium.jpg);"></a>
+							</div>
+							<div class="column_flex">
+								<h3><a href="/trade/2ETYR/hcards-sets-131-tf2-251-csgo-6001-gems-101-hydra-wcsgo-case-keys-tf2-crate-keys-gems">[H]Cards Sets 13:1 TF2 ; 25:1 CSGO ; 600:1 Gems ; 10:1 Hydra [W]CSGO case keys, TF2 Crate keys, Gems</a></h3>
+								<p><span data-timestamp="1531224691">2 years ago</span> by <a class="underline" href="/user/76561198295028921">faXcooL1337</a> <a href="/user/76561198295028921" class="reputation">(<span class="is_positive">+104</span>/<span class="is_negative">-0</span>)</a></p>
+							</div>
+							<div class="column_small text_center"><a class="underline" href="/trade/2ETYR/hcards-sets-131-tf2-251-csgo-6001-gems-101-hydra-wcsgo-case-keys-tf2-crate-keys-gems">18</a></div>
+							<div class="column_last_update column_medium">
+
+										<div class="column_flex text_right">
+											<p><span data-timestamp="1595430716">52 seconds ago</span> by</p>
+											<p><a class="underline" href="/user/76561198295028921">faXcooL1337</a> <a href="/user/76561198295028921" class="reputation">(<span class="is_positive">+104</span>/<span class="is_negative">-0</span>)</a><a href="/trade/2ETYR/hcards-sets-131-tf2-251-csgo-6001-gems-101-hydra-wcsgo-case-keys-tf2-crate-keys-gems"><i class="fa fa-chevron-circle-up"></i></a></p>
+										</div>
+										<div>
+											<a class="avatar" href="/user/76561198295028921" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/09/091cf401eb99c9b3eb38b7090227d54a649913dc_medium.jpg);"></a>
+										</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row_outer_wrap">
+						<div class="row_inner_wrap">
+							<div>
+								<a class="avatar" href="/user/76561198295028921" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/09/091cf401eb99c9b3eb38b7090227d54a649913dc_medium.jpg);"></a>
+							</div>
+							<div class="column_flex">
+								<h3><a href="/trade/NaUIE/htom-clancys-the-divisionbattalion-1944yakuza-kinawi-and-more-w-csgotf2-keysgems-or-btc">[H]Tom Clancy&#039;s The Division,BATTALION 1944,Yakuza Kinawi  and more [W] CSGO/TF2 Keys/Gems or BTC</a></h3>
+								<p><span data-timestamp="1534681585">1 year ago</span> by <a class="underline" href="/user/76561198295028921">faXcooL1337</a> <a href="/user/76561198295028921" class="reputation">(<span class="is_positive">+104</span>/<span class="is_negative">-0</span>)</a></p>
+							</div>
+							<div class="column_small text_center"><a class="underline" href="/trade/NaUIE/htom-clancys-the-divisionbattalion-1944yakuza-kinawi-and-more-w-csgotf2-keysgems-or-btc">947</a></div>
+							<div class="column_last_update column_medium">
+
+										<div class="column_flex text_right">
+											<p><span data-timestamp="1595430714">54 seconds ago</span> by</p>
+											<p><a class="underline" href="/user/76561198295028921">faXcooL1337</a> <a href="/user/76561198295028921" class="reputation">(<span class="is_positive">+104</span>/<span class="is_negative">-0</span>)</a><a href="/trade/NaUIE/htom-clancys-the-divisionbattalion-1944yakuza-kinawi-and-more-w-csgotf2-keysgems-or-btc"><i class="fa fa-chevron-circle-up"></i></a></p>
+										</div>
+										<div>
+											<a class="avatar" href="/user/76561198295028921" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/09/091cf401eb99c9b3eb38b7090227d54a649913dc_medium.jpg);"></a>
+										</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row_outer_wrap">
+						<div class="row_inner_wrap">
+							<div>
+								<a class="avatar" href="/user/76561197971158734" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/a6/a6bdb8c7ad668f455d5ce69ec1aef29e9fa996d8_medium.jpg);"></a>
+							</div>
+							<div class="column_flex">
+								<h3><a href="/trade/TEwg3/h-bundle-games-choice-w-iratus-wizard-of-legend-asterix-obelix-xxl-2-want-list">[H] Bundle Games, Choice [W] Iratus, Wizard of Legend, Asterix &amp; Obelix XXL 2, Want List</a></h3>
+								<p><span data-timestamp="1417002818">5 years ago</span> by <a class="underline" href="/user/76561197971158734">Evad</a> <a href="/user/76561197971158734" class="reputation">(<span class="is_positive">+627</span>/<span class="is_negative">-0</span>)</a></p>
+							</div>
+							<div class="column_small text_center"><a class="underline" href="/trade/TEwg3/h-bundle-games-choice-w-iratus-wizard-of-legend-asterix-obelix-xxl-2-want-list">1,134</a></div>
+							<div class="column_last_update column_medium">
+
+										<div class="column_flex text_right">
+											<p><span data-timestamp="1595430707">1 minute ago</span> by</p>
+											<p><a class="underline" href="/user/76561197971158734">Evad</a> <a href="/user/76561197971158734" class="reputation">(<span class="is_positive">+627</span>/<span class="is_negative">-0</span>)</a><a href="/trade/TEwg3/h-bundle-games-choice-w-iratus-wizard-of-legend-asterix-obelix-xxl-2-want-list"><i class="fa fa-chevron-circle-up"></i></a></p>
+										</div>
+										<div>
+											<a class="avatar" href="/user/76561197971158734" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/a6/a6bdb8c7ad668f455d5ce69ec1aef29e9fa996d8_medium.jpg);"></a>
+										</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row_outer_wrap">
+						<div class="row_inner_wrap">
+							<div>
+								<a class="avatar" href="/user/76561198126577899" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/5d/5d7368845badeef0f42ed6fe9074cc62acb80cbd_medium.jpg);"></a>
+							</div>
+							<div class="column_flex">
+								<h3><a href="/trade/6QjXf/h-row-games-w-tf2-keys">[H] ROW GAMES [W] TF2 KEYS</a></h3>
+								<p><span data-timestamp="1469329126">3 years ago</span> by <a class="underline" href="/user/76561198126577899">lockvd</a> <a href="/user/76561198126577899" class="reputation">(<span class="is_positive">+54</span>/<span class="is_negative">-0</span>)</a></p>
+							</div>
+							<div class="column_small text_center"><a class="underline" href="/trade/6QjXf/h-row-games-w-tf2-keys">224</a></div>
+							<div class="column_last_update column_medium">
+
+										<div class="column_flex text_right">
+											<p><span data-timestamp="1595430688">1 minute ago</span> by</p>
+											<p><a class="underline" href="/user/76561197967798229">TenCodeRiot</a> <a href="/user/76561197967798229" class="reputation">(<span class="is_positive">+79</span>/<span class="is_negative">-0</span>)</a><a rel="nofollow" href="/go/comment/iszNB3Z"><i class="green fa fa-chevron-circle-right"></i></a></p>
+										</div>
+										<div>
+											<a class="avatar" href="/user/76561197967798229" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/2e/2e406671d6aaf979be53dc5983d5489ec11c7fdf_medium.jpg);"></a>
+										</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row_outer_wrap">
+						<div class="row_inner_wrap">
+							<div>
+								<a class="avatar" href="/user/76561198026960915" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/4b/4b6140aa945449473e705cc60370cf81d55d5493_medium.jpg);"></a>
+							</div>
+							<div class="column_flex">
+								<h3><a href="/trade/phBH0/hcrash-bandicoot-soul-calibur-castlevania-sonic-borderlands-2-goty-wgames">[H]Crash Bandicoot,  Soul Calibur, Castlevania, Sonic, Borderlands 2 GoTY [W]Games</a></h3>
+								<p><span data-timestamp="1538582511">1 year ago</span> by <a class="underline" href="/user/76561198026960915">Newbell</a> <a href="/user/76561198026960915" class="reputation">(<span class="is_positive">+205</span>/<span class="is_negative">-0</span>)</a></p>
+							</div>
+							<div class="column_small text_center"><a class="underline" href="/trade/phBH0/hcrash-bandicoot-soul-calibur-castlevania-sonic-borderlands-2-goty-wgames">468</a></div>
+							<div class="column_last_update column_medium">
+
+										<div class="column_flex text_right">
+											<p><span data-timestamp="1595430687">1 minute ago</span> by</p>
+											<p><a class="underline" href="/user/76561198026960915">Newbell</a> <a href="/user/76561198026960915" class="reputation">(<span class="is_positive">+205</span>/<span class="is_negative">-0</span>)</a><a href="/trade/phBH0/hcrash-bandicoot-soul-calibur-castlevania-sonic-borderlands-2-goty-wgames"><i class="fa fa-chevron-circle-up"></i></a></p>
+										</div>
+										<div>
+											<a class="avatar" href="/user/76561198026960915" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/4b/4b6140aa945449473e705cc60370cf81d55d5493_medium.jpg);"></a>
+										</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row_outer_wrap">
+						<div class="row_inner_wrap">
+							<div>
+								<a class="avatar" href="/user/76561198087721298" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/0b/0b007c27a3f155d16ab451520890bbb9bd0af454_medium.jpg);"></a>
+							</div>
+							<div class="column_flex">
+								<h3><a href="/trade/JLil1/h-many-games-from-various-bundles-w-wishlist">[H] Many Games From Various Bundles [W]  Wishlist</a></h3>
+								<p><span data-timestamp="1537477929">1 year ago</span> by <a class="underline" href="/user/76561198087721298">Spaniard</a> <a href="/user/76561198087721298" class="reputation">(<span class="is_positive">+40</span>/<span class="is_negative">-0</span>)</a></p>
+							</div>
+							<div class="column_small text_center"><a class="underline" href="/trade/JLil1/h-many-games-from-various-bundles-w-wishlist">1,031</a></div>
+							<div class="column_last_update column_medium">
+
+										<div class="column_flex text_right">
+											<p><span data-timestamp="1595430679">1 minute ago</span> by</p>
+											<p><a class="underline" href="/user/76561198087721298">Spaniard</a> <a href="/user/76561198087721298" class="reputation">(<span class="is_positive">+40</span>/<span class="is_negative">-0</span>)</a><a href="/trade/JLil1/h-many-games-from-various-bundles-w-wishlist"><i class="fa fa-chevron-circle-up"></i></a></p>
+										</div>
+										<div>
+											<a class="avatar" href="/user/76561198087721298" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/0b/0b007c27a3f155d16ab451520890bbb9bd0af454_medium.jpg);"></a>
+										</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row_outer_wrap">
+						<div class="row_inner_wrap">
+							<div>
+								<a class="avatar" href="/user/76561198119831064" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c3/c369ae45425fa27d75b52165ed1dfe8d8fb862b2_medium.jpg);"></a>
+							</div>
+							<div class="column_flex">
+								<h3><a href="/trade/EfT0y/h-state-of-mind-sorry-james-sky-noon-w-offers">[H] State of Mind, Sorry James, Sky Noon [W] Offers</a></h3>
+								<p><span data-timestamp="1541155102">1 year ago</span> by <a class="underline" href="/user/76561198119831064">PATHFINTER</a> <a href="/user/76561198119831064" class="reputation">(<span class="is_positive">+52</span>/<span class="is_negative">-0</span>)</a></p>
+							</div>
+							<div class="column_small text_center"><a class="underline" href="/trade/EfT0y/h-state-of-mind-sorry-james-sky-noon-w-offers">146</a></div>
+							<div class="column_last_update column_medium">
+
+										<div class="column_flex text_right">
+											<p><span data-timestamp="1595430665">1 minute ago</span> by</p>
+											<p><a class="underline" href="/user/76561198119831064">PATHFINTER</a> <a href="/user/76561198119831064" class="reputation">(<span class="is_positive">+52</span>/<span class="is_negative">-0</span>)</a><a href="/trade/EfT0y/h-state-of-mind-sorry-james-sky-noon-w-offers"><i class="fa fa-chevron-circle-up"></i></a></p>
+										</div>
+										<div>
+											<a class="avatar" href="/user/76561198119831064" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/c3/c369ae45425fa27d75b52165ed1dfe8d8fb862b2_medium.jpg);"></a>
+										</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row_outer_wrap">
+						<div class="row_inner_wrap">
+							<div>
+								<a class="avatar" href="/user/76561198097671494" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/d6/d67c305870f1f9ae25af353bfae6b06ab710b9e7_medium.jpg);"></a>
+							</div>
+							<div class="column_flex">
+								<h3><a href="/trade/ShboN/sell-your-humble-bundle-gift-links-h-tf2-keys-paypal-w-hb-gift-links">💰 Sell Your Humble Bundle Gift Links 💰 [H] TF2 Keys &amp; PayPal [W] HB Gift Links</a></h3>
+								<p><span data-timestamp="1425156239">5 years ago</span> by <a class="underline" href="/user/76561198097671494">CGeeChimera</a> <a href="/user/76561198097671494" class="reputation">(<span class="is_positive">+1,166</span>/<span class="is_negative">-0</span>)</a></p>
+							</div>
+							<div class="column_small text_center"><a class="underline" href="/trade/ShboN/sell-your-humble-bundle-gift-links-h-tf2-keys-paypal-w-hb-gift-links">6,150</a></div>
+							<div class="column_last_update column_medium">
+
+										<div class="column_flex text_right">
+											<p><span data-timestamp="1595430607">2 minutes ago</span> by</p>
+											<p><a class="underline" href="/user/76561198097671494">CGeeChimera</a> <a href="/user/76561198097671494" class="reputation">(<span class="is_positive">+1,166</span>/<span class="is_negative">-0</span>)</a><a href="/trade/ShboN/sell-your-humble-bundle-gift-links-h-tf2-keys-paypal-w-hb-gift-links"><i class="fa fa-chevron-circle-up"></i></a></p>
+										</div>
+										<div>
+											<a class="avatar" href="/user/76561198097671494" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/d6/d67c305870f1f9ae25af353bfae6b06ab710b9e7_medium.jpg);"></a>
+										</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row_outer_wrap">
+						<div class="row_inner_wrap">
+							<div>
+								<a class="avatar" href="/user/76561197969475539" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/49/497971c216260d4f3af180c87b2a229b4b6ddf09_medium.jpg);"></a>
+							</div>
+							<div class="column_flex">
+								<h3><a href="/trade/mdCVN/h-many-bundled-games-w-offers-keys-games">[H] Many bundled games! [W] Offers, keys, games</a></h3>
+								<p><span data-timestamp="1408666158">5 years ago</span> by <a class="underline" href="/user/76561197969475539">Ikkyu</a> <a href="/user/76561197969475539" class="reputation">(<span class="is_positive">+224</span>/<span class="is_negative">-0</span>)</a></p>
+							</div>
+							<div class="column_small text_center"><a class="underline" href="/trade/mdCVN/h-many-bundled-games-w-offers-keys-games">579</a></div>
+							<div class="column_last_update column_medium">
+
+										<div class="column_flex text_right">
+											<p><span data-timestamp="1595430595">2 minutes ago</span> by</p>
+											<p><a class="underline" href="/user/76561198210647969">Gokudo</a> <a href="/user/76561198210647969" class="reputation">(<span class="is_positive">+0</span>/<span class="is_negative">-0</span>)</a><a rel="nofollow" href="/go/comment/O4iFPVL"><i class="green fa fa-chevron-circle-right"></i></a></p>
+										</div>
+										<div>
+											<a class="avatar" href="/user/76561198210647969" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/a3/a343bd6d3f4afb38086c2080f52d52074da8754c_medium.jpg);"></a>
+										</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row_outer_wrap">
+						<div class="row_inner_wrap">
+							<div>
+								<a class="avatar" href="/user/76561198245875400" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/24/2413f94949fca45a69d9f57b616048b6027137e6_medium.jpg);"></a>
+							</div>
+							<div class="column_flex">
+								<h3><a href="/trade/x7dFL/h-500-steam-gifts-updated-01072020-new-games-w-tf2-keys-only">[H] 500+ STEAM GIFTS (updated 01.07.2020 new games) [W] tf2 keys ONLY</a></h3>
+								<p><span data-timestamp="1545310231">1 year ago</span> by <a class="underline" href="/user/76561198245875400">Blooodborne</a> <a href="/user/76561198245875400" class="reputation">(<span class="is_positive">+83</span>/<span class="is_negative">-1</span>)</a></p>
+							</div>
+							<div class="column_small text_center"><a class="underline" href="/trade/x7dFL/h-500-steam-gifts-updated-01072020-new-games-w-tf2-keys-only">222</a></div>
+							<div class="column_last_update column_medium">
+
+										<div class="column_flex text_right">
+											<p><span data-timestamp="1595430589">2 minutes ago</span> by</p>
+											<p><a class="underline" href="/user/76561197967798229">TenCodeRiot</a> <a href="/user/76561197967798229" class="reputation">(<span class="is_positive">+79</span>/<span class="is_negative">-0</span>)</a><a rel="nofollow" href="/go/comment/EjpGLfE"><i class="green fa fa-chevron-circle-right"></i></a></p>
+										</div>
+										<div>
+											<a class="avatar" href="/user/76561197967798229" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/2e/2e406671d6aaf979be53dc5983d5489ec11c7fdf_medium.jpg);"></a>
+										</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row_outer_wrap">
+						<div class="row_inner_wrap">
+							<div>
+								<a class="avatar" href="/user/76561198095049646" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/45/45fac2a339ea38a3b764331f1d1fe8f3d53e83d8_medium.jpg);"></a>
+							</div>
+							<div class="column_flex">
+								<h3><a href="/trade/zqXr8/h-games-paypal-w-games-i-do-not-own-steam-items-rarer">[H] Games; PayPal [W] Games I do not own; Steam Items (Rarer)</a></h3>
+								<p><span data-timestamp="1419316044">5 years ago</span> by <a class="underline" href="/user/76561198095049646">CSMisBeast</a> <a href="/user/76561198095049646" class="reputation">(<span class="is_positive">+451</span>/<span class="is_negative">-4</span>)</a></p>
+							</div>
+							<div class="column_small text_center"><a class="underline" href="/trade/zqXr8/h-games-paypal-w-games-i-do-not-own-steam-items-rarer">284</a></div>
+							<div class="column_last_update column_medium">
+
+										<div class="column_flex text_right">
+											<p><span data-timestamp="1595430589">2 minutes ago</span> by</p>
+											<p><a class="underline" href="/user/76561198095049646">CSMisBeast</a> <a href="/user/76561198095049646" class="reputation">(<span class="is_positive">+451</span>/<span class="is_negative">-4</span>)</a><a href="/trade/zqXr8/h-games-paypal-w-games-i-do-not-own-steam-items-rarer"><i class="fa fa-chevron-circle-up"></i></a></p>
+										</div>
+										<div>
+											<a class="avatar" href="/user/76561198095049646" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/45/45fac2a339ea38a3b764331f1d1fe8f3d53e83d8_medium.jpg);"></a>
+										</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row_outer_wrap">
+						<div class="row_inner_wrap">
+							<div>
+								<a class="avatar" href="/user/76561198041061449" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/3b/3bfb4a8f04ad160f9c61456e49cdda98147161a6_medium.jpg);"></a>
+							</div>
+							<div class="column_flex">
+								<h3><a href="/trade/TU7VZ/h-paypal-persona-4-golden-mb-ii-bannerlord-doom-eternal-mhw-mordhau-etc-w-hb-games">[H] Paypal, Persona 4 Golden, M&amp;B II: Bannerlord, Doom Eternal, MHW,  Mordhau, etc. [W] HB Games</a></h3>
+								<p><span data-timestamp="1570998569">9 months ago</span> by <a class="underline" href="/user/76561198041061449">idonthavenickname</a> <a href="/user/76561198041061449" class="reputation">(<span class="is_positive">+298</span>/<span class="is_negative">-0</span>)</a></p>
+							</div>
+							<div class="column_small text_center"><a class="underline" href="/trade/TU7VZ/h-paypal-persona-4-golden-mb-ii-bannerlord-doom-eternal-mhw-mordhau-etc-w-hb-games">2,064</a></div>
+							<div class="column_last_update column_medium">
+
+										<div class="column_flex text_right">
+											<p><span data-timestamp="1595430586">3 minutes ago</span> by</p>
+											<p><a class="underline" href="/user/76561198035219544">Mikiim</a> <a href="/user/76561198035219544" class="reputation">(<span class="is_positive">+10</span>/<span class="is_negative">-0</span>)</a><a rel="nofollow" href="/go/comment/RpVwRCf"><i class="green fa fa-chevron-circle-right"></i></a></p>
+										</div>
+										<div>
+											<a class="avatar" href="/user/76561198035219544" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/a5/a584f7217a9c954a94e8180da1a4cac455695ecf_medium.jpg);"></a>
+										</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row_outer_wrap">
+						<div class="row_inner_wrap">
+							<div>
+								<a class="avatar" href="/user/76561198020626464" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/a7/a75e593ca678f3bfb20ee7fd4995dfac80b09c8c_medium.jpg);"></a>
+							</div>
+							<div class="column_flex">
+								<h3><a href="/trade/jDIvI/h-dont-escape-earthlock-neoverse-sigma-theory-basingstoke-more-w-games-tf2-keys">(H)  Don&#039;t Escape, Earthlock, Neoverse, Sigma Theory, Basingstoke + more (W) Games, TF2 keys</a></h3>
+								<p><span data-timestamp="1454161190">4 years ago</span> by <a class="underline" href="/user/76561198020626464">grafos18</a> <a href="/user/76561198020626464" class="reputation">(<span class="is_positive">+173</span>/<span class="is_negative">-0</span>)</a></p>
+							</div>
+							<div class="column_small text_center"><a class="underline" href="/trade/jDIvI/h-dont-escape-earthlock-neoverse-sigma-theory-basingstoke-more-w-games-tf2-keys">1,723</a></div>
+							<div class="column_last_update column_medium">
+
+										<div class="column_flex text_right">
+											<p><span data-timestamp="1595430566">3 minutes ago</span> by</p>
+											<p><a class="underline" href="/user/76561198020626464">grafos18</a> <a href="/user/76561198020626464" class="reputation">(<span class="is_positive">+173</span>/<span class="is_negative">-0</span>)</a><a href="/trade/jDIvI/h-dont-escape-earthlock-neoverse-sigma-theory-basingstoke-more-w-games-tf2-keys"><i class="fa fa-chevron-circle-up"></i></a></p>
+										</div>
+										<div>
+											<a class="avatar" href="/user/76561198020626464" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/a7/a75e593ca678f3bfb20ee7fd4995dfac80b09c8c_medium.jpg);"></a>
+										</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row_outer_wrap">
+						<div class="row_inner_wrap">
+							<div>
+								<a class="avatar" href="/user/76561198269216602" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/72/729633beea919398d39ef2c5967f649a0fa4a391_medium.jpg);"></a>
+							</div>
+							<div class="column_flex">
+								<h3><a href="/trade/qrbSR/h-steam-unlistedremoved-games-steam-games-dlcs-w-other-games">[H] Steam Unlisted/Removed Games, Steam Games, DLCs [W] Other Games</a></h3>
+								<p><span data-timestamp="1583762108">4 months ago</span> by <a class="underline" href="/user/76561198269216602">ArslanMunir</a> <a href="/user/76561198269216602" class="reputation">(<span class="is_positive">+112</span>/<span class="is_negative">-0</span>)</a></p>
+							</div>
+							<div class="column_small text_center"><a class="underline" href="/trade/qrbSR/h-steam-unlistedremoved-games-steam-games-dlcs-w-other-games">35</a></div>
+							<div class="column_last_update column_medium">
+
+										<div class="column_flex text_right">
+											<p><span data-timestamp="1595430561">3 minutes ago</span> by</p>
+											<p><a class="underline" href="/user/76561198269216602">ArslanMunir</a> <a href="/user/76561198269216602" class="reputation">(<span class="is_positive">+112</span>/<span class="is_negative">-0</span>)</a><a href="/trade/qrbSR/h-steam-unlistedremoved-games-steam-games-dlcs-w-other-games"><i class="fa fa-chevron-circle-up"></i></a></p>
+										</div>
+										<div>
+											<a class="avatar" href="/user/76561198269216602" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/72/729633beea919398d39ef2c5967f649a0fa4a391_medium.jpg);"></a>
+										</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row_outer_wrap">
+						<div class="row_inner_wrap">
+							<div>
+								<a class="avatar" href="/user/76561197977635176" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/f9/f96e56aae71a865df58b744d3654e6bb4de9cad4_medium.jpg);"></a>
+							</div>
+							<div class="column_flex">
+								<h3><a href="/trade/YpoKn/h-games-w-games-mainly-from-my-wishlist-or-steam-wallet">[H] Games [W] Games mainly from my wishlist or Steam Wallet</a></h3>
+								<p><span data-timestamp="1475957585">3 years ago</span> by <a class="underline" href="/user/76561197977635176">velvetkoala</a> <a href="/user/76561197977635176" class="reputation">(<span class="is_positive">+144</span>/<span class="is_negative">-0</span>)</a></p>
+							</div>
+							<div class="column_small text_center"><a class="underline" href="/trade/YpoKn/h-games-w-games-mainly-from-my-wishlist-or-steam-wallet">950</a></div>
+							<div class="column_last_update column_medium">
+
+										<div class="column_flex text_right">
+											<p><span data-timestamp="1595430555">3 minutes ago</span> by</p>
+											<p><a class="underline" href="/user/76561197967798229">TenCodeRiot</a> <a href="/user/76561197967798229" class="reputation">(<span class="is_positive">+79</span>/<span class="is_negative">-0</span>)</a><a rel="nofollow" href="/go/comment/mJR5Uyg"><i class="green fa fa-chevron-circle-right"></i></a></p>
+										</div>
+										<div>
+											<a class="avatar" href="/user/76561197967798229" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/2e/2e406671d6aaf979be53dc5983d5489ec11c7fdf_medium.jpg);"></a>
+										</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row_outer_wrap">
+						<div class="row_inner_wrap">
+							<div>
+								<a class="avatar" href="/user/76561198158435419" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/61/611eed4e5c5df0893ed4f607a950067d882ec35e_medium.jpg);"></a>
+							</div>
+							<div class="column_flex">
+								<h3><a href="/trade/kkDnX/h-ori-and-the-blind-forest-obduction-shadow-warrior-2-firewatch-bayonetta-w-offers-skins">[H] Ori and the Blind Forest, Obduction, Shadow Warrior 2, Firewatch, Bayonetta [W] Offers, Skins</a></h3>
+								<p><span data-timestamp="1508257569">2 years ago</span> by <a class="underline" href="/user/76561198158435419">Capo</a> <a href="/user/76561198158435419" class="reputation">(<span class="is_positive">+332</span>/<span class="is_negative">-0</span>)</a></p>
+							</div>
+							<div class="column_small text_center"><a class="underline" href="/trade/kkDnX/h-ori-and-the-blind-forest-obduction-shadow-warrior-2-firewatch-bayonetta-w-offers-skins">8,918</a></div>
+							<div class="column_last_update column_medium">
+
+										<div class="column_flex text_right">
+											<p><span data-timestamp="1595430546">3 minutes ago</span> by</p>
+											<p><a class="underline" href="/user/76561197967798229">TenCodeRiot</a> <a href="/user/76561197967798229" class="reputation">(<span class="is_positive">+79</span>/<span class="is_negative">-0</span>)</a><a rel="nofollow" href="/go/comment/dEiR7eo"><i class="green fa fa-chevron-circle-right"></i></a></p>
+										</div>
+										<div>
+											<a class="avatar" href="/user/76561197967798229" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/2e/2e406671d6aaf979be53dc5983d5489ec11c7fdf_medium.jpg);"></a>
+										</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row_outer_wrap">
+						<div class="row_inner_wrap">
+							<div>
+								<a class="avatar" href="/user/76561198374776444" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/dc/dc4855dc4ea782d17904b497991ed5a9f1b6e72e_medium.jpg);"></a>
+							</div>
+							<div class="column_flex">
+								<h3><a href="/trade/8t7P3/h-hb-games-asmodee-bundle-and-many-others-w-paypal">[H] HB games, Asmodee bundle, and many others [W] PayPal</a></h3>
+								<p><span data-timestamp="1590093372">2 months ago</span> by <a class="underline" href="/user/76561198374776444">KaneKyun</a> <a href="/user/76561198374776444" class="reputation">(<span class="is_positive">+85</span>/<span class="is_negative">-0</span>)</a></p>
+							</div>
+							<div class="column_small text_center"><a class="underline" href="/trade/8t7P3/h-hb-games-asmodee-bundle-and-many-others-w-paypal">48</a></div>
+							<div class="column_last_update column_medium">
+
+										<div class="column_flex text_right">
+											<p><span data-timestamp="1595430514">4 minutes ago</span> by</p>
+											<p><a class="underline" href="/user/76561198374776444">KaneKyun</a> <a href="/user/76561198374776444" class="reputation">(<span class="is_positive">+85</span>/<span class="is_negative">-0</span>)</a><a href="/trade/8t7P3/h-hb-games-asmodee-bundle-and-many-others-w-paypal"><i class="fa fa-chevron-circle-up"></i></a></p>
+										</div>
+										<div>
+											<a class="avatar" href="/user/76561198374776444" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/dc/dc4855dc4ea782d17904b497991ed5a9f1b6e72e_medium.jpg);"></a>
+										</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row_outer_wrap">
+						<div class="row_inner_wrap">
+							<div>
+								<a class="avatar" href="/user/76561198931181456" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/3e/3e29df2a760950da9af6fe55fa249a3fe7f4c6ca_medium.jpg);"></a>
+							</div>
+							<div class="column_flex">
+								<h3><a href="/trade/zRU3q/h-humble-summer-mayjune-premium-humble-refer-link-free-gamespaypal-w-wishlistkeyspaypal">(H) HUMBLE SUMMER MAY+JUNE PREMIUM HUMBLE REFER LINK = FREE GAMES,PAYPAL (W) WISHLIST,KEYS,PAYPAL!</a></h3>
+								<p><span data-timestamp="1578159045">6 months ago</span> by <a class="underline" href="/user/76561198931181456">Bazladaz</a> <a href="/user/76561198931181456" class="reputation">(<span class="is_positive">+14</span>/<span class="is_negative">-3</span>)</a></p>
+							</div>
+							<div class="column_small text_center"><a class="underline" href="/trade/zRU3q/h-humble-summer-mayjune-premium-humble-refer-link-free-gamespaypal-w-wishlistkeyspaypal">258</a></div>
+							<div class="column_last_update column_medium">
+
+										<div class="column_flex text_right">
+											<p><span data-timestamp="1595430498">4 minutes ago</span> by</p>
+											<p><a class="underline" href="/user/76561198931181456">Bazladaz</a> <a href="/user/76561198931181456" class="reputation">(<span class="is_positive">+14</span>/<span class="is_negative">-3</span>)</a><a href="/trade/zRU3q/h-humble-summer-mayjune-premium-humble-refer-link-free-gamespaypal-w-wishlistkeyspaypal"><i class="fa fa-chevron-circle-up"></i></a></p>
+										</div>
+										<div>
+											<a class="avatar" href="/user/76561198931181456" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/3e/3e29df2a760950da9af6fe55fa249a3fe7f4c6ca_medium.jpg);"></a>
+										</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row_outer_wrap">
+						<div class="row_inner_wrap">
+							<div>
+								<a class="avatar" href="/user/76561198048916229" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/ec/ece55084786691670fd8a32b2fb3cfb18bd4f640_medium.jpg);"></a>
+							</div>
+							<div class="column_flex">
+								<h3><a href="/trade/8lbIu/h-console-games-w-csgo-tf2-keys">[H] Console Games [W] CS:GO &amp; TF2 Keys</a></h3>
+								<p><span data-timestamp="1571659787">9 months ago</span> by <a class="underline" href="/user/76561198048916229">AR45H</a> <a href="/user/76561198048916229" class="reputation">(<span class="is_positive">+14</span>/<span class="is_negative">-0</span>)</a></p>
+							</div>
+							<div class="column_small text_center"><a class="underline" href="/trade/8lbIu/h-console-games-w-csgo-tf2-keys">43</a></div>
+							<div class="column_last_update column_medium">
+
+										<div class="column_flex text_right">
+											<p><span data-timestamp="1595430484">4 minutes ago</span> by</p>
+											<p><a class="underline" href="/user/76561198048916229">AR45H</a> <a href="/user/76561198048916229" class="reputation">(<span class="is_positive">+14</span>/<span class="is_negative">-0</span>)</a><a href="/trade/8lbIu/h-console-games-w-csgo-tf2-keys"><i class="fa fa-chevron-circle-up"></i></a></p>
+										</div>
+										<div>
+											<a class="avatar" href="/user/76561198048916229" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/ec/ece55084786691670fd8a32b2fb3cfb18bd4f640_medium.jpg);"></a>
+										</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row_outer_wrap">
+						<div class="row_inner_wrap">
+							<div>
+								<a class="avatar" href="/user/76561198048916229" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/ec/ece55084786691670fd8a32b2fb3cfb18bd4f640_medium.jpg);"></a>
+							</div>
+							<div class="column_flex">
+								<h3><a href="/trade/1QSwl/h-collector-steam-gifts-old-steam-gift-system-w-cs-go-tf2-keys">[H] Collector Steam Gifts (Old Steam gift system) [W] CS: GO &amp; TF2 keys</a></h3>
+								<p><span data-timestamp="1563397883">1 year ago</span> by <a class="underline" href="/user/76561198048916229">AR45H</a> <a href="/user/76561198048916229" class="reputation">(<span class="is_positive">+14</span>/<span class="is_negative">-0</span>)</a></p>
+							</div>
+							<div class="column_small text_center"><a class="underline" href="/trade/1QSwl/h-collector-steam-gifts-old-steam-gift-system-w-cs-go-tf2-keys">587</a></div>
+							<div class="column_last_update column_medium">
+
+										<div class="column_flex text_right">
+											<p><span data-timestamp="1595430484">4 minutes ago</span> by</p>
+											<p><a class="underline" href="/user/76561198048916229">AR45H</a> <a href="/user/76561198048916229" class="reputation">(<span class="is_positive">+14</span>/<span class="is_negative">-0</span>)</a><a href="/trade/1QSwl/h-collector-steam-gifts-old-steam-gift-system-w-cs-go-tf2-keys"><i class="fa fa-chevron-circle-up"></i></a></p>
+										</div>
+										<div>
+											<a class="avatar" href="/user/76561198048916229" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/ec/ece55084786691670fd8a32b2fb3cfb18bd4f640_medium.jpg);"></a>
+										</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row_outer_wrap">
+						<div class="row_inner_wrap">
+							<div>
+								<a class="avatar" href="/user/76561198067303388" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/1b/1bf06de24a2c0dd4eb6c87ed0e471ad199222446_medium.jpg);"></a>
+							</div>
+							<div class="column_flex">
+								<h3><a href="/trade/8BXeS/h-games-humblebundle-fanatical-w-games">[H] Games - HumbleBundle &amp; Fanatical [W] Games</a></h3>
+								<p><span data-timestamp="1595001130">4 days ago</span> by <a class="underline" href="/user/76561198067303388">Aquino</a> <a href="/user/76561198067303388" class="reputation">(<span class="is_positive">+130</span>/<span class="is_negative">-0</span>)</a></p>
+							</div>
+							<div class="column_small text_center"><a class="underline" href="/trade/8BXeS/h-games-humblebundle-fanatical-w-games">17</a></div>
+							<div class="column_last_update column_medium">
+
+										<div class="column_flex text_right">
+											<p><span data-timestamp="1595430478">4 minutes ago</span> by</p>
+											<p><a class="underline" href="/user/76561198067303388">Aquino</a> <a href="/user/76561198067303388" class="reputation">(<span class="is_positive">+130</span>/<span class="is_negative">-0</span>)</a><a href="/trade/8BXeS/h-games-humblebundle-fanatical-w-games"><i class="fa fa-chevron-circle-up"></i></a></p>
+										</div>
+										<div>
+											<a class="avatar" href="/user/76561198067303388" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/1b/1bf06de24a2c0dd4eb6c87ed0e471ad199222446_medium.jpg);"></a>
+										</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row_outer_wrap">
+						<div class="row_inner_wrap">
+							<div>
+								<a class="avatar" href="/user/76561198044320126" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/1c/1c19e25cd9dad0d7d9fa3548d147bf4ff9a6a2b4_medium.jpg);"></a>
+							</div>
+							<div class="column_flex">
+								<h3><a href="/trade/kUIsl/h-death-stranding-33-steam-hell-let-loose-11-much-more-w-paypal">[H] Death Stranding 33€ Steam, Hell Let Loose 11€  + much more [W] Paypal</a></h3>
+								<p><span data-timestamp="1508926163">2 years ago</span> by <a class="underline" href="/user/76561198044320126">Maximus</a> <a href="/user/76561198044320126" class="reputation">(<span class="is_positive">+111</span>/<span class="is_negative">-0</span>)</a></p>
+							</div>
+							<div class="column_small text_center"><a class="underline" href="/trade/kUIsl/h-death-stranding-33-steam-hell-let-loose-11-much-more-w-paypal">1,818</a></div>
+							<div class="column_last_update column_medium">
+
+										<div class="column_flex text_right">
+											<p><span data-timestamp="1595430469">4 minutes ago</span> by</p>
+											<p><a class="underline" href="/user/76561197967798229">TenCodeRiot</a> <a href="/user/76561197967798229" class="reputation">(<span class="is_positive">+79</span>/<span class="is_negative">-0</span>)</a><a rel="nofollow" href="/go/comment/f94aqdu"><i class="green fa fa-chevron-circle-right"></i></a></p>
+										</div>
+										<div>
+											<a class="avatar" href="/user/76561197967798229" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/2e/2e406671d6aaf979be53dc5983d5489ec11c7fdf_medium.jpg);"></a>
+										</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row_outer_wrap">
+						<div class="row_inner_wrap">
+							<div>
+								<a class="avatar" href="/user/76561198304715625" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/da/da61ef454f77bf086b9b769728189884b0e8e48a_medium.jpg);"></a>
+							</div>
+							<div class="column_flex">
+								<h3><a href="/trade/UzPQu/freebie-for-freebie">FREEBIE For FREEBIE</a></h3>
+								<p><span data-timestamp="1585573778">3 months ago</span> by <a class="underline" href="/user/76561198304715625">rudian7</a> <a href="/user/76561198304715625" class="reputation">(<span class="is_positive">+335</span>/<span class="is_negative">-0</span>)</a></p>
+							</div>
+							<div class="column_small text_center"><a class="underline" href="/trade/UzPQu/freebie-for-freebie">107</a></div>
+							<div class="column_last_update column_medium">
+
+										<div class="column_flex text_right">
+											<p><span data-timestamp="1595430409">5 minutes ago</span> by</p>
+											<p><a class="underline" href="/user/76561198304715625">rudian7</a> <a href="/user/76561198304715625" class="reputation">(<span class="is_positive">+335</span>/<span class="is_negative">-0</span>)</a><a href="/trade/UzPQu/freebie-for-freebie"><i class="fa fa-chevron-circle-up"></i></a></p>
+										</div>
+										<div>
+											<a class="avatar" href="/user/76561198304715625" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/da/da61ef454f77bf086b9b769728189884b0e8e48a_medium.jpg);"></a>
+										</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row_outer_wrap">
+						<div class="row_inner_wrap">
+							<div>
+								<a class="avatar" href="/user/76561198304715625" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/da/da61ef454f77bf086b9b769728189884b0e8e48a_medium.jpg);"></a>
+							</div>
+							<div class="column_flex">
+								<h3><a href="/trade/AHQ4j/h-humble-bundlesteam-gift-w-paypal-btc-csgotf2-keys-gems-games-i-dont-own">[H] Humble Bundle/Steam Gift [W] Paypal, BTC, CSGO/TF2 Keys, Gems, Games i dont own</a></h3>
+								<p><span data-timestamp="1531105886">2 years ago</span> by <a class="underline" href="/user/76561198304715625">rudian7</a> <a href="/user/76561198304715625" class="reputation">(<span class="is_positive">+335</span>/<span class="is_negative">-0</span>)</a></p>
+							</div>
+							<div class="column_small text_center"><a class="underline" href="/trade/AHQ4j/h-humble-bundlesteam-gift-w-paypal-btc-csgotf2-keys-gems-games-i-dont-own">734</a></div>
+							<div class="column_last_update column_medium">
+
+										<div class="column_flex text_right">
+											<p><span data-timestamp="1595430409">5 minutes ago</span> by</p>
+											<p><a class="underline" href="/user/76561198304715625">rudian7</a> <a href="/user/76561198304715625" class="reputation">(<span class="is_positive">+335</span>/<span class="is_negative">-0</span>)</a><a href="/trade/AHQ4j/h-humble-bundlesteam-gift-w-paypal-btc-csgotf2-keys-gems-games-i-dont-own"><i class="fa fa-chevron-circle-up"></i></a></p>
+										</div>
+										<div>
+											<a class="avatar" href="/user/76561198304715625" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/da/da61ef454f77bf086b9b769728189884b0e8e48a_medium.jpg);"></a>
+										</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row_outer_wrap">
+						<div class="row_inner_wrap">
+							<div>
+								<a class="avatar" href="/user/76561197968217789" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/4f/4f8e1647cc517290574738128af72f67b562efea_medium.jpg);"></a>
+							</div>
+							<div class="column_flex">
+								<h3><a href="/trade/wuoUO/h-blockstorm-w-idle-cards-games">[H] Blockstorm [W] Idle, cards, games</a></h3>
+								<p><span data-timestamp="1586791129">3 months ago</span> by <a class="underline" href="/user/76561197968217789">evodoc</a> <a href="/user/76561197968217789" class="reputation">(<span class="is_positive">+147</span>/<span class="is_negative">-0</span>)</a></p>
+							</div>
+							<div class="column_small text_center"><a class="underline" href="/trade/wuoUO/h-blockstorm-w-idle-cards-games">47</a></div>
+							<div class="column_last_update column_medium">
+
+										<div class="column_flex text_right">
+											<p><span data-timestamp="1595430342">7 minutes ago</span> by</p>
+											<p><a class="underline" href="/user/76561197968217789">evodoc</a> <a href="/user/76561197968217789" class="reputation">(<span class="is_positive">+147</span>/<span class="is_negative">-0</span>)</a><a href="/trade/wuoUO/h-blockstorm-w-idle-cards-games"><i class="fa fa-chevron-circle-up"></i></a></p>
+										</div>
+										<div>
+											<a class="avatar" href="/user/76561197968217789" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/4f/4f8e1647cc517290574738128af72f67b562efea_medium.jpg);"></a>
+										</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row_outer_wrap">
+						<div class="row_inner_wrap">
+							<div>
+								<a class="avatar" href="/user/76561198126577899" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/5d/5d7368845badeef0f42ed6fe9074cc62acb80cbd_medium.jpg);"></a>
+							</div>
+							<div class="column_flex">
+								<h3><a href="/trade/OoYyu/rucisstalker-garrys-mod-terraria-final-fantasy-orange-box-space-engineers">(RU/CIS)S.T.A.L.K.E.R, Garry&#039;s Mod, Terraria, Final Fantasy, Orange Box, Space Engineers</a></h3>
+								<p><span data-timestamp="1468622639">4 years ago</span> by <a class="underline" href="/user/76561198126577899">lockvd</a> <a href="/user/76561198126577899" class="reputation">(<span class="is_positive">+54</span>/<span class="is_negative">-0</span>)</a></p>
+							</div>
+							<div class="column_small text_center"><a class="underline" href="/trade/OoYyu/rucisstalker-garrys-mod-terraria-final-fantasy-orange-box-space-engineers">335</a></div>
+							<div class="column_last_update column_medium">
+
+										<div class="column_flex text_right">
+											<p><span data-timestamp="1595430339">7 minutes ago</span> by</p>
+											<p><a class="underline" href="/user/76561198126577899">lockvd</a> <a href="/user/76561198126577899" class="reputation">(<span class="is_positive">+54</span>/<span class="is_negative">-0</span>)</a><a href="/trade/OoYyu/rucisstalker-garrys-mod-terraria-final-fantasy-orange-box-space-engineers"><i class="fa fa-chevron-circle-up"></i></a></p>
+										</div>
+										<div>
+											<a class="avatar" href="/user/76561198126577899" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/5d/5d7368845badeef0f42ed6fe9074cc62acb80cbd_medium.jpg);"></a>
+										</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row_outer_wrap">
+						<div class="row_inner_wrap">
+							<div>
+								<a class="avatar" href="/user/76561197968217789" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/4f/4f8e1647cc517290574738128af72f67b562efea_medium.jpg);"></a>
+							</div>
+							<div class="column_flex">
+								<h3><a href="/trade/CP67P/h-bundle-leftovers-w-bundle-leftovers">[H] bundle leftovers [W] bundle leftovers</a></h3>
+								<p><span data-timestamp="1587727878">2 months ago</span> by <a class="underline" href="/user/76561197968217789">evodoc</a> <a href="/user/76561197968217789" class="reputation">(<span class="is_positive">+147</span>/<span class="is_negative">-0</span>)</a></p>
+							</div>
+							<div class="column_small text_center"><a class="underline" href="/trade/CP67P/h-bundle-leftovers-w-bundle-leftovers">29</a></div>
+							<div class="column_last_update column_medium">
+
+										<div class="column_flex text_right">
+											<p><span data-timestamp="1595430336">7 minutes ago</span> by</p>
+											<p><a class="underline" href="/user/76561197968217789">evodoc</a> <a href="/user/76561197968217789" class="reputation">(<span class="is_positive">+147</span>/<span class="is_negative">-0</span>)</a><a href="/trade/CP67P/h-bundle-leftovers-w-bundle-leftovers"><i class="fa fa-chevron-circle-up"></i></a></p>
+										</div>
+										<div>
+											<a class="avatar" href="/user/76561197968217789" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/4f/4f8e1647cc517290574738128af72f67b562efea_medium.jpg);"></a>
+										</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row_outer_wrap">
+						<div class="row_inner_wrap">
+							<div>
+								<a class="avatar" href="/user/76561198044927255" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/09/0923260a8c6288ab21f014b9926a576d42ea1e1a_medium.jpg);"></a>
+							</div>
+							<div class="column_flex">
+								<h3><a href="/trade/WfGQc/h-bundle-games-leftover-w-offers-of-games-i-dont-own">[H] Bundle Games &amp; Leftover [W] Offers of games i don&#039;t own</a></h3>
+								<p><span data-timestamp="1456545284">4 years ago</span> by <a class="underline" href="/user/76561198044927255">KaiserDark</a> <a href="/user/76561198044927255" class="reputation">(<span class="is_positive">+601</span>/<span class="is_negative">-0</span>)</a></p>
+							</div>
+							<div class="column_small text_center"><a class="underline" href="/trade/WfGQc/h-bundle-games-leftover-w-offers-of-games-i-dont-own">698</a></div>
+							<div class="column_last_update column_medium">
+
+										<div class="column_flex text_right">
+											<p><span data-timestamp="1595430333">7 minutes ago</span> by</p>
+											<p><a class="underline" href="/user/76561198044927255">KaiserDark</a> <a href="/user/76561198044927255" class="reputation">(<span class="is_positive">+601</span>/<span class="is_negative">-0</span>)</a><a href="/trade/WfGQc/h-bundle-games-leftover-w-offers-of-games-i-dont-own"><i class="fa fa-chevron-circle-up"></i></a></p>
+										</div>
+										<div>
+											<a class="avatar" href="/user/76561198044927255" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/09/0923260a8c6288ab21f014b9926a576d42ea1e1a_medium.jpg);"></a>
+										</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row_outer_wrap">
+						<div class="row_inner_wrap">
+							<div>
+								<a class="avatar" href="/user/76561198051788956" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/b2/b2ade263c5d8a2f5e48259d5c91418f1b07da942_medium.jpg);"></a>
+							</div>
+							<div class="column_flex">
+								<h3><a href="/trade/3W2KF/h-games-w-wishlist-games">[H] Games [W] Wishlist, Games</a></h3>
+								<p><span data-timestamp="1585753274">3 months ago</span> by <a class="underline" href="/user/76561198051788956">Odwolf</a> <a href="/user/76561198051788956" class="reputation">(<span class="is_positive">+26</span>/<span class="is_negative">-0</span>)</a></p>
+							</div>
+							<div class="column_small text_center"><a class="underline" href="/trade/3W2KF/h-games-w-wishlist-games">80</a></div>
+							<div class="column_last_update column_medium">
+
+										<div class="column_flex text_right">
+											<p><span data-timestamp="1595430317">7 minutes ago</span> by</p>
+											<p><a class="underline" href="/user/76561198051788956">Odwolf</a> <a href="/user/76561198051788956" class="reputation">(<span class="is_positive">+26</span>/<span class="is_negative">-0</span>)</a><a href="/trade/3W2KF/h-games-w-wishlist-games"><i class="fa fa-chevron-circle-up"></i></a></p>
+										</div>
+										<div>
+											<a class="avatar" href="/user/76561198051788956" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/b2/b2ade263c5d8a2f5e48259d5c91418f1b07da942_medium.jpg);"></a>
+										</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row_outer_wrap">
+						<div class="row_inner_wrap">
+							<div>
+								<a class="avatar" href="/user/76561198044712121" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/b2/b21955efe77e2ed0f0f7e73ad73f6b87b7865c62_medium.jpg);"></a>
+							</div>
+							<div class="column_flex">
+								<h3><a href="/trade/hfq0J/h-games-w-batman-elite-dangerous-railway-empire-planetfall-the-messenger-offers">[H] Games [W] Batman - Elite Dangerous, Railway Empire, Planetfall, The Messenger, Offers</a></h3>
+								<p><span data-timestamp="1542158065">1 year ago</span> by <a class="underline" href="/user/76561198044712121">elronzorro</a> <a href="/user/76561198044712121" class="reputation">(<span class="is_positive">+399</span>/<span class="is_negative">-0</span>)</a></p>
+							</div>
+							<div class="column_small text_center"><a class="underline" href="/trade/hfq0J/h-games-w-batman-elite-dangerous-railway-empire-planetfall-the-messenger-offers">461</a></div>
+							<div class="column_last_update column_medium">
+
+										<div class="column_flex text_right">
+											<p><span data-timestamp="1595430312">7 minutes ago</span> by</p>
+											<p><a class="underline" href="/user/76561198044712121">elronzorro</a> <a href="/user/76561198044712121" class="reputation">(<span class="is_positive">+399</span>/<span class="is_negative">-0</span>)</a><a href="/trade/hfq0J/h-games-w-batman-elite-dangerous-railway-empire-planetfall-the-messenger-offers"><i class="fa fa-chevron-circle-up"></i></a></p>
+										</div>
+										<div>
+											<a class="avatar" href="/user/76561198044712121" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/b2/b21955efe77e2ed0f0f7e73ad73f6b87b7865c62_medium.jpg);"></a>
+										</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row_outer_wrap">
+						<div class="row_inner_wrap">
+							<div>
+								<a class="avatar" href="/user/76561198061048581" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/23/23ee8a3075ca932b007d22744c3d866c877e0583_medium.jpg);"></a>
+							</div>
+							<div class="column_flex">
+								<h3><a href="/trade/T4iH5/h-bundle-games-turok-2-cryofall-raiden-v-desert-child-more-w-barotrauma-offers">[H] Bundle Games: Turok 2, CryoFall, Raiden V, Desert Child, more [W] Barotrauma, Offers</a></h3>
+								<p><span data-timestamp="1580501752">5 months ago</span> by <a class="underline" href="/user/76561198061048581">nohltoli</a> <a href="/user/76561198061048581" class="reputation">(<span class="is_positive">+382</span>/<span class="is_negative">-0</span>)</a></p>
+							</div>
+							<div class="column_small text_center"><a class="underline" href="/trade/T4iH5/h-bundle-games-turok-2-cryofall-raiden-v-desert-child-more-w-barotrauma-offers">95</a></div>
+							<div class="column_last_update column_medium">
+
+										<div class="column_flex text_right">
+											<p><span data-timestamp="1595430296">7 minutes ago</span> by</p>
+											<p><a class="underline" href="/user/76561198061048581">nohltoli</a> <a href="/user/76561198061048581" class="reputation">(<span class="is_positive">+382</span>/<span class="is_negative">-0</span>)</a><a href="/trade/T4iH5/h-bundle-games-turok-2-cryofall-raiden-v-desert-child-more-w-barotrauma-offers"><i class="fa fa-chevron-circle-up"></i></a></p>
+										</div>
+										<div>
+											<a class="avatar" href="/user/76561198061048581" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/23/23ee8a3075ca932b007d22744c3d866c877e0583_medium.jpg);"></a>
+										</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row_outer_wrap">
+						<div class="row_inner_wrap">
+							<div>
+								<a class="avatar" href="/user/76561198080778201" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/d5/d5ce41e26fdbe217b7456862d7d4eaf90cf1a8d7_medium.jpg);"></a>
+							</div>
+							<div class="column_flex">
+								<h3><a href="/trade/50gE2/h-priced-tradeable-steam-gifts-gta-skyrim-portal-removed-w-keys-tf2-csgo-csgo-items">[H] PRICED Tradeable Steam Gifts (GTA, Skyrim, Portal, Removed...) [W] Keys (TF2, CSGO) / CSGO Items</a></h3>
+								<p><span data-timestamp="1594293603">1 week ago</span> by <a class="underline" href="/user/76561198080778201">caohocot2</a> <a href="/user/76561198080778201" class="reputation">(<span class="is_positive">+2</span>/<span class="is_negative">-0</span>)</a></p>
+							</div>
+							<div class="column_small text_center"><a class="underline" href="/trade/50gE2/h-priced-tradeable-steam-gifts-gta-skyrim-portal-removed-w-keys-tf2-csgo-csgo-items">7</a></div>
+							<div class="column_last_update column_medium">
+
+										<div class="column_flex text_right">
+											<p><span data-timestamp="1595430291">7 minutes ago</span> by</p>
+											<p><a class="underline" href="/user/76561198080778201">caohocot2</a> <a href="/user/76561198080778201" class="reputation">(<span class="is_positive">+2</span>/<span class="is_negative">-0</span>)</a><a href="/trade/50gE2/h-priced-tradeable-steam-gifts-gta-skyrim-portal-removed-w-keys-tf2-csgo-csgo-items"><i class="fa fa-chevron-circle-up"></i></a></p>
+										</div>
+										<div>
+											<a class="avatar" href="/user/76561198080778201" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/d5/d5ce41e26fdbe217b7456862d7d4eaf90cf1a8d7_medium.jpg);"></a>
+										</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row_outer_wrap">
+						<div class="row_inner_wrap">
+							<div>
+								<a class="avatar" href="/user/76561198119590948" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/ee/ee6fd84949f56cb624c87acc96b1c603c9057056_medium.jpg);"></a>
+							</div>
+							<div class="column_flex">
+								<h3><a href="/trade/IC9E0/h-games-w-games">[H] Games [W] Games</a></h3>
+								<p><span data-timestamp="1461717335">4 years ago</span> by <a class="underline" href="/user/76561198119590948">vansender</a> <a href="/user/76561198119590948" class="reputation">(<span class="is_positive">+249</span>/<span class="is_negative">-0</span>)</a></p>
+							</div>
+							<div class="column_small text_center"><a class="underline" href="/trade/IC9E0/h-games-w-games">1,808</a></div>
+							<div class="column_last_update column_medium">
+
+										<div class="column_flex text_right">
+											<p><span data-timestamp="1595430289">7 minutes ago</span> by</p>
+											<p><a class="underline" href="/user/76561198065691655">FeatherPool</a> <a href="/user/76561198065691655" class="reputation">(<span class="is_positive">+74</span>/<span class="is_negative">-0</span>)</a><a rel="nofollow" href="/go/comment/C82H7AK"><i class="green fa fa-chevron-circle-right"></i></a></p>
+										</div>
+										<div>
+											<a class="avatar" href="/user/76561198065691655" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/e9/e94cceefa02dace1bd41dbe6ae7332e4d893eaab_medium.jpg);"></a>
+										</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row_outer_wrap">
+						<div class="row_inner_wrap">
+							<div>
+								<a class="avatar" href="/user/76561198003690833" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/d1/d16ec8c3c3622d75f671b56824b347571d87bf53_medium.jpg);"></a>
+							</div>
+							<div class="column_flex">
+								<h3><a href="/trade/qCstB/h-dungeon-defenders-bioshock-infiniteoddworld-new-tasty-w-valued-games-pp-offers">[H] Dungeon Defenders, Bioshock Infinite,Oddworld New &amp; Tasty... [W] Valued Games, PP, offers</a></h3>
+								<p><span data-timestamp="1585651636">3 months ago</span> by <a class="underline" href="/user/76561198003690833">Bocadillo</a> <a href="/user/76561198003690833" class="reputation">(<span class="is_positive">+58</span>/<span class="is_negative">-0</span>)</a></p>
+							</div>
+							<div class="column_small text_center"><a class="underline" href="/trade/qCstB/h-dungeon-defenders-bioshock-infiniteoddworld-new-tasty-w-valued-games-pp-offers">107</a></div>
+							<div class="column_last_update column_medium">
+
+										<div class="column_flex text_right">
+											<p><span data-timestamp="1595430280">8 minutes ago</span> by</p>
+											<p><a class="underline" href="/user/76561198003690833">Bocadillo</a> <a href="/user/76561198003690833" class="reputation">(<span class="is_positive">+58</span>/<span class="is_negative">-0</span>)</a><a href="/trade/qCstB/h-dungeon-defenders-bioshock-infiniteoddworld-new-tasty-w-valued-games-pp-offers"><i class="fa fa-chevron-circle-up"></i></a></p>
+										</div>
+										<div>
+											<a class="avatar" href="/user/76561198003690833" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/d1/d16ec8c3c3622d75f671b56824b347571d87bf53_medium.jpg);"></a>
+										</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row_outer_wrap">
+						<div class="row_inner_wrap">
+							<div>
+								<a class="avatar" href="/user/76561198074506745" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/65/65485a038824fe812ee1ec05953c5302d1763c21_medium.jpg);"></a>
+							</div>
+							<div class="column_flex">
+								<h3><a href="/trade/szxMP/games-for-games-paypal-etc">Games for Games / Paypal / etc</a></h3>
+								<p><span data-timestamp="1495637151">3 years ago</span> by <a class="underline" href="/user/76561198074506745">SashaSka</a> <a href="/user/76561198074506745" class="reputation">(<span class="is_positive">+38</span>/<span class="is_negative">-0</span>)</a></p>
+							</div>
+							<div class="column_small text_center"><a class="underline" href="/trade/szxMP/games-for-games-paypal-etc">304</a></div>
+							<div class="column_last_update column_medium">
+
+										<div class="column_flex text_right">
+											<p><span data-timestamp="1595430261">8 minutes ago</span> by</p>
+											<p><a class="underline" href="/user/76561198074506745">SashaSka</a> <a href="/user/76561198074506745" class="reputation">(<span class="is_positive">+38</span>/<span class="is_negative">-0</span>)</a><a href="/trade/szxMP/games-for-games-paypal-etc"><i class="fa fa-chevron-circle-up"></i></a></p>
+										</div>
+										<div>
+											<a class="avatar" href="/user/76561198074506745" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/65/65485a038824fe812ee1ec05953c5302d1763c21_medium.jpg);"></a>
+										</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row_outer_wrap">
+						<div class="row_inner_wrap">
+							<div>
+								<a class="avatar" href="/user/76561198111276328" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/ea/eae6dc7f0a715d8060f4e0d5c309a8e3e6e1e53d_medium.jpg);"></a>
+							</div>
+							<div class="column_flex">
+								<h3><a href="/trade/2JRlU/w-listed-games-h-listed-games-paypal-gems-cards">[W] Listed games [H] Listed games, PayPal, Gems, Cards</a></h3>
+								<p><span data-timestamp="1541366531">1 year ago</span> by <a class="underline" href="/user/76561198111276328">kolardavid</a> <a href="/user/76561198111276328" class="reputation">(<span class="is_positive">+39</span>/<span class="is_negative">-0</span>)</a></p>
+							</div>
+							<div class="column_small text_center"><a class="underline" href="/trade/2JRlU/w-listed-games-h-listed-games-paypal-gems-cards">309</a></div>
+							<div class="column_last_update column_medium">
+
+										<div class="column_flex text_right">
+											<p><span data-timestamp="1595430242">8 minutes ago</span> by</p>
+											<p><a class="underline" href="/user/76561198111276328">kolardavid</a> <a href="/user/76561198111276328" class="reputation">(<span class="is_positive">+39</span>/<span class="is_negative">-0</span>)</a><a href="/trade/2JRlU/w-listed-games-h-listed-games-paypal-gems-cards"><i class="fa fa-chevron-circle-up"></i></a></p>
+										</div>
+										<div>
+											<a class="avatar" href="/user/76561198111276328" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/ea/eae6dc7f0a715d8060f4e0d5c309a8e3e6e1e53d_medium.jpg);"></a>
+										</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row_outer_wrap">
+						<div class="row_inner_wrap">
+							<div>
+								<a class="avatar" href="/user/76561198059325064" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/da/da30241def33fad6261a7996dbd3aa5609faf44e_medium.jpg);"></a>
+							</div>
+							<div class="column_flex">
+								<h3><a href="/trade/GsWUC/h-games-w-dead-by-daylights-dlcsgamestf2k">[H] Games [W] Dead by Daylight&#039;s DLCs/Games/TF2k</a></h3>
+								<p><span data-timestamp="1521305506">2 years ago</span> by <a class="underline" href="/user/76561198059325064">Samsam123</a> <a href="/user/76561198059325064" class="reputation">(<span class="is_positive">+52</span>/<span class="is_negative">-0</span>)</a></p>
+							</div>
+							<div class="column_small text_center"><a class="underline" href="/trade/GsWUC/h-games-w-dead-by-daylights-dlcsgamestf2k">977</a></div>
+							<div class="column_last_update column_medium">
+
+										<div class="column_flex text_right">
+											<p><span data-timestamp="1595430229">8 minutes ago</span> by</p>
+											<p><a class="underline" href="/user/76561198059325064">Samsam123</a> <a href="/user/76561198059325064" class="reputation">(<span class="is_positive">+52</span>/<span class="is_negative">-0</span>)</a><a href="/trade/GsWUC/h-games-w-dead-by-daylights-dlcsgamestf2k"><i class="fa fa-chevron-circle-up"></i></a></p>
+										</div>
+										<div>
+											<a class="avatar" href="/user/76561198059325064" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/da/da30241def33fad6261a7996dbd3aa5609faf44e_medium.jpg);"></a>
+										</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row_outer_wrap">
+						<div class="row_inner_wrap">
+							<div>
+								<a class="avatar" href="/user/76561198138546749" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/fb/fb0f5053306c9e6cf708e0a359966faa6eea1891_medium.jpg);"></a>
+							</div>
+							<div class="column_flex">
+								<h3><a href="/trade/QftpA/h-crysis-3-boundless-some-leftover-games-w-games-tf2">[H] Crysis 3, Boundless, some leftover games [W] games, tf2</a></h3>
+								<p><span data-timestamp="1575602497">7 months ago</span> by <a class="underline" href="/user/76561198138546749">aperager</a> <a href="/user/76561198138546749" class="reputation">(<span class="is_positive">+109</span>/<span class="is_negative">-0</span>)</a></p>
+							</div>
+							<div class="column_small text_center"><a class="underline" href="/trade/QftpA/h-crysis-3-boundless-some-leftover-games-w-games-tf2">189</a></div>
+							<div class="column_last_update column_medium">
+
+										<div class="column_flex text_right">
+											<p><span data-timestamp="1595430214">9 minutes ago</span> by</p>
+											<p><a class="underline" href="/user/76561198138546749">aperager</a> <a href="/user/76561198138546749" class="reputation">(<span class="is_positive">+109</span>/<span class="is_negative">-0</span>)</a><a href="/trade/QftpA/h-crysis-3-boundless-some-leftover-games-w-games-tf2"><i class="fa fa-chevron-circle-up"></i></a></p>
+										</div>
+										<div>
+											<a class="avatar" href="/user/76561198138546749" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/fb/fb0f5053306c9e6cf708e0a359966faa6eea1891_medium.jpg);"></a>
+										</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row_outer_wrap">
+						<div class="row_inner_wrap">
+							<div>
+								<a class="avatar" href="/user/76561198074227279" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/de/de66e0e8bc092bf953f5b45fc2a30c5f1ab344cf_medium.jpg);"></a>
+							</div>
+							<div class="column_flex">
+								<h3><a href="/trade/Nbmmq/h-resident-evil-6-sekai-project-games-and-others-w-wishlist-offers">[H] Resident Evil 6, Sekai Project games and others [W] Wishlist / Offers</a></h3>
+								<p><span data-timestamp="1503005257">2 years ago</span> by <a class="underline" href="/user/76561198074227279">Baffi</a> <a href="/user/76561198074227279" class="reputation">(<span class="is_positive">+239</span>/<span class="is_negative">-0</span>)</a></p>
+							</div>
+							<div class="column_small text_center"><a class="underline" href="/trade/Nbmmq/h-resident-evil-6-sekai-project-games-and-others-w-wishlist-offers">317</a></div>
+							<div class="column_last_update column_medium">
+
+										<div class="column_flex text_right">
+											<p><span data-timestamp="1595430214">9 minutes ago</span> by</p>
+											<p><a class="underline" href="/user/76561198074227279">Baffi</a> <a href="/user/76561198074227279" class="reputation">(<span class="is_positive">+239</span>/<span class="is_negative">-0</span>)</a><a href="/trade/Nbmmq/h-resident-evil-6-sekai-project-games-and-others-w-wishlist-offers"><i class="fa fa-chevron-circle-up"></i></a></p>
+										</div>
+										<div>
+											<a class="avatar" href="/user/76561198074227279" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/de/de66e0e8bc092bf953f5b45fc2a30c5f1ab344cf_medium.jpg);"></a>
+										</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row_outer_wrap">
+						<div class="row_inner_wrap">
+							<div>
+								<a class="avatar" href="/user/76561198074227279" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/de/de66e0e8bc092bf953f5b45fc2a30c5f1ab344cf_medium.jpg);"></a>
+							</div>
+							<div class="column_flex">
+								<h3><a href="/trade/TG4nb/h-freebiescheapremoved-games-and-dlc-w-other-freebiescheap-games-with-cardsgemsoffers">[H] Freebies/cheap/removed games and DLC [W] Other freebies/cheap games with cards/gems/offers</a></h3>
+								<p><span data-timestamp="1471886849">3 years ago</span> by <a class="underline" href="/user/76561198074227279">Baffi</a> <a href="/user/76561198074227279" class="reputation">(<span class="is_positive">+239</span>/<span class="is_negative">-0</span>)</a></p>
+							</div>
+							<div class="column_small text_center"><a class="underline" href="/trade/TG4nb/h-freebiescheapremoved-games-and-dlc-w-other-freebiescheap-games-with-cardsgemsoffers">915</a></div>
+							<div class="column_last_update column_medium">
+
+										<div class="column_flex text_right">
+											<p><span data-timestamp="1595430214">9 minutes ago</span> by</p>
+											<p><a class="underline" href="/user/76561198074227279">Baffi</a> <a href="/user/76561198074227279" class="reputation">(<span class="is_positive">+239</span>/<span class="is_negative">-0</span>)</a><a href="/trade/TG4nb/h-freebiescheapremoved-games-and-dlc-w-other-freebiescheap-games-with-cardsgemsoffers"><i class="fa fa-chevron-circle-up"></i></a></p>
+										</div>
+										<div>
+											<a class="avatar" href="/user/76561198074227279" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/de/de66e0e8bc092bf953f5b45fc2a30c5f1ab344cf_medium.jpg);"></a>
+										</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row_outer_wrap">
+						<div class="row_inner_wrap">
+							<div>
+								<a class="avatar" href="/user/76561197980236300" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/18/18a8720382734033d1f5a5f584cc9d218cacf307_medium.jpg);"></a>
+							</div>
+							<div class="column_flex">
+								<h3><a href="/trade/eJ0wV/h-lots-of-games-other-stuff-w-wishlist-offers-paypal">[H] Lots of games, other stuff  [W] Wishlist, Offers, Paypal</a></h3>
+								<p><span data-timestamp="1499728291">3 years ago</span> by <a class="underline" href="/user/76561197980236300">Buey</a> <a href="/user/76561197980236300" class="reputation">(<span class="is_positive">+145</span>/<span class="is_negative">-0</span>)</a></p>
+							</div>
+							<div class="column_small text_center"><a class="underline" href="/trade/eJ0wV/h-lots-of-games-other-stuff-w-wishlist-offers-paypal">460</a></div>
+							<div class="column_last_update column_medium">
+
+										<div class="column_flex text_right">
+											<p><span data-timestamp="1595430208">9 minutes ago</span> by</p>
+											<p><a class="underline" href="/user/76561198037034388">Malone86</a> <a href="/user/76561198037034388" class="reputation">(<span class="is_positive">+1,622</span>/<span class="is_negative">-0</span>)</a><a rel="nofollow" href="/go/comment/otaf7H7"><i class="green fa fa-chevron-circle-right"></i></a></p>
+										</div>
+										<div>
+											<a class="avatar" href="/user/76561198037034388" style="background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/72/72d1e17bba11490fd760c194ce260c71c4e261ee_medium.jpg);"></a>
+										</div>
+
+							</div>
+						</div>
+					</div>
+								</div>
+			</div>
+			<div data-page-number="1" data-results="50" data-per-page="50" class="pagination"><div class="pagination_results">Displaying <strong>1</strong> to <strong>50</strong></div><div class="pagination_navigation"><a class="is_selected" href="/trades"><span>1</span></a><a href="/trades/search?page=2"><span>2</span></a> ... <a href="/trades/search?page=2"><span>Next</span> <i class="fa fa-angle-right"></i></a></div></div>							<div style="padding-top: 35px; display: flex; justify-content: center;">
+					<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+					<!-- st_homepage_bottom_fixed_728x90 -->
+					<ins class="adsbygoogle"
+						 style="display:inline-block;width:728px;height:90px"
+						 data-ad-client="ca-pub-7519145598166360"
+						 data-ad-slot="1673847316"></ins>
+					<script>
+						 (adsbygoogle = window.adsbygoogle || []).push({});
+					</script>
+				</div>
+						</div>
+	</div>
+		<footer>
+			<div class="footer_inner_wrap">
+				<div>Powered by <a target="_blank" rel="nofollow" href="https://store.steampowered.com">Steam</a>.</div>
+				<ul>
+					<li><i class="fa fa-file"></i> <a href="/about/guidelines">Guidelines</a></li>
+					<li><i class="fa fa-font"></i> <a href="/about/comment-formatting">Comment Formatting</a></li>
+					<li><i class="fa fa-book"></i> <a href="/legal/privacy-policy">Privacy Policy</a></li>
+					<li><i class="fa fa-support"></i> <a href="/legal/cookie-policy">Cookie Policy</a></li>
+					<li><i class="fa fa-gavel"></i> <a href="/legal/terms-of-service">Terms of Service</a></li>
+					<div><i class="fa fa-bullhorn"></i> <a href="mailto:advertising@steamgifts.com">Advertise</a></div>
+				</ul>
+			</div>
+		</footer>
+	</body>
+</html>
