@@ -20,29 +20,17 @@ class UsersWhitelistBlacklistManager extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							[
-								`Adds a button (`,
-								['i', { class: 'fa fa-arrow-up' }],
-								' ',
-								['i', { class: 'fa fa-arrow-down' }],
-								' ',
-								['i', { class: 'fa fa-trash' }],
-								`) to the main page heading of your `,
-								['a', { href: `https://www.steamgifts.com/account/manage/whitelist` }, 'whitelist'],
-								'/',
-								['a', { href: `https://www.steamgifts.com/account/manage/blacklist` }, 'blacklist'],
-								' pages that allows you to import/export/clear your whitelist/blacklist.',
-							],
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Adds a button (<i className="fa fa-arrow-up"></i> <i className="fa fa-arrow-down"></i>{' '}
+						<i className="fa fa-trash"></i>) to the main page heading of your{' '}
+						<a href="https://www.steamgifts.com/account/manage/whitelist">whitelist</a>/
+						<a href="https://www.steamgifts.com/account/manage/blacklist">blacklist</a> pages that
+						allows you to import/export/clear your whitelist/blacklist.
+					</li>
+				</ul>
+			),
 			id: 'wbm',
 			name: 'Whitelist/Blacklist Manager',
 			sg: true,

@@ -8,22 +8,16 @@ class UsersLevelUpCalculator extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						['li', 'Shows how much real CV a user needs to level up in their profile page.'],
-						[
-							'li',
-							[
-								'Uses the values mentioned on ',
-								['a', { href: 'https://www.steamgifts.com/discussion/XaCbA/' }, 'this discussion'],
-								' for the calculation.',
-							],
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>Shows how much real CV a user needs to level up in their profile page.</li>
+					<li>
+						Uses the values mentioned on{' '}
+						<a href="https://www.steamgifts.com/discussion/XaCbA/">this discussion</a> for the
+						calculation.
+					</li>
+				</ul>
+			),
 			features: {
 				luc_c: {
 					name: 'Display current user level.',

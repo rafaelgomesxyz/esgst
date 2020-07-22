@@ -4,6 +4,7 @@ import { Utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { Shared } from '../../class/Shared';
 import { Session } from '../../class/Session';
+import { DOM } from '../../class/DOM';
 
 const createElements = common.createElements.bind(common),
 	createHeadingButton = common.createHeadingButton.bind(common),
@@ -17,27 +18,19 @@ class UsersWhitelistBlacklistSorter extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							[
-								`Adds 2 buttons (`,
-								['i', { class: 'fa fa-sort-amount-asc' }],
-								' to sort in ascending order and ',
-								['i', { class: 'fa fa-sort-amount-desc' }],
-								` to sort in descending order) to the main page heading of your `,
-								['a', { href: `https://www.steamgifts.com/account/manage/whitelist` }, 'whitelist'],
-								'/',
-								['a', { href: `https://www.steamgifts.com/account/manage/blacklist` }, 'blacklist'],
-								' pages that allow you to view all of the users in your whitelist/blacklist at once sorted by added date.',
-							],
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Adds 2 buttons (<i className="fa fa-sort-amount-asc"></i> to sort in ascending order and{' '}
+						<i className="fa fa-sort-amount-desc"></i> to sort in descending order) to the main page
+						heading of your{' '}
+						<a href="https://www.steamgifts.com/account/manage/whitelist">whitelist</a>/
+						<a href="https://www.steamgifts.com/account/manage/blacklist">blacklist</a> pages that
+						allow you to view all of the users in your whitelist/blacklist at once sorted by added
+						date.
+					</li>
+				</ul>
+			),
 			id: 'wbs',
 			name: 'Whitelist/Blacklist Sorter',
 			sg: true,

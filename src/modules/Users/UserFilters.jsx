@@ -15,35 +15,21 @@ class UsersUserFilters extends Filters {
 	constructor() {
 		super('uf');
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							[
-								`Adds a button (`,
-								['i', { class: 'fa fa-eye-slash' }],
-								' if the user is being filtered and ',
-								['i', { class: 'fa fa-eye' }],
-								` if they are not) next to a user's username (in their `,
-								['a', { href: `https://www.steamgifts.com/user/cg` }, 'profile'],
-								` page) that allows you to hide their discussions, giveaways and posts (each one can be hidden separately).`,
-							],
-						],
-						[
-							'li',
-							[
-								`Adds a button (`,
-								['i', { class: 'fa fa-user' }],
-								' ',
-								['i', { class: 'fa fa-eye-slash' }],
-								`) to the page heading of this menu that allows you to view all of the users that have been filtered.`,
-							],
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Adds a button (<i className="fa fa-eye-slash"></i> if the user is being filtered and{' '}
+						<i className="fa fa-eye"></i> if they are not) next to a user's username (in their{' '}
+						<a href="https://www.steamgifts.com/user/cg">profile</a> page) that allows you to hide
+						their discussions, giveaways and posts (each one can be hidden separately).
+					</li>
+					<li>
+						Adds a button (<i className="fa fa-user"></i> <i className="fa fa-eye-slash"></i>) to
+						the page heading of this menu that allows you to view all of the users that have been
+						filtered.
+					</li>
+				</ul>
+			),
 			features: {
 				uf_d: {
 					name: 'Automatically hide discussions from blacklisted users.',

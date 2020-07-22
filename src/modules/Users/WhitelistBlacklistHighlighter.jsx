@@ -1,6 +1,7 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
 import { Settings } from '../../class/Settings';
+import { DOM } from '../../class/DOM';
 
 const createElements = common.createElements.bind(common),
 	getFeatureTooltip = common.getFeatureTooltip.bind(common),
@@ -9,66 +10,52 @@ class UsersWhitelistBlacklistHighlighter extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							[
-								`Adds an icon (`,
-								['i', { class: 'fa fa-heart esgst-whitelist' }],
-								' if the user is whitelisted and ',
-								['i', { class: 'fa fa-ban esgst-blacklist' }],
-								` if they are blacklisted) next to the a user's username (in any page) to indicate that they are on your whitelist/blacklist.`,
-							],
-						],
-						[
-							'li',
-							`If you hover over the icon, it shows the date when you added the user to your whitelist/blacklist.`,
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Adds an icon (<i className="fa fa-heart esgst-whitelist"></i> if the user is whitelisted
+						and <i className="fa fa-ban esgst-blacklist"></i> if they are blacklisted) next to the a
+						user's username (in any page) to indicate that they are on your whitelist/blacklist.
+					</li>
+					<li>
+						If you hover over the icon, it shows the date when you added the user to your
+						whitelist/blacklist.
+					</li>
+				</ul>
+			),
 			features: {
 				wbh_b: {
 					colors: true,
-					description: [
-						[
-							'ul',
-							[
-								[
-									'li',
-									`Adds a background color of your own preference to the user's username if they are blacklisted, instead of an icon.`,
-								],
-								[
-									'li',
-									`If you hover over the username, it shows the date when you added the user to your whitelist/blacklist.`,
-								],
-							],
-						],
-					],
+					description: () => (
+						<ul>
+							<li>
+								Adds a background color of your own preference to the user's username if they are
+								blacklisted, instead of an icon.
+							</li>
+							<li>
+								If you hover over the username, it shows the date when you added the user to your
+								whitelist/blacklist.
+							</li>
+						</ul>
+					),
 					name: 'Use background colors for blacklisted users instead of icons.',
 					sg: true,
 					st: true,
 				},
 				wbh_w: {
 					colors: true,
-					description: [
-						[
-							'ul',
-							[
-								[
-									'li',
-									`Adds a background color of your own preference to the user's username if they are whitelisted, instead of an icon.`,
-								],
-								[
-									'li',
-									`If you hover over the username, it shows the date when you added the user to your whitelist/blacklist.`,
-								],
-							],
-						],
-					],
+					description: () => (
+						<ul>
+							<li>
+								Adds a background color of your own preference to the user's username if they are
+								whitelisted, instead of an icon.
+							</li>
+							<li>
+								If you hover over the username, it shows the date when you added the user to your
+								whitelist/blacklist.
+							</li>
+						</ul>
+					),
 					name: 'Use background colors for whitelisted users instead of icons.',
 					sg: true,
 					st: true,

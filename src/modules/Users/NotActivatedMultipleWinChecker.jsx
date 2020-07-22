@@ -24,89 +24,61 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							[
-								`Adds a button (`,
-								['i', { class: 'fa fa-question-circle' }],
-								`) to the "Gifts Won" row of a user's `,
-								['a', { href: `https://www.steamgifts.com/user/cg` }, 'profile'],
-								` page that allows you to check if they have any not activated/multiple wins (using `,
-								['a', { href: `https://www.sgtools.info/` }, 'SGTools'],
-								`).`,
-							],
-						],
-						[
-							'li',
-							[
-								`Adds a button (`,
-								['i', { class: 'fa fa-trophy' }],
-								' ',
-								['i', { class: 'fa fa-question-circle' }],
-								`) to the main page heading of any `,
-								[
-									'a',
-									{ href: `https://www.steamgifts.com/giveaway/aeqw7/dead-space/winners` },
-									'winners',
-								],
-								' page that allows you to check all of the winners in the page at once. You cannot check more than that at once due to certain limitations when requesting the data to SGTools.',
-							],
-						],
-						[
-							'li',
-							[
-								`Adds a button (`,
-								['i', { class: 'fa fa-trophy' }],
-								' ',
-								['i', { class: 'fa fa-gear' }],
-								`) to the page heading of this menu that allows you to view all of the users that have been checked.`,
-							],
-						],
-						[
-							'li',
-							`Results are cached for 1 week, so if you check the same user again within that timeframe, their status will not change.`,
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Adds a button (<i className="fa fa-question-circle"></i>) to the "Gifts Won" row of a
+						user's <a href="https://www.steamgifts.com/user/cg">profile</a> page that allows you to
+						check if they have any not activated/multiple wins (using{' '}
+						<a href="https://www.sgtools.info/">SGTools</a>).
+					</li>
+					<li>
+						Adds a button (<i className="fa fa-trophy"></i>{' '}
+						<i className="fa fa-question-circle"></i>) to the main page heading of any{' '}
+						<a href="https://www.steamgifts.com/giveaway/aeqw7/dead-space/winners">winners</a> page
+						that allows you to check all of the winners in the page at once. You cannot check more
+						than that at once due to certain limitations when requesting the data to SGTools.
+					</li>
+					<li>
+						Adds a button (<i className="fa fa-trophy"></i> <i className="fa fa-gear"></i>) to the
+						page heading of this menu that allows you to view all of the users that have been
+						checked.
+					</li>
+					<li>
+						Results are cached for 1 week, so if you check the same user again within that
+						timeframe, their status will not change.
+					</li>
+				</ul>
+			),
 			features: {
 				namwc_h: {
-					description: [
-						[
-							'ul',
-							[
-								[
-									'li',
-									`Changes the color (to green if the user passed the check, red if they failed and grey if their profile is private) of a checked user's username (in any page).`,
-								],
-								[
-									'li',
-									`If you hover over the username, it shows how many not activated/multiple wins the user has and the date when they were checked for the last time.`,
-								],
-							],
-						],
-					],
+					description: () => (
+						<ul>
+							<li>
+								Changes the color (to green if the user passed the check, red if they failed and
+								grey if their profile is private) of a checked user's username (in any page).
+							</li>
+							<li>
+								If you hover over the username, it shows how many not activated/multiple wins the
+								user has and the date when they were checked for the last time.
+							</li>
+						</ul>
+					),
 					features: {
 						namwc_h_m: {
-							description: [
-								[
-									'ul',
-									[
-										[
-											'li',
-											`Multiple wins are not the winner's fault sometimes. For example, if they tried to contact the giveaway creator to ask for a reroll and were unable to.`,
-										],
-										[
-											'li',
-											`With this option enabled, multiple wins are ignored when highlighting the user. So if the user has 0 not activated wins and 1 or more multiple wins, they will be considered as having passed the check.`,
-										],
-									],
-								],
-							],
+							description: () => (
+								<ul>
+									<li>
+										Multiple wins are not the winner's fault sometimes. For example, if they tried
+										to contact the giveaway creator to ask for a reroll and were unable to.
+									</li>
+									<li>
+										With this option enabled, multiple wins are ignored when highlighting the user.
+										So if the user has 0 not activated wins and 1 or more multiple wins, they will
+										be considered as having passed the check.
+									</li>
+								</ul>
+							),
 							name: 'Ignore multiple wins.',
 							sg: true,
 							st: true,
@@ -117,29 +89,20 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 							st: true,
 						},
 						namwc_h_i: {
-							description: [
-								[
-									'ul',
-									[
-										[
-											'li',
-											[
-												`Adds an icon (`,
-												['i', { class: 'fa fa-thumbs-up esgst-green' }],
-												` if the user passed the check, `,
-												['i', { class: 'fa fa-thumbs-down esgst-red' }],
-												' if they failed and ',
-												['i', { class: 'fa fa-warning esgst-grey' }],
-												` if their profile is private) next to the user's username instead of coloring it.`,
-											],
-										],
-										[
-											'li',
-											`If you hover over the icon, it shows how many not activated/multiple wins the user has and the date when they were checked for the last time.`,
-										],
-									],
-								],
-							],
+							description: () => (
+								<ul>
+									<li>
+										Adds an icon (<i className="fa fa-thumbs-up esgst-green"></i> if the user passed
+										the check, <i className="fa fa-thumbs-down esgst-red"></i> if they failed and{' '}
+										<i className="fa fa-warning esgst-grey"></i> if their profile is private) next
+										to the user's username instead of coloring it.
+									</li>
+									<li>
+										If you hover over the icon, it shows how many not activated/multiple wins the
+										user has and the date when they were checked for the last time.
+									</li>
+								</ul>
+							),
 							name: 'Use icons instead of colors.',
 							sg: true,
 							st: true,

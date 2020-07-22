@@ -7,29 +7,20 @@ class UsersVisibleGiftsBreakdown extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							[
-								`Shows the gifts breakdown of a user in their profile page, with the following initials:`,
-							],
-						],
-						[
-							'ul',
-							[
-								['li', 'FCV - Full CV'],
-								['li', 'RCV - Reduced CV'],
-								['li', 'NCV - No CV'],
-								['li', 'A - Awaiting Feedback'],
-								['li', 'NR - Not Received'],
-							],
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Shows the gifts breakdown of a user in their profile page, with the following initials:
+					</li>
+					<ul>
+						<li>FCV - Full CV</li>
+						<li>RCV - Reduced CV</li>
+						<li>NCV - No CV</li>
+						<li>A - Awaiting Feedback</li>
+						<li>NR - Not Received</li>
+					</ul>
+				</ul>
+			),
 			id: 'vgb',
 			inputItems: [
 				{

@@ -15,23 +15,15 @@ class UsersSharedGroupChecker extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							[
-								`Adds a button (`,
-								['i', { class: 'fa fa-users' }],
-								`) next to a user's username (in their `,
-								['a', { href: `https://www.steamgifts.com/user/cg` }, 'profile'],
-								` page) that allows you to check which groups you are both members of.`,
-							],
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Adds a button (<i className="fa fa-users"></i>) next to a user's username (in their{' '}
+						<a href="https://www.steamgifts.com/user/cg">profile</a> page) that allows you to check
+						which groups you are both members of.
+					</li>
+				</ul>
+			),
 			id: 'sgc',
 			name: 'Shared Group Checker',
 			sg: true,

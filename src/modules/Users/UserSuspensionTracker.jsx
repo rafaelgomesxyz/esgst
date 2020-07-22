@@ -19,80 +19,66 @@ class UsersUserSuspensionTracker extends Module {
 		this.tickets = [];
 		this.numTickets = 0;
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							`When checking a user with [id=namwc], that feature will also check if the user has already served suspensions for any infractions found so that you do not need to report them again.`,
-						],
-						[
-							'li',
-							[
-								`It is impossible to retrieve that information automatically, so the database (which is kept globally in a Google Sheet) needs to be maintained by ESGST users. For that, this feature adds 2 identical buttons (`,
-								['i', { class: 'fa fa-paper-plane' }],
-								`) to the main page heading of 2 different locations:`,
-							],
-						],
-						[
-							'ul',
-							[
-								[
-									'li',
-									[
-										'Your ',
-										['a', { href: `https://www.steamgifts.com/support/tickets` }, 'tickets'],
-										` page, which allows you to send multiple tickets to the database at once. The feature adds a checkbox in front of each ticket that belongs to one of the accepted categories so that you can select the tickets that you want to send. There are shortcuts that can help you select them:`,
-										[
-											'ul',
-											[
-												[
-													'li',
-													'Clicking on an unchecked checkbox with the Ctrl key pressed will select all of the tickets.',
-												],
-												[
-													'li',
-													'Clicking on a checked checkbox with the Ctrl key pressed will unselect all of the tickets.',
-												],
-												[
-													'li',
-													`Clicking on any checkbox with the Alt key pressed will toggle all of the tickets (any tickets that were unselected will be selected and any tickets that were selected will be unselected).`,
-												],
-											],
-										],
-									],
-								],
-								[
-									'li',
-									`A ticket you created, which allows you to send that single ticket to the database.`,
-								],
-							],
-						],
-						[
-							'li',
-							`You can only send tickets that belong to one of the accepted categories to the database:`,
-						],
-						[
-							'ul',
-							[
-								['li', 'Request New Winner > Did Not Activate Previous Wins This Month'],
-								['li', 'Request New Winner > Other'],
-								['li', 'User Report > Multiple Wins for the Same Game'],
-								['li', 'User Report > Not Activating Won Gift'],
-							],
-						],
-						[
-							'li',
-							`When you send a ticket, the HTML containing all of the ticket's information (including any comments) is sent to the database, and the ticket is requested before being sent, which prevents users from tampering with the HTML.`,
-						],
-						[
-							'li',
-							`After you send a ticket you will no longer have the option to send it again, to prevent duplicate entries.`,
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						When checking a user with [id=namwc], that feature will also check if the user has
+						already served suspensions for any infractions found so that you do not need to report
+						them again.
+					</li>
+					<li>
+						It is impossible to retrieve that information automatically, so the database (which is
+						kept globally in a Google Sheet) needs to be maintained by ESGST users. For that, this
+						feature adds 2 identical buttons (<i className="fa fa-paper-plane"></i>) to the main
+						page heading of 2 different locations:
+					</li>
+					<ul>
+						<li>
+							Your <a href="https://www.steamgifts.com/support/tickets">tickets</a> page, which
+							allows you to send multiple tickets to the database at once. The feature adds a
+							checkbox in front of each ticket that belongs to one of the accepted categories so
+							that you can select the tickets that you want to send. There are shortcuts that can
+							help you select them:
+							<ul>
+								<li>
+									Clicking on an unchecked checkbox with the Ctrl key pressed will select all of the
+									tickets.
+								</li>
+								<li>
+									Clicking on a checked checkbox with the Ctrl key pressed will unselect all of the
+									tickets.
+								</li>
+								<li>
+									Clicking on any checkbox with the Alt key pressed will toggle all of the tickets
+									(any tickets that were unselected will be selected and any tickets that were
+									selected will be unselected).
+								</li>
+							</ul>
+						</li>
+						<li>
+							A ticket you created, which allows you to send that single ticket to the database.
+						</li>
+					</ul>
+					<li>
+						You can only send tickets that belong to one of the accepted categories to the database:
+					</li>
+					<ul>
+						<li>Request New Winner {'>'} Did Not Activate Previous Wins This Month</li>
+						<li>Request New Winner {'>'} Other</li>
+						<li>User Report {'>'} Multiple Wins for the Same Game</li>
+						<li>User Report {'>'} Not Activating Won Gift</li>
+					</ul>
+					<li>
+						When you send a ticket, the HTML containing all of the ticket's information (including
+						any comments) is sent to the database, and the ticket is requested before being sent,
+						which prevents users from tampering with the HTML.
+					</li>
+					<li>
+						After you send a ticket you will no longer have the option to send it again, to prevent
+						duplicate entries.
+					</li>
+				</ul>
+			),
 			id: 'ust',
 			name: 'User Suspension Tracker',
 			sg: true,

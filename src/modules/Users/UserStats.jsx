@@ -9,23 +9,17 @@ class UsersUserStats extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							[
-								`Adds 5 columns ("Last Online", "Gifts Sent", "Gifts Won", "Ratio" and "Contributor Value") to your `,
-								['a', { href: `https://www.steamgifts.com/account/manage/whitelist` }, 'whitelist'],
-								'/',
-								['a', { href: `https://www.steamgifts.com/account/manage/blacklist` }, 'blacklist'],
-								` pages and the popup from [id=wbs] that show some stats about each user.`,
-							],
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Adds 5 columns ("Last Online", "Gifts Sent", "Gifts Won", "Ratio" and "Contributor
+						Value") to your{' '}
+						<a href="https://www.steamgifts.com/account/manage/whitelist">whitelist</a>/
+						<a href="https://www.steamgifts.com/account/manage/blacklist">blacklist</a> pages and
+						the popup from [id=wbs] that show some stats about each user.
+					</li>
+				</ul>
+			),
 			id: 'us',
 			name: 'User Stats',
 			sg: true,

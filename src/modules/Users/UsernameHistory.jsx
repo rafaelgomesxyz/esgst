@@ -8,55 +8,42 @@ class UsersUsernameHistory extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							[
-								'Adds a button (',
-								['i', { class: 'fa fa-caret-down' }],
-								") next to a user's username (in their ",
-								['a', { href: 'https://www.steamgifts.com/user/cg' }, 'profile'],
-								' page) that allows you to view their username history ever since they started being tracked.',
-							],
-						],
-						[
-							'li',
-							'It is impossible to keep track of every SteamGifts user due to a database capacity limitation (and that would also be impractical), so instead the feature keeps track of a limited number of users (currently around 9000). A user starts being tracked when anyone using ESGST clicks on the button to view their username history.',
-						],
-						['li', 'Username changes are detected in two instances:'],
-						[
-							'ul',
-							[
-								[
-									'li',
-									'Every 30 days the usernames of all of the users in the database are updated and if any changes are detected they are added to the history.',
-								],
-								[
-									'li',
-									'Every time anyone using ESGST clicks on the button to view the username history of a user the username of that user is updated and if a change is detected it is added to the history.',
-								],
-							],
-						],
-						[
-							'li',
-							'The database is kept in a server, which means that everyone using ESGST interacts with the same database and views the same history.',
-						],
-						[
-							'li',
-							[
-								'Adds a button (',
-								['i', { class: 'fa fa-user' }],
-								' ',
-								['i', { class: 'fa fa-history' }],
-								') to the page heading of this menu that allows you to view all of the recent username changes detected.',
-							],
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Adds a button (<i className="fa fa-caret-down"></i>) next to a user's username (in their{' '}
+						<a href="https://www.steamgifts.com/user/cg">profile</a> page) that allows you to view
+						their username history ever since they started being tracked.
+					</li>
+					<li>
+						It is impossible to keep track of every SteamGifts user due to a database capacity
+						limitation (and that would also be impractical), so instead the feature keeps track of a
+						limited number of users (currently around 9000). A user starts being tracked when anyone
+						using ESGST clicks on the button to view their username history.
+					</li>
+					<li>Username changes are detected in two instances:</li>
+					<ul>
+						<li>
+							Every 30 days the usernames of all of the users in the database are updated and if any
+							changes are detected they are added to the history.
+						</li>
+						<li>
+							Every time anyone using ESGST clicks on the button to view the username history of a
+							user the username of that user is updated and if a change is detected it is added to
+							the history.
+						</li>
+					</ul>
+					<li>
+						The database is kept in a server, which means that everyone using ESGST interacts with
+						the same database and views the same history.
+					</li>
+					<li>
+						Adds a button (<i className="fa fa-user"></i> <i className="fa fa-history"></i>) to the
+						page heading of this menu that allows you to view all of the recent username changes
+						detected.
+					</li>
+				</ul>
+			),
 			id: 'uh',
 			name: 'Username History',
 			sg: true,

@@ -1,6 +1,7 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
 import { Settings } from '../../class/Settings';
+import { DOM } from '../../class/DOM';
 
 const createElements = common.createElements.bind(common),
 	getFeatureTooltip = common.getFeatureTooltip.bind(common);
@@ -8,23 +9,15 @@ class UsersRealWonSentCVLink extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							[
-								'Turns "Gifts Won" and "Gifts Sent" in a user\'s ',
-								['a', { href: `https://www.steamgifts.com/user/cg` }, 'profile'],
-								' page into links that take you to their real won/sent CV pages on ',
-								['a', { href: `https://www.sgtools.info/` }, 'SGTools'],
-								'.',
-							],
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Turns "Gifts Won" and "Gifts Sent" in a user's{' '}
+						<a href="https://www.steamgifts.com/user/cg">profile</a> page into links that take you
+						to their real won/sent CV pages on <a href="https://www.sgtools.info/">SGTools</a>.
+					</li>
+				</ul>
+			),
 			features: {
 				rwscvl_r: {
 					name: `Link SGTools' reverse pages (from newest to oldest).`,

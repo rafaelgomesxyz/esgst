@@ -15,30 +15,21 @@ class UsersUserNotes extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							[
-								`Adds a button (`,
-								['i', { class: 'fa fa-sticky-note' }],
-								' if there are notes saved and ',
-								['i', { class: 'fa fa-sticky-note-o' }],
-								` if there are not) next to a user's username (in their `,
-								['a', { href: `https://www.steamgifts.com/user/cg` }, 'profile'],
-								` page) that allows you to save notes for them (only visible to you).`,
-							],
-						],
-						['li', 'You can press Ctrl + Enter to save the notes.'],
-						[
-							'li',
-							`This feature is recommended for cases where you want to associate a long text with a user, since the notes are not displayed in the page.For a short text, check [id=ut].`,
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Adds a button (<i className="fa fa-sticky-note"></i> if there are notes saved and{' '}
+						<i className="fa fa-sticky-note-o"></i> if there are not) next to a user's username (in
+						their <a href="https://www.steamgifts.com/user/cg">profile</a> page) that allows you to
+						save notes for them (only visible to you).
+					</li>
+					<li>You can press Ctrl + Enter to save the notes.</li>
+					<li>
+						This feature is recommended for cases where you want to associate a long text with a
+						user, since the notes are not displayed in the page.For a short text, check [id=ut].
+					</li>
+				</ul>
+			),
 			features: {
 				un_p: {
 					name: 'Pop up when whitelisting/blacklisting a user.',

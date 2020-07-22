@@ -11,25 +11,15 @@ class UsersUserSuspensionChecker extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							[
-								`Adds a button (`,
-								['i', { class: 'fa fa-user' }],
-								' ',
-								['i', { class: 'fa fa-ban' }],
-								' ',
-								['i', { class: 'fa fa-question-circle' }],
-								`) to the main page heading of any page that allows you to check which users in the page are suspended.`,
-							],
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Adds a button (<i className="fa fa-user"></i> <i className="fa fa-ban"></i>{' '}
+						<i className="fa fa-question-circle"></i>) to the main page heading of any page that
+						allows you to check which users in the page are suspended.
+					</li>
+				</ul>
+			),
 			id: 'usc',
 			name: 'User Suspension Checker',
 			sg: true,

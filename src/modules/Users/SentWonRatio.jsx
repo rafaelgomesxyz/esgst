@@ -1,6 +1,7 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
 import { Settings } from '../../class/Settings';
+import { DOM } from '../../class/DOM';
 
 const createElements = common.createElements.bind(common),
 	getFeatureTooltip = common.getFeatureTooltip.bind(common);
@@ -8,21 +9,15 @@ class UsersSentWonRatio extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							[
-								`Adds a "Ratio" row containing a user's sent/won ratio (which is their number of gifts sent divided by their number of gifts won) below the "Gifts Sent" row of their `,
-								['a', { href: `https://www.steamgifts.com/user/cg` }, 'profile'],
-								' page.',
-							],
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Adds a "Ratio" row containing a user's sent/won ratio (which is their number of gifts
+						sent divided by their number of gifts won) below the "Gifts Sent" row of their{' '}
+						<a href="https://www.steamgifts.com/user/cg">profile</a> page.
+					</li>
+				</ul>
+			),
 			id: 'swr',
 			name: 'Sent/Won Ratio',
 			sg: true,

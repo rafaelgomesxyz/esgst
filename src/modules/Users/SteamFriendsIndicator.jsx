@@ -7,22 +7,15 @@ class UsersSteamFriendsIndicator extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							[
-								`Adds an icon (`,
-								['i', { class: 'fa fa-user' }],
-								`) next to the a user's username (in any page) to indicate that they are on your Steam friends list.`,
-							],
-						],
-						['li', `If you hover over the icon, it shows the date when you became friends.`],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Adds an icon (<i className="fa fa-user"></i>) next to the a user's username (in any
+						page) to indicate that they are on your Steam friends list.
+					</li>
+					<li>If you hover over the icon, it shows the date when you became friends.</li>
+				</ul>
+			),
 			id: 'sfi',
 			inputItems: [
 				{

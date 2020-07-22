@@ -29,111 +29,87 @@ class UsersWhitelistBlacklistChecker extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							[
-								`Adds a button (`,
-								['i', { class: 'fa fa-heart' }],
-								' ',
-								['i', { class: 'fa fa-ban' }],
-								' ',
-								['i', { class: 'fa fa-question-circle' }],
-								`) to the main page heading of any page that allows you to check which users in the page have whitelisted/blacklisted you.`,
-							],
-						],
-						[
-							'li',
-							[
-								"That information is retrieved by searching for whitelist giveaways in the user's ",
-								['a', { href: `https://www.steamgifts.com/user/cg` }, 'profile'],
-								` page and checking if you can access them. If no whitelist giveaways are found, the feature searches for group + whitelist giveaways instead and checks if you can access them using the groups that you are a member of to determine whether you can access them for being a group member or for being in the user's whitelist.`,
-							],
-						],
-						[
-							'li',
-							`There are many options that allow you to narrow down the check: you can select which users to check, check only if the user has blacklisted you (which is faster than checking if they have whitelisted you because it does not need to find a whitelist giveaway), how many pages to check, whether or not to check again users that were already checked and whether or not to skip users that the feature is taking too long to find whitelist giveaways from.`,
-						],
-						[
-							'li',
-							`There are also options to return whitelists/blacklists, which means that if a user that has whitelisted/blacklisted you is found, they will be whitelisted/blacklisted back.`,
-						],
-						[
-							'li',
-							[
-								`Adds a button (`,
-								['i', { class: 'fa fa-heart' }],
-								' ',
-								['i', { class: 'fa fa-ban' }],
-								' ',
-								['i', { class: 'fa fa-gear' }],
-								`) to the page heading of this menu that allows you to view/update all of the users that have been checked.`,
-							],
-						],
-						[
-							'li',
-							`Results are cached for 24 hours, so if you check the same user again within that timeframe, their status will not change, unless you check them with the option to clear the cache enabled.`,
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Adds a button (<i className="fa fa-heart"></i> <i className="fa fa-ban"></i>{' '}
+						<i className="fa fa-question-circle"></i>) to the main page heading of any page that
+						allows you to check which users in the page have whitelisted/blacklisted you.
+					</li>
+					<li>
+						That information is retrieved by searching for whitelist giveaways in the user's{' '}
+						<a href="https://www.steamgifts.com/user/cg">profile</a> page and checking if you can
+						access them. If no whitelist giveaways are found, the feature searches for group +
+						whitelist giveaways instead and checks if you can access them using the groups that you
+						are a member of to determine whether you can access them for being a group member or for
+						being in the user's whitelist.
+					</li>
+					<li>
+						There are many options that allow you to narrow down the check: you can select which
+						users to check, check only if the user has blacklisted you (which is faster than
+						checking if they have whitelisted you because it does not need to find a whitelist
+						giveaway), how many pages to check, whether or not to check again users that were
+						already checked and whether or not to skip users that the feature is taking too long to
+						find whitelist giveaways from.
+					</li>
+					<li>
+						There are also options to return whitelists/blacklists, which means that if a user that
+						has whitelisted/blacklisted you is found, they will be whitelisted/blacklisted back.
+					</li>
+					<li>
+						Adds a button (<i className="fa fa-heart"></i> <i className="fa fa-ban"></i>{' '}
+						<i className="fa fa-gear"></i>) to the page heading of this menu that allows you to
+						view/update all of the users that have been checked.
+					</li>
+					<li>
+						Results are cached for 24 hours, so if you check the same user again within that
+						timeframe, their status will not change, unless you check them with the option to clear
+						the cache enabled.
+					</li>
+				</ul>
+			),
 			features: {
 				wbc_h: {
-					description: [
-						[
-							'ul',
-							[
-								[
-									'li',
-									[
-										`Adds an icon (`,
-										['i', { class: 'fa fa-check esgst-whitelist' }],
-										' if the user has whitelisted you and ',
-										['i', { class: 'fa fa-times esgst-blacklist' }],
-										` if they have blacklisted you) next to a checked user's username (in any page).`,
-									],
-								],
-								[
-									'li',
-									`If you hover over the icon, it shows the date when they were checked for the last time.`,
-								],
-							],
-						],
-					],
+					description: () => (
+						<ul>
+							<li>
+								Adds an icon (<i className="fa fa-check esgst-whitelist"></i> if the user has
+								whitelisted you and <i className="fa fa-times esgst-blacklist"></i> if they have
+								blacklisted you) next to a checked user's username (in any page).
+							</li>
+							<li>
+								If you hover over the icon, it shows the date when they were checked for the last
+								time.
+							</li>
+						</ul>
+					),
 					name: 'Highlight checked users.',
 					sg: true,
 					st: true,
 				},
 				wbc_n: {
-					description: [
-						[
-							'ul',
-							[
-								[
-									'li',
-									`If you have [id=un] enabled, a note will be saved for a user if they were whitelisted / blacklisted back.`,
-								],
-							],
-						],
-					],
+					description: () => (
+						<ul>
+							<li>
+								If you have [id=un] enabled, a note will be saved for a user if they were
+								whitelisted / blacklisted back.
+							</li>
+						</ul>
+					),
 					name: 'Save automatic notes when returning whitelists/blacklists.',
 					sg: true,
 				},
 				wbc_hb: {
-					description: [
-						[
-							'ul',
-							[
-								[
-									'li',
-									`With this option enabled, the feature will not tell you if a user has blacklisted you (in fact, the name of the feature will change to Whitelist Checker for you). If the feature finds a user that has blacklisted you, it will tell you that it could not determine their status.`,
-								],
-							],
-						],
-					],
+					description: () => (
+						<ul>
+							<li>
+								With this option enabled, the feature will not tell you if a user has blacklisted
+								you (in fact, the name of the feature will change to Whitelist Checker for you). If
+								the feature finds a user that has blacklisted you, it will tell you that it could
+								not determine their status.
+							</li>
+						</ul>
+					),
 					name: 'Hide blacklist information.',
 					sg: true,
 				},
