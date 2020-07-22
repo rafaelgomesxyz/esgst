@@ -115,97 +115,74 @@ class SgHeader extends IHeader {
 		const [context, position] = params.context
 			? [params.context, params.position]
 			: params.side === 'left'
-			? [this.nodes.leftNav, 'beforeEnd']
-			: [this.nodes.rightNav, 'afterBegin'];
+			? [this.nodes.leftNav, 'beforeend']
+			: [this.nodes.rightNav, 'afterbegin'];
 
 		let buttonContainerNode = null;
 
 		if (params.isDropdown) {
-			buttonContainerNode = DOM.build(context, position, [
-				[
-					'div',
-					{ class: 'nav__button-container' },
-					[
-						[
-							'div',
-							{ class: 'nav__relative-dropdown is-hidden' },
-							[['div', { class: 'nav__absolute-dropdown' }]],
-						],
-						[
-							'a',
-							{
-								class: 'nav__button nav__button--is-dropdown',
-								href: params.url || null,
-								onclick: params.onClick,
-								target: params.openInNewTab ? '_blank' : null,
-							},
-							[
-								...(params.buttonIcon ? [['i', { class: params.buttonIcon }]] : []),
-								...(params.buttonImage ? [['img', { src: params.buttonImage }]] : []),
-								params.buttonName,
-							],
-						],
-						[
-							'div',
-							{ class: 'nav__button nav__button--is-dropdown-arrow' },
-							[['i', { class: 'fa fa-angle-down' }]],
-						],
-					],
-				],
-			]);
+			DOM.insert(
+				context,
+				position,
+				<div className="nav__button-container" ref={(ref) => (buttonContainerNode = ref)}>
+					<div className="nav__relative-dropdown is-hidden">
+						<div className="nav__absolute-dropdown"></div>
+					</div>
+					<a
+						className="nav__button nav__button--is-dropdown"
+						href={params.url || null}
+						onclick={params.onClick}
+						target={params.openInNewTab ? '_blank' : null}
+					>
+						{params.buttonIcon ? <i className={params.buttonIcon}></i> : null}
+						{params.buttonImage ? <img src={params.buttonImage} /> : null}
+						{params.buttonName}
+					</a>
+					<div className="nav__button nav__button--is-dropdown-arrow">
+						<i className="fa fa-angle-down"></i>
+					</div>
+				</div>
+			);
 		} else if (params.isNotification) {
-			buttonContainerNode = DOM.build(context, position, [
-				[
-					'div',
-					{
-						class: `nav__button-container nav__button-container--notification ${
-							params.isActive ? 'nav__button-container--active' : 'nav__button-container--inactive'
-						}`,
-					},
-					[
-						[
-							'a',
-							{
-								class: 'nav__button',
-								href: params.url,
-								target: params.openInNewTab ? '_blank' : null,
-								title: params.buttonName,
-							},
-							[
-								...(params.buttonIcon ? [['i', { class: params.buttonIcon }]] : []),
-								...(params.buttonImage ? [['img', { src: params.buttonImage }]] : []),
-								...(params.isActive && params.counter
-									? [
-											[
-												'div',
-												{ class: `nav__notification ${params.isFlashing ? 'fade_infinite' : ''}` },
-												params.counter.toLocaleString('en-US'),
-											],
-									  ]
-									: []),
-							],
-						],
-					],
-				],
-			]);
+			DOM.insert(
+				context,
+				position,
+				<div
+					className={`nav__button-container nav__button-container--notification ${
+						params.isActive ? 'nav__button-container--active' : 'nav__button-container--inactive'
+					}`}
+					ref={(ref) => (buttonContainerNode = ref)}
+				>
+					<a
+						className="nav__button"
+						href={params.url}
+						target={params.openInNewTab ? '_blank' : null}
+						title={params.buttonName}
+					>
+						{params.buttonIcon ? <i className={params.buttonIcon}></i> : null}
+						{params.buttonImage ? <img src={params.buttonImage} /> : null}
+						{params.isActive && params.counter ? (
+							<div className={`nav__notification ${params.isFlashing ? 'fade_infinite' : ''}`}>
+								{params.counter.toLocaleString('en-US')}
+							</div>
+						) : null}
+					</a>
+				</div>
+			);
 		} else {
-			buttonContainerNode = DOM.build(context, position, [
-				[
-					'div',
-					{ class: 'nav__button-container' },
-					[
-						[
-							'a',
-							{
-								class: 'nav__button',
-								href: params.url,
-								target: params.openInNewTab ? '_blank' : null,
-							},
-							params.buttonName,
-						],
-					],
-				],
-			]);
+			DOM.insert(
+				context,
+				position,
+				<div className="nav__button-container" ref={(ref) => (buttonContainerNode = ref)}>
+					<a
+						className="nav__button"
+						href={params.url}
+						target={params.openInNewTab ? '_blank' : null}
+					>
+						{params.buttonName}
+					</a>
+				</div>
+			);
 		}
 
 		const buttonContainer = this.parseButtonContainer(buttonContainerNode);
@@ -235,28 +212,28 @@ class SgHeader extends IHeader {
 			throw 'Button container is not dropdown.';
 		}
 
-		const dropdownItemNode = DOM.build(buttonContainer.nodes.absoluteDropdown, 'beforeEnd', [
-			[
-				params.url ? 'a' : 'div',
-				{
-					class: `nav__row ${params.url ? '' : 'is-clickable'}`,
-					href: params.url || null,
-					onclick: params.onClick,
-					target: params.openInNewTab ? '_blank' : null,
-				},
-				[
-					['i', { class: params.icon }],
-					[
-						'div',
-						{ class: 'nav__row__summary' },
-						[
-							['p', { class: 'nav__row__summary__name' }, params.name],
-							['p', { class: 'nav__row__summary__description' }, params.description],
-						],
-					],
-				],
-			],
-		]);
+		let dropdownItemNode;
+		const attributes = {
+			className: `nav__row ${params.url ? '' : 'is-clickable'}`,
+			href: params.url || null,
+			onclick: params.onClick,
+			target: params.openInNewTab ? '_blank' : null,
+			ref: (ref) => (dropdownItemNode = ref),
+		};
+		const children = (
+			<fragment>
+				<i className={params.icon}></i>
+				<div className="nav__row__summary">
+					<p className="nav__row__summary__name">{params.name}</p>
+					<p className="nav__row__summary__description">{params.description}</p>
+				</div>
+			</fragment>
+		);
+		DOM.insert(
+			buttonContainer.nodes.absoluteDropdown,
+			'beforeend',
+			params.url ? <a {...attributes}>{children}</a> : <div {...attributes}>{children}</div>
+		);
 
 		return this.parseDropdownItem(buttonContainer.dropdownItems, dropdownItemNode);
 	}
@@ -530,9 +507,14 @@ class SgHeader extends IHeader {
 		}
 
 		if (!buttonContainer.nodes.counter) {
-			buttonContainer.nodes.counter = DOM.build(buttonContainer.nodes.outer, 'beforeEnd', [
-				['div', { class: 'nav__notification' }],
-			]);
+			DOM.insert(
+				buttonContainer.nodes.outer,
+				'beforeend',
+				<div
+					className="nav__notification"
+					ref={(ref) => (buttonContainer.nodes.counter = ref)}
+				></div>
+			);
 		}
 
 		const oldCounter = buttonContainer.data.counter;
@@ -659,107 +641,72 @@ class StHeader extends IHeader {
 	addButtonContainer(params) {
 		const [context, position] = params.context
 			? [params.context, params.position]
-			: [this.nodes.logo, 'afterEnd'];
+			: [this.nodes.logo, 'afterend'];
 
 		let buttonContainerNode = null;
 
 		if (params.isDropdown) {
-			buttonContainerNode = DOM.build(context, position, [
-				[
-					'div',
-					{ class: 'nav_btn_container' },
-					[
-						['div', { class: 'dropdown is_hidden' }, [['div']]],
-						[
-							'a',
-							{
-								class: 'nav_btn nav_btn_left',
-								href: params.url || null,
-								onclick: params.onClick,
-								target: params.openInNewTab ? '_blank' : null,
-							},
-							[
-								...(params.buttonIcon ? [['i', { class: params.buttonIcon }]] : []),
-								...(params.buttonImage ? [['img', { src: params.buttonImage }]] : []),
-								[
-									'span',
-									[
-										params.buttonName,
-										...(params.isNotification && params.counter
-											? [
-													[
-														'span',
-														{ class: 'message_count' },
-														params.counter.toLocaleString('en-US'),
-													],
-											  ]
-											: []),
-									],
-								],
-							],
-						],
-						[
-							'div',
-							{ class: 'nav_btn nav_btn_right nav_btn_dropdown' },
-							[['i', { class: 'fa fa-angle-down' }]],
-						],
-					],
-				],
-			]);
+			DOM.insert(
+				context,
+				position,
+				<div className="nav_btn_container" ref={(ref) => (buttonContainerNode = ref)}>
+					<div className="dropdown is_hidden">
+						<div></div>
+					</div>
+					<a
+						className="nav_btn nav_btn_left"
+						href={params.url || null}
+						onclick={params.onClick}
+						target={params.openInNewTab ? '_blank' : null}
+					>
+						{params.buttonIcon ? <i className={params.buttonIcon}></i> : null}
+						{params.buttonImage ? <img src={params.buttonImage} /> : null}
+
+						<span>
+							{params.buttonName}
+							{params.isNotification && params.counter ? (
+								<span className="message_count">{params.counter.toLocaleString('en-US')}</span>
+							) : null}
+						</span>
+					</a>
+					<div className="nav_btn nav_btn_right nav_btn_dropdown">
+						<i className="fa fa-angle-down"></i>
+					</div>
+				</div>
+			);
 		} else if (params.isNotification) {
-			buttonContainerNode = DOM.build(context, position, [
-				[
-					'div',
-					{ class: 'nav_btn_container' },
-					[
-						[
-							'a',
-							{ class: 'nav_btn', href: params.url, target: params.openInNewTab ? '_blank' : null },
-							[
-								...(params.buttonIcon ? [['i', { class: params.buttonIcon }]] : []),
-								...(params.buttonImage ? [['img', { src: params.buttonImage }]] : []),
-								params.counter && [
-									'span',
-									{ class: 'message_count' },
-									params.counter.toLocaleString('en-US'),
-								],
-							],
-						],
-					],
-				],
-			]);
+			DOM.insert(
+				context,
+				position,
+				<div className="nav_btn_container" ref={(ref) => (buttonContainerNode = ref)}>
+					<a className="nav_btn" href={params.url} target={params.openInNewTab ? '_blank' : null}>
+						{params.buttonIcon ? <i className={params.buttonIcon}></i> : null}
+						{params.buttonImage ? <img src={params.buttonImage} /> : null}
+						{params.counter ? (
+							<span>
+								<span className="message_count">{params.counter.toLocaleString('en-US')}</span>
+							</span>
+						) : null}
+					</a>
+				</div>
+			);
 		} else {
-			buttonContainerNode = DOM.build(context, position, [
-				[
-					'div',
-					{ class: 'nav_btn_container' },
-					[
-						[
-							'a',
-							{ class: 'nav_btn', href: params.url, target: params.openInNewTab ? '_blank' : null },
-							[
-								...(params.buttonIcon ? [['i', { class: params.buttonIcon }]] : []),
-								...(params.buttonImage ? [['img', { src: params.buttonImage }]] : []),
-								[
-									'span',
-									[
-										params.buttonName,
-										...(params.isNotification && params.counter
-											? [
-													[
-														'span',
-														{ class: 'message_count' },
-														params.counter.toLocaleString('en-US'),
-													],
-											  ]
-											: []),
-									],
-								],
-							],
-						],
-					],
-				],
-			]);
+			DOM.insert(
+				context,
+				position,
+				<div className="nav_btn_container" ref={(ref) => (buttonContainerNode = ref)}>
+					<a className="nav_btn" href={params.url} target={params.openInNewTab ? '_blank' : null}>
+						{params.buttonIcon ? <i className={params.buttonIcon}></i> : null}
+						{params.buttonImage ? <img src={params.buttonImage} /> : null}
+						<span>
+							{params.buttonName}
+							{params.isNotification && params.counter ? (
+								<span className="message_count">{params.counter.toLocaleString('en-US')}</span>
+							) : null}
+						</span>
+					</a>
+				</div>
+			);
 		}
 
 		const buttonContainer = this.parseButtonContainer(buttonContainerNode);
@@ -789,21 +736,25 @@ class StHeader extends IHeader {
 			throw 'Button container is not dropdown.';
 		}
 
-		const dropdownItemNode = DOM.build(buttonContainer.nodes.absoluteDropdown, 'beforeEnd', [
-			[
-				params.url ? 'a' : 'div',
-				{
-					class: 'dropdown_btn',
-					href: params.url || null,
-					onclick: params.onClick,
-					target: params.openInNewTab ? '_blank' : null,
-				},
-				[
-					['i', { class: params.icon }],
-					['span', params.name],
-				],
-			],
-		]);
+		let dropdownItemNode;
+		const attributes = {
+			className: 'dropdown_btn',
+			href: params.url || null,
+			onclick: params.onClick,
+			target: params.openInNewTab ? '_blank' : null,
+			ref: (ref) => (dropdownItemNode = ref),
+		};
+		const children = (
+			<fragment>
+				<i className={params.icon}></i>
+				<span>{params.name}</span>
+			</fragment>
+		);
+		DOM.insert(
+			buttonContainer.nodes.absoluteDropdown,
+			'beforeend',
+			params.url ? <a {...attributes}>{children}</a> : <div {...attributes}>{children}</div>
+		);
 
 		return this.parseDropdownItem(buttonContainer.dropdownItems, dropdownItemNode);
 	}
@@ -1037,9 +988,11 @@ class StHeader extends IHeader {
 		}
 
 		if (!buttonContainer.nodes.counter) {
-			buttonContainer.nodes.counter = DOM.build(buttonContainer.nodes.buttonName, 'beforeEnd', [
-				['span', { class: 'message_count' }],
-			]);
+			DOM.insert(
+				buttonContainer.nodes.buttonName,
+				'beforeend',
+				<span className="message_count" ref={(ref) => (buttonContainer.nodes.counter = ref)}></span>
+			);
 		}
 
 		const oldCounter = buttonContainer.data.counter;

@@ -45,20 +45,18 @@ class SgFooter extends IFooter {
 		const [context, position] = params.context
 			? [params.context, params.position]
 			: params.side === 'left'
-			? [this.nodes.leftNav, params.position || 'beforeEnd']
-			: [this.nodes.rightNav, params.position || 'afterBegin'];
+			? [this.nodes.leftNav, params.position || 'beforeend']
+			: [this.nodes.rightNav, params.position || 'afterbegin'];
 
-		const linkContainerNode = DOM.build(context, position, [
-			[
-				'div',
-				[
-					...(params.icon ? [['i', { class: params.icon }]] : []),
-					' ',
-					' ',
-					...(params.url ? [['a', { href: params.url }, params.name]] : [params.name]),
-				],
-			],
-		]);
+		let linkContainerNode;
+		DOM.insert(
+			context,
+			position,
+			<div ref={(ref) => (linkContainerNode = ref)}>
+				{params.icon ? <i className={params.icon}></i> : null}{' '}
+				{params.url ? <a href={params.url}>{params.name}</a> : params.name}
+			</div>
+		);
 
 		return this.parseLinkContainer(linkContainerNode);
 	}
@@ -152,19 +150,18 @@ class StFooter extends IFooter {
 		const [context, position] = params.context
 			? [params.context, params.position]
 			: params.side === 'left'
-			? [this.nodes.leftNav, params.position || 'beforeEnd']
-			: [this.nodes.rightNav, params.position || 'afterBegin'];
+			? [this.nodes.leftNav, params.position || 'beforeend']
+			: [this.nodes.rightNav, params.position || 'afterbegin'];
 
-		const linkContainerNode = DOM.build(context, position, [
-			[
-				'li',
-				[
-					...(params.icon ? [['i', { class: params.icon }]] : []),
-					' ',
-					...(params.url ? [['a', { href: params.url }, params.name]] : [params.name]),
-				],
-			],
-		]);
+		let linkContainerNode;
+		DOM.insert(
+			context,
+			position,
+			<li ref={(ref) => (linkContainerNode = ref)}>
+				{params.icon ? <i className={params.icon}></i> : null}{' '}
+				{params.url ? <a href={params.url}>{params.name}</a> : params.name}
+			</li>
+		);
 
 		return this.parseLinkContainer(linkContainerNode);
 	}
@@ -186,7 +183,7 @@ class StFooter extends IFooter {
 		this.nodes.outer = outerNode;
 		this.nodes.inner = this.nodes.outer.querySelector('.footer_inner_wrap');
 		this.nodes.nav = this.nodes.inner;
-		this.nodes.leftNav = DOM.build(this.nodes.nav, 'afterBegin', [['ul']]);
+		DOM.insert(this.nodes.nav, 'afterbegin', <ul ref={(ref) => (this.nodes.leftNav = ref)}></ul>);
 		this.nodes.leftNav.appendChild(this.nodes.nav.querySelector(':scope > div'));
 		this.nodes.rightNav = this.nodes.nav.querySelector(':scope > ul:last-child');
 
