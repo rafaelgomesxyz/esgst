@@ -54,7 +54,7 @@ class GiveawaysStickiedGiveawayCountries extends Module {
 				}
 				container.insertBefore(context, obj.separator);
 			}
-			new Button(context, 'afterBegin', {
+			new Button(context, 'afterbegin', {
 				callbacks: [
 					this.sgac_stickyCountry.bind(this, obj, container, context, id),
 					null,

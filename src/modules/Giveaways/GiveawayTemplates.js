@@ -160,7 +160,7 @@ class GiveawaysGiveawayTemplates extends Module {
 		});
 		rows.appendChild(createGiveawayButton.set);
 		button.addEventListener('click', this.gts_openPopup.bind(this, gts));
-		section = createElements(reviewButton, 'beforeBegin', [
+		section = createElements(reviewButton, 'beforebegin', [
 			{
 				attributes: {
 					class: 'esgst-form-row',
@@ -470,7 +470,7 @@ class GiveawaysGiveawayTemplates extends Module {
 			isTemp: true,
 			title: `View/apply templates:`,
 		});
-		createElements(popup.description, 'afterBegin', [
+		createElements(popup.description, 'afterbegin', [
 			{
 				attributes: {
 					class: 'esgst-description',
@@ -479,7 +479,7 @@ class GiveawaysGiveawayTemplates extends Module {
 				type: 'div',
 			},
 		]);
-		gts.undo = createElements(popup.description, 'beforeEnd', [
+		gts.undo = createElements(popup.description, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-clickable esgst-hidden',
@@ -500,7 +500,7 @@ class GiveawaysGiveawayTemplates extends Module {
 			},
 		]);
 		gts.undo.addEventListener('click', this.gts_undoDelete.bind(this, gts));
-		let templates = createElements(popup.scrollable, 'beforeEnd', [
+		let templates = createElements(popup.scrollable, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-text-left popup__keys__list',
@@ -595,7 +595,7 @@ class GiveawaysGiveawayTemplates extends Module {
 				}
 			}
 			details += `, level ${savedTemplate.level}`;
-			let template = createElements(templates, 'beforeEnd', [
+			let template = createElements(templates, 'beforeend', [
 				{
 					attributes: {
 						draggable: true,
@@ -674,7 +674,7 @@ class GiveawaysGiveawayTemplates extends Module {
 			popup.close();
 		});
 		deleteButton.addEventListener('click', async () => {
-			createElements(deleteButton, 'inner', [
+			createElements(deleteButton, 'atinner', [
 				{
 					attributes: {
 						class: 'fa fa-circle-o-notch fa-spin',
@@ -693,7 +693,7 @@ class GiveawaysGiveawayTemplates extends Module {
 			savedTemplates.splice(i, 1);
 			await setValue('templates', JSON.stringify(savedTemplates));
 			deleteLock();
-			createElements(deleteButton, 'inner', [
+			createElements(deleteButton, 'atinner', [
 				{
 					attributes: {
 						class: 'fa fa-trash',

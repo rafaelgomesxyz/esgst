@@ -19,7 +19,7 @@ class GiveawaysCommunityWishlistSearchLink extends Module {
 									{ href: `https://www.steamgifts.com/giveaways/wishlist` },
 									'community wishlist',
 								],
-								` page into links that allow you to search for all of the active giveaways for the game (that are visible to you).<`,
+								` page into links that allow you to search for all of the active giveaways for the game (that are visible to you).`,
 							],
 						],
 					],
@@ -44,7 +44,7 @@ class GiveawaysCommunityWishlistSearchLink extends Module {
 		}
 		for (const game of games.all) {
 			let giveawayCount = game.heading.parentElement.nextElementSibling.nextElementSibling;
-			createElements(giveawayCount, 'inner', [
+			createElements(giveawayCount, 'atinner', [
 				{
 					attributes: {
 						class: 'table__column__secondary-link',

@@ -60,7 +60,7 @@ class GiveawaysGiveawayRecreator extends Module {
 	async gr_recreateGiveaway(button, giveaway, event) {
 		event.preventDefault();
 		event.stopPropagation();
-		createElements(button, 'inner', [
+		createElements(button, 'atinner', [
 			{
 				attributes: {
 					class: 'fa fa-circle-o-notch fa-spin',

@@ -77,7 +77,7 @@ class GiveawaysStickiedGiveawayGroups extends Module {
 					}
 					container.insertBefore(context, obj.separator);
 				}
-				new Button(context, 'afterBegin', {
+				new Button(context, 'afterbegin', {
 					callbacks: [
 						this.sgg_stickyGroup.bind(this, obj, code, container, context, id),
 						null,
@@ -127,7 +127,7 @@ class GiveawaysStickiedGiveawayGroups extends Module {
 			if (!code) {
 				continue;
 			}
-			new Button(element, 'afterBegin', {
+			new Button(element, 'afterbegin', {
 				callbacks: [
 					this.sgg_stickyGroup.bind(this, {}, code, null, element, null),
 					null,

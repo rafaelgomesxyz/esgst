@@ -45,7 +45,7 @@ class GiveawaysHiddenGamesEnterButtonDisabler extends Module {
 			if (this.esgst.giveawayErrorButton) {
 				this.esgst.giveawayErrorButton.remove();
 			}
-			createElements(parent, 'afterBegin', [
+			createElements(parent, 'afterbegin', [
 				{
 					attributes: {
 						class: 'sidebar__error is-disabled',

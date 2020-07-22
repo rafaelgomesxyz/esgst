@@ -60,7 +60,7 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
 			qgs,
 		};
 		context.firstElementChild.remove();
-		obj.input = createElements(context, 'afterBegin', [
+		obj.input = createElements(context, 'afterbegin', [
 			{
 				attributes: {
 					class: `${qgs ? 'esgst-qgs-input' : 'sidebar__search-input'}`,
@@ -83,7 +83,7 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
 			!qgs &&
 			((Settings.get('adots') && Settings.get('adots_index') === 0) || !Settings.get('adots'))
 		) {
-			obj.panel = createElements(context, 'afterEnd', [
+			obj.panel = createElements(context, 'afterend', [
 				{
 					attributes: {
 						class: 'esgst-ags-panel',
@@ -212,7 +212,7 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
 			return;
 		}
 		if (details.type === 'checkbox') {
-			let element = createElements(obj.panel, 'beforeEnd', [
+			let element = createElements(obj.panel, 'beforeend', [
 					{
 						attributes: {
 							class: 'esgst-ags-checkbox-filter',
@@ -249,7 +249,7 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
 					type: 'option',
 				});
 			});
-			let element = createElements(obj.panel, 'beforeEnd', [
+			let element = createElements(obj.panel, 'beforeend', [
 					{
 						attributes: {
 							style: `display: block;`,
@@ -314,7 +314,7 @@ class GiveawaysAdvancedGiveawaySearch extends Module {
 					},
 				];
 			}
-			let element = createElements(obj.panel, 'beforeEnd', [
+			let element = createElements(obj.panel, 'beforeend', [
 				{
 					type: 'div',
 					children: [

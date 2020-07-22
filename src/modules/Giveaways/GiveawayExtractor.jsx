@@ -364,8 +364,8 @@ class GiveawaysGiveawayExtractor extends Module {
 					},
 				],
 			});
-			const container = createElements(context, 'beforeEnd', [{ type: 'div' }]);
-			const scrollable = createElements(context, 'beforeEnd', [{ type: 'div' }]);
+			const container = createElements(context, 'beforeend', [{ type: 'div' }]);
+			const scrollable = createElements(context, 'beforeend', [{ type: 'div' }]);
 			ge.popup = {
 				description: container,
 				scrollable: scrollable,
@@ -375,7 +375,7 @@ class GiveawaysGiveawayExtractor extends Module {
 		} else {
 			ge.popup = new Popup({ addScrollable: true, icon: 'fa-gift', title: `Extracted giveaways:` });
 		}
-		ge.results = createElements(ge.popup.scrollable, 'beforeEnd', [
+		ge.results = createElements(ge.popup.scrollable, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-text-left',
@@ -384,7 +384,7 @@ class GiveawaysGiveawayExtractor extends Module {
 			},
 		]);
 		if (Settings.get('gas') || (Settings.get('gf') && Settings.get('gf_m')) || Settings.get('mm')) {
-			let heading = createElements(ge.popup.scrollable, 'afterBegin', [
+			let heading = createElements(ge.popup.scrollable, 'afterbegin', [
 				{
 					attributes: {
 						class: 'page__heading',
@@ -458,7 +458,7 @@ class GiveawaysGiveawayExtractor extends Module {
 						if (ge.button) {
 							ge.button.classList.add('esgst-busy');
 						}
-						this.esgst.modules.common.createElements(ge.progress, 'inner', [
+						this.esgst.modules.common.createElements(ge.progress, 'atinner', [
 							{
 								attributes: {
 									class: 'fa fa-circle-o-notch fa-spin',
@@ -498,7 +498,7 @@ class GiveawaysGiveawayExtractor extends Module {
 			},
 		});
 		ge.popup.description.appendChild(ge.set.set);
-		ge.progress = createElements(ge.popup.description, 'beforeEnd', [
+		ge.progress = createElements(ge.popup.description, 'beforeend', [
 			{
 				type: 'div',
 			},
@@ -514,16 +514,17 @@ class GiveawaysGiveawayExtractor extends Module {
 		if (!ge.extractOnward && ge.cache[ge.cacheId]) {
 			ge.cache[ge.cacheId].ithLinks = new Set(ge.cache[ge.cacheId].ithLinks);
 			ge.cache[ge.cacheId].jigidiLinks = new Set(ge.cache[ge.cacheId].jigidiLinks);
-			ge.cacheWarning = DOM.build(ge.popup.description, 'beforeEnd', [
-				[
-					'div',
-					`These results were retrieved from the cache from ${common.getTimeSince(
+			DOM.insert(
+				ge.popup.description,
+				'beforeend',
+				<div ref={(ref) => (ge.cacheWarning = ref)}>
+					{`These results were retrieved from the cache from ${common.getTimeSince(
 						ge.cache[ge.cacheId].timestamp
 					)} ago (${this.esgst.modules.generalAccurateTimestamp.at_formatTimestamp(
 						ge.cache[ge.cacheId].timestamp
-					)}). If you want to update the cache, you will have to extract again.`,
-				],
-			]);
+					)}). If you want to update the cache, you will have to extract again.`}
+				</div>
+			);
 
 			let html = '';
 			let points = 0;
@@ -547,16 +548,16 @@ class GiveawaysGiveawayExtractor extends Module {
 				}
 
 				if (total % 50 === 0) {
-					ge.results.insertAdjacentHTML('beforeEnd', html);
+					ge.results.insertAdjacentHTML('beforeend', html);
 					ge.results.lastElementChild.classList.add(`esgst-es-page-${ge.endless}`);
 					await Shared.common.timeout(100);
 				}
 			}
 			if (total % 50 !== 0) {
-				ge.results.insertAdjacentHTML('beforeEnd', html);
+				ge.results.insertAdjacentHTML('beforeend', html);
 				ge.results.lastElementChild.classList.add(`esgst-es-page-${ge.endless}`);
 			}
-			this.esgst.modules.common.createElements(ge.progress, 'inner', [
+			this.esgst.modules.common.createElements(ge.progress, 'atinner', [
 				{
 					text: total,
 					type: 'span',
@@ -614,8 +615,8 @@ class GiveawaysGiveawayExtractor extends Module {
 					}
 				);
 			}
-			createElements(ge.results, 'afterBegin', items);
-			createElements(ge.results, 'beforeEnd', items);
+			createElements(ge.results, 'afterbegin', items);
+			createElements(ge.results, 'beforeend', items);
 		} else {
 			ge.cache[ge.cacheId] = {
 				codes: [],
@@ -741,7 +742,7 @@ class GiveawaysGiveawayExtractor extends Module {
 							return;
 						}
 						if (giveaway) {
-							createElements(ge.results, 'beforeEnd', giveaway.html);
+							createElements(ge.results, 'beforeend', giveaway.html);
 							ge.results.lastElementChild.classList.add(`esgst-es-page-${ge.endless}`);
 							giveaway.html = ge.results.lastElementChild.outerHTML;
 							ge.cache[ge.cacheId].codes.push(code);
@@ -749,7 +750,7 @@ class GiveawaysGiveawayExtractor extends Module {
 							ge.points += giveaway.points;
 							ge.count += 1;
 							ge.total += 1;
-							createElements(ge.progress, 'inner', [
+							createElements(ge.progress, 'atinner', [
 								{
 									attributes: {
 										class: 'fa fa-circle-o-notch fa-spin',
@@ -799,7 +800,7 @@ class GiveawaysGiveawayExtractor extends Module {
 								giveaway = await buildGiveaway(responseHtml, response.finalUrl, null, true);
 							} catch (error) {}
 							if (giveaway) {
-								createElements(ge.results, 'beforeEnd', giveaway.html);
+								createElements(ge.results, 'beforeend', giveaway.html);
 								ge.results.lastElementChild.classList.add(`esgst-es-page-${ge.endless}`);
 								giveaway.html = ge.results.lastElementChild.outerHTML;
 								ge.cache[ge.cacheId].codes.push(code);
@@ -807,7 +808,7 @@ class GiveawaysGiveawayExtractor extends Module {
 								ge.points += giveaway.points;
 								ge.count += 1;
 								ge.total += 1;
-								createElements(ge.progress, 'inner', [
+								createElements(ge.progress, 'atinner', [
 									{
 										attributes: {
 											class: 'fa fa-circle-o-notch fa-spin',
@@ -1086,8 +1087,8 @@ class GiveawaysGiveawayExtractor extends Module {
 				}
 			);
 		}
-		createElements(ge.results, 'afterBegin', items);
-		createElements(ge.results, 'beforeEnd', items);
+		createElements(ge.results, 'afterbegin', items);
+		createElements(ge.results, 'beforeend', items);
 		ge.set.set.firstElementChild.lastElementChild.textContent = 'Re-Extract';
 		ge.reExtract = true;
 		ge.isComplete = true;

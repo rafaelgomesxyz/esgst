@@ -137,7 +137,7 @@ class GiveawaysRealCVCalculator extends Module {
 							cv = value;
 						}
 						cv = Math.round(cv * 100) / 100;
-						createElements(table, 'beforeEnd', [
+						createElements(table, 'beforeend', [
 							{
 								attributes: {
 									class: 'table__row-outer-wrap',

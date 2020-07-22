@@ -30,7 +30,7 @@ class GiveawaysPinnedGiveawaysButton extends Module {
 		const container = button.previousElementSibling;
 		container.classList.add('esgst-pgb-container');
 		button.remove();
-		button = createElements(container, 'afterEnd', [
+		button = createElements(container, 'afterend', [
 			{
 				attributes: {
 					class: 'esgst-pgb-button',

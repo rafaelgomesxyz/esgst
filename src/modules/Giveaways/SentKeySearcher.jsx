@@ -63,7 +63,7 @@ class GiveawaysSentKeySearcher extends Module {
 			return;
 		}
 		sks.popup = new Popup({ addScrollable: true, icon: 'fa-key', title: `Search for keys:` });
-		sks.textArea = createElements(sks.popup.scrollable, 'beforeEnd', [
+		sks.textArea = createElements(sks.popup.scrollable, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-description',
@@ -163,7 +163,7 @@ class GiveawaysSentKeySearcher extends Module {
 		observeChange(maxDate, 'sks_maxDate', true);
 		observeNumChange(minPage, 'sks_minPage', true);
 		observeNumChange(maxPage, 'sks_maxPage', true);
-		sks.results = createElements(sks.popup.scrollable, 'beforeEnd', [
+		sks.results = createElements(sks.popup.scrollable, 'beforeend', [
 			{
 				type: 'div',
 			},
@@ -180,12 +180,12 @@ class GiveawaysSentKeySearcher extends Module {
 				callback2: this.sks_cancelSearch.bind(this, sks),
 			}).set
 		);
-		sks.progress = createElements(sks.popup.description, 'beforeEnd', [
+		sks.progress = createElements(sks.popup.description, 'beforeend', [
 			{
 				type: 'div',
 			},
 		]);
-		sks.overallProgress = createElements(sks.popup.description, 'beforeEnd', [
+		sks.overallProgress = createElements(sks.popup.description, 'beforeend', [
 			{
 				type: 'div',
 			},
@@ -265,7 +265,7 @@ class GiveawaysSentKeySearcher extends Module {
 						: ` of ${sks.lastPage}`;
 				}
 			}
-			createElements(sks.overallProgress, 'inner', [
+			createElements(sks.overallProgress, 'atinner', [
 				{
 					attributes: {
 						class: 'fa fa-circle-o-notch fa-spin',
@@ -279,7 +279,7 @@ class GiveawaysSentKeySearcher extends Module {
 			]);
 			let elements = context.getElementsByClassName('trigger-popup--keys');
 			for (let i = 0, n = elements.length; !sks.canceled && i < n; i++) {
-				createElements(sks.progress, 'inner', [
+				createElements(sks.progress, 'atinner', [
 					{
 						attributes: {
 							class: 'fa fa-circle-o-notch fa-spin',
@@ -407,7 +407,7 @@ class GiveawaysSentKeySearcher extends Module {
 			if (n < 1) {
 				continue;
 			}
-			createElements(sks.results, 'beforeEnd', [
+			createElements(sks.results, 'beforeend', [
 				{
 					attributes: {
 						class: 'markdown',

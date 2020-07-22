@@ -40,7 +40,7 @@ class GiveawaysBlacklistGiveawayLoader extends Module {
 		if (!summary) return;
 		let match = summary.textContent.match(/you\s(have\s(been\s)?|previously\s)blacklisted/);
 		if (!match) return;
-		createElements(this.esgst.pageOuterWrap, 'inner', [
+		createElements(this.esgst.pageOuterWrap, 'atinner', [
 			{
 				attributes: {
 					class: 'fa fa-circle-o-notch fa-spin',
@@ -56,11 +56,11 @@ class GiveawaysBlacklistGiveawayLoader extends Module {
 			(await request({ anon: true, method: 'GET', url: window.location.pathname })).responseText
 		);
 		if (responseHtml.getElementsByClassName('table--summary')[0]) {
-			createElements(this.esgst.pageOuterWrap, 'inner', backup);
+			createElements(this.esgst.pageOuterWrap, 'atinner', backup);
 			createElements(
 				this.esgst.pageOuterWrap.getElementsByClassName('table--summary')[0].lastElementChild
 					.firstElementChild.lastElementChild,
-				'beforeEnd',
+				'beforeend',
 				[
 					{
 						type: 'br',
@@ -79,7 +79,7 @@ class GiveawaysBlacklistGiveawayLoader extends Module {
 				]
 			);
 		} else {
-			this.esgst.featuredContainer = createElements(this.esgst.pageOuterWrap, 'beforeBegin', [
+			this.esgst.featuredContainer = createElements(this.esgst.pageOuterWrap, 'beforebegin', [
 				{
 					attributes: {
 						class: 'featured__container',
@@ -89,7 +89,7 @@ class GiveawaysBlacklistGiveawayLoader extends Module {
 			]);
 			createElements(
 				this.esgst.featuredContainer,
-				'inner',
+				'atinner',
 				Array.from(responseHtml.getElementsByClassName('featured__container')[0].children).map(
 					(x) => {
 						return {
@@ -100,7 +100,7 @@ class GiveawaysBlacklistGiveawayLoader extends Module {
 			);
 			createElements(
 				this.esgst.pageOuterWrap,
-				'inner',
+				'atinner',
 				Array.from(responseHtml.getElementsByClassName('page__outer-wrap')[0].children).map((x) => {
 					return {
 						context: x,
@@ -108,7 +108,7 @@ class GiveawaysBlacklistGiveawayLoader extends Module {
 				})
 			);
 			await getElements();
-			createElements(this.esgst.sidebar, 'afterBegin', [
+			createElements(this.esgst.sidebar, 'afterbegin', [
 				{
 					attributes: {
 						class: 'sidebar__error is-disabled',

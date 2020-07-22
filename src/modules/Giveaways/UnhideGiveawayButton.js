@@ -46,7 +46,7 @@ class GiveawaysUnhideGiveawayButton extends Module {
 			);
 			if (!hideButton && (!main || this.esgst.giveawaysPath || this.esgst.giveawayPath)) {
 				if (this.esgst.giveawayPath && main) {
-					hideButton = createElements(giveaway.headingName, 'afterEnd', [
+					hideButton = createElements(giveaway.headingName, 'afterend', [
 						{
 							type: 'a',
 							children: [
@@ -61,7 +61,7 @@ class GiveawaysUnhideGiveawayButton extends Module {
 						},
 					]);
 				} else {
-					hideButton = createElements(giveaway.headingName, 'afterEnd', [
+					hideButton = createElements(giveaway.headingName, 'afterend', [
 						{
 							attributes: {
 								class: 'fa fa-eye giveaway__hide giveaway__icon',

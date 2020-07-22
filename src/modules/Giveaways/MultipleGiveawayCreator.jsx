@@ -183,7 +183,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 				mgc.groupNames[element.getAttribute('data-item-id')] = element.getAttribute('data-name');
 			}
 			mgc.gameName = mgc.gameId.nextElementSibling;
-			let context = createElements(rows, 'afterBegin', [
+			let context = createElements(rows, 'afterbegin', [
 				{
 					attributes: {
 						class: 'esgst-form-row',
@@ -413,7 +413,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 			section.appendChild(attachButton.set);
 			section.appendChild(createButton.set);
 			section.appendChild(viewButton.set);
-			mgc.discussionPanel = createElements(section, 'beforeEnd', [
+			mgc.discussionPanel = createElements(section, 'beforeend', [
 				{
 					attributes: {
 						class: 'esgst-hidden',
@@ -453,7 +453,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 				`If disabled, the bump link will appear on all wagons.`,
 				Settings.get('mgc_bumpLast')
 			);
-			mgc.giveaways = createElements(section, 'beforeEnd', [
+			mgc.giveaways = createElements(section, 'beforeend', [
 				{
 					attributes: {
 						class: 'pinned-giveaways__outer-wrap',
@@ -500,7 +500,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 
 	mgc_generateFormat() {
 		let popup = new Popup({ addScrollable: true, icon: 'fa-gear', title: `Generate formats:` });
-		createElements(popup.description, 'afterBegin', [
+		createElements(popup.description, 'afterbegin', [
 			{
 				attributes: {
 					class: 'esgst-description',
@@ -529,7 +529,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 			},
 		]);
 		let inputs = {};
-		createElements(popup.scrollable, 'beforeEnd', [
+		createElements(popup.scrollable, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-bold',
@@ -538,7 +538,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 				type: 'div',
 			},
 		]);
-		inputs.previousPrefix = createElements(popup.scrollable, 'beforeEnd', [
+		inputs.previousPrefix = createElements(popup.scrollable, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-mgc-input',
@@ -548,7 +548,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 				type: 'input',
 			},
 		]);
-		inputs.previous = createElements(popup.scrollable, 'beforeEnd', [
+		inputs.previous = createElements(popup.scrollable, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-mgc-input',
@@ -558,7 +558,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 				type: 'input',
 			},
 		]);
-		inputs.previousSuffix = createElements(popup.scrollable, 'beforeEnd', [
+		inputs.previousSuffix = createElements(popup.scrollable, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-mgc-input',
@@ -568,7 +568,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 				type: 'input',
 			},
 		]);
-		inputs.separator = createElements(popup.scrollable, 'beforeEnd', [
+		inputs.separator = createElements(popup.scrollable, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-mgc-input',
@@ -578,7 +578,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 				type: 'input',
 			},
 		]);
-		inputs.nextPrefix = createElements(popup.scrollable, 'beforeEnd', [
+		inputs.nextPrefix = createElements(popup.scrollable, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-mgc-input',
@@ -588,7 +588,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 				type: 'input',
 			},
 		]);
-		inputs.next = createElements(popup.scrollable, 'beforeEnd', [
+		inputs.next = createElements(popup.scrollable, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-mgc-input',
@@ -598,7 +598,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 				type: 'input',
 			},
 		]);
-		inputs.nextSuffix = createElements(popup.scrollable, 'beforeEnd', [
+		inputs.nextSuffix = createElements(popup.scrollable, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-mgc-input',
@@ -608,7 +608,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 				type: 'input',
 			},
 		]);
-		let output = createElements(popup.scrollable, 'beforeEnd', [
+		let output = createElements(popup.scrollable, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-mgc-preview esgst-text-left markdown',
@@ -678,7 +678,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 		outputCopy.addEventListener('click', () => {
 			copyValue(outputCopy, outputCode.textContent);
 		});
-		createElements(popup.scrollable, 'beforeEnd', [
+		createElements(popup.scrollable, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-bold',
@@ -687,7 +687,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 				type: 'div',
 			},
 		]);
-		inputs.counter = createElements(popup.scrollable, 'beforeEnd', [
+		inputs.counter = createElements(popup.scrollable, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-mgc-input',
@@ -697,7 +697,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 				type: 'input',
 			},
 		]);
-		let counterOutput = createElements(popup.scrollable, 'beforeEnd', [
+		let counterOutput = createElements(popup.scrollable, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-mgc-preview esgst-text-left markdown',
@@ -740,7 +740,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 		counterOutputCopy.addEventListener('click', () => {
 			copyValue(counterOutputCopy, counterOutputCode.textContent);
 		});
-		createElements(popup.scrollable, 'beforeEnd', [
+		createElements(popup.scrollable, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-bold',
@@ -749,7 +749,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 				type: 'div',
 			},
 		]);
-		inputs.bump = createElements(popup.scrollable, 'beforeEnd', [
+		inputs.bump = createElements(popup.scrollable, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-mgc-input',
@@ -759,7 +759,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 				type: 'input',
 			},
 		]);
-		let bumpOutput = createElements(popup.scrollable, 'beforeEnd', [
+		let bumpOutput = createElements(popup.scrollable, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-mgc-preview esgst-text-left markdown',
@@ -807,7 +807,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 		let bumpOutputPreview = bumpOutput.firstElementChild;
 		let bumpOutputCopy = bumpOutput.lastElementChild;
 		let bumpOutputCode = bumpOutputCopy.previousElementSibling.firstElementChild;
-		createElements(popup.scrollable, 'beforeEnd', [
+		createElements(popup.scrollable, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-bold',
@@ -816,7 +816,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 				type: 'div',
 			},
 		]);
-		inputs.train = createElements(popup.scrollable, 'beforeEnd', [
+		inputs.train = createElements(popup.scrollable, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-mgc-input',
@@ -826,7 +826,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 				type: 'input',
 			},
 		]);
-		let trainOutput = createElements(popup.scrollable, 'beforeEnd', [
+		let trainOutput = createElements(popup.scrollable, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-mgc-preview esgst-text-left markdown',
@@ -883,20 +883,24 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 				input.addEventListener('input', async () => {
 					if (key === 'counter') {
 						counterOutputCode.textContent = `[ESGST-C]${input.value}[/ESGST-C]`;
-						DOM.build(
+						DOM.insert(
 							counterOutputPreview,
-							'inner',
-							await parseMarkdown(null, `1${input.value}10`)
+							'atinner',
+							<fragment>{await parseMarkdown(null, `1${input.value}10`)}</fragment>
 						);
 					} else if (key === 'bump') {
 						bumpOutputCode.textContent = `[ESGST-B]${input.value}[/ESGST-B]`;
-						DOM.build(bumpOutputPreview, 'inner', await parseMarkdown(null, `[${input.value}](#)`));
+						DOM.insert(
+							bumpOutputPreview,
+							'atinner',
+							<fragment>{await parseMarkdown(null, `[${input.value}](#)`)}</fragment>
+						);
 					} else if (key === 'train') {
 						trainOutputCode.textContent = `[ESGST-B]${input.value}[/ESGST-B]`;
-						DOM.build(
+						DOM.insert(
 							trainOutputPreview,
-							'inner',
-							await parseMarkdown(null, `[${input.value}](#)`)
+							'atinner',
+							<fragment>{await parseMarkdown(null, `[${input.value}](#)`)}</fragment>
 						);
 					} else {
 						let markdown = '';
@@ -920,7 +924,11 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 							markdown += `[${inputs.next.value}](#)`;
 						}
 						outputCode.textContent = text;
-						DOM.build(outputPreview, 'inner', await parseMarkdown(null, markdown));
+						DOM.insert(
+							outputPreview,
+							'atinner',
+							<fragment>{await parseMarkdown(null, markdown)}</fragment>
+						);
 					}
 					input.style.width = `${input.value.length + 75}px`;
 				});
@@ -1045,7 +1053,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 			mgc.datas.push(data);
 			mgc.values.push(values);
 			this.mgc_setGiveaway(
-				createElements(mgc.giveaways, 'beforeEnd', [
+				createElements(mgc.giveaways, 'beforeend', [
 					{
 						attributes: {
 							class: 'esgst-gm-giveaway',
@@ -1120,7 +1128,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 			title: 'Import Giveaways',
 		});
 		popup.popup.classList.add('esgst-popup-large');
-		createElements(popup.description, 'afterBegin', [
+		createElements(popup.description, 'afterbegin', [
 			{
 				attributes: {
 					class: 'esgst-description',
@@ -1251,12 +1259,12 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 		} else if (Settings.get('mgc_groupAllKeys')) {
 			groupKeys.container.classList.add('esgst-hidden');
 		}
-		textArea = createElements(popup.scrollable, 'beforeEnd', [
+		textArea = createElements(popup.scrollable, 'beforeend', [
 			{
 				type: 'textarea',
 			},
 		]);
-		progressPanel = createElements(popup.description, 'beforeEnd', [
+		progressPanel = createElements(popup.description, 'beforeend', [
 			{
 				type: 'div',
 				children: [
@@ -1706,7 +1714,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 			});
 			context = conflictPopup.getScrollable();
 			matches.forEach((match) => {
-				let element = createElements(context, 'beforeEnd', [
+				let element = createElements(context, 'beforeend', [
 					{
 						context: match.cloneNode(true),
 					},
@@ -1842,7 +1850,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 			icon: 'fa-arrow-circle-right',
 			title: 'ESGST will create the giveaways below. Are you sure you want to continue?',
 		});
-		let rows = createElements(popup.scrollable, 'beforeEnd', [
+		let rows = createElements(popup.scrollable, 'beforeend', [
 			{
 				attributes: {
 					class: 'table esgst-mgc-table',
@@ -1972,7 +1980,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 					);
 				}
 			}
-			createElements(rows, 'beforeEnd', [
+			createElements(rows, 'beforeend', [
 				{
 					attributes: {
 						class: 'table__row-outer-wrap',
@@ -2519,7 +2527,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 	mgc_attachDiscussion(mgc) {
 		let input, popup;
 		popup = new Popup({ addScrollable: true, icon: 'fa-comments', title: `Attach discussion:` });
-		createElements(popup.description, 'afterBegin', [
+		createElements(popup.description, 'afterbegin', [
 			{
 				attributes: {
 					class: 'esgst-description',
@@ -2557,7 +2565,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 				],
 			},
 		]);
-		input = createElements(popup.description, 'beforeEnd', [
+		input = createElements(popup.description, 'beforeend', [
 			{
 				attributes: {
 					placeholder: 'XXXXX',
@@ -2665,7 +2673,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 		for (const item of mgc.created) {
 			items.push(...item.html);
 		}
-		createElements(popup.scrollable, 'beforeEnd', [
+		createElements(popup.scrollable, 'beforeend', [
 			{
 				attributes: {
 					class: 'popup__keys__list',
@@ -2676,7 +2684,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 		]);
 		const giveaways = await this.esgst.modules.giveaways.giveaways_get(popup.scrollable);
 		if (Settings.get('mm')) {
-			const heading = createElements(popup.scrollable, 'afterBegin', [
+			const heading = createElements(popup.scrollable, 'afterbegin', [
 				{
 					attributes: {
 						class: 'esgst-page-heading',

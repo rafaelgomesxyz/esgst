@@ -78,48 +78,44 @@ class GiveawaysVisibleInviteOnlyGiveaways extends Module {
 				giveaway.image.setAttribute('href', giveaway.url);
 				giveaway.image.style.backgroundImage = `url("https://steamcdn-a.akamaihd.net/steam/${giveaway.type}/${giveaway.id}/capsule_184x69.jpg")`;
 				giveaway.image.innerHTML = '';
-				DOM.build(giveaway.heading, 'beforeEnd', [
-					[
-						'span',
-						{
-							class: 'giveaway__heading__thin',
-							'data-draggable-id': 'points',
-							ref: (ref) => (giveaway.pointsContainer = ref),
-						},
-						`(${giveaway.points}P)`,
-					],
-					giveaway.copies > 1
-						? [
-								'span',
-								{
-									class: 'giveaway__heading__thin',
-									'data-draggable-id': 'copies',
-									ref: (ref) => (giveaway.copiesContainer = ref),
-								},
-								`(${giveaway.copies} Copies)`,
-						  ]
-						: null,
-					[
-						'a',
-						{
-							class: 'giveaway__icon',
-							'data-draggable-id': 'steam',
-							href: `https://store.steampowered.com/${giveaway.type.slice(0, -1)}/${giveaway.id}/`,
-							rel: 'nofollow',
-							target: '_blank',
-						},
-						[['i', { class: 'fa fa-steam' }]],
-					],
-					[
-						'a',
-						{
-							class: 'giveaway__icon',
-							'data-draggable-id': 'search',
-							href: `/giveaways/search?${giveaway.type.slice(0, -1)}/${giveaway.id}`,
-						},
-						[['i', { class: 'fa fa-search' }]],
-					],
-				]);
+				DOM.insert(
+					giveaway.heading,
+					'beforeend',
+					<fragment>
+						<span
+							className="giveaway__heading__thin"
+							data-draggable-id="points"
+							ref={(ref) => (giveaway.pointsContainer = ref)}
+						>
+							{`(${giveaway.points}P)`}
+						</span>
+						{giveaway.copies > 1 ? (
+							<span
+								className="giveaway__heading__thin"
+								data-draggable-id="copies"
+								ref={(ref) => (giveaway.copiesContainer = ref)}
+							>
+								{`(${giveaway.copies} Copies)`}
+							</span>
+						) : null}
+						<a
+							className="giveaway__icon"
+							data-draggable-id="steam"
+							href={`https://store.steampowered.com/${giveaway.type.slice(0, -1)}/${giveaway.id}/`}
+							rel="nofollow"
+							target="_blank"
+						>
+							<i className="fa fa-steam"></i>
+						</a>
+						<a
+							className="giveaway__icon"
+							data-draggable-id="search"
+							href={`/giveaways/search?${giveaway.type.slice(0, -1)}/${giveaway.id}`}
+						>
+							<i className="fa fa-search"></i>
+						</a>
+					</fragment>
+				);
 			}
 		}
 	}

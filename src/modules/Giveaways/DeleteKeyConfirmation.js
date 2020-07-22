@@ -50,7 +50,7 @@ class GiveawaysDeleteKeyConfirmation extends Module {
 		);
 		for (let i = elements.length - 1; i > -1; --i) {
 			const element = elements[i];
-			const newElement = createElements(element, 'afterEnd', [
+			const newElement = createElements(element, 'afterend', [
 				{
 					attributes: {
 						class: 'table__column__secondary-link esgst-clickable',

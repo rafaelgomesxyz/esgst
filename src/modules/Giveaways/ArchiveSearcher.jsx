@@ -125,7 +125,8 @@ class GiveawaysArchiveSearcher extends Module {
 		});
 		obj.context = context;
 
-		const progress = DOM.build(container, 'beforeEnd', [['div']]);
+		let progress;
+		DOM.insert(container, 'beforeend', <div ref={(ref) => (progress = ref)} />);
 		progress.innerHTML = 'Retrieving game title...';
 
 		// retrieve the game title from Steam
@@ -161,14 +162,15 @@ class GiveawaysArchiveSearcher extends Module {
 			title2: 'Loading...',
 			callback1: async () => await this.as_request(obj),
 		});
-		obj.container = DOM.build(obj.context, 'beforeEnd', [['div']]);
+		DOM.insert(obj.context, 'beforeend', <div ref={(ref) => (obj.container = ref)} />);
 		obj.context.appendChild(set.set);
 		set.trigger();
 	}
 
 	async as_request(obj) {
 		obj.count = 0;
-		const context = DOM.build(obj.container, 'beforeEnd', [['div']]);
+		let context;
+		DOM.insert(obj.container, 'beforeend', <div ref={(ref) => (context = ref)} />);
 		while (obj.leftovers.length && obj.count < 25) {
 			const leftover = obj.leftovers.splice(0, 1)[0];
 			context.appendChild(leftover);

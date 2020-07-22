@@ -112,8 +112,8 @@ class GiveawaysGiveawayPointsToWin extends Module {
 							(source === 'gb' && Settings.get('gv_gb')) ||
 							(source === 'ged' && Settings.get('gv_ged')) ||
 							(source === 'ge' && Settings.get('gv_ge')))
-						? 'afterBegin'
-						: 'beforeEnd',
+						? 'afterbegin'
+						: 'beforeend',
 					[
 						{
 							attributes: {
@@ -171,7 +171,7 @@ class GiveawaysGiveawayPointsToWin extends Module {
 			text: giveaway.pointsToWin,
 			type: 'span',
 		});
-		createElements(giveaway.gptwContext, 'inner', items);
+		createElements(giveaway.gptwContext, 'atinner', items);
 	}
 }
 

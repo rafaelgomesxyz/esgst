@@ -74,84 +74,53 @@ class GiveawaysGiveawayErrorSearchLinks extends Module {
 		let name = encodeURIComponent(
 			table.getElementsByClassName('table__column__secondary-link')[0].textContent
 		);
-		DOM.build(table.getElementsByClassName('table__row-outer-wrap')[0], 'afterEnd', [
-			[
-				'div',
-				{ class: 'table__row-outer-wrap', title: getFeatureTooltip('gesl') },
-				[
-					[
-						'div',
-						{ class: 'table__row-inner-wrap' },
-						[
-							[
-								'div',
-								{ class: 'table__column--width-small' },
-								[['span', { class: 'esgst-bold' }, 'Search Links']],
-							],
-							[
-								'div',
-								{ class: 'table__column--width-fill esgst-gesl' },
-								[
-									[
-										'a',
-										{
-											href: `https://www.steamgifts.com/giveaways/search?q=${name}`,
-											target: '_blank',
-											title: 'Search for active giveaways',
-										},
-										[['i', { class: 'fa' }, [['img', { src: this.esgst.sgIcon }]]]],
-									],
-									[
-										'a',
-										{
-											href: `http://store.steampowered.com/search/?term=${name}`,
-											target: '_blank',
-											title: 'Search on Steam',
-										},
-										[['i', { class: 'fa fa-steam' }]],
-									],
-									[
-										'a',
-										{
-											href: `https://steamdb.info/search/?a=app&q=${name}`,
-											target: '_blank',
-											title: 'Search on SteamDB',
-										},
-										[
-											[
-												'i',
-												{ class: 'fa' },
-												[['img', { src: `https://steamdb.info/static/logos/favicon-16x16.png` }]],
-											],
-										],
-									],
-									[
-										'a',
-										{
-											href: `https://barter.vg/search?q=${name}`,
-											target: '_blank',
-											title: 'Search on Barter.vg',
-										},
-										[
-											[
-												'i',
-												{ class: 'fa' },
-												[
-													[
-														'img',
-														{ src: `https://bartervg.com/imgs/ico/barter/favicon-16x16.png` },
-													],
-												],
-											],
-										],
-									],
-								],
-							],
-						],
-					],
-				],
-			],
-		]);
+		DOM.insert(
+			table.getElementsByClassName('table__row-outer-wrap')[0],
+			'afterend',
+			<div className="table__row-outer-wrap" title={getFeatureTooltip('gesl')}>
+				<div className="table__row-inner-wrap">
+					<div className="table__column--width-small">
+						<span className="esgst-bold">Search Links</span>
+					</div>
+					<div className="table__column--width-fill esgst-gesl">
+						<a
+							href={`https://www.steamgifts.com/giveaways/search?q=${name}`}
+							target="_blank"
+							title="Search for active giveaways"
+						>
+							<i className="fa">
+								<img src={this.esgst.sgIcon} />
+							</i>
+						</a>
+						<a
+							href={`http://store.steampowered.com/search/?term=${name}`}
+							target="_blank"
+							title="Search on Steam"
+						>
+							<i className="fa fa-steam"></i>
+						</a>
+						<a
+							href={`https://steamdb.info/search/?a=app&q=${name}`}
+							target="_blank"
+							title="Search on SteamDB"
+						>
+							<i className="fa">
+								<img src="https://steamdb.info/static/logos/favicon-16x16.png" />
+							</i>
+						</a>
+						<a
+							href={`https://barter.vg/search?q=${name}`}
+							target="_blank"
+							title="Search on Barter.vg"
+						>
+							<i className="fa">
+								<img src="https://bartervg.com/imgs/ico/barter/favicon-16x16.png" />
+							</i>
+						</a>
+					</div>
+				</div>
+			</div>
+		);
 	}
 }
 

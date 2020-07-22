@@ -65,27 +65,22 @@ class GiveawaysCommentEntryChecker extends Module {
 		)
 			return;
 
-		DOM.build(this.esgst.sidebarGroups[0].navigation, 'beforeEnd', [
-			[
-				'li',
-				{ class: 'sidebar__navigation__item', id: 'cec' },
-				[
-					[
-						'a',
-						{
-							class: 'sidebar__navigation__item__link',
-							href: `${this.esgst.path.replace(/\/entries/, '')}/entries?esgst=cec`,
-							onclick: (event) =>
-								!Settings.get('cec_t') && !event.preventDefault() && this.cec_openPopup(true),
-						},
-						[
-							['div', { class: 'sidebar__navigation__item__name' }, 'Comments vs Entries'],
-							['div', { class: 'sidebar__navigation__item__underline' }],
-						],
-					],
-				],
-			],
-		]);
+		DOM.insert(
+			this.esgst.sidebarGroups[0].navigation,
+			'beforeend',
+			<li className="sidebar__navigation__item" id="cec">
+				<a
+					className="sidebar__navigation__item__link"
+					href={`${this.esgst.path.replace(/\/entries/, '')}/entries?esgst=cec`}
+					onclick={(event) =>
+						!Settings.get('cec_t') && !event.preventDefault() && this.cec_openPopup(true)
+					}
+				>
+					<div className="sidebar__navigation__item__name">Comments vs Entries</div>
+					<div className="sidebar__navigation__item__underline"></div>
+				</a>
+			</li>
+		);
 	}
 
 	async cec_openPopup(isPopup) {
@@ -125,7 +120,7 @@ class GiveawaysCommentEntryChecker extends Module {
 			this.esgst.mainPageHeading = heading;
 		}
 		const obj = { context };
-		obj.progress = DOM.build(context, 'beforeEnd', [['div']]);
+		DOM.insert(context, 'beforeend', <div ref={(ref) => (obj.progress = ref)} />);
 		this.cec_start(obj);
 	}
 

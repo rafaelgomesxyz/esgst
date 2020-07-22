@@ -148,8 +148,8 @@ class GiveawaysGiveawayWinningChance extends Module {
 								(source === 'gb' && Settings.get('gv_gb')) ||
 								(source === 'ged' && Settings.get('gv_ged')) ||
 								(source === 'ge' && Settings.get('gv_ge')))
-							? 'afterBegin'
-							: 'beforeEnd',
+							? 'afterbegin'
+							: 'beforeend',
 						[
 							{
 								attributes: {
@@ -309,7 +309,7 @@ class GiveawaysGiveawayWinningChance extends Module {
 				type: 'node',
 			});
 		}
-		createElements(giveaway.gwcContext, 'inner', items);
+		createElements(giveaway.gwcContext, 'atinner', items);
 	}
 
 	gwc_addHeading(context, main, source, endless) {
@@ -339,7 +339,7 @@ class GiveawaysGiveawayWinningChance extends Module {
 			title += 'Points To Win / ';
 		}
 		title = title.slice(0, -3);
-		createElements(table.firstElementChild, 'afterEnd', [
+		createElements(table.firstElementChild, 'afterend', [
 			{
 				attributes: {
 					class: 'table__column--width-small text-center esgst-gwcr-heading',

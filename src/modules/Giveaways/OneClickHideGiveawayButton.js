@@ -62,7 +62,7 @@ class GiveawaysOneClickHideGiveawayButton extends Module {
 			}
 			giveaway.fade = this.ochgb_fadeGiveaway.bind(this, giveaway, main);
 			giveaway.unfade = this.ochgb_unfadeGiveaway.bind(this, giveaway, main);
-			giveaway.ochgbButton = new Button(button, 'afterEnd', {
+			giveaway.ochgbButton = new Button(button, 'afterend', {
 				callbacks: [
 					this.ochgb_hideGiveaway.bind(this, giveaway, main),
 					null,

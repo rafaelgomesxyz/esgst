@@ -41,7 +41,7 @@ class GiveawaysQuickGiveawaySearch extends Module {
 	init() {
 		let container = createElements(
 			Shared.header.nodes.leftNav,
-			Settings.get('qgs_index') === 0 ? 'afterBegin' : 'beforeEnd',
+			Settings.get('qgs_index') === 0 ? 'afterbegin' : 'beforeend',
 			[
 				{
 					attributes: {

@@ -62,8 +62,8 @@ class GiveawaysTimeToEnterCalculator extends Module {
 									(source === 'gb' && Settings.get('gv_gb')) ||
 									(source === 'ged' && Settings.get('gv_ged')) ||
 									(source === 'ge' && Settings.get('gv_ge')))
-								? 'beforeEnd'
-								: 'afterBegin',
+								? 'beforeend'
+								: 'afterbegin',
 							[
 								{
 									attributes: {
@@ -80,7 +80,7 @@ class GiveawaysTimeToEnterCalculator extends Module {
 						);
 					}
 					giveaway.ttec.classList.remove('esgst-hidden');
-					createElements(giveaway.ttec, 'inner', [
+					createElements(giveaway.ttec, 'atinner', [
 						{
 							attributes: {
 								class: 'fa fa-clock-o',

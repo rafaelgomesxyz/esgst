@@ -141,7 +141,7 @@ class GiveawaysEntryTracker extends Module {
 			title: 'Entry Tracker',
 		});
 		popup.scrollable.style.display = 'flex';
-		let rows = createElements(popup.scrollable, 'beforeEnd', [
+		let rows = createElements(popup.scrollable, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-text-left table',
@@ -207,7 +207,7 @@ class GiveawaysEntryTracker extends Module {
 		let total = 0;
 		for (let i = keys.length - 1; i > -1; i--) {
 			let key = keys[i];
-			let button = createElements(rows, 'beforeEnd', [
+			let button = createElements(rows, 'beforeend', [
 				{
 					attributes: {
 						class: 'table__row-outer-wrap',
@@ -276,7 +276,7 @@ class GiveawaysEntryTracker extends Module {
 			total += dates[key].entered;
 		}
 		let average = Math.round((total / keys.length) * 100) / 100;
-		createElements(popup.description, 'afterBegin', [
+		createElements(popup.description, 'afterbegin', [
 			{
 				type: 'div',
 				children: [
@@ -360,7 +360,7 @@ class GiveawaysEntryTracker extends Module {
 				],
 			},
 		]);
-		createElements(popup.scrollable, 'afterBegin', [
+		createElements(popup.scrollable, 'afterbegin', [
 			{
 				attributes: {
 					class: 'esgst-text-left markdown',
@@ -385,7 +385,7 @@ class GiveawaysEntryTracker extends Module {
 			)
 		)
 			return;
-		createElements(button, 'inner', [
+		createElements(button, 'atinner', [
 			{
 				attributes: {
 					class: 'fa fa-circle-o-notch fa-spin',

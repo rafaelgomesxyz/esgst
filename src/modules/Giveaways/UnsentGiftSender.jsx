@@ -160,7 +160,7 @@ class GiveawaysUnsentGiftSender extends Module {
 			}
 			observeNumChange(checkDifferenceSwitch.name.firstElementChild, 'ugs_setDifference', true);
 			checkMemberSwitch.dependencies.push(checkDifferenceSwitch.container);
-			ugs.results = createElements(ugs.popup.scrollable, 'beforeEnd', [
+			ugs.results = createElements(ugs.popup.scrollable, 'beforeend', [
 				{
 					attributes: {
 						class: 'esgst-hidden markdown',
@@ -294,12 +294,12 @@ class GiveawaysUnsentGiftSender extends Module {
 					callback2: this.ugs_cancel.bind(this, ugs),
 				}).set
 			);
-			ugs.progress = createElements(ugs.popup.description, 'beforeEnd', [
+			ugs.progress = createElements(ugs.popup.description, 'beforeend', [
 				{
 					type: 'div',
 				},
 			]);
-			ugs.overallProgress = createElements(ugs.popup.description, 'beforeEnd', [
+			ugs.overallProgress = createElements(ugs.popup.description, 'beforeend', [
 				{
 					type: 'div',
 				},
@@ -333,7 +333,7 @@ class GiveawaysUnsentGiftSender extends Module {
 		if (!Session.counters.created) {
 			// there are no unsent giveaways
 			ugs.button.classList.remove('esgst-busy');
-			createElements(ugs.progress, 'inner', [
+			createElements(ugs.progress, 'atinner', [
 				{
 					text: 'You do not have any unsent gifts.',
 					type: 'node',
@@ -374,7 +374,7 @@ class GiveawaysUnsentGiftSender extends Module {
 				);
 				ugs.lastPage = ugs.lastPage === 999999999 ? '' : ` of ${ugs.lastPage}`;
 			}
-			createElements(ugs.progress, 'inner', [
+			createElements(ugs.progress, 'atinner', [
 				{
 					attributes: {
 						class: 'fa fa-circle-o-notch fa-spin',
@@ -443,7 +443,7 @@ class GiveawaysUnsentGiftSender extends Module {
 					ugs.lastWinnersPage =
 						ugs.lastWinnersPage === 999999999 ? '' : ` of ${ugs.lastWinnersPage}`;
 				}
-				createElements(ugs.progress, 'inner', [
+				createElements(ugs.progress, 'atinner', [
 					{
 						attributes: {
 							class: 'fa fa-circle-o-notch fa-spin',
@@ -501,7 +501,7 @@ class GiveawaysUnsentGiftSender extends Module {
 			if (ugs.giveaways[giveaway.code].copies > ugs.giveaways[giveaway.code].totalWinners) {
 				ugs.leftover.classList.remove('esgst-hidden');
 				ugs.leftoverCount.textContent = parseInt(ugs.leftoverCount.textContent) + 1;
-				createElements(ugs.leftoverGifts, 'beforeEnd', [
+				createElements(ugs.leftoverGifts, 'beforeend', [
 					{
 						type: 'span',
 						children: [
@@ -542,7 +542,7 @@ class GiveawaysUnsentGiftSender extends Module {
 						ugs.lastGroupsPage =
 							ugs.lastGroupsPage === 999999999 ? '' : ` of ${ugs.lastGroupsPage}`;
 					}
-					createElements(ugs.progress, 'inner', [
+					createElements(ugs.progress, 'atinner', [
 						{
 							attributes: {
 								class: 'fa fa-circle-o-notch fa-spin',
@@ -611,7 +611,7 @@ class GiveawaysUnsentGiftSender extends Module {
 					} else {
 						if (Settings.get('ugs_checkRules')) {
 							// check if winner has not activated/multiple wins
-							createElements(ugs.progress, 'inner', [
+							createElements(ugs.progress, 'atinner', [
 								{
 									attributes: {
 										class: 'fa fa-circle-o-notch fa-spin',
@@ -663,7 +663,7 @@ class GiveawaysUnsentGiftSender extends Module {
 
 						if (Settings.get('ugs_checkMember') && giveaway.group && !winner.error) {
 							// check if winner is still a group member
-							createElements(ugs.progress, 'inner', [
+							createElements(ugs.progress, 'atinner', [
 								{
 									attributes: {
 										class: 'fa fa-circle-o-notch fa-spin',
@@ -734,7 +734,7 @@ class GiveawaysUnsentGiftSender extends Module {
 								}
 
 								// check winner's gift difference
-								createElements(ugs.progress, 'inner', [
+								createElements(ugs.progress, 'atinner', [
 									{
 										attributes: {
 											class: 'fa fa-circle-o-notch fa-spin',
@@ -802,7 +802,7 @@ class GiveawaysUnsentGiftSender extends Module {
 						if (winner.error) {
 							ugs.unsent.classList.remove('esgst-hidden');
 							ugs.unsentCount.textContent = parseInt(ugs.unsentCount.textContent) + 1;
-							createElements(ugs.unsentGifts, 'beforeEnd', [
+							createElements(ugs.unsentGifts, 'beforeend', [
 								{
 									type: 'span',
 									children: [
@@ -894,7 +894,7 @@ class GiveawaysUnsentGiftSender extends Module {
 							ugs.sent.classList.remove('esgst-hidden');
 							ugs.sentWinners[giveaway.code].push(winner.username);
 							ugs.sentCount.textContent = parseInt(ugs.sentCount.textContent) + 1;
-							createElements(ugs.sentGifts, 'beforeEnd', [
+							createElements(ugs.sentGifts, 'beforeend', [
 								{
 									type: 'span',
 									children: [
@@ -933,7 +933,7 @@ class GiveawaysUnsentGiftSender extends Module {
 						// exact same game has already been sent to this winner, meaning they won multiple copies of the same game, so extra gifts cannot be sent
 						ugs.unsent.classList.remove('esgst-hidden');
 						ugs.unsentCount.textContent = parseInt(ugs.unsentCount.textContent) + 1;
-						createElements(ugs.unsentGifts, 'beforeEnd', [
+						createElements(ugs.unsentGifts, 'beforeend', [
 							{
 								type: 'span',
 								children: [
@@ -993,7 +993,7 @@ class GiveawaysUnsentGiftSender extends Module {
 					}
 				}
 			}
-			createElements(ugs.progress, 'inner', [
+			createElements(ugs.progress, 'atinner', [
 				{
 					attributes: {
 						class: 'fa fa-circle-o-notch fa-spin',
@@ -1016,7 +1016,7 @@ class GiveawaysUnsentGiftSender extends Module {
 		} else {
 			// there are no unsent gifts
 			ugs.button.classList.remove('esgst-busy');
-			createElements(ugs.progress, 'inner', [
+			createElements(ugs.progress, 'atinner', [
 				{
 					text: 'You do not have any unsent gifts.',
 					type: 'node',

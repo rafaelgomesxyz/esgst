@@ -132,7 +132,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
 				this.esgst.sidebar.remove();
 			}
 			ged.popup.innerHTML = '';
-			ged.container = ged.context = createElements(ged.popup, 'beforeEnd', [{ type: 'div' }]);
+			ged.container = ged.context = createElements(ged.popup, 'beforeend', [{ type: 'div' }]);
 			ged.context.setAttribute('data-esgst-popup', true);
 		}
 		new elementBuilder[Shared.esgst.name].pageHeading({
@@ -149,7 +149,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
 				},
 			],
 		});
-		createElements(ged.context, 'inner', [
+		createElements(ged.context, 'atinner', [
 			{
 				attributes: {
 					class: 'fa fa-circle-o-notch fa-spin',
@@ -164,7 +164,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
 		await this.ged_getGiveaways(ged);
 		ged.context.innerHTML = '';
 		if (Settings.get('gas') || (Settings.get('gf') && Settings.get('gf_m')) || Settings.get('mm')) {
-			let heading = createElements(ged.context, 'afterBegin', [
+			let heading = createElements(ged.context, 'afterbegin', [
 				{
 					attributes: {
 						class: 'page__heading',
@@ -184,7 +184,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
 				this.esgst.modules.generalMultiManager.mm(heading);
 			}
 		}
-		ged.results = createElements(ged.context, 'beforeEnd', [
+		ged.results = createElements(ged.context, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-text-left',
@@ -317,9 +317,9 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
 			if (!builtGiveaway || !builtGiveaway.started) {
 				continue;
 			}
-			let context = createElements(ged.results, 'beforeEnd', builtGiveaway.html);
+			let context = createElements(ged.results, 'beforeend', builtGiveaway.html);
 			if (giveaway.source) {
-				createElements(context.getElementsByClassName('giveaway__columns')[0], 'afterBegin', [
+				createElements(context.getElementsByClassName('giveaway__columns')[0], 'afterbegin', [
 					{
 						attributes: {
 							class: 'esgst-ged-source',
@@ -401,7 +401,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
 				} else {
 					hasNew = isNew = true;
 				}
-				createElements(comment.actions, 'beforeEnd', [
+				createElements(comment.actions, 'beforeend', [
 					{
 						attributes: {
 							class: `esgst-ged-icon${

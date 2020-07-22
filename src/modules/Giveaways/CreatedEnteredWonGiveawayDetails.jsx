@@ -176,34 +176,26 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
 		}
 		const items = [];
 		if (Settings.get(`${this.currentId}_t`)) {
-			items.push([
-				'div',
-				{ class: 'table__column--width-small text-center esgst-cewgd-heading' },
-				'Type',
-			]);
+			items.push(
+				<div className="table__column--width-small text-center esgst-cewgd-heading">Type</div>
+			);
 		}
 		if (Settings.get(`${this.currentId}_l`)) {
-			items.push([
-				'div',
-				{ class: 'table__column--width-small text-center esgst-cewgd-heading' },
-				'Level',
-			]);
+			items.push(
+				<div className="table__column--width-small text-center esgst-cewgd-heading">Level</div>
+			);
 		}
 		if (this.created && Settings.get(`${this.currentId}_w`)) {
-			items.push([
-				'div',
-				{ class: 'table__column--width-small text-center esgst-cewgd-heading' },
-				`Winner(s)`,
-			]);
+			items.push(
+				<div className="table__column--width-small text-center esgst-cewgd-heading">Winner(s)</div>
+			);
 		}
 		if (this.won && Settings.get(`${this.currentId}_e`)) {
-			items.push([
-				'div',
-				{ class: 'table__column--width-small text-center esgst-cewgd-heading' },
-				'Entries',
-			]);
+			items.push(
+				<div className="table__column--width-small text-center esgst-cewgd-heading">Entries</div>
+			);
 		}
-		DOM.build(tableHeading.firstElementChild, 'afterEnd', items);
+		DOM.insert(tableHeading.firstElementChild, 'afterend', <fragment>{items}</fragment>);
 	}
 
 	async getGiveaways(giveaways, main) {
@@ -379,20 +371,20 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
 
 		const headingItems = [];
 		if (Settings.get(`${this.currentId}_p`)) {
-			headingItems.push(['span', ` (${details ? giveaway.points || 0 : '?'}P)`]);
+			headingItems.push(<span>{` (${details ? giveaway.points || 0 : '?'}P)`}</span>);
 		}
 		if (giveaway.id && Settings.get(`${this.currentId}_sl`)) {
-			headingItems.push([
-				'a',
-				{
-					class: 'giveaway__icon',
-					href: `http://store.steampowered.com/${giveaway.type.slice(0, -1)}/${giveaway.id}`,
-					target: '_blank',
-				},
-				[['i', { class: 'fa fa-steam' }]],
-			]);
+			headingItems.push(
+				<a
+					className="giveaway__icon"
+					href={`http://store.steampowered.com/${giveaway.type.slice(0, -1)}/${giveaway.id}`}
+					target="_blank"
+				>
+					<i className="fa fa-steam"></i>
+				</a>
+			);
 		}
-		DOM.build(giveaway.headingName, 'afterEnd', headingItems);
+		DOM.insert(giveaway.headingName, 'afterend', <fragment>{headingItems}</fragment>);
 
 		for (const child of giveaway.heading.children) {
 			if (
@@ -444,16 +436,20 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
 		}
 
 		if (this.entered || this.won) {
-			DOM.build(giveaway.endTimeColumn, 'beforeEnd', [
-				' by ',
-				details
-					? [
-							'a',
-							{ class: 'table__column__secondary-link', href: `/user/${giveaway.creator}` },
-							giveaway.creator,
-					  ]
-					: '?',
-			]);
+			DOM.insert(
+				giveaway.endTimeColumn,
+				'beforeend',
+				<fragment>
+					{' by '}
+					{details ? (
+						<a className="table__column__secondary-link" href={`/user/${giveaway.creator}`}>
+							{giveaway.creator}
+						</a>
+					) : (
+						'?'
+					)}
+				</fragment>
+			);
 		}
 
 		const columnItems = [];
@@ -494,14 +490,14 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
 			} else {
 				type = '-';
 			}
-			columnItems.push(['div', { class: 'table__column--width-small text-center' }, type]);
+			columnItems.push(<div className="table__column--width-small text-center">{type}</div>);
 		}
 		if (Settings.get(`${this.currentId}_l`)) {
-			columnItems.push([
-				'div',
-				{ class: 'table__column--width-small text-center' },
-				details && Utils.isSet(giveaway.level) ? giveaway.level : '-',
-			]);
+			columnItems.push(
+				<div className="table__column--width-small text-center">
+					{details && Utils.isSet(giveaway.level) ? giveaway.level : '-'}
+				</div>
+			);
 		}
 		if (this.created && Settings.get(`${this.currentId}_w`)) {
 			let winners;
@@ -537,19 +533,19 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
 			} else {
 				winners = '-';
 			}
-			columnItems.push(['div', { class: 'table__column--width-small text-center' }, winners]);
+			columnItems.push(<div className="table__column--width-small text-center">{winners}</div>);
 		}
 		if (this.won && Settings.get(`${this.currentId}_e`)) {
-			columnItems.push([
-				'div',
-				{ class: 'table__column--width-small text-center' },
-				details && Utils.isSet(giveaway.entries) ? giveaway.entries : '-',
-			]);
+			columnItems.push(
+				<div className="table__column--width-small text-center">
+					{details && Utils.isSet(giveaway.entries) ? giveaway.entries : '-'}
+				</div>
+			);
 		}
-		DOM.build(
+		DOM.insert(
 			giveaway.panel || giveaway.innerWrap.querySelector('.table__column--width-fill'),
-			'afterEnd',
-			columnItems
+			'afterend',
+			<fragment>{columnItems}</fragment>
 		);
 
 		if (giveaway.gwcContext) {

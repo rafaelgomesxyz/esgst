@@ -978,7 +978,7 @@ class GiveawaysGiveawayFilters extends Filters {
 						this.esgst.giveaways[giveaway.code] &&
 						this.esgst.giveaways[giveaway.code].hidden
 					) {
-						new Button(giveaway.headingName, 'beforeBegin', {
+						new Button(giveaway.headingName, 'beforebegin', {
 							callbacks: [
 								this.gf_hideGiveaway.bind(this, giveaway, main),
 								null,
@@ -1013,7 +1013,7 @@ class GiveawaysGiveawayFilters extends Filters {
 							!this.esgst.giveaways[giveaway.code].hidden ||
 							!this.esgst.giveaways[giveaway.code].code)
 					) {
-						new Button(giveaway.headingName, 'beforeBegin', {
+						new Button(giveaway.headingName, 'beforebegin', {
 							callbacks: [
 								this.gf_hideGiveaway.bind(this, giveaway, main),
 								null,

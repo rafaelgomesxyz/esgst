@@ -86,7 +86,7 @@ class GiveawaysGridView extends Module {
 				});
 				popout = new Popout('esgst-gv-spacing', button, 0, true);
 				spacing = Settings.get('gv_spacing');
-				element = createElements(popout.popout, 'beforeEnd', [
+				element = createElements(popout.popout, 'beforeend', [
 					{
 						type: 'div',
 						children: [
@@ -146,7 +146,7 @@ class GiveawaysGridView extends Module {
 			}
 			giveaway.innerWrap.classList.add('esgst-gv-box');
 			const now = Date.now();
-			giveaway.gvIcons = createElements(giveaway.innerWrap, 'afterBegin', [
+			giveaway.gvIcons = createElements(giveaway.innerWrap, 'afterbegin', [
 				{
 					attributes: {
 						class: 'esgst-gv-icons giveaway__columns',
@@ -213,19 +213,19 @@ class GiveawaysGridView extends Module {
 			}
 			giveaway.innerWrap.insertBefore(giveaway.image, giveaway.gvIcons);
 			giveaway.summary.classList.add('esgst-gv-popout', 'global__image-outer-wrap');
-			const temp = DOM.build(giveaway.links, 'beforeBegin', [
-				[
-					'div',
-					{ style: `align-items: center; display: flex; justify-content: space-between;` },
-					[
-						[
-							'div',
-							{ style: `display: flex; flex: 1; flex-direction: column;` },
-							[['div', { class: 'esgst-gv-creator' }, ['by ']]],
-						],
-					],
-				],
-			]);
+			let temp;
+			DOM.insert(
+				giveaway.links,
+				'beforebegin',
+				<div
+					style={{ alignItems: 'center', display: 'flex', justifyContent: 'space-between' }}
+					ref={(ref) => (temp = ref)}
+				>
+					<div style={{ display: 'flex', flex: '1', flexDirection: 'column' }}>
+						<div className="esgst-gv-creator">by </div>
+					</div>
+				</div>
+			);
 			temp.firstElementChild.firstElementChild.appendChild(giveaway.creatorContainer);
 			temp.firstElementChild.appendChild(giveaway.links);
 			temp.appendChild(giveaway.avatar);

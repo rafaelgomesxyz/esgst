@@ -36,7 +36,7 @@ class GiveawaysEnteredGiveawaysStats extends Module {
 		if (!this.esgst.enteredPath) {
 			return;
 		}
-		common.createSidebarNavigation(this.esgst.sidebar, 'beforeEnd', {
+		common.createSidebarNavigation(this.esgst.sidebar, 'beforeend', {
 			name: 'Entered Giveaways Stats',
 			items: [
 				{

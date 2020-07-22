@@ -75,7 +75,7 @@ class GiveawaysHiddenGamesManager extends Module {
 			icon: 'fa-plus fa-times',
 			title: `Add / remove hidden games:`,
 		});
-		obj.result = createElements(obj.popup.scrollable, 'beforeEnd', [
+		obj.result = createElements(obj.popup.scrollable, 'beforeend', [
 			{
 				attributes: {
 					class: 'markdown',
@@ -83,15 +83,15 @@ class GiveawaysHiddenGamesManager extends Module {
 				type: 'div',
 			},
 		]);
-		obj.textArea = DOM.build(obj.popup.description, 'afterBegin', [
-			[
-				'textarea',
-				{
-					class: 'esgst-textarea-small',
-					placeholder: `https://store.steampowered.com/app/400\nhttps://store.steampowered.com/sub/1280`,
-				},
-			],
-		]);
+		DOM.insert(
+			obj.popup.description,
+			'afterbegin',
+			<textarea
+				className="esgst-textarea-small"
+				placeholder="https://store.steampowered.com/app/400\nhttps://store.steampowered.com/sub/1280"
+				ref={(ref) => (obj.textArea = ref)}
+			></textarea>
+		);
 		new ToggleSwitch(
 			obj.popup.scrollable,
 			'hgm_addOwned',
@@ -235,7 +235,7 @@ class GiveawaysHiddenGamesManager extends Module {
 				callback2: this.stop.bind(this, obj),
 			}).set
 		);
-		obj.progress = createElements(obj.popup.description, 'beforeEnd', [
+		obj.progress = createElements(obj.popup.description, 'beforeend', [
 			{
 				type: 'div',
 			},
@@ -251,7 +251,7 @@ class GiveawaysHiddenGamesManager extends Module {
 		obj.running = true;
 		obj.canceled = false;
 		obj.button.classList.add('esgst-busy');
-		createElements(obj.progress, 'inner', [
+		createElements(obj.progress, 'atinner', [
 			{
 				attributes: {
 					class: 'fa fa-circle-o-notch fa-spin',
@@ -333,7 +333,7 @@ class GiveawaysHiddenGamesManager extends Module {
 		obj.canceled = false;
 		obj.lastPage = '';
 		obj.button.classList.add('esgst-busy');
-		createElements(obj.progress, 'inner', [
+		createElements(obj.progress, 'atinner', [
 			{
 				attributes: {
 					class: 'fa fa-circle-o-notch fa-spin',
@@ -346,7 +346,7 @@ class GiveawaysHiddenGamesManager extends Module {
 			},
 		]);
 		if (!exportOnly) {
-			createElements(obj.result, 'inner', [
+			createElements(obj.result, 'atinner', [
 				{
 					attributes: {
 						class: 'esgst-bold',
@@ -392,7 +392,7 @@ class GiveawaysHiddenGamesManager extends Module {
 				);
 				obj.lastPage = obj.lastPage === 999999999 ? '' : ` of ${obj.lastPage}`;
 			}
-			createElements(obj.progress, 'inner', [
+			createElements(obj.progress, 'atinner', [
 				{
 					attributes: {
 						class: 'fa fa-circle-o-notch fa-spin',
@@ -451,7 +451,7 @@ class GiveawaysHiddenGamesManager extends Module {
 						url: '/ajax.php',
 					});
 				}
-				createElements(obj.result, 'beforeEnd', [
+				createElements(obj.result, 'beforeend', [
 					{
 						attributes: {
 							href: `http://store.steampowered.com/${info.type.slice(0, -1)}/${info.id}`,
@@ -481,7 +481,7 @@ class GiveawaysHiddenGamesManager extends Module {
 			await common.lockAndSaveGames(newGames);
 
 			if (obj.result.children.length === 1) {
-				createElements(obj.result, 'inner', [
+				createElements(obj.result, 'atinner', [
 					{
 						attributes: {
 							class: 'esgst-bold',

@@ -75,7 +75,7 @@ class GiveawaysIsThereAnyDealInfo extends Module {
 		) {
 			itadi = game.itadi;
 		} else {
-			const loading = createElements(this.esgst.sidebar, 'beforeEnd', [
+			const loading = createElements(this.esgst.sidebar, 'beforeend', [
 				{
 					attributes: {
 						class: 'sidebar__heading',
@@ -261,7 +261,7 @@ class GiveawaysIsThereAnyDealInfo extends Module {
 		} else {
 			items[5].children.push(this.itadi_noItemTemplate('This game has never been in a bundle.'));
 		}
-		createElements(this.esgst.sidebar, 'beforeEnd', items);
+		createElements(this.esgst.sidebar, 'beforeend', items);
 	}
 
 	itadi_getPlain(name) {

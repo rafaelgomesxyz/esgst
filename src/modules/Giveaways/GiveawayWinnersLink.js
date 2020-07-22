@@ -59,7 +59,7 @@ class GiveawaysGiveawayWinnersLink extends Module {
 			if (giveaway.url) {
 				attributes.href = `${giveaway.url}/winners`;
 			}
-			createElements(giveaway.entriesLink, 'afterEnd', [
+			createElements(giveaway.entriesLink, 'afterend', [
 				{
 					attributes,
 					type: 'a',

@@ -373,7 +373,7 @@ class GiveawaysGiveawaysSorter extends Module {
 				}
 			);
 		}
-		let options = createElements(obj.popout.popout, 'beforeEnd', [
+		let options = createElements(obj.popout.popout, 'beforeend', [
 			{
 				type: 'select',
 				children,

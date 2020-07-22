@@ -153,8 +153,8 @@ class GiveawaysGiveawayWinningRatio extends Module {
 							(source === 'gb' && Settings.get('gv_gb')) ||
 							(source === 'ged' && Settings.get('gv_ged')) ||
 							(source === 'ge' && Settings.get('gv_ge')))
-						? 'afterBegin'
-						: 'beforeEnd',
+						? 'afterbegin'
+						: 'beforeend',
 					[
 						{
 							attributes: {
@@ -289,7 +289,7 @@ class GiveawaysGiveawayWinningRatio extends Module {
 				type: 'node',
 			});
 		}
-		createElements(context, 'inner', items);
+		createElements(context, 'atinner', items);
 	}
 }
 

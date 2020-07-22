@@ -38,11 +38,11 @@ class GiveawaysFollowedGamesPage extends Module {
 		if (sidebarLink) {
 			DOM.insert(
 				sidebarLink.parentElement,
-				'afterEnd',
-				<li class="sidebar__navigation__item">
-					<a class="sidebar__navigation__item__link" href="/giveaways/search?esgst=fgp">
-						<div class="sidebar__navigation__item__name">Followed</div>
-						<div class="sidebar__navigation__item__underline"></div>
+				'afterend',
+				<li className="sidebar__navigation__item">
+					<a className="sidebar__navigation__item__link" href="/giveaways/search?esgst=fgp">
+						<div className="sidebar__navigation__item__name">Followed</div>
+						<div className="sidebar__navigation__item__underline"></div>
 					</a>
 				</li>
 			);
@@ -61,7 +61,7 @@ class GiveawaysFollowedGamesPage extends Module {
 			set: null,
 			url: `${Shared.esgst.path}/search?page=`,
 		};
-		obj.context = DOM.insert(obj.container, 'inner', <div />);
+		DOM.insert(obj.container, 'atinner', <div ref={(ref) => (obj.context = ref)} />);
 		obj.set = new ButtonSet({
 			color1: 'green',
 			color2: 'grey',
@@ -76,7 +76,8 @@ class GiveawaysFollowedGamesPage extends Module {
 	}
 
 	async loadNextPage(obj) {
-		const context = DOM.insert(obj.context, 'beforeEnd', <div />);
+		let context;
+		DOM.insert(obj.context, 'beforeend', <div ref={(ref) => (context = ref)} />);
 		obj.count = 0;
 		while (obj.leftovers.length > 0 && obj.count < obj.perPage) {
 			const leftover = obj.leftovers.splice(0, 1)[0];

@@ -139,7 +139,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
 				if (!sidebarButton || sidebarButton.textContent.trim() !== 'Not Enough Points') {
 					return;
 				}
-				giveaway.elgbPanel = createElements(sidebarButton.parentElement, 'afterBegin', [
+				giveaway.elgbPanel = createElements(sidebarButton.parentElement, 'afterbegin', [
 					{
 						type: 'div',
 					},
@@ -156,7 +156,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
 		let button = giveaway.outerWrap.getElementsByClassName('table__remove-default')[0];
 		if (!button) return;
 		let form = button.parentElement;
-		let errorButton = createElements(form.parentElement, 'beforeEnd', [
+		let errorButton = createElements(form.parentElement, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-clickable esgst-hidden',
@@ -458,7 +458,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
 			Shared.esgst.scopes[popup.id].sourceLink = headingButton;
 		}
 		if ((Settings.get('cf') && Settings.get('cf_m')) || Settings.get('mm')) {
-			let heading = createElements(popup.description, 'afterBegin', [
+			let heading = createElements(popup.description, 'afterbegin', [
 				{
 					attributes: {
 						class: 'page__heading',
@@ -578,7 +578,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
 		}
 		if (description) {
 			description.classList.add('esgst-text-left');
-			createElements(popup.scrollable, 'beforeEnd', [
+			createElements(popup.scrollable, 'beforeend', [
 				{
 					context: description,
 				},
@@ -586,7 +586,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
 		}
 		let box = null;
 		if ((Settings.get('elgb_r') && (!Settings.get('elgb_r_d') || description)) || mainCallback) {
-			box = createElements(popup.scrollable, 'beforeEnd', [
+			box = createElements(popup.scrollable, 'beforeend', [
 				{
 					type: 'textarea',
 				},
@@ -669,7 +669,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
 		}
 		if (commentsContainer && commentsContainer.children.length) {
 			commentsContainer.classList.add('esgst-text-left', 'esgst-hidden');
-			createElements(popup.scrollable, 'beforeEnd', [
+			createElements(popup.scrollable, 'beforeend', [
 				{
 					context: commentsContainer,
 				},

@@ -112,14 +112,14 @@ class GiveawaysSteamActivationLinks extends Module {
 			(element.nextElementSibling && !element.nextElementSibling.classList.contains('esgst-sal')) ||
 			!element.nextElementSibling
 		) {
-			link = createElements(element, 'afterEnd', [
+			link = createElements(element, 'afterend', [
 				{
 					type: 'span',
 				},
 			]);
 			switch (Settings.get('sal_index')) {
 				case 0:
-					createElements(link, 'beforeEnd', [
+					createElements(link, 'beforeend', [
 						{
 							attributes: {
 								class: 'esgst-sal esgst-clickable',
@@ -136,7 +136,7 @@ class GiveawaysSteamActivationLinks extends Module {
 							],
 						},
 					]).addEventListener('click', () => {
-						textArea = createElements(document.body, 'beforeEnd', [
+						textArea = createElements(document.body, 'beforeend', [
 							{
 								type: 'textarea',
 							},
@@ -149,7 +149,7 @@ class GiveawaysSteamActivationLinks extends Module {
 					});
 					break;
 				case 1:
-					createElements(link, 'beforeEnd', [
+					createElements(link, 'beforeend', [
 						{
 							attributes: {
 								class: 'esgst-sal esgst-clickable',
@@ -170,7 +170,7 @@ class GiveawaysSteamActivationLinks extends Module {
 					]);
 					break;
 				case 2:
-					createElements(link, 'beforeEnd', [
+					createElements(link, 'beforeend', [
 						{
 							attributes: {
 								class: 'esgst-sal esgst-clickable',
@@ -204,7 +204,7 @@ class GiveawaysSteamActivationLinks extends Module {
 							],
 						},
 					]).previousElementSibling.addEventListener('click', () => {
-						textArea = createElements(document.body, 'beforeEnd', [
+						textArea = createElements(document.body, 'beforeend', [
 							{
 								type: 'textarea',
 							},
