@@ -160,17 +160,17 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 				'Enter the maximum number of games that a user must have in their wishlist in order to be checked.',
 				Settings.get('glwc_checkMaxWishlists')
 			);
-			glwc.progress = createElements(glwc.container, 'beforeEnd', [
+			glwc.progress = createElements(glwc.container, 'beforeend', [
 				{
 					type: 'div',
 				},
 			]);
-			glwc.overallProgress = createElements(glwc.container, 'beforeEnd', [
+			glwc.overallProgress = createElements(glwc.container, 'beforeend', [
 				{
 					type: 'div',
 				},
 			]);
-			glwc.context = createElements(glwc.container, 'beforeEnd', [
+			glwc.context = createElements(glwc.container, 'beforeend', [
 				{
 					type: 'div',
 				},
@@ -209,7 +209,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 
 	async glwc_getUsers(glwc, nextPage) {
 		if (glwc.isCanceled) return;
-		createElements(glwc.progress, 'inner', [
+		createElements(glwc.progress, 'atinner', [
 			{
 				attributes: {
 					class: 'fa fa-circle-o-notch fa-spin',
@@ -249,7 +249,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 	async glwc_getSteamIds(glwc, i, n) {
 		if (glwc.isCanceled) return;
 		if (i < n) {
-			createElements(glwc.progress, 'inner', [
+			createElements(glwc.progress, 'atinner', [
 				{
 					attributes: {
 						class: 'fa fa-circle-o-notch fa-spin',
@@ -296,7 +296,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 		if (glwc.isCanceled) return;
 		if (i < n) {
 			try {
-				createElements(glwc.progress, 'inner', [
+				createElements(glwc.progress, 'atinner', [
 					{
 						attributes: {
 							class: 'fa fa-circle-o-notch fa-spin',
@@ -433,7 +433,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 			wishlistResults,
 			wishlistSearch;
 		glwc.context.classList.add('esgst-glwc-results');
-		createElements(glwc.context, 'inner', [
+		createElements(glwc.context, 'atinner', [
 			{
 				type: 'div',
 				children: [
@@ -612,7 +612,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 					);
 				});
 				const popout = createTooltip(
-					createElements(libraryResults, 'beforeEnd', [
+					createElements(libraryResults, 'beforeend', [
 						{
 							attributes: {
 								class: 'table__row-outer-wrap',
@@ -710,7 +710,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 				popout.onFirstOpen = () => Shared.common.endless_load(popout.popout);
 			}
 		} else {
-			createElements(libraryResults, 'inner', [
+			createElements(libraryResults, 'atinner', [
 				{
 					text: 'To get libraries data you must have a Steam API key set in the settings menu.',
 					type: 'node',
@@ -739,7 +739,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 				);
 			});
 			const popout = createTooltip(
-				createElements(wishlistResults, 'beforeEnd', [
+				createElements(wishlistResults, 'beforeend', [
 					{
 						attributes: {
 							class: 'table__row-outer-wrap',
@@ -849,7 +849,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 								`<a class="table__column__secondary-link" href="http://steamcommunity.com/profiles/${user.steamId}/games?tab=all">${user.username}</a>`
 							);
 						});
-						createElements(librarySearch, 'inner', [
+						createElements(librarySearch, 'atinner', [
 							{
 								attributes: {
 									class: 'table__row-outer-wrap',
@@ -948,7 +948,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 						);
 						popout.onFirstOpen = () => Shared.common.endless_load(popout.popout);
 					} else {
-						createElements(librarySearch, 'inner', [
+						createElements(librarySearch, 'atinner', [
 							{
 								text: 'Nothing found...',
 								type: 'node',
@@ -968,7 +968,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 								);
 							});
 							const popout = createTooltip(
-								createElements(librarySearch, 'beforeEnd', [
+								createElements(librarySearch, 'beforeend', [
 									{
 										attributes: {
 											class: 'table__row-outer-wrap',
@@ -1069,7 +1069,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 						}
 					}
 					if (!librarySearch.innerHTML) {
-						createElements(librarySearch, 'inner', [
+						createElements(librarySearch, 'atinner', [
 							{
 								text: 'Nothing found...',
 								type: 'node',
@@ -1097,7 +1097,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 								`<a class="table__column__secondary-link" href="http://store.steampowered.com/wishlist/profiles/${user.steamId}">${user.username}</a>`
 							);
 						});
-						createElements(wishlistSearch, 'inner', [
+						createElements(wishlistSearch, 'atinner', [
 							{
 								attributes: {
 									class: 'table__row-outer-wrap',
@@ -1196,7 +1196,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 						);
 						popout.onFirstOpen = () => Shared.common.endless_load(popout.popout);
 					} else {
-						createElements(wishlistSearch, 'inner', [
+						createElements(wishlistSearch, 'atinner', [
 							{
 								text: 'Nothing found...',
 								type: 'node',
@@ -1216,7 +1216,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 								);
 							});
 							const popout = createTooltip(
-								createElements(wishlistSearch, 'beforeEnd', [
+								createElements(wishlistSearch, 'beforeend', [
 									{
 										attributes: {
 											class: 'table__row-outer-wrap',
@@ -1317,7 +1317,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 						}
 					}
 					if (!wishlistSearch.innerHTML) {
-						createElements(wishlistSearch, 'inner', [
+						createElements(wishlistSearch, 'atinner', [
 							{
 								text: 'Nothing found...',
 								type: 'node',

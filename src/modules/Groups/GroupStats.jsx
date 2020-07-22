@@ -102,50 +102,54 @@ class GroupsGroupStats extends Module {
 			return;
 		}
 
-		DOM.build(document.getElementsByClassName('table__heading')[0], 'beforeEnd', [
-			Settings.get('gs_sent')
-				? ['div', { class: 'table__column--width-small text-center' }, 'Sent']
-				: null,
-			Settings.get('gs_received')
-				? ['div', { class: 'table__column--width-small text-center' }, 'Received']
-				: null,
-			Settings.get('gs_giftDifference')
-				? ['div', { class: 'table__column--width-small text-center' }, 'Gift Difference']
-				: null,
-			Settings.get('gs_valueDifference')
-				? ['div', { class: 'table__column--width-small text-center' }, 'Value Difference']
-				: null,
-			Settings.get('gs_firstGiveaway')
-				? ['div', { class: 'table__column--width-small text-center' }, 'First Giveaway']
-				: null,
-			Settings.get('gs_lastGiveaway')
-				? ['div', { class: 'table__column--width-small text-center' }, 'Last Giveaway']
-				: null,
-			Settings.get('gs_averageEntries')
-				? ['div', { class: 'table__column--width-small text-center' }, 'Average Entries']
-				: null,
-			Settings.get('gs_contributors')
-				? ['div', { class: 'table__column--width-small text-center' }, 'Contributors']
-				: null,
-			Settings.get('gs_winners')
-				? ['div', { class: 'table__column--width-small text-center' }, 'Winners']
-				: null,
-			Settings.get('gs_giftsSent')
-				? ['div', { class: 'table__column--width-small text-center' }, 'Gifts Sent']
-				: null,
-			Settings.get('gs_giveaways')
-				? ['div', { class: 'table__column--width-small text-center' }, 'Giveaways']
-				: null,
-			Settings.get('gs_users')
-				? ['div', { class: 'table__column--width-small text-center' }, 'Users']
-				: null,
-			Settings.get('gs_creationDate')
-				? ['div', { class: 'table__column--width-small text-center' }, 'Creation Date']
-				: null,
-			Settings.get('gs_type')
-				? ['div', { class: 'table__column--width-small text-center' }, 'Type']
-				: null,
-		]);
+		DOM.insert(
+			document.getElementsByClassName('table__heading')[0],
+			'beforeend',
+			<fragment>
+				{Settings.get('gs_sent') ? (
+					<div className="table__column--width-small text-center">Sent</div>
+				) : null}
+				{Settings.get('gs_received') ? (
+					<div className="table__column--width-small text-center">Received</div>
+				) : null}
+				{Settings.get('gs_giftDifference') ? (
+					<div className="table__column--width-small text-center">Gift Difference</div>
+				) : null}
+				{Settings.get('gs_valueDifference') ? (
+					<div className="table__column--width-small text-center">Value Difference</div>
+				) : null}
+				{Settings.get('gs_firstGiveaway') ? (
+					<div className="table__column--width-small text-center">First Giveaway</div>
+				) : null}
+				{Settings.get('gs_lastGiveaway') ? (
+					<div className="table__column--width-small text-center">Last Giveaway</div>
+				) : null}
+				{Settings.get('gs_averageEntries') ? (
+					<div className="table__column--width-small text-center">Average Entries</div>
+				) : null}
+				{Settings.get('gs_contributors') ? (
+					<div className="table__column--width-small text-center">Contributors</div>
+				) : null}
+				{Settings.get('gs_winners') ? (
+					<div className="table__column--width-small text-center">Winners</div>
+				) : null}
+				{Settings.get('gs_giftsSent') ? (
+					<div className="table__column--width-small text-center">Gifts Sent</div>
+				) : null}
+				{Settings.get('gs_giveaways') ? (
+					<div className="table__column--width-small text-center">Giveaways</div>
+				) : null}
+				{Settings.get('gs_users') ? (
+					<div className="table__column--width-small text-center">Users</div>
+				) : null}
+				{Settings.get('gs_creationDate') ? (
+					<div className="table__column--width-small text-center">Creation Date</div>
+				) : null}
+				{Settings.get('gs_type') ? (
+					<div className="table__column--width-small text-center">Type</div>
+				) : null}
+			</fragment>
+		);
 		this.notification = new elementBuilder.sg.notification();
 		this.numGroups = 0;
 		Shared.esgst.mainPageHeading.parentElement.insertBefore(
@@ -295,11 +299,11 @@ class GroupsGroupStats extends Module {
 						break;
 					}
 				}
-				items.push([
-					'div',
-					{ class: 'table__column--width-small text-center' },
-					[['span', { 'data-timestamp': group.creationDate / 1e3 }, date]],
-				]);
+				items.push(
+					<div className="table__column--width-small text-center">
+						<span data-timestamp={group.creationDate / 1e3}>{date}</span>
+					</div>
+				);
 			}
 
 			if (Settings.get('gs_type')) {
@@ -319,11 +323,11 @@ class GroupsGroupStats extends Module {
 						group.closed = true;
 					}
 				}
-				items.push(['div', { class: 'table__column--width-small text-center' }, group.type]);
+				items.push(<div className="table__column--width-small text-center">{group.type}</div>);
 			}
 		}
 
-		DOM.build(group.container, 'afterEnd', items);
+		DOM.insert(group.container, 'afterend', <fragment>{items}</fragment>);
 
 		if (
 			main &&
