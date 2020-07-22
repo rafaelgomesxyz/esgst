@@ -68,22 +68,31 @@ class SettingsModule {
 			Container.innerHTML = '';
 		}
 
-		const input = DOM.build(isPopup ? Container : Shared.esgst.sidebar, 'afterBegin', [
-			[
-				'div',
-				{ class: 'sidebar__search-container' },
-				[['input', { class: 'sidebar__search-input', type: 'text', placeholder: 'Search...' }]],
-			],
-		]).firstElementChild;
+		let input;
+		DOM.insert(
+			isPopup ? Container : Shared.esgst.sidebar,
+			'afterbegin',
+			<div className="sidebar__search-container">
+				<input
+					className="sidebar__search-input"
+					type="text"
+					placeholder="Search..."
+					ref={(ref) => (input = ref)}
+				/>
+			</div>
+		);
 		if (isPopup && Settings.get('scb')) {
 			Shared.esgst.modules.generalSearchClearButton.getInputs(Container);
 		}
 
 		let newIndicators = null;
 
-		const buttonGroup = DOM.build(Container, 'beforeEnd', [
-			['div', { class: 'esgst-button-group' }],
-		]);
+		let buttonGroup;
+		DOM.insert(
+			Container,
+			'beforeend',
+			<div className="esgst-button-group" ref={(ref) => (buttonGroup = ref)}></div>
+		);
 
 		buttonGroup.appendChild(
 			new ButtonSet({
@@ -139,56 +148,56 @@ class SettingsModule {
 			{
 				check: true,
 				icons: ['fa-refresh'],
-				position: 'afterBegin',
+				position: 'afterbegin',
 				title: 'Sync data',
 				onclick: () => setSync(true),
 			},
 			{
 				check: true,
 				icons: ['fa-sign-in esgst-rotate-90'],
-				position: 'afterBegin',
+				position: 'afterbegin',
 				title: 'Restore data',
 				onclick: () => Shared.esgst.modules.loadDataManagement('import', true),
 			},
 			{
 				check: true,
 				icons: ['fa-sign-out esgst-rotate-270'],
-				position: 'afterBegin',
+				position: 'afterbegin',
 				title: 'Backup data',
 				onclick: () => Shared.esgst.modules.loadDataManagement('export', true),
 			},
 			{
 				check: true,
 				icons: ['fa-trash'],
-				position: 'afterBegin',
+				position: 'afterbegin',
 				title: 'Delete data',
 				onclick: () => Shared.esgst.modules.loadDataManagement('delete', true),
 			},
 			{
 				check: true,
 				icons: ['fa-gear', 'fa-arrow-circle-down'],
-				position: 'afterBegin',
+				position: 'afterbegin',
 				title: `Download settings (downloads your settings to your computer without your personal data so you can easily share them with other users)`,
 				onclick: () => Shared.common.exportSettings(),
 			},
 			{
 				check: true,
 				icons: ['fa-paint-brush'],
-				position: 'afterBegin',
+				position: 'afterbegin',
 				title: 'Clean old data',
 				onclick: () => Shared.esgst.modules.loadDataCleaner(true),
 			},
 			{
 				check: !Shared.esgst.parameters.esgst,
 				icons: ['fa-user', 'fa-history'],
-				position: 'afterBegin',
+				position: 'afterbegin',
 				title: 'View recent username changes',
 				onclick: (event) => Shared.common.setSMRecentUsernameChanges(),
 			},
 			{
 				check: !Shared.esgst.parameters.esgst && Settings.get('uf'),
 				icons: ['fa-user', 'fa-eye-slash'],
-				position: 'afterBegin',
+				position: 'afterbegin',
 				title: 'See list of filtered users',
 				onclick: (event) => Shared.common.setSMManageFilteredUsers(),
 			},
@@ -199,7 +208,7 @@ class SettingsModule {
 					Settings.get('gf') &&
 					Settings.get('gf_s'),
 				icons: ['fa-gift', 'fa-eye-slash'],
-				position: 'afterBegin',
+				position: 'afterbegin',
 				title: 'Manage hidden giveaways',
 				onclick: (event) => Shared.common.setSMManageFilteredGiveaways(),
 			},
@@ -210,7 +219,7 @@ class SettingsModule {
 					Settings.get('df') &&
 					Settings.get('df_s'),
 				icons: ['fa-comments', 'fa-eye-slash'],
-				position: 'afterBegin',
+				position: 'afterbegin',
 				title: 'Manage hidden discussions',
 				onclick: (event) =>
 					Shared.esgst.modules.discussionsDiscussionFilters.df_menu({}, event.currentTarget),
@@ -222,7 +231,7 @@ class SettingsModule {
 					Settings.get('tf') &&
 					Settings.get('tf_s'),
 				icons: ['fa-retweet', 'fa-eye-slash'],
-				position: 'afterBegin',
+				position: 'afterbegin',
 				title: 'Manage hidden trades',
 				onclick: (event) =>
 					Shared.esgst.modules.tradesTradeFilters.tf_menu({}, event.currentTarget),
@@ -230,35 +239,35 @@ class SettingsModule {
 			{
 				check: !Shared.esgst.parameters.esgst && Shared.esgst.sg && Settings.get('dt'),
 				icons: ['fa-comments', 'fa-tags'],
-				position: 'afterBegin',
+				position: 'afterbegin',
 				title: 'Manage discussion tags',
 				onclick: () => Shared.common.openManageDiscussionTagsPopup(),
 			},
 			{
 				check: !Shared.esgst.parameters.esgst && Shared.esgst.sg && Settings.get('ut'),
 				icons: ['fa-user', 'fa-tags'],
-				position: 'afterBegin',
+				position: 'afterbegin',
 				title: 'Manage user tags',
 				onclick: () => Shared.common.openManageUserTagsPopup(),
 			},
 			{
 				check: !Shared.esgst.parameters.esgst && Settings.get('gt'),
 				icons: ['fa-gamepad', 'fa-tags'],
-				position: 'afterBegin',
+				position: 'afterbegin',
 				title: 'Manage game tags',
 				onclick: () => Shared.common.openManageGameTagsPopup(),
 			},
 			{
 				check: !Shared.esgst.parameters.esgst && Settings.get('gpt'),
 				icons: ['fa-users', 'fa-tags'],
-				position: 'afterBegin',
+				position: 'afterbegin',
 				title: 'Manage group tags',
 				onclick: () => Shared.common.openManageGroupTagsPopup(),
 			},
 			{
 				check: !Shared.esgst.parameters.esgst && Settings.get('wbc'),
 				icons: ['fa-heart', 'fa-ban', 'fa-cog'],
-				position: 'afterBegin',
+				position: 'afterbegin',
 				title: 'Manage Whitelist / Blacklist Checker caches',
 				ref: (button) =>
 					Shared.esgst.modules.usersWhitelistBlacklistChecker.wbc_addButton(false, button),
@@ -266,7 +275,7 @@ class SettingsModule {
 			{
 				check: !Shared.esgst.parameters.esgst && Settings.get('namwc'),
 				icons: ['fa-trophy', 'fa-cog'],
-				position: 'afterBegin',
+				position: 'afterbegin',
 				title: 'Manage Not Activated / Multiple Wins Checker caches',
 				ref: (button) =>
 					Shared.esgst.modules.usersNotActivatedMultipleWinChecker.namwc_setPopup(button),
@@ -296,20 +305,17 @@ class SettingsModule {
 		input.addEventListener('input', (event) => this.filterSm(event));
 		input.addEventListener('change', (event) => this.filterSm(event));
 		Context.classList.add('esgst-menu-layer');
-		DOM.build(Context, 'beforeEnd', [
-			[
-				'div',
-				{ class: 'esgst-menu-split' },
-				[
-					['div', { class: 'esgst-settings-menu' }],
-					[
-						'div',
-						{ class: `esgst-settings-menu-feature ${isPopup ? '' : 'esgst-menu-split-fixed'}` },
-						['Click on a feature/option to manage it here.'],
-					],
-				],
-			],
-		]);
+		DOM.insert(
+			Context,
+			'beforeend',
+			<div className="esgst-menu-split">
+				<div className="esgst-settings-menu">
+					<div className={`esgst-settings-menu-feature ${isPopup ? '' : 'esgst-menu-split-fixed'}`}>
+						Click on a feature/option to manage it here.
+					</div>
+				</div>
+			</div>
+		);
 		heading.appendChild(
 			new ButtonSet({
 				color1: 'green',
@@ -445,7 +451,7 @@ class SettingsModule {
 						}
 					}
 					if (isNew) {
-						Shared.common.createElements(section.firstElementChild.lastElementChild, 'afterBegin', [
+						Shared.common.createElements(section.firstElementChild.lastElementChild, 'afterbegin', [
 							{
 								attributes: {
 									class: 'esgst-bold esgst-red esgst-new-indicator',
@@ -602,24 +608,24 @@ class SettingsModule {
 			return;
 		}
 		const url = `${Shared.esgst.settingsUrl}&id=${id}`;
-		const featureName = JSON.parse(
-			JSON.stringify(feature.name).replace(
-				/\[id=(.+?)]/g,
-				Shared.common.getFeatureName.bind(Shared.common)
-			)
+		const featureName = feature.name.replace(
+			/\[id=(.+?)]/g,
+			Shared.common.getFeatureName.bind(Shared.common)
 		);
 		const items = [
 			{
 				check: true,
-				content: [...(Array.isArray(featureName) ? featureName : [featureName])],
+				content: featureName,
 				name: 'Name',
 			},
 			{
 				check: true,
-				content: [
-					url,
-					['i', { 'data-clipboard-text': url, class: 'icon_to_clipboard fa fa-fw fa-copy' }],
-				],
+				content: (
+					<fragment>
+						{url}
+						<i data-clipboard-text={url} className="icon_to_clipboard fa fa-fw fa-copy"></i>,{' '}
+					</fragment>
+				),
 				name: 'Link',
 			},
 		];
@@ -628,7 +634,7 @@ class SettingsModule {
 			const value = (
 				Settings.getFull(`${id}_sg`) || Shared.common.getFeaturePath(feature, id, 'sg')
 			).enabled;
-			sgContext = DOM.build([['div']]).firstElementChild;
+			sgContext = <div></div>;
 			const sgSwitch = new ToggleSwitch(
 				sgContext,
 				null,
@@ -675,9 +681,11 @@ class SettingsModule {
 						Shared.common.updateTheme(id);
 					}
 				}
-				DOM.build(document.querySelector('#esgst-paths-sg'), 'inner', [
-					this.openPathsPopup(feature, id, 'sg'),
-				]);
+				DOM.insert(
+					document.querySelector('#esgst-paths-sg'),
+					'atinner',
+					this.openPathsPopup(feature, id, 'sg')
+				);
 			};
 			sgSwitch.onDisabled = async () => {
 				this.preSave(`${id}_sg`, false);
@@ -693,16 +701,18 @@ class SettingsModule {
 					}
 					Shared.common.setTheme();
 				}
-				DOM.build(document.querySelector('#esgst-paths-sg'), 'inner', [
-					this.openPathsPopup(feature, id, 'sg'),
-				]);
+				DOM.insert(
+					document.querySelector('#esgst-paths-sg'),
+					'atinner',
+					this.openPathsPopup(feature, id, 'sg')
+				);
 			};
 		}
 		if (feature.st && (Settings.get('esgst_st') || id === 'esgst')) {
 			const value = (
 				Settings.getFull(`${id}_st`) || Shared.common.getFeaturePath(feature, id, 'st')
 			).enabled;
-			stContext = DOM.build([['div']]).firstElementChild;
+			stContext = <div></div>;
 			const stSwitch = new ToggleSwitch(
 				stContext,
 				null,
@@ -749,9 +759,11 @@ class SettingsModule {
 						Shared.common.updateTheme(id);
 					}
 				}
-				DOM.build(document.querySelector('#esgst-paths-st'), 'inner', [
-					this.openPathsPopup(feature, id, 'st'),
-				]);
+				DOM.insert(
+					document.querySelector('#esgst-paths-st'),
+					'atinner',
+					this.openPathsPopup(feature, id, 'st')
+				);
 			};
 			stSwitch.onDisabled = async () => {
 				this.preSave(`${id}_st`, false);
@@ -767,16 +779,18 @@ class SettingsModule {
 					}
 					Shared.common.setTheme();
 				}
-				DOM.build(document.querySelector('#esgst-paths-st'), 'inner', [
-					this.openPathsPopup(feature, id, 'st'),
-				]);
+				DOM.insert(
+					document.querySelector('#esgst-paths-st'),
+					'atinner',
+					this.openPathsPopup(feature, id, 'st')
+				);
 			};
 		}
 		if (feature.sgtools && (Settings.get('esgst_sgtools') || id === 'esgst')) {
 			const value = (
 				Settings.getFull(`${id}_sgtools`) || Shared.common.getFeaturePath(feature, id, 'sgtools')
 			).enabled;
-			sgtoolsContext = DOM.build([['div']]).firstElementChild;
+			sgtoolsContext = <div></div>;
 			const sgtoolsSwitch = new ToggleSwitch(
 				sgtoolsContext,
 				null,
@@ -823,9 +837,11 @@ class SettingsModule {
 						Shared.common.updateTheme(id);
 					}
 				}
-				DOM.build(document.querySelector('#esgst-paths-sgtools'), 'inner', [
-					this.openPathsPopup(feature, id, 'sgtools'),
-				]);
+				DOM.insert(
+					document.querySelector('#esgst-paths-sgtools'),
+					'atinner',
+					this.openPathsPopup(feature, id, 'sgtools')
+				);
 			};
 			sgtoolsSwitch.onDisabled = async () => {
 				this.preSave(`${id}_sgtools`, false);
@@ -841,32 +857,29 @@ class SettingsModule {
 					}
 					Shared.common.setTheme();
 				}
-				DOM.build(document.querySelector('#esgst-paths-sgtools'), 'inner', [
-					this.openPathsPopup(feature, id, 'sgtools'),
-				]);
+				DOM.insert(
+					document.querySelector('#esgst-paths-sgtools'),
+					'atinner',
+					this.openPathsPopup(feature, id, 'sgtools')
+				);
 			};
 		}
 		items.push({
 			check: true,
-			content: [sgContext, stContext, sgtoolsContext],
+			content: (
+				<fragment>
+					{sgContext}
+					{stContext}
+					{sgtoolsContext}
+				</fragment>
+			),
 			name: 'Enable/Disable',
 		});
 		if (feature.description) {
 			items.push({
 				check: true,
-				content: [
-					[
-						'div',
-						{ class: 'markdown' },
-						JSON.parse(
-							JSON.stringify(feature.description).replace(
-								/\[id=(.+?)]/g,
-								Shared.common.getFeatureName.bind(Shared.common)
-							)
-						),
-					],
-				],
-				name: typeof feature.description === 'string' ? 'Description' : 'What does it do?',
+				content: <div className="markdown">{feature.description()}</div>,
+				name: 'What does it do?',
 			});
 		}
 		const additionalOptions = this.getSmFeatureAdditionalOptions(feature, id);
@@ -880,41 +893,35 @@ class SettingsModule {
 		if (feature.sync) {
 			items.push({
 				check: true,
-				content: [
-					[
-						'p',
-						[
-							`This feature requires the following data to be synced in order to function properly: `,
-							['strong', feature.sync],
-						],
-					],
-					['br'],
-					[
-						'p',
-						[
-							`To sync these now, click `,
-							[
-								'a',
-								{
-									class: 'table__column__secondary-link',
-									href: `${Shared.esgst.syncUrl}&autoSync=true&${feature.syncKeys
-										.map((x) => `${x}=1`)
-										.join('&')}`,
-									target: '_blank',
-								},
-								'here',
-							],
-							'.',
-						],
-					],
-				],
+				content: (
+					<fragment>
+						<p>
+							This feature requires the following data to be synced in order to function properly:{' '}
+							<strong>{feature.sync}</strong>
+						</p>
+						<br />
+						<p>
+							To sync these now, click{' '}
+							<a
+								className="table__column__secondary-link"
+								href={`${Shared.esgst.syncUrl}&autoSync=true&${feature.syncKeys
+									.map((x) => `${x}=1`)
+									.join('&')}`}
+								target="_blank"
+							>
+								here
+							</a>
+							.
+						</p>
+					</fragment>
+				),
 				name: 'Sync Requirements',
 			});
 		}
 		if (feature.sg && (!feature.sgPaths || typeof feature.sgPaths !== 'string')) {
 			items.push({
 				check: true,
-				content: [this.openPathsPopup(feature, id, 'sg')],
+				content: this.openPathsPopup(feature, id, 'sg'),
 				// @ts-ignore
 				id: 'esgst-paths-sg',
 				name: 'Where to run it on SteamGifts?',
@@ -927,7 +934,7 @@ class SettingsModule {
 		) {
 			items.push({
 				check: true,
-				content: [this.openPathsPopup(feature, id, 'st')],
+				content: this.openPathsPopup(feature, id, 'st'),
 				// @ts-ignore
 				id: 'esgst-paths-st',
 				name: 'Where to run it on SteamTrades?',
@@ -940,7 +947,7 @@ class SettingsModule {
 		) {
 			items.push({
 				check: true,
-				content: [this.openPathsPopup(feature, id, 'sgtools')],
+				content: this.openPathsPopup(feature, id, 'sgtools'),
 				// @ts-ignore
 				id: 'esgst-paths-sgtools',
 				name: 'Where to run it on SGTools?',
@@ -951,13 +958,13 @@ class SettingsModule {
 			context.style.maxHeight = `${context.closest('.esgst-menu-layer').offsetHeight - 24}px`;
 		}
 		context.innerHTML = 'Click on a feature/option to manage it here.';
-		Shared.common.createFormRows(context, 'beforeEnd', { items });
+		Shared.common.createFormRows(context, 'beforeend', { items });
 	}
 
 	setElementOrderingSection(context) {
 		const obj = {
 			elementOrdering: true,
-			outerWrap: Shared.common.createElements(context, 'beforeEnd', [
+			outerWrap: Shared.common.createElements(context, 'beforeend', [
 				{
 					attributes: {
 						class: 'esgst-element-ordering-container',
@@ -968,7 +975,7 @@ class SettingsModule {
 		};
 		const obj_gv = {
 			elementOrdering: true,
-			outerWrap: Shared.common.createElements(context, 'beforeEnd', [
+			outerWrap: Shared.common.createElements(context, 'beforeend', [
 				{
 					attributes: {
 						class: 'esgst-element-ordering-container',
@@ -1222,7 +1229,7 @@ class SettingsModule {
 			}
 			const section = Shared.common.createElements(
 				(item.isGridView ? obj_gv : obj).outerWrap,
-				'beforeEnd',
+				'beforeend',
 				[
 					{
 						text: `${item.name}${item.isGridView ? ` (Grid View)` : ''}`,
@@ -1295,7 +1302,7 @@ class SettingsModule {
 						type: 'div',
 					});
 				}
-				const section_gv = Shared.common.createElements(obj_gv.outerWrap, 'beforeEnd', [
+				const section_gv = Shared.common.createElements(obj_gv.outerWrap, 'beforeend', [
 					{
 						text: `${item.name} (Grid View)`,
 						type: 'strong',
@@ -1365,70 +1372,54 @@ class SettingsModule {
 			includeItems: [],
 			name: name,
 		};
-		const context = DOM.build([
-			[
-				'div',
-				{ class: 'esgst-bold' },
-				[
-					`Run it here: `,
-					[
-						'i',
-						{
-							class: 'fa fa-question-circle',
-							title: `Select the places where you want the feature to run. If you cannot find the place you want, select "Custom" and enter the place manually (you have to use regular expressions).`,
-						},
-					],
-				],
-			],
-			['div', obj.include],
-			[
-				'div',
-				{ class: 'esgst-button-group' },
-				[
-					new ButtonSet({
-						color1: 'grey',
-						color2: '',
-						icon1: 'fa-plus-circle',
-						icon2: '',
-						title1: 'Add New',
-						title2: '',
-						callback1: () =>
-							obj.include.extend(feature, 'include', obj, { enabled: 1, pattern: '' }, true),
-					}).set,
-				],
-			],
-			[
-				'div',
-				{ class: 'esgst-bold' },
-				[
-					`Do NOT run it here: `,
-					[
-						'i',
-						{
-							class: 'fa fa-question-circle',
-							title: `Select the places where you don't want the feature to run. If you cannot find the place you want, select "Custom" and enter the place manually (you have to use regular expressions).`,
-						},
-					],
-				],
-			],
-			['div', obj.exclude],
-			[
-				'div',
-				{ class: 'esgst-button-group' },
-				[
-					new ButtonSet({
-						color1: 'grey',
-						color2: '',
-						icon1: 'fa-plus-circle',
-						icon2: '',
-						title1: 'Add New',
-						title2: '',
-						callback1: () =>
-							obj.exclude.extend(feature, 'exclude', obj, { enabled: 1, pattern: '' }, true),
-					}).set,
-				],
-			],
-		]);
+		const context = (
+			<fragment>
+				<div className="esgst-bold">
+					Run it here:{' '}
+					<i
+						className="fa fa-question-circle"
+						title="Select the places where you want the feature to run. If you cannot find the place you want, select 'Custom' and enter the place manually (you have to use regular expressions)."
+					></i>
+				</div>
+				<div {...obj.include}></div>
+				<div className="esgst-button-group">
+					{
+						new ButtonSet({
+							color1: 'grey',
+							color2: '',
+							icon1: 'fa-plus-circle',
+							icon2: '',
+							title1: 'Add New',
+							title2: '',
+							callback1: () =>
+								obj.include.extend(feature, 'include', obj, { enabled: 1, pattern: '' }, true),
+						}).set
+					}
+				</div>
+				<div className="esgst-bold">
+					Do NOT run it here:{' '}
+					<i
+						className="fa fa-question-circle"
+						title="Select the places where you don't want the feature to run. If you cannot find the place you want, select 'Custom' and enter the place manually (you have to use regular expressions)."
+					></i>
+				</div>
+				<div {...obj.exclude}></div>
+				<div className="esgst-button-group">
+					{
+						new ButtonSet({
+							color1: 'grey',
+							color2: '',
+							icon1: 'fa-plus-circle',
+							icon2: '',
+							title1: 'Add New',
+							title2: '',
+							callback1: () =>
+								obj.exclude.extend(feature, 'exclude', obj, { enabled: 1, pattern: '' }, true),
+						}).set
+					}
+				</div>
+			</fragment>
+		);
 		obj.setting =
 			Settings.getFull(`${id}_${obj.name}`) || Shared.common.getFeaturePath(feature, id, obj.name);
 		obj.setting.include.forEach((path) => obj.include.extend(feature, 'include', obj, path));
@@ -1438,7 +1429,7 @@ class SettingsModule {
 
 	addPath(context, feature, key, obj, path, userAdded) {
 		let item = {};
-		item.container = Shared.common.createElements(context, 'beforeEnd', [
+		item.container = Shared.common.createElements(context, 'beforeend', [
 			{
 				type: 'div',
 			},
@@ -1457,45 +1448,45 @@ class SettingsModule {
 		item.switch.onChange = () => {
 			this.savePaths(feature.id, obj);
 		};
-		item.select = DOM.build(item.container, 'beforeEnd', [
-			[
-				'select',
-				{ class: 'esgst-switch-input esgst-switch-input-large' },
-				[
-					...Shared.esgst.paths[obj.name]
-						.filter(
-							(x) =>
-								!feature[`${obj.name}Paths`] ||
-								x.name === 'Everywhere' ||
-								x.name.match(feature[`${obj.name}Paths`])
-						)
-						.map((x) => [
-							'option',
-							Object.assign(
-								{ value: x.pattern },
-								x.pattern === path.pattern && (found = true) ? { selected: true } : null
-							),
-							x.name,
-						]),
-					feature[`${obj.name}Paths`]
-						? null
-						: [
-								'option',
-								Object.assign({ value: 'custom' }, found ? null : { selected: true }),
-								'Custom',
-						  ],
-				],
-			],
-		]);
-		item.input = DOM.build(item.container, 'beforeEnd', [
-			[
-				'input',
-				Object.assign(
-					{ class: 'esgst-switch-input esgst-switch-input-large', type: 'text' },
-					item.select.value === 'custom' ? null : { disabled: true }
-				),
-			],
-		]);
+		DOM.insert(
+			item.container,
+			'beforeend',
+			<select
+				className="esgst-switch-input esgst-switch-input-large"
+				ref={(ref) => (item.select = ref)}
+			>
+				{Shared.esgst.paths[obj.name]
+					.filter(
+						(x) =>
+							!feature[`${obj.name}Paths`] ||
+							x.name === 'Everywhere' ||
+							x.name.match(feature[`${obj.name}Paths`])
+					)
+					.map((x) => (
+						<option
+							value={x.pattern}
+							selected={x.pattern === path.pattern && (found = true) ? true : null}
+						>
+							{x.name}
+						</option>
+					))}
+				{feature[`${obj.name}Paths`] ? null : (
+					<option value="custom" selected={found || null}>
+						Custom
+					</option>
+				)}
+			</select>
+		);
+		DOM.insert(
+			item.container,
+			'beforeend',
+			<input
+				className="esgst-switch-input esgst-switch-input-large"
+				type="text"
+				disabled={item.select.value === 'custom' ? null : true}
+				ref={(ref) => (item.input = ref)}
+			/>
+		);
 		item.select.addEventListener('change', () => {
 			if (item.select.value === 'custom') {
 				item.input.disabled = false;
@@ -1512,7 +1503,7 @@ class SettingsModule {
 			this.savePaths(feature.id, obj);
 		});
 		Shared.common
-			.createElements(item.container, 'beforeEnd', [
+			.createElements(item.container, 'beforeend', [
 				{
 					attributes: {
 						class: 'fa fa-times-circle esgst-clickable',
@@ -1522,7 +1513,7 @@ class SettingsModule {
 				},
 			])
 			.addEventListener('click', () => this.removePath(feature, item, key, obj));
-		item.invalid = Shared.common.createElements(item.container, 'beforeEnd', [
+		item.invalid = Shared.common.createElements(item.container, 'beforeend', [
 			{
 				attributes: {
 					class: 'fa fa-exclamation esgst-hidden esgst-red',
@@ -1534,7 +1525,7 @@ class SettingsModule {
 		obj[`${key}Items`].push(item);
 		if (key === 'include' && feature.includeOptions) {
 			item.options = [];
-			const optionsContainer = Shared.common.createElements(item.container, 'beforeEnd', [
+			const optionsContainer = Shared.common.createElements(item.container, 'beforeend', [
 				{
 					attributes: {
 						class: 'esgst-form-row-indent',
@@ -1628,8 +1619,13 @@ class SettingsModule {
 		const menuContainer = document.createElement('div');
 		menuContainer.className = 'esgst-sm-feature-container';
 		menuContainer.id = `esgst_${id}`;
-		const menu = DOM.build(menuContainer, 'inner', [['div', { class: 'esgst-sm-feature' }]]);
-		Shared.common.createElements(menu, 'beforeEnd', [
+		let menu;
+		DOM.insert(
+			menuContainer,
+			'atinner',
+			<div className="esgst-sm-feature" ref={(ref) => (menu = ref)}></div>
+		);
+		Shared.common.createElements(menu, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-sm-small-number esgst-form-heading-number',
@@ -1646,7 +1642,7 @@ class SettingsModule {
 		if (isMainNew) {
 			feature.isNew = true;
 			Shared.common
-				.createElements(menu.firstElementChild, 'afterEnd', [
+				.createElements(menu.firstElementChild, 'afterend', [
 					{
 						attributes: {
 							class: 'esgst-bold esgst-red esgst-clickable esgst-new-indicator',
@@ -1668,7 +1664,7 @@ class SettingsModule {
 			if (value) {
 				isHidden = false;
 			}
-			sgContext = DOM.build([['div']]).firstElementChild;
+			sgContext = <div></div>;
 			const sgSwitch = new ToggleSwitch(
 				sgContext,
 				null,
@@ -1759,7 +1755,7 @@ class SettingsModule {
 			if (value) {
 				isHidden = false;
 			}
-			stContext = DOM.build([['div']]).firstElementChild;
+			stContext = <div></div>;
 			const stSwitch = new ToggleSwitch(stContext, null, true, `[ST]`, false, true, null, value);
 			feature.stSwitch = stSwitch;
 			stSwitch.onEnabled = () => {
@@ -1841,7 +1837,7 @@ class SettingsModule {
 			if (value) {
 				isHidden = false;
 			}
-			sgtoolsContext = DOM.build([['div']]).firstElementChild;
+			sgtoolsContext = <div></div>;
 			const sgtoolsSwitch = new ToggleSwitch(
 				sgtoolsContext,
 				null,
@@ -1925,34 +1921,33 @@ class SettingsModule {
 				}
 			};
 		}
-		const featureName = JSON.parse(
-			JSON.stringify(feature.name).replace(
-				/\[id=(.+?)]/g,
-				Shared.common.getFeatureName.bind(Shared.common)
-			)
+		const featureName = feature.name.replace(
+			/\[id=(.+?)]/g,
+			Shared.common.getFeatureName.bind(Shared.common)
 		);
-		DOM.build(menu, 'beforeEnd', [
-			[
-				'span',
-				{ class: 'esgst-sm-feature-name' },
-				[
-					sgContext && sgContext.firstElementChild,
-					stContext && stContext.firstElementChild,
-					sgtoolsContext && sgtoolsContext.firstElementChild,
-					[
-						'a',
-						{
-							class: 'esgst-settings-feature table__column__secondary-link esgst-clickable ',
-							'data-id': id,
-						},
-						[...(Array.isArray(featureName) ? featureName : [featureName])],
-					],
-				],
-			],
-		]);
-		subMenu = DOM.build(menuContainer, 'beforeEnd', [
-			['div', { class: `esgst-form-row-indent SMFeatures ${isHidden ? 'esgst-hidden' : ''}` }],
-		]);
+		DOM.insert(
+			menu,
+			'beforeend',
+			<span className="esgst-sm-feature-name">
+				{sgContext && sgContext.firstElementChild}
+				{stContext && stContext.firstElementChild}
+				{sgtoolsContext && sgtoolsContext.firstElementChild}
+				<a
+					className="esgst-settings-feature table__column__secondary-link esgst-clickable"
+					data-id={id}
+				>
+					{featureName}
+				</a>
+			</span>
+		);
+		DOM.insert(
+			menuContainer,
+			'beforeend',
+			<div
+				className={`esgst-form-row-indent SMFeatures ${isHidden ? 'esgst-hidden' : ''}`}
+				ref={(ref) => (subMenu = ref)}
+			></div>
+		);
 		if (feature.features) {
 			let i = 1;
 			let isNew = false;
@@ -1980,7 +1975,7 @@ class SettingsModule {
 			}
 			isMainNew = isMainNew || isNew;
 			if (isNew) {
-				Shared.common.createElements(menu.firstElementChild, 'afterEnd', [
+				Shared.common.createElements(menu.firstElementChild, 'afterend', [
 					{
 						attributes: {
 							class: 'esgst-bold esgst-red esgst-new-indicator',
@@ -1999,7 +1994,7 @@ class SettingsModule {
 				]);
 			}
 			if (Settings.get('makeSectionsCollapsible')) {
-				collapseButton = Shared.common.createElements(menu, 'afterBegin', [
+				collapseButton = Shared.common.createElements(menu, 'afterbegin', [
 					{
 						attributes: {
 							class: 'esgst-clickable',
@@ -2080,18 +2075,18 @@ class SettingsModule {
 			for (const id in Feature.colors) {
 				const color = Utils.rgba2Hex(Settings.get(`${ID}_${id}`));
 				children.push(
-					['strong', `${Feature.colors[id]}: `],
-					['br'],
-					['input', { 'data-color-id': id, type: 'color', value: color.hex }],
-					` Opacity: `,
-					['input', { max: '1.0', min: '0.0', step: '0.1', type: 'number', value: color.alpha }],
-					' ',
-					['div', { class: 'form__saving-button esgst-sm-colors-default' }, 'Reset'],
-					['br']
+					<fragment>
+						<strong>{`${Feature.colors[id]}: `}</strong>
+						<br />
+						<input data-color-id={id} type="color" value={color.hex} />
+						{' Opacity: '}
+						<input max="1.0" min="0.0" step="0.1" type="number" value={color.alpha} />' '
+						<div className="form__saving-button esgst-sm-colors-default">Reset</div>
+						<br />
+					</fragment>
 				);
 			}
-			const context = DOM.build([['div', { class: 'esgst-sm-colors' }, children]])
-				.firstElementChild;
+			const context = <div className="esgst-sm-colors">{children}</div>;
 			const elements = context.querySelectorAll(`[data-color-id]`);
 			for (const hexInput of elements) {
 				const colorId = hexInput.getAttribute('data-color-id');
@@ -2104,42 +2099,29 @@ class SettingsModule {
 			}
 			items.push(context);
 			if (ID === 'gc_g') {
-				const input = DOM.build([
-					[
-						'div',
-						{ class: 'esgst-sm-colors' },
-						[
-							`Only show the following genres: `,
-							['input', { type: 'text', value: Settings.get('gc_g_filters') }],
-							[
-								'i',
-								{
-									class: 'fa fa-question-circle',
-									title: `If you enter genres here, a genre category will only appear if the game has the listed genre. Separate genres with a comma, for example: Genre1, Genre2`,
-								},
-							],
-						],
-					],
-				]).firstElementChild;
+				const input = (
+					<div className="esgst-sm-colors">
+						Only show the following genres:{' '}
+						<input type="text" value={Settings.get('gc_g_filters')} />
+						<i
+							className="fa fa-question-circle"
+							title="If you enter genres here, a genre category will only appear if the game has the listed genre. Separate genres with a comma, for example: Genre1, Genre2"
+						></i>
+					</div>
+				);
 				Shared.common.observeChange(input.firstElementChild, 'gc_g_filters', this.toSave);
 				items.push(input);
 				items.push(this.addGcMenuPanel());
 			}
 			if (Feature.input) {
-				const input = DOM.build([
-					[
-						'div',
-						{ class: 'esgst-sm-colors' },
-						[
-							`Icon: `,
-							['input', { type: 'text', value: Settings.get(`${ID}Icon`) }],
-							['i', { class: 'esgst-clickable fa fa-question-circle' }],
-							['br'],
-							`Label: `,
-							['input', { type: 'text', value: Settings.get(`${ID}Label`) }],
-						],
-					],
-				]).firstElementChild;
+				const input = (
+					<div className="esgst-sm-colors">
+						Icon: <input type="text" value={Settings.get(`${ID}Icon`)} />
+						<i className="esgst-clickable fa fa-question-circle"></i>
+						<br />
+						Label: <input type="text" value={Settings.get(`${ID}Label`)} />
+					</div>
+				);
 				Shared.common.createTooltip(
 					input.firstElementChild.nextElementSibling,
 					`The name of the icon must be any name in this page: <a href="https://fontawesome.com/v4.7.0/icons/">https://fontawesome.com/v4.7.0/icons/</a>`
@@ -2149,7 +2131,7 @@ class SettingsModule {
 				Shared.common.observeChange(icon, `${ID}Icon`, this.toSave);
 				Shared.common.observeChange(label, `${ID}Label`, this.toSave);
 				if (ID === 'gc_rd') {
-					Shared.common.createElements(input, 'beforeEnd', [
+					Shared.common.createElements(input, 'beforeend', [
 						{
 							attributes: {
 								class: 'fa fa-question-circle',
@@ -2162,7 +2144,7 @@ class SettingsModule {
 				items.push(input);
 			}
 		} else if (Feature.inputItems) {
-			let containerr = DOM.build([['div', { class: 'esgst-sm-colors' }]]).firstElementChild;
+			let containerr = <div className="esgst-sm-colors"></div>;
 			if (ID.match(/^(chfl|sk_)/)) {
 				Feature.inputItems = [
 					{
@@ -2228,7 +2210,7 @@ class SettingsModule {
 				}
 				let input,
 					value = '',
-					context = Shared.common.createElements(containerr, 'beforeEnd', [
+					context = Shared.common.createElements(containerr, 'beforeend', [
 						{
 							type: 'div',
 							children,
@@ -2251,7 +2233,7 @@ class SettingsModule {
 				) {
 					Feature.isNew = true;
 					Shared.common
-						.createElements(context, 'afterBegin', [
+						.createElements(context, 'afterbegin', [
 							{
 								attributes: {
 									class: 'esgst-bold esgst-red esgst-clickable esgst-new-indicator',
@@ -2306,29 +2288,26 @@ class SettingsModule {
 		} else if (Feature.theme) {
 			const children = [
 				'Enabled from ',
-				['input', { type: 'text', value: Settings.get(`${ID}_startTime`) }],
+				<input type="text" value={Settings.get(`${ID}_startTime`)} />,
 				' to ',
-				['input', { type: 'text', value: Settings.get(`${ID}_endTime`) }],
-				[
-					'i',
-					{
-						class: 'fa fa-question-circle',
-						title: `You can specify here what time of the day you want the theme to be enabled. Use the HH:MM format.`,
-					},
-				],
-				['br'],
+				<input type="text" value={Settings.get(`${ID}_endTime`)} />,
+				<i
+					className="fa fa-question-circle"
+					title="You can specify here what time of the day you want the theme to be enabled. Use the HH:MM format."
+				></i>,
+				<br />,
 			];
 			if (ID === 'customTheme') {
-				children.push(['textarea']);
+				children.push(<textarea></textarea>);
 			} else {
 				children.push(
-					// @ts-ignore
-					['div', { class: 'form__saving-button esgst-sm-colors-default', id: ID }, 'Update'],
-					['span']
+					<div className="form__saving-button esgst-sm-colors-default" id={ID}>
+						Update
+					</div>,
+					<span></span>
 				);
 			}
-			let containerr = DOM.build([['div', { class: 'esgst-sm-colors' }, children]])
-				.firstElementChild;
+			let containerr = <div className="esgst-sm-colors">{children}</div>;
 			let startTime = containerr.firstElementChild;
 			let endTime = startTime.nextElementSibling;
 			Shared.common.observeChange(startTime, `${ID}_startTime`, this.toSave);
@@ -2355,7 +2334,7 @@ class SettingsModule {
 					}
 
 					let url = await this.getThemeUrl(ID, Feature.theme);
-					Shared.common.createElements(button, 'inner', [
+					Shared.common.createElements(button, 'atinner', [
 						{
 							attributes: {
 								class: 'fa fa-circle-o-notch fa-spin',
@@ -2371,7 +2350,7 @@ class SettingsModule {
 						(await Shared.common.request({ method: 'GET', url })).responseText
 					);
 					await Shared.common.setValue(ID, theme);
-					Shared.common.createElements(button, 'inner', [
+					Shared.common.createElements(button, 'atinner', [
 						{
 							text: 'Update',
 							type: 'node',
@@ -2395,14 +2374,18 @@ class SettingsModule {
 				const children = [];
 				for (const value of option.values) {
 					children.push(
-						value.match(/~/)
-							? ['option', { disabled: 'true' }, value.replace(/~/, '')]
-							: ['option', value]
+						value.match(/~/) ? (
+							<option disabled={true}>{value.replace(/~/, '')}</option>
+						) : (
+							<option>{value}</option>
+						)
 					);
 				}
-				const select = DOM.build([
-					['div', { class: 'esgst-sm-colors' }, [option.title, ['select', children]]],
-				]).firstElementChild;
+				const select = (
+					<div className="esgst-sm-colors">
+						{option.title} <select>{children}</select>
+					</div>
+				);
 				select.firstElementChild.selectedIndex = selectedIndex;
 				Shared.common.observeNumChange(
 					select.firstElementChild,
@@ -2413,7 +2396,7 @@ class SettingsModule {
 				items.push(select);
 			}
 		}
-		return items;
+		return <fragment>{items}</fragment>;
 	}
 
 	readHrAudioFile(id, event) {
@@ -2458,26 +2441,17 @@ class SettingsModule {
 	}
 
 	addGwcrMenuPanel(id, key, background, upper = '100') {
-		const panel = DOM.build([
-			[
-				'div',
-				{ class: 'esgst-sm-colors' },
-				[
-					[
-						'div',
-						{ class: 'form__saving-button esgst-sm-colors-default' },
-						[['span', 'Add Color Setting']],
-					],
-					[
-						'i',
-						{
-							class: 'fa fa-question-circle',
-							title: `Allows you to set different colors for different ${key} ranges.`,
-						},
-					],
-				],
-			],
-		]).firstElementChild;
+		const panel = (
+			<div className="esgst-sm-colors">
+				<div className="form__saving-button esgst-sm-colors-default">
+					<span>Add Color Setting</span>
+				</div>
+				<i
+					className="fa fa-question-circle"
+					title={`Allows you to set different colors for different ${key} ranges.`}
+				></i>
+			</div>
+		);
 		const button = panel.firstElementChild;
 		for (let i = 0, n = Settings.get(id).length; i < n; ++i) {
 			this.addGwcColorSetting(Settings.get(id)[i], id, key, panel, background);
@@ -2501,7 +2475,7 @@ class SettingsModule {
 
 	addGwcColorSetting(colors, id, key, panel, background) {
 		let bgColor, color, i, lower, n, remove, setting, upper;
-		setting = Shared.common.createElements(panel, 'beforeEnd', [
+		setting = Shared.common.createElements(panel, 'beforeend', [
 			{
 				type: 'div',
 				children: [
@@ -2606,57 +2580,47 @@ class SettingsModule {
 	}
 
 	addUlMenuPanel(id) {
-		const panel = DOM.build([
-			[
-				'div',
-				{ class: 'esgst-sm-colors' },
-				[
-					['div'],
-					[
-						'div',
-						{
-							class: 'form__saving-button esgst-sm-colors-default',
-							onclick: () => this.addUlMenuItem(id, panel),
-						},
-						[['span', 'Add Link']],
-					],
-					[
-						'div',
-						{
-							class: 'form__saving-button esgst-sm-colors-default',
-							onclick: () => {
-								this.preSave(id, Settings.defaultValues[id]);
-								panel.firstElementChild.innerHTML = '';
-								this.addUlMenuItems(id, panel);
-							},
-						},
-						[['span', 'Reset']],
-					],
-					[
-						'div',
-						{
-							class: 'form__saving-button esgst-sm-colors-default',
-							title: `This will merge your list with the default list, meaning that any new items in the default list will be added to your list. Also, if you previously deleted an item from the default list, it will come back.`,
-							onclick: () => this.mergeValues(id, panel, this.addUlMenuItems.bind(this)),
-						},
-						[['span', 'Merge']],
-					],
-					[
-						'div',
-						{ class: 'form__input-description' },
-						[
-							'The default links should give you an idea of how the format works.',
-							['br'],
-							['br'],
-							`As label, you can use FontAwesome icons (for example, "fa-icon"), image URLs (for example, "https://www.example.com/image.jpg") and plain text (for example, "Text"). You can also combine them (for example, "fa-icon https://www.example.com/image.jpg Text"). Images will be resized to 16x16.`,
-							['br'],
-							['br'],
-							`In the URL, you can use the templates %username% and %steamid%, they will be replaced with the user's username/Steam id.`,
-						],
-					],
-				],
-			],
-		]).firstElementChild;
+		const panel = (
+			<div className="esgst-sm-colors">
+				<div></div>
+				<div
+					className="form__saving-button esgst-sm-colors-default"
+					onclick={() => this.addUlMenuItem(id, panel)}
+				>
+					<span>Add Link</span>
+				</div>
+				<div
+					className="form__saving-button esgst-sm-colors-default"
+					onclick={() => {
+						this.preSave(id, Settings.defaultValues[id]);
+						panel.firstElementChild.innerHTML = '';
+						this.addUlMenuItems(id, panel);
+					}}
+				>
+					<span>Reset</span>
+				</div>
+				<div
+					className="form__saving-button esgst-sm-colors-default"
+					title="This will merge your list with the default list, meaning that any new items in the default list will be added to your list. Also, if you previously deleted an item from the default list, it will come back."
+					onclick={() => this.mergeValues(id, panel, this.addUlMenuItems.bind(this))}
+				>
+					<span>Merge</span>
+				</div>
+				<div className="form__input-description">
+					The default links should give you an idea of how the format works.
+					<br />
+					<br />
+					As label, you can use FontAwesome icons (for example, "fa-icon"), image URLs (for example,
+					"https://www.example.com/image.jpg") and plain text (for example, "Text"). You can also
+					combine them (for example, "fa-icon https://www.example.com/image.jpg Text"). Images will
+					be resized to 16x16.
+					<br />
+					<br />
+					In the URL, you can use the templates %username% and %steamid%, they will be replaced with
+					the user's username/Steam id.`
+				</div>
+			</div>
+		);
 		Shared.common.draggable_set({
 			addTrash: true,
 			context: panel.firstElementChild,
@@ -2705,40 +2669,37 @@ class SettingsModule {
 	}
 
 	addUlLink(i, id, link, panel) {
-		const setting = DOM.build(panel.firstElementChild, 'beforeEnd', [
-			[
-				'div',
-				{ 'data-draggable-id': i, 'data-draggable-obj': JSON.stringify(link) },
-				[
-					`Label: `,
-					[
-						'input',
-						{
-							onchange: (event) => {
-								link.label = event.currentTarget.value;
-								this.preSave(id, Settings.get(id));
-								setting.setAttribute('data-draggable-obj', JSON.stringify(link));
-							},
-							type: 'text',
-							value: link.label,
-						},
-					],
-					`URL: `,
-					[
-						'input',
-						{
-							onchange: (event) => {
-								link.url = event.currentTarget.value;
-								this.preSave(id, Settings.get(id));
-								setting.setAttribute('data-draggable-obj', JSON.stringify(link));
-							},
-							type: 'text',
-							value: link.url,
-						},
-					],
-				],
-			],
-		]);
+		let setting;
+		DOM.insert(
+			panel.firstElementChild,
+			'beforeend',
+			<div
+				data-draggable-id={i}
+				data-draggable-obj={JSON.stringify(link)}
+				ref={(ref) => (setting = ref)}
+			>
+				Label:{' '}
+				<input
+					onchange={(event) => {
+						link.label = event.currentTarget.value;
+						this.preSave(id, Settings.get(id));
+						setting.setAttribute('data-draggable-obj', JSON.stringify(link));
+					}}
+					type="text"
+					value={link.label}
+				/>
+				URL:{' '}
+				<input
+					onchange={(event) => {
+						link.url = event.currentTarget.value;
+						this.preSave(id, Settings.get(id));
+						setting.setAttribute('data-draggable-obj', JSON.stringify(link));
+					}}
+					type="text"
+					value={link.url}
+				/>
+			</div>
+		);
 		Shared.common.draggable_set({
 			addTrash: true,
 			context: panel.firstElementChild,
@@ -2753,26 +2714,17 @@ class SettingsModule {
 	}
 
 	addGcRatingPanel() {
-		const panel = DOM.build([
-			[
-				'div',
-				{ class: 'esgst-sm-colors' },
-				[
-					[
-						'div',
-						{ class: 'form__saving-button esgst-sm-colors-default' },
-						[['span', 'Add Rating Setting']],
-					],
-					[
-						'i',
-						{
-							class: 'fa fa-question-circle',
-							title: 'Allows you to set different colors/icons for different rating ranges.',
-						},
-					],
-				],
-			],
-		]).firstElementChild;
+		const panel = (
+			<div className="esgst-sm-colors">
+				<div className="form__saving-button esgst-sm-colors-default">
+					<span>Add Rating Setting</span>
+				</div>
+				<i
+					className="fa fa-question-circle"
+					title="Allows you to set different colors/icons for different rating ranges."
+				></i>
+			</div>
+		);
 		let button = panel.firstElementChild;
 		for (let i = 0, n = Settings.get('gc_r_colors').length; i < n; ++i) {
 			this.addGcRatingColorSetting(Settings.get('gc_r_colors')[i], panel);
@@ -2794,7 +2746,7 @@ class SettingsModule {
 	}
 
 	addGcRatingColorSetting(colors, panel) {
-		let setting = Shared.common.createElements(panel, 'beforeEnd', [
+		let setting = Shared.common.createElements(panel, 'beforeend', [
 			{
 				type: 'div',
 				children: [
@@ -2920,26 +2872,17 @@ class SettingsModule {
 
 	addGcMenuPanel() {
 		let button, colorSetting, i, n;
-		const panel = DOM.build([
-			[
-				'div',
-				{ class: 'esgst-sm-colors' },
-				[
-					[
-						'div',
-						{ class: 'form__saving-button esgst-sm-colors-default' },
-						[['span', 'Add Custom Genre Setting']],
-					],
-					[
-						'i',
-						{
-							class: 'fa fa-question-circle',
-							title: `Allows you to color genres (colored genres will appear at the beginning of the list).`,
-						},
-					],
-				],
-			],
-		]).firstElementChild;
+		const panel = (
+			<div className="esgst-sm-colors">
+				<div className="form__saving-button esgst-sm-colors-default">
+					<span>Add Custom Genre Setting</span>
+				</div>
+				<i
+					className="fa fa-question-circle"
+					title="Allows you to color genres (colored genres will appear at the beginning of the list)."
+				></i>
+			</div>
+		);
 		button = panel.firstElementChild;
 		for (i = 0, n = Settings.get('gc_g_colors').length; i < n; ++i) {
 			this.addGcColorSetting(Settings.get('gc_g_colors')[i], panel);
@@ -2960,7 +2903,7 @@ class SettingsModule {
 
 	addGcColorSetting(colorSetting, panel) {
 		let bgColor, color, genre, i, n, remove, setting;
-		setting = Shared.common.createElements(panel, 'beforeEnd', [
+		setting = Shared.common.createElements(panel, 'beforeend', [
 			{
 				type: 'div',
 				children: [
@@ -3043,22 +2986,16 @@ class SettingsModule {
 
 	addGcAltMenuPanel() {
 		let altSetting, button, i, n;
-		const panel = DOM.build([
-			[
-				'div',
-				{ class: 'esgst-sm-colors' },
-				[
-					[
-						'div',
-						{ class: 'form__saving-button esgst-sm-colors-default' },
-						[['span', 'Add Alt Account']],
-					],
-				],
-			],
-		]).firstElementChild;
+		const panel = (
+			<div className="esgst-sm-colors">
+				<div className="form__saving-button esgst-sm-colors-default">
+					<span>Add Alt Account</span>
+				</div>
+			</div>
+		);
 		button = panel.firstElementChild;
 		Shared.common.createTooltip(
-			Shared.common.createElements(panel, 'beforeEnd', [
+			Shared.common.createElements(panel, 'beforeend', [
 				{
 					attributes: {
 						class: 'fa fa-question-circle',
@@ -3100,7 +3037,7 @@ class SettingsModule {
 
 	addGcAltSetting(altSetting, panel) {
 		let color, bgColor, i, icon, label, n, name, remove, setting, steamId;
-		setting = Shared.common.createElements(panel, 'beforeEnd', [
+		setting = Shared.common.createElements(panel, 'beforeend', [
 			{
 				type: 'div',
 				children: [
@@ -3460,7 +3397,7 @@ class SettingsModule {
 		let context;
 		obj.popup.getScrollable(<div className="esgst-sm-colors" ref={(ref) => (context = ref)}></div>);
 		obj.options[key].forEach((option) => {
-			option.select = Shared.common.createElements(context, 'beforeEnd', [
+			option.select = Shared.common.createElements(context, 'beforeend', [
 				{
 					type: 'div',
 					children: [
@@ -3475,7 +3412,7 @@ class SettingsModule {
 				},
 			]).lastElementChild;
 			(option.options || binaryOptions).forEach((subOption) => {
-				Shared.common.createElements(option.select, 'beforeEnd', [
+				Shared.common.createElements(option.select, 'beforeend', [
 					{
 						attributes: {
 							value: subOption.id,
@@ -3502,7 +3439,7 @@ class SettingsModule {
 	}
 
 	createMenuSection(context, html, number, title, type) {
-		let section = Shared.common.createElements(context, 'beforeEnd', [
+		let section = Shared.common.createElements(context, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-form-row',
@@ -3557,7 +3494,7 @@ class SettingsModule {
 		]);
 		if (Settings.get('makeSectionsCollapsible') && !title.match(/Backup|Restore|Delete/)) {
 			let button, containerr, isExpanded;
-			button = Shared.common.createElements(section.firstElementChild, 'afterBegin', [
+			button = Shared.common.createElements(section.firstElementChild, 'afterbegin', [
 				{
 					attributes: {
 						class: 'esgst-clickable',
@@ -3605,7 +3542,7 @@ class SettingsModule {
 		if (!collapseButton) {
 			return;
 		}
-		Shared.common.createElements(collapseButton, 'inner', [
+		Shared.common.createElements(collapseButton, 'atinner', [
 			{
 				attributes: {
 					class: 'fa fa-plus-square',
@@ -3622,7 +3559,7 @@ class SettingsModule {
 		if (!collapseButton) {
 			return;
 		}
-		Shared.common.createElements(collapseButton, 'inner', [
+		Shared.common.createElements(collapseButton, 'atinner', [
 			{
 				attributes: {
 					class: 'fa fa-minus-square',
@@ -3714,16 +3651,13 @@ class SettingsModule {
 
 	filterSmFeature(feature, id, value) {
 		let found =
-			!value ||
-			(typeof feature.name === 'string' ? feature.name : JSON.stringify(feature.name))
-				.toLowerCase()
-				.match(value) ||
-			(value === `\\[new\\]` && feature.isNew);
+			!value || feature.name.toLowerCase().match(value) || (value === `\\[new\\]` && feature.isNew);
 		let exactFound = found;
 		if (!value || !found) {
 			if (!found) {
-				exactFound = found =
-					feature.description && JSON.stringify(feature.description).toLowerCase().match(value);
+				exactFound = found = (feature.description ? feature.description().textContent : '')
+					.toLowerCase()
+					.match(value);
 			}
 			if ((!value || !found) && feature.features) {
 				for (const subId in feature.features) {

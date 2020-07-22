@@ -81,9 +81,7 @@ class UsersUserSuspensionChecker extends Module {
 			'Only check selected.',
 			false,
 			false,
-			`Use ${mmFeature.number} ${
-				typeof mmFeature.name === 'function' ? mmFeature.name() : mmFeature.name
-			} to select the users that you want to check. Then click the button 'Check Suspensions' in the Multi-Manager popout and you will be redirected here.`,
+			`Use ${mmFeature.number} ${mmFeature.name} to select the users that you want to check. Then click the button 'Check Suspensions' in the Multi-Manager popout and you will be redirected here.`,
 			Settings.get('usc_checkSelected')
 		);
 		let checkAllSwitch;

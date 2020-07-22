@@ -4,6 +4,7 @@ import { Popup } from '../class/Popup';
 import { Utils } from '../lib/jsUtils';
 import { common } from './Common';
 import { Settings } from '../class/Settings';
+import { DOM } from '../class/DOM';
 
 const createElements = common.createElements.bind(common),
 	formatTags = common.formatTags.bind(common),
@@ -295,7 +296,7 @@ class Tags extends Module {
 				</fragment>
 			),
 		});
-		createElements(obj.popup.description, 'beforeEnd', [
+		createElements(obj.popup.description, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-description',
@@ -327,7 +328,7 @@ class Tags extends Module {
 				],
 			},
 		]);
-		obj.tags = createElements(obj.popup.description, 'beforeEnd', [
+		obj.tags = createElements(obj.popup.description, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-tags',
@@ -335,7 +336,7 @@ class Tags extends Module {
 				type: 'div',
 			},
 		]);
-		obj.input = createElements(obj.popup.description, 'beforeEnd', [
+		obj.input = createElements(obj.popup.description, 'beforeend', [
 			{
 				attributes: {
 					type: 'text',
@@ -348,7 +349,7 @@ class Tags extends Module {
 				type: 'input',
 			},
 		]);
-		createElements(obj.popup.description, 'beforeEnd', [
+		createElements(obj.popup.description, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-tag-list-button esgst-clickable fa fa-list',
@@ -359,7 +360,7 @@ class Tags extends Module {
 		]).addEventListener('click', this.tags_showTagList.bind(this, obj));
 		const children = [];
 		if (Settings.get(`${obj.key}_s`)) {
-			obj.suggestions = createElements(obj.popup.description, 'beforeEnd', [
+			obj.suggestions = createElements(obj.popup.description, 'beforeend', [
 				{
 					attributes: {
 						class: 'esgst-tag-suggestions esgst-hidden',
@@ -381,9 +382,9 @@ class Tags extends Module {
 					type: 'div',
 				});
 			}
-			createElements(obj.suggestions, 'inner', children);
+			createElements(obj.suggestions, 'atinner', children);
 		}
-		createElements(obj.popup.description, 'beforeEnd', [
+		createElements(obj.popup.description, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-description',
@@ -588,7 +589,7 @@ class Tags extends Module {
 			}
 			button.classList[elements ? 'remove' : 'add']('esgst-faded');
 			const tagsContainer = button.lastElementChild;
-			createElements(tagsContainer, 'inner', elements);
+			createElements(tagsContainer, 'atinner', elements);
 			for (const tagsBox of tagsContainer.children) {
 				const colors = obj.colorSetting[tagsBox.textContent];
 				if (!colors) {
@@ -654,7 +655,7 @@ class Tags extends Module {
 	}
 
 	tags_createTag(obj, tag) {
-		const container = createElements(obj.tags, 'beforeEnd', [
+		const container = createElements(obj.tags, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-tag-preview',
@@ -852,7 +853,7 @@ class Tags extends Module {
 			isTemp: true,
 			title: `Select from existing tags:`,
 		});
-		const list = createElements(obj.listPopup.scrollable, 'beforeEnd', [
+		const list = createElements(obj.listPopup.scrollable, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-tag-list popup__keys__list',
@@ -862,7 +863,7 @@ class Tags extends Module {
 		]);
 		obj.selectedTags = [];
 		for (const tag of this.esgst[`${obj.key}Tags`]) {
-			const item = createElements(list, 'beforeEnd', [
+			const item = createElements(list, 'beforeend', [
 				{
 					type: 'div',
 					children: [

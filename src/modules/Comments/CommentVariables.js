@@ -91,11 +91,7 @@ class CommentsCommentVariables extends Module {
 						feature = Shared.common.findFeature(idOrTerm);
 					}
 					if (feature) {
-						let featurePath = `[${
-							typeof feature.name === 'function' ? feature.name() : feature.name
-						}](https://www.steamgifts.com/account/settings/profile?esgst=settings&id=${
-							feature.id
-						})`;
+						let featurePath = `[${feature.name}](https://www.steamgifts.com/account/settings/profile?esgst=settings&id=${feature.id})`;
 						let ancestorId = Shared.esgst.featuresAncestors[feature.id];
 						while (ancestorId) {
 							const ancestor = Shared.esgst.featuresById[ancestorId];

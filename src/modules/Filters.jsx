@@ -33,7 +33,7 @@ class Filters extends Module {
 			title: 'Hide / unhide items filtered by single filters temporarily',
 		});
 		this.singleButton.classList.add('esgst-hidden');
-		DOM.build(this.singleButton, 'afterBegin', [['span']]);
+		DOM.insert(this.singleButton, 'afterbegin', <span></span>);
 		this.singleSwitch = new ToggleSwitch(
 			this.singleButton.firstElementChild,
 			null,
@@ -45,7 +45,11 @@ class Filters extends Module {
 			true
 		);
 		this.singleSwitch.onChange = () => this.toggleFilteredItems();
-		this.singleCounter = DOM.build(this.singleButton, 'beforeEnd', [['span', '0']]);
+		DOM.insert(
+			this.singleButton,
+			'beforeend',
+			<span ref={(ref) => (this.singleCounter = ref)}>0</span>
+		);
 	}
 
 	toggleFilteredItems() {
@@ -108,7 +112,7 @@ class Filters extends Module {
 		headingButton.className = 'esgst-heading-button esgst-gf-heading-button';
 		headingButton.id = `esgst-${obj.id}`;
 		headingButton.setAttribute('data-draggable-id', obj.id);
-		createElements(headingButton, 'inner', [
+		createElements(headingButton, 'atinner', [
 			{
 				attributes: {
 					class: 'esgst-gf-toggle-switch',
@@ -138,7 +142,7 @@ class Filters extends Module {
 		toggleSwitch.onEnabled = this.filters_filter.bind(this, obj);
 		toggleSwitch.onDisabled = this.filters_filter.bind(this, obj, true);
 
-		obj.container = createElements(heading, 'afterEnd', [
+		obj.container = createElements(heading, 'afterend', [
 			{
 				attributes: {
 					class: 'esgst-gf-container',
@@ -508,7 +512,7 @@ class Filters extends Module {
 							if (!Settings.get(`${obj.id}_${key}`) || !filter.check) {
 								attributes.class = 'esgst-hidden';
 							}
-							context = createElements(booleanFilters, 'beforeEnd', [
+							context = createElements(booleanFilters, 'beforeend', [
 								{
 									attributes,
 									type: 'div',
@@ -569,7 +573,7 @@ class Filters extends Module {
 								if (!Settings.get(`${obj.id}_${key}`) || !filter.check) {
 									attributes.class = 'esgst-hidden';
 								}
-								context = createElements(numberFilters, 'beforeEnd', [
+								context = createElements(numberFilters, 'beforeend', [
 									{
 										attributes,
 										type: 'div',
@@ -629,7 +633,7 @@ class Filters extends Module {
 								if (!Settings.get(`${obj.id}_${key}`) || !filter.check) {
 									attributes.class = 'esgst-hidden';
 								}
-								context = createElements(numberFilters, 'beforeEnd', [
+								context = createElements(numberFilters, 'beforeend', [
 									{
 										attributes,
 										type: 'div',
@@ -713,7 +717,7 @@ class Filters extends Module {
 							if (!Settings.get(`${obj.id}_${key}`) || !filter.check) {
 								attributes.class = 'esgst-hidden';
 							}
-							context = createElements(stringFilters, 'beforeEnd', [
+							context = createElements(stringFilters, 'beforeend', [
 								{
 									attributes,
 									type: 'div',
@@ -774,7 +778,7 @@ class Filters extends Module {
 		}
 
 		if (!Settings.get(`${obj.id}_m_b`)) {
-			createElements(stringFilters, 'beforeEnd', [
+			createElements(stringFilters, 'beforeend', [
 				{
 					attributes: {
 						class: 'esgst-gf-legend-panel',
@@ -1083,7 +1087,7 @@ class Filters extends Module {
 						],
 					});
 				}
-				const sgFilter = createElements(sgFilters, 'beforeEnd', [
+				const sgFilter = createElements(sgFilters, 'beforeend', [
 					{
 						attributes: {
 							class: 'esgst-gf-category-filter',
@@ -1193,10 +1197,20 @@ class Filters extends Module {
 		}
 
 		if (warnings.length > 0) {
-			DOM.build(obj.warningsPanel, 'beforeEnd', [
-				`You are using some filters that may require your attention:`,
-				['div', { class: 'markdown' }, [['ul', warnings.map((x) => ['li', x])]]],
-			]);
+			DOM.insert(
+				obj.warningsPanel,
+				'beforeend',
+				<fragment>
+					You are using some filters that may require your attention:
+					<div className="markdown">
+						<ul>
+							{warnings.map((x) => (
+								<li>{x}</li>
+							))}
+						</ul>
+					</div>
+				</fragment>
+			);
 			obj.button.classList.add('warning');
 		}
 
@@ -2043,7 +2057,7 @@ class Filters extends Module {
 			isTemp: true,
 			title: `Manage presets:`,
 		});
-		createElements(popup.description, 'afterBegin', [
+		createElements(popup.description, 'afterbegin', [
 			{
 				attributes: {
 					class: 'esgst-description',
@@ -2053,7 +2067,7 @@ class Filters extends Module {
 			},
 		]);
 		let deleted = [];
-		const undoButton = createElements(popup.description, 'beforeEnd', [
+		const undoButton = createElements(popup.description, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-clickable esgst-hidden',
@@ -2077,7 +2091,7 @@ class Filters extends Module {
 			'click',
 			this.filters_undoDeletePreset.bind(this, obj, deleted, undoButton)
 		);
-		const table = createElements(popup.scrollable, 'beforeEnd', [
+		const table = createElements(popup.scrollable, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-text-left popup__keys__list',
@@ -2092,7 +2106,7 @@ class Filters extends Module {
 			if (obj.presetInput.value === preset.name) {
 				attributes.class = 'esgst-green-highlight';
 			}
-			const row = createElements(table, 'beforeEnd', [
+			const row = createElements(table, 'beforeend', [
 				{
 					attributes,
 					type: 'div',
@@ -2297,7 +2311,7 @@ class Filters extends Module {
 
 	async filters_deletePreset(obj, deleted, preset, row, undoButton, event) {
 		const deleteButton = event.currentTarget;
-		createElements(deleteButton, 'inner', [
+		createElements(deleteButton, 'atinner', [
 			{
 				attributes: {
 					class: 'fa fa-circle-o-notch fa-spin',
@@ -2310,7 +2324,7 @@ class Filters extends Module {
 		for (i = presets.length - 1; i > -1 && presets[i].name !== preset.name; i--) {}
 		presets.splice(i, 1);
 		await setSetting(obj.key, presets);
-		createElements(deleteButton, 'inner', [
+		createElements(deleteButton, 'atinner', [
 			{
 				attributes: {
 					class: 'fa fa-trash',

@@ -205,7 +205,7 @@ function addStyle() {
 		align-items: center;
 		display: flex;
 	}
-	
+
 	.form-control {
 		font-size: 12px !important;
 		height: 22px !important;
@@ -1876,7 +1876,7 @@ function addStyle() {
 	.esgst-toggle-switch-container.inline {
 		display: inline-flex;
 	}
-	
+
 	.esgst-toggle-switch-container i {
 		margin: 0 5px;
 	}
@@ -2765,7 +2765,7 @@ function addStyle() {
 		}
 	`;
 	}
-	Shared.esgst.style = Shared.common.createElements(document.head, 'beforeEnd', [
+	Shared.esgst.style = Shared.common.createElements(document.head, 'beforeend', [
 		{
 			attributes: {
 				id: 'esgst-style',

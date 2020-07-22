@@ -119,7 +119,7 @@ class Users extends Module {
 				saved: savedUser,
 				steamId: sg ? savedUser && savedUser.steamId : id,
 				tagContext: isHeading ? tagContainer : tagContext,
-				tagPosition: isHeading ? 'beforeEnd' : 'afterEnd',
+				tagPosition: isHeading ? 'beforeend' : 'afterend',
 				username: sg ? id : savedUser && savedUser.username,
 			});
 		}

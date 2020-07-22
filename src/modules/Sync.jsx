@@ -171,18 +171,16 @@ async function setSync(isPopup = false, isSilent = false) {
 		Shared.esgst.mainPageHeading = heading;
 	}
 	if (syncer.isSilent) {
-		syncer.area = DOM.build(context, 'beforeEnd', [['div']]);
+		DOM.insert(context, 'beforeend', <div ref={(ref) => (syncer.area = ref)}></div>);
 	} else {
-		DOM.build(context, 'beforeEnd', [
-			[
-				'div',
-				{ class: 'esgst-menu-split' },
-				[
-					['div', { class: 'esgst-sync-options' }],
-					['div', { class: 'esgst-sync-area' }],
-				],
-			],
-		]);
+		DOM.insert(
+			context,
+			'beforeend',
+			<div className="esgst-menu-split">
+				<div className="esgst-sync-options"></div>
+				<div className="esgst-sync-area"></div>
+			</div>
+		);
 		context.appendChild(
 			new ButtonSet({
 				color1: 'green',
@@ -204,17 +202,21 @@ async function setSync(isPopup = false, isSilent = false) {
 		);
 		syncer.container = context.querySelector('.esgst-sync-options');
 		syncer.area = context.querySelector('.esgst-sync-area');
-		syncer.notificationArea = DOM.build(syncer.area, 'beforeEnd', [['div']]);
-		syncer.manual = {
+		DOM.insert(
+			syncer.area,
+			'beforeend',
+			<div ref={(ref) => (syncer.notificationArea = ref)}></div>
+		);
+		syncer.manual = /** @type {{ check: boolean, content: Element[], name: string }} */ ({
 			check: true,
 			content: [],
 			name: 'Manual',
-		};
-		syncer.automatic = {
+		});
+		syncer.automatic = /** @type {{ check: boolean, content: Element[], name: string }} */ ({
 			check: true,
 			content: [],
 			name: 'Automatic',
-		};
+		});
 		syncer.switchesKeys = SYNC_KEYS;
 		syncer.switches = {};
 		for (const type in Shared.esgst.features) {
@@ -231,26 +233,19 @@ async function setSync(isPopup = false, isSilent = false) {
 					Settings.set(`sync${info.key}`, checkbox.value);
 				};
 				syncer.switches[id] = checkbox;
-				syncer.manual.content.push([
-					'div',
-					[
-						[
-							'i',
-							{
-								class: 'fa fa-question-circle',
-								title: `This is required for the following features:\n\n${info.dependencies
-									.map((x) => Shared.common.getFeatureName(null, x))
-									.join('\n')}`,
-							},
-						],
-						' ',
-						checkbox.checkbox,
-						' ',
-						['span', info.name],
-					],
-				]);
+				syncer.manual.content.push(
+					<div>
+						<i
+							className="fa fa-question-circle"
+							title={`This is required for the following features:\n\n${info.dependencies
+								.map((x) => Shared.common.getFeatureName(null, x))
+								.join('\n')}`}
+						></i>{' '}
+						{checkbox.checkbox} <span>{info.name}</span>
+					</div>
+				);
 				setAutoSync(info.key, info.name, syncer);
-				Shared.common.createFormNotification(syncer.notificationArea, 'beforeEnd', {
+				Shared.common.createFormNotification(syncer.notificationArea, 'beforeend', {
 					name: info.name,
 					success: !!Settings.get(`lastSync${info.key}`),
 					date: Settings.get(`lastSync${info.key}`),
@@ -268,11 +263,9 @@ async function setSync(isPopup = false, isSilent = false) {
 			callback2: cancelSync.bind(null, syncer),
 		});
 		syncer.manual.content.push(
-			[
-				'div',
-				{ class: 'esgst-button-group' },
-				[
-					['span', `Select:`],
+			<div className="esgst-button-group">
+				<span>Select:</span>
+				{
 					new ButtonSet({
 						color1: 'grey',
 						color2: 'grey',
@@ -286,7 +279,9 @@ async function setSync(isPopup = false, isSilent = false) {
 							'check',
 							null
 						),
-					}).set,
+					}).set
+				}
+				{
 					new ButtonSet({
 						color1: 'grey',
 						color2: 'grey',
@@ -300,7 +295,9 @@ async function setSync(isPopup = false, isSilent = false) {
 							'uncheck',
 							null
 						),
-					}).set,
+					}).set
+				}
+				{
 					new ButtonSet({
 						color1: 'grey',
 						color2: 'grey',
@@ -314,24 +311,24 @@ async function setSync(isPopup = false, isSilent = false) {
 							'toggle',
 							null
 						),
-					}).set,
-				],
-			],
+					}).set
+				}
+			</div>,
 			syncer.set.set
 		);
-		syncer.automatic.content.push([
-			'div',
-			{ class: 'esgst-description' },
-			`Select how often you want the automatic sync to run (in days) or 0 to disable it.`,
-		]);
-		Shared.common.createFormRows(syncer.container, 'beforeEnd', {
+		syncer.automatic.content.push(
+			<div className="esgst-description">
+				Select how often you want the automatic sync to run (in days) or 0 to disable it.
+			</div>
+		);
+		Shared.common.createFormRows(syncer.container, 'beforeend', {
 			items: [syncer.manual, syncer.automatic],
 		});
 		if (Settings.get('at')) {
 			Shared.esgst.modules.generalAccurateTimestamp.at_getTimestamps(syncer.notificationArea);
 		}
 	}
-	syncer.progress = Shared.common.createElements(syncer.area, 'beforeEnd', [
+	syncer.progress = Shared.common.createElements(syncer.area, 'beforeend', [
 		{
 			attributes: {
 				class: 'esgst-hidden esgst-popup-progress',
@@ -339,7 +336,7 @@ async function setSync(isPopup = false, isSilent = false) {
 			type: 'div',
 		},
 	]);
-	syncer.results = Shared.common.createElements(syncer.area, 'beforeEnd', [
+	syncer.results = Shared.common.createElements(syncer.area, 'beforeend', [
 		{
 			type: 'div',
 		},
@@ -355,7 +352,7 @@ function updateSyncDates(syncer) {
 	for (let id in syncer.switchesKeys) {
 		if (syncer.switchesKeys.hasOwnProperty(id)) {
 			const info = syncer.switchesKeys[id];
-			Shared.common.createFormNotification(syncer.notificationArea, 'beforeEnd', {
+			Shared.common.createFormNotification(syncer.notificationArea, 'beforeend', {
 				name: info.name,
 				success: !!Settings.get(`lastSync${info.key}`),
 				date: Settings.get(`lastSync${info.key}`),
@@ -370,26 +367,22 @@ function updateSyncDates(syncer) {
 function setAutoSync(key, name, syncer) {
 	let days = [];
 	for (let i = 0; i < 31; ++i) {
-		days.push(['option', i === Settings.get(`autoSync${key}`) ? { selected: true } : null, i]);
+		days.push(<option selected={i === Settings.get(`autoSync${key}`) ? true : null}>{i}</option>);
 	}
-	syncer.automatic.content.push([
-		'div',
-		null,
-		[
-			[
-				'select',
-				{
-					class: 'esgst-auto-sync',
-					onchange: (event) => {
-						Settings.set(`autoSync${key}`, parseInt(event.currentTarget.value));
-						toSave[`autoSync${key}`] = parseInt(event.currentTarget.value);
-					},
-				},
-				days,
-			],
-			['span', null, name],
-		],
-	]);
+	syncer.automatic.content.push(
+		<div>
+			<select
+				className="esgst-auto-sync"
+				onchange={(event) => {
+					Settings.set(`autoSync${key}`, parseInt(event.currentTarget.value));
+					toSave[`autoSync${key}`] = parseInt(event.currentTarget.value);
+				}}
+			>
+				{days}
+			</select>
+			<span>{name}</span>
+		</div>
+	);
 }
 
 function cancelSync(syncer) {
@@ -405,7 +398,7 @@ async function sync(syncer) {
 		await Shared.common.setSetting('lastSync', Date.now());
 		syncer.results.innerHTML = '';
 		syncer.progress.classList.remove('esgst-hidden');
-		Shared.common.createElements(syncer.progress, 'inner', [
+		Shared.common.createElements(syncer.progress, 'atinner', [
 			{
 				attributes: {
 					class: 'fa fa-circle-o-notch fa-spin',
@@ -536,8 +529,8 @@ async function sync(syncer) {
 			if (syncer.currentGroups.hasOwnProperty(id)) {
 				if (!syncer.newGroups[id]) {
 					missing.push(
-						['a', { href: `http://steamcommunity.com/gid/${id}` }, syncer.currentGroups[id]],
-						`, `
+						<a href={`http://steamcommunity.com/gid/${id}`}>{syncer.currentGroups[id]}</a>,
+						', '
 					);
 				}
 			}
@@ -546,22 +539,37 @@ async function sync(syncer) {
 			if (syncer.newGroups.hasOwnProperty(id)) {
 				if (!syncer.currentGroups[id]) {
 					neww.push(
-						['a', { href: `http://steamcommunity.com/gid/${id}` }, syncer.newGroups[id]],
-						`, `
+						<a href={`http://steamcommunity.com/gid/${id}`}>{syncer.newGroups[id]}</a>,
+						', '
 					);
 				}
 			}
 		}
 		missing.pop();
 		neww.pop();
-		syncer.html = [];
+		syncer.jsx = [];
 		if (missing.length) {
-			syncer.html.push(['div', [['span', { class: 'esgst-bold' }, `Missing groups:`], ...missing]]);
+			syncer.jsx.push(
+				<div>
+					<span className="esgst-bold">Missing groups:</span> {missing}
+				</div>
+			);
 		}
 		if (neww.length) {
-			syncer.html.push(['div', [['span', { class: 'esgst-bold' }, `New groups:`], ...neww]]);
+			syncer.jsx.push(
+				<div>
+					<span className="esgst-bold">New groups:</span> {neww}
+				</div>
+			);
 		}
-		DOM.build(syncer.results, 'beforeEnd', [['div', 'Groups synced.'], ...syncer.html]);
+		DOM.insert(
+			syncer.results,
+			'beforeend',
+			<fragment>
+				<div>Groups synced.</div>
+				{syncer.jsx}
+			</fragment>
+		);
 	}
 
 	// if sync has been canceled stop
@@ -621,7 +629,7 @@ async function sync(syncer) {
 		}
 		syncer.progress.lastElementChild.textContent = `Saving your whitelist/blacklist (this may take a while)...`;
 		await Shared.common.saveUsers(syncer.users);
-		DOM.build(syncer.results, 'beforeEnd', [['div', 'Whitelist/blacklist synced.']]);
+		DOM.insert(syncer.results, 'beforeend', <div>Whitelist/blacklist synced.</div>);
 	}
 
 	// if sync has been canceled stop
@@ -657,19 +665,21 @@ async function sync(syncer) {
 				}
 				syncer.progress.lastElementChild.textContent = `Saving your Steam friends (this may take a while)...`;
 				await Shared.common.saveUsers(users);
-				DOM.build(syncer.results, 'beforeEnd', [['div', 'Steam friends synced.']]);
+				DOM.insert(syncer.results, 'beforeend', <div>Steam friends synced.</div>);
 			} catch (e) {
 				syncer.failed.SteamFriends = true;
-				DOM.build(syncer.results, 'beforeEnd', [
-					[
-						'div',
-						'Failed to sync your Steam friends. Check if you have a valid Steam API key set or if your profile is public.',
-					],
-				]);
+				DOM.insert(
+					syncer.results,
+					'beforeend',
+					<div>
+						Failed to sync your Steam friends. Check if you have a valid Steam API key set or if
+						your profile is public.
+					</div>
+				);
 			}
 		} else {
 			syncer.failed.SteamFriends = true;
-			DOM.build(syncer.results, 'beforeEnd', [['div', permissions.getMessage([['steamApi']])]]);
+			DOM.insert(syncer.results, 'beforeend', <div>{permissions.getMessage([['steamApi']])}</div>);
 		}
 	}
 
@@ -742,7 +752,7 @@ async function sync(syncer) {
 		}
 		await Shared.common.setValue('games', JSON.stringify(savedGames));
 		deleteLock();
-		DOM.build(syncer.results, 'beforeEnd', [['div', 'Hidden games synced.']]);
+		DOM.insert(syncer.results, 'beforeend', <div>Hidden games synced.</div>);
 	}
 
 	// if sync has been canceled stop
@@ -766,7 +776,7 @@ async function sync(syncer) {
 		if (isPermitted) {
 			syncer.progress.lastElementChild.textContent =
 				'Syncing your wishlisted/owned/ignored games...';
-			syncer.html = [];
+			syncer.jsx = [];
 			let apiResponse = null;
 			if (Settings.get('steamApiKey')) {
 				apiResponse = await Shared.common.request({
@@ -800,19 +810,25 @@ async function sync(syncer) {
 				}
 				await Shared.common.setSetting('gc_o_altAccounts', Settings.get('gc_o_altAccounts'));
 			}
-			DOM.build(syncer.results, 'beforeEnd', [
-				['div', 'Owned/wishlisted/ignored games synced.'],
-				...syncer.html,
-			]);
+			DOM.insert(
+				syncer.results,
+				'beforeend',
+				<fragment>
+					<div>Owned/wishlisted/ignored games synced.</div>
+					{syncer.jsx}
+				</fragment>
+			);
 			if (Settings.get('getSyncGameNames')) {
 				// noinspection JSIgnoredPromiseFromCall
 				Shared.common.getGameNames(syncer.results);
 			}
 		} else {
 			syncer.failed.Games = true;
-			DOM.build(syncer.results, 'beforeEnd', [
-				['div', permissions.getMessage([['steamApi'], ['steamStore']])],
-			]);
+			DOM.insert(
+				syncer.results,
+				'beforeend',
+				<div>{permissions.getMessage([['steamApi'], ['steamStore']])}</div>
+			);
 		}
 	}
 
@@ -849,12 +865,14 @@ async function sync(syncer) {
 				savedGames.apps[id].followed = true;
 			}
 			await Shared.common.lockAndSaveGames(savedGames);
-			DOM.build(syncer.results, 'beforeEnd', [['div', 'Followed games synced.']]);
+			DOM.insert(syncer.results, 'beforeend', <div>Followed games synced.</div>);
 		} else {
 			syncer.failed.FollowedGames = true;
-			DOM.build(syncer.results, 'beforeEnd', [
-				['div', permissions.getMessage([['steamCommunity']])],
-			]);
+			DOM.insert(
+				syncer.results,
+				'beforeend',
+				<div>{permissions.getMessage([['steamCommunity']])}</div>
+			);
 		}
 	}
 
@@ -870,7 +888,7 @@ async function sync(syncer) {
 	) {
 		syncer.progress.lastElementChild.textContent = 'Syncing your won games...';
 		await Shared.common.getWonGames(syncer);
-		DOM.build(syncer.results, 'beforeEnd', [['div', 'Won games synced.']]);
+		DOM.insert(syncer.results, 'beforeend', <div>Won games synced.</div>);
 	}
 
 	// if sync has been canceled stop
@@ -888,21 +906,33 @@ async function sync(syncer) {
 			syncer.progress.lastElementChild.textContent = 'Syncing reduced CV games...';
 			try {
 				await syncReducedCvGames();
-				DOM.build(syncer.results, 'beforeEnd', [
-					['div', [['i', { class: 'fa fa-check' }], 'Reduced CV games synced.']],
-				]);
+				DOM.insert(
+					syncer.results,
+					'beforeend',
+					<div>
+						<i className="fa fa-check"></i> Reduced CV games synced.
+					</div>
+				);
 			} catch (e) {
 				Logger.warning(e.message);
 				syncer.failed.ReducedCvGames = true;
-				DOM.build(syncer.results, 'beforeEnd', [
-					['div', [['i', { class: 'fa fa-times' }], 'Failed to sync reduced CV games.']],
-				]);
+				DOM.insert(
+					syncer.results,
+					'beforeend',
+					<div>
+						<i className="fa fa-times"></i> Failed to sync reduced CV games.
+					</div>
+				);
 			}
 		} else {
 			syncer.failed.ReducedCvGames = true;
-			DOM.build(syncer.results, 'beforeEnd', [
-				['div', [['i', { class: 'fa fa-times' }], permissions.getMessage([['server']])]],
-			]);
+			DOM.insert(
+				syncer.results,
+				'beforeend',
+				<div>
+					<i className="fa fa-times"></i> {permissions.getMessage([['server']])}
+				</div>
+			);
 		}
 	}
 
@@ -921,21 +951,33 @@ async function sync(syncer) {
 			syncer.progress.lastElementChild.textContent = 'Syncing no CV games...';
 			try {
 				await syncNoCvGames();
-				DOM.build(syncer.results, 'beforeEnd', [
-					['div', [['i', { class: 'fa fa-check' }], 'No CV games synced.']],
-				]);
+				DOM.insert(
+					syncer.results,
+					'beforeend',
+					<div>
+						<i className="fa fa-check"></i> No CV games synced.
+					</div>
+				);
 			} catch (e) {
 				Logger.warning(e.message);
 				syncer.failed.NoCvGames = true;
-				DOM.build(syncer.results, 'beforeEnd', [
-					['div', [['i', { class: 'fa fa-times' }], 'Failed to sync no CV games.']],
-				]);
+				DOM.insert(
+					syncer.results,
+					'beforeend',
+					<div>
+						<i className="fa fa-times"></i> Failed to sync no CV games.
+					</div>
+				);
 			}
 		} else {
 			syncer.failed.NoCvGames = true;
-			DOM.build(syncer.results, 'beforeEnd', [
-				['div', [['i', { class: 'fa fa-times' }], permissions.getMessage([['server']])]],
-			]);
+			DOM.insert(
+				syncer.results,
+				'beforeend',
+				<div>
+					<i className="fa fa-times"></i> {permissions.getMessage([['server']])}
+				</div>
+			);
 		}
 	}
 
@@ -981,10 +1023,14 @@ async function sync(syncer) {
 			} catch (e) {
 				Logger.warning(e.message, e.stack);
 			}
-			DOM.build(syncer.results, 'beforeEnd', [['div', 'HLTB times synced.']]);
+			DOM.insert(syncer.results, 'beforeend', <div>HLTB times synced.</div>);
 		} else {
 			syncer.failed.HltbTimes = true;
-			DOM.build(syncer.results, 'beforeEnd', [['div', permissions.getMessage([['googleWebApp']])]]);
+			DOM.insert(
+				syncer.results,
+				'beforeend',
+				<div>{permissions.getMessage([['googleWebApp']])}</div>
+			);
 		}
 	}
 
@@ -1027,16 +1073,22 @@ async function sync(syncer) {
 						}
 					}
 				}
-				DOM.build(syncer.results, 'beforeEnd', [['div', 'Delisted games synced.']]);
+				DOM.insert(syncer.results, 'beforeend', <div>Delisted games synced.</div>);
 			} catch (error) {
-				DOM.build(syncer.results, 'beforeEnd', [
-					['div', `Failed to sync delisted games (check the console log for more info).`],
-				]);
+				DOM.insert(
+					syncer.results,
+					'beforeend',
+					<div>Failed to sync delisted games (check the console log for more info).</div>
+				);
 				Logger.warning(error.message, error.stack);
 			}
 		} else {
 			syncer.failed.DelistedGames = true;
-			DOM.build(syncer.results, 'beforeEnd', [['div', permissions.getMessage([['steamTracker']])]]);
+			DOM.insert(
+				syncer.results,
+				'beforeend',
+				<div>{permissions.getMessage([['steamTracker']])}</div>
+			);
 		}
 	}
 
@@ -1099,7 +1151,7 @@ async function sync(syncer) {
 			syncer
 		);
 		await syncer.process.start();
-		DOM.build(syncer.results, 'beforeEnd', [['div', 'Giveaways synced.']]);
+		DOM.insert(syncer.results, 'beforeend', <div>Giveaways synced.</div>);
 	}
 
 	// sync won giveaways
@@ -1121,7 +1173,7 @@ async function sync(syncer) {
 			syncer
 		);
 		await syncer.process.start();
-		DOM.build(syncer.results, 'beforeEnd', [['div', 'Won giveaways synced.']]);
+		DOM.insert(syncer.results, 'beforeend', <div>Won giveaways synced.</div>);
 	}
 
 	// finish sync
@@ -1157,7 +1209,7 @@ async function sync(syncer) {
 		}
 		await Shared.common.lockAndSaveSettings(toSave);
 		toSave = {};
-		DOM.build(syncer.progress, 'inner', ['Synced!']);
+		DOM.insert(syncer.progress, 'atinner', <fragment>Synced!</fragment>);
 		LocalStorage.delete('isSyncing');
 	}
 	if (!syncer.isSilent) {
@@ -1283,18 +1335,18 @@ async function syncGames(altAccount, syncer, apiResponse, storeResponse) {
 			(!altAccount && Settings.get('steamApiKey'))) &&
 		!hasApi
 	) {
-		syncer.html.push([
-			'div',
-			[
-				altAccount ? ['span', { class: 'esgst-bold' }, `${altAccount.name}: `] : null,
-				'Unable to sync through the Steam API. Check if you have a valid Steam API key set in the settings menu.',
-				altAccount ? 'Also check the privacy settings of your alt account.' : null,
-			],
-		]);
+		syncer.jsx.push(
+			<div>
+				{altAccount ? <span className="esgst-bold">{`${altAccount.name}: `}</span> : null}
+				Unable to sync through the Steam API. Check if you have a valid Steam API key set in the
+				settings menu.
+				{altAccount ? 'Also check the privacy settings of your alt account.' : null}
+			</div>
+		);
 	}
 	if (!altAccount && !hasStore) {
-		syncer.html.push(
-			`Unable to sync through the Steam store. Check if you are logged in to Steam on your current browser session. If you are, try again later. Some games may not be available through the Steam API (if you have a Steam API key set).`
+		syncer.jsx.push(
+			'Unable to sync through the Steam store. Check if you are logged in to Steam on your current browser session. If you are, try again later. Some games may not be available through the Steam API (if you have a Steam API key set).'
 		);
 	}
 	//Logger.info(hasApi, hasStore);
@@ -1518,67 +1570,63 @@ async function syncGames(altAccount, syncer, apiResponse, storeResponse) {
 			addedOwned.apps.length > 0 ||
 			addedOwned.subs.length > 0)
 	) {
-		syncer.html.push(
-			['br'],
-			['div', { class: 'esgst-bold' }, `Alt Account - ${altAccount.name}`],
-			['br']
+		syncer.jsx.push(
+			<br />,
+			<div className="esgst-bold">{`Alt Account - ${altAccount.name}`}</div>,
+			<br />
 		);
 	}
 	if (removedOwned.apps.length > 0) {
-		syncer.html.push([
-			'div',
-			[
-				['span', { class: 'esgst-bold' }, `Removed apps:`],
-				...removedOwned.apps
+		syncer.jsx.push(
+			<div>
+				<span className="esgst-bold">Removed apps:</span>
+				{removedOwned.apps
 					.map((x, i) => {
-						x = ['a', { href: `http://store.steampowered.com/app/${x}` }, x];
-						return i < removedOwned.apps.length - 1 ? [x, `,`] : [x];
+						x = <a href={`http://store.steampowered.com/app/${x}`}>{x}</a>;
+						return i < removedOwned.apps.length - 1 ? [x, ','] : [x];
 					})
-					.reduce((a, b) => a.concat(b)),
-			],
-		]);
+					.flat()}
+			</div>
+		);
 	}
 	if (removedOwned.subs.length > 0) {
-		syncer.html.push([
-			'div',
-			[
-				['span', { class: 'esgst-bold' }, `Removed packages:`],
-				...removedOwned.subs
+		syncer.jsx.push(
+			<div>
+				<span className="esgst-bold">Removed packages:</span>
+				{removedOwned.subs
 					.map((x, i) => {
-						x = ['a', { href: `http://store.steampowered.com/sub/${x}` }, x];
-						return i < removedOwned.subs.length - 1 ? [x, `,`] : [x];
+						x = <a href={`http://store.steampowered.com/sub/${x}`}>{x}</a>;
+						return i < removedOwned.subs.length - 1 ? [x, ','] : [x];
 					})
-					.reduce((a, b) => a.concat(b)),
-			],
-		]);
+					.flat()}
+			</div>
+		);
 	}
 	if (addedOwned.apps.length > 0) {
-		syncer.html.push([
-			'div',
-			[
-				['span', { class: 'esgst-bold' }, `Added apps:`],
-				...addedOwned.apps
+		syncer.jsx.push(
+			<div>
+				<span className="esgst-bold">Added apps:</span>
+				{removedOwned.apps
 					.map((x, i) => {
-						x = ['a', { href: `http://store.steampowered.com/app/${x}` }, x];
-						return i < addedOwned.apps.length - 1 ? [x, `,`] : [x];
+						x = <a href={`http://store.steampowered.com/app/${x}`}>{x}</a>;
+						return i < removedOwned.apps.length - 1 ? [x, ','] : [x];
 					})
-					.reduce((a, b) => a.concat(b)),
-			],
-		]);
+					.flat()}
+			</div>
+		);
 	}
 	if (addedOwned.subs.length > 0) {
-		syncer.html.push([
-			'div',
-			[
-				['span', { class: 'esgst-bold' }, `Added packages:`],
-				...addedOwned.subs
+		syncer.jsx.push(
+			<div>
+				<span className="esgst-bold">Added packages:</span>
+				{removedOwned.subs
 					.map((x, i) => {
-						x = ['a', { href: `http://store.steampowered.com/sub/${x}` }, x];
-						return i < addedOwned.subs.length - 1 ? [x, `,`] : [x];
+						x = <a href={`http://store.steampowered.com/sub/${x}`}>{x}</a>;
+						return i < removedOwned.subs.length - 1 ? [x, ','] : [x];
 					})
-					.reduce((a, b) => a.concat(b)),
-			],
-		]);
+					.flat()}
+			</div>
+		);
 	}
 }
 

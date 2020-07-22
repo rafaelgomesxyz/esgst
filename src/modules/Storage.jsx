@@ -10,6 +10,7 @@ import { permissions } from '../class/Permissions';
 import { CloudStorage } from './CloudStorage';
 import { persistentStorage } from '../class/PersistentStorage';
 import { LocalStorage } from '../class/LocalStorage';
+import { DOM } from '../class/DOM';
 
 function getDataMenu(option, switches, type) {
 	let i, m, menu, n, options, toggleSwitch;
@@ -24,7 +25,7 @@ function getDataMenu(option, switches, type) {
 		null,
 		Settings.get(`${type}_${option.key}`)
 	);
-	switches[option.key].size = Shared.common.createElements(switches[option.key].name, 'beforeEnd', [
+	switches[option.key].size = Shared.common.createElements(switches[option.key].name, 'beforeend', [
 		{
 			attributes: {
 				class: 'esgst-bold',
@@ -33,7 +34,7 @@ function getDataMenu(option, switches, type) {
 		},
 	]);
 	if (option.name === 'Main') {
-		Shared.common.createElements(switches[option.key].name, 'beforeEnd', [
+		Shared.common.createElements(switches[option.key].name, 'beforeend', [
 			{
 				attributes: {
 					class: 'fa fa-question-circle',
@@ -44,7 +45,7 @@ function getDataMenu(option, switches, type) {
 		]);
 	}
 	if (option.options) {
-		options = Shared.common.createElements(menu, 'beforeEnd', [
+		options = Shared.common.createElements(menu, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-form-row-indent SMFeatures esgst-hidden',
@@ -54,7 +55,7 @@ function getDataMenu(option, switches, type) {
 		]);
 		const optionSwitches = {};
 		if (option.options.length > 1) {
-			const group = Shared.common.createElements(options, 'beforeEnd', [
+			const group = Shared.common.createElements(options, 'beforeend', [
 				{
 					attributes: {
 						class: 'esgst-button-group',
@@ -273,7 +274,7 @@ function loadDataManagement(type, isPopup, callback) {
 		if (!isPopup) {
 			Shared.esgst.mainPageHeading = heading;
 		}
-		dm.computerSpace = Shared.common.createElements(containerr, 'beforeEnd', [
+		dm.computerSpace = Shared.common.createElements(containerr, 'beforeend', [
 			{
 				type: 'div',
 				children: [
@@ -599,7 +600,7 @@ function loadDataManagement(type, isPopup, callback) {
 		}
 		if (type === 'import' || type === 'delete') {
 			if (type === 'import') {
-				dm.input = Shared.common.createElements(containerr, 'beforeEnd', [
+				dm.input = Shared.common.createElements(containerr, 'beforeend', [
 					{
 						attributes: {
 							type: 'file',
@@ -731,7 +732,7 @@ function loadDataManagement(type, isPopup, callback) {
 				true
 			);
 		}
-		dm.message = Shared.common.createElements(containerr, 'beforeEnd', [
+		dm.message = Shared.common.createElements(containerr, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-description',
@@ -739,7 +740,7 @@ function loadDataManagement(type, isPopup, callback) {
 				type: 'div',
 			},
 		]);
-		dm.warning = Shared.common.createElements(containerr, 'beforeEnd', [
+		dm.warning = Shared.common.createElements(containerr, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-description esgst-warning',
@@ -747,7 +748,7 @@ function loadDataManagement(type, isPopup, callback) {
 				type: 'div',
 			},
 		]);
-		group1 = Shared.common.createElements(containerr, 'beforeEnd', [
+		group1 = Shared.common.createElements(containerr, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-button-group',
@@ -794,7 +795,7 @@ function loadDataManagement(type, isPopup, callback) {
 				callback1: Shared.common.selectSwitches.bind(Shared.common, dm.switches, 'toggle', group1),
 			}).set
 		);
-		group2 = Shared.common.createElements(containerr, 'beforeEnd', [
+		group2 = Shared.common.createElements(containerr, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-button-group',
@@ -982,7 +983,7 @@ function loadDataCleaner(isPopup) {
 	if (!isPopup) {
 		Shared.esgst.mainPageHeading = heading;
 	}
-	Shared.common.createElements(context, 'beforeEnd', [
+	Shared.common.createElements(context, 'beforeend', [
 		{
 			attributes: {
 				class: 'esgst-bold esgst-description esgst-red',

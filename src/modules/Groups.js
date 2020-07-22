@@ -76,10 +76,10 @@ class Groups extends Module {
 			const isHeading = group.context.classList.contains('featured__heading__medium');
 			if (isHeading) {
 				group.tagContext = group.container;
-				group.tagPosition = 'beforeEnd';
+				group.tagPosition = 'beforeend';
 			} else {
 				group.tagContext = group.context;
-				group.tagPosition = 'afterEnd';
+				group.tagPosition = 'afterend';
 			}
 			this.esgst.currentScope.groups.push(group);
 			groups.push(group);

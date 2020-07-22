@@ -222,7 +222,7 @@ class Games extends Module {
 						(game.container.closest('.poll') &&
 							game.container.getElementsByClassName('table__column__heading')[0]) ||
 						game.headingName;
-					game.tagPosition = 'afterEnd';
+					game.tagPosition = 'afterend';
 					game.saved = this.esgst.games[type][id];
 					games[type][id].push(game);
 					games.all.push(game);

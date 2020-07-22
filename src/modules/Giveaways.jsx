@@ -427,7 +427,7 @@ class Giveaways extends Module {
 				giveaway.entries = parseInt(entriesLink.textContent.replace(/,/g, ''));
 			}
 		}
-		giveaway.extraPanel = DOM.build(giveaway.summary, 'beforeEnd', [['div']]);
+		DOM.insert(giveaway.summary, 'beforeend', <div ref={(ref) => (giveaway.extraPanel = ref)} />);
 		giveaway.panel = giveaway.innerWrap.getElementsByClassName('esgst-giveaway-panel')[0];
 		if (
 			!giveaway.panel &&
@@ -439,11 +439,13 @@ class Giveaways extends Module {
 				Settings.get('cewgd'))
 		) {
 			if (giveaway.links) {
-				giveaway.panelFlexbox = DOM.build(giveaway.links, 'afterEnd', [
-					['div', { class: 'esgst-panel-flexbox' }],
-				]);
+				DOM.insert(
+					giveaway.links,
+					'afterend',
+					<div className="esgst-panel-flexbox" ref={(ref) => (giveaway.panelFlexbox = ref)}></div>
+				);
 				giveaway.panelFlexbox.appendChild(giveaway.links);
-				giveaway.panel = createElements(giveaway.panelFlexbox, 'beforeEnd', [
+				giveaway.panel = createElements(giveaway.panelFlexbox, 'beforeend', [
 					{
 						attributes: {
 							class: 'giveaway__columns esgst-giveaway-panel',
@@ -454,7 +456,7 @@ class Giveaways extends Module {
 			} else if (giveaway.columns) {
 				if (archivePath) {
 					giveaway.columns.style.justifyContent = 'flex-end';
-					giveaway.panel = createElements(giveaway.columns, 'afterEnd', [
+					giveaway.panel = createElements(giveaway.columns, 'afterend', [
 						{
 							attributes: {
 								class: 'giveaway__columns esgst-giveaway-panel',
@@ -463,7 +465,7 @@ class Giveaways extends Module {
 						},
 					]);
 				} else {
-					giveaway.panel = createElements(giveaway.columns, 'afterEnd', [
+					giveaway.panel = createElements(giveaway.columns, 'afterend', [
 						{
 							attributes: {
 								class: 'featured__columns esgst-giveaway-panel',
@@ -482,7 +484,7 @@ class Giveaways extends Module {
 			) {
 				giveaway.panel = createElements(
 					giveaway.innerWrap.firstElementChild.nextElementSibling,
-					'afterEnd',
+					'afterend',
 					[
 						{
 							attributes: {
@@ -495,7 +497,7 @@ class Giveaways extends Module {
 			}
 		}
 		if (giveaway.sgTools && !giveaway.panel.getElementsByClassName('esgst-ge-sgt-button')[0]) {
-			createElements(giveaway.panel, 'beforeEnd', [
+			createElements(giveaway.panel, 'beforeend', [
 				{
 					attributes: {
 						class: 'esgst-ge-sgt-button esgst-giveaway-column-button',
@@ -544,7 +546,7 @@ class Giveaways extends Module {
 		giveaway.touhouBox = giveaway.outerWrap.querySelector('.touhou_giveaway_points');
 		if (!main || !giveawayPath) {
 			if (giveaway.inviteOnly) {
-				createElements(giveaway.inviteOnly, 'inner', [
+				createElements(giveaway.inviteOnly, 'atinner', [
 					{
 						attributes: {
 							class: 'fa fa-lock',
@@ -554,7 +556,7 @@ class Giveaways extends Module {
 				]);
 			}
 			if (giveaway.group) {
-				createElements(giveaway.group, 'inner', [
+				createElements(giveaway.group, 'atinner', [
 					{
 						attributes: {
 							class: 'fa fa-user',
@@ -564,7 +566,7 @@ class Giveaways extends Module {
 				]);
 			}
 			if (giveaway.whitelist) {
-				createElements(giveaway.whitelist, 'inner', [
+				createElements(giveaway.whitelist, 'atinner', [
 					{
 						attributes: {
 							class: 'fa fa-heart',
@@ -601,7 +603,7 @@ class Giveaways extends Module {
 					!this.esgst.giveaways[giveaway.code].recreated) &&
 				!giveaway.heading.getElementsByClassName('esgst-gr-button')[0]
 			) {
-				let button = createElements(giveaway.headingName, 'beforeBegin', [
+				let button = createElements(giveaway.headingName, 'beforebegin', [
 					{
 						attributes: {
 							class: 'esgst-gr-button',
@@ -637,7 +639,7 @@ class Giveaways extends Module {
 					hideButton = hideButton.parentElement;
 				}
 				let temp = hideButton.previousElementSibling;
-				createElements(hideButton, 'outer', [
+				createElements(hideButton, 'atouter', [
 					{
 						attributes: {
 							class: 'fa fa-eye-slash giveaway__hide giveaway__icon',

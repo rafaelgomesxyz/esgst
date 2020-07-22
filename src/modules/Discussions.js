@@ -89,7 +89,7 @@ class Discussions extends Module {
 				name: element.textContent.trim(),
 				saved: this.esgst.discussions[id],
 				tagContext: element,
-				tagPosition: 'afterEnd',
+				tagPosition: 'afterend',
 				sortIndex: 0,
 				type: '',
 			});
@@ -119,7 +119,7 @@ class Discussions extends Module {
 			discussion.container = discussion.headingContainer;
 			discussion.tagContext = discussion.container.querySelector(`[href*="/discussion/"]`);
 			discussion.name = discussion.tagContext.textContent.trim();
-			discussion.tagPosition = 'afterEnd';
+			discussion.tagPosition = 'afterend';
 			discussion.saved = this.esgst.discussions[discussion.code];
 			discussion.title = discussion.heading.getElementsByTagName('H1')[0].textContent.trim();
 			discussion.category =
@@ -306,7 +306,7 @@ class Discussions extends Module {
 		discussion.name = discussion.title;
 		discussion.container = discussion.headingContainer;
 		discussion.tagContext = discussion.headingContainer;
-		discussion.tagPosition = 'beforeEnd';
+		discussion.tagPosition = 'beforeend';
 		return discussion;
 	}
 }

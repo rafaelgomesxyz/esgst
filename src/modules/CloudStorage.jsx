@@ -186,9 +186,12 @@ class CloudStorage {
 		};
 		popup.open();
 
-		const filesContainer = DOM.build(popup.scrollable, 'beforeEnd', [
-			['div', { class: 'popup__keys__list' }],
-		]);
+		let filesContainer;
+		DOM.insert(
+			popup.scrollable,
+			'beforeend',
+			<div className="popup__keys__list" ref={(ref) => (filesContainer = ref)}></div>
+		);
 
 		let files = null;
 
@@ -215,17 +218,16 @@ class CloudStorage {
 		let selectedFiles = {};
 
 		for (const file of files) {
-			const item = DOM.build(filesContainer, 'beforeEnd', [
-				[
-					'div',
-					{ class: 'esgst-clickable esgst-restore-entry' },
-					[
-						['span'],
-						['span', `${file.name} - ${Shared.common.convertBytes(file.size)}`],
-						['i', { class: 'fa fa-times-circle', title: 'Delete file' }],
-					],
-				],
-			]);
+			let item;
+			DOM.insert(
+				filesContainer,
+				'beforeend',
+				<div className="esgst-clickable esgst-restore-entry" ref={(ref) => (item = ref)}>
+					<span></span>
+					<span>{`${file.name} - ${Shared.common.convertBytes(file.size)}`}</span>
+					<i className="fa fa-times-circle" title="Delete file"></i>
+				</div>
+			);
 			const checkbox = new Checkbox(item.firstElementChild);
 			checkbox.onEnabled = () => (selectedFiles[file.id] = { item });
 			checkbox.onDisabled = () => delete selectedFiles[file.id];
