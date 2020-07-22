@@ -13,31 +13,21 @@ class GiveawaysCommentEntryChecker extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							[
-								`Adds a button (`,
-								['i', { class: 'fa fa-comments' }],
-								' ',
-								['i', { class: 'fa fa-ticket' }],
-								' ',
-								['i', { class: 'fa fa-question-circle' }],
-								` ) to the main page heading of any `,
-								['a', { href: `https://www.steamgifts.com/giveaway/aeqw7/` }, 'giveaway'],
-								` page that allows you to view the list (including the number and percentage) of users that commented without entering, users that entered without commenting and users that commented & entered.`,
-							],
-						],
-						[
-							'li',
-							`If the giveaway has a link to a discussion, the feature will also check for comments in the discussion.`,
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Adds a button (<i className="fa fa-comments"></i> <i className="fa fa-ticket"></i>{' '}
+						<i className="fa fa-question-circle"></i> ) to the main page heading of any{' '}
+						<a href="https://www.steamgifts.com/giveaway/aeqw7/">giveaway</a> page that allows you
+						to view the list (including the number and percentage) of users that commented without
+						entering, users that entered without commenting and users that commented & entered.
+					</li>
+					<li>
+						If the giveaway has a link to a discussion, the feature will also check for comments in
+						the discussion.
+					</li>
+				</ul>
+			),
 			features: {
 				cec_t: {
 					name: 'Open results in a new tab.',

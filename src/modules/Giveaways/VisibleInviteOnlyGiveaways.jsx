@@ -7,25 +7,22 @@ class GiveawaysVisibleInviteOnlyGiveaways extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							'Displays information for open invite-only giveaways in profile pages if the information is available in the storage.',
-						],
-						[
-							'li',
-							`To add information about a giveaway from someone else to the storage, you must enter the giveaway and visit your entered page with [id=cewgd] enabled.`,
-						],
-						[
-							'li',
-							`To add information about your own giveaways to the storage, you must sync your giveaways in the sync menu or check your profile with [id=ugd].`,
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Displays information for open invite-only giveaways in profile pages if the information
+						is available in the storage.
+					</li>
+					<li>
+						To add information about a giveaway from someone else to the storage, you must enter the
+						giveaway and visit your entered page with [id=cewgd] enabled.
+					</li>
+					<li>
+						To add information about your own giveaways to the storage, you must sync your giveaways
+						in the sync menu or check your profile with [id=ugd].
+					</li>
+				</ul>
+			),
 			id: 'viog',
 			name: 'Visible Invite-Only Giveaways',
 			sg: true,

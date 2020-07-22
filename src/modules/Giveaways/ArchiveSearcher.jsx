@@ -14,19 +14,13 @@ class GiveawaysArchiveSearcher extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						['li', 'Allows you to search the archive by exact title or app id.'],
-						[
-							'li',
-							`To search by exact title, wrap the title in double quotes, for example: "Dream"`,
-						],
-						['li', `To search by app id, use the "id:[id]" format, for example: id:229580`],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>Allows you to search the archive by exact title or app id.</li>
+					<li>To search by exact title, wrap the title in double quotes, for example: "Dream"</li>
+					<li>To search by app id, use the "id:[id]" format, for example: id:229580</li>
+				</ul>
+			),
 			features: {
 				as_t: {
 					name: 'Open results in a new tab.',

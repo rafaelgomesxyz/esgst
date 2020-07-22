@@ -17,29 +17,20 @@ class GiveawaysSentKeySearcher extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							[
-								`Adds a button (`,
-								['i', { class: 'fa fa-key' }],
-								' ',
-								['i', { class: 'fa fa-search' }],
-								`) to the main page heading of your `,
-								['a', { href: `https://www.steamgifts.com/giveaways/created` }, 'created'],
-								' page that allows you to search for a key or a set of keys in all of keys that you have ever sent.',
-							],
-						],
-						[
-							'li',
-							'There is also an option to export all of the keys that you have ever sent to a text file.',
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Adds a button (<i className="fa fa-key"></i> <i className="fa fa-search"></i>) to the
+						main page heading of your{' '}
+						<a href="https://www.steamgifts.com/giveaways/created">created</a> page that allows you
+						to search for a key or a set of keys in all of keys that you have ever sent.
+					</li>
+					<li>
+						There is also an option to export all of the keys that you have ever sent to a text
+						file.
+					</li>
+				</ul>
+			),
 			id: 'sks',
 			name: 'Sent Key Searcher',
 			sg: true,

@@ -17,52 +17,36 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
 		this.giveaways = null;
 
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							[
-								'Adds more details to each giveaway in your ',
-								['a', { href: `https://www.steamgifts.com/giveaways/created` }, 'created'],
-								'/',
-								['a', { href: `https://www.steamgifts.com/giveaways/entered` }, 'entered'],
-								'/',
-								['a', { href: `https://www.steamgifts.com/giveaways/won` }, 'won'],
-								` pages:`,
-							],
-						],
-						[
-							'ul',
-							[
-								['li', "How many points the giveaway is worth next to the game's name."],
-								[
-									'li',
-									[
-										`An icon (`,
-										['i', { class: 'fa fa-steam' }],
-										`) next to the game's name that links to the game's Steam store page.`,
-									],
-								],
-								[
-									'li',
-									`For the entered/won pages only, the creator\'s username next to the giveaway's end time.`,
-								],
-								[
-									'li',
-									`A column "Type" containing the giveaway's type (public, invite only, group, whitelist or region restricted).`,
-								],
-								['li', 'A column "Level" containing the giveaway\'s level.'],
-								[
-									'li',
-									`For the created page only, a column "Winner(s)" containing the giveaway's winner(s) and how many of them have marked it as received/not received.`,
-								],
-							],
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Adds more details to each giveaway in your{' '}
+						<a href="https://www.steamgifts.com/giveaways/created">created</a>/
+						<a href="https://www.steamgifts.com/giveaways/entered">entered</a>/
+						<a href="https://www.steamgifts.com/giveaways/won">won</a> pages:
+					</li>
+					<ul>
+						<li>How many points the giveaway is worth next to the game's name.</li>
+						<li>
+							An icon (<i className="fa fa-steam"></i>) next to the game's name that links to the
+							game's Steam store page.
+						</li>
+						<li>
+							For the entered/won pages only, the creator's username next to the giveaway's end
+							time.
+						</li>
+						<li>
+							A column "Type" containing the giveaway's type (public, invite only, group, whitelist
+							or region restricted).
+						</li>
+						<li>A column "Level" containing the giveaway's level.</li>
+						<li>
+							For the created page only, a column "Winner(s)" containing the giveaway's winner(s)
+							and how many of them have marked it as received/not received.
+						</li>
+					</ul>
+				</ul>
+			),
 			features: {
 				cewgd_c: {
 					name: 'Enable for Created pages.',

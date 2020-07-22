@@ -21,33 +21,22 @@ class GiveawaysUnsentGiftSender extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							[
-								`Adds a button (`,
-								['i', { class: 'fa fa-gift' }],
-								' ',
-								['i', { class: 'fa fa-send' }],
-								`) to the main page heading of your `,
-								['a', { href: `https://www.steamgifts.com/giveaways/created` }, 'created'],
-								' page that allows you to send all of your unsent gifts at once.',
-							],
-						],
-						[
-							'li',
-							[
-								`You can limit which gifts are sent based on whether or not the winner has any not activated/multiple wins (using `,
-								['a', { href: `https://www.sgtools.info/` }, 'SGTools'],
-								`), whether or not the winner is still a member of the group and has a certain gift difference for group giveaways, and whether or not the winner is on your whitelist/blacklist.`,
-							],
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Adds a button (<i className="fa fa-gift"></i> <i className="fa fa-send"></i>) to the
+						main page heading of your{' '}
+						<a href="https://www.steamgifts.com/giveaways/created">created</a> page that allows you
+						to send all of your unsent gifts at once.
+					</li>
+					<li>
+						You can limit which gifts are sent based on whether or not the winner has any not
+						activated/multiple wins (using <a href="https://www.sgtools.info/">SGTools</a>), whether
+						or not the winner is still a member of the group and has a certain gift difference for
+						group giveaways, and whether or not the winner is on your whitelist/blacklist.
+					</li>
+				</ul>
+			),
 			id: 'ugs',
 			name: 'Unsent Gift Sender',
 			sg: true,

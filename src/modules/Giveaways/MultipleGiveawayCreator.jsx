@@ -31,42 +31,36 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							[
-								'Adds a section 0 to the ',
-								['a', { href: `https://www.steamgifts.com/giveaways/new` }, 'new giveaway'],
-								' page that allows you to create multiple giveaways at once.',
-							],
-						],
-						[
-							'li',
-							`There is also a special tool to create a train (multiple giveaways linked to each other), which has the option to automatically create a discussion for the train.`,
-						],
-						[
-							'li',
-							[
-								'The icon ',
-								['i', { class: 'fa fa-question-circle' }],
-								'  next to "Create Multiple Giveaways" in the section contains all of the steps that you have to follow to use the feature correctly.',
-							],
-						],
-						[
-							'li',
-							`When you add a giveaway to the queue, a small numbered box appears at the panel below the buttons to represent that giveaway. If you hover over the box it shows the details of the giveaway.`,
-						],
-						['li', 'You can re-order/remove a giveaway by dragging and dropping the box.'],
-						[
-							'li',
-							`The giveaways will be created without reviewing or validating, so make sure that all of the fields were filled correctly or the creation will fail (if a train is being created, the failed giveaway will be disconnected and the previous giveaway will be connected to the next one instead).`,
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Adds a section 0 to the{' '}
+						<a href="https://www.steamgifts.com/giveaways/new">new giveaway</a> page that allows you
+						to create multiple giveaways at once.
+					</li>
+					<li>
+						There is also a special tool to create a train (multiple giveaways linked to each
+						other), which has the option to automatically create a discussion for the train.
+					</li>
+					<li>
+						The icon <i className="fa fa-question-circle"></i> next to "Create Multiple Giveaways"
+						in the section contains all of the steps that you have to follow to use the feature
+						correctly.
+					</li>
+					<li>
+						When you add a giveaway to the queue, a small numbered box appears at the panel below
+						the buttons to represent that giveaway. If you hover over the box it shows the details
+						of the giveaway.
+					</li>
+					<li>You can re-order/remove a giveaway by dragging and dropping the box.</li>
+					<li>
+						The giveaways will be created without reviewing or validating, so make sure that all of
+						the fields were filled correctly or the creation will fail (if a train is being created,
+						the failed giveaway will be disconnected and the previous giveaway will be connected to
+						the next one instead).
+					</li>
+				</ul>
+			),
 			id: 'mgc',
 			name: 'Multiple Giveaway Creator',
 			sg: true,

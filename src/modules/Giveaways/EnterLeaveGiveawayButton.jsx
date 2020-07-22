@@ -20,24 +20,16 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							[
-								`Adds a button ("`,
-								['i', { class: 'fa fa-plus-circle' }],
-								' Enter" to enter and "',
-								['i', { class: 'fa fa-minus-circle' }],
-								` Leave" to leave) below a giveaway's start time (in any page) that allows you to enter/leave the giveaway without having to access it.`,
-							],
-						],
-						['li', 'You can move the button around by dragging and dropping it.'],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Adds a button ("<i className="fa fa-plus-circle"></i> Enter" to enter and "
+						<i className="fa fa-minus-circle"></i> Leave" to leave) below a giveaway's start time
+						(in any page) that allows you to enter/leave the giveaway without having to access it.
+					</li>
+					<li>You can move the button around by dragging and dropping it.</li>
+				</ul>
+			),
 			features: {
 				elgb_b: {
 					dependencies: ['gb'],
@@ -62,17 +54,14 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
 					sg: true,
 				},
 				elgb_p: {
-					description: [
-						[
-							'ul',
-							[
-								[
-									'li',
-									`Only shows the button in popups([id=gb], [id=ged], [id=ge], etc...), so basically only for any giveaways that are loaded dynamically by ESGST.`,
-								],
-							],
-						],
-					],
+					description: () => (
+						<ul>
+							<li>
+								Only shows the button in popups([id=gb], [id=ged], [id=ge], etc...), so basically
+								only for any giveaways that are loaded dynamically by ESGST.
+							</li>
+						</ul>
+					),
 					name: 'Only enable for popups.',
 					sg: true,
 				},

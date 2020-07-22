@@ -8,59 +8,37 @@ class GiveawaysGiveawayErrorSearchLinks extends Module {
 		super();
 		this.info = {
 			// by Royalgamer06
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							[
-								`If you cannot access a giveaway because of many different reasons, a "Search Links" row is added to the table of the `,
-								['a', { href: `https://www.steamgifts.com/giveaway/FN2PK/` }, 'error'],
-								` page containing 4 links that allow you to search for the game elsewhere:`,
-							],
-						],
-						[
-							'ul',
-							[
-								[
-									'li',
-									'A SteamGifts icon that allows you to search for open giveaways of the game on SteamGifts.',
-								],
-								[
-									'li',
-									[
-										['i', { class: 'fa fa-steam' }],
-										'  allows you to search for the game on Steam.',
-									],
-								],
-								[
-									'li',
-									[
-										[
-											'i',
-											{ class: 'fa' },
-											[['img', { src: `https://steamdb.info/static/logos/favicon-16x16.png` }]],
-										],
-										' allows you to search for the game on SteamDB.',
-									],
-								],
-								[
-									'li',
-									[
-										[
-											'i',
-											{ class: 'fa' },
-											[['img', { src: `https://bartervg.com/imgs/ico/barter/favicon-16x16.png` }]],
-										],
-										' allows you to search for the game on Barter.vg.',
-									],
-								],
-							],
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						If you cannot access a giveaway because of many different reasons, a "Search Links" row
+						is added to the table of the{' '}
+						<a href="https://www.steamgifts.com/giveaway/FN2PK/">error</a> page containing 4 links
+						that allow you to search for the game elsewhere:
+					</li>
+					<ul>
+						<li>
+							A SteamGifts icon that allows you to search for open giveaways of the game on
+							SteamGifts.
+						</li>
+						<li>
+							<i className="fa fa-steam"></i> allows you to search for the game on Steam.
+						</li>
+						<li>
+							<i className="fa">
+								<img src="https://steamdb.info/static/logos/favicon-16x16.png"></img>
+							</i>{' '}
+							allows you to search for the game on SteamDB.
+						</li>
+						<li>
+							<i className="fa">
+								<img src="https://bartervg.com/imgs/ico/barter/favicon-16x16.png"></img>
+							</i>{' '}
+							allows you to search for the game on Barter.vg.
+						</li>
+					</ul>
+				</ul>
+			),
 			id: 'gesl',
 			name: 'Giveaway Error Search Links',
 			sg: true,

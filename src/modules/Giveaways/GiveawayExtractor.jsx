@@ -22,47 +22,40 @@ class GiveawaysGiveawayExtractor extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							[
-								`Adds a button (`,
-								['i', { class: 'fa fa-gift' }],
-								' ',
-								['i', { class: 'fa fa-search' }],
-								`) to the main page heading of any giveaway/discussion page that allows you to extract all of the giveaways that are linked in the page.`,
-							],
-						],
-						[
-							'li',
-							`The giveaways are extracted recursively. For example, if giveaway A has links to giveaways B and C, the feature will extract giveaway B and all of the giveaways linked in it before moving on to giveaway C, and so on.`,
-						],
-						[
-							'li',
-							`The feature keeps extracting giveaways until it no longer finds a giveaway link in the page. To prevent a loop (and consequently duplicate results), it keeps track of which giveaways it has already extracted so that they are not extracted again.`,
-						],
-						[
-							'li',
-							`If you use the feature in a giveaway page, it will add a "Bump" link to the results (when available).`,
-						],
-						[
-							'li',
-							`This feature is useful for extracting trains (multiple giveaways linked to each other).`,
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Adds a button (<i className="fa fa-gift"></i> <i className="fa fa-search"></i>) to the
+						main page heading of any giveaway/discussion page that allows you to extract all of the
+						giveaways that are linked in the page.
+					</li>
+					<li>
+						The giveaways are extracted recursively. For example, if giveaway A has links to
+						giveaways B and C, the feature will extract giveaway B and all of the giveaways linked
+						in it before moving on to giveaway C, and so on.
+					</li>
+					<li>
+						The feature keeps extracting giveaways until it no longer finds a giveaway link in the
+						page. To prevent a loop (and consequently duplicate results), it keeps track of which
+						giveaways it has already extracted so that they are not extracted again.
+					</li>
+					<li>
+						If you use the feature in a giveaway page, it will add a "Bump" link to the results
+						(when available).
+					</li>
+					<li>
+						This feature is useful for extracting trains (multiple giveaways linked to each other).
+					</li>
+				</ul>
+			),
 			features: {
 				ge_p: {
-					description: [
-						[
-							'li',
-							`With this option enabled, a second button is added that allows you to specify certain parameters before beginning the extraction.`,
-						],
-					],
+					description: () => (
+						<li>
+							With this option enabled, a second button is added that allows you to specify certain
+							parameters before beginning the extraction.
+						</li>
+					),
 					name: 'Add button to specify parameters.',
 					sg: true,
 				},

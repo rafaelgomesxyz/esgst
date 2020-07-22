@@ -8,18 +8,15 @@ class GiveawaysFollowedGamesPage extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							'Adds a new giveaway page where you can see open giveaways for all of your followed games.',
-						],
-						['li', 'To access this page, use the sidebar navigation from the main page.'],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Adds a new giveaway page where you can see open giveaways for all of your followed
+						games.
+					</li>
+					<li>To access this page, use the sidebar navigation from the main page.</li>
+				</ul>
+			),
 			id: 'fgp',
 			name: 'Followed Games Page',
 			sg: true,
