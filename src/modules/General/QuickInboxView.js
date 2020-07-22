@@ -91,7 +91,7 @@ class GeneralQuickInboxView extends Module {
 			if (Session.counters.messages > 0) {
 				this.qiv_addMarkReadButton();
 			}
-			this.esgst.qiv.comments = createElements(this.esgst.qiv.popout.popout, 'beforeEnd', [
+			this.esgst.qiv.comments = createElements(this.esgst.qiv.popout.popout, 'beforeend', [
 				{
 					attributes: {
 						class: 'esgst-qiv-comments',
@@ -136,7 +136,7 @@ class GeneralQuickInboxView extends Module {
 				if (Session.counters.messages > 0) {
 					this.qiv_addMarkReadButton();
 				}
-				this.esgst.qiv.comments = createElements(this.esgst.qiv.popout.popout, 'beforeEnd', [
+				this.esgst.qiv.comments = createElements(this.esgst.qiv.popout.popout, 'beforeend', [
 					{
 						attributes: {
 							class: 'esgst-qiv-comments',
@@ -182,7 +182,7 @@ class GeneralQuickInboxView extends Module {
 			do {
 				const loading = createElements(
 					this.esgst.qiv.popout.popout,
-					first || preload ? 'afterBegin' : 'beforeEnd',
+					first || preload ? 'afterbegin' : 'beforeend',
 					[
 						{
 							type: 'span',
@@ -243,7 +243,7 @@ class GeneralQuickInboxView extends Module {
 					}
 					if (context.children.length) {
 						for (const element of comments) {
-							createElements(element, 'afterBegin', [
+							createElements(element, 'afterbegin', [
 								{
 									attributes: {
 										class: 'esgst-qiv-new esgst-warning',
@@ -305,7 +305,7 @@ class GeneralQuickInboxView extends Module {
 		let key, url;
 		if (this.esgst.qiv.markReadButton) return;
 		if (this.esgst.sg) {
-			this.esgst.qiv.markReadButton = createElements(this.esgst.qiv.popout.popout, 'afterBegin', [
+			this.esgst.qiv.markReadButton = createElements(this.esgst.qiv.popout.popout, 'afterbegin', [
 				{
 					attributes: {
 						class: 'sidebar__action-button',
@@ -328,7 +328,7 @@ class GeneralQuickInboxView extends Module {
 			key = 'read_messages';
 			url = '/messages';
 		} else {
-			this.esgst.qiv.markReadButton = createElements(this.esgst.qiv.popout.popout, 'afterBegin', [
+			this.esgst.qiv.markReadButton = createElements(this.esgst.qiv.popout.popout, 'afterbegin', [
 				{
 					attributes: {
 						class: 'page_heading_btn green',

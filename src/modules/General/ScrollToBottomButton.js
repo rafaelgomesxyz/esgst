@@ -42,7 +42,7 @@ class GeneralScrollToBottomButton extends Module {
 		let button;
 		switch (Settings.get('stbb_index')) {
 			case 0:
-				button = createElements(document.body, 'beforeEnd', [
+				button = createElements(document.body, 'beforeend', [
 					{
 						attributes: {
 							class: 'esgst-stbb-button esgst-stbb-button-fixed',
@@ -78,7 +78,7 @@ class GeneralScrollToBottomButton extends Module {
 			case 2: {
 				const linkContainer = Shared.footer.addLinkContainer({
 					icon: 'fa fa-chevron-down',
-					position: 'beforeEnd',
+					position: 'beforeend',
 					side: 'right',
 				});
 

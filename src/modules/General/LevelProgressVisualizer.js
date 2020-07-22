@@ -271,7 +271,7 @@ class GeneralLevelProgressVisualizer extends Module {
 			styleString += '}\n\n';
 		}
 		if (!this.esgst.lpvStyle) {
-			this.esgst.lpvStyle = createElements(this.esgst.style, 'afterEnd', [
+			this.esgst.lpvStyle = createElements(this.esgst.style, 'afterend', [
 				{
 					attributes: {
 						id: 'esgst-lpv-style',

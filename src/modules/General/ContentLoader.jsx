@@ -417,26 +417,33 @@ class GeneralContentLoader extends Module {
 						triggerObj = new Popout(`esgst-${id}-popout`, undefined, undefined, onClick);
 						context = triggerObj.popout;
 
-						DOM.build(context, 'beforeEnd', [
-							['div', [['a', { class: `esgst-${id}-heading`, href: url }, name]]],
-						]);
+						DOM.insert(
+							context,
+							'beforeend',
+							<div>
+								<a className={`esgst-${id}-heading`} href={url}>
+									{name}
+								</a>
+							</div>
+						);
 
 						triggerObj.open(target);
 					}
 
-					DOM.build(context, 'beforeEnd', [
-						addSearchBox
-							? [
-									'input',
-									{
-										placeholder: 'Search...',
-										type: 'text',
-										ref: (ref) => (triggerObj.custom.searchBox = ref),
-									},
-							  ]
-							: null,
-						['div'],
-					]);
+					DOM.insert(
+						context,
+						'beforeend',
+						<fragment>
+							{addSearchBox ? (
+								<input
+									placeholder="Search..."
+									type="text"
+									ref={(ref) => (triggerObj.custom.searchBox = ref)}
+								/>
+							) : null}
+							<div />
+						</fragment>
+					);
 					if (triggerObj.custom.searchBox) {
 						triggerObj.custom.searchBox.addEventListener('input', () => {
 							const value = triggerObj.custom.searchBox.value.toLowerCase();
@@ -462,10 +469,14 @@ class GeneralContentLoader extends Module {
 						});
 					}
 
-					DOM.build(context.lastElementChild, 'inner', [
-						['i', { class: 'fa fa-circle-o-notch fa-spin' }],
-						' Loading content...',
-					]);
+					DOM.insert(
+						context.lastElementChild,
+						'atinner',
+						<fragment>
+							<i className="fa fa-circle-o-notch fa-spin"></i>
+							{' Loading content...'}
+						</fragment>
+					);
 
 					triggerObj.reposition();
 
@@ -545,57 +556,51 @@ class GeneralContentLoader extends Module {
 		if (countries) {
 			let table;
 
-			DOM.build(context.lastElementChild, 'inner', [
-				[
-					'div',
-					{ class: 'esgst-text-left table esgst-hidden', ref: (ref) => (table = ref) },
-					[['div', { class: 'table__rows', ref: (ref) => (triggerObj.custom.rows = ref) }]],
-				],
-			]);
+			DOM.insert(
+				context.lastElementChild,
+				'atinner',
+				<div className="esgst-text-left table esgst-hidden" ref={(ref) => (table = ref)}>
+					<div className="table__rows" ref={(ref) => (triggerObj.custom.rows = ref)}></div>
+				</div>
+			);
 
 			let numCountries = countries.length;
 
 			for (const country of countries) {
-				DOM.build(triggerObj.custom.rows, 'beforeEnd', [
-					[
-						'div',
-						{ class: 'table__row-outer-wrap' },
-						[
-							[
-								'div',
-								{ class: 'table__row-inner-wrap' },
-								[
-									[
-										'div',
-										[
-											country.hasFlag
-												? [
-														'div',
-														{
-															class: 'table_image_flag',
-															style: `background-image:url(https://cdn.steamgifts.com/img/flags/${country.code}.png)`,
-														},
-												  ]
-												: ['div', { class: 'table_image_flag_missing' }],
-										],
-									],
-									[
-										'div',
-										{ class: 'table__column--width-fill' },
-										[['p', { class: 'table__column__heading' }, country.name]],
-									],
-								],
-							],
-						],
-					],
-				]);
+				DOM.insert(
+					triggerObj.custom.rows,
+					'beforeend',
+					<div className="table__row-outer-wrap">
+						<div className="table__row-inner-wrap">
+							<div>
+								{country.hasFlag ? (
+									<div
+										className="table_image_flag"
+										style={{
+											backgroundImage: `url(https://cdn.steamgifts.com/img/flags/${country.code}.png)`,
+										}}
+									></div>
+								) : (
+									<div className="table_image_flag_missing"></div>
+								)}
+							</div>
+							<div className="table__column--width-fill">
+								<p className="table__column__heading">{country.name}</p>
+							</div>
+						</div>
+					</div>
+				);
 			}
 
 			if (numCountries === 0) {
-				DOM.build(context.lastElementChild, 'inner', [
-					['i', { class: 'fa fa-exclamation-mark' }],
-					['span', 'You cannot see the countries of this giveaway.'],
-				]);
+				DOM.insert(
+					context.lastElementChild,
+					'atinner',
+					<fragment>
+						<i className="fa fa-exclamation-mark"></i>
+						<span>You cannot see the countries of this giveaway.</span>
+					</fragment>
+				);
 			} else if (table) {
 				table.classList.remove('esgst-hidden');
 				if (triggerObj.custom.searchBox) {
@@ -603,10 +608,14 @@ class GeneralContentLoader extends Module {
 				}
 			}
 		} else {
-			DOM.build(context.lastElementChild, 'inner', [
-				['i', { class: 'fa fa-times-circle' }],
-				['span', 'An error occurred.'],
-			]);
+			DOM.insert(
+				context.lastElementChild,
+				'atinner',
+				<fragment>
+					<i className="fa fa-times-circle"></i>
+					<span>An error occurred.</span>
+				</fragment>
+			);
 		}
 		triggerObj.reposition();
 	}
@@ -632,15 +641,15 @@ class GeneralContentLoader extends Module {
 		const loadNextPage = async () => {
 			isLoading = true;
 
-			const loadingElement = DOM.build(context, 'beforeEnd', [
-				[
-					'div',
-					[
-						['i', { class: 'fa fa-circle-o-notch fa-spin' }],
-						['span', 'Loading next page...'],
-					],
-				],
-			]);
+			let loadingElement;
+			DOM.insert(
+				context,
+				'beforeend',
+				<div ref={(ref) => (loadingElement = ref)}>
+					<i className="fa fa-circle-o-notch fa-spin"></i>
+					<span>Loading next page...</span>
+				</div>
+			);
 
 			const response = await FetchRequest.get(`${url}${nextPage}`);
 
@@ -650,10 +659,14 @@ class GeneralContentLoader extends Module {
 
 				loadingElement.remove();
 
-				DOM.build(context.lastElementChild, 'inner', [
-					['i', { class: 'fa fa-exclamation-mark' }],
-					['span', 'You cannot see the entries of this giveaway.'],
-				]);
+				DOM.insert(
+					context.lastElementChild,
+					'atinner',
+					<fragment>
+						<i className="fa fa-exclamation-mark"></i>
+						<span>You cannot see the entries of this giveaway.</span>
+					</fragment>
+				);
 
 				return;
 			} else if (triggerObj.custom.searchBox) {
@@ -676,46 +689,32 @@ class GeneralContentLoader extends Module {
 
 			const currentRows = document.createDocumentFragment();
 			for (const entry of entries) {
-				DOM.build(currentRows, 'beforeEnd', [
-					[
-						'div',
-						{ class: 'table__row-outer-wrap' },
-						[
-							[
-								'div',
-								{ class: 'table__row-inner-wrap' },
-								[
-									[
-										'div',
-										[
-											entry.avatar
-												? [
-														'a',
-														{
-															class: 'table_image_avatar',
-															href: `/user/${entry.name}`,
-															style: `background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/${entry.avatar}_medium.jpg)`,
-														},
-												  ]
-												: ['div', { class: 'table_image_avatar_missing' }],
-										],
-									],
-									[
-										'div',
-										{ class: 'table__column--width-fill' },
-										[
-											[
-												'a',
-												{ class: 'table__column__heading', href: `/user/${entry.name}` },
-												entry.name,
-											],
-										],
-									],
-								],
-							],
-						],
-					],
-				]);
+				DOM.insert(
+					currentRows,
+					'beforeend',
+					<div className="table__row-outer-wrap">
+						<div className="table__row-inner-wrap">
+							<div>
+								{entry.avatar ? (
+									<a
+										className="table_image_avatar"
+										href={`/user/${entry.name}`}
+										style={{
+											backgroundImage: `url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/${entry.avatar}_medium.jpg)`,
+										}}
+									></a>
+								) : (
+									<div className="table_image_avatar_missing"></div>
+								)}
+							</div>
+							<div className="table__column--width-fill">
+								<a className="table__column__heading" href={`/user/${entry.name}`}>
+									{entry.name}
+								</a>
+							</div>
+						</div>
+					</div>
+				);
 			}
 
 			loadingElement.remove();
@@ -744,13 +743,13 @@ class GeneralContentLoader extends Module {
 			}
 		});
 
-		DOM.build(context.lastElementChild, 'inner', [
-			[
-				'div',
-				{ class: 'esgst-text-left table' },
-				[['div', { class: 'table__rows', ref: (ref) => (triggerObj.custom.rows = ref) }]],
-			],
-		]);
+		DOM.insert(
+			context.lastElementChild,
+			'atinner',
+			<div className="esgst-text-left table">
+				<div className="table__rows" ref={(ref) => (triggerObj.custom.rows = ref)}></div>
+			</div>
+		);
 
 		triggerObj.reposition();
 
@@ -853,13 +852,13 @@ class GeneralContentLoader extends Module {
 			if (groups) {
 				let table;
 
-				DOM.build(context.lastElementChild, 'inner', [
-					[
-						'div',
-						{ class: 'esgst-text-left table esgst-hidden', ref: (ref) => (table = ref) },
-						[['div', { class: 'table__rows', ref: (ref) => (triggerObj.custom.rows = ref) }]],
-					],
-				]);
+				DOM.insert(
+					context.lastElementChild,
+					'atinner',
+					<div className="esgst-text-left table esgst-hidden" ref={(ref) => (table = ref)}>
+						<div className="table__rows" ref={(ref) => (triggerObj.custom.rows = ref)}></div>
+					</div>
+				);
 
 				let numGroups = 0;
 
@@ -878,54 +877,44 @@ class GeneralContentLoader extends Module {
 					}
 
 					if (className !== 'esgst-hidden') {
-						DOM.build(triggerObj.custom.rows, 'beforeEnd', [
-							[
-								'div',
-								{ class: `table__row-outer-wrap ${className}` },
-								[
-									[
-										'div',
-										{ class: 'table__row-inner-wrap' },
-										[
-											[
-												'div',
-												[
-													group.avatar
-														? [
-																'a',
-																{
-																	class: 'table_image_avatar',
-																	href: `/group/${group.code}/`,
-																	style: `background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/${group.avatar}_medium.jpg)`,
-																},
-														  ]
-														: ['div', { class: 'table_image_avatar_missing' }],
-												],
-											],
-											[
-												'div',
-												{ class: 'table__column--width-fill' },
-												[
-													[
-														'a',
-														{ class: 'table__column__heading', href: `/group/${group.code}/` },
-														group.name,
-													],
-												],
-											],
-										],
-									],
-								],
-							],
-						]);
+						DOM.insert(
+							triggerObj.custom.rows,
+							'beforeend',
+							<div className={`table__row-outer-wrap ${className}`}>
+								<div className="table__row-inner-wrap">
+									<div>
+										{group.avatar ? (
+											<a
+												className="table_image_avatar"
+												href={`/group/${group.code}`}
+												style={{
+													backgroundImage: `url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/${group.avatar}_medium.jpg)`,
+												}}
+											></a>
+										) : (
+											<div className="table_image_avatar_missing"></div>
+										)}
+									</div>
+									<div className="table__column--width-fill">
+										<a className="table__column__heading" href={`/group/${group.code}/`}>
+											{group.name}
+										</a>
+									</div>
+								</div>
+							</div>
+						);
 					}
 				}
 
 				if (numGroups === 0) {
-					DOM.build(context.lastElementChild, 'inner', [
-						['i', { class: 'fa fa-exclamation-mark' }],
-						['span', 'You are not a member of any group in this giveaway.'],
-					]);
+					DOM.insert(
+						context.lastElementChild,
+						'atinner',
+						<fragment>
+							<i className="fa fa-exclamation-mark"></i>
+							<span>You are not a member of any group in this giveaway.</span>
+						</fragment>
+					);
 				} else if (table) {
 					table.classList.remove('esgst-hidden');
 					if (triggerObj.custom.searchBox) {
@@ -934,16 +923,23 @@ class GeneralContentLoader extends Module {
 					Shared.common.endless_load(table);
 				}
 			} else {
-				DOM.build(context.lastElementChild, 'inner', [
-					['i', { class: 'fa fa-times-circle' }],
-					['span', 'An error occurred.'],
-				]);
+				DOM.insert(
+					context.lastElementChild,
+					'atinner',
+					<fragment>
+						<i className="fa fa-times-circle"></i>
+						<span>An error occurred.</span>
+					</fragment>
+				);
 			}
 			triggerObj.reposition();
 		} else if (groups && !giveaway.summary.querySelector('.esgst-ggl-panel')) {
-			const panel = DOM.build(giveaway.extraPanel || giveaway.summary, 'beforeEnd', [
-				['div', { class: 'esgst-ggl-panel', 'data-draggable-id': 'ggl' }],
-			]);
+			let panel;
+			DOM.insert(
+				giveaway.extraPanel || giveaway.summary,
+				'beforeend',
+				<div className="esgst-ggl-panel" data-draggable-id="ggl" ref={(ref) => (panel = ref)}></div>
+			);
 
 			Shared.esgst.modules.giveaways.giveaways_reorder(giveaway);
 
@@ -970,25 +966,24 @@ class GeneralContentLoader extends Module {
 				giveaway.groupNames.push(group.name);
 
 				if (className !== 'esgst-hidden') {
-					DOM.build(panel, 'beforeEnd', [
-						[
-							'div',
-							{ class: className },
-							[
-								group.avatar
-									? [
-											'a',
-											{
-												class: 'table_image_avatar',
-												href: `/group/${group.code}/`,
-												style: `background-image:url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/${group.avatar}_medium.jpg)`,
-											},
-									  ]
-									: ['div', { class: 'table_image_avatar_missing' }],
-								['a', { href: `/group/${group.code}/` }, group.name],
-							],
-						],
-					]);
+					DOM.insert(
+						panel,
+						'beforeend',
+						<div className={className}>
+							{group.avatar ? (
+								<a
+									className="table_image_avatar"
+									href={`/group/${group.code}/`}
+									style={{
+										backgroundImage: `url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/${group.avatar}_medium.jpg)`,
+									}}
+								></a>
+							) : (
+								<div className="table_image_avatar_missing"></div>
+							)}
+							<a href={`/group/${group.code}/`}>{group.name}</a>
+						</div>
+					);
 
 					if (Settings.get('cl_gi')) {
 						this.setTriggers('cl_gi', panel);
@@ -1020,7 +1015,8 @@ class GeneralContentLoader extends Module {
 		context.appendChild(response.html.querySelector('.featured__outer-wrap'));
 
 		const avatar = context.querySelector('.global__image-outer-wrap--avatar-large');
-		const link = DOM.build(avatar, 'afterEnd', [['a', { class: 'esgst-ap-link' }]]);
+		let link;
+		DOM.insert(avatar, 'afterend', <a className="esgst-ap-link" ref={(ref) => (link = ref)}></a>);
 		link.appendChild(avatar);
 		link.setAttribute('href', targetObj.url);
 
@@ -1040,20 +1036,16 @@ class GeneralContentLoader extends Module {
 
 		const suspensionElement = response.html.querySelector('.sidebar__suspension');
 		if (suspensionElement) {
-			DOM.build(columns[0], 'beforeEnd', [
-				[
-					'div',
-					{ class: 'esgst-ap-suspended featured__table__row' },
-					[
-						['div', { class: 'featured__table__row__left' }, suspensionElement.textContent],
-						[
-							'div',
-							{ class: 'featured__table__row__right' },
-							suspensionElement.nextElementSibling.textContent,
-						],
-					],
-				],
-			]);
+			DOM.insert(
+				columns[0],
+				'beforeend',
+				<div className="esgst-ap-suspended featured__table__row">
+					<div className="featured__table__row__left">{suspensionElement.textContent}</div>
+					<div className="featured__table__row__right">
+						{suspensionElement.nextElementSibling.textContent}
+					</div>
+				</div>
+			);
 		}
 
 		const sidebarElements = response.html.querySelectorAll('.sidebar__navigation__item__name');
@@ -1063,20 +1055,16 @@ class GeneralContentLoader extends Module {
 				continue;
 			}
 
-			DOM.build(columns[0], 'beforeEnd', [
-				[
-					'div',
-					{ class: 'featured__table__row' },
-					[
-						['div', { class: 'featured__table__row__left' }, match[0]],
-						[
-							'div',
-							{ class: 'featured__table__row__right' },
-							element.nextElementSibling.nextElementSibling.textContent,
-						],
-					],
-				],
-			]);
+			DOM.insert(
+				columns[0],
+				'beforeend',
+				<div className="featured__table__row">
+					<div className="featured__table__row__left">{match[0]}</div>
+					<div className="featured__table__row__right">
+						{element.nextElementSibling.nextElementSibling.textContent}
+					</div>
+				</div>
+			);
 		}
 
 		const reportButton = context.querySelector('.js__submit-form-inner');

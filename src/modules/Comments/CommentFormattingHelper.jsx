@@ -2067,11 +2067,7 @@ class CommentsCommentFormattingHelper extends Module {
 					<div className={`${this.esgst.sg ? 'comment__toggle-attached' : 'view_attached'}`}>
 						View attached image.
 					</div>
-					<a
-						href={image.getAttribute('src')}
-						attrs={{ ref: 'nofollow noreferrer' }}
-						target="_blank"
-					>
+					<a href={image.getAttribute('src')} rel="nofollow noreferrer" target="_blank">
 						{image.cloneNode(true)}
 					</a>
 				</div>

@@ -82,7 +82,7 @@ class GeneralNotificationMerger extends Module {
 						counter: header.buttonContainers['messages'].data.counter,
 						isActive: true,
 						isNotification: true,
-						position: 'afterEnd',
+						position: 'afterend',
 						url: 'https://www.steamtrades.com/messages',
 					});
 				}
@@ -128,7 +128,7 @@ class GeneralNotificationMerger extends Module {
 						context: Shared.header.buttonContainers['messages'].nodes.outer,
 						counter: header.buttonContainers['messages'].data.counter,
 						isActive: true,
-						position: 'afterEnd',
+						position: 'afterend',
 						url: 'https://www.steamgifts.com/messages',
 					});
 				}

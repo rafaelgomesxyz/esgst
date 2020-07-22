@@ -214,7 +214,11 @@ class GeneralEndlessScrolling extends Module {
 		es.divisors = Settings.get('es_pd');
 		es.mainContext = this.esgst.pagination.previousElementSibling;
 		if (this.esgst.commentsPath && !es.mainContext.classList.contains('comments')) {
-			es.mainContext = DOM.build(es.mainContext, 'afterEnd', [['div', { class: 'comments' }]]);
+			DOM.insert(
+				es.mainContext,
+				'afterend',
+				<div className="comments" ref={(ref) => (es.mainContext = ref)}></div>
+			);
 		}
 		let rows = es.mainContext.getElementsByClassName('table__rows')[0];
 		if (rows) {
@@ -375,7 +379,7 @@ class GeneralEndlessScrolling extends Module {
 				!lastLink.classList.contains('is-selected') &&
 				!lastLink.querySelector('.fa-angle-double-right')
 			) {
-				createElements(this.esgst.paginationNavigation, 'beforeEnd', this.esgst.lastPageLink);
+				createElements(this.esgst.paginationNavigation, 'beforeend', this.esgst.lastPageLink);
 			}
 			this.es_setPagination(es);
 		}
@@ -417,7 +421,7 @@ class GeneralEndlessScrolling extends Module {
 		) {
 			es.limitCount -= 1;
 			es.busy = true;
-			es.progress = createElements(this.esgst.pagination.firstElementChild, 'beforeEnd', [
+			es.progress = createElements(this.esgst.pagination.firstElementChild, 'beforeend', [
 				{
 					attributes: {
 						class: 'esgst-bold',
@@ -460,7 +464,7 @@ class GeneralEndlessScrolling extends Module {
 		if (this.esgst.commentsPath && !context.classList.contains('comments')) {
 			if (!refreshAll) {
 				es.refreshButton.addEventListener('click', this.esgst.es_refresh.bind(this));
-				createElements(es.refreshButton, 'inner', [
+				createElements(es.refreshButton, 'atinner', [
 					{
 						attributes: {
 							class: 'fa fa-refresh',
@@ -485,7 +489,7 @@ class GeneralEndlessScrolling extends Module {
 		)[0];
 		if (es.reversePages) {
 			es.paginations[0] = paginationNavigation.innerHTML;
-			createElements(this.esgst.paginationNavigation, 'inner', [
+			createElements(this.esgst.paginationNavigation, 'atinner', [
 				...Array.from(DOM.parse(es.paginations[0]).body.childNodes).map((x) => {
 					return {
 						context: x,
@@ -502,7 +506,7 @@ class GeneralEndlessScrolling extends Module {
 					!lastLink.classList.contains('is-selected') &&
 					!lastLink.querySelector('.fa-angle-double-right')
 				) {
-					createElements(this.esgst.paginationNavigation, 'beforeEnd', this.esgst.lastPageLink);
+					createElements(this.esgst.paginationNavigation, 'beforeend', this.esgst.lastPageLink);
 				}
 				this.es_setPagination(es);
 			}
@@ -581,7 +585,7 @@ class GeneralEndlessScrolling extends Module {
 					this.esgst.modules.generalTableSorter.ts_sortTables();
 				}
 				es.refreshButton.addEventListener('click', this.esgst.es_refresh.bind(this));
-				createElements(es.refreshButton, 'inner', [
+				createElements(es.refreshButton, 'atinner', [
 					{
 						attributes: {
 							class: 'fa fa-refresh',
@@ -598,7 +602,7 @@ class GeneralEndlessScrolling extends Module {
 			}
 		} else {
 			if (es.divisors) {
-				createElements(es.mainContext, 'beforeEnd', [
+				createElements(es.mainContext, 'beforeend', [
 					{
 						attributes: {
 							class: 'esgst-page-heading esgst-es-page-divisor',
@@ -675,15 +679,14 @@ class GeneralEndlessScrolling extends Module {
 		let paginationCount = null;
 		if (this.esgst.pagination.textContent.match(/No\sresults\swere\sfound\./)) {
 			this.esgst.pagination.firstElementChild.firstChild.remove();
-			DOM.build(this.esgst.pagination.firstElementChild, 'afterBegin', [
-				'Displaying ',
-				['strong', 1],
-				' to ',
-				['strong', n],
-				' of ',
-				['strong', n],
-				` result${n > 1 ? 's' : ''}`,
-			]);
+			DOM.insert(
+				this.esgst.pagination.firstElementChild,
+				'afterbegin',
+				<fragment>
+					Displaying <strong>1</strong> to <strong>{n}</strong> of <strong>{n}</strong>
+					{` result${n > 1 ? 's' : ''}`}
+				</fragment>
+			);
 		} else {
 			if (es.reverseScrolling && !refresh) {
 				paginationCount = this.esgst.pagination.firstElementChild.firstElementChild;
@@ -705,7 +708,7 @@ class GeneralEndlessScrolling extends Module {
 		const correctedIndex = es.reverseScrolling ? es.pageBase - index : index - es.pageBase;
 		const pagination = es.paginations[correctedIndex - 1];
 		if (pagination && this.esgst.paginationNavigation.innerHTML !== pagination) {
-			createElements(this.esgst.paginationNavigation, 'inner', [
+			createElements(this.esgst.paginationNavigation, 'atinner', [
 				...Array.from(DOM.parse(pagination).body.childNodes).map((x) => {
 					return {
 						context: x,
@@ -721,7 +724,7 @@ class GeneralEndlessScrolling extends Module {
 				!lastLink.classList.contains('is-selected') &&
 				!lastLink.querySelector('.fa-angle-double-right')
 			) {
-				createElements(this.esgst.paginationNavigation, 'beforeEnd', this.esgst.lastPageLink);
+				createElements(this.esgst.paginationNavigation, 'beforeend', this.esgst.lastPageLink);
 			}
 			this.es_setPagination(es);
 			if (Settings.get('es_murl')) {
@@ -742,7 +745,7 @@ class GeneralEndlessScrolling extends Module {
 
 	async es_stepNext(es) {
 		if (es.step) return;
-		createElements(es.nextButton, 'inner', [
+		createElements(es.nextButton, 'atinner', [
 			{
 				attributes: {
 					class: 'fa fa-circle-o-notch fa-spin',
@@ -760,7 +763,7 @@ class GeneralEndlessScrolling extends Module {
 			} else {
 				await this.es_resume(es);
 			}
-			createElements(es.nextButton, 'inner', [
+			createElements(es.nextButton, 'atinner', [
 				{
 					attributes: {
 						class: 'fa fa-step-forward',
@@ -773,7 +776,7 @@ class GeneralEndlessScrolling extends Module {
 
 	async es_continuouslyLoad(es) {
 		if (es.continuous) return;
-		createElements(es.continuousButton, 'inner', [
+		createElements(es.continuousButton, 'atinner', [
 			{
 				attributes: {
 					class: 'fa fa-circle-o-notch fa-spin',
@@ -797,7 +800,7 @@ class GeneralEndlessScrolling extends Module {
 			} else {
 				await this.es_resume(es);
 			}
-			createElements(es.continuousButton, 'inner', [
+			createElements(es.continuousButton, 'atinner', [
 				{
 					attributes: {
 						class: 'fa fa-fast-forward',
@@ -828,7 +831,7 @@ class GeneralEndlessScrolling extends Module {
 			await setSetting(`es_${Shared.esgst.name}`, setting);
 		}
 		es.continuous = false;
-		createElements(es.continuousButton, 'inner', [
+		createElements(es.continuousButton, 'atinner', [
 			{
 				attributes: {
 					class: 'fa fa-fast-forward',
@@ -864,7 +867,7 @@ class GeneralEndlessScrolling extends Module {
 
 	async es_refresh(es) {
 		es.refreshButton.removeEventListener('click', this.esgst.es_refresh);
-		createElements(es.refreshButton, 'inner', [
+		createElements(es.refreshButton, 'atinner', [
 			{
 				attributes: {
 					class: 'fa fa-circle-o-notch fa-spin',
@@ -884,7 +887,7 @@ class GeneralEndlessScrolling extends Module {
 			}
 		}
 		if (this.esgst.pinnedGiveaways) {
-			createElements(this.esgst.pinnedGiveaways, 'inner', [
+			createElements(this.esgst.pinnedGiveaways, 'atinner', [
 				...Array.from(
 					DOM.parse(response.responseText).getElementsByClassName('pinned-giveaways__outer-wrap')[0]
 						.childNodes
@@ -906,7 +909,7 @@ class GeneralEndlessScrolling extends Module {
 
 	async es_refreshAll(es) {
 		es.refreshAllButton.removeEventListener('click', this.esgst.es_refreshAll);
-		createElements(es.refreshAllButton, 'inner', [
+		createElements(es.refreshAllButton, 'atinner', [
 			{
 				attributes: {
 					class: 'fa fa-circle-o-notch fa-spin',
@@ -942,7 +945,7 @@ class GeneralEndlessScrolling extends Module {
 		await endless_load(es.mainContext, true);
 		this.es_setRemoveEntry(es.mainContext);
 		es.refreshAllButton.addEventListener('click', this.esgst.es_refreshAll.bind(this));
-		createElements(es.refreshAllButton, 'inner', [
+		createElements(es.refreshAllButton, 'atinner', [
 			{
 				attributes: {
 					class: 'fa fa-refresh',
@@ -962,7 +965,7 @@ class GeneralEndlessScrolling extends Module {
 			}
 		}
 		if (this.esgst.pinnedGiveaways) {
-			createElements(this.esgst.pinnedGiveaways, 'inner', [
+			createElements(this.esgst.pinnedGiveaways, 'atinner', [
 				...Array.from(
 					DOM.parse(response.responseText).getElementsByClassName('pinned-giveaways__outer-wrap')[0]
 						.childNodes

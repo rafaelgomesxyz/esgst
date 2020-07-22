@@ -138,7 +138,7 @@ class GeneralMultiManager extends Module {
 	mm_openPopout(obj, items, itemsKey) {
 		if (obj.popout) return;
 		obj.popout = new Popout('esgst-mm-popout', obj.button, 0, true);
-		obj.headings = createElements(obj.popout.popout, 'afterBegin', [
+		obj.headings = createElements(obj.popout.popout, 'afterbegin', [
 			{
 				attributes: {
 					class: 'esgst-mm-headings',
@@ -156,7 +156,7 @@ class GeneralMultiManager extends Module {
 		let activeIndex = 0;
 		Object.keys(obj.checkboxes).forEach((key, i) => {
 			if (!this.esgst.sg && key !== 'Users') return;
-			let heading = createElements(obj.headings, 'beforeEnd', [
+			let heading = createElements(obj.headings, 'beforeend', [
 				{
 					type: 'div',
 					children: [
@@ -204,7 +204,7 @@ class GeneralMultiManager extends Module {
 			);
 			this.mm_setSection(
 				obj,
-				createElements(obj.sections, 'beforeEnd', [
+				createElements(obj.sections, 'beforeend', [
 					{
 						type: 'div',
 					},
@@ -246,7 +246,7 @@ class GeneralMultiManager extends Module {
 			checkbox = new Checkbox(
 				createElements(
 					item.innerWrap,
-					key.match(/Giveaways|Discussions/) ? 'afterBegin' : 'beforeBegin',
+					key.match(/Giveaways|Discussions/) ? 'afterbegin' : 'beforebegin',
 					[
 						{
 							attributes: {
@@ -694,7 +694,7 @@ class GeneralMultiManager extends Module {
 			],
 		};
 		sections.default.forEach((section, i) => {
-			let group = createElements(context, 'beforeEnd', [
+			let group = createElements(context, 'beforeend', [
 				{
 					attributes: {
 						class: 'esgst-button-group',
@@ -771,9 +771,9 @@ class GeneralMultiManager extends Module {
 				}
 			});
 		});
-		obj[`progress${key}`] = DOM.build(context, 'beforeEnd', [['div']]);
+		DOM.insert(context, 'beforeend', <div ref={(ref) => (obj[`progress${key}`] = ref)}></div>);
 		createTooltip(
-			createElements(context, 'beforeEnd', [
+			createElements(context, 'beforeend', [
 				{
 					attributes: {
 						class: 'esgst-description',
@@ -879,7 +879,7 @@ class GeneralMultiManager extends Module {
 			<br/>
 		`
 		);
-		obj[`textArea${key}`] = createElements(context, 'beforeEnd', [
+		obj[`textArea${key}`] = createElements(context, 'beforeend', [
 			{
 				attributes: {
 					class: 'page_outer_wrap',
@@ -895,7 +895,7 @@ class GeneralMultiManager extends Module {
 		if (Settings.get('cfh')) {
 			this.esgst.modules.commentsCommentFormattingHelper.cfh_addPanel(obj[`textArea${key}`]);
 		}
-		obj[`message${key}`] = createElements(context, 'beforeEnd', [
+		obj[`message${key}`] = createElements(context, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-description',
@@ -1167,7 +1167,7 @@ class GeneralMultiManager extends Module {
 					).responseText
 				);
 				if (responseJson.type === 'success') {
-					createElements(obj.context.firstElementChild.firstElementChild, 'beforeEnd', [
+					createElements(obj.context.firstElementChild.firstElementChild, 'beforeend', [
 						{
 							type: 'li',
 							children: [
@@ -1186,7 +1186,7 @@ class GeneralMultiManager extends Module {
 						},
 					]);
 				} else {
-					createElements(obj.context.firstElementChild.firstElementChild, 'beforeEnd', [
+					createElements(obj.context.firstElementChild.firstElementChild, 'beforeend', [
 						{
 							type: 'li',
 							children: [
@@ -1206,7 +1206,7 @@ class GeneralMultiManager extends Module {
 					]);
 				}
 			} else {
-				createElements(obj.context.firstElementChild.firstElementChild, 'beforeEnd', [
+				createElements(obj.context.firstElementChild.firstElementChild, 'beforeend', [
 					{
 						type: 'li',
 						children: [
@@ -1226,7 +1226,7 @@ class GeneralMultiManager extends Module {
 				]);
 			}
 		} else {
-			createElements(obj.context.firstElementChild.firstElementChild, 'beforeEnd', [
+			createElements(obj.context.firstElementChild.firstElementChild, 'beforeend', [
 				{
 					type: 'li',
 					children: [
@@ -1582,7 +1582,7 @@ class GeneralMultiManager extends Module {
 			),
 		});
 		obj.categorizePopup = popup;
-		obj.categorizeInput = createElements(popup.description, 'afterBegin', [
+		obj.categorizeInput = createElements(popup.description, 'afterbegin', [
 			{
 				attributes: {
 					type: 'file',

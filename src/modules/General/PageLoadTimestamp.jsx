@@ -47,16 +47,14 @@ class GeneralPageLoadTimestamp extends Module {
 		switch (Settings.get('plt_index')) {
 			case 0:
 				if (this.esgst.sidebar) {
-					DOM.build(this.esgst.sidebar, 'afterBegin', [
-						[
-							'span',
-							{ class: 'esgst-plt' },
-							[
-								['h3', { class: 'sidebar__heading' }, 'Page Load Timestamp'],
-								['div', { class: 'sidebar__navigation' }, timestamp],
-							],
-						],
-					]);
+					DOM.insert(
+						this.esgst.sidebar,
+						'afterbegin',
+						<span className="esgst-plt">
+							<h3 className="sidebar__heading">Page Load Timestamp</h3>
+							<div className="sidebar__navigation">{timestamp}</div>
+						</span>
+					);
 					break;
 				}
 			case 1: {

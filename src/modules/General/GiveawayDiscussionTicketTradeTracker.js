@@ -240,7 +240,7 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
 		let comments;
 		let busy = false;
 		if (!button) {
-			button = createElements(context, 'afterBegin', [
+			button = createElements(context, 'afterbegin', [
 				{
 					attributes: {
 						class: 'esgst-gdttt-button page_heading_btn',
@@ -249,7 +249,7 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
 				},
 			]);
 		}
-		createElements(button, 'inner', [
+		createElements(button, 'atinner', [
 			{
 				attributes: {
 					class: 'fa fa-check',
@@ -261,7 +261,7 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
 		button.addEventListener('click', async () => {
 			if (!busy) {
 				busy = true;
-				createElements(button, 'inner', [
+				createElements(button, 'atinner', [
 					{
 						attributes: {
 							class: 'fa fa-circle-o-notch fa-spin',
@@ -292,7 +292,7 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
 		let comments;
 		let busy = false;
 		if (!button) {
-			button = createElements(context, 'afterBegin', [
+			button = createElements(context, 'afterbegin', [
 				{
 					attributes: {
 						class: 'esgst-gdttt-button page_heading_btn',
@@ -301,7 +301,7 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
 				},
 			]);
 		}
-		createElements(button, 'inner', [
+		createElements(button, 'atinner', [
 			{
 				attributes: {
 					class: 'fa fa-times',
@@ -313,7 +313,7 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
 		button.addEventListener('click', async () => {
 			if (!busy) {
 				busy = true;
-				createElements(button, 'inner', [
+				createElements(button, 'atinner', [
 					{
 						attributes: {
 							class: 'fa fa-circle-o-notch fa-spin',

@@ -201,66 +201,49 @@ class GeneralThreadSubscription extends Module {
 		this.subscribedItems.sort((a, b) => (a.diff > b.diff ? -1 : 1));
 
 		for (const item of this.subscribedItems) {
-			const element = DOM.build(this.popout.popout, 'beforeEnd', [
-				[
-					'div',
-					{ class: `esgst-tds-item ${item.diff ? 'esgst-tds-item-active' : ''}` },
-					[
-						[
-							'div',
-							{ class: 'esgst-tds-item-description' },
-							[
-								[
-									'a',
-									{
-										class: 'esgst-tds-item-name',
-										href:
-											item.type === 'forum'
-												? `https://www.steamgifts.com/discussions${
-														item.code ? `/${item.code}` : ''
-												  }`
-												: item.type === 'discussions'
-												? `https://www.steamgifts.com/discussion/${item.code}/`
-												: `https://www.steamtrades.com/${item.code}/`,
-									},
-									item.type === 'forum' ? this.forumCategories[item.code] : item.name,
-								],
-								[
-									'div',
-									{ class: 'esgst-tds-item-count' },
-									item.diff
-										? `${item.diff} new ${item.type === 'forum' ? 'threads' : 'comments'}`
-										: `No new ${item.type === 'forum' ? 'threads' : 'comments'}`,
-								],
-							],
-						],
-						[
-							'div',
-							{ class: 'esgst-tds-item-actions' },
-							[
-								item.diff
-									? [
-											'i',
-											{
-												class: 'fa fa-eye',
-												title: 'Dismiss',
-												onclick: (event) => this.dismissItem(event, item),
-											},
-									  ]
-									: null,
-								[
-									'i',
-									{
-										class: 'fa fa-bell',
-										title: 'Unsubscribe',
-										onclick: () => this.unsubscribeItem(element, item),
-									},
-								],
-							],
-						],
-					],
-				],
-			]);
+			let element;
+			DOM.insert(
+				this.popout.popout,
+				'beforeend',
+				<div
+					className={`esgst-tds-item ${item.diff ? 'esgst-tds-item-active' : ''}`}
+					ref={(ref) => (element = ref)}
+				>
+					<div className="esgst-tds-item-description">
+						<a
+							className="esgst-tds-item-name"
+							href={
+								item.type === 'forum'
+									? `https://www.steamgifts.com/discussions${item.code ? `/${item.code}` : ''}`
+									: item.type === 'discussions'
+									? `https://www.steamgifts.com/discussion/${item.code}/`
+									: `https://www.steamtrades.com/${item.code}/`
+							}
+						>
+							{item.type === 'forum' ? this.forumCategories[item.code] : item.name}
+						</a>
+						<div className="esgst-tds-item-count">
+							{item.diff
+								? `${item.diff} new ${item.type === 'forum' ? 'threads' : 'comments'}`
+								: `No new ${item.type === 'forum' ? 'threads' : 'comments'}`}
+						</div>
+					</div>
+					<div className="esgst-tds-item-actions">
+						{item.diff ? (
+							<i
+								className="fa fa-eye"
+								title="Dismiss"
+								onclick={(event) => this.dismissItem(event, item)}
+							></i>
+						) : null}
+						<i
+							className="fa fa-bell"
+							title="Unsubscribe"
+							onclick={() => this.unsubscribeItem(element, item)}
+						></i>
+					</div>
+				</div>
+			);
 		}
 
 		if (this.popout.isOpen) {
@@ -506,14 +489,18 @@ class GeneralThreadSubscription extends Module {
 
 	addSubscribeButton(button, code, context, count, name, type) {
 		if (!button) {
-			button = DOM.build(context, type === 'forum' ? 'afterEnd' : 'afterBegin', [
-				['div', { class: 'esgst-tds-button page_heading_btn' }],
-			]);
+			DOM.insert(
+				context,
+				type === 'forum' ? 'afterend' : 'afterbegin',
+				<div className="esgst-tds-button page_heading_btn" ref={(ref) => (button = ref)}></div>
+			);
 		}
 
-		DOM.build(button, 'inner', [
-			['i', { class: 'fa fa-bell-o', title: Shared.common.getFeatureTooltip('tds', 'Subscribe') }],
-		]);
+		DOM.insert(
+			button,
+			'atinner',
+			<i className="fa fa-bell-o" title={Shared.common.getFeatureTooltip('tds', 'Subscribe')}></i>
+		);
 
 		let busy = false;
 
@@ -524,7 +511,7 @@ class GeneralThreadSubscription extends Module {
 
 			busy = true;
 
-			DOM.build(button, 'inner', [['i', { class: 'fa fa-circle-o-notch fa-spin' }]]);
+			DOM.insert(button, 'atinner', <i className="fa fa-circle-o-notch fa-spin"></i>);
 
 			await this.subscribe(code, count, name, type);
 
@@ -534,14 +521,18 @@ class GeneralThreadSubscription extends Module {
 
 	addUnsubscribeButton(button, code, context, count, name, type) {
 		if (!button) {
-			button = DOM.build(context, type === 'forum' ? 'afterEnd' : 'afterBegin', [
-				['div', { class: 'esgst-tds-button page_heading_btn' }],
-			]);
+			DOM.insert(
+				context,
+				type === 'forum' ? 'afterend' : 'afterbegin',
+				<div className="esgst-tds-button page_heading_btn" ref={(ref) => (button = ref)}></div>
+			);
 		}
 
-		DOM.build(button, 'inner', [
-			['i', { class: 'fa fa-bell', title: Shared.common.getFeatureTooltip('tds', 'Unsubscribe') }],
-		]);
+		DOM.insert(
+			button,
+			'atinner',
+			<i className="fa fa-bell" title={Shared.common.getFeatureTooltip('tds', 'Unsubscribe')}></i>
+		);
 
 		let busy = false;
 
@@ -552,7 +543,7 @@ class GeneralThreadSubscription extends Module {
 
 			busy = true;
 
-			DOM.build(button, 'inner', [['i', { class: 'fa fa-circle-o-notch fa-spin' }]]);
+			DOM.insert(button, 'atinner', <i className="fa fa-circle-o-notch fa-spin"></i>);
 
 			await this.unsubscribe(code, type);
 

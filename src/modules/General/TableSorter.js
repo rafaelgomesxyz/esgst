@@ -89,7 +89,7 @@ class GeneralTableSorter extends Module {
 				(!this.esgst.wonPath || !columnName.match(/^Received$/)) &&
 				!column.getElementsByClassName('esgst-ts-button')[0]
 			) {
-				button = createElements(column, 'beforeEnd', [
+				button = createElements(column, 'beforeend', [
 					{
 						attributes: {
 							class: 'esgst-ts-button esgst-clickable',
@@ -103,7 +103,7 @@ class GeneralTableSorter extends Module {
 	}
 
 	ts_addAscButton(button, columnName, i, table, tsTable) {
-		createElements(button, 'inner', [
+		createElements(button, 'atinner', [
 			{
 				attributes: {
 					class: 'fa fa-sort-desc',
@@ -122,7 +122,7 @@ class GeneralTableSorter extends Module {
 	}
 
 	ts_addDescButton(button, columnName, i, table, tsTable) {
-		createElements(button, 'inner', [
+		createElements(button, 'atinner', [
 			{
 				attributes: {
 					class: 'fa fa-sort',
@@ -141,7 +141,7 @@ class GeneralTableSorter extends Module {
 	}
 
 	ts_addDefButton(button, columnName, i, table, tsTable) {
-		createElements(button, 'inner', [
+		createElements(button, 'atinner', [
 			{
 				attributes: {
 					class: 'fa fa-sort-asc',

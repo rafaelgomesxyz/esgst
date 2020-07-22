@@ -215,18 +215,20 @@ class GeneralCakeDayReminder extends Module {
 			return;
 		}
 
-		const button = DOM.build(profile.heading, 'beforeEnd', [
-			[
-				'a',
-				{
-					title: Shared.common.getFeatureTooltip(
-						'cdr',
-						`Get notified about ${profile.username}'s cake day`
-					),
-				},
-				[['i', { class: 'fa fa-gift' }]],
-			],
-		]);
+		let button;
+		DOM.insert(
+			profile.heading,
+			'beforeend',
+			<a
+				title={Shared.common.getFeatureTooltip(
+					'cdr',
+					`Get notified about ${profile.username}'s cake day`
+				)}
+				ref={(ref) => (button = ref)}
+			>
+				<i className="fa fa-gift"></i>
+			</a>
+		);
 
 		button.addEventListener('click', async () => {
 			const popup = new Popup({

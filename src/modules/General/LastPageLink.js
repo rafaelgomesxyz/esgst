@@ -158,7 +158,7 @@ class GeneralLastPageLink extends Module {
 			!lastLink.classList.contains('is-selected') &&
 			!lastLink.querySelector('.fa-angle-double-right')
 		) {
-			createElements(this.esgst.paginationNavigation, 'beforeEnd', this.esgst.lastPageLink);
+			createElements(this.esgst.paginationNavigation, 'beforeend', this.esgst.lastPageLink);
 		}
 	}
 
@@ -197,7 +197,7 @@ class GeneralLastPageLink extends Module {
 			!lastLink.classList.contains('is-selected') &&
 			!lastLink.querySelector('.fa-angle-double-right')
 		) {
-			createElements(this.esgst.paginationNavigation, 'beforeEnd', this.esgst.lastPageLink);
+			createElements(this.esgst.paginationNavigation, 'beforeend', this.esgst.lastPageLink);
 		}
 	}
 
@@ -238,7 +238,7 @@ class GeneralLastPageLink extends Module {
 			!lastLink.classList.contains('is-selected') &&
 			!lastLink.querySelector('.fa-angle-double-right')
 		) {
-			createElements(this.esgst.paginationNavigation, 'beforeEnd', this.esgst.lastPageLink);
+			createElements(this.esgst.paginationNavigation, 'beforeend', this.esgst.lastPageLink);
 		}
 	}
 }

@@ -107,7 +107,7 @@ class GeneralAttachedImageCarousel extends Module {
 			event.preventDefault();
 			event.stopPropagation();
 		}
-		let carousel = createElements(document.body, 'beforeEnd', [
+		let carousel = createElements(document.body, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-popup-modal esgst-aic-carousel',
@@ -194,7 +194,7 @@ class GeneralAttachedImageCarousel extends Module {
 		if (imageClass) {
 			imageNode.classList.remove('is_hidden', 'is-hidden');
 		}
-		createElements(carousel, 'inner', [
+		createElements(carousel, 'atinner', [
 			{
 				attributes: {
 					class: 'esgst-aic-panel',

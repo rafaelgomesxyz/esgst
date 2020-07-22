@@ -42,7 +42,7 @@ class GeneralScrollToTopButton extends Module {
 		let button;
 		switch (Settings.get('sttb_index')) {
 			case 0:
-				button = createElements(document.body, 'beforeEnd', [
+				button = createElements(document.body, 'beforeend', [
 					{
 						attributes: {
 							class: 'esgst-sttb-button esgst-sttb-button-fixed',
@@ -79,7 +79,7 @@ class GeneralScrollToTopButton extends Module {
 			case 2: {
 				const linkContainer = Shared.footer.addLinkContainer({
 					icon: 'fa fa-chevron-up',
-					position: 'beforeEnd',
+					position: 'beforeend',
 					side: 'right',
 				});
 

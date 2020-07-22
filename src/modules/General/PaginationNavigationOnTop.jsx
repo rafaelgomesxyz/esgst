@@ -42,12 +42,12 @@ class GeneralPaginationNavigationOnTop extends Module {
 		}
 		this.esgst.paginationNavigation.title = getFeatureTooltip('pnot');
 		this.pnot_simplify();
-		DOM.build(
+		DOM.insert(
 			this.esgst.mainPageHeading.querySelector(
 				`.page__heading__breadcrumbs, .page_heading_breadcrumbs`
 			),
-			'afterEnd',
-			[this.esgst.paginationNavigation]
+			'afterend',
+			this.esgst.paginationNavigation
 		);
 	}
 

@@ -72,7 +72,7 @@ class GeneralEmbeddedVideos extends Module {
 						} else {
 							title = '';
 						}
-						createElements(video, 'outer', [
+						createElements(video, 'atouter', [
 							{
 								type: 'div',
 								children: [

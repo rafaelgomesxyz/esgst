@@ -22,20 +22,19 @@ class GeneralSearchClearButton extends Module {
 		const inputs = context.querySelectorAll('.sidebar__search-input');
 		for (const input of inputs) {
 			input.parentElement.classList.add('esgst-scb');
-			DOM.build(input.parentElement, 'beforeEnd', [
-				[
-					'i',
-					{
-						class: 'fa fa-times',
-						title: 'Clear search',
-						onclick: () => {
-							input.value = '';
-							input.dispatchEvent(new Event('change'));
-							input.focus();
-						},
-					},
-				],
-			]);
+			DOM.insert(
+				input.parentElement,
+				'beforeend',
+				<i
+					className="fa fa-times"
+					title="Clear search"
+					onclick={() => {
+						input.value = '';
+						input.dispatchEvent(new Event('change'));
+						input.focus();
+					}}
+				></i>
+			);
 		}
 	}
 }

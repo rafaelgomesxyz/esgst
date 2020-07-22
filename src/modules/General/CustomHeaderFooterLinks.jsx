@@ -440,16 +440,15 @@ class GeneralCustomHeaderFooterLinks extends Module {
 					continue;
 				}
 
-				const panel = DOM.build(item.nodes.outer, 'beforeEnd', [
-					[
-						'div',
-						{ class: 'esgst-chfl-panel' },
-						[
-							['i', { class: 'esgst-chfl-edit-button fa fa-edit grey icon-grey' }],
-							['i', { class: 'esgst-chfl-remove-button fa fa-trash grey icon-grey' }],
-						],
-					],
-				]);
+				let panel;
+				DOM.insert(
+					item.nodes.outer,
+					'beforeend',
+					<div className="esgst-chfl-panel" ref={(ref) => (panel = ref)}>
+						<i className="esgst-chfl-edit-button fa fa-edit grey icon-grey"></i>
+						<i className="esgst-chfl-remove-button fa fa-trash grey icon-grey"></i>
+					</div>
+				);
 
 				panel.firstElementChild.addEventListener('click', this.openPopup.bind(this, item, key));
 				panel.lastElementChild.addEventListener('click', this.removeLink.bind(this, item, key));
@@ -461,7 +460,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
 				button = Shared.footer.addLinkContainer({
 					icon: 'fa fa-plus',
 					name: 'Add Custom Link',
-					position: 'beforeEnd',
+					position: 'beforeend',
 					side: 'right',
 					url: '#',
 				});
@@ -484,7 +483,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
 				resetButton = Shared.footer.addLinkContainer({
 					icon: 'fa fa-undo',
 					name: 'Reset Links',
-					position: 'beforeEnd',
+					position: 'beforeend',
 					side: 'right',
 					url: '#',
 				});
@@ -522,7 +521,7 @@ class GeneralCustomHeaderFooterLinks extends Module {
 				isTemp: true,
 				title: `${editItem ? 'Edit' : 'Add'} Custom Link`,
 			});
-			let description = Shared.common.createElements(popup.description, 'beforeEnd', [
+			let description = Shared.common.createElements(popup.description, 'beforeend', [
 				{
 					type: 'div',
 					children: [
