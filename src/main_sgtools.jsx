@@ -48,7 +48,13 @@ async function setTheme(settings) {
 			const theme = storage[key];
 			if (!theme) continue;
 			const css = getThemeCss(JSON.parse(theme));
-			themeElement = DOM.build(document.head, 'beforeEnd', [['style', { id: 'esgst-theme' }, css]]);
+			DOM.insert(
+				document.head,
+				'beforeend',
+				<style id="esgst-theme" ref={(ref) => (themeElement = ref)}>
+					{css}
+				</style>
+			);
 			const revisedCss = css.replace(/!important;/g, ';').replace(/;/g, '!important;');
 			if (revisedCss !== LocalStorage.get('theme')) {
 				LocalStorage.set('theme', revisedCss);
@@ -60,9 +66,13 @@ async function setTheme(settings) {
 		const customTheme = storage.customTheme;
 		if (!customTheme) return;
 		const css = JSON.parse(customTheme);
-		customThemeElement = DOM.build(document.head, 'beforeEnd', [
-			['style', { id: 'esgst-custom-theme' }, css],
-		]);
+		DOM.insert(
+			document.head,
+			'beforeend',
+			<style id="esgst-custom-theme" ref={(ref) => (customThemeElement = ref)}>
+				{css}
+			</style>
+		);
 		const revisedCss = css.replace(/!important;/g, ';').replace(/;/g, '!important;');
 		if (revisedCss !== LocalStorage.get('customTheme')) {
 			LocalStorage.set('customTheme', revisedCss);
