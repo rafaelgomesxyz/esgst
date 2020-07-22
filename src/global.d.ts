@@ -1,6 +1,15 @@
 declare namespace JSX {
-	type IntrinsicElements = Record<keyof HTMLElementTagNameMap, any> & {
-		fragment: any;
+	type IntrinsicElements = {
+		[K in keyof HTMLElementTagNameMap]: Omit<
+			import('./class/DOM').ElementAttributes<K>,
+			'children'
+		> & {
+			children?: import('./class/DOM').ElementChildren | import('./class/DOM').ElementChild;
+		};
+	} & {
+		fragment: {
+			children?: import('./class/DOM').ElementChildren | import('./class/DOM').ElementChild;
+		};
 	};
 }
 
