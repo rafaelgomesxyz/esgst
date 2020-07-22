@@ -119,7 +119,7 @@ class _DOM {
 
 	appendChildren = (node: Node, children: ElementChildren) => {
 		for (const child of children) {
-			if (typeof child === 'string') {
+			if (typeof child === 'string' || typeof child === 'number') {
 				const textNode = document.createTextNode(child);
 				node.appendChild(textNode);
 			} else if (child instanceof Node) {
