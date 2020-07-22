@@ -1,6 +1,6 @@
 import { DOM } from '../class/DOM';
-import { Session } from '../class/Session.js';
-import { Namespaces } from '../constants/Namespaces.js';
+import { Session } from '../class/Session';
+import { Namespaces } from '../constants/Namespaces';
 import { User } from './User';
 
 abstract class CommentBox implements ICommentBox {

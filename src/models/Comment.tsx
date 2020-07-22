@@ -1,7 +1,7 @@
 import { DOM } from '../class/DOM';
-import { Session } from '../class/Session.js';
-import { Shared } from '../class/Shared.js';
-import { Namespaces } from '../constants/Namespaces.js';
+import { Session } from '../class/Session';
+import { Shared } from '../class/Shared';
+import { Namespaces } from '../constants/Namespaces';
 import { AttachedImage } from './AttachedImage';
 import { User } from './User';
 
