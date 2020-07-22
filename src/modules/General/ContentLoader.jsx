@@ -76,10 +76,12 @@ class GeneralContentLoader extends Module {
 								page (extends to your{' '}
 								<a href="https://www.steamgifts.com/giveaways/created">created</a> /{' '}
 								<a href="https://www.steamgifts.com/giveaways/entered">entered</a> /{' '}
-								<a href="https://www.steamgifts.com/giveaways/won">won</a> pages if [id=cewgd] is
-								enabled).
+								<a href="https://www.steamgifts.com/giveaways/won">won</a> pages if{' '}
+								<span data-esgst-feature-id="cewgd"></span> is enabled).
 							</li>
-							<li>Has [id=gh] built-in.</li>
+							<li>
+								Has <span data-esgst-feature-id="gh"></span> built-in.
+							</li>
 						</ul>
 					),
 					features: {

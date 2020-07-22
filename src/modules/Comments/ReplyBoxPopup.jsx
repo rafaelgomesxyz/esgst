@@ -15,8 +15,8 @@ class CommentsReplyBoxPopup extends Module {
 						that allows you to add comments to the page through a popup.
 					</li>
 					<li>
-						This feature is useful if you have [id=fmph] enabled, which allows you to add comments
-						to the page from any scrolling position.
+						This feature is useful if you have <span data-esgst-feature-id="fmph"></span> enabled,
+						which allows you to add comments to the page from any scrolling position.
 					</li>
 				</ul>
 			),

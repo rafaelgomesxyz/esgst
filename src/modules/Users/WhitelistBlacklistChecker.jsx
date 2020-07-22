@@ -91,8 +91,8 @@ class UsersWhitelistBlacklistChecker extends Module {
 					description: () => (
 						<ul>
 							<li>
-								If you have [id=un] enabled, a note will be saved for a user if they were
-								whitelisted / blacklisted back.
+								If you have <span data-esgst-feature-id="un"></span> enabled, a note will be saved
+								for a user if they were whitelisted / blacklisted back.
 							</li>
 						</ul>
 					),

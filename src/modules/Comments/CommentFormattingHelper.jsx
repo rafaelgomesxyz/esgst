@@ -331,7 +331,7 @@ class CommentsCommentFormattingHelper extends Module {
 						<ul>
 							<li>
 								Adds a button(<i className="fa fa-star"></i>) to the panel that allows you to add
-								encrypted giveaways(see [id=ged] for more details about them) to your comments.
+								encrypted giveaways(see <span data-esgst-feature-id="ged"></span> for more details about them) to your comments.
 							</li>
 						</ul>
 					),

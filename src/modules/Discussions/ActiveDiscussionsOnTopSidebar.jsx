@@ -20,14 +20,18 @@ class DiscussionsActiveDiscussionsOnTopSidebar extends Module {
 							(the button to go to the last comment will remain).
 						</li>
 						<li>
-							If you have [id=ags] enabled, it will be hidden and only visible when hovering hover
-							the search field.
+							If you have <span data-esgst-feature-id="ags"></span> enabled, it will be hidden and
+							only visible when hovering hover the search field.
 						</li>
 					</ul>
-					<li>If you have [id=at] enabled, it will not run inside of the active discussions.</li>
 					<li>
-						If you have [id=ut] enabled, any user tags will be hidden inside of the active
-						discussions(they will still be visible if you click on the tag button to edit them).
+						If you have <span data-esgst-feature-id="at"></span> enabled, it will not run inside of
+						the active discussions.
+					</li>
+					<li>
+						If you have <span data-esgst-feature-id="ut"></span> enabled, any user tags will be
+						hidden inside of the active discussions(they will still be visible if you click on the
+						tag button to edit them).
 					</li>
 				</ul>
 			),

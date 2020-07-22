@@ -13,7 +13,7 @@ class GiveawaysGiveawayFilters extends Filters {
 	constructor() {
 		super('gf');
 		this.info = {
-			description: 'Filter giveaways.',
+			description: () => <fragment>Filter giveaways.</fragment>,
 			features: {
 				gf_s: {
 					description: () => (
@@ -49,9 +49,10 @@ class GiveawaysGiveawayFilters extends Filters {
 								<a href="https://www.steamgifts.com/giveaways/entered">entered</a>/
 								<a href="https://www.steamgifts.com/giveaways/won">won</a>/
 								<a href="https://www.steamgifts.com/user/cg">user</a>/
-								<a href="https://www.steamgifts.com/group/SJ7Bu/">group</a> page and some popups
-								([id=gb], [id=ged], [id=ge], etc...). The switch allows you to turn the filters
-								on/off and the button allows you to manage your presets.
+								<a href="https://www.steamgifts.com/group/SJ7Bu/">group</a> page and some popups (
+								<span data-esgst-feature-id="gb"></span>, <span data-esgst-feature-id="ged"></span>,{' '}
+								<span data-esgst-feature-id="ge"></span>, etc...). The switch allows you to turn the
+								filters on/off and the button allows you to manage your presets.
 							</li>
 							<li>
 								Adds a collapsible panel below the same main page heading that allows you to
@@ -84,7 +85,7 @@ class GiveawaysGiveawayFilters extends Filters {
 								</ul>
 								<li>
 									Category filters are essentially the same thing as type filters, but for game
-									categories ([id=gc]).
+									categories (<span data-esgst-feature-id="gc"></span>).
 								</li>
 							</ul>
 							<li>
@@ -356,10 +357,14 @@ class GiveawaysGiveawayFilters extends Filters {
 						gf_enterable: {
 							description: () => (
 								<ul>
-									<li>Allows you filter giveaways that are enterable in [id=ge].</li>
 									<li>
-										The difference between this filter and [id=gf_currentlyEnterable] is that this
-										filter checks if you are allowed to enter the giveaway, not if you can enter the
+										Allows you filter giveaways that are enterable in{' '}
+										<span data-esgst-feature-id="ge"></span>.
+									</li>
+									<li>
+										The difference between this filter and{' '}
+										<span data-esgst-feature-id="gf_currentlyEnterable"></span> is that this filter
+										checks if you are allowed to enter the giveaway, not if you can enter the
 										giveaway at the moment (for example, if the giveaway has not started yet or you
 										do not have enough points to enter the giveaway, the giveaway is considered as
 										enterable, just not currently enterable).
@@ -372,13 +377,17 @@ class GiveawaysGiveawayFilters extends Filters {
 						gf_currentlyEnterable: {
 							description: () => (
 								<ul>
-									<li>Allows you filter giveaways that are currently enterable in [id=ge].</li>
 									<li>
-										The difference between this filter and [id=gf_enterable] is that this filter
-										checks if you can enter the giveaway at the moment, not if you are allowed to
-										enter the giveaway (for example, if the giveaway has not started yet or you do
-										not have enough points to enter the giveaway, the giveaway is not considered as
-										currently enterable, but just enterable).
+										Allows you filter giveaways that are currently enterable in{' '}
+										<span data-esgst-feature-id="ge"></span>.
+									</li>
+									<li>
+										The difference between this filter and{' '}
+										<span data-esgst-feature-id="gf_enterable"></span> is that this filter checks if
+										you can enter the giveaway at the moment, not if you are allowed to enter the
+										giveaway (for example, if the giveaway has not started yet or you do not have
+										enough points to enter the giveaway, the giveaway is not considered as currently
+										enterable, but just enterable).
 									</li>
 								</ul>
 							),

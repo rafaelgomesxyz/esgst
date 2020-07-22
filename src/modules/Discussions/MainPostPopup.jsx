@@ -16,8 +16,8 @@ class DiscussionsMainPostPopup extends Module {
 						to its main page heading that allows you to open the main post through a popup.
 					</li>
 					<li>
-						This feature is useful if you have [id=fmph] enabled, which allows you to view the main
-						post of a discussion from any scrolling position.
+						This feature is useful if you have <span data-esgst-feature-id="fmph"></span> enabled,
+						which allows you to view the main post of a discussion from any scrolling position.
 					</li>
 				</ul>
 			),

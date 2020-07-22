@@ -2,7 +2,7 @@
  * @typedef {Object} EsgstModuleInfo
  * @property {String} id
  * @property {String} [name]
- * @property {Array|String} [description]
+ * @property {() => Node} [description]
  * @property {String} [type]
  * @property {Boolean|Object} [sg]
  * @property {Boolean|Object} [st]

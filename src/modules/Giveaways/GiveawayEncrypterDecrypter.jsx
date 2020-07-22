@@ -44,7 +44,10 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
 						someone will check the source code of every page they open on SteamGifts looking for the
 						codes.
 					</li>
-					<li>To add encrypted giveaways to your comments, check [id=cfh_g].</li>
+					<li>
+						To add encrypted giveaways to your comments, check{' '}
+						<span data-esgst-feature-id="cfh_g"></span>.
+					</li>
 					<li>
 						Adds a button (<i className="fa fa-star"></i>) next to the ESGST button at the header of
 						any page that allows you to view all of the currently open decrypted giveaways that you

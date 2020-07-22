@@ -10,7 +10,9 @@ class UsersUserLinks extends Module {
 			description: () => (
 				<ul>
 					<li>Allows you to add custom links next to a user's username in their profile page.</li>
-					<li>Can be used in other pages through [id=cl_ui].</li>
+					<li>
+						Can be used in other pages through <span data-esgst-feature-id="cl_ui"></span>.
+					</li>
 					<li>
 						Comes by default with 5 links to BLAEO, Playing Appreciated, Touhou Giveaways, AStats
 						and SteamRep.

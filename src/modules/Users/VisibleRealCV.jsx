@@ -11,7 +11,10 @@ class UsersVisibleRealCV extends Module {
 						Displays the real sent/won CV next to the raw value in a user's{' '}
 						<a href="https://www.steamgifts.com/user/cg">profile</a> page.
 					</li>
-					<li>This also extends to [id=swr], if you have that feature enabled.</li>
+					<li>
+						This also extends to <span data-esgst-feature-id="swr"></span>, if you have that feature
+						enabled.
+					</li>
 					<li>
 						With this feature disabled, you can still view the real CV, as provided by SteamGifts,
 						by hovering over the raw value.

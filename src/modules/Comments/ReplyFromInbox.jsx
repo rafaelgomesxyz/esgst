@@ -14,7 +14,9 @@ class CommentsReplyFromInbox extends Module {
 						<a href="https://www.steamgifts.com/messages">inbox</a> page) that allows you to reply
 						to the comment directly from your inbox.
 					</li>
-					<li>It is essentially [id=mr] for the inbox page.</li>
+					<li>
+						It is essentially <span data-esgst-feature-id="mr"></span> for the inbox page.
+					</li>
 				</ul>
 			),
 			features: {

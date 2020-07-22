@@ -57,8 +57,9 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
 					description: () => (
 						<ul>
 							<li>
-								Only shows the button in popups([id=gb], [id=ged], [id=ge], etc...), so basically
-								only for any giveaways that are loaded dynamically by ESGST.
+								Only shows the button in popups(<span data-esgst-feature-id="gb"></span>,{' '}
+								<span data-esgst-feature-id="ged"></span>, <span data-esgst-feature-id="ge"></span>,
+								etc...), so basically only for any giveaways that are loaded dynamically by ESGST.
 							</li>
 						</ul>
 					),

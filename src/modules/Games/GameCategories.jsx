@@ -45,9 +45,10 @@ class GamesGameCategories extends Module {
 			description: () => (
 				<ul>
 					<li>
-						Adds tags (which are called "categories" not to be confused with [id=gt]) below a game's
-						name (in any page) that can display a lot of useful information about the game
-						(depending on which categories you have enabled).
+						Adds tags (which are called "categories" not to be confused with{' '}
+						<span data-esgst-feature-id="gt"></span>) below a game's name (in any page) that can
+						display a lot of useful information about the game (depending on which categories you
+						have enabled).
 					</li>
 					<li>
 						The categories can be reordered by dragging and dropping them. You can also drag and

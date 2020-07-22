@@ -10,9 +10,10 @@ class GiveawaysNewGiveawayDescriptionChecker extends Module {
 				<ul>
 					<li>
 						When you click on "Review Giveaway" in the new giveaway page (also extends to the
-						"Create Giveaway" button from [id=gts] and the "Add" button from [id=mgc]), this feature
-						checks if there are possible Steam keys / Humble Bundle gift links in the description
-						and warns you about it, in case you pasted them there by mistake.
+						"Create Giveaway" button from <span data-esgst-feature-id="gts"></span> and the "Add"
+						button from <span data-esgst-feature-id="mgc"></span>), this feature checks if there are
+						possible Steam keys / Humble Bundle gift links in the description and warns you about
+						it, in case you pasted them there by mistake.
 					</li>
 					<li>
 						This feature replaces the native "Review Giveaway" button, so that ESGST can intercept

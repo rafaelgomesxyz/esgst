@@ -100,9 +100,9 @@ class CommentsCommentTracker extends Module {
 								thread/page or mark comments as read/unread.
 							</li>
 							<li>
-								If you mark a thread as visited with [id=gdttt], all of the comments in the thread
-								will be considered as "read", and if you mark it as unvisited, they will be
-								considered as "unread".
+								If you mark a thread as visited with <span data-esgst-feature-id="gdttt"></span>,
+								all of the comments in the thread will be considered as "read", and if you mark it
+								as unvisited, they will be considered as "unread".
 							</li>
 						</ul>
 					),
@@ -131,8 +131,9 @@ class CommentsCommentTracker extends Module {
 					description: () => (
 						<ul>
 							<li>
-								Searches pages for an unread comment from the bottom to the top if [id=cr] is
-								disabled or from the top to the bottom if it is enabled.
+								Searches pages for an unread comment from the bottom to the top if{' '}
+								<span data-esgst-feature-id="cr"></span> is disabled or from the top to the bottom
+								if it is enabled.
 							</li>
 						</ul>
 					),

@@ -23,8 +23,8 @@ class GeneralQuickInboxView extends Module {
 						read them.
 					</li>
 					<li>
-						You can also mark the messages as read from the popout and reply to them if [id=rfi] is
-						enabled.
+						You can also mark the messages as read from the popout and reply to them if{' '}
+						<span data-esgst-feature-id="rfi"></span> is enabled.
 					</li>
 				</ul>
 			),

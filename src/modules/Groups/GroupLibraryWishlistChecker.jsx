@@ -75,7 +75,10 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 					dependencies: ['mm'],
 					description: () => (
 						<ul>
-							<li>Allows checking a custom list of users provided by [id=mm].</li>
+							<li>
+								Allows checking a custom list of users provided by{' '}
+								<span data-esgst-feature-id="mm"></span>.
+							</li>
 						</ul>
 					),
 					name: 'Integrate with [id=mm].',

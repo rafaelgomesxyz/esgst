@@ -16,7 +16,8 @@ class UsersUserStats extends Module {
 						Value") to your{' '}
 						<a href="https://www.steamgifts.com/account/manage/whitelist">whitelist</a>/
 						<a href="https://www.steamgifts.com/account/manage/blacklist">blacklist</a> pages and
-						the popup from [id=wbs] that show some stats about each user.
+						the popup from <span data-esgst-feature-id="wbs"></span> that show some stats about each
+						user.
 					</li>
 				</ul>
 			),

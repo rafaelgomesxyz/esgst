@@ -876,9 +876,14 @@ class SettingsModule {
 			name: 'Enable/Disable',
 		});
 		if (feature.description) {
+			const descriptionEl = feature.description();
+			const featureNamePlaceholders = descriptionEl.querySelectorAll('[data-esgst-feature-id]');
+			for (const featureNamePlaceholder of featureNamePlaceholders) {
+				featureNamePlaceholder.textContent = Shared.common.getFeatureName(null, featureNamePlaceholder.dataset.esgstFeatureId);
+			}
 			items.push({
 				check: true,
-				content: <div className="markdown">{feature.description()}</div>,
+				content: <div className="markdown">{descriptionEl}</div>,
 				name: 'What does it do?',
 			});
 		}

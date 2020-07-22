@@ -15,11 +15,12 @@ class GiveawaysVisibleInviteOnlyGiveaways extends Module {
 					</li>
 					<li>
 						To add information about a giveaway from someone else to the storage, you must enter the
-						giveaway and visit your entered page with [id=cewgd] enabled.
+						giveaway and visit your entered page with <span data-esgst-feature-id="cewgd"></span>{' '}
+						enabled.
 					</li>
 					<li>
 						To add information about your own giveaways to the storage, you must sync your giveaways
-						in the sync menu or check your profile with [id=ugd].
+						in the sync menu or check your profile with <span data-esgst-feature-id="ugd"></span>.
 					</li>
 				</ul>
 			),

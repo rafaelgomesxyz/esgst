@@ -27,7 +27,7 @@ class UsersUserTags extends Tags {
 					<li>
 						This feature is recommended for cases where you want to associate a short text with a
 						user, since the tags are displayed next to their username.For a long text, check
-						[id=un].
+						<span data-esgst-feature-id="un"></span>.
 					</li>
 				</ul>
 			),

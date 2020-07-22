@@ -22,9 +22,9 @@ class UsersUserSuspensionTracker extends Module {
 			description: () => (
 				<ul>
 					<li>
-						When checking a user with [id=namwc], that feature will also check if the user has
-						already served suspensions for any infractions found so that you do not need to report
-						them again.
+						When checking a user with <span data-esgst-feature-id="namwc"></span>, that feature will
+						also check if the user has already served suspensions for any infractions found so that
+						you do not need to report them again.
 					</li>
 					<li>
 						It is impossible to retrieve that information automatically, so the database (which is

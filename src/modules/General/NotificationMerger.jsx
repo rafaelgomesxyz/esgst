@@ -21,7 +21,9 @@ class GeneralNotificationMerger extends Module {
 						to the header of any page that allows you to be notified about messages from SteamTrades
 						on SteamGifts and vice-versa.
 					</li>
-					<li>This feature is compatible with [id=hr_b].</li>
+					<li>
+						This feature is compatible with <span data-esgst-feature-id="hr_b"></span>.
+					</li>
 				</ul>
 			),
 			id: 'nm',

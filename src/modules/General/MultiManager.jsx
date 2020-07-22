@@ -44,24 +44,53 @@ class GeneralMultiManager extends Module {
 					<li>You can:</li>
 					<ul>
 						<li>Search and replace something in the description of the selected giveaways.</li>
-						<li>Hide the selected giveaways, if [id=gf_s] is enabled.</li>
-						<li>Bookmark/unbookmark the selected giveaways, if [id=gb] is enabled.</li>
+						<li>
+							Hide the selected giveaways, if <span data-esgst-feature-id="gf_s"></span> is enabled.
+						</li>
+						<li>
+							Bookmark/unbookmark the selected giveaways, if{' '}
+							<span data-esgst-feature-id="gb"></span> is enabled.
+						</li>
 						<li>
 							Calculate how much time you have to wait until you have enough points to enter the
-							selected giveaways, if [id=ttec] is enabled.
+							selected giveaways, if <span data-esgst-feature-id="ttec"></span> is enabled.
 						</li>
-						<li>Export the selected giveaways to encrypted giveaways, if [id=ged] is enabled.</li>
-						<li>Hide the selected discussions, if [id=df_s] is enabled.</li>
-						<li>Mark the selected discussions as visited/unvisited, if [id=gdttt] is enabled.</li>
-						<li>Tag the selected users with the same tags, if [id=ut], is enabled.</li>
-						<li>Check the selected users for whitelists/blacklists, if [id=wbc] is enabled.</li>
-						<li>Check the selected users for suspensions, if [id=usc] is enabled.</li>
-						<li>Tag the selected games with the same tags, if [id=gt], is enabled.</li>
+						<li>
+							Export the selected giveaways to encrypted giveaways, if{' '}
+							<span data-esgst-feature-id="ged"></span> is enabled.
+						</li>
+						<li>
+							Hide the selected discussions, if <span data-esgst-feature-id="df_s"></span> is
+							enabled.
+						</li>
+						<li>
+							Mark the selected discussions as visited/unvisited, if{' '}
+							<span data-esgst-feature-id="gdttt"></span> is enabled.
+						</li>
+						<li>
+							Tag the selected users with the same tags, if <span data-esgst-feature-id="ut"></span>
+							, is enabled.
+						</li>
+						<li>
+							Check the selected users for whitelists/blacklists, if{' '}
+							<span data-esgst-feature-id="wbc"></span> is enabled.
+						</li>
+						<li>
+							Check the selected users for suspensions, if <span data-esgst-feature-id="usc"></span>{' '}
+							is enabled.
+						</li>
+						<li>
+							Tag the selected games with the same tags, if <span data-esgst-feature-id="gt"></span>
+							, is enabled.
+						</li>
 						<li>
 							Export the selected giveaways/discussions/users/games to links or to a custom format
 							that you can specify.
 						</li>
-						<li>Tag the selected groups with the same tags, if [id=gpt], is enabled.</li>
+						<li>
+							Tag the selected groups with the same tags, if{' '}
+							<span data-esgst-feature-id="gpt"></span>, is enabled.
+						</li>
 					</ul>
 					<li>On SteamTrades you can only manage users.</li>
 				</ul>

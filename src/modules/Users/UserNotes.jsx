@@ -26,7 +26,8 @@ class UsersUserNotes extends Module {
 					<li>You can press Ctrl + Enter to save the notes.</li>
 					<li>
 						This feature is recommended for cases where you want to associate a long text with a
-						user, since the notes are not displayed in the page.For a short text, check [id=ut].
+						user, since the notes are not displayed in the page.For a short text, check{' '}
+						<span data-esgst-feature-id="ut"></span>.
 					</li>
 				</ul>
 			),

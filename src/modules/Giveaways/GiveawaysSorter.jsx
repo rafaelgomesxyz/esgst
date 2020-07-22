@@ -22,9 +22,11 @@ class GiveawaysGiveawaysSorter extends Module {
 						<a href="https://www.steamgifts.com/entered">entered</a>/
 						<a href="https://www.steamgifts.com/group/SJ7Bu/">group</a>/
 						<a href="https://www.steamgifts.com/user/cg">user</a> page that allows you to sort the
-						giveaways in the page by game name, points, rating (if [id=gc_r] is enabled), end time,
-						start time, creator, comments, entries, chance/chance per point (if [id=gwc] is
-						enabled), ratio (if [id=gwr] is enabled) and points to win (if [id=gptw] is enabled).
+						giveaways in the page by game name, points, rating (if{' '}
+						<span data-esgst-feature-id="gc_r"></span> is enabled), end time, start time, creator,
+						comments, entries, chance/chance per point (if <span data-esgst-feature-id="gwc"></span>{' '}
+						is enabled), ratio (if <span data-esgst-feature-id="gwr"></span> is enabled) and points
+						to win (if <span data-esgst-feature-id="gptw"></span> is enabled).
 					</li>
 					<li>
 						There is also an option to automatically sort the giveaways so that every time you open

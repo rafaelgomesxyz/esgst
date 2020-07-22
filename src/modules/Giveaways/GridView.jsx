@@ -17,14 +17,15 @@ class GiveawaysGridView extends Module {
 			description: () => (
 				<ul>
 					<li>
-						Turns each giveaway in the main page and some popups([id=gb], [id=ged] and [id=ge]) into
-						a small box where only the game's image is shown. Overlaying the image you will find the
-						start/end times, type and level of the giveaway. To get the other details of the
-						giveaway (such as the game name, the number of points it costs to enter, the number of
-						entries/comments and the creator's username), you can hover over the box and a popout
-						will appear containing them.This allows multiple giveaways to be shown per line, which
-						reduces the size of the page and allows you to view all of the giveaways in the page at
-						a single glance.
+						Turns each giveaway in the main page and some popups(
+						<span data-esgst-feature-id="gb"></span>, <span data-esgst-feature-id="ged"></span> and{' '}
+						<span data-esgst-feature-id="ge"></span>) into a small box where only the game's image
+						is shown. Overlaying the image you will find the start/end times, type and level of the
+						giveaway. To get the other details of the giveaway (such as the game name, the number of
+						points it costs to enter, the number of entries/comments and the creator's username),
+						you can hover over the box and a popout will appear containing them.This allows multiple
+						giveaways to be shown per line, which reduces the size of the page and allows you to
+						view all of the giveaways in the page at a single glance.
 					</li>
 					<li>
 						Also adds a button (<i className="fa fa-th-large"></i>) to the main page heading of the

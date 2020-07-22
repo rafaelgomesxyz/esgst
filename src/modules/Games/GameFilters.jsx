@@ -8,7 +8,7 @@ class GamesGameFilters extends Filters {
 	constructor() {
 		super('gmf');
 		this.info = {
-			description: 'Filter games.',
+			description: () => <fragment>Filter games.</fragment>,
 			features: {
 				gmf_m: {
 					description: () => (
@@ -56,7 +56,7 @@ class GamesGameFilters extends Filters {
 								</ul>
 								<li>
 									Category filters are essentially the same thing as type filters, but for game
-									categories ([id=gc]).
+									categories (<span data-esgst-feature-id="gc"></span>).
 								</li>
 							</ul>
 							<li>
