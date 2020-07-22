@@ -44,10 +44,10 @@ class CommentsReplyBoxPopup extends Module {
 			title: 'Add a comment',
 		});
 		let popup = new Popup({ addScrollable: true, icon: 'fa-comment', title: `Add a comment:` });
-		popup.textArea = DOM.insert(
+		DOM.insert(
 			popup.scrollable,
-			'beforeEnd',
-			<textarea name="description"></textarea>
+			'beforeend',
+			<textarea name="description" ref={(ref) => (popup.textArea = ref)}></textarea>
 		);
 		popup.description.appendChild(
 			new ButtonSet({
@@ -71,7 +71,7 @@ class CommentsReplyBoxPopup extends Module {
 				},
 			}).set
 		);
-		popup.progress = DOM.insert(popup.description, 'beforeEnd', <div />);
+		DOM.insert(popup.description, 'beforeend', <div ref={(ref) => (popup.progress = ref)} />);
 		button.addEventListener(
 			'click',
 			popup.open.bind(popup, popup.textArea.focus.bind(popup.textArea))

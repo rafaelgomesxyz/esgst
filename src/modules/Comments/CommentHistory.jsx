@@ -93,33 +93,33 @@ class CommentsCommentHistory extends Module {
 			parent.lastElementChild.remove();
 			DOM.insert(
 				parent,
-				'beforeEnd',
-				<div class="comment__children comment_children">{comment}</div>
+				'beforeend',
+				<div className="comment__children comment_children">{comment}</div>
 			);
 			fragmentChildren.push(parent);
 		} else {
 			if (Shared.esgst.st) {
 				DOM.insert(
 					comment.getElementsByClassName('action_list')[0].firstElementChild,
-					'afterEnd',
+					'afterend',
 					<a href={response.finalUrl}>{responseHtml.title}</a>
 				);
 			}
 			if (Shared.esgst.sg) {
 				fragmentChildren.push(
-					<div class="comments__entity">
-						<p class="comments__entity__name">
+					<div className="comments__entity">
+						<p className="comments__entity__name">
 							<a href={response.finalUrl}>{responseHtml.title}</a>
 						</p>
 					</div>
 				);
 			}
-			fragmentChildren.push(<div class="comment__children comment_children">{comment}</div>);
+			fragmentChildren.push(<div className="comment__children comment_children">{comment}</div>);
 		}
 		DOM.insert(
 			obj.context,
-			'beforeEnd',
-			<div class="comment comments comment_outer">{fragmentChildren}</div>
+			'beforeend',
+			<div className="comment comments comment_outer">{fragmentChildren}</div>
 		);
 	}
 

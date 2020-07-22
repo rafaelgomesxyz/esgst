@@ -264,9 +264,9 @@ class CommentsCommentTracker extends Module {
 				}
 				DOM.insert(
 					element,
-					'beforeEnd',
+					'beforeend',
 					<span
-						class="esgst-ct-count"
+						className="esgst-ct-count"
 						title={Shared.common.getFeatureTooltip('ct', 'Unread comments')}
 					>
 						{` (+${diff})`}
@@ -760,24 +760,25 @@ class CommentsCommentTracker extends Module {
 
 	ct_addReadUntilHereButton(button, comment) {
 		if (!button) {
-			button = DOM.insert(
+			DOM.insert(
 				comment.actions,
-				'beforeEnd',
+				'beforeend',
 				<div
-					class="esgst-ct-comment-button"
+					className="esgst-ct-comment-button"
 					title={Shared.common.getFeatureTooltip(
 						'ct',
 						'Mark all comments from this comment upwards as read'
 					)}
+					ref={(ref) => (button = ref)}
 				></div>
 			);
 		}
 		DOM.insert(
 			button,
-			'inner',
+			'atinner',
 			<span>
-				<i class="fa fa-eye"></i>
-				<i class="fa fa-angle-up"></i>
+				<i className="fa fa-eye"></i>
+				<i className="fa fa-angle-up"></i>
 			</span>
 		);
 		button.firstElementChild.addEventListener(
@@ -787,7 +788,7 @@ class CommentsCommentTracker extends Module {
 	}
 
 	async ct_readUntilHere(button, comment) {
-		DOM.insert(button, 'inner', <i class="fa fa-circle-o-notch fa-spin"></i>);
+		DOM.insert(button, 'atinner', <i className="fa fa-circle-o-notch fa-spin"></i>);
 		await this.ct_getComments(
 			0,
 			this.esgst.scopes.main.comments,
@@ -801,24 +802,25 @@ class CommentsCommentTracker extends Module {
 
 	ct_addUnreadUntilHereButton(button, comment) {
 		if (!button) {
-			button = DOM.insert(
+			DOM.insert(
 				comment.actions,
-				'beforeEnd',
+				'beforeend',
 				<div
-					class="esgst-ct-comment-button"
+					className="esgst-ct-comment-button"
 					title={Shared.common.getFeatureTooltip(
 						'ct',
 						'Mark all comments from this comment upwards as unread'
 					)}
+					ref={(ref) => (button = ref)}
 				></div>
 			);
 		}
 		DOM.insert(
 			button,
-			'inner',
+			'atinner',
 			<span>
-				<i class="fa fa-eye-slash"></i>
-				<i class="fa fa-angle-up"></i>
+				<i className="fa fa-eye-slash"></i>
+				<i className="fa fa-angle-up"></i>
 			</span>
 		);
 		button.firstElementChild.addEventListener(
@@ -828,7 +830,7 @@ class CommentsCommentTracker extends Module {
 	}
 
 	async ct_unreadUntilHere(button, comment) {
-		DOM.insert(button, 'inner', <i class="fa fa-circle-o-notch fa-spin"></i>);
+		DOM.insert(button, 'atinner', <i className="fa fa-circle-o-notch fa-spin"></i>);
 		await this.ct_getComments(
 			0,
 			this.esgst.scopes.main.comments,
@@ -842,18 +844,18 @@ class CommentsCommentTracker extends Module {
 
 	ct_addReadCommentButton(button, comment) {
 		if (!button) {
-			button = DOM.insert(
+			DOM.insert(
 				comment.actions,
-				'beforeEnd',
-				<div class="esgst-ct-comment-button"></div>
+				'beforeend',
+				<div className="esgst-ct-comment-button" ref={(ref) => (button = ref)}></div>
 			);
 		}
 		DOM.insert(
 			button,
-			'inner',
-			<>
+			'atinner',
+			<fragment>
 				<i
-					class="fa fa-eye"
+					className="fa fa-eye"
 					title={Shared.common.getFeatureTooltip('ct', 'Mark this comment as read')}
 				></i>
 				<span
@@ -862,10 +864,10 @@ class CommentsCommentTracker extends Module {
 						'Mark this comment as read and go to the next unread comment'
 					)}
 				>
-					<i class="fa fa-eye"></i>
-					<i class="fa fa-angle-double-right"></i>
+					<i className="fa fa-eye"></i>
+					<i className="fa fa-angle-double-right"></i>
 				</span>
-			</>
+			</fragment>
 		);
 		button.firstElementChild.addEventListener(
 			'click',
@@ -878,14 +880,14 @@ class CommentsCommentTracker extends Module {
 	}
 
 	async ct_readComment(button, comment) {
-		DOM.insert(button, 'inner', <i class="fa fa-circle-o-notch fa-spin"></i>);
+		DOM.insert(button, 'atinner', <i className="fa fa-circle-o-notch fa-spin"></i>);
 		await this.ct_markCommentRead(comment, null, true);
 		button.innerHTML = '';
 		this.ct_addUnreadCommentButton(button, comment);
 	}
 
 	async ct_readCommentAndGo(button, comment) {
-		DOM.insert(button, 'inner', <i class="fa fa-circle-o-notch fa-spin"></i>);
+		DOM.insert(button, 'atinner', <i className="fa fa-circle-o-notch fa-spin"></i>);
 		await this.ct_markCommentRead(comment, null, true);
 		button.innerHTML = '';
 		this.ct_addUnreadCommentButton(button, comment);
@@ -895,17 +897,17 @@ class CommentsCommentTracker extends Module {
 
 	ct_addUnreadCommentButton(button, comment) {
 		if (!button) {
-			button = DOM.insert(
+			DOM.insert(
 				comment.actions,
-				'beforeEnd',
-				<div class="esgst-ct-comment-button"></div>
+				'beforeend',
+				<div className="esgst-ct-comment-button" ref={(ref) => (button = ref)}></div>
 			);
 		}
 		DOM.insert(
 			button,
-			'inner',
+			'atinner',
 			<i
-				class="fa fa-eye-slash"
+				className="fa fa-eye-slash"
 				title={Shared.common.getFeatureTooltip('ct', 'Mark comment as unread')}
 			></i>
 		);
@@ -916,7 +918,7 @@ class CommentsCommentTracker extends Module {
 	}
 
 	async ct_unreadComment(button, comment) {
-		DOM.insert(button, 'inner', <i class="fa fa-circle-o-notch fa-spin"></i>);
+		DOM.insert(button, 'atinner', <i className="fa fa-circle-o-notch fa-spin"></i>);
 		await this.ct_markCommentUnread(comment, null, true);
 		button.innerHTML = '';
 		this.ct_addReadCommentButton(button, comment);
@@ -931,21 +933,21 @@ class CommentsCommentTracker extends Module {
 			button = document.querySelector(`.js__submit-form, .js_mark_as_read`);
 			if (button) {
 				if (this.esgst.sg) {
-					newButton = DOM.insert(
+					DOM.insert(
 						button,
-						'afterEnd',
-						<div class="sidebar__action-button">
-							<i class="fa fa-check-circle"></i> Mark as Read
+						'afterend',
+						<div className="sidebar__action-button" ref={(ref) => (newButton = ref)}>
+							<i className="fa fa-check-circle"></i> Mark as Read
 						</div>
 					);
 					key = 'read_messages';
 					url = '/messages';
 				} else {
-					newButton = DOM.insert(
+					DOM.insert(
 						button,
-						'afterEnd',
-						<a class="page_heading_btn green">
-							<i class="fa fa-check-square-o"></i> Mark as Read
+						'afterend',
+						<a className="page_heading_btn green" ref={(ref) => (newButton = ref)}>
+							<i className="fa fa-check-square-o"></i> Mark as Read
 						</a>
 					);
 					key = 'mark_as_read';
@@ -980,7 +982,7 @@ class CommentsCommentTracker extends Module {
 	}
 
 	async ct_goToUnread(goToUnread) {
-		DOM.insert(goToUnread, 'inner', <i class="fa fa-circle-o-notch fa-spin"></i>);
+		DOM.insert(goToUnread, 'atinner', <i className="fa fa-circle-o-notch fa-spin"></i>);
 		const found = await this.ct_getComments(
 			0,
 			this.esgst.scopes.main.comments,
@@ -989,22 +991,22 @@ class CommentsCommentTracker extends Module {
 			false,
 			false
 		);
-		DOM.insert(goToUnread, 'inner', <i class="fa fa-comments-o"></i>);
+		DOM.insert(goToUnread, 'atinner', <i className="fa fa-comments-o"></i>);
 		if (!found) {
 			Shared.common.createAlert('No unread comments were found.');
 		}
 	}
 
 	async ct_markCommentsRead(markRead) {
-		DOM.insert(markRead, 'inner', <i class="fa fa-circle-o-notch fa-spin"></i>);
+		DOM.insert(markRead, 'atinner', <i className="fa fa-circle-o-notch fa-spin"></i>);
 		await this.ct_getComments(0, this.esgst.scopes.main.comments, null, false, true, false);
-		DOM.insert(markRead, 'inner', <i class="fa fa-eye"></i>);
+		DOM.insert(markRead, 'atinner', <i className="fa fa-eye"></i>);
 	}
 
 	async ct_markCommentsUnread(markUnread) {
-		DOM.insert(markUnread, 'inner', <i class="fa fa-circle-o-notch fa-spin"></i>);
+		DOM.insert(markUnread, 'atinner', <i className="fa fa-circle-o-notch fa-spin"></i>);
 		await this.ct_getComments(0, this.esgst.scopes.main.comments, null, false, false, true);
-		DOM.insert(markUnread, 'inner', <i class="fa fa-eye-slash"></i>);
+		DOM.insert(markUnread, 'atinner', <i className="fa fa-eye-slash"></i>);
 	}
 
 	ct_addDiscussionPanel(
@@ -1019,56 +1021,58 @@ class CommentsCommentTracker extends Module {
 		discussion,
 		name
 	) {
+		let panel;
+		DOM.insert(
+			context,
+			this.esgst.giveawaysPath && !Settings.get('oadd') ? 'afterend' : 'beforeend',
+			<span ref={(ref) => (panel = ref)}>
+				<span className="esgst-ct-count esgst-hidden" title={Shared.common.getFeatureTooltip('ct')}>
+					{`(+${diff})`}
+				</span>
+				<div
+					className="esgst-heading-button esgst-hidden"
+					title={Shared.common.getFeatureTooltip(
+						'ct',
+						'Go to first unread comment of this discussion'
+					)}
+				>
+					<i className="fa fa-comments-o"></i>
+				</div>
+				<div
+					className="esgst-heading-button esgst-hidden"
+					title={Shared.common.getFeatureTooltip(
+						'ct',
+						'Mark all comments in this discussion as read'
+					)}
+				>
+					<i className="fa fa-eye"></i>
+				</div>
+				<div
+					className="esgst-heading-button esgst-hidden"
+					title={Shared.common.getFeatureTooltip(
+						'ct',
+						'Mark all comments in this discussion as unread'
+					)}
+				>
+					<i className="fa fa-eye-slash"></i>
+				</div>
+				<div
+					className="esgst-heading-button esgst-hidden"
+					title={Shared.common.getFeatureTooltip(
+						'ct',
+						`Clean discussion (remove deleted comments from the database)`
+					)}
+				>
+					<i className="fa fa-paint-brush"></i>
+				</div>
+				<i className="fa fa-circle-o-notch fa-spin esgst-hidden"></i>
+			</span>
+		);
 		const obj = {
 			code,
 			count,
 			diff,
-			panel: DOM.insert(
-				context,
-				this.esgst.giveawaysPath && !Settings.get('oadd') ? 'afterEnd' : 'beforeEnd',
-				<span>
-					<span class="esgst-ct-count esgst-hidden" title={Shared.common.getFeatureTooltip('ct')}>
-						{`(+${diff})`}
-					</span>
-					<div
-						class="esgst-heading-button esgst-hidden"
-						title={Shared.common.getFeatureTooltip(
-							'ct',
-							'Go to first unread comment of this discussion'
-						)}
-					>
-						<i class="fa fa-comments-o"></i>
-					</div>
-					<div
-						class="esgst-heading-button esgst-hidden"
-						title={Shared.common.getFeatureTooltip(
-							'ct',
-							'Mark all comments in this discussion as read'
-						)}
-					>
-						<i class="fa fa-eye"></i>
-					</div>
-					<div
-						class="esgst-heading-button esgst-hidden"
-						title={Shared.common.getFeatureTooltip(
-							'ct',
-							'Mark all comments in this discussion as unread'
-						)}
-					>
-						<i class="fa fa-eye-slash"></i>
-					</div>
-					<div
-						class="esgst-heading-button esgst-hidden"
-						title={Shared.common.getFeatureTooltip(
-							'ct',
-							`Clean discussion (remove deleted comments from the database)`
-						)}
-					>
-						<i class="fa fa-paint-brush"></i>
-					</div>
-					<i class="fa fa-circle-o-notch fa-spin esgst-hidden"></i>
-				</span>
-			),
+			panel,
 			url,
 		};
 		obj.diffContainer = obj.panel.firstElementChild;
@@ -1078,7 +1082,7 @@ class CommentsCommentTracker extends Module {
 		obj.clean = obj.markUnread.nextElementSibling;
 		obj.loadingIcon = obj.clean.nextElementSibling;
 		if (Settings.get('gdttt')) {
-			const button = new Button(obj.panel, 'beforeEnd', {
+			const button = new Button(obj.panel, 'beforeend', {
 				callbacks: [
 					this.esgst.modules.generalGiveawayDiscussionTicketTradeTracker.gdttt_markVisited.bind(
 						this.esgst.modules.generalGiveawayDiscussionTicketTradeTracker,
@@ -1121,7 +1125,7 @@ class CommentsCommentTracker extends Module {
 			}
 		}
 		if (Settings.get('tds')) {
-			new Button(obj.panel, 'beforeEnd', {
+			new Button(obj.panel, 'beforeend', {
 				callbacks: [
 					Shared.esgst.modules.generalThreadSubscription.subscribe.bind(
 						Shared.esgst.modules.generalThreadSubscription,

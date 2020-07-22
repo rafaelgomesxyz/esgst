@@ -80,8 +80,8 @@ class CommentsMultiReply extends Module {
 					MR.url = MR.URL = Permalink.getAttribute('href');
 					DOM.insert(
 						MR.Comment,
-						'beforeEnd',
-						<div class="comment__children comment_children"></div>
+						'beforeend',
+						<div className="comment__children comment_children"></div>
 					);
 				}
 				if (Shared.esgst.sg) {
@@ -95,8 +95,8 @@ class CommentsMultiReply extends Module {
 				}
 				DOM.insert(
 					MR.Timestamp,
-					'afterEnd',
-					<a class="comment__actions__button esgst-mr-reply">Reply</a>
+					'afterend',
+					<a className="comment__actions__button esgst-mr-reply">Reply</a>
 				);
 				MR.Timestamp.nextElementSibling.addEventListener('click', () => {
 					if (!MR.Box) {
@@ -119,43 +119,43 @@ class CommentsMultiReply extends Module {
 		let Username;
 		Username = Settings.get('username');
 		const basicFragments = (
-			<>
+			<fragment>
 				<input name="trade_code" type="hidden" value={MR.TradeCode} />
 				<input name="parent_id" type="hidden" value={MR.ParentID} />
 				<textarea
-					class="esgst-mr-description"
+					className="esgst-mr-description"
 					name="description"
 					placeholder={`Write a reply to ${MR.Username}...`}
 				></textarea>
-				<div class="align-button-container btn_actions">
+				<div className="align-button-container btn_actions">
 					<div />
-					<div class="comment__cancel-button btn_cancel esgst-mr-cancel">
+					<div className="comment__cancel-button btn_cancel esgst-mr-cancel">
 						<span>Cancel</span>
 					</div>
 				</div>
-			</>
+			</fragment>
 		);
 		const fragmentChildren = [];
 		if (Shared.esgst.sg) {
 			fragmentChildren.push(
-				<div class="comment__child">
+				<div className="comment__child">
 					<a
-						class="global__image-outer-wrap global__image-outer-wrap--avatar-small"
+						className="global__image-outer-wrap global__image-outer-wrap--avatar-small"
 						href={`/user/${Username}`}
 					>
 						<div
-							class="global__image-inner-wrap"
+							className="global__image-inner-wrap"
 							style={`background-image: url(${Settings.get('avatar')});`}
 						></div>
 					</a>
-					<div class="comment__summary">
-						<div class="comment__author">
-							<div class="comment__username">
+					<div className="comment__summary">
+						<div className="comment__author">
+							<div className="comment__username">
 								<a href={`/user/${Username}`}>{Username}</a>
 							</div>
 						</div>
-						<div class="comment__display-state">
-							<div class="comment__description">{basicFragments}</div>
+						<div className="comment__display-state">
+							<div className="comment__description">{basicFragments}</div>
 						</div>
 					</div>
 				</div>
@@ -165,8 +165,8 @@ class CommentsMultiReply extends Module {
 		}
 		DOM.insert(
 			MR.Children,
-			'afterBegin',
-			<div class="comment reply_form MRBox">{fragmentChildren}</div>
+			'afterbegin',
+			<div className="comment reply_form MRBox">{fragmentChildren}</div>
 		);
 		MR.Box = MR.Children.firstElementChild;
 		MR.Description = MR.Box.getElementsByClassName('esgst-mr-description')[0];
@@ -201,11 +201,11 @@ class CommentsMultiReply extends Module {
 				} else {
 					DOM.insert(
 						DEDStatus,
-						'inner',
-						<>
-							<i class="fa fa-times"></i>
+						'atinner',
+						<fragment>
+							<i className="fa fa-times"></i>
 							<span>Failed!</span>
-						</>
+						</fragment>
 					);
 				}
 			} else {
@@ -232,11 +232,11 @@ class CommentsMultiReply extends Module {
 				} else {
 					DOM.insert(
 						DEDStatus,
-						'inner',
-						<>
-							<i class="fa fa-times"></i>
+						'atinner',
+						<fragment>
+							<i className="fa fa-times"></i>
 							<span>Failed!</span>
-						</>
+						</fragment>
 					);
 				}
 			}
@@ -253,7 +253,11 @@ class CommentsMultiReply extends Module {
 			Shared.esgst.sg ? 'js__comment-edit' : 'js_comment_edit'
 		)[0];
 		if (MR.Edit) {
-			DOM.insert(MR.Edit, 'afterEnd', <a class="comment__actions__button esgst-mr-edit">Edit</a>);
+			DOM.insert(
+				MR.Edit,
+				'afterend',
+				<a className="comment__actions__button esgst-mr-edit">Edit</a>
+			);
 			MR.Edit = MR.Edit.nextElementSibling;
 			MR.Edit.previousElementSibling.remove();
 			DisplayState = MR.Comment.getElementsByClassName(
@@ -265,9 +269,9 @@ class CommentsMultiReply extends Module {
 			EditSave = EditState.querySelector(`.js__comment-edit-save, .js_submit, .EditSave`);
 			DOM.insert(
 				EditSave,
-				'afterEnd',
-				<a class="comment__submit-button btn_action white EditSave">
-					<i class="fa fa-edit"></i>
+				'afterend',
+				<a className="comment__submit-button btn_action white EditSave">
+					<i className="fa fa-edit"></i>
 					<span>Edit</span>
 				</a>
 			);
@@ -312,22 +316,22 @@ class CommentsMultiReply extends Module {
 						if (Shared.esgst.sg) {
 							DOM.insert(
 								reply,
-								'inner',
-								<>
-									<div class="ajax comment__child">
+								'atinner',
+								<fragment>
+									<div className="ajax comment__child">
 										{Array.from(ResponseHTML.body.childNodes).map((x) => x.cloneNode(true))}
 									</div>
-									<div class="comment__children"></div>
-								</>
+									<div className="comment__children"></div>
+								</fragment>
 							);
 						} else {
 							DOM.insert(
 								reply,
-								'inner',
-								<>
+								'atinner',
+								<fragment>
 									{Array.from(ResponseHTML.body.childNodes).map((x) => x.cloneNode(true))}
-									<div class="comment__children"></div>
-								</>
+									<div className="comment__children"></div>
+								</fragment>
 							);
 						}
 						await Shared.esgst.modules.commentsReplyFromInbox.rfi_saveReply(
@@ -339,26 +343,26 @@ class CommentsMultiReply extends Module {
 					}
 					DOM.insert(
 						DisplayState,
-						'inner',
-						<>
+						'atinner',
+						<fragment>
 							{Array.from(
 								ResponseHTML.getElementsByClassName(
 									Shared.esgst.sg ? 'comment__display-state' : 'comment_body_default'
 								)[0].childNodes
 							)}
-						</>
+						</fragment>
 					);
 					EditState.classList.add(Shared.esgst.sg ? 'is-hidden' : 'is_hidden');
 					DOM.insert(
 						MR.Timestamp,
-						'inner',
-						<>
+						'atinner',
+						<fragment>
 							{Array.from(
 								ResponseHTML.getElementsByClassName(
 									Shared.esgst.sg ? 'comment__actions' : 'action_list'
 								)[0].firstElementChild.childNodes
 							)}
-						</>
+						</fragment>
 					);
 					if (Settings.get('at')) {
 						Shared.esgst.modules.generalAccurateTimestamp.at_getTimestamps(MR.Timestamp);
@@ -401,8 +405,8 @@ class CommentsMultiReply extends Module {
 			}
 			DOM.insert(
 				mr.delete,
-				'afterEnd',
-				<a class="comment__actions__button esgst-mr-delete">Delete</a>
+				'afterend',
+				<a className="comment__actions__button esgst-mr-delete">Delete</a>
 			);
 			mr.delete = mr.delete.nextElementSibling;
 			mr.delete.previousElementSibling.remove();
@@ -431,8 +435,8 @@ class CommentsMultiReply extends Module {
 			}
 			DOM.insert(
 				mr.undelete,
-				'afterEnd',
-				<a class="comment__actions__button esgst-mr-undelete">Undelete</a>
+				'afterend',
+				<a className="comment__actions__button esgst-mr-undelete">Undelete</a>
 			);
 			mr.undelete = mr.undelete.nextElementSibling;
 			mr.undelete.previousElementSibling.remove();
@@ -454,14 +458,18 @@ class CommentsMultiReply extends Module {
 			if (Shared.esgst.sg) {
 				DOM.insert(
 					mr.Container,
-					'inner',
-					<>{Array.from(responseHtml.getElementsByClassName('comment__summary')[0].childNodes)}</>
+					'atinner',
+					<fragment>
+						{Array.from(responseHtml.getElementsByClassName('comment__summary')[0].childNodes)}
+					</fragment>
 				);
 			} else {
 				DOM.insert(
 					mr.Container,
-					'inner',
-					<>{Array.from(responseHtml.getElementsByClassName('comment_inner')[0].childNodes)}</>
+					'atinner',
+					<fragment>
+						{Array.from(responseHtml.getElementsByClassName('comment_inner')[0].childNodes)}
+					</fragment>
 				);
 			}
 			if (Settings.get('rfi') && Settings.get('rfi_s')) {
@@ -469,20 +477,20 @@ class CommentsMultiReply extends Module {
 				if (Shared.esgst.sg) {
 					DOM.insert(
 						reply,
-						'inner',
-						<>
-							<div class="ajax comment__child">{Array.from(responseHtml.body.childNodes)}</div>
-							<div class="comment__children"></div>
-						</>
+						'atinner',
+						<fragment>
+							<div className="ajax comment__child">{Array.from(responseHtml.body.childNodes)}</div>
+							<div className="comment__children"></div>
+						</fragment>
 					);
 				} else {
 					DOM.insert(
 						reply,
-						'inner',
-						<>
+						'atinner',
+						<fragment>
 							{Array.from(responseHtml.body.childNodes)}
-							<div class="comment__children"></div>
-						</>
+							<div className="comment__children"></div>
+						</fragment>
 					);
 				}
 				await Shared.esgst.modules.commentsReplyFromInbox.rfi_saveReply(

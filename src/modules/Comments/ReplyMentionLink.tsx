@@ -40,10 +40,14 @@ class CommentsReplyMentionLink extends Module {
 
 	addLink(comment: IComment) {
 		if (comment.parent && !comment.nodes.rmlLink) {
-			comment.nodes.rmlLink = DOM.insert(
+			DOM.insert(
 				comment.nodes.actions,
-				'beforeEnd',
-				<a href={`#${comment.parent.data.code}`} class="comment__actions__button esgst-rml-link">
+				'beforeend',
+				<a
+					href={`#${comment.parent.data.code}`}
+					className="comment__actions__button esgst-rml-link"
+					ref={(ref) => (comment.nodes.rmlLink = ref)}
+				>
 					{`@${comment.data.isDeleted ? '[Deleted]' : comment.parent.author.data.username}`}
 				</a>
 			);
@@ -63,8 +67,8 @@ class CommentsReplyMentionLink extends Module {
 			} else {
 				DOM.insert(
 					actions,
-					'beforeEnd',
-					<a href={`#${commentCode}`} class="comment__actions__button esgst-rml-link">
+					'beforeend',
+					<a href={`#${commentCode}`} className="comment__actions__button esgst-rml-link">
 						{`@${authorUsername}`}
 					</a>
 				);

@@ -132,11 +132,9 @@ class CommentsReplyFromInbox extends Module {
 					.closest(`.comment, .comment_outer`)
 					.querySelector(`.comment__children, .comment_children`);
 				for (j = 0, numReplies = saved[id].length; j < numReplies; ++j) {
-					const dateElement = DOM.insert(
-						children,
-						'beforeEnd',
-						DOM.parse(saved[id][j].reply).body.firstElementChild
-					).querySelector(`[data-timestamp]`);
+					let dateElementContainer = DOM.parse(saved[id][j].reply).body.firstElementChild;
+					DOM.insert(children, 'beforeend', dateElementContainer);
+					const dateElement = dateElementContainer.querySelector(`[data-timestamp]`);
 					if (dateElement) {
 						dateElement.textContent = Shared.common.getTimeSince(saved[id][j].timestamp);
 					}

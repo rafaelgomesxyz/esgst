@@ -145,22 +145,22 @@ class CommentsCommentSearcher extends Module {
 				parent.lastElementChild.remove();
 				DOM.insert(
 					parent,
-					'beforeEnd',
-					<div class="comment__children comment_children">{element}</div>
+					'beforeend',
+					<div className="comment__children comment_children">{element}</div>
 				);
 				fragmentChildren.push(parent);
 			} else {
 				if (Shared.esgst.st) {
 					DOM.insert(
 						element.getElementsByClassName('action_list')[0].firstElementChild,
-						'afterEnd',
+						'afterend',
 						<a href={`/${obj.type}/${obj.code}/`}>{`${obj.title} - Page ${details.nextPage}`}</a>
 					);
 				}
 				if (Shared.esgst.sg) {
 					fragmentChildren.push(
-						<div class="comments__entity">
-							<p class="comments__entity__name">
+						<div className="comments__entity">
+							<p className="comments__entity__name">
 								<a
 									href={`/${obj.type}/${obj.code}/`}
 								>{`${obj.title} - Page ${details.nextPage}`}</a>
@@ -168,7 +168,7 @@ class CommentsCommentSearcher extends Module {
 						</div>
 					);
 				}
-				fragmentChildren.push(<div class="comment__children comment_children">{element}</div>);
+				fragmentChildren.push(<div className="comment__children comment_children">{element}</div>);
 			}
 			if (
 				obj.usernames.indexOf(
@@ -177,8 +177,8 @@ class CommentsCommentSearcher extends Module {
 			) {
 				DOM.insert(
 					context,
-					'beforeEnd',
-					<div class="comment comments comment_outer">{fragmentChildren}</div>
+					'beforeend',
+					<div className="comment comments comment_outer">{fragmentChildren}</div>
 				);
 				obj.results += 1;
 			}

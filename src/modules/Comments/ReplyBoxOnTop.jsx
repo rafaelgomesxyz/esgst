@@ -35,7 +35,8 @@ class CommentsReplyBoxOnTop extends Module {
 			}
 			return;
 		}
-		let box = DOM.insert(element, 'afterEnd', <div class="esgst-rbot"></div>);
+		let box;
+		DOM.insert(element, 'afterend', <div className="esgst-rbot" ref={(ref) => (box = ref)} />);
 		box.appendChild(Shared.esgst.replyBox);
 		let button = box.getElementsByClassName(Shared.esgst.cancelButtonClass)[0];
 		if (!button) return;

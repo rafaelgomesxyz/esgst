@@ -681,8 +681,8 @@ class CommentsCommentFormattingHelper extends Module {
 					let title, url;
 					DOM.insert(
 						popout.popout,
-						'inner',
-						<>
+						'atinner',
+						<fragment>
 							<div>
 								URL:
 								<input
@@ -696,7 +696,7 @@ class CommentsCommentFormattingHelper extends Module {
 								<input placeholder="Cat" type="text" ref={(ref) => (title = ref)} />
 							</div>
 							<div
-								class="form__saving-button btn_action white"
+								className="form__saving-button btn_action white"
 								onclick={async () => {
 									await this.cfh_formatLink(title.value, url.value);
 									url.value = '';
@@ -706,7 +706,7 @@ class CommentsCommentFormattingHelper extends Module {
 							>
 								Add
 							</div>
-						</>
+						</fragment>
 					);
 				},
 				callback: (popout) => {
@@ -734,8 +734,8 @@ class CommentsCommentFormattingHelper extends Module {
 					let title, url;
 					DOM.insert(
 						popout.popout,
-						'inner',
-						<>
+						'atinner',
+						<fragment>
 							<div>
 								URL:
 								<input
@@ -744,7 +744,7 @@ class CommentsCommentFormattingHelper extends Module {
 									ref={(ref) => (url = ref)}
 								/>
 								<i
-									class="fa fa-upload esgst-clickable"
+									className="fa fa-upload esgst-clickable"
 									title="Upload image to Imgur and use it"
 									onclick={async () => {
 										if (!(await permissions.contains([['imgur']]))) {
@@ -777,7 +777,7 @@ class CommentsCommentFormattingHelper extends Module {
 								<input placeholder="Cat" type="text" ref={(ref) => (title = ref)} />
 							</div>
 							<div
-								class="form__saving-button btn_action white"
+								className="form__saving-button btn_action white"
 								onclick={async () => {
 									await this.cfh_formatLink(title.value, url.value, true);
 									url.value = '';
@@ -787,7 +787,7 @@ class CommentsCommentFormattingHelper extends Module {
 							>
 								Add
 							</div>
-						</>
+						</fragment>
 					);
 				},
 				callback: (popout) => {
@@ -815,23 +815,23 @@ class CommentsCommentFormattingHelper extends Module {
 					let table;
 					DOM.insert(
 						popup.scrollable,
-						'inner',
-						<>
+						'atinner',
+						<fragment>
 							<table ref={(ref) => (table = ref)}></table>
 							<div
-								class="form__saving-button btn_action white"
+								className="form__saving-button btn_action white"
 								onclick={() => this.cfh_insertTableRows(1, table)}
 							>
 								Insert Row
 							</div>
 							<div
-								class="form__saving-button btn_action white"
+								className="form__saving-button btn_action white"
 								onclick={() => this.cfh_insertTableColumns(1, table)}
 							>
 								Insert Column
 							</div>
 							<div
-								class="form__saving-button btn_action white"
+								className="form__saving-button btn_action white"
 								onclick={() => {
 									let end, i, j, numColumns, numRows, rows, start, value;
 									rows = table.rows;
@@ -877,7 +877,7 @@ class CommentsCommentFormattingHelper extends Module {
 							>
 								Add
 							</div>
-						</>
+						</fragment>
 					);
 					this.cfh_insertTableRows(4, table);
 					this.cfh_insertTableColumns(2, table);
@@ -891,13 +891,13 @@ class CommentsCommentFormattingHelper extends Module {
 					let emojis, popup;
 					DOM.insert(
 						popout.popout,
-						'inner',
-						<>
-							<div class="esgst-cfh-emojis" ref={(ref) => (emojis = ref)}>
+						'atinner',
+						<fragment>
+							<div className="esgst-cfh-emojis" ref={(ref) => (emojis = ref)}>
 								{await this.cfh_getEmojis()}
 							</div>
 							<div
-								class="form__saving-button btn_action white"
+								className="form__saving-button btn_action white"
 								onclick={async () => {
 									try {
 										let emoji = window.prompt(`Enter the custom emoji:`).trim();
@@ -907,9 +907,11 @@ class CommentsCommentFormattingHelper extends Module {
 										}
 										emoji = String.fromCodePoint(...codes);
 										this.cfh_setEmoji(
-											DOM.build(emojis, 'beforeEnd', [
-												['span', { 'data-draggable-id': emoji }, emoji],
-											])
+											DOM.insert(
+												emojis,
+												'beforeend',
+												<span data-draggable-id={emoji}>{emoji}</span>
+											)
 										);
 										Shared.common.draggable_set({
 											addTrash: true,
@@ -931,7 +933,7 @@ class CommentsCommentFormattingHelper extends Module {
 								Add Custom Emoji
 							</div>
 							<div
-								class="form__saving-button btn_action white"
+								className="form__saving-button btn_action white"
 								onclick={async () => {
 									if (popup) {
 										popup.open(() => {
@@ -963,7 +965,11 @@ class CommentsCommentFormattingHelper extends Module {
 										);
 										emojis = filter.nextElementSibling;
 										const savedEmojis = emojis.nextElementSibling.nextElementSibling;
-										DOM.insert(savedEmojis, 'inner', <>{await this.cfh_getEmojis()}</>);
+										DOM.insert(
+											savedEmojis,
+											'atinner',
+											<fragment>{await this.cfh_getEmojis()}</fragment>
+										);
 										const obj = {
 											addTrash: true,
 											context: savedEmojis,
@@ -974,14 +980,14 @@ class CommentsCommentFormattingHelper extends Module {
 										for (const emojiData of EMOJIS) {
 											DOM.insert(
 												emojis,
-												'beforeEnd',
+												'beforeend',
 												<span
 													data-draggable-id={emojiData.emoji}
 													title={emojiData.name}
 													onclick={() => {
 														DOM.insert(
 															savedEmojis,
-															'beforeEnd',
+															'beforeend',
 															<span data-draggable-id={emojiData.emoji} title={emojiData.name}>
 																{emojiData.emoji}
 															</span>
@@ -1024,7 +1030,7 @@ class CommentsCommentFormattingHelper extends Module {
 							>
 								Select Emojis
 							</div>
-						</>
+						</fragment>
 					);
 					Shared.common.draggable_set({
 						addTrash: true,
@@ -1036,7 +1042,7 @@ class CommentsCommentFormattingHelper extends Module {
 				},
 				callback: async (popout) => {
 					let emojis = popout.firstElementChild;
-					DOM.insert(emojis, 'inner', <>{await this.cfh_getEmojis()}</>);
+					DOM.insert(emojis, 'atinner', <fragment>{await this.cfh_getEmojis()}</fragment>);
 					Shared.common.draggable_set({
 						addTrash: true,
 						context: emojis,
@@ -1054,12 +1060,12 @@ class CommentsCommentFormattingHelper extends Module {
 					let code;
 					DOM.insert(
 						popout.popout,
-						'inner',
-						<>
+						'atinner',
+						<fragment>
 							Giveaway Code:
 							<input placeholder="XXXXX" type="text" ref={(ref) => (code = ref)} />
 							<div
-								class="form__saving-button btn_action white"
+								className="form__saving-button btn_action white"
 								onclick={async () => {
 									if (code.value.match(/^[\d\w]{5}$/)) {
 										let encodedCode = this.esgst.modules.giveawaysGiveawayEncrypterDecrypter.ged_encryptCode(
@@ -1075,7 +1081,7 @@ class CommentsCommentFormattingHelper extends Module {
 							>
 								Add
 							</div>
-						</>
+						</fragment>
 					);
 				},
 				callback: (popout) => {
@@ -1097,8 +1103,8 @@ class CommentsCommentFormattingHelper extends Module {
 					savedReplies = JSON.parse(Shared.common.getValue(this.savedRepliesId, '[]'));
 					DOM.insert(
 						popout.popout,
-						'inner',
-						<>
+						'atinner',
+						<fragment>
 							<div>
 								<input
 									placeholder="Filter replies..."
@@ -1106,15 +1112,15 @@ class CommentsCommentFormattingHelper extends Module {
 									oninput={this.cfh_filterReplies.bind(this, replies)}
 								/>
 							</div>
-							<div class="esgst-cfh-sr-container" ref={(ref) => (replies = ref)}></div>
+							<div className="esgst-cfh-sr-container" ref={(ref) => (replies = ref)}></div>
 							<div
-								class="form__saving-button btn_action white"
+								className="form__saving-button btn_action white"
 								onclick={this.cfh_openReplyPopup.bind(this, null, null, replies, null)}
 							>
 								Add New Reply
 							</div>
 							<div
-								class="form__saving-button btn_action white"
+								className="form__saving-button btn_action white"
 								onclick={() =>
 									this.cfh_saveReply(
 										this.esgst.cfh.textArea.value,
@@ -1130,14 +1136,14 @@ class CommentsCommentFormattingHelper extends Module {
 								Save Reply
 							</div>
 							<div
-								class="esgst-clickable esgst-hidden"
+								className="esgst-clickable esgst-hidden"
 								ref={(ref) => (this.esgst.cfh.undoDelete = ref)}
 								onclick={this.cfh_undoDelete.bind(this)}
 							>
-								<i class="fa fa-rotate-left"></i>
+								<i className="fa fa-rotate-left"></i>
 								<span>Undo Delete</span>
 							</div>
-						</>
+						</fragment>
 					);
 					for (i = 0, n = savedReplies.length; i < n; ++i) {
 						this.cfh_setReply(replies, savedReplies[i]);
@@ -1155,8 +1161,8 @@ class CommentsCommentFormattingHelper extends Module {
 					let url;
 					DOM.insert(
 						popout.popout,
-						'inner',
-						<>
+						'atinner',
+						<fragment>
 							<div>
 								Wiki URL:
 								<input
@@ -1166,7 +1172,7 @@ class CommentsCommentFormattingHelper extends Module {
 								/>
 							</div>
 							<div
-								class="form__saving-button btn_action white"
+								className="form__saving-button btn_action white"
 								onclick={async () => {
 									const ghwsgiLink = `wiki-gh/${url.value.replace(
 										/https?:\/\/(www\.)?github\.com\//,
@@ -1182,7 +1188,7 @@ class CommentsCommentFormattingHelper extends Module {
 							>
 								Add
 							</div>
-						</>
+						</fragment>
 					);
 				},
 				callback: (popout) => {
@@ -1252,16 +1258,20 @@ class CommentsCommentFormattingHelper extends Module {
 		for (let i = 0, n = items.length; i < n; i++) {
 			let item = items[i];
 			if (!item.id || Settings.get(item.id)) {
-				let button = DOM.insert(
+				let button;
+				DOM.insert(
 					this.esgst.cfh.panel,
-					'beforeEnd',
-					<div title={`${Shared.common.getFeatureTooltip(item.id || 'cfh', item.name)}`}></div>
+					'beforeend',
+					<div
+						title={`${Shared.common.getFeatureTooltip(item.id || 'cfh', item.name)}`}
+						ref={(ref) => (button = ref)}
+					></div>
 				);
 				item.icons.forEach((icon) => {
-					DOM.insert(button, 'beforeEnd', <i class={`fa ${icon}`}></i>);
+					DOM.insert(button, 'beforeend', <i className={`fa ${icon}`}></i>);
 				});
 				if (item.addSpan) {
-					DOM.build(button, 'beforeEnd', [['span']]);
+					DOM.insert(button, 'beforeend', <span></span>);
 				}
 				if (item.text) {
 					button.insertAdjacentText('beforeend', item.text);
@@ -1298,34 +1308,38 @@ class CommentsCommentFormattingHelper extends Module {
 		if (Settings.get('cfh_cf')) {
 			DOM.insert(
 				this.esgst.cfh.panel,
-				'beforeEnd',
+				'beforeend',
 				<a
 					href="/about/comment-formatting"
 					title={Shared.common.getFeatureTooltip('cfh_cf', 'Comment Formatting')}
 				>
-					<i class="fa fa-question-circle"></i>
+					<i className="fa fa-question-circle"></i>
 				</a>
 			);
 		}
 		if (Settings.get('cfh_p') && !Settings.get('cfh_p_a')) {
 			DOM.insert(
 				this.esgst.cfh.panel,
-				'beforeEnd',
+				'beforeend',
 				<div
 					title={Shared.common.getFeatureTooltip('cfh_p', 'Preview')}
 					onclick={async () => {
-						DOM.build(
+						DOM.insert(
 							this.esgst.cfh.preview,
-							'inner',
-							await Shared.common.parseMarkdown(
-								this.esgst.cfh.textArea,
-								this.esgst.cfh.textArea.value
-							)
+							'atinner',
+							<fragment>
+								{
+									await Shared.common.parseMarkdown(
+										this.esgst.cfh.textArea,
+										this.esgst.cfh.textArea.value
+									)
+								}
+							</fragment>
 						);
 						this.cfh_formatImages(this.esgst.cfh.preview);
 					}}
 				>
-					<i class="fa fa-eye"></i>
+					<i className="fa fa-eye"></i>
 				</div>
 			);
 		}
@@ -1432,10 +1446,10 @@ class CommentsCommentFormattingHelper extends Module {
 			textArea.parentElement.insertBefore(this.esgst.cfh.preview, textArea.nextElementSibling);
 			if (Settings.get('cfh_p_a')) {
 				textArea.oninput = async () => {
-					DOM.build(
+					DOM.insert(
 						this.esgst.cfh.preview,
-						'inner',
-						await Shared.common.parseMarkdown(textArea, textArea.value)
+						'atinner',
+						<fragment>{await Shared.common.parseMarkdown(textArea, textArea.value)}</fragment>
 					);
 					this.cfh_formatImages(this.esgst.cfh.preview);
 				};
@@ -1476,10 +1490,17 @@ class CommentsCommentFormattingHelper extends Module {
 		this.esgst.cfh.textArea.setSelectionRange(range, range);
 		this.esgst.cfh.textArea.focus();
 		if (Settings.get('cfh_p') && Settings.get('cfh_p_a')) {
-			DOM.build(
+			DOM.insert(
 				this.esgst.cfh.preview,
-				'inner',
-				await Shared.common.parseMarkdown(this.esgst.cfh.textArea, this.esgst.cfh.textArea.value)
+				'atinner',
+				<fragment>
+					{
+						await Shared.common.parseMarkdown(
+							this.esgst.cfh.textArea,
+							this.esgst.cfh.textArea.value
+						)
+					}
+				</fragment>
 			);
 			this.cfh_formatImages(this.esgst.cfh.preview);
 		}
@@ -1514,10 +1535,17 @@ class CommentsCommentFormattingHelper extends Module {
 		}
 		this.esgst.cfh.textArea.focus();
 		if (Settings.get('cfh_p') && Settings.get('cfh_p_a')) {
-			DOM.build(
+			DOM.insert(
 				this.esgst.cfh.preview,
-				'inner',
-				await Shared.common.parseMarkdown(this.esgst.cfh.textArea, this.esgst.cfh.textArea.value)
+				'atinner',
+				<fragment>
+					{
+						await Shared.common.parseMarkdown(
+							this.esgst.cfh.textArea,
+							this.esgst.cfh.textArea.value
+						)
+					}
+				</fragment>
 			);
 			this.cfh_formatImages(this.esgst.cfh.preview);
 		}
@@ -1540,11 +1568,11 @@ class CommentsCommentFormattingHelper extends Module {
 			isTemp: true,
 			title: 'Upload Image',
 		});
-		input = DOM.insert(popup.description, 'beforeEnd', <input type="file" />);
-		warning = DOM.insert(
+		DOM.insert(popup.description, 'beforeend', <input type="file" ref={(ref) => (input = ref)} />);
+		DOM.insert(
 			popup.description,
-			'beforeEnd',
-			<div class="esgst-description esgst-warning"></div>
+			'beforeend',
+			<div className="esgst-description esgst-warning" ref={(ref) => (warning = ref)}></div>
 		);
 		popup.description.appendChild(
 			new ButtonSet({
@@ -1635,16 +1663,16 @@ class CommentsCommentFormattingHelper extends Module {
 			n = table.rows.length;
 			row = table.insertRow(n);
 			for (i = 0, j = table.rows[0].cells.length - 1; i < j; ++i) {
-				DOM.insert(row.insertCell(0), 'inner', <input placeholder="Value" type="text" />);
+				DOM.insert(row.insertCell(0), 'atinner', <input placeholder="Value" type="text" />);
 			}
 			deleteRow = row.insertCell(0);
 			if (n > 2) {
 				DOM.insert(
 					deleteRow,
-					'inner',
+					'atinner',
 					<a>
 						<i
-							class="fa fa-times-circle"
+							className="fa fa-times-circle"
 							title="Delete row"
 							onclick={() => {
 								if (table.rows.length > 4) {
@@ -1668,11 +1696,11 @@ class CommentsCommentFormattingHelper extends Module {
 			rows = table.rows;
 			n = rows[0].cells.length;
 			for (i = 3, j = rows.length; i < j; ++i) {
-				DOM.insert(rows[i].insertCell(n), 'inner', <input placeholder="Value" type="text" />);
+				DOM.insert(rows[i].insertCell(n), 'atinner', <input placeholder="Value" type="text" />);
 			}
 			DOM.insert(
 				rows[2].insertCell(n),
-				'inner',
+				'atinner',
 				<select>
 					<option value=":-">Left</option>
 					<option value=":-:">Center</option>
@@ -1680,13 +1708,13 @@ class CommentsCommentFormattingHelper extends Module {
 				</select>
 			);
 			column = rows[1].insertCell(n);
-			DOM.insert(column, 'inner', <input placeholder="Header" type="text" />);
+			DOM.insert(column, 'atinner', <input placeholder="Header" type="text" />);
 			DOM.insert(
 				rows[0].insertCell(n),
-				'inner',
+				'atinner',
 				<a>
 					<i
-						class="fa fa-times-circle"
+						className="fa fa-times-circle"
 						title="Delete column"
 						onclick={() => {
 							rows = table.rows;
@@ -1723,18 +1751,19 @@ class CommentsCommentFormattingHelper extends Module {
 
 	cfh_setReply(replies, savedReply) {
 		let description, name, reply, summary;
-		reply = DOM.insert(
+		DOM.insert(
 			replies,
-			'beforeEnd',
+			'beforeend',
 			<div
-				class="esgst-cfh-sr-box"
-				draggable="true"
+				className="esgst-cfh-sr-box"
+				draggable={true}
 				ondragstart={this.cfh_setSource.bind(this, description, name, reply)}
 				ondragenter={this.cfh_getSource.bind(this, reply, replies)}
 				ondragend={this.cfh_saveSource.bind(this)}
+				ref={(ref) => (reply = ref)}
 			>
 				<div
-					class="esgst-cfh-sr-summary"
+					className="esgst-cfh-sr-summary"
 					ref={(ref) => (summary = ref)}
 					onclick={() => {
 						this.cfh_undo(this.esgst.cfh.textArea, this.esgst.cfh.textArea.value);
@@ -1756,16 +1785,16 @@ class CommentsCommentFormattingHelper extends Module {
 						this.esgst.cfh.textArea.focus();
 					}}
 				>
-					<div class="esgst-cfh-sr-name" ref={(ref) => (name = ref)}>
+					<div className="esgst-cfh-sr-name" ref={(ref) => (name = ref)}>
 						{savedReply.name}
 					</div>
-					<div class="esgst-cfh-sr-description" description={(ref) => (description = ref)}>
+					<div className="esgst-cfh-sr-description" ref={(ref) => (description = ref)}>
 						{savedReply.description}
 					</div>
 				</div>
-				<div class="esgst-cfh-sr-controls">
+				<div className="esgst-cfh-sr-controls">
 					<i
-						class="esgst-clickable fa fa-retweet"
+						className="esgst-clickable fa fa-retweet"
 						title="Replace description with current reply"
 						onclick={this.cfh_saveReply(
 							savedReply.description,
@@ -1778,7 +1807,7 @@ class CommentsCommentFormattingHelper extends Module {
 						)}
 					></i>
 					<i
-						class="esgst-clickable fa fa-edit"
+						className="esgst-clickable fa fa-edit"
 						title="Edit reply"
 						onclick={this.cfh_openReplyPopup.bind(
 							this,
@@ -1789,7 +1818,7 @@ class CommentsCommentFormattingHelper extends Module {
 						)}
 					></i>
 					<i
-						class="esgst-clickable fa fa-trash"
+						className="esgst-clickable fa fa-trash"
 						title="Delete reply"
 						onclick={async () => {
 							let savedReplies = JSON.parse(Shared.common.getValue(this.savedRepliesId, '[]'));
@@ -1813,7 +1842,7 @@ class CommentsCommentFormattingHelper extends Module {
 							}
 						}}
 					></i>
-					<i class="fa fa-question-circle" title="Drag the reply to move it"></i>
+					<i className="fa fa-question-circle" title="Drag the reply to move it"></i>
 				</div>
 			</div>
 		);
@@ -1873,11 +1902,12 @@ class CommentsCommentFormattingHelper extends Module {
 		});
 		DOM.insert(
 			popup.scrollable,
-			'beforeEnd',
-			<div class="esgst-description">
+			'beforeend',
+			<div className="esgst-description">
 				You can save a defined list of replies to be picked at random when using it. To do so,
-				enclose each option with <span class="esgst-bold">[ESGST-R][/ESGST-R]</span>. For example, a
-				defined list that renders a random "thank you" comment when using it would look like this:
+				enclose each option with <span className="esgst-bold">[ESGST-R][/ESGST-R]</span>. For
+				example, a defined list that renders a random "thank you" comment when using it would look
+				like this:
 				<br />
 				<br />
 				[ESGST-R]Thanks![/ESGST-R]
@@ -1890,10 +1920,10 @@ class CommentsCommentFormattingHelper extends Module {
 				Can't wait to play this game![/ESGST-R]
 			</div>
 		);
-		panel = DOM.insert(
+		DOM.insert(
 			popup.scrollable,
-			'beforeEnd',
-			<div>
+			'beforeend',
+			<div ref={(ref) => (panel = ref)}>
 				<div>
 					<div>Name</div>
 					<input type="text" value={name || ''} />
@@ -2032,12 +2062,16 @@ class CommentsCommentFormattingHelper extends Module {
 			image.classList.add('is-hidden', 'is_hidden');
 			DOM.insert(
 				image,
-				'outer',
+				'atouter',
 				<div>
-					<div class={`${this.esgst.sg ? 'comment__toggle-attached' : 'view_attached'}`}>
+					<div className={`${this.esgst.sg ? 'comment__toggle-attached' : 'view_attached'}`}>
 						View attached image.
 					</div>
-					<a href={image.getAttribute('src')} ref="nofollow noreferrer" target="_blank">
+					<a
+						href={image.getAttribute('src')}
+						attrs={{ ref: 'nofollow noreferrer' }}
+						target="_blank"
+					>
 						{image.cloneNode(true)}
 					</a>
 				</div>

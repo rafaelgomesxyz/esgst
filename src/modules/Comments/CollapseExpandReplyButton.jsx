@@ -50,15 +50,15 @@ class CommentsCollapseExpandReplyButton extends Module {
 		comments = document.getElementsByClassName('comments')[0];
 		if (comments && comments.children.length) {
 			this.buttons = [];
-			button = DOM.insert(
+			DOM.insert(
 				Shared.esgst.mainPageHeading,
-				'afterEnd',
-				<div class="esgst-cerb-button esgst-clickable">
+				'afterend',
+				<div className="esgst-cerb-button esgst-clickable" ref={(ref) => (button = ref)}>
 					<span>
-						<i class="fa fa-minus-square"></i> Collapse all replies
+						<i className="fa fa-minus-square"></i> Collapse all replies
 					</span>
-					<span class="esgst-hidden">
-						<i class="fa fa-plus-square"></i> Expand all replies
+					<span className="esgst-hidden">
+						<i className="fa fa-plus-square"></i> Expand all replies
 					</span>
 				</div>
 			);
@@ -83,22 +83,24 @@ class CommentsCollapseExpandReplyButton extends Module {
 		for (let reply of elements) {
 			let replies = reply.querySelector(`.comment__children, .comment_children`);
 			if (replies && replies.children.length) {
+				let button;
+				DOM.insert(
+					reply.firstElementChild,
+					'afterbegin',
+					<div className="esgst-cerb-reply-button esgst-clickable" ref={(ref) => (button = ref)}>
+						<span title={Shared.common.getFeatureTooltip('cerb', 'Collapse all replies')}>
+							<i className="fa fa-minus-square"></i>
+						</span>
+						<span
+							className="esgst-hidden"
+							title={Shared.common.getFeatureTooltip('cerb', 'Expand all replies')}
+						>
+							<i className="fa fa-plus-square"></i>
+						</span>
+					</div>
+				);
 				this.cerb_setButton(
-					DOM.insert(
-						reply.firstElementChild,
-						'afterBegin',
-						<div class="esgst-cerb-reply-button esgst-clickable">
-							<span title={Shared.common.getFeatureTooltip('cerb', 'Collapse all replies')}>
-								<i class="fa fa-minus-square"></i>
-							</span>
-							<span
-								class="esgst-hidden"
-								title={Shared.common.getFeatureTooltip('cerb', 'Expand all replies')}
-							>
-								<i class="fa fa-plus-square"></i>
-							</span>
-						</div>
-					),
+					button,
 					permalink && reply.contains(permalink),
 					reply,
 					replies.children
