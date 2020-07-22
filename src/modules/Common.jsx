@@ -918,42 +918,49 @@ class Common extends Module {
 						st: true,
 					},
 					activateTab: {
-						description: [
-							[
-								'ul',
-								[
-									[
-										'li',
-										`When a browser session is restored, you have to activate a tab so that it can be loaded. With this option enabled, ESGST automatically activates the first SG/ST tab open so that the extension can be injected immediately.`,
-									],
-								],
-							],
-						],
+						description: () => (
+							<ul>
+								<li>
+									When a browser session is restored, you have to activate a tab so that it can be
+									loaded. With this option enabled, ESGST automatically activates the first SG/ST
+									tab open so that the extension can be injected immediately.
+								</li>
+							</ul>
+						),
 						extensionOnly: true,
 						name: 'Activate the first SG/ST tab if a browser session was restored.',
 						sg: true,
 						st: true,
 					},
 					manipulateCookies: {
-						description: [
-							[
-								'ul',
-								[
-									[
-										'li',
-										`You should enable this option if you use a single Firefox container for the common sites requested by ESGST that require you to be logged in (SteamGifts, SteamTrades, Steam, SGTools, etc...) or if you block third-party cookies. With it enabled, ESGST will read your cookies and modify request headers to make sure that requests are sent using the cookies from the current container you are on.`,
-									],
-									[
-										'li',
-										`For example: you are only logged in on SteamGifts and Steam in the personal container. With this option disabled, when you try to sync your owned games on ESGST it will fail because it will use the default cookies (where you are not logged in). With this option enabled, the sync will succeed because the container cookies will be used instead (where you are logged in).`,
-									],
-									[
-										'li',
-										`If you are concerned about what exactly is done, you can check out the source code of the eventPage.js file, where the process occurs. Basically what happens is: the ID of your current container is retrieved from the tab that initiated the request and used to retrieve the cookies from that container (using the cookies API), then ESGST sends the request with a custom header "Esgst-Cookie" and the request is intercepted by the webRequest API, where the custom header is renamed to "Cookie" so that the cookies can be sent with the request. This is not a pretty solution, but it does the job until a better and more permanent solution comes along.`,
-									],
-								],
-							],
-						],
+						description: () => (
+							<ul>
+								<li>
+									You should enable this option if you use a single Firefox container for the common
+									sites requested by ESGST that require you to be logged in (SteamGifts,
+									SteamTrades, Steam, SGTools, etc...) or if you block third-party cookies. With it
+									enabled, ESGST will read your cookies and modify request headers to make sure that
+									requests are sent using the cookies from the current container you are on.
+								</li>
+								<li>
+									For example: you are only logged in on SteamGifts and Steam in the personal
+									container. With this option disabled, when you try to sync your owned games on
+									ESGST it will fail because it will use the default cookies (where you are not
+									logged in). With this option enabled, the sync will succeed because the container
+									cookies will be used instead (where you are logged in).
+								</li>
+								<li>
+									If you are concerned about what exactly is done, you can check out the source code
+									of the eventPage.js file, where the process occurs. Basically what happens is: the
+									ID of your current container is retrieved from the tab that initiated the request
+									and used to retrieve the cookies from that container (using the cookies API), then
+									ESGST sends the request with a custom header "Esgst-Cookie" and the request is
+									intercepted by the webRequest API, where the custom header is renamed to "Cookie"
+									so that the cookies can be sent with the request. This is not a pretty solution,
+									but it does the job until a better and more permanent solution comes along.
+								</li>
+							</ul>
+						),
 						extensionOnly: true,
 						name:
 							'Allow ESGST to read your cookies and modify request headers when using Firefox containers or when blocking third-party cookies.',
@@ -1004,32 +1011,26 @@ class Common extends Module {
 						sg: true,
 					},
 					updateHiddenGames: {
-						description: [
-							[
-								'ul',
-								[
-									[
-										'li',
-										`With this enabled, you no longer have to sync your hidden games every time you add/remove a game to/from the list.`,
-									],
-								],
-							],
-						],
+						description: () => (
+							<ul>
+								<li>
+									With this enabled, you no longer have to sync your hidden games every time you
+									add/remove a game to/from the list.
+								</li>
+							</ul>
+						),
 						name: 'Automatically update hidden games when adding/removing a game to/from the list.',
 						sg: true,
 					},
 					updateWhitelistBlacklist: {
-						description: [
-							[
-								'ul',
-								[
-									[
-										'li',
-										`With this enabled, you no longer have to sync your whitelist/blacklist every time you add/remove a user to/from those lists.`,
-									],
-								],
-							],
-						],
+						description: () => (
+							<ul>
+								<li>
+									With this enabled, you no longer have to sync your whitelist/blacklist every time
+									you add/remove a user to/from those lists.
+								</li>
+							</ul>
+						),
 						name:
 							'Automatically update whitelist/blacklist when adding/removing a user to/from those lists.',
 						sg: true,
@@ -1061,17 +1062,14 @@ class Common extends Module {
 						st: true,
 					},
 					makeSectionsCollapsible: {
-						description: [
-							[
-								'ul',
-								[
-									[
-										'li',
-										'The state of the sections is remembered if you save the settings after collapsing/expanding them.',
-									],
-								],
-							],
-						],
+						description: () => (
+							<ul>
+								<li>
+									The state of the sections is remembered if you save the settings after
+									collapsing/expanding them.
+								</li>
+							</ul>
+						),
 						name: 'Make sections in the settings menu collapsible.',
 						sg: true,
 						st: true,
@@ -1087,17 +1085,15 @@ class Common extends Module {
 						st: true,
 					},
 					fallbackSteamApi: {
-						description: [
-							[
-								'ul',
-								[
-									[
-										'li',
-										`With this option enabled, if you sync your games without being logged in to Steam, the Steam API will be used instead (less complete, so some of your games will be removed until you sync while logged in).`,
-									],
-								],
-							],
-						],
+						description: () => (
+							<ul>
+								<li>
+									With this option enabled, if you sync your games without being logged in to Steam,
+									the Steam API will be used instead (less complete, so some of your games will be
+									removed until you sync while logged in).
+								</li>
+							</ul>
+						),
 						name: 'Fallback to Steam API when syncing without being logged in.',
 						sg: true,
 						st: true,
@@ -1108,62 +1104,61 @@ class Common extends Module {
 						st: true,
 					},
 					minimizePanel: {
-						description: [
-							[
-								'ul',
-								[
-									[
-										'li',
-										`When you close a non-temporary popup, it will be minimized to a panel that can be accessed by moving your mouse to the left corner of the window in any page. There you can quickly find and re-open all of the popups that you minimized.`,
-									],
-									[
-										'li',
-										`A non-temporary popup is a popup that does not get destroyed when you close it. For example, the settings popup is a temporary popup - when you close it, the popup is destroyed, and when you click on the button to open the settings again, a new popup is created. The Whitelist/Blacklist Checker popup is an example of a non-temporary popup - if you close it and re-open it, it will be the exact same popup.`,
-									],
-									[
-										'li',
-										`With this option enabled, the sync/backup popups become non-temporary, which allows you to close them and keep navigating through the page while ESGST is performing the sync/backup, without having to wait for it to finish.`,
-									],
-									[
-										'li',
-										`Some popups will notify you when they are done. When this happens, a red bar will flash at the left side of the screen that only disappears when you open the minimize panel and re-open the popup that is requiring your attention.`,
-									],
-								],
-							],
-						],
+						description: () => (
+							<ul>
+								<li>
+									When you close a non-temporary popup, it will be minimized to a panel that can be
+									accessed by moving your mouse to the left corner of the window in any page. There
+									you can quickly find and re-open all of the popups that you minimized.
+								</li>
+								<li>
+									A non-temporary popup is a popup that does not get destroyed when you close it.
+									For example, the settings popup is a temporary popup - when you close it, the
+									popup is destroyed, and when you click on the button to open the settings again, a
+									new popup is created. The Whitelist/Blacklist Checker popup is an example of a
+									non-temporary popup - if you close it and re-open it, it will be the exact same
+									popup.
+								</li>
+								<li>
+									With this option enabled, the sync/backup popups become non-temporary, which
+									allows you to close them and keep navigating through the page while ESGST is
+									performing the sync/backup, without having to wait for it to finish.
+								</li>
+								<li>
+									Some popups will notify you when they are done. When this happens, a red bar will
+									flash at the left side of the screen that only disappears when you open the
+									minimize panel and re-open the popup that is requiring your attention.
+								</li>
+							</ul>
+						),
 						name: 'Minimize non-temporary popups to a panel when closing them.',
 						sg: true,
 						st: true,
 					},
 					getSyncGameNames: {
-						description: [
-							[
-								'ul',
-								[
-									['li', `With this disabled, only the app/sub ids of the games will appear.`],
-									[
-										'li',
-										`This can lead to lots of requests to the Steam store, so only enable it if you truly need to see the names of the games that were added/removed.`,
-									],
-								],
-							],
-						],
+						description: () => (
+							<ul>
+								<li>With this disabled, only the app/sub ids of the games will appear.</li>
+								<li>
+									This can lead to lots of requests to the Steam store, so only enable it if you
+									truly need to see the names of the games that were added/removed.
+								</li>
+							</ul>
+						),
 						name: 'Retrieve game names when syncing.',
 						sg: true,
 						st: true,
 					},
 					showMessages: {
-						description: [
-							[
-								'ul',
-								[
-									[
-										'li',
-										"Important messages are used to inform ESGST users of something that needs their attention. Because these messages are retrieved from GitLab, the extension doesn't need to be updated in order for them to be hard-coded.",
-									],
-								],
-							],
-						],
+						description: () => (
+							<ul>
+								<li>
+									Important messages are used to inform ESGST users of something that needs their
+									attention. Because these messages are retrieved from GitLab, the extension doesn't
+									need to be updated in order for them to be hard-coded.
+								</li>
+							</ul>
+						),
 						name: 'Show important messages.',
 						sg: true,
 						st: true,
