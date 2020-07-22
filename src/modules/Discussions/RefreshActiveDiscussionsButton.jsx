@@ -9,21 +9,15 @@ class DiscussionsRefreshActiveDiscussionsButton extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							[
-								`Adds a button (`,
-								['i', { class: 'fa fa-refresh' }],
-								`) to the page heading of the active discussions (in the main page) that allows you to refresh the active discussions without having to refresh the entire page.`,
-							],
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Adds a button (<i className="fa fa-refresh"></i>) to the page heading of the active
+						discussions (in the main page) that allows you to refresh the active discussions without
+						having to refresh the entire page.
+					</li>
+				</ul>
+			),
 			id: 'radb',
 			name: 'Refresh Active Discussions Button',
 			sg: true,

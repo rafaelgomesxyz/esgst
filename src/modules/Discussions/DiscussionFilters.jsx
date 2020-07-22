@@ -17,36 +17,27 @@ class DiscussionsDiscussionFilters extends Filters {
 	constructor() {
 		super('df');
 		this.info = {
-			description: [['ul', [['li', 'Allows you to filter discussions.']]]],
+			description: () => (
+				<ul>
+					<li>Allows you to filter discussions.</li>
+				</ul>
+			),
 			features: {
 				df_s: {
-					description: [
-						[
-							'ul',
-							[
-								[
-									'li',
-									[
-										`Adds a button (`,
-										['i', { class: 'fa fa-eye' }],
-										' if the discussion is hidden and ',
-										['i', { class: 'fa fa-eye-slash' }],
-										` if it is not) next to a discussion's title (in any page) that allows you to hide the discussion.`,
-									],
-								],
-								[
-									'li',
-									[
-										`Adds a button (`,
-										['i', { class: 'fa fa-comments' }],
-										' ',
-										['i', { class: 'fa fa-eye-slash' }],
-										`) to the page heading of this menu that allows you to view all of the discussions that have been hidden.`,
-									],
-								],
-							],
-						],
-					],
+					description: () => (
+						<ul>
+							<li>
+								Adds a button (<i className="fa fa-eye"></i> if the discussion is hidden and{' '}
+								<i className="fa fa-eye-slash"></i> if it is not) next to a discussion's title (in
+								any page) that allows you to hide the discussion.
+							</li>
+							<li>
+								Adds a button (<i className="fa fa-comments"></i>{' '}
+								<i className="fa fa-eye-slash"></i>) to the page heading of this menu that allows
+								you to view all of the discussions that have been hidden.
+							</li>
+						</ul>
+					),
 					name: 'Single Filters',
 					sg: true,
 					features: {
@@ -57,102 +48,75 @@ class DiscussionsDiscussionFilters extends Filters {
 					},
 				},
 				df_m: {
-					description: [
-						[
-							'ul',
-							[
-								[
-									'li',
-									'Allows you to hide multiple discussions in a page using many different filters.',
-								],
-								[
-									'li',
-									[
-										`Adds a toggle switch with a button (`,
-										['i', { class: 'fa fa-sliders' }],
-										`) to the main page heading of any `,
-										['a', { href: `https://www.steamgifts.com/discussions` }, 'discussions'],
-										' page. The switch allows you to turn the filters on/off and the button allows you to manage your presets.',
-									],
-								],
-								[
-									'li',
-									`Adds a collapsible panel below the same main page heading that allows you to change/save the rules of a preset. The filters are separated in 2 categories:`,
-								],
-								[
-									'ul',
-									[
-										[
-											'li',
-											`Basic filters are related to a numeric value (such as the number of comments of a discussion) and have a slider that you can use to set the range of the filter (any discussions that do not apply to the range will be hidden).`,
-										],
-										[
-											'li',
-											`Type filters are related to a boolean value (such as whether or not a discussion was created by yourself) and have a checkbox that changes states when you click on it. The checkbox has 3 states:`,
-										],
-										[
-											'ul',
-											[
-												[
-													'li',
-													[
-														`"Show all" (`,
-														['i', { class: 'fa fa-check-square' }],
-														`) does not hide any discussions that apply to the filter (this is the default state).`,
-													],
-												],
-												[
-													'li',
-													[
-														`"Show only" (`,
-														['i', { class: 'fa fa-square' }],
-														`) hides any discussions that do not apply to the filter.`,
-													],
-												],
-												[
-													'li',
-													[
-														`"Hide all" (`,
-														['i', { class: 'fa fa-square-o' }],
-														`) hides any discussions that apply to the filter.`,
-													],
-												],
-											],
-										],
-									],
-								],
-								[
-									'li',
-									`A preset contains all of your rules and can be saved to be reused later. You can save as many presets as you want. Each preset contains 3 types of rules:`,
-								],
-								[
-									'ul',
-									[
-										[
-											'li',
-											`Basic rules are the ones that you can change directly in the filter panel, using the sliders/checkboxes as explained in the previous item.`,
-										],
-										[
-											'li',
-											'Exception rules are the ones that you can change by clicking on the icon ',
-										],
-										['i', { class: 'fa fa-gear' }],
-										` in the filter panel. They are exceptions to the basic rules. For example, if you set the basic rule of the "Created" filter to "hide all" and you add an exception rule for the "Comments" filter to the 0-50 range, none of your created discussions that have 0-50 comments will be hidden, because they apply to the exception.`,
-									],
-								],
-								[
-									'li',
-									[
-										`Override rules are the ones that you can change by clicking on the icon (`,
-										['i', { class: 'fa fa-exclamation esgst-faded' }],
-										' if set to overridable and ',
-										['i', { class: 'fa fa-exclamation' }],
-										` if set to non-overridable) next to each filter. They are enforcements of the basic rules. Continuing the previous example, if you set the override rule of the "Created" filter to "non-overridable", then all of your created discussions will be hidden, because even if they apply to the exception, the basic rule is being enforced by the override rule, so the exception cannot override it.`,
-									],
-								],
-							],
-						],
-					],
+					description: () => (
+						<ul>
+							<li>
+								Allows you to hide multiple discussions in a page using many different filters.
+							</li>
+							<li>
+								Adds a toggle switch with a button (<i className="fa fa-sliders"></i>) to the main
+								page heading of any <a href="https://www.steamgifts.com/discussions">discussions</a>{' '}
+								page. The switch allows you to turn the filters on/off and the button allows you to
+								manage your presets.
+							</li>
+							<li>
+								Adds a collapsible panel below the same main page heading that allows you to
+								change/save the rules of a preset. The filters are separated in 2 categories:
+							</li>
+							<ul>
+								<li>
+									Basic filters are related to a numeric value (such as the number of comments of a
+									discussion) and have a slider that you can use to set the range of the filter (any
+									discussions that do not apply to the range will be hidden).
+								</li>
+								<li>
+									Type filters are related to a boolean value (such as whether or not a discussion
+									was created by yourself) and have a checkbox that changes states when you click on
+									it. The checkbox has 3 states:
+								</li>
+								<ul>
+									<li>
+										"Show all" (<i className="fa fa-check-square"></i>) does not hide any
+										discussions that apply to the filter (this is the default state).
+									</li>
+									<li>
+										"Show only" (<i className="fa fa-square"></i>) hides any discussions that do not
+										apply to the filter.
+									</li>
+									<li>
+										"Hide all" (<i className="fa fa-square-o"></i>) hides any discussions that apply
+										to the filter.
+									</li>
+								</ul>
+							</ul>
+							<li>
+								A preset contains all of your rules and can be saved to be reused later. You can
+								save as many presets as you want. Each preset contains 3 types of rules:
+							</li>
+							<ul>
+								<li>
+									Basic rules are the ones that you can change directly in the filter panel, using
+									the sliders/checkboxes as explained in the previous item.
+								</li>
+								<li>Exception rules are the ones that you can change by clicking on the icon </li>
+								<i className="fa fa-gear"></i> in the filter panel. They are exceptions to the basic
+								rules. For example, if you set the basic rule of the "Created" filter to "hide all"
+								and you add an exception rule for the "Comments" filter to the 0-50 range, none of
+								your created discussions that have 0-50 comments will be hidden, because they apply
+								to the exception.
+							</ul>
+							<li>
+								Override rules are the ones that you can change by clicking on the icon (
+								<i className="fa fa-exclamation esgst-faded"></i> if set to overridable and{' '}
+								<i className="fa fa-exclamation"></i> if set to non-overridable) next to each
+								filter. They are enforcements of the basic rules. Continuing the previous example,
+								if you set the override rule of the "Created" filter to "non-overridable", then all
+								of your created discussions will be hidden, because even if they apply to the
+								exception, the basic rule is being enforced by the override rule, so the exception
+								cannot override it.
+							</li>
+						</ul>
+					),
 					features: {
 						df_m_f: {
 							name: 'Fix filter bar at the top of the page.',
@@ -167,211 +131,221 @@ class DiscussionsDiscussionFilters extends Filters {
 							sg: true,
 						},
 						df_comments: {
-							description: [
-								['ul', [['li', 'Allows you to filter discussions by number of comments.']]],
-							],
+							description: () => (
+								<ul>
+									<li>Allows you to filter discussions by number of comments.</li>
+								</ul>
+							),
 							name: 'Comments',
 							sg: true,
 						},
 						df_addonsTools: {
-							description: [
-								[
-									'ul',
-									[['li', 'Allows you to filter discussions categorized as "Add-ons / Tools".']],
-								],
-							],
+							description: () => (
+								<ul>
+									<li>Allows you to filter discussions categorized as "Add-ons / Tools".</li>
+								</ul>
+							),
 							name: 'Add-ons / Tools',
 							sg: true,
 						},
 						df_announcements: {
-							description: [
-								[
-									'ul',
-									[['li', 'Allows you to filter discussions categorized as "Announcements".']],
-								],
-							],
+							description: () => (
+								<ul>
+									<li>Allows you to filter discussions categorized as "Announcements".</li>
+								</ul>
+							),
 							name: 'Announcements',
 							sg: true,
 						},
 						df_bugsSuggestions: {
-							description: [
-								[
-									'ul',
-									[['li', 'Allows you to filter discussions categorized as "Bugs / Suggestions".']],
-								],
-							],
+							description: () => (
+								<ul>
+									<li>Allows you to filter discussions categorized as "Bugs / Suggestions".</li>
+								</ul>
+							),
 							name: 'Bugs / Suggestions',
 							sg: true,
 						},
 						df_deals: {
-							description: [
-								['ul', [['li', 'Allows you to filter discussions categorized as "Deals".']]],
-							],
+							description: () => (
+								<ul>
+									<li>Allows you to filter discussions categorized as "Deals".</li>
+								</ul>
+							),
 							name: 'Deals',
 							sg: true,
 						},
 						df_gameShowcase: {
-							description: [
-								[
-									'ul',
-									[['li', 'Allows you to filter discussions categorized as "Game Showcase".']],
-								],
-							],
+							description: () => (
+								<ul>
+									<li>Allows you to filter discussions categorized as "Game Showcase".</li>
+								</ul>
+							),
 							name: 'Game Showcase',
 							sg: true,
 						},
 						df_general: {
-							description: [
-								['ul', [['li', 'Allows you to filter discussions categorized as "General".']]],
-							],
+							description: () => (
+								<ul>
+									<li>Allows you to filter discussions categorized as "General".</li>
+								</ul>
+							),
 							name: 'General',
 							sg: true,
 						},
 						df_groupRecruitment: {
-							description: [
-								[
-									'ul',
-									[['li', 'Allows you to filter discussions categorized as "Group Recruitment".']],
-								],
-							],
+							description: () => (
+								<ul>
+									<li>Allows you to filter discussions categorized as "Group Recruitment".</li>
+								</ul>
+							),
 							name: 'Group Recruitment',
 							sg: true,
 						},
 						df_hardware: {
-							description: [
-								['ul', [['li', 'Allows you to filter discussions categorized as "Hardware".']]],
-							],
+							description: () => (
+								<ul>
+									<li>Allows you to filter discussions categorized as "Hardware".</li>
+								</ul>
+							),
 							name: 'Hardware',
 							sg: true,
 						},
 						df_help: {
-							description: [
-								['ul', [['li', 'Allows you to filter discussions categorized as "Help".']]],
-							],
+							description: () => (
+								<ul>
+									<li>Allows you to filter discussions categorized as "Help".</li>
+								</ul>
+							),
 							name: 'Help',
 							sg: true,
 						},
 						df_letsPlayTogether: {
-							description: [
-								[
-									'ul',
-									[
-										[
-											'li',
-											'Allows you to filter discussions categorized as "Let\'s Play Together".',
-										],
-									],
-								],
-							],
+							description: () => (
+								<ul>
+									<li>Allows you to filter discussions categorized as "Let's Play Together".</li>
+								</ul>
+							),
 							name: "Let's Play Together",
 							sg: true,
 						},
 						df_moviesTV: {
-							description: [
-								['ul', [['li', 'Allows you to filter discussions categorized as "Movies / TV".']]],
-							],
+							description: () => (
+								<ul>
+									<li>Allows you to filter discussions categorized as "Movies / TV".</li>
+								</ul>
+							),
 							name: 'Movies / TV',
 							sg: true,
 						},
 						df_offTopic: {
-							description: [
-								['ul', [['li', 'Allows you to filter discussions categorized as "Off Topic".']]],
-							],
+							description: () => (
+								<ul>
+									<li>Allows you to filter discussions categorized as "Off Topic".</li>
+								</ul>
+							),
 							name: 'Off Topic',
 							sg: true,
 						},
 						df_puzzlesEvents: {
-							description: [
-								[
-									'ul',
-									[['li', 'Allows you to filter discussions categorized as "Puzzles / Events".']],
-								],
-							],
+							description: () => (
+								<ul>
+									<li>Allows you to filter discussions categorized as "Puzzles / Events".</li>
+								</ul>
+							),
 							name: 'Puzzles / Events',
 							sg: true,
 						},
 						df_uncategorized: {
-							description: [
-								[
-									'ul',
-									[['li', 'Allows you to filter discussions categorized as "Uncategorized".']],
-								],
-							],
+							description: () => (
+								<ul>
+									<li>Allows you to filter discussions categorized as "Uncategorized".</li>
+								</ul>
+							),
 							name: 'Uncategorized',
 							sg: true,
 						},
 						df_userProjects: {
-							description: [
-								[
-									'ul',
-									[['li', 'Allows you to filter discussions categorized as "User Projects".']],
-								],
-							],
+							description: () => (
+								<ul>
+									<li>Allows you to filter discussions categorized as "User Projects".</li>
+								</ul>
+							),
 							name: 'User Projects',
 							sg: true,
 						},
 						df_whitelistRecruitment: {
-							description: [
-								[
-									'ul',
-									[
-										[
-											'li',
-											'Allows you to filter discussions categorized as "Whitelist Recruitment".',
-										],
-									],
-								],
-							],
+							description: () => (
+								<ul>
+									<li>Allows you to filter discussions categorized as "Whitelist Recruitment".</li>
+								</ul>
+							),
 							name: 'Whitelist Recruitment',
 							sg: true,
 						},
 						df_created: {
-							description: [
-								['ul', [['li', 'Allows you to filter discussions created by yourself.']]],
-							],
+							description: () => (
+								<ul>
+									<li>Allows you to filter discussions created by yourself.</li>
+								</ul>
+							),
 							name: 'Created',
 							sg: true,
 						},
 						df_poll: {
-							description: [
-								['ul', [['li', 'Allows you to filter discussions that contain polls.']]],
-							],
+							description: () => (
+								<ul>
+									<li>Allows you to filter discussions that contain polls.</li>
+								</ul>
+							),
 							name: 'Poll',
 							sg: true,
 						},
 						df_bookmarked: {
-							description: [
-								['ul', [['li', 'Allows you to filter discussions that you have bookmarked.']]],
-							],
+							description: () => (
+								<ul>
+									<li>Allows you to filter discussions that you have bookmarked.</li>
+								</ul>
+							),
 							name: 'Bookmarked',
 							sg: true,
 						},
 						df_visited: {
 							dependencies: ['gdttt'],
-							description: [
-								['ul', [['li', 'Allows you to filter discussions that you have visited.']]],
-							],
+							description: () => (
+								<ul>
+									<li>Allows you to filter discussions that you have visited.</li>
+								</ul>
+							),
 							name: 'Visited',
 							sg: true,
 						},
 						df_subscribed: {
 							dependencies: ['tds'],
-							description: [
-								['ul', [['li', 'Allows you to filter discussions that you have subcribed.']]],
-							],
+							description: () => (
+								<ul>
+									<li>Allows you to filter discussions that you have subcribed.</li>
+								</ul>
+							),
 							name: 'Subscribed',
 							sg: true,
 						},
 						df_unread: {
 							dependencies: ['ct'],
-							description: [
-								['ul', [['li', 'Allows you to filter discussions that you have read.']]],
-							],
+							description: () => (
+								<ul>
+									<li>Allows you to filter discussions that you have read.</li>
+								</ul>
+							),
 							name: 'Unread',
 							sg: true,
 						},
 						df_authors: {
-							description: [['ul', [['li', 'Allows you to filter discussions by author.']]]],
+							description: () => (
+								<ul>
+									<li>Allows you to filter discussions by author.</li>
+								</ul>
+							),
 							name: 'Authors',
 							sg: true,
 						},

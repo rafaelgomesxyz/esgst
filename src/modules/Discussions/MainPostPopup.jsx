@@ -2,31 +2,25 @@ import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { common } from '../Common';
 import { Settings } from '../../class/Settings';
+import { DOM } from '../../class/DOM';
 
 const createHeadingButton = common.createHeadingButton.bind(common);
 class DiscussionsMainPostPopup extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							[
-								`Hides the main post of a discussion and adds a button (`,
-								['i', { class: 'fa fa-home' }],
-								`) to its main page heading that allows you to open the main post through a popup.`,
-							],
-						],
-						[
-							'li',
-							`This feature is useful if you have [id=fmph] enabled, which allows you to view the main post of a discussion from any scrolling position.`,
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Hides the main post of a discussion and adds a button (<i className="fa fa-home"></i>)
+						to its main page heading that allows you to open the main post through a popup.
+					</li>
+					<li>
+						This feature is useful if you have [id=fmph] enabled, which allows you to view the main
+						post of a discussion from any scrolling position.
+					</li>
+				</ul>
+			),
 			features: {
 				mpp_r: {
 					dependencies: ['ct'],

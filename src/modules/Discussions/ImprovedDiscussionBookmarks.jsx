@@ -5,30 +5,24 @@ import { Shared } from '../../class/Shared';
 import { Popup } from '../../class/Popup';
 import { FetchRequest } from '../../class/FetchRequest';
 import { Session } from '../../class/Session';
+import { DOM } from '../../class/DOM';
 
 class DiscussionsImprovedDiscussionBookmarks extends Module {
 	constructor() {
 		super();
 
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							[
-								'Replaces the native ',
-								['i', { class: 'fa fa-bookmark' }],
-								' button if the discussion is bookmarked and adds a ',
-								['i', { class: 'fa fa-bookmark-o' }],
-								" button if it is not, next to a discussion's title (in any page) that allows you to add / remove the discussion to / from SteamGifts' native bookmark list.",
-							],
-						],
-						['li', 'Bookmarked discussions have a green background.'],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Replaces the native <i className="fa fa-bookmark"></i> button if the discussion is
+						bookmarked and adds a <i className="fa fa-bookmark-o"></i> button if it is not, next to
+						a discussion's title (in any page) that allows you to add / remove the discussion to /
+						from SteamGifts' native bookmark list.
+					</li>
+					<li>Bookmarked discussions have a green background.</li>
+				</ul>
+			),
 			features: {
 				idb_t: {
 					name: 'Pin any bookmarked discussions in the page.',

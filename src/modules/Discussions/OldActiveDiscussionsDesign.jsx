@@ -9,38 +9,29 @@ class DiscussionsOldActiveDiscussionsDesign extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							`Brings back the SteamGifts' old active discussions design, while keeping the new "Deals" section.`,
-						],
-						[
-							'li',
-							[
-								`Only one section ("Discussions" or "Deals") can be shown at a time. There is a button (`,
-								['i', { class: 'fa fa-retweet' }],
-								`) in the page heading of the active discussions that allows you to switch sections.`,
-							],
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Brings back the SteamGifts' old active discussions design, while keeping the new "Deals"
+						section.
+					</li>
+					<li>
+						Only one section ("Discussions" or "Deals") can be shown at a time. There is a button (
+						<i className="fa fa-retweet"></i>) in the page heading of the active discussions that
+						allows you to switch sections.
+					</li>
+				</ul>
+			),
 			features: {
 				oadd_d: {
-					description: [
-						[
-							'ul',
-							[
-								[
-									'li',
-									`With this option enabled, the deals are included in the "Discussions" section instead of being exclusive to the "Deals" section.`,
-								],
-							],
-						],
-					],
+					description: () => (
+						<ul>
+							<li>
+								With this option enabled, the deals are included in the "Discussions" section
+								instead of being exclusive to the "Deals" section.
+							</li>
+						</ul>
+					),
 					name: 'Show deals in the "Discussions" section.',
 					sg: true,
 				},

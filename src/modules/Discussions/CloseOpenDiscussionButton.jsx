@@ -10,25 +10,17 @@ class DiscussionsCloseOpenDiscussionButton extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							[
-								`Adds a button (`,
-								['i', { class: 'fa fa-lock' }],
-								' if the discussion is open and ',
-								['i', { class: 'fa fa-lock esgst-red' }],
-								` if it is closed) next to the title of a discussion created by yourself (in any `,
-								['a', { href: `https://www.steamgifts.com/discussions` }, 'discussions'],
-								` page) that allows you to close/open the discussion without having to access it.`,
-							],
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Adds a button (<i className="fa fa-lock"></i> if the discussion is open and{' '}
+						<i className="fa fa-lock esgst-red"></i> if it is closed) next to the title of a
+						discussion created by yourself (in any{' '}
+						<a href="https://www.steamgifts.com/discussions">discussions</a> page) that allows you
+						to close/open the discussion without having to access it.
+					</li>
+				</ul>
+			),
 			id: 'codb',
 			name: 'Close/Open Discussion Button',
 			sg: true,

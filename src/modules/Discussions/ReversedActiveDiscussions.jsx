@@ -1,22 +1,20 @@
 import { Module } from '../../class/Module';
 import { Settings } from '../../class/Settings';
 import { Shared } from '../../class/Shared';
+import { DOM } from '../../class/DOM';
 
 class DiscussionsReversedActiveDiscussions extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							'Reverses the active discussions (in the main page) so that discussions come before deals (original order).',
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Reverses the active discussions (in the main page) so that discussions come before deals
+						(original order).
+					</li>
+				</ul>
+			),
 			id: 'rad',
 			name: 'Reversed Active Discussions',
 			sg: true,
