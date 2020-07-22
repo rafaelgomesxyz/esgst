@@ -1,18 +1,18 @@
 import { Module } from '../../class/Module';
 import { common } from '../Common';
 import { Shared } from '../../class/Shared';
+import { DOM } from '../../class/DOM';
 
 const getValue = common.getValue.bind(common);
 class GroupsGroupHighlighter extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[['li', `Adds a green background to a group that you are a member of (in any page).`]],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>Adds a green background to a group that you are a member of (in any page).</li>
+				</ul>
+			),
 			id: 'gh',
 			name: 'Group Highlighter',
 			sg: true,

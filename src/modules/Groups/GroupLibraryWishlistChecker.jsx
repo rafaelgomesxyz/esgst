@@ -17,70 +17,67 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							[
-								`Adds a button (`,
-								['i', { class: 'fa fa-folder' }],
-								' ',
-								['i', { class: 'fa fa-star' }],
-								` ) to your `,
-								['a', { href: `https://www.steamgifts.com/account/manage/whitelist` }, 'whitelist'],
-								'/',
-								['a', { href: `https://www.steamgifts.com/account/manage/blacklist` }, 'blacklist'],
-								' pages and any ',
-								['a', { href: `https://www.steamgifts.com/group/SJ7Bu/` }, 'group'],
-								' page that allows you to check how many of the whitelist/blacklist/group members have a certain game in their libraries/wishlists.',
-							],
-						],
-						[
-							'li',
-							`The results are separated in 2 sections ("Libraries" and "Wishlists"). The games in each section are ranked based on the number of members that have them in their libraries/wishlists (each game also has a percentage that represents that number).`,
-						],
-						[
-							'li',
-							`Only the first 100 results are shown for each section, but you can use the search fields to find games that are outside of the top 100. If you are searching in the "Libraries" section, it is more accurate to search for games using their app id instead of their name, because the games in that section only have a name if they can also be found in the "Wishlists" section, as game names are not available in the libraries data and retrieving them would generate more requests to Steam, which is not good.`,
-						],
-						[
-							'li',
-							'If you hover over the number of libraries/wishlists for a game it shows the usernames of all of the members that have the game in their libraries/wishlists.',
-						],
-						[
-							'li',
-							`A Steam API key is required to retrieve libraries data. If a key is not set in the last section of this menu, the feature will only retrieve wishlists data.`,
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Adds a button (<i className="fa fa-folder"></i> <i className="fa fa-star"></i> ) to your{' '}
+						<a href="https://www.steamgifts.com/account/manage/whitelist">whitelist</a>/
+						<a href="https://www.steamgifts.com/account/manage/blacklist">blacklist</a> pages and
+						any <a href="https://www.steamgifts.com/group/SJ7Bu/">group</a> page that allows you to
+						check how many of the whitelist/blacklist/group members have a certain game in their
+						libraries/wishlists.
+					</li>
+					<li>
+						The results are separated in 2 sections ("Libraries" and "Wishlists"). The games in each
+						section are ranked based on the number of members that have them in their
+						libraries/wishlists (each game also has a percentage that represents that number).
+					</li>
+					<li>
+						Only the first 100 results are shown for each section, but you can use the search fields
+						to find games that are outside of the top 100. If you are searching in the "Libraries"
+						section, it is more accurate to search for games using their app id instead of their
+						name, because the games in that section only have a name if they can also be found in
+						the "Wishlists" section, as game names are not available in the libraries data and
+						retrieving them would generate more requests to Steam, which is not good.
+					</li>
+					<li>
+						If you hover over the number of libraries/wishlists for a game it shows the usernames of
+						all of the members that have the game in their libraries/wishlists.
+					</li>
+					<li>
+						A Steam API key is required to retrieve libraries data. If a key is not set in the last
+						section of this menu, the feature will only retrieve wishlists data.
+					</li>
+				</ul>
+			),
 			id: 'glwc',
 			name: 'Group Library/Wishlist Checker',
 			sg: true,
 			type: 'groups',
 			features: {
 				glwc_gn: {
-					description: [
-						[
-							'ul',
-							[
-								[
-									'li',
-									'The new Steam wishlist page does not offer the game names in its source code, so ESGST cannot know the names of the games. However, by enabling this option, ESGST will fetch the list of all games on Steam, so that it can show you the names of the games properly. The only problem is that this list is huge, so it can slow down the feature execution a bit. This list is shared with Have / Want List Checker, if you also use that feature.',
-								],
-							],
-						],
-					],
+					description: () => (
+						<ul>
+							<li>
+								The new Steam wishlist page does not offer the game names in its source code, so
+								ESGST cannot know the names of the games. However, by enabling this option, ESGST
+								will fetch the list of all games on Steam, so that it can show you the names of the
+								games properly. The only problem is that this list is huge, so it can slow down the
+								feature execution a bit. This list is shared with Have / Want List Checker, if you
+								also use that feature.
+							</li>
+						</ul>
+					),
 					name: 'Display game names.',
 					sg: true,
 				},
 				glwc_mm: {
 					dependencies: ['mm'],
-					description: [
-						['ul', [['li', 'Allows checking a custom list of users provided by [id=mm].']]],
-					],
+					description: () => (
+						<ul>
+							<li>Allows checking a custom list of users provided by [id=mm].</li>
+						</ul>
+					),
 					name: 'Integrate with [id=mm].',
 					sg: true,
 				},

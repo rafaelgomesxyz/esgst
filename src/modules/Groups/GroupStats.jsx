@@ -10,21 +10,15 @@ class GroupsGroupStats extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							[
-								'Adds some columns to your ',
-								['a', { href: `https://www.steamgifts.com/account/steam/groups` }, 'groups'],
-								' page that show some stats about each group.',
-							],
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Adds some columns to your{' '}
+						<a href="https://www.steamgifts.com/account/steam/groups">groups</a> page that show some
+						stats about each group.
+					</li>
+				</ul>
+			),
 			features: {
 				gs_sent: {
 					name: 'Sent',
