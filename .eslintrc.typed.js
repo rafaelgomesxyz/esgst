@@ -37,7 +37,7 @@ module.exports = {
 				tsconfigRootDir: __dirname,
 				project: ['./tsconfig.json'],
 			},
-			plugins: ['@rafaelgssa/local'],
+			plugins: ['prefer-arrow'],
 			extends: [
 				'eslint:recommended',
 				'plugin:react/recommended',
@@ -56,7 +56,7 @@ module.exports = {
 						allowTemplateLiterals: false,
 					},
 				],
-				'@rafaelgssa/local/prefer-arrow-functions': [
+				'prefer-arrow/prefer-arrow-functions': [
 					'error',
 					{
 						disallowPrototype: true,

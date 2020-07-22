@@ -19,7 +19,6 @@ devDependencies:
   '@babel/preset-typescript': 7.10.4_@babel+core@7.10.5
   '@babel/runtime': 7.10.5
   '@octokit/rest': 16.43.2
-  '@rafaelgssa/eslint-plugin-local': 1.1.0
   '@types/chai': 4.2.11
   '@types/greasemonkey': 4.0.0
   '@types/jquery': 3.5.0
@@ -37,6 +36,7 @@ devDependencies:
   css-loader: 3.6.0_webpack@4.43.0
   eslint: 7.5.0
   eslint-config-prettier: 6.11.0_eslint@7.5.0
+  eslint-plugin-prefer-arrow: 1.2.2_eslint@7.5.0
   eslint-plugin-prettier: 3.1.4_eslint@7.5.0+prettier@2.0.5
   eslint-plugin-react: 7.20.3_eslint@7.5.0
   html-loader: 1.1.0_webpack@4.43.0
@@ -1193,10 +1193,6 @@ packages:
     dev: true
     resolution:
       integrity: sha512-OFxUBgrEllAbdEmWp/wNmKIu5EuumKHG4sgy56vjZ8lXPgMhF05c76hmulfOdFHHYRpPj49ygOZJ8wgVsPecuA==
-  /@rafaelgssa/eslint-plugin-local/1.1.0:
-    dev: true
-    resolution:
-      integrity: sha512-IpQhUwMMVTUbPs6VOv53pcDWVdorVpLih9+8HOt/4Dcay06XGxNwtGDsyx4R235s9BwQ5c6pvwnHzCJbHiNREA==
   /@types/anymatch/1.3.1:
     dev: true
     resolution:
@@ -3327,6 +3323,14 @@ packages:
       eslint: '>=3.14.1'
     resolution:
       integrity: sha512-oB8cpLWSAjOVFEJhhyMZh6NOEOtBVziaqdDQ86+qhDHFbZXoRTM7pNSvFRfW/W/L/LrQ38C99J5CGuRBBzBsdA==
+  /eslint-plugin-prefer-arrow/1.2.2_eslint@7.5.0:
+    dependencies:
+      eslint: 7.5.0
+    dev: true
+    peerDependencies:
+      eslint: '>=2.0.0'
+    resolution:
+      integrity: sha512-C8YMhL+r8RMeMdYAw/rQtE6xNdMulj+zGWud/qIGnlmomiPRaLDGLMeskZ3alN6uMBojmooRimtdrXebLN4svQ==
   /eslint-plugin-prettier/3.1.4_eslint@7.5.0+prettier@2.0.5:
     dependencies:
       eslint: 7.5.0
@@ -8140,7 +8144,6 @@ specifiers:
   '@babel/preset-typescript': ^7.10.4
   '@babel/runtime': ^7.10.5
   '@octokit/rest': ^16.43.2
-  '@rafaelgssa/eslint-plugin-local': ^1.1.0
   '@types/chai': ^4.2.11
   '@types/greasemonkey': ^4.0.0
   '@types/jquery': ^3.5.0
@@ -8161,6 +8164,7 @@ specifiers:
   date-fns: ^2.15.0
   eslint: ^7.5.0
   eslint-config-prettier: ^6.11.0
+  eslint-plugin-prefer-arrow: ^1.2.2
   eslint-plugin-prettier: ^3.1.4
   eslint-plugin-react: ^7.20.3
   html-loader: ^1.1.0
