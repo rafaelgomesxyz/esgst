@@ -62,10 +62,11 @@ class DiscussionsDiscussionsSorter extends Module {
 			'Automatically sorts the discussions by the selected option when loading the page.',
 			Settings.get('ds_auto')
 		);
-		let options = DOM.insert(
+		let options;
+		DOM.insert(
 			obj.popout.popout,
-			'beforeEnd',
-			<select>
+			'beforeend',
+			<select ref={(ref) => (options = ref)}>
 				<option value="sortIndex_asc">Default</option>
 				<option value="title_asc">Title - Ascending</option>
 				<option value="title_desc">Title - Descending</option>

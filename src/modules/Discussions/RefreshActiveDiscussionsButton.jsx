@@ -39,9 +39,9 @@ class DiscussionsRefreshActiveDiscussionsButton extends Module {
 		for (i = elements.length - 1; i > -1; --i) {
 			DOM.insert(
 				elements[i],
-				'beforeBegin',
+				'beforebegin',
 				<div
-					class={`esgst-radb-button${Settings.get('oadd') ? '' : ' homepage_heading'}`}
+					className={`esgst-radb-button${Settings.get('oadd') ? '' : ' homepage_heading'}`}
 					title={getFeatureTooltip('radb', 'Refresh active discussions/deals')}
 					onclick={(event) => {
 						let icon = event.currentTarget.firstElementChild;
@@ -58,7 +58,7 @@ class DiscussionsRefreshActiveDiscussionsButton extends Module {
 						}
 					}}
 				>
-					<i class="fa fa-refresh"></i>
+					<i className="fa fa-refresh"></i>
 				</div>
 			);
 		}

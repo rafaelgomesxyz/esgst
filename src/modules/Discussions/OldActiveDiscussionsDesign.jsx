@@ -76,59 +76,62 @@ class DiscussionsOldActiveDiscussionsDesign extends Module {
 		this.esgst.activeDiscussions.classList.add('esgst-oadd');
 		DOM.insert(
 			this.esgst.activeDiscussions,
-			'inner',
-			<>
+			'atinner',
+			<fragment>
 				<div ref={(ref) => (discussions = ref)}>
-					<div class="page__heading">
+					<div className="page__heading">
 						<div
-							class="esgst-heading-button"
+							className="esgst-heading-button"
 							title="Switch to Deals"
 							ref={(ref) => (discussionsSwitch = ref)}
 						>
-							<i class="fa fa-retweet"></i>
+							<i className="fa fa-retweet"></i>
 						</div>
-						<div class="page__heading__breadcrumbs">
+						<div className="page__heading__breadcrumbs">
 							<a href="/discussions">Active Discussions</a>
 						</div>
-						<a class="page__heading__button page__heading__button--green" href="/discussions">
-							More <i class="fa fa-angle-right"></i>
+						<a className="page__heading__button page__heading__button--green" href="/discussions">
+							More <i className="fa fa-angle-right"></i>
 						</a>
 					</div>
-					<div class="table">
-						<div class="table__heading">
-							<div class="table__column--width-fill">Summary</div>
-							<div class="table__column--width-small text-center">Comments</div>
-							<div class="table__column--width-medium text-right">Last Post</div>
+					<div className="table">
+						<div className="table__heading">
+							<div className="table__column--width-fill">Summary</div>
+							<div className="table__column--width-small text-center">Comments</div>
+							<div className="table__column--width-medium text-right">Last Post</div>
 						</div>
-						<div class="table__rows" ref={(ref) => (discussionsRows = ref)}></div>
+						<div className="table__rows" ref={(ref) => (discussionsRows = ref)}></div>
 					</div>
 				</div>
-				<div class="esgst-hidden" ref={(ref) => (deals = ref)}>
-					<div class="page__heading">
+				<div className="esgst-hidden" ref={(ref) => (deals = ref)}>
+					<div className="page__heading">
 						<div
-							class="esgst-heading-button"
+							className="esgst-heading-button"
 							title="Switch to Discussions"
 							ref={(ref) => (dealsSwitch = ref)}
 						>
-							<i class="fa fa-retweet"></i>
+							<i className="fa fa-retweet"></i>
 						</div>
-						<div class="page__heading__breadcrumbs">
+						<div className="page__heading__breadcrumbs">
 							<a href="/discussions/deals">Active Deals</a>
 						</div>
-						<a class="page__heading__button page__heading__button--green" href="/discussions/deals">
-							More <i class="fa fa-angle-right"></i>
+						<a
+							className="page__heading__button page__heading__button--green"
+							href="/discussions/deals"
+						>
+							More <i className="fa fa-angle-right"></i>
 						</a>
 					</div>
-					<div class="table">
-						<div class="table__heading">
-							<div class="table__column--width-fill">Summary</div>
-							<div class="table__column--width-small text-center">Comments</div>
-							<div class="table__column--width-medium text-right">Last Post</div>
+					<div className="table">
+						<div className="table__heading">
+							<div className="table__column--width-fill">Summary</div>
+							<div className="table__column--width-small text-center">Comments</div>
+							<div className="table__column--width-medium text-right">Last Post</div>
 						</div>
-						<div class="table__rows" ref={(ref) => (dealsRows = ref)}></div>
+						<div className="table__rows" ref={(ref) => (dealsRows = ref)}></div>
 					</div>
 				</div>
-			</>
+			</fragment>
 		);
 		let preset = null;
 		if (Settings.get('df') && Settings.get('df_m') && Settings.get('df_enable')) {

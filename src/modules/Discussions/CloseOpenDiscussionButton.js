@@ -49,7 +49,7 @@ class DiscussionsCloseOpenDiscussionButton extends Module {
 					discussion.closed.remove();
 					discussion.closed = true;
 				}
-				new Button(discussion.headingContainer.firstElementChild, 'beforeBegin', {
+				new Button(discussion.headingContainer.firstElementChild, 'beforebegin', {
 					callbacks: [
 						this.codb_close.bind(this, discussion),
 						null,

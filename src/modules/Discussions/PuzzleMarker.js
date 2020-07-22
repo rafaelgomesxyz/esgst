@@ -54,7 +54,7 @@ class DiscussionsPuzzleMarker extends Module {
 					main && this.esgst.discussionPath ? discussion.headingContainer : discussion.outerWrap;
 				if (!context.getElementsByClassName('esgst-pm-button')[0]) {
 					context.classList.add('esgst-relative');
-					new Button(context, 'afterBegin', {
+					new Button(context, 'afterbegin', {
 						callbacks: [
 							this.pm_change.bind(this, discussion.code, 'unsolved'),
 							null,

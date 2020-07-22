@@ -478,31 +478,37 @@ class DiscussionsDiscussionFilters extends Filters {
 			.firstElementChild;
 		DOM.insert(
 			obj.discussions,
-			'beforeEnd',
+			'beforeend',
 			<div>
-				<div class="table__row-outer-wrap">
-					<div class="table__row-inner-wrap">
+				<div className="table__row-outer-wrap">
+					<div className="table__row-inner-wrap">
 						<div>{responseHtml.getElementsByClassName('global__image-outer-wrap')[0]}</div>
-						<div class="table__column--width-fill">
+						<div className="table__column--width-fill">
 							<h3>
-								<a class="table__column__heading" href={`/discussion/${obj.ids[obj.index]}/`}>
+								<a className="table__column__heading" href={`/discussion/${obj.ids[obj.index]}/`}>
 									{categoryLink.nextElementSibling.nextElementSibling.firstElementChild.textContent}
 								</a>
 							</h3>
 							<p>
-								<a class="table__column__secondary-link" href={categoryLink.getAttribute('href')}>
+								<a
+									className="table__column__secondary-link"
+									href={categoryLink.getAttribute('href')}
+								>
 									{categoryLink.textContent}
 								</a>
 								{' - '}
 								{responseHtml.querySelector(`.comment [data-timestamp]`)}
 								{' by '}
-								<a class="table__column__secondary-link" href={usernameLink.getAttribute('href')}>
+								<a
+									className="table__column__secondary-link"
+									href={usernameLink.getAttribute('href')}
+								>
 									{usernameLink.textContent}
 								</a>
 							</p>
-							<div class="table__column--width-small text-center">
+							<div className="table__column--width-small text-center">
 								<a
-									class="table__column__secondary-link"
+									className="table__column__secondary-link"
 									href={`/discussion/${obj.ids[obj.index]}/`}
 								>
 									{breadcrumbs[1].textContent.match(/(.+) Comments?/)[1]}
@@ -536,7 +542,7 @@ class DiscussionsDiscussionFilters extends Filters {
 	df_addButtons(discussions, main) {
 		for (const discussion of discussions) {
 			if (!discussion.heading.parentElement.getElementsByClassName('esgst-df-button')[0]) {
-				new Button(discussion.headingContainer.firstElementChild, 'beforeBegin', {
+				new Button(discussion.headingContainer.firstElementChild, 'beforebegin', {
 					callbacks: [
 						this.df_hideDiscussion.bind(this, discussion, main),
 						null,

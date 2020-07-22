@@ -122,22 +122,22 @@ class DiscussionsActiveDiscussionsOnTopSidebar extends Module {
 						}
 					`
 					);
-					panel = DOM.insert(
+					DOM.insert(
 						this.esgst.sidebar,
-						'beforeEnd',
-						<h3 class="sidebar__heading">
+						'beforeend',
+						<h3 className="sidebar__heading" ref={(ref) => (panel = ref)}>
 							<span
-								class="esgst-adots-tab-heading esgst-selected"
+								className="esgst-adots-tab-heading esgst-selected"
 								ref={(ref) => (tabHeading1 = ref)}
 							>
 								Discussions
 							</span>
-							<span class="esgst-adots-tab-heading" ref={(ref) => (tabHeading2 = ref)}>
+							<span className="esgst-adots-tab-heading" ref={(ref) => (tabHeading2 = ref)}>
 								Deals
 							</span>
 							{Settings.get('radb') && (
 								<div
-									class="esgst-radb-button"
+									className="esgst-radb-button"
 									title={Shared.common.getFeatureTooltip(
 										'radb',
 										'Refresh active discussions/deals'
@@ -157,10 +157,10 @@ class DiscussionsActiveDiscussionsOnTopSidebar extends Module {
 										}
 									}}
 								>
-									<i class="fa fa-refresh"></i>
+									<i className="fa fa-refresh"></i>
 								</div>
 							)}
-							<a class="esgst-float-right sidebar__navigation__item__name" href="/discussions">
+							<a className="esgst-float-right sidebar__navigation__item__name" href="/discussions">
 								More
 							</a>
 						</h3>
@@ -215,13 +215,13 @@ class DiscussionsActiveDiscussionsOnTopSidebar extends Module {
 						element = elements[i];
 						comments = element.getElementsByClassName('table__column__secondary-link')[0];
 						parent = comments.parentElement;
-						panel = DOM.insert(
+						DOM.insert(
 							parent,
-							'afterEnd',
-							<>
-								<p></p>
-								<div style="clear: both;"></div>
-							</>
+							'afterend',
+							<fragment>
+								<p ref={(ref) => (panel = ref)}></p>
+								<div style={{ clear: 'both' }}></div>
+							</fragment>
 						);
 						panel.appendChild(comments);
 						if (parent.lastElementChild.classList.contains('table__last-comment-icon')) {
@@ -235,13 +235,13 @@ class DiscussionsActiveDiscussionsOnTopSidebar extends Module {
 						element = elements[i];
 						comments = element.getElementsByClassName('table__column__secondary-link')[0];
 						parent = comments.parentElement;
-						panel = DOM.insert(
+						DOM.insert(
 							parent,
-							'afterEnd',
-							<>
-								<p></p>
-								<div style="clear: both;"></div>
-							</>
+							'afterend',
+							<fragment>
+								<p ref={(ref) => (panel = ref)}></p>
+								<div style={{ clear: 'both' }}></div>
+							</fragment>
 						);
 						panel.appendChild(comments);
 						if (parent.lastElementChild.classList.contains('table__last-comment-icon')) {
@@ -265,7 +265,11 @@ class DiscussionsActiveDiscussionsOnTopSidebar extends Module {
 					deals.classList.remove('esgst-hidden');
 				}
 				if (!refresh) {
-					activeDiscussions = DOM.insert(this.esgst.sidebar, 'beforeEnd', <div />);
+					DOM.insert(
+						this.esgst.sidebar,
+						'beforeend',
+						<div ref={(ref) => (activeDiscussions = ref)}></div>
+					);
 					activeDiscussions.appendChild(discussions);
 					activeDiscussions.appendChild(deals);
 					tabHeading1.addEventListener(

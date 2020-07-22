@@ -142,7 +142,7 @@ class DiscussionsImprovedDiscussionBookmarks extends Module {
 				discussion.bookmarkNode.remove();
 			}
 
-			discussion.idbButton = new Button(discussion.heading.parentElement, 'afterBegin', {
+			discussion.idbButton = new Button(discussion.heading.parentElement, 'afterbegin', {
 				callbacks: [
 					this.bookmarkDiscussion.bind(this, discussion.code, context),
 					null,
