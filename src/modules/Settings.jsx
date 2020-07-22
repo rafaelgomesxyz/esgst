@@ -309,10 +309,9 @@ class SettingsModule {
 			Context,
 			'beforeend',
 			<div className="esgst-menu-split">
-				<div className="esgst-settings-menu">
-					<div className={`esgst-settings-menu-feature ${isPopup ? '' : 'esgst-menu-split-fixed'}`}>
-						Click on a feature/option to manage it here.
-					</div>
+				<div className="esgst-settings-menu"></div>
+				<div className={`esgst-settings-menu-feature ${isPopup ? '' : 'esgst-menu-split-fixed'}`}>
+					Click on a feature/option to manage it here.
 				</div>
 			</div>
 		);
