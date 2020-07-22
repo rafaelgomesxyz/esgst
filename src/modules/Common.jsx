@@ -56,7 +56,7 @@ class Common extends Module {
 			return;
 		}
 
-		this.esgst.minimizePanel = this.createElements(this.esgst.pageOuterWrap, 'beforeEnd', [
+		this.esgst.minimizePanel = this.createElements(this.esgst.pageOuterWrap, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-minimize-panel',
@@ -95,7 +95,7 @@ class Common extends Module {
 			return;
 		}
 
-		popup.minimizeItem = this.createElements(this.esgst.minimizeList, 'beforeEnd', [
+		popup.minimizeItem = this.createElements(this.esgst.minimizeList, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-minimize-item',
@@ -140,9 +140,11 @@ class Common extends Module {
 		selected.classList.remove('is-selected');
 		const newSelected = document.querySelector(`#${id}`);
 		newSelected.classList.add('is-selected');
-		DOM.build(newSelected.querySelector('.sidebar__navigation__item__link'), 'afterBegin', [
-			['i', { class: 'fa fa-caret-right' }],
-		]);
+		DOM.insert(
+			newSelected.querySelector('.sidebar__navigation__item__link'),
+			'afterbegin',
+			<i className="fa fa-caret-right"></i>
+		);
 	}
 
 	/**
@@ -153,7 +155,7 @@ class Common extends Module {
 	async loadFeatures(modules) {
 		//Logger.info(this.esgst.games.apps[269650]);
 		if (this.isCurrentPath('Account')) {
-			this.createSidebarNavigation(this.esgst.sidebar, 'beforeEnd', {
+			this.createSidebarNavigation(this.esgst.sidebar, 'beforeend', {
 				name: 'ESGST',
 				items: [
 					{
@@ -195,14 +197,16 @@ class Common extends Module {
 			});
 			if (this.esgst.parameters.esgst === 'debug') {
 				let textArea;
-				DOM.build(document.body, 'inner', [
-					['textarea', { ref: (ref) => (textArea = ref) }],
-					[
-						'button',
-						{ onclick: () => Function('"use strict";' + textArea.value + '').call(Shared) },
-						'Debug',
-					],
-				]);
+				DOM.insert(
+					document.body,
+					'atinner',
+					<fragment>
+						<textarea ref={(ref) => (textArea = ref)}></textarea>
+						<button onclick={() => Function('"use strict";' + textArea.value + '').call(Shared)}>
+							Debug
+						</button>
+					</fragment>
+				);
 				return;
 			} else if (this.esgst.parameters.esgst === 'settings') {
 				this.setSidebarActive('settings');
@@ -233,21 +237,31 @@ class Common extends Module {
 		}
 
 		if (this.esgst.mainPageHeading) {
-			this.esgst.leftMainPageHeadingButtons = DOM.build(this.esgst.mainPageHeading, 'afterBegin', [
-				['div', { class: 'esgst-page-heading esgst-page-heading-buttons' }],
-			]);
-			this.esgst.rightMainPageHeadingButtons = DOM.build(this.esgst.mainPageHeading, 'beforeEnd', [
-				['div', { class: 'esgst-page-heading esgst-page-heading-buttons' }],
-			]);
+			DOM.insert(
+				this.esgst.mainPageHeading,
+				'afterbegin',
+				<div
+					className="esgst-page-heading esgst-page-heading-buttons"
+					ref={(ref) => (this.esgst.leftMainPageHeadingButtons = ref)}
+				></div>
+			);
+			DOM.insert(
+				this.esgst.mainPageHeading,
+				'beforeend',
+				<div
+					className="esgst-page-heading esgst-page-heading-buttons"
+					ref={(ref) => (this.esgst.rightMainPageHeadingButtons = ref)}
+				></div>
+			);
 		}
 
 		let hideButtonsLeft, hideButtonsRight;
 		hideButtonsLeft = document.createElement('div');
 		hideButtonsLeft.className = 'esgst-heading-button';
-		DOM.build(hideButtonsLeft, 'inner', [['i', { class: 'fa fa-ellipsis-v' }]]);
+		DOM.insert(hideButtonsLeft, 'atinner', <i className="fa fa-ellipsis-v"></i>);
 		this.esgst.leftButtons = this.createElements(
 			new Popout('esgst-hidden-buttons', hideButtonsLeft, 0, true).popout,
-			'beforeEnd',
+			'beforeend',
 			[
 				{
 					attributes: {
@@ -259,10 +273,10 @@ class Common extends Module {
 		);
 		hideButtonsRight = document.createElement('div');
 		hideButtonsRight.className = 'esgst-heading-button';
-		DOM.build(hideButtonsRight, 'inner', [['i', { class: 'fa fa-ellipsis-v' }]]);
+		DOM.insert(hideButtonsRight, 'atinner', <i className="fa fa-ellipsis-v"></i>);
 		this.esgst.rightButtons = this.createElements(
 			new Popout('esgst-hidden-buttons', hideButtonsRight, 0, true).popout,
-			'beforeEnd',
+			'beforeend',
 			[
 				{
 					attributes: {
@@ -633,7 +647,7 @@ class Common extends Module {
 		if (found) {
 			this.noCvButton = this.createElements(
 				context.closest('.form__row__indent').previousElementSibling,
-				'beforeEnd',
+				'beforeend',
 				[
 					{
 						attributes: {
@@ -672,7 +686,7 @@ class Common extends Module {
 			return;
 		}
 
-		this.createElements(this.noCvButton, 'inner', [
+		this.createElements(this.noCvButton, 'atinner', [
 			{
 				attributes: {
 					class: 'fa fa-circle-o-notch fa-spin',
@@ -707,7 +721,7 @@ class Common extends Module {
 				}
 			}
 			await this.lockAndSaveGames(games);
-			this.createElements(this.noCvButton, 'inner', [
+			this.createElements(this.noCvButton, 'atinner', [
 				{
 					attributes: {
 						class: 'fa fa-check-circle esgst-green',
@@ -721,7 +735,7 @@ class Common extends Module {
 				},
 			]);
 		} else {
-			this.createElements(this.noCvButton, 'inner', [
+			this.createElements(this.noCvButton, 'atinner', [
 				{
 					attributes: {
 						class: 'fa fa-times-circle esgst-red',
@@ -826,7 +840,7 @@ class Common extends Module {
 			}
 		}
 		if (!success) {
-			this.createElements(status, 'inner', [
+			this.createElements(status, 'atinner', [
 				{
 					attributes: {
 						class: 'fa fa-times-circle',
@@ -1370,7 +1384,7 @@ class Common extends Module {
 			attributes.href = details.link;
 			attributes.target = '_blank';
 		}
-		return this.createElements(context, 'beforeEnd', [
+		return this.createElements(context, 'beforeend', [
 			{
 				attributes,
 				type: details.link ? 'a' : 'div',
@@ -2778,7 +2792,7 @@ class Common extends Module {
 			}
 			item.content = [set];
 		}
-		this.createFormRows(context, 'beforeEnd', options);
+		this.createFormRows(context, 'beforeend', options);
 	}
 
 	async setSMManageFilteredGiveaways() {
@@ -2818,7 +2832,7 @@ class Common extends Module {
 		this.setValue('giveaways', JSON.stringify(this.esgst.giveaways));
 		i = 0;
 		n = hidden.length;
-		gfGiveaways = this.createElements(popup.scrollable, 'beforeEnd', [
+		gfGiveaways = this.createElements(popup.scrollable, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-text-left',
@@ -2883,7 +2897,7 @@ class Common extends Module {
 				});
 				giveaway = await this.buildGiveaway(DOM.parse(response.responseText), response.finalUrl);
 				if (giveaway) {
-					this.createElements(gfGiveaways, 'beforeEnd', giveaway.html);
+					this.createElements(gfGiveaways, 'beforeend', giveaway.html);
 					await this.endless_load(gfGiveaways.lastElementChild, false, 'gf');
 					window.setTimeout(
 						() => this.loadGfGiveaways(++i, n, hidden, gfGiveaways, popup, callback),
@@ -2911,7 +2925,7 @@ class Common extends Module {
 			isTemp: true,
 			title: `Manage discussion tags:`,
 		});
-		input = this.createElements(popup.description, 'afterBegin', [
+		input = this.createElements(popup.description, 'afterbegin', [
 			{
 				attributes: {
 					type: 'text',
@@ -2919,7 +2933,7 @@ class Common extends Module {
 				type: 'input',
 			},
 		]);
-		this.createElements(popup.description, 'afterBegin', [
+		this.createElements(popup.description, 'afterbegin', [
 			{
 				attributes: {
 					class: 'esgst-description',
@@ -2928,7 +2942,7 @@ class Common extends Module {
 				type: 'div',
 			},
 		]);
-		let heading = this.createElements(popup.description, 'beforeBegin', [
+		let heading = this.createElements(popup.description, 'beforebegin', [
 			{
 				attributes: {
 					class: 'page__heading',
@@ -2949,7 +2963,7 @@ class Common extends Module {
 					(savedDiscussion.tags.length > 1 ||
 						(savedDiscussion.tags[0] && savedDiscussion.tags[0].trim()))
 				) {
-					context = this.createElements(popup.scrollable, 'beforeEnd', [
+					context = this.createElements(popup.scrollable, 'beforeend', [
 						{
 							type: 'div',
 							children: [
@@ -3011,7 +3025,7 @@ class Common extends Module {
 			isTemp: true,
 			title: `Manage user tags:`,
 		});
-		input = this.createElements(popup.description, 'afterBegin', [
+		input = this.createElements(popup.description, 'afterbegin', [
 			{
 				attributes: {
 					type: 'text',
@@ -3019,7 +3033,7 @@ class Common extends Module {
 				type: 'input',
 			},
 		]);
-		this.createElements(popup.description, 'afterBegin', [
+		this.createElements(popup.description, 'afterbegin', [
 			{
 				attributes: {
 					class: 'esgst-description',
@@ -3028,7 +3042,7 @@ class Common extends Module {
 				type: 'div',
 			},
 		]);
-		let heading = this.createElements(popup.description, 'beforeBegin', [
+		let heading = this.createElements(popup.description, 'beforebegin', [
 			{
 				attributes: {
 					class: 'page__heading',
@@ -3056,7 +3070,7 @@ class Common extends Module {
 						attributes['data-st'] = true;
 						attributes.href = `https://www.steamtrades.com/user/${steamId}`;
 					}
-					context = this.createElements(popup.scrollable, 'beforeEnd', [
+					context = this.createElements(popup.scrollable, 'beforeend', [
 						{
 							type: 'div',
 							children: [
@@ -3115,7 +3129,7 @@ class Common extends Module {
 			isTemp: true,
 			title: `Manage game tags:`,
 		});
-		input = this.createElements(popup.description, 'afterBegin', [
+		input = this.createElements(popup.description, 'afterbegin', [
 			{
 				attributes: {
 					type: 'text',
@@ -3123,7 +3137,7 @@ class Common extends Module {
 				type: 'input',
 			},
 		]);
-		this.createElements(popup.description, 'afterBegin', [
+		this.createElements(popup.description, 'afterbegin', [
 			{
 				attributes: {
 					class: 'esgst-description',
@@ -3132,7 +3146,7 @@ class Common extends Module {
 				type: 'div',
 			},
 		]);
-		let heading = this.createElements(popup.description, 'beforeBegin', [
+		let heading = this.createElements(popup.description, 'beforebegin', [
 			{
 				attributes: {
 					class: 'page__heading',
@@ -3152,7 +3166,7 @@ class Common extends Module {
 			if (savedGames.apps.hasOwnProperty(id)) {
 				savedGame = savedGames.apps[id];
 				if (savedGame.tags && (savedGame.tags.length > 1 || savedGame.tags[0].trim())) {
-					context = this.createElements(popup.scrollable, 'beforeEnd', [
+					context = this.createElements(popup.scrollable, 'beforeend', [
 						{
 							attributes: {
 								class: 'table__row-outer-wrap',
@@ -3180,7 +3194,7 @@ class Common extends Module {
 			if (savedGames.subs.hasOwnProperty(id)) {
 				savedGame = savedGames.subs[id];
 				if (savedGame.tags && (savedGame.tags.length > 1 || savedGame.tags[0].trim())) {
-					context = this.createElements(popup.scrollable, 'beforeEnd', [
+					context = this.createElements(popup.scrollable, 'beforeend', [
 						{
 							attributes: {
 								class: 'table__row-outer-wrap',
@@ -3265,7 +3279,7 @@ class Common extends Module {
 			isTemp: true,
 			title: `Manage group tags:`,
 		});
-		input = this.createElements(popup.description, 'afterBegin', [
+		input = this.createElements(popup.description, 'afterbegin', [
 			{
 				attributes: {
 					type: 'text',
@@ -3273,7 +3287,7 @@ class Common extends Module {
 				type: 'input',
 			},
 		]);
-		this.createElements(popup.description, 'afterBegin', [
+		this.createElements(popup.description, 'afterbegin', [
 			{
 				attributes: {
 					class: 'esgst-description',
@@ -3282,7 +3296,7 @@ class Common extends Module {
 				type: 'div',
 			},
 		]);
-		let heading = this.createElements(popup.description, 'beforeBegin', [
+		let heading = this.createElements(popup.description, 'beforebegin', [
 			{
 				attributes: {
 					class: 'page__heading',
@@ -3303,7 +3317,7 @@ class Common extends Module {
 			) {
 				continue;
 			}
-			context = this.createElements(popup.scrollable, 'beforeEnd', [
+			context = this.createElements(popup.scrollable, 'beforeend', [
 				{
 					type: 'div',
 					children: [
@@ -3364,9 +3378,9 @@ class Common extends Module {
 		if (!hasPermissions) {
 			DOM.insert(
 				popup.description,
-				'beforeEnd',
+				'beforeend',
 				<div>
-					<i class="fa fa-times"></i>
+					<i className="fa fa-times"></i>
 					<span>
 						No permissions granted for https://rafaelgssa.com. Please grant the permissions on the
 						settings menu so that the data can be retrieved from the ESGST API.
@@ -3376,27 +3390,31 @@ class Common extends Module {
 			popup.open();
 			return;
 		}
-		popup.progress = DOM.insert(
+		DOM.insert(
 			popup.description,
-			'beforeEnd',
-			<div>
-				<i class="fa fa-circle-o-notch fa-spin"></i>
+			'beforeend',
+			<div ref={(ref) => (popup.progress = ref)}>
+				<i className="fa fa-circle-o-notch fa-spin"></i>
 				<span>Loading recent username changes...</span>
 			</div>
 		);
-		popup.results = DOM.insert(popup.scrollable, 'beforeEnd', <div class="esgst-uh-popup"></div>);
+		DOM.insert(
+			popup.scrollable,
+			'beforeend',
+			<div className="esgst-uh-popup" ref={(ref) => (popup.results = ref)}></div>
+		);
 		popup.open();
 		try {
 			const recentChanges = await this.getRecentChanges();
 			popup.progress.innerHTML = '';
 			DOM.insert(
 				popup.results,
-				'inner',
+				'atinner',
 				<fragment>
 					{recentChanges.map((change) => (
 						<div>
 							{`${change.usernames[1]} changed to `}
-							<a href={`/user/${change.usernames[0]}`} class="esgst-bold">
+							<a href={`/user/${change.usernames[0]}`} className="esgst-bold">
 								{change.usernames[0]}
 							</a>
 						</div>
@@ -3411,9 +3429,9 @@ class Common extends Module {
 			Logger.warning(err);
 			DOM.insert(
 				popup.progress,
-				'inner',
+				'atinner',
 				<div>
-					<i class="fa fa-times"></i>
+					<i className="fa fa-times"></i>
 					<span>Failed to load recent changes. Please try again later.</span>
 				</div>
 			);
@@ -3626,7 +3644,7 @@ class Common extends Module {
 					return 1;
 				}
 			});
-			let table = this.createElements(popup.scrollable, 'beforeEnd', [
+			let table = this.createElements(popup.scrollable, 'beforeend', [
 				{
 					attributes: {
 						class: 'table',
@@ -3690,7 +3708,7 @@ class Common extends Module {
 				const discussionPostsIcon = filtered[i].uf.discussionPosts ? 'fa fa-check' : '';
 				const giveawaysIcon = filtered[i].uf.giveaways ? 'fa fa-check' : '';
 				const giveawayPostsIcon = filtered[i].uf.giveawayPosts ? 'fa fa-check' : '';
-				this.createElements(table.lastElementChild, 'beforeEnd', [
+				this.createElements(table.lastElementChild, 'beforeend', [
 					{
 						attributes: {
 							class: 'table__row-outer-wrap',
@@ -3914,16 +3932,17 @@ class Common extends Module {
 			}
 		}
 		if (settings) {
-			const message = DOM.build(settings, 'beforeEnd', [
-				[
-					'div',
-					{ class: 'esgst-description esgst-bold' },
-					[['i', { class: 'fa fa-circle-o-notch fa-spin', title: 'Saving...' }]],
-				],
-			]);
+			let message;
+			DOM.insert(
+				settings,
+				'beforeend',
+				<div className="esgst-description esgst-bold" ref={(ref) => (message = ref)}>
+					<i className="fa fa-circle-o-notch fa-spin" title="Saving..."></i>
+				</div>
+			);
 			await this.setSetting(toSave);
 			message.classList.add('esgst-green');
-			DOM.build(message, 'inner', [['i', { class: 'fa fa-check', title: 'Saved!' }]]);
+			DOM.insert(message, 'atinner', <i className="fa fa-check" title="Saved!"></i>);
 			window.setTimeout(() => message.remove(), 2500);
 		}
 	}
@@ -3945,7 +3964,7 @@ class Common extends Module {
 				const theme = this.getValue(key, '');
 				if (!theme) continue;
 				const css = this.getThemeCss(JSON.parse(theme));
-				this.esgst.theme = this.createElements(document.head, 'beforeEnd', [
+				this.esgst.theme = this.createElements(document.head, 'beforeend', [
 					{
 						attributes: {
 							id: 'esgst-theme',
@@ -3963,7 +3982,7 @@ class Common extends Module {
 		}
 		if (Settings.get('customTheme') && this.checkThemeTime('customTheme')) {
 			const css = JSON.parse(this.getValue('customTheme', ''));
-			this.esgst.customThemeElement = this.createElements(document.head, 'beforeEnd', [
+			this.esgst.customThemeElement = this.createElements(document.head, 'beforeend', [
 				{
 					attributes: {
 						id: 'esgst-custom-theme',
@@ -4071,7 +4090,7 @@ class Common extends Module {
 				},
 			}).set
 		);
-		this.createElements(popup.actions.firstElementChild, 'outer', [
+		this.createElements(popup.actions.firstElementChild, 'atouter', [
 			{
 				attributes: {
 					href: '/account/settings/giveaways/filters',
@@ -4115,7 +4134,7 @@ class Common extends Module {
 				},
 			}).set
 		);
-		this.createElements(popup.actions.firstElementChild, 'outer', [
+		this.createElements(popup.actions.firstElementChild, 'atouter', [
 			{
 				attributes: {
 					href: '/account/settings/giveaways/filters',
@@ -4285,7 +4304,7 @@ class Common extends Module {
 		/**
 		 * @property {HTMLElement} obj.trashContext
 		 */
-		this.esgst.draggable.trash = this.createElements(obj.trashContext || obj.context, 'afterEnd', [
+		this.esgst.draggable.trash = this.createElements(obj.trashContext || obj.context, 'afterend', [
 			{
 				attributes: {
 					class: 'esgst-draggable-trash',
@@ -4533,7 +4552,7 @@ class Common extends Module {
 		popout = new Popout(`esgst-feature-description ${noMarkdown ? '' : 'markdown'}`, context, 100);
 		popout.popout.style.maxHeight = '300px';
 		popout.popout.style.overflow = 'auto';
-		this.createElements(popout.popout, 'inner', [
+		this.createElements(popout.popout, 'atinner', [
 			...Array.from(DOM.parse(message).body.childNodes).map((x) => {
 				return {
 					context: x,
@@ -4551,7 +4570,7 @@ class Common extends Module {
 		options.forEach((option) => {
 			if (option.check) {
 				id = option.id;
-				elements[id] = this.createElements(context, 'beforeEnd', [
+				elements[id] = this.createElements(context, 'beforeend', [
 					{
 						type: 'div',
 					},
@@ -4599,7 +4618,7 @@ class Common extends Module {
 	createResults(context, element, results) {
 		for (const result of results) {
 			const key = result.Key;
-			element[key] = this.createElements(context, 'beforeEnd', [
+			element[key] = this.createElements(context, 'beforeend', [
 				{
 					attributes: {
 						class: 'esgst-hidden',
@@ -4669,7 +4688,7 @@ class Common extends Module {
 		}
 		element = element.querySelector(`.comment__username, .author_avatar`);
 		if (!element) return;
-		this.createElements(element, this.esgst.sg ? 'beforeBegin' : 'afterEnd', [
+		this.createElements(element, this.esgst.sg ? 'beforebegin' : 'afterend', [
 			{
 				attributes: {
 					class: 'fa fa-share is_permalink author_permalink',
@@ -4801,7 +4820,7 @@ class Common extends Module {
 				icons[i].classList.add('giveaway__icon');
 			}
 			headingName = heading.firstElementChild;
-			this.createElements(headingName, 'outer', [
+			this.createElements(headingName, 'atouter', [
 				{
 					attributes: {
 						class: 'giveaway__heading__name',
@@ -4819,7 +4838,7 @@ class Common extends Module {
 			]);
 			thinHeadings = heading.getElementsByClassName('featured__heading__small');
 			for (i = 0, n = thinHeadings.length; i < n; ++i) {
-				this.createElements(thinHeadings[0], 'outer', [
+				this.createElements(thinHeadings[0], 'atouter', [
 					{
 						attributes: {
 							class: 'giveaway__heading__thin',
@@ -4841,7 +4860,7 @@ class Common extends Module {
 			if (sgTools) {
 				let info = await this.esgst.modules.games.games_getInfo(giveaway);
 				if (info) {
-					this.createElements(heading, 'beforeEnd', [
+					this.createElements(heading, 'beforeend', [
 						{
 							attributes: {
 								class: 'giveaway__icon',
@@ -4898,7 +4917,7 @@ class Common extends Module {
 						type: 'node',
 					}
 				);
-				this.createElements(endTimeColumn.lastElementChild, 'outer', items);
+				this.createElements(endTimeColumn.lastElementChild, 'atouter', items);
 			}
 			endTime = parseInt(endTimeColumn.lastElementChild.getAttribute('data-timestamp')) * 1000;
 			startTimeColumn = endTimeColumn.nextElementSibling;
@@ -4926,7 +4945,7 @@ class Common extends Module {
 						type: 'node',
 					}
 				);
-				this.createElements(startTimeColumn.firstElementChild, 'outer', items);
+				this.createElements(startTimeColumn.firstElementChild, 'atouter', items);
 			}
 			avatar = columns.lastElementChild;
 			if (sgTools) {
@@ -5092,7 +5111,7 @@ class Common extends Module {
 	}
 
 	copyValue(icon, value) {
-		let textArea = this.createElements(document.body, 'beforeEnd', [
+		let textArea = this.createElements(document.body, 'beforeend', [
 			{
 				type: 'textarea',
 			},
@@ -5121,7 +5140,7 @@ class Common extends Module {
 
 	setMissingDiscussion(context) {
 		if (context) {
-			this.createElements(context.outerWrap, 'inner', [
+			this.createElements(context.outerWrap, 'atinner', [
 				{
 					attributes: {
 						class: 'table__row-outer-wrap',
@@ -5337,6 +5356,12 @@ class Common extends Module {
 		popup.open();
 	}
 
+	/**
+	 * @param message
+	 * @param {} [onYes]
+	 * @param {} [onNo]
+	 * @param {} [event]
+	 */
 	createConfirmation(message, onYes, onNo, event) {
 		//Logger.info(message);
 		let callback, popup;
@@ -5443,46 +5468,45 @@ class Common extends Module {
 	}
 
 	createFormNotification(context, position, options) {
-		return DOM.build(context, position, [
-			[
-				'div',
-				{
-					class: `notification notification--${
-						options.loading ? 'default' : options.success ? 'success' : 'warning'
-					}`,
-				},
-				[
-					[
-						'i',
-						{
-							class: `fa ${
-								options.loading
-									? 'fa-circle-o-notch fa-spin'
-									: options.success
-									? 'fa-check-circle'
-									: 'fa-times-circle'
-							}`,
-						},
-					],
-					' ',
-					...(options.loading
-						? ['Syncing ', ['span', options.name]]
-						: options.success
-						? [
-								'Synced ',
-								['span', options.name],
-								' ',
-								[
-									'span',
-									{ 'data-timestamp': options.date / 1e3 },
-									dateFns_formatDistanceStrict(options.date, new Date()),
-								],
-								' ago.',
-						  ]
-						: ['Never synced ', ['span', options.name]]),
-				],
-			],
-		]);
+		let notification;
+		DOM.insert(
+			context,
+			position,
+			<div
+				className={`notification notification--${
+					options.loading ? 'default' : options.success ? 'success' : 'warning'
+				}`}
+				ref={(ref) => (notification = ref)}
+			>
+				<i
+					className={`fa ${
+						options.loading
+							? 'fa-circle-o-notch fa-spin'
+							: options.success
+							? 'fa-check-circle'
+							: 'fa-times-circle'
+					}`}
+				></i>{' '}
+				{options.loading ? (
+					<fragment>
+						Syncing <span>{options.name}</span>
+					</fragment>
+				) : options.success ? (
+					<fragment>
+						Synced <span>{options.name}</span>{' '}
+						<span data-timestamp={options.date / 1e3}>
+							{dateFns_formatDistanceStrict(options.date, new Date())}
+						</span>
+						{' ago.'}
+					</fragment>
+				) : (
+					<fragment>
+						Never synced <span>{options.name}</span>
+					</fragment>
+				)}
+			</div>
+		);
+		return notification;
 	}
 
 	createFormRows(context, position, options) {
@@ -5492,58 +5516,68 @@ class Common extends Module {
 			if (!item.check) {
 				continue;
 			}
-			items.push([
-				'div',
-				{ class: 'form__row' },
-				[
-					[
-						'div',
-						{ class: 'form__heading' },
-						[
-							['div', { class: 'form__heading__number' }, i++],
-							['div', { class: 'form__heading__text' }, item.name],
-						],
-					],
-					['div', { class: 'form__row__indent', id: item.id || '' }, item.content],
-				],
-			]);
+			items.push(
+				<div className="form__row">
+					<div className="form__heading">
+						<div className="form__heading__number">{i++}</div>
+						<div className="form__heading__text">{item.name}</div>
+					</div>
+					<div className="form__row__indent" id={item.id || ''}>
+						{item.content}
+					</div>
+				</div>
+			);
 		}
-		return DOM.build(context, position, [['div', { class: 'form__rows' }, items]]);
+		let rows;
+		DOM.insert(
+			context,
+			position,
+			<div className="form__rows" ref={(ref) => (rows = ref)}>
+				{items}
+			</div>
+		);
+		return rows;
 	}
 
 	createSidebarNavigation(context, position, options) {
 		const items = [];
 		for (const item of options.items) {
-			items.push([
-				'li',
-				{ class: 'sidebar__navigation__item', id: item.id || '' },
-				[
-					[
-						item.url ? 'a' : 'div',
-						Object.assign(
-							{ class: 'sidebar__navigation__item__link' },
-							item.url ? { href: item.url } : null
-						),
-						[
-							['div', { class: 'sidebar__navigation__item__name' }, item.name],
-							['div', { class: 'sidebar__navigation__item__underline' }],
-							Utils.isSet(item.count)
-								? ['div', { class: 'sidebar__navigation__item__count' }, item.count]
-								: null,
-						],
-					],
-				],
-			]);
+			const attributes = Object.assign(
+				{ className: 'sidebar__navigation__item__link' },
+				item.url ? { href: item.url } : null
+			);
+			const children = (
+				<fragment>
+					<div className="sidebar__navigation__item__name">{item.name}</div>
+					<div className="sidebar__navigation__item__underline"></div>
+					{Utils.isSet(item.count) ? (
+						<div className="sidebar__navigation__item__count">{item.count}</div>
+					) : null}
+				</fragment>
+			);
+			items.push(
+				<li className="sidebar__navigation__item" id={item.id || ''}>
+					{item.url ? <a {...attributes}>{children}</a> : <div {...attributes}>{children}</div>}
+				</li>
+			);
 		}
-		return DOM.build(context, position, [
-			['h3', { class: 'sidebar__heading' }, options.name],
-			['ul', { class: 'sidebar__navigation' }, items],
-		]);
+		let navigation;
+		DOM.insert(
+			context,
+			position,
+			<fragment>
+				<h3 className="sidebar__heading">{options.name}</h3>
+				<ul className="sidebar__navigation" ref={(ref) => (navigation = ref)}>
+					{items}
+				</ul>
+			</fragment>
+		);
+		return navigation;
 	}
 
 	createElements(context, position, items) {
 		try {
-			if (position === 'inner') {
+			if (position === 'atinner') {
 				context.innerHTML = '';
 			}
 			if (!items || !items.length) {
@@ -5553,27 +5587,27 @@ class Common extends Module {
 			let element = null;
 			this.buildElements(fragment, items);
 			switch (position) {
-				case 'beforeBegin':
+				case 'beforebegin':
 					context.parentElement.insertBefore(fragment, context);
 					element = context.previousElementSibling;
 					break;
-				case 'afterBegin':
+				case 'afterbegin':
 					context.insertBefore(fragment, context.firstElementChild);
 					element = context.firstElementChild;
 					break;
-				case 'beforeEnd':
+				case 'beforeend':
 					context.appendChild(fragment);
 					element = context.lastElementChild;
 					break;
-				case 'afterEnd':
+				case 'afterend':
 					context.parentElement.insertBefore(fragment, context.nextElementSibling);
 					element = context.nextElementSibling;
 					break;
-				case 'inner':
+				case 'atinner':
 					context.appendChild(fragment);
 					element = context.firstElementChild;
 					break;
-				case 'outer':
+				case 'atouter':
 					context.parentElement.insertBefore(fragment, context);
 					element = context.previousElementSibling;
 					context.remove();
@@ -5630,12 +5664,13 @@ class Common extends Module {
 				context.appendChild(node);
 			}
 		}
-	} // @returns {PlayerAchievementsSteamApiResponse}
+	}
 
 	/**
 	 * @param appId
 	 * @param steamId
-	 */ //*/
+	 * @returns {PlayerAchievementsSteamApiResponse}
+	 */
 	async getPlayerAchievements(appId, steamId) {
 		const text = (
 			await this.request({
@@ -5646,11 +5681,12 @@ class Common extends Module {
 			})
 		).responseText;
 		return JSON.parse(text);
-	} // @returns {SuspensionsApiResponse}
+	}
 
 	/**
 	 * @param steamIds
-	 */ //*/
+	 * @returns {SuspensionsApiResponse}
+	 */
 	async getSuspensions(steamIds) {
 		return JSON.parse(
 			(
@@ -5662,10 +5698,8 @@ class Common extends Module {
 				})
 			).responseText
 		);
-	} // @param SMFeatures
+	}
 
-	/**
-	 */ //*/
 	updateTheme(id) {
 		document.querySelector(`#${id}`).dispatchEvent(new Event('click'));
 	}
@@ -5738,7 +5772,7 @@ class Common extends Module {
 			}
 			comments.remove();
 			obj.set.changeButton(1).setTitle('Confirm');
-			this.createElements(obj.status, 'inner', [
+			this.createElements(obj.status, 'atinner', [
 				{
 					attributes: {
 						class: 'esgst-bold esgst-warning',
@@ -5798,7 +5832,7 @@ class Common extends Module {
 			this.esgst.sg ? 'align-button-container' : 'btn_actions'
 		)[0];
 		container.firstElementChild.remove();
-		obj.button = this.createElements(container, 'afterBegin', [
+		obj.button = this.createElements(container, 'afterbegin', [
 			{
 				attributes: {
 					class: 'esgst-ded-button',
@@ -5806,7 +5840,7 @@ class Common extends Module {
 				type: 'div',
 			},
 		]);
-		obj.status = this.createElements(container, 'beforeEnd', [
+		obj.status = this.createElements(container, 'beforeend', [
 			{
 				attributes: {
 					class: 'comment__actions action_list esgst-ded-status',
@@ -6347,7 +6381,11 @@ class Common extends Module {
 			onClick: (event) => {
 				if (!Settings.get('openSettingsInTab')) {
 					event.preventDefault();
-					settingsModule.loadMenu(true);
+					try {
+						settingsModule.loadMenu(true);
+					} catch (err) {
+						Logger.error(err);
+					}
 				}
 			},
 		});
@@ -6469,10 +6507,7 @@ class Common extends Module {
 			const currentFeature = Shared.esgst.featuresById[id];
 			let currentScore = 0;
 
-			const name = (typeof currentFeature.name === 'string'
-				? currentFeature.name
-				: JSON.stringify(currentFeature.name)
-			).toLowerCase();
+			const name = currentFeature.name.toLowerCase();
 
 			if (name === term) {
 				return currentFeature;
