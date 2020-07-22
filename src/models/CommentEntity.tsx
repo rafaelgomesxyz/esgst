@@ -102,22 +102,23 @@ class SgCommentEntity extends CommentEntity {
 		if (this.nodes.outer) {
 			this.nodes.outer.remove();
 		}
-		const outer = DOM.insert(
+		let outer: HTMLDivElement | undefined;
+		DOM.insert(
 			context,
 			position,
-			<div class="comments__entity">
-				<p class="comments__entity__name">
+			<div className="comments__entity" ref={(ref) => (outer = ref)}>
+				<p className="comments__entity__name">
 					<a href={this.data.url}>{this.data.title}</a>
 				</p>
-				<div class="markdown markdown--resize-body comments__entity__description">
+				<div className="markdown markdown--resize-body comments__entity__description">
 					{this.data.description}
 				</div>
 			</div>
 		);
-		DOM.insert(outer, 'afterEnd', <div class="comments"></div>);
+		DOM.insert(outer, 'afterend', <div className="comments"></div>);
 		this.parseNodes(outer);
 		for (const comment of this.comments) {
-			comment.build(this.nodes.comments, 'beforeEnd');
+			comment.build(this.nodes.comments, 'beforeend');
 		}
 	}
 }

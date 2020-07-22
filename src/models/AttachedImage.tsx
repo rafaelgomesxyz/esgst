@@ -99,16 +99,17 @@ class SgAttachedImage extends AttachedImage {
 		if (this.nodes.outer) {
 			this.nodes.outer.remove();
 		}
-		const outer = DOM.insert(
+		let outer: HTMLDivElement | undefined;
+		DOM.insert(
 			context,
 			position,
-			<div>
-				<div class="comment__toggle-attached">View attached image.</div>
+			<div ref={(ref) => (outer = ref)}>
+				<div className="comment__toggle-attached">View attached image.</div>
 				<a href={this.data.url} rel="nofollow noopener" target="_blank">
 					<img
 						alt={this.data.title}
 						title={this.data.title}
-						class="is-hidden"
+						className="is-hidden"
 						src={this.data.url}
 					/>
 				</a>
@@ -160,16 +161,17 @@ class StAttachedImage extends AttachedImage {
 		if (this.nodes.outer) {
 			this.nodes.outer.remove();
 		}
-		const outer = DOM.insert(
+		let outer: HTMLDivElement | undefined;
+		DOM.insert(
 			context,
 			position,
-			<div>
-				<div class="view_attached">View attached image.</div>
+			<div ref={(ref) => (outer = ref)}>
+				<div className="view_attached">View attached image.</div>
 				<a href={this.data.url}>
 					<img
 						alt={this.data.title}
 						title={this.data.title}
-						class="is_hidden"
+						className="is_hidden"
 						src={this.data.url}
 					/>
 				</a>

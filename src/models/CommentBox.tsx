@@ -1,4 +1,4 @@
-import { DOM } from '../class/DOM.js';
+import { DOM } from '../class/DOM';
 import { Session } from '../class/Session.js';
 import { Namespaces } from '../constants/Namespaces.js';
 import { User } from './User';
@@ -139,28 +139,29 @@ class SgCommentBox extends CommentBox {
 		if (this.nodes.outer) {
 			this.nodes.outer.remove();
 		}
-		const outer = DOM.insert(
+		let outer: HTMLDivElement | undefined;
+		DOM.insert(
 			context,
 			position,
-			<div class="comment comment--submit">
-				<div class="comment__parent">
+			<div className="comment comment--submit" ref={(ref) => (outer = ref)}>
+				<div className="comment__parent">
 					<a
 						href={this.author.data.url}
-						class="global__image-outer-wrap global__image-outer-wrap--avatar-small"
+						className="global__image-outer-wrap global__image-outer-wrap--avatar-small"
 					>
 						<div
-							class="global__image-inner-wrap"
+							className="global__image-inner-wrap"
 							style={`background-image:url(${this.author.data.avatar});`}
 						></div>
 					</a>
-					<div class="comment__summary">
-						<div class="comment__author">
-							<div class="comment__username">
+					<div className="comment__summary">
+						<div className="comment__author">
+							<div className="comment__username">
 								<a href={this.author.data.url}>{this.author.data.username}</a>
 							</div>
 						</div>
-						<div class="comment__display-state">
-							<div class="comment__description">
+						<div className="comment__display-state">
+							<div className="comment__description">
 								<form method="post">
 									<input type="hidden" name="do" value="comment_new" />
 									<input type="hidden" name="xsrf_token" value={Session.xsrfToken} />
@@ -170,11 +171,11 @@ class SgCommentBox extends CommentBox {
 										value={this.parent ? this.parent.data.id : ''}
 									/>
 									<textarea name="description">{this.data.markdown}</textarea>
-									<div class="align-button-container">
-										<a href="" class="comment__submit-button js__submit-form">
+									<div className="align-button-container">
+										<a href="" className="comment__submit-button js__submit-form">
 											Submit Comment
 										</a>
-										<div class="comment__cancel-button js__comment-reply-cancel">
+										<div className="comment__cancel-button js__comment-reply-cancel">
 											<span>Cancel</span>
 										</div>
 									</div>
@@ -251,11 +252,12 @@ class StCommentBox extends CommentBox {
 		if (this.nodes.outer) {
 			this.nodes.outer.remove();
 		}
-		const outer = DOM.insert(
+		let outer: HTMLDivElement | undefined;
+		DOM.insert(
 			context,
 			position,
-			<div class="reply_form">
-				<div class="heading">{this.data.isReview ? 'Add Review' : 'Add Comment'}</div>
+			<div className="reply_form" ref={(ref) => (outer = ref)}>
+				<div className="heading">{this.data.isReview ? 'Add Review' : 'Add Comment'}</div>
 				<form>
 					<input
 						type="hidden"
@@ -284,29 +286,29 @@ class StCommentBox extends CommentBox {
 					>
 						{this.data.markdown}
 					</textarea>
-					<div class="btn_actions">
+					<div className="btn_actions">
 						{this.data.isReview && (
-							<div class="rating_checkbox_container">
-								<div data-rating="1" class="rating_checkbox is_positive">
-									<i class="is_default fa fa-fw fa-thumbs-o-up"></i>
-									<i class="is_hover fa fa-fw fa-thumbs-up"></i>
-									<i class="is_selected fa fa-fw fa-thumbs-up"></i>
+							<div className="rating_checkbox_container">
+								<div data-rating="1" className="rating_checkbox is_positive">
+									<i className="is_default fa fa-fw fa-thumbs-o-up"></i>
+									<i className="is_hover fa fa-fw fa-thumbs-up"></i>
+									<i className="is_selected fa fa-fw fa-thumbs-up"></i>
 									{' Positive'}
 								</div>
-								<div data-rating="0" class="rating_checkbox is_negative">
-									<i class="is_default fa fa-fw fa-thumbs-o-down"></i>
-									<i class="is_hover fa fa-fw fa-thumbs-down"></i>
-									<i class="is_selected fa fa-fw fa-thumbs-down"></i>
+								<div data-rating="0" className="rating_checkbox is_negative">
+									<i className="is_default fa fa-fw fa-thumbs-o-down"></i>
+									<i className="is_hover fa fa-fw fa-thumbs-down"></i>
+									<i className="is_selected fa fa-fw fa-thumbs-down"></i>
 									{' Negative'}
 								</div>
 							</div>
 						)}
-						<div class="btn_action white js_submit">
-							<i class="fa fa-send"></i>
+						<div className="btn_action white js_submit">
+							<i className="fa fa-send"></i>
 							<span>Submit</span>
 						</div>
 						{!this.data.isReview && (
-							<div class="btn_cancel">
+							<div className="btn_cancel">
 								<span>Cancel</span>
 							</div>
 						)}

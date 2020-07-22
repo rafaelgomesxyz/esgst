@@ -1,4 +1,4 @@
-import { DOM } from '../class/DOM.js';
+import { DOM } from '../class/DOM';
 import { Session } from '../class/Session.js';
 import { Shared } from '../class/Shared.js';
 import { Namespaces } from '../constants/Namespaces.js';
@@ -244,38 +244,39 @@ class SgComment extends Comment {
 		const patron = this.author.data.isPatron && (
 			<i
 				data-ui-tooltip='{"rows":[{"icon" : [{"class" : "fa-star", "color" : "#84cfda"}], "columns":[{"name" : "Patron"}]}]}'
-				class="fa fa-star"
+				className="fa fa-star"
 			></i>
 		);
-		const outer = DOM.insert(
+		let outer: HTMLDivElement | undefined;
+		DOM.insert(
 			context,
 			position,
-			<div data-comment-id={this.data.id} class="comment">
-				<div class={`ajax ${this.parent ? 'comment__child' : 'comment__parent'}`}>
+			<div data-comment-id={this.data.id} className="comment" ref={(ref) => (outer = ref)}>
+				<div className={`ajax ${this.parent ? 'comment__child' : 'comment__parent'}`}>
 					{this.data.isDeleted ? (
-						<div class="global__image-outer-wrap global__image-outer-wrap--avatar-small global__image-outer-wrap--missing-image">
-							<i class="fa fa-user"></i>
+						<div className="global__image-outer-wrap global__image-outer-wrap--avatar-small global__image-outer-wrap--missing-image">
+							<i className="fa fa-user"></i>
 						</div>
 					) : (
 						<a
 							href={this.author.data.url}
-							class="global__image-outer-wrap global__image-outer-wrap--avatar-small"
+							className="global__image-outer-wrap global__image-outer-wrap--avatar-small"
 						>
 							<div
-								class="global__image-inner-wrap"
+								className="global__image-inner-wrap"
 								style={`background-image:url(${this.author.data.avatar});`}
 							></div>
 						</a>
 					)}
-					<div id={this.data.code} class="comment__summary">
-						<div class="comment__author">
-							<i class="comment__collapse-button fa fa-minus-square-o"></i>
-							<i class="comment__expand-button fa fa-plus-square-o"></i>
+					<div id={this.data.code} className="comment__summary">
+						<div className="comment__author">
+							<i className="comment__collapse-button fa fa-minus-square-o"></i>
+							<i className="comment__expand-button fa fa-plus-square-o"></i>
 							{this.data.isDeleted ? (
-								<div class="comment__username comment__username--deleted">Deleted</div>
+								<div className="comment__username comment__username--deleted">Deleted</div>
 							) : (
 								<div
-									class={`comment__username${
+									className={`comment__username${
 										this.author.data.isOp ? ' comment__username--op' : ''
 									}`}
 								>
@@ -285,26 +286,26 @@ class SgComment extends Comment {
 							{this.author.data.roleId && (
 								<a
 									href={`/roles/${this.author.data.roleId}`}
-									class="comment__role-name"
+									className="comment__role-name"
 								>{`(${this.author.data.roleName})`}</a>
 							)}
 							{this.author.data.isPatron &&
 								(Session.isLoggedIn ? <a href="/account/settings/patreon">{patron}</a> : patron)}
 						</div>
 						{this.data.canEdit && (
-							<div class="comment__edit-state is-hidden">
-								<div class="comment__description">
+							<div className="comment__edit-state is-hidden">
+								<div className="comment__description">
 									<form>
 										<input type="hidden" name="xsrf_token" value={Session.xsrfToken} />
 										<input type="hidden" name="do" value="comment_edit" />
 										<input type="hidden" name="allow_replies" value="1" />
 										<input type="hidden" name="comment_id" value={this.data.id} />
 										<textarea name="description">{this.data.markdown}</textarea>
-										<div class="align-button-container">
-											<a href="" class="comment__submit-button js__comment-edit-save">
+										<div className="align-button-container">
+											<a href="" className="comment__submit-button js__comment-edit-save">
 												Save Changes
 											</a>
-											<div class="comment__cancel-button js__comment-edit-cancel">
+											<div className="comment__cancel-button js__comment-edit-cancel">
 												<span>Cancel</span>
 											</div>
 										</div>
@@ -313,8 +314,8 @@ class SgComment extends Comment {
 							</div>
 						)}
 						{this.data.isDeleted ? (
-							<div class="comment__delete-state">
-								<div class="comment__description markdown markdown--resize-body">
+							<div className="comment__delete-state">
+								<div className="comment__description markdown markdown--resize-body">
 									<p>
 										This comment was deleted{' '}
 										<span data-timestamp={this.data.deletedTimestamp}>
@@ -325,15 +326,15 @@ class SgComment extends Comment {
 								</div>
 							</div>
 						) : (
-							<div class="comment__display-state">
-								<div class="comment__description markdown markdown--resize-body">
+							<div className="comment__display-state">
+								<div className="comment__description markdown markdown--resize-body">
 									{this.data.markdown
 										? DOM.parse(Shared.esgst.markdownParser.text(this.data.markdown)).body.children
 										: ''}
 								</div>
 							</div>
 						)}
-						<div class="comment__actions">
+						<div className="comment__actions">
 							<div>
 								<span data-timestamp={this.data.createdTimestamp}>
 									{Shared.common.getTimeSince(this.data.createdTimestamp)}
@@ -342,10 +343,10 @@ class SgComment extends Comment {
 								{this.data.isEdited && <span data-timestamp={this.data.editedTimestamp}>*</span>}
 							</div>
 							{this.data.canReply && (
-								<div class="comment__actions__button js__comment-reply">Reply</div>
+								<div className="comment__actions__button js__comment-reply">Reply</div>
 							)}
 							{this.data.canEdit && (
-								<div class="comment__actions__button js__comment-edit">Edit</div>
+								<div className="comment__actions__button js__comment-edit">Edit</div>
 							)}
 							{this.data.canDelete && (
 								<form>
@@ -353,7 +354,7 @@ class SgComment extends Comment {
 									<input type="hidden" name="do" value="comment_delete" />
 									<input type="hidden" name="allow_replies" value="1" />
 									<input type="hidden" name="comment_id" value={this.data.id} />
-									<div class="comment__actions__button js__comment-delete">Delete</div>
+									<div className="comment__actions__button js__comment-delete">Delete</div>
 								</form>
 							)}
 							{this.data.canUndelete && (
@@ -362,28 +363,32 @@ class SgComment extends Comment {
 									<input type="hidden" name="do" value="comment_undelete" />
 									<input type="hidden" name="allow_replies" value="1" />
 									<input type="hidden" name="comment_id" value={this.data.id} />
-									<div class="comment__actions__button js__comment-undelete">Undelete</div>
+									<div className="comment__actions__button js__comment-undelete">Undelete</div>
 								</form>
 							)}
 							{!this.data.isOp && (
-								<a rel="nofollow noopener" href={this.data.url} class="comment__actions__button">
+								<a
+									rel="nofollow noopener"
+									href={this.data.url}
+									className="comment__actions__button"
+								>
 									Permalink
 								</a>
 							)}
 						</div>
-						<div class="comment__collapse-state">
-							<div class="comment__description markdown markdown--resize-body">
+						<div className="comment__collapse-state">
+							<div className="comment__description markdown markdown--resize-body">
 								<p>Comment has been collapsed.</p>
 							</div>
 						</div>
 					</div>
 				</div>
-				{!this.data.isOp && <div class="comment__children"></div>}
+				{!this.data.isOp && <div className="comment__children"></div>}
 			</div>
 		);
 		this.parseNodes(outer);
 		for (const child of this.children) {
-			child.build(this.nodes.children, 'beforeEnd');
+			child.build(this.nodes.children, 'beforeend');
 		}
 	}
 }
@@ -532,43 +537,43 @@ class StComment extends Comment {
 		}
 		const body = (
 			<fragment>
-				<div class="author">
+				<div className="author">
 					{!this.data.isReview && (
 						<fragment>
-							<i class="comment_collapse_btn fa fa-minus-square-o"></i>
-							<i class="comment_expand_btn fa fa-plus-square-o"></i>
+							<i className="comment_collapse_btn fa fa-minus-square-o"></i>
+							<i className="comment_expand_btn fa fa-plus-square-o"></i>
 						</fragment>
 					)}
 					{this.data.isDeleted ? (
 						<fragment>
-							<div class="author_avatar is_icon">
-								<i class="fa fa-close"></i>
+							<div className="author_avatar is_icon">
+								<i className="fa fa-close"></i>
 							</div>
-							<div class="author_name">Deleted</div>
+							<div className="author_name">Deleted</div>
 						</fragment>
 					) : (
 						<fragment>
 							<a
 								href={this.author.data.url}
-								class="author_avatar"
+								className="author_avatar"
 								style={`background-image:url(${this.author.data.avatar});`}
 							></a>
 							<a
 								href={this.author.data.url}
-								class={`author_name${this.author.data.isOp ? ' is_op' : ''}`}
+								className={`author_name${this.author.data.isOp ? ' is_op' : ''}`}
 							>
 								{this.author.data.username}
 							</a>
-							<a href={this.author.data.url} class="author_small">
-								(<span class="is_positive">+{this.author.data.positiveReputation}</span>/
-								<span class="is_negative">-{this.author.data.negativeReputation}</span>)
+							<a href={this.author.data.url} className="author_small">
+								(<span className="is_positive">+{this.author.data.positiveReputation}</span>/
+								<span className="is_negative">-{this.author.data.negativeReputation}</span>)
 							</a>
 						</fragment>
 					)}
 				</div>
-				<div class={this.data.isReview ? 'review_body' : 'comment_body'}>
+				<div className={this.data.isReview ? 'review_body' : 'comment_body'}>
 					{this.data.isDeleted ? (
-						<div class="comment_body_delete markdown">
+						<div className="comment_body_delete markdown">
 							<p>
 								This comment was deleted{' '}
 								<span data-timestamp={this.data.deletedTimestamp}>{`${Shared.common.getTimeSince(
@@ -579,7 +584,7 @@ class StComment extends Comment {
 						</div>
 					) : (
 						<div
-							class={`${
+							className={`${
 								this.data.isReview ? 'review_description' : 'comment_body_default'
 							} markdown`}
 						>
@@ -588,7 +593,7 @@ class StComment extends Comment {
 								: ''}
 						</div>
 					)}
-					<div class="action_list">
+					<div className="action_list">
 						{this.data.isReview ? (
 							<span>
 								<span data-timestamp={this.data.createdTimestamp}>{`${Shared.common.getTimeSince(
@@ -603,12 +608,12 @@ class StComment extends Comment {
 								{this.data.isEdited && <span data-timestamp={this.data.editedTimestamp}>*</span>}
 							</div>
 						)}
-						{this.data.canReply && <a class="js_comment_reply">Reply</a>}
-						{this.data.canEdit && <a class="js_comment_edit">Edit</a>}
+						{this.data.canReply && <a className="js_comment_reply">Reply</a>}
+						{this.data.canEdit && <a className="js_comment_edit">Edit</a>}
 						{this.data.canDelete && (
 							<a
 								data-form={`xsrf_token=${Session.xsrfToken}&do=comment_delete&comment_id=${this.data.id}`}
-								class="js_comment_delete"
+								className="js_comment_delete"
 							>
 								Delete
 							</a>
@@ -616,7 +621,7 @@ class StComment extends Comment {
 						{this.data.canUndelete && (
 							<a
 								data-form={`xsrf_token=${Session.xsrfToken}&do=comment_undelete&comment_id=${this.data.id}`}
-								class="js_comment_undelete"
+								className="js_comment_undelete"
 							>
 								Undelete
 							</a>
@@ -628,7 +633,7 @@ class StComment extends Comment {
 										<a rel="nofollow" href={this.data.sourceCommentUrl}>
 											@{this.data.sourceCommentAuthor}
 										</a>
-										<i class="fa fa-fw fa-angle-right"></i>
+										<i className="fa fa-fw fa-angle-right"></i>
 									</fragment>
 								)}
 								<a href={this.data.sourceThreadUrl}>{this.data.sourceThreadTitle}</a>
@@ -640,33 +645,35 @@ class StComment extends Comment {
 							</a>
 						)}
 					</div>
-					<div class="comment_body_collapse markdown">
-						<p class="comment_children_count"></p>
+					<div className="comment_body_collapse markdown">
+						<p className="comment_children_count"></p>
 					</div>
 				</div>
 			</fragment>
 		);
-		const outer = DOM.insert(
+		let outer: HTMLDivElement | undefined;
+		DOM.insert(
 			context,
 			position,
 			<div
 				id={this.data.code}
 				data-id={this.data.id}
-				class={this.data.isReview ? 'review_outer' : 'comment_outer'}
+				className={this.data.isReview ? 'review_outer' : 'comment_outer'}
+				ref={(ref) => (outer = ref)}
 			>
 				{this.data.canEdit && (
-					<div class="edit_form is_hidden">
+					<div className="edit_form is_hidden">
 						<form>
 							<input type="hidden" name="xsrf_token" value={Session.xsrfToken} />
 							<input type="hidden" name="do" value="comment_edit" />
 							<input type="hidden" name="comment_id" value={this.data.id} />
 							<textarea name="description">{this.data.markdown}</textarea>
-							<div class="btn_actions">
-								<div class="btn_action white js_submit">
-									<i class="fa fa-edit"></i>
+							<div className="btn_actions">
+								<div className="btn_action white js_submit">
+									<i className="fa fa-edit"></i>
 									<span>Edit</span>
 								</div>
-								<div class="btn_cancel">
+								<div className="btn_cancel">
 									<span>Cancel</span>
 								</div>
 							</div>
@@ -674,22 +681,22 @@ class StComment extends Comment {
 					</div>
 				)}
 				<div
-					class={this.data.isReview ? 'review_inner' : 'comment_inner'}
+					className={this.data.isReview ? 'review_inner' : 'comment_inner'}
 					data-username={this.author.data.username}
 				>
 					{this.data.isReview ? (
 						<fragment>
-							<div class="review_flex">{body}</div>
+							<div className="review_flex">{body}</div>
 							{this.data.isReviewPositive ? (
-								<div class="review_rating is_positive">
+								<div className="review_rating is_positive">
 									<div>
-										<i class="fa fa-thumbs-up"></i>
+										<i className="fa fa-thumbs-up"></i>
 									</div>
 								</div>
 							) : (
-								<div class="review_rating is_negative">
+								<div className="review_rating is_negative">
 									<div>
-										<i class="fa fa-thumbs-down"></i>
+										<i className="fa fa-thumbs-down"></i>
 									</div>
 								</div>
 							)}
@@ -699,13 +706,13 @@ class StComment extends Comment {
 					)}
 				</div>
 				{!this.data.isOp && (
-					<div class={this.data.isReview ? 'review_children' : 'comment_children'}></div>
+					<div className={this.data.isReview ? 'review_children' : 'comment_children'}></div>
 				)}
 			</div>
 		);
 		this.parseNodes(outer);
 		for (const child of this.children) {
-			child.build(this.nodes.children, 'beforeEnd');
+			child.build(this.nodes.children, 'beforeend');
 		}
 	}
 }
