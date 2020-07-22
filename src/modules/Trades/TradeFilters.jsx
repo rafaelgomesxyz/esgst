@@ -5,6 +5,7 @@ import { common } from '../Common';
 import { Filters } from '../Filters';
 import { Settings } from '../../class/Settings';
 import { Shared } from '../../class/Shared';
+import { DOM } from '../../class/DOM';
 
 const createElements = common.createElements.bind(common),
 	createHeadingButton = common.createHeadingButton.bind(common),
@@ -317,7 +318,7 @@ class TradesTradeFilters extends Filters {
 		const reputation = responseHtml.getElementsByClassName('author_small')[0];
 		reputation.classList.remove('author_small');
 		reputation.classList.add('reputation');
-		createElements(obj.trades, 'beforeEnd', [
+		createElements(obj.trades, 'beforeend', [
 			{
 				type: 'div',
 				children: [
@@ -430,7 +431,7 @@ class TradesTradeFilters extends Filters {
 	tf_addButtons(trades, main) {
 		for (const trade of trades) {
 			if (!trade.heading.parentElement.getElementsByClassName('esgst-df-button')[0]) {
-				new Button(trade.headingContainer.firstElementChild, 'beforeBegin', {
+				new Button(trade.headingContainer.firstElementChild, 'beforebegin', {
 					callbacks: [
 						this.tf_hideTrade.bind(this, trade, main),
 						null,

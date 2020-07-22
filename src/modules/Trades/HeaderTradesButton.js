@@ -16,7 +16,7 @@ class TradesHeaderTradesButton extends Module {
 	init() {
 		const tradesButton = Shared.header.addButtonContainer({
 			buttonName: 'Trades',
-			position: 'beforeEnd',
+			position: 'beforeend',
 			openInNewTab: true,
 			side: 'left',
 			url: 'https://www.steamtrades.com',

@@ -86,7 +86,7 @@ class TradesTradeBumper extends Module {
 
 	async tb_getTrades(button, context) {
 		if (button) {
-			createElements(button, 'inner', [
+			createElements(button, 'atinner', [
 				{
 					attributes: {
 						class: 'fa fa-circle-o-notch fa-spin',

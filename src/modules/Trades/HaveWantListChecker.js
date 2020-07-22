@@ -90,7 +90,7 @@ class TradesHaveWantListChecker extends Module {
 
 	hwlc_addSection(obj, key, counterKey) {
 		obj[key] = document.querySelector(`.${key}`);
-		createElements(obj.panel, 'beforeEnd', [
+		createElements(obj.panel, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-hwlc-section',
@@ -428,7 +428,7 @@ class TradesHaveWantListChecker extends Module {
 		for (const game of obj.games[key].apps) {
 			appItems.push(game.html);
 		}
-		createElements(obj.sections[key].games, 'beforeEnd', appItems);
+		createElements(obj.sections[key].games, 'beforeend', appItems);
 		const subItems = [];
 		for (const game of obj.games[key].subs) {
 			subItems.push({
@@ -451,7 +451,7 @@ class TradesHaveWantListChecker extends Module {
 				],
 			});
 		}
-		createElements(obj.sections[key].games, 'beforeEnd', subItems);
+		createElements(obj.sections[key].games, 'beforeend', subItems);
 		const unidentifiedItems = [];
 		for (const game of unidentified) {
 			unidentifiedItems.push({
@@ -459,13 +459,13 @@ class TradesHaveWantListChecker extends Module {
 				type: 'li',
 			});
 		}
-		createElements(obj.sections[key].unidentified, 'beforeEnd', unidentifiedItems);
+		createElements(obj.sections[key].unidentified, 'beforeend', unidentifiedItems);
 		for (const section in obj.sections[key]) {
 			if (obj.sections[key].hasOwnProperty(section)) {
 				if (section === 'textArea' || obj.sections[key][section].innerHTML) {
 					continue;
 				}
-				createElements(obj.sections[key][section], 'inner', [
+				createElements(obj.sections[key][section], 'atinner', [
 					{
 						text: 'None.',
 						type: 'node',
@@ -554,9 +554,9 @@ class TradesHaveWantListChecker extends Module {
 				],
 			});
 		}
-		createElements(obj.sections[key].matches, 'beforeEnd', items);
+		createElements(obj.sections[key].matches, 'beforeend', items);
 		if (!obj.sections[key].matches.innerHTML) {
-			createElements(obj.sections[key].matches, 'inner', [
+			createElements(obj.sections[key].matches, 'atinner', [
 				{
 					text: 'None.',
 					type: 'node',
