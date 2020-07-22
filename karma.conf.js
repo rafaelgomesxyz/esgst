@@ -9,9 +9,10 @@ module.exports = (config) => {
 		autoWatch: false,
 		browsers,
 		concurrency: 1,
-		files: ['src/**/*.{js,jsx,ts,tsx}', 'test/**/*.{js,jsx,ts,tsx}'],
+		files: ['test/**/*.+(js|jsx|ts|tsx)'],
 		frameworks: ['mocha', 'chai'],
 		plugins: [
+			'karma-babel-preprocessor',
 			'karma-chai',
 			'karma-chrome-launcher',
 			'karma-coverage',
@@ -20,8 +21,7 @@ module.exports = (config) => {
 			'karma-webpack',
 		],
 		preprocessors: {
-			'src/**/*.{js,jsx,ts,tsx}': ['coverage'],
-			'test/**/*.{js,jsx,ts,tsx}': ['webpack'],
+			'test/**/*+(js|jsx|ts|tsx)': ['webpack'],
 		},
 		reporters: ['progress', 'coverage'],
 		singleRun: true,

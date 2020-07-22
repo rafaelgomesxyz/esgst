@@ -1,6 +1,7 @@
 .vscode
 **/build/
 **/dist/
+**/coverage/
 **/docs/
 **/node_modules/
 **/config.js

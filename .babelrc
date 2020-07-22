@@ -1,12 +1,10 @@
 {
+	"env": {
+		"test": {
+			"plugins": ["istanbul"]
+		}
+	},
 	"plugins": [
-		[
-			"@babel/plugin-transform-react-jsx",
-			{
-				"pragma": "DOM.element",
-				"pragmaFrag": "DOM.fragment"
-			}
-		],
 		"@babel/proposal-class-properties",
 		[
 			"@babel/plugin-transform-runtime",
@@ -15,5 +13,15 @@
 			}
 		]
 	],
-	"presets": ["@babel/typescript", "@babel/preset-env"]
+	"presets": [
+		[
+			"@babel/preset-react",
+			{
+				"pragma": "DOM.element",
+				"pragmaFrag": "DOM.fragment"
+			}
+		],
+		"@babel/typescript",
+		"@babel/preset-env"
+	]
 }

@@ -345,6 +345,10 @@ function getWebpackConfig(env) {
 		module: {
 			rules: [
 				{
+					test: /\.html$/,
+					loader: 'html-loader',
+				},
+				{
 					loaders: [loaders.style, loaders.css],
 					test: /\.css$/,
 				},
