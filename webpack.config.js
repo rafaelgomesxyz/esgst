@@ -2,6 +2,7 @@
  * @typedef {Object} Environment
  * @property {boolean} development
  * @property {boolean} production
+ * @property {boolean} test
  * @property {boolean} temporary
  * @property {boolean} withWatch
  * @property {string} v
@@ -327,33 +328,19 @@ async function runFinalSteps(env) {
 /**
  * @param {Environment} env
  */
-async function getWebpackConfig(env) {
+function getWebpackConfig(env) {
 	let mode;
 
 	if (env.production) {
 		mode = 'production';
-	} else if (env.development) {
+	} else if (env.development || env.test) {
 		mode = 'development';
 	} else {
 		mode = 'none';
 	}
 
-	return {
-		devtool: env.production ? false : 'source-map',
-		entry: {
-			'./chrome/eventPage': ['./src/entry/eventPage_index.js'],
-			'./chrome/esgst': ['./src/entry/index.js'],
-			'./chrome/esgst_sgtools': ['./src/entry/index_sgtools.js'],
-			'./chrome/permissions': ['./src/entry/permissions_index.js'],
-			'./firefox/eventPage': ['./src/entry/eventPage_index.js'],
-			'./firefox/esgst': ['./src/entry/index.js'],
-			'./firefox/esgst_sgtools': ['./src/entry/index_sgtools.js'],
-			'./firefox/permissions': ['./src/entry/permissions_index.js'],
-			'./palemoon/index': ['./src/entry/eventPage_sdk_index.js'],
-			'./palemoon/data/esgst': ['./src/entry/sdk_index.js'],
-			'./palemoon/data/esgst_sgtools': ['./src/entry/sdk_index_sgtools.js'],
-			'./userscript/esgst.user': ['./src/entry/gm_index.js'],
-		},
+	const config = {
+		devtool: env.production || env.test ? false : 'source-map',
 		mode,
 		module: {
 			rules: [
@@ -370,47 +357,11 @@ async function getWebpackConfig(env) {
 				},
 			],
 		},
-		output: {
-			filename: '[name].js',
-			path: path.resolve(BASE_PATH, 'build'),
-		},
 		plugins: [
-			new plugins.banner({
-				banner: fs.readFileSync('./src/entry/eventPage_sdk_banner.js', 'utf8'),
-				entryOnly: true,
-				raw: true,
-				test: /index\.js$/,
-			}),
-			// @ts-ignore
-			new plugins.banner({
-				banner: () => {
-					const bannerFilePath = './src/entry/monkey_banner.js';
-
-					if (!fs.existsSync(bannerFilePath)) {
-						return '';
-					}
-
-					return calfinated.process(fs.readFileSync(bannerFilePath, 'utf8'), {
-						package: packageJson,
-					});
-				},
-				entryOnly: true,
-				raw: true,
-				test: /user\.js$/,
-			}),
 			new plugins.circularDependency({
 				cwd: process.cwd(),
 				exclude: /node_modules/,
 				failOnError: true,
-			}),
-			new plugins.clean({
-				cleanOnceBeforeBuildPatterns: [
-					path.join(process.cwd(), './build/**/*'),
-					path.join(process.cwd(), './dist/*.zip'),
-					path.join(process.cwd(), './dist/*.xpi'),
-					path.join(process.cwd(), './dist/*.meta.js'),
-					path.join(process.cwd(), `./dist/*.user.js`),
-				],
 			}),
 			// @ts-ignore
 			new plugins.progressBar(),
@@ -420,7 +371,6 @@ async function getWebpackConfig(env) {
 				jQuery: 'jquery',
 				'window.jQuery': 'jquery',
 			}),
-			new plugins.runAfterBuild(() => runFinalSteps(env)),
 		],
 		resolve: {
 			extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
@@ -432,6 +382,63 @@ async function getWebpackConfig(env) {
 			poll: 1000,
 		},
 	};
+	if (env.test) {
+		return config;
+	}
+	config.entry = {
+		'./chrome/eventPage': ['./src/entry/eventPage_index.js'],
+		'./chrome/esgst': ['./src/entry/index.js'],
+		'./chrome/esgst_sgtools': ['./src/entry/index_sgtools.js'],
+		'./chrome/permissions': ['./src/entry/permissions_index.js'],
+		'./firefox/eventPage': ['./src/entry/eventPage_index.js'],
+		'./firefox/esgst': ['./src/entry/index.js'],
+		'./firefox/esgst_sgtools': ['./src/entry/index_sgtools.js'],
+		'./firefox/permissions': ['./src/entry/permissions_index.js'],
+		'./palemoon/index': ['./src/entry/eventPage_sdk_index.js'],
+		'./palemoon/data/esgst': ['./src/entry/sdk_index.js'],
+		'./palemoon/data/esgst_sgtools': ['./src/entry/sdk_index_sgtools.js'],
+		'./userscript/esgst.user': ['./src/entry/gm_index.js'],
+	};
+	config.output = {
+		filename: '[name].js',
+		path: path.resolve(BASE_PATH, 'build'),
+	};
+	config.plugins.push(
+		new plugins.banner({
+			banner: fs.readFileSync('./src/entry/eventPage_sdk_banner.js', 'utf8'),
+			entryOnly: true,
+			raw: true,
+			test: /index\.js$/,
+		}),
+		// @ts-ignore
+		new plugins.banner({
+			banner: () => {
+				const bannerFilePath = './src/entry/monkey_banner.js';
+
+				if (!fs.existsSync(bannerFilePath)) {
+					return '';
+				}
+
+				return calfinated.process(fs.readFileSync(bannerFilePath, 'utf8'), {
+					package: packageJson,
+				});
+			},
+			entryOnly: true,
+			raw: true,
+			test: /user\.js$/,
+		}),
+		new plugins.clean({
+			cleanOnceBeforeBuildPatterns: [
+				path.join(process.cwd(), './build/**/*'),
+				path.join(process.cwd(), './dist/*.zip'),
+				path.join(process.cwd(), './dist/*.xpi'),
+				path.join(process.cwd(), './dist/*.meta.js'),
+				path.join(process.cwd(), `./dist/*.user.js`),
+			],
+		}),
+		new plugins.runAfterBuild(() => runFinalSteps(env))
+	);
+	return config;
 }
 
 module.exports = getWebpackConfig;
