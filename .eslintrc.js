@@ -28,6 +28,7 @@ module.exports = {
 						allowTemplateLiterals: false,
 					},
 				],
+				'react/react-in-jsx-scope': 'off',
 			},
 		},
 		{
@@ -57,6 +58,7 @@ module.exports = {
 						classPropertiesAllowed: true,
 					},
 				],
+				'react/react-in-jsx-scope': 'off',
 			},
 		},
 	],
