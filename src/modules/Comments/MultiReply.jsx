@@ -8,17 +8,16 @@ class CommentsMultiReply extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							`Replaces SteamGifts' native comment box (in any page) with a comment box that allows you to reply to multiple comments at the same time and does not reload the page after submitting a reply (submitting a comment that is not a reply to another comment still reloads the page).`,
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Replaces SteamGifts' native comment box (in any page) with a comment box that allows you
+						to reply to multiple comments at the same time and does not reload the page after
+						submitting a reply (submitting a comment that is not a reply to another comment still
+						reloads the page).
+					</li>
+				</ul>
+			),
 			id: 'mr',
 			name: 'Multi-Reply',
 			sg: true,

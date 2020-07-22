@@ -8,23 +8,15 @@ class CommentsCommentSearcher extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							[
-								`Adds a button (`,
-								['i', { class: 'fa fa-comments' }],
-								' ',
-								['i', { class: 'fa fa-search' }],
-								`) to the main page heading of any page that allows you to search for comments made by specific users in the page.`,
-							],
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Adds a button (<i className="fa fa-comments"></i> <i className="fa fa-search"></i>) to
+						the main page heading of any page that allows you to search for comments made by
+						specific users in the page.
+					</li>
+				</ul>
+			),
 			id: 'cs',
 			name: 'Comment Searcher',
 			sg: true,

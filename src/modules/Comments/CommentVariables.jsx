@@ -1,14 +1,17 @@
 import { Module } from '../../class/Module';
 import { Shared } from '../../class/Shared';
 import { Settings } from '../../class/Settings';
+import { DOM } from '../../class/DOM';
 
 class CommentsCommentVariables extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				['ul', [['li', 'Replaces certain variables with values when submitting a comment.']]],
-			],
+			description: () => (
+				<ul>
+					<li>Replaces certain variables with values when submitting a comment.</li>
+				</ul>
+			),
 			id: 'cv',
 			name: 'Comment Variables',
 			sg: true,

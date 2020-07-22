@@ -11,119 +11,67 @@ class CommentsCommentTracker extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							`Keeps track of any comments (in any page) and fades out comments that you have marked as read so that you can easily see which comments you have read/unread in the page.`,
-						],
-						['li', 'Comments made by yourself are automatically marked as read.'],
-						[
-							'li',
-							`The comments are tracked by saving the date when they were made. If a comment is edited then the date when it was last edited is saved instead, so if you had previously marked a comment as read and that comment was edited, it will now appear as unread.`,
-						],
-						[
-							'li',
-							[
-								'Adds a panel to the "Comments" column of any ',
-								['a', { href: `https://www.steamgifts.com/discussions` }, 'discussions'],
-								'/',
-								['a', { href: `https://www.steamgifts.com/support/tickets` }, 'tickets'],
-								'/',
-								['a', { href: `https://www.steamtrades.com/trades` }, 'trades'],
-								` pages and to the main page heading of any page containing:`,
-							],
-						],
-						[
-							'ul',
-							[
-								[
-									'li',
-									'A red number in parenthesis indicating how many unread comments there are in the thread.',
-								],
-								[
-									'li',
-									[
-										`A button (`,
-										['i', { class: 'fa fa-comments' }],
-										`) that allows you to go to the first unread comment of the thread/page.`,
-									],
-								],
-								[
-									'li',
-									[
-										`A button (`,
-										['i', { class: 'fa fa-eye' }],
-										`) that allows you to mark every comment in the thread/page as read.`,
-									],
-								],
-								[
-									'li',
-									[
-										`A button (`,
-										['i', { class: 'fa fa-eye-slash' }],
-										`) that allows you to mark every comment in the thread/page as unread.`,
-									],
-								],
-							],
-						],
-						['li', `Adds a panel next a comment's "Permalink" (in any page) containing:`],
-						[
-							'ul',
-							[
-								[
-									'li',
-									[
-										`A button (`,
-										['i', { class: 'fa fa-eye' }],
-										`) that allows you to mark the comment as read.`,
-									],
-								],
-								[
-									'li',
-									[
-										`A button (`,
-										['i', { class: 'fa fa-eye-slash' }],
-										`) that allows you to mark the comment as unread.`,
-									],
-								],
-								[
-									'li',
-									[
-										`A button (`,
-										['i', { class: 'fa fa-eye' }],
-										' ',
-										['i', { class: 'fa fa-angle-double-right' }],
-										`) that allows you to mark the comment as read and go to the next unread comment.`,
-									],
-								],
-								[
-									'li',
-									[
-										`A button (`,
-										['i', { class: 'fa fa-eye' }],
-										' ',
-										['i', { class: 'fa fa-angle-up' }],
-										`) that allows you to mark every comment from the comment upward as read.`,
-									],
-								],
-								[
-									'li',
-									[
-										`A button (`,
-										['i', { class: 'fa fa-eye-slash' }],
-										' ',
-										['i', { class: 'fa fa-angle-up' }],
-										`) that allows you to mark every comment from the comment upward as unread.`,
-									],
-								],
-							],
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Keeps track of any comments (in any page) and fades out comments that you have marked as
+						read so that you can easily see which comments you have read/unread in the page.
+					</li>
+					<li>Comments made by yourself are automatically marked as read.</li>
+					<li>
+						The comments are tracked by saving the date when they were made. If a comment is edited
+						then the date when it was last edited is saved instead, so if you had previously marked
+						a comment as read and that comment was edited, it will now appear as unread.
+					</li>
+					<li>
+						Adds a panel to the "Comments" column of any{' '}
+						<a href="https://www.steamgifts.com/discussions">discussions</a>/
+						<a href="https://www.steamgifts.com/support/tickets">tickets</a>/
+						<a href="https://www.steamtrades.com/trades">trades</a> pages and to the main page
+						heading of any page containing:
+					</li>
+					<ul>
+						<li>
+							A red number in parenthesis indicating how many unread comments there are in the
+							thread.
+						</li>
+						<li>
+							A button (<i className="fa fa-comments"></i>) that allows you to go to the first
+							unread comment of the thread/page.
+						</li>
+						<li>
+							A button (<i className="fa fa-eye"></i>) that allows you to mark every comment in the
+							thread/page as read.
+						</li>
+						<li>
+							A button (<i className="fa fa-eye-slash"></i>) that allows you to mark every comment
+							in the thread/page as unread.
+						</li>
+					</ul>
+					<li>Adds a panel next a comment's "Permalink" (in any page) containing:</li>
+					<ul>
+						<li>
+							A button (<i className="fa fa-eye"></i>) that allows you to mark the comment as read.
+						</li>
+						<li>
+							A button (<i className="fa fa-eye-slash"></i>) that allows you to mark the comment as
+							unread.
+						</li>
+						<li>
+							A button (<i className="fa fa-eye"></i> <i className="fa fa-angle-double-right"></i>)
+							that allows you to mark the comment as read and go to the next unread comment.
+						</li>
+						<li>
+							A button (<i className="fa fa-eye"></i> <i className="fa fa-angle-up"></i>) that
+							allows you to mark every comment from the comment upward as read.
+						</li>
+						<li>
+							A button (<i className="fa fa-eye-slash"></i> <i className="fa fa-angle-up"></i>) that
+							allows you to mark every comment from the comment upward as unread.
+						</li>
+					</ul>
+				</ul>
+			),
 			features: {
 				ct_a: {
 					name:
@@ -142,29 +90,29 @@ class CommentsCommentTracker extends Module {
 					st: true,
 				},
 				ct_s: {
-					description: [
-						[
-							'ul',
-							[
-								[
-									'li',
-									`The simplified version of the tracker does not have the concept of read/unread comments, but simply shows the red number of comments that were made since you last visited a thread, so the comments are not tracked by date (they are tracked by quantity) and there are no buttons to go to the first unread comment of a thread/page or mark comments as read/unread.`,
-								],
-								[
-									'li',
-									`If you mark a thread as visited with [id=gdttt], all of the comments in the thread will be considered as "read", and if you mark it as unvisited, they will be considered as "unread".`,
-								],
-							],
-						],
-					],
+					description: () => (
+						<ul>
+							<li>
+								The simplified version of the tracker does not have the concept of read/unread
+								comments, but simply shows the red number of comments that were made since you last
+								visited a thread, so the comments are not tracked by date (they are tracked by
+								quantity) and there are no buttons to go to the first unread comment of a
+								thread/page or mark comments as read/unread.
+							</li>
+							<li>
+								If you mark a thread as visited with [id=gdttt], all of the comments in the thread
+								will be considered as "read", and if you mark it as unvisited, they will be
+								considered as "unread".
+							</li>
+						</ul>
+					),
 					features: {
 						ct_s_h: {
-							description: [
-								[
-									'ul',
-									[['li', 'Only shows the red number for a thread after you have visited it.']],
-								],
-							],
+							description: () => (
+								<ul>
+									<li>Only shows the red number for a thread after you have visited it.</li>
+								</ul>
+							),
 							name: 'Hide the counter if you have not visited the thread yet.',
 							sg: true,
 							st: true,
@@ -180,17 +128,14 @@ class CommentsCommentTracker extends Module {
 					st: true,
 				},
 				ct_r: {
-					description: [
-						[
-							'ul',
-							[
-								[
-									'li',
-									`Searches pages for an unread comment from the bottom to the top if [id=cr] is disabled or from the top to the bottom if it is enabled.`,
-								],
-							],
-						],
-					],
+					description: () => (
+						<ul>
+							<li>
+								Searches pages for an unread comment from the bottom to the top if [id=cr] is
+								disabled or from the top to the bottom if it is enabled.
+							</li>
+						</ul>
+					),
 					name: 'Search for the first unread comment in reverse order.',
 					sg: true,
 					st: true,

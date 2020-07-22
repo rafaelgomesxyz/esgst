@@ -7,25 +7,19 @@ class CommentsCommentHistory extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							`Replaces SteamGifts' native comment button with a new one, so that ESGST can track your comments.`,
-						],
-						[
-							'li',
-							[
-								`Adds a button (`,
-								['i', { class: 'fa fa-comments esgst-yellow' }],
-								` My Comment History) to the dropdown menu accessible by clicking on the arrow next to your avatar at the header of any page that allows you to view your comment history.`,
-							],
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Replaces SteamGifts' native comment button with a new one, so that ESGST can track your
+						comments.
+					</li>
+					<li>
+						Adds a button (<i className="fa fa-comments esgst-yellow"></i> My Comment History) to
+						the dropdown menu accessible by clicking on the arrow next to your avatar at the header
+						of any page that allows you to view your comment history.
+					</li>
+				</ul>
+			),
 			id: 'ch',
 			name: 'Comment History',
 			sg: true,

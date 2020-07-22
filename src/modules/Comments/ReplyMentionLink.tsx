@@ -5,21 +5,18 @@ class CommentsReplyMentionLink extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							`Adds a link (@user) next to a reply's "Permalink" (in any page) that mentions the user being replied to and links to their comment.`,
-						],
-						[
-							'li',
-							`This feature is useful for conversations that have very deep nesting levels, which makes it impossible to know who replied to whom.`,
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Adds a link (@user) next to a reply's "Permalink" (in any page) that mentions the user
+						being replied to and links to their comment.
+					</li>
+					<li>
+						This feature is useful for conversations that have very deep nesting levels, which makes
+						it impossible to know who replied to whom.
+					</li>
+				</ul>
+			),
 			id: 'rml',
 			name: 'Reply Mention Link',
 			sg: true,

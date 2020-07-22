@@ -9,21 +9,15 @@ class CommentsReceivedReplyBoxPopup extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							[
-								`Pops up a reply box when you mark a giveaway as received (in your `,
-								['a', { href: `https://www.steamgifts.com/giveaways/won` }, 'won'],
-								` page) so that you can add a comment thanking the creator.`,
-							],
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Pops up a reply box when you mark a giveaway as received (in your{' '}
+						<a href="https://www.steamgifts.com/giveaways/won">won</a> page) so that you can add a
+						comment thanking the creator.
+					</li>
+				</ul>
+			),
 			id: 'rrbp',
 			name: 'Received Reply Box Popup',
 			sg: true,

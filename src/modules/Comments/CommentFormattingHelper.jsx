@@ -13,460 +13,341 @@ class CommentsCommentFormattingHelper extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							[
-								`When you click on any text area (in any page) to start writing a comment, a panel is added above it that helps you use SteamGifts' `,
-								[
-									'a',
-									{ href: `https://www.steamgifts.com/about/comment-formatting` },
-									'comment formatting',
-								],
-								'.',
-							],
-						],
-						[
-							'li',
-							[
-								`There is a button (`,
-								['i', { class: 'fa fa-paste' }],
-								' if enabled and ',
-								['i', { class: 'fa fa-paste esgst-faded' }],
-								` if disabled) in the panel that allows the feature to automatically format links/images pasted into the text area.`,
-							],
-						],
-						[
-							'li',
-							[
-								`There are also buttons (`,
-								['i', { class: 'fa fa-rotate-right' }],
-								' to redo and ',
-								['i', { class: 'fa fa-rotate-left' }],
-								` to undo) in the panel that allow you to redo/undo any formatting added.`,
-							],
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						When you click on any text area (in any page) to start writing a comment, a panel is
+						added above it that helps you use SteamGifts'{' '}
+						<a href="https://www.steamgifts.com/about/comment-formatting">comment formatting</a>.
+					</li>
+					<li>
+						There is a button (<i className="fa fa-paste"></i> if enabled and{' '}
+						<i className="fa fa-paste esgst-faded"></i> if disabled) in the panel that allows the
+						feature to automatically format links/images pasted into the text area.
+					</li>
+					<li>
+						There are also buttons (<i className="fa fa-rotate-right"></i> to redo and{' '}
+						<i className="fa fa-rotate-left"></i> to undo) in the panel that allow you to redo/undo
+						any formatting added.
+					</li>
+				</ul>
+			),
 			features: {
 				cfh_bq: {
-					description: [
-						[
-							'ul',
-							[
-								[
-									'li',
-									[
-										`Adds a button (`,
-										['i', { class: 'fa fa-quote-left' }],
-										` ) to the panel that allows you to write text like shown below.`,
-									],
-								],
-							],
-						],
-						['blockquote', 'Blockquote'],
-					],
+					description: () => (
+						<fragment>
+							<ul>
+								<li>
+									Adds a button (<i className="fa fa-quote-left"></i> ) to the panel that allows you
+									to write text like shown below.
+								</li>
+							</ul>
+							<blockquote>Blockquote</blockquote>
+						</fragment>
+					),
 					name: 'Blockquote',
 					sg: true,
 					st: true,
 				},
 				cfh_b: {
-					description: [
-						[
-							'ul',
-							[
-								[
-									'li',
-									`Adds a button (B) to the panel that allows you to write text like shown below.`,
-								],
-							],
-						],
-						['strong', 'Bold'],
-					],
+					description: () => (
+						<fragment>
+							<ul>
+								<li>
+									Adds a button (B) to the panel that allows you to write text like shown below.
+								</li>
+							</ul>
+							<strong>Bold</strong>
+						</fragment>
+					),
 					name: 'Bold',
 					sg: true,
 					st: true,
 				},
 				cfh_h1: {
-					description: [
-						[
-							'ul',
-							[
-								[
-									'li',
-									`Adds a button (H¹) to the panel that allows you to write text like shown below.`,
-								],
-							],
-						],
-						['h1', 'Heading 1'],
-					],
+					description: () => (
+						<fragment>
+							<ul>
+								<li>
+									Adds a button (H¹) to the panel that allows you to write text like shown below.
+								</li>
+							</ul>
+							<h1>Heading 1</h1>
+						</fragment>
+					),
 					name: 'Heading 1',
 					sg: true,
 					st: true,
 				},
 				cfh_h2: {
-					description: [
-						[
-							'ul',
-							[
-								[
-									'li',
-									`Adds a button (H²) to the panel that allows you to write text like shown below.`,
-								],
-							],
-						],
-						['h2', 'Heading 2'],
-					],
+					description: () => (
+						<fragment>
+							<ul>
+								<li>
+									Adds a button (H²) to the panel that allows you to write text like shown below.
+								</li>
+							</ul>
+							<h2>Heading 2</h2>
+						</fragment>
+					),
 					name: 'Heading 2',
 					sg: true,
 					st: true,
 				},
 				cfh_h3: {
-					description: [
-						[
-							'ul',
-							[
-								[
-									'li',
-									`Adds a button (H³) to the panel that allows you to write text like shown below.`,
-								],
-							],
-						],
-						['h3', 'Heading 3'],
-					],
+					description: () => (
+						<fragment>
+							<ul>
+								<li>
+									Adds a button (H³) to the panel that allows you to write text like shown below.
+								</li>
+							</ul>
+							<h3>Heading 3</h3>
+						</fragment>
+					),
 					name: 'Heading 3',
 					sg: true,
 					st: true,
 				},
 				cfh_ic: {
-					description: [
-						[
-							'ul',
-							[
-								[
-									'li',
-									[
-										`Adds a button (`,
-										['i', { class: 'fa fa-code' }],
-										` ) to the panel that allows you to write text like shown below.`,
-									],
-								],
-							],
-						],
-						['p', ['Inline ', ['code', 'Code']]],
-					],
+					description: () => (
+						<fragment>
+							<ul>
+								<li>
+									Adds a button (<i className="fa fa-code"></i> ) to the panel that allows you to
+									write text like shown below.
+								</li>
+							</ul>
+							<p>
+								Inline <code>Code</code>
+							</p>
+						</fragment>
+					),
 					name: 'Inline Code',
 					sg: true,
 					st: true,
 				},
 				cfh_i: {
-					description: [
-						[
-							'ul',
-							[
-								[
-									'li',
-									`Adds a button (I) to the panel that allows you to write text like shown below.`,
-								],
-							],
-						],
-						['em', 'Italic'],
-					],
+					description: () => (
+						<fragment>
+							<ul>
+								<li>
+									Adds a button (I) to the panel that allows you to write text like shown below.
+								</li>
+							</ul>
+							<em>Italic</em>
+						</fragment>
+					),
 					name: 'Italic',
 					sg: true,
 					st: true,
 				},
 				cfh_lb: {
-					description: [
-						[
-							'ul',
-							[
-								[
-									'li',
-									[
-										`Adds a button (`,
-										['i', { class: 'fa fa-minus' }],
-										`) to the panel that allows you to write text like shown below.`,
-									],
-								],
-							],
-						],
-						['p', 'Line'],
-						['hr'],
-						['p', 'Break'],
-					],
+					description: () => (
+						<fragment>
+							<ul>
+								<li>
+									Adds a button (<i className="fa fa-minus"></i>) to the panel that allows you to
+									write text like shown below.
+								</li>
+							</ul>
+							<p>Line</p>
+							<hr></hr>
+							<p>Break</p>
+						</fragment>
+					),
 					name: 'Line Break',
 					sg: true,
 					st: true,
 				},
 				cfh_lc: {
-					description: [
-						[
-							'ul',
-							[
-								[
-									'li',
-									[
-										`Adds a button (`,
-										['i', { class: 'fa fa-code' }],
-										['i', { class: 'fa fa-indent' }],
-										`) to the panel that allows you to write text like shown below.`,
-									],
-								],
-							],
-						],
-						['code', 'Line Code'],
-					],
+					description: () => (
+						<fragment>
+							<ul>
+								<li>
+									Adds a button (<i className="fa fa-code"></i>
+									<i className="fa fa-indent"></i>) to the panel that allows you to write text like
+									shown below.
+								</li>
+							</ul>
+							<code>Line Code</code>
+						</fragment>
+					),
 					name: 'Line Code',
 					sg: true,
 					st: true,
 				},
 				cfh_ol: {
-					description: [
-						[
-							'ul',
-							[
-								[
-									'li',
-									[
-										`Adds a button (`,
-										['i', { class: 'fa fa-list-ol' }],
-										`) to the panel that allows you to write text like shown below.`,
-									],
-								],
-							],
-						],
-						[
-							'ol',
-							[
-								['li', 'Ordered'],
-								['li', 'List'],
-							],
-						],
-					],
+					description: () => (
+						<fragment>
+							<ul>
+								<li>
+									Adds a button (<i className="fa fa-list-ol"></i>) to the panel that allows you to
+									write text like shown below.
+								</li>
+							</ul>
+							<ol>
+								<li>Ordered</li>
+								<li>List</li>
+							</ol>
+						</fragment>
+					),
 					name: 'Ordered List',
 					sg: true,
 					st: true,
 				},
 				cfh_pc: {
-					description: [
-						[
-							'ul',
-							[
-								[
-									'li',
-									[
-										`Adds a button (`,
-										['i', { class: 'fa fa-code' }],
-										['i', { class: 'fa fa-paragraph' }],
-										`) to the panel that allows you to write text like shown below.`,
-									],
-								],
-							],
-						],
-						['pre', [['code', 'Paragraph Code']]],
-					],
+					description: () => (
+						<fragment>
+							<ul>
+								<li>
+									Adds a button (<i className="fa fa-code"></i>
+									<i className="fa fa-paragraph"></i>) to the panel that allows you to write text
+									like shown below.
+								</li>
+							</ul>
+							<pre>
+								<code>Paragraph Code</code>
+							</pre>
+						</fragment>
+					),
 					name: 'Paragraph Code',
 					sg: true,
 					st: true,
 				},
 				cfh_s: {
-					description: [
-						[
-							'ul',
-							[
-								[
-									'li',
-									[
-										`Adds a button (`,
-										['i', { class: 'fa fa-eye-slash' }],
-										`) to the panel that allows you to write text like shown below.`,
-									],
-								],
-							],
-						],
-						['span', { class: 'spoiler' }, 'Spoiler'],
-					],
+					description: () => (
+						<fragment>
+							<ul>
+								<li>
+									Adds a button (<i className="fa fa-eye-slash"></i>) to the panel that allows you
+									to write text like shown below.
+								</li>
+							</ul>
+							<span className="spoiler">Spoiler</span>
+						</fragment>
+					),
 					name: 'Spoiler',
 					sg: true,
 					st: true,
 				},
 				cfh_st: {
-					description: [
-						[
-							'ul',
-							[
-								[
-									'li',
-									[
-										`Adds a button (`,
-										['i', { class: 'fa fa- strikethrough' }],
-										`) to the panel that allows you to write text like shown below.`,
-									],
-								],
-							],
-						],
-						['del', 'Strikethrough'],
-					],
+					description: () => (
+						<fragment>
+							<ul>
+								<li>
+									Adds a button (<i className="fa fa- strikethrough"></i>) to the panel that allows
+									you to write text like shown below.
+								</li>
+							</ul>
+							<del>Strikethrough</del>
+						</fragment>
+					),
 					name: 'Strikethrough',
 					sg: true,
 					st: true,
 				},
 				cfh_ul: {
-					description: [
-						[
-							'ul',
-							[
-								[
-									'li',
-									[
-										`Adds a button (`,
-										['i', { class: 'fa fa-list-ul' }],
-										`) to the panel that allows you to write text like shown below.`,
-									],
-								],
-							],
-						],
-						[
-							'ul',
-							[
-								['li', 'Unordered'],
-								['li', 'LIst'],
-							],
-						],
-					],
+					description: () => (
+						<fragment>
+							<ul>
+								<li>
+									Adds a button (<i className="fa fa-list-ul"></i>) to the panel that allows you to
+									write text like shown below.
+								</li>
+							</ul>
+							<ul>
+								<li>Unordered</li>
+								<li>List</li>
+							</ul>
+						</fragment>
+					),
 					name: 'Unordered List',
 					sg: true,
 					st: true,
 				},
 				cfh_img: {
-					description: [
-						[
-							'ul',
-							[
-								[
-									'li',
-									[
-										`Adds a button(`,
-										['i', { class: 'fa fa-image' }],
-										`) to the panel that allows you to add images to your comments with an interface where you can enter the title and the URL of the image and let ESGST format it.`,
-									],
-								],
-								[
-									'li',
-									[
-										'You can also upload images from your computer instead of using a URL. The images will be uploaded to ',
-										['a', { href: `https://imgur.com` }, 'Imgur'],
-										'.',
-									],
-								],
-							],
-						],
-					],
+					description: () => (
+						<ul>
+							<li>
+								Adds a button(<i className="fa fa-image"></i>) to the panel that allows you to add
+								images to your comments with an interface where you can enter the title and the URL
+								of the image and let ESGST format it.
+							</li>
+							<li>
+								You can also upload images from your computer instead of using a URL. The images
+								will be uploaded to <a href="https://imgur.com">Imgur</a>.
+							</li>
+						</ul>
+					),
 					name: 'Image',
 					sg: true,
 					st: true,
 				},
 				cfh_l: {
-					description: [
-						[
-							'ul',
-							[
-								[
-									'li',
-									[
-										`Adds a button(`,
-										['i', { class: 'fa fa-globe' }],
-										`) to the panel that allows you to add links to your comments with an interface where you can enter the title and the URL of the link and let ESGST format it.`,
-									],
-								],
-							],
-						],
-					],
+					description: () => (
+						<ul>
+							<li>
+								Adds a button(<i className="fa fa-globe"></i>) to the panel that allows you to add
+								links to your comments with an interface where you can enter the title and the URL
+								of the link and let ESGST format it.
+							</li>
+						</ul>
+					),
 					name: 'Link',
 					sg: true,
 					st: true,
 				},
 				cfh_t: {
-					description: [
-						[
-							'ul',
-							[
-								[
-									'li',
-									[
-										`Adds a button(`,
-										['i', { class: 'fa fa-table' }],
-										`) to the panel that allows you to add tables to your comments with an interface where you can dynamically add as many rows / columns as you want, align each column however you want, enter the value for each cell and let ESGST format it.`,
-									],
-								],
-							],
-						],
-					],
+					description: () => (
+						<ul>
+							<li>
+								Adds a button(<i className="fa fa-table"></i>) to the panel that allows you to add
+								tables to your comments with an interface where you can dynamically add as many rows
+								/ columns as you want, align each column however you want, enter the value for each
+								cell and let ESGST format it.
+							</li>
+						</ul>
+					),
 					name: 'Table',
 					sg: true,
 					st: true,
 				},
 				cfh_e: {
-					description: [
-						[
-							'ul',
-							[
-								[
-									'li',
-									[
-										`Adds a button(`,
-										['i', { class: 'fa fa-smile-o' }],
-										`) to the panel that allows you to add emojis to your comments by selecting them out of a huge list of emojis.`,
-									],
-								],
-							],
-						],
-					],
+					description: () => (
+						<ul>
+							<li>
+								Adds a button(<i className="fa fa-smile-o"></i>) to the panel that allows you to add
+								emojis to your comments by selecting them out of a huge list of emojis.
+							</li>
+						</ul>
+					),
 					name: 'Emoji',
 					sg: true,
 					st: true,
 				},
 				cfh_g: {
-					description: [
-						[
-							'ul',
-							[
-								[
-									'li',
-									[
-										`Adds a button(`,
-										['i', { class: 'fa fa-star' }],
-										`) to the panel that allows you to add encrypted giveaways(see [id=ged] for more details about them) to your comments.`,
-									],
-								],
-							],
-						],
-					],
+					description: () => (
+						<ul>
+							<li>
+								Adds a button(<i className="fa fa-star"></i>) to the panel that allows you to add
+								encrypted giveaways(see [id=ged] for more details about them) to your comments.
+							</li>
+						</ul>
+					),
 					name: 'Giveaway Encrypter',
 					sg: true,
 					st: true,
 				},
 				cfh_p: {
-					description: [
-						[
-							'ul',
-							[
-								[
-									'li',
-									[
-										`Adds a button(`,
-										['i', { class: 'fa fa-eye' }],
-										`) to the panel that allows you to preview your comment before submitting it.`,
-									],
-								],
-							],
-						],
-					],
+					description: () => (
+						<ul>
+							<li>
+								Adds a button(<i className="fa fa-eye"></i>) to the panel that allows you to preview
+								your comment before submitting it.
+							</li>
+						</ul>
+					),
 					features: {
 						cfh_p_a: {
 							name: 'Automatically preview while typing.',
@@ -479,21 +360,14 @@ class CommentsCommentFormattingHelper extends Module {
 					st: true,
 				},
 				cfh_sr: {
-					description: [
-						[
-							'ul',
-							[
-								[
-									'li',
-									[
-										`Adds a button(`,
-										['i', { class: 'fa fa-floppy-o' }],
-										` ) to the panel that allows you to save replies that you frequently use so that you can reuse them later.`,
-									],
-								],
-							],
-						],
-					],
+					description: () => (
+						<ul>
+							<li>
+								Adds a button(<i className="fa fa-floppy-o"></i> ) to the panel that allows you to
+								save replies that you frequently use so that you can reuse them later.
+							</li>
+						</ul>
+					),
 					name: 'Saved Replies',
 					sg: true,
 					st: true,
@@ -505,55 +379,35 @@ class CommentsCommentFormattingHelper extends Module {
 					},
 				},
 				cfh_cf: {
-					description: [
-						[
-							'ul',
-							[
-								[
-									'li',
-									[
-										`Adds a button(`,
-										['i', { class: 'fa fa-question-circle' }],
-										` ) to the panel that links to SteamGifts' `,
-										[
-											'a',
-											{ href: `https://www.steamgifts.com/about/comment-formatting` },
-											'comment formatting page',
-										],
-										'.',
-									],
-								],
-							],
-						],
-					],
+					description: () => (
+						<ul>
+							<li>
+								Adds a button (<i className="fa fa-question-circle"></i>) to the panel that links to
+								SteamGifts'{' '}
+								<a href="https://www.steamgifts.com/about/comment-formatting">
+									comment formatting page
+								</a>
+								.
+							</li>
+						</ul>
+					),
 					name: 'Comment Formatting',
 					sg: true,
 					st: true,
 				},
 				cfh_ghwsgi: {
-					description: [
-						[
-							'ul',
-							[
-								[
-									'li',
-									[
-										`Adds a button (`,
-										['i', { class: 'fa fa-github' }],
-										` ) to the panel that allows you to easily generate links for `,
-										[
-											'a',
-											{
-												href: `https://www.steamgifts.com/discussion/fVwFM/github-wiki-steamgifts-integration`,
-											},
-											'GitHub Wiki SteamGifts Integration',
-										],
-										'.',
-									],
-								],
-							],
-						],
-					],
+					description: () => (
+						<ul>
+							<li>
+								Adds a button (<i className="fa fa-github"></i> ) to the panel that allows you to
+								easily generate links for{' '}
+								<a href="https://www.steamgifts.com/discussion/fVwFM/github-wiki-steamgifts-integration">
+									GitHub Wiki SteamGifts Integration
+								</a>
+								.
+							</li>
+						</ul>
+					),
 					name: 'GitHub Wiki SteamGifts Integration',
 					sg: true,
 					st: true,
