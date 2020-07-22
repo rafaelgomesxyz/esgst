@@ -1178,66 +1178,71 @@ class Common extends Module {
 			themes: {
 				features: {
 					sgDarkGrey: {
-						name: [
-							[
-								'a',
-								{ class: 'esgst-bold', href: `https://www.steamgifts.com/discussion/3rINT/` },
-								'SG Dark Grey',
-							],
-							` by SquishedPotatoe (Very high compatibility with ESGST elements - recommended)`,
-						],
+						name: 'SG Dark Grey by SquishedPotatoe',
+						customName: () => (
+							<fragment>
+								<a className="esgst-bold" href="https://www.steamgifts.com/discussion/3rINT/">
+									SG Dark Grey
+								</a>{' '}
+								by SquishedPotatoe (Very high compatibility with ESGST elements - recommended)
+							</fragment>
+						),
 						sg: true,
 						st: true,
 						sgtools: true,
 						theme: `https://userstyles.org/styles/141670.css`,
 					},
 					sgv2Dark: {
-						name: [
-							[
-								'a',
-								{ class: 'esgst-bold', href: `https://www.steamgifts.com/discussion/iO230/` },
-								'SGv2 Dark',
-							],
-							` by SquishedPotatoe (Very high compatibility with ESGST elements - recommended)`,
-						],
+						name: 'SGv2 Dark by SquishedPotatoe',
+						customName: () => (
+							<fragment>
+								<a className="esgst-bold" href="https://www.steamgifts.com/discussion/iO230/">
+									SGv2 Dark
+								</a>{' '}
+								by SquishedPotatoe (Very high compatibility with ESGST elements - recommended)
+							</fragment>
+						),
 						sg: true,
 						st: true,
 						sgtools: true,
 						theme: `https://userstyles.org/styles/109810.css`,
 					},
 					steamGiftiesBlack: {
-						name: [
-							[
-								'a',
-								{ class: 'esgst-bold', href: `https://www.steamgifts.com/discussion/62TRf/` },
-								'SteamGifties Black',
-							],
-							` by Mully (Medium compatibility with ESGST elements)`,
-						],
+						name: 'SteamGifties Black by Mully',
+						customName: () => (
+							<fragment>
+								<a className="esgst-bold" href="https://www.steamgifts.com/discussion/62TRf/">
+									SteamGifties Black
+								</a>{' '}
+								by Mully (Medium compatibility with ESGST elements)
+							</fragment>
+						),
 						sg: true,
 						theme: `https://userstyles.org/styles/110675.css`,
 					},
 					steamGiftiesBlue: {
-						name: [
-							[
-								'a',
-								{ class: 'esgst-bold', href: `https://www.steamgifts.com/discussion/62TRf/` },
-								'SteamGifties Blue',
-							],
-							` by Mully (Medium compatibility with ESGST elements)`,
-						],
+						name: 'SteamGifties Blue by Mully',
+						customName: () => (
+							<fragment>
+								<a className="esgst-bold" href="https://www.steamgifts.com/discussion/62TRf/">
+									SteamGifties Blue
+								</a>{' '}
+								by Mully (Medium compatibility with ESGST elements)
+							</fragment>
+						),
 						sg: true,
 						theme: `https://userstyles.org/styles/110491.css`,
 					},
 					steamTradiesBlackBlue: {
-						name: [
-							[
-								'a',
-								{ class: 'esgst-bold', href: `https://www.steamgifts.com/discussion/FIdCm/` },
-								'SteamTradies Black/Blue',
-							],
-							` by Mully (No compatibility with ESGST elements)`,
-						],
+						name: 'SteamTradies Black/Blue by Mully',
+						customName: () => (
+							<fragment>
+								<a className="esgst-bold" href="https://www.steamgifts.com/discussion/FIdCm/">
+									SteamTradies Black/Blue
+								</a>{' '}
+								by Mully (No compatibility with ESGST elements)
+							</fragment>
+						),
 						st: true,
 						theme: `https://userstyles.org/styles/134348.css`,
 					},
@@ -6379,7 +6384,7 @@ class Common extends Module {
 					try {
 						settingsModule.loadMenu(true);
 					} catch (err) {
-						Logger.error(err);
+						Logger.error(err.message);
 					}
 				}
 			},

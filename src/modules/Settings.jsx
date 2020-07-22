@@ -608,10 +608,16 @@ class SettingsModule {
 			return;
 		}
 		const url = `${Shared.esgst.settingsUrl}&id=${id}`;
-		const featureName = feature.name.replace(
-			/\[id=(.+?)]/g,
-			Shared.common.getFeatureName.bind(Shared.common)
-		);
+		let featureName;
+		if (feature.customName) {
+			featureName = feature.customName();
+			this.replaceFeatureNamePlaceholders(featureName);
+		} else {
+			featureName = feature.name.replace(
+				/\[id=(.+?)]/g,
+				Shared.common.getFeatureName.bind(Shared.common)
+			);
+		}
 		const items = [
 			{
 				check: true,
@@ -877,10 +883,7 @@ class SettingsModule {
 		});
 		if (feature.description) {
 			const descriptionEl = feature.description();
-			const featureNamePlaceholders = descriptionEl.querySelectorAll('[data-esgst-feature-id]');
-			for (const featureNamePlaceholder of featureNamePlaceholders) {
-				featureNamePlaceholder.textContent = Shared.common.getFeatureName(null, featureNamePlaceholder.dataset.esgstFeatureId);
-			}
+			this.replaceFeatureNamePlaceholders(descriptionEl);
 			items.push({
 				check: true,
 				content: <div className="markdown">{descriptionEl}</div>,
@@ -1926,10 +1929,16 @@ class SettingsModule {
 				}
 			};
 		}
-		const featureName = feature.name.replace(
-			/\[id=(.+?)]/g,
-			Shared.common.getFeatureName.bind(Shared.common)
-		);
+		let featureName;
+		if (feature.customName) {
+			featureName = feature.customName();
+			this.replaceFeatureNamePlaceholders(featureName);
+		} else {
+			featureName = feature.name.replace(
+				/\[id=(.+?)]/g,
+				Shared.common.getFeatureName.bind(Shared.common)
+			);
+		}
 		DOM.insert(
 			menu,
 			'beforeend',
@@ -3721,6 +3730,16 @@ class SettingsModule {
 				settings: ['fh', 'fpmh', 'fs'],
 			},
 		];
+	}
+
+	replaceFeatureNamePlaceholders(referenceEl) {
+		const featureNamePlaceholders = referenceEl.querySelectorAll('[data-esgst-feature-id]');
+		for (const featureNamePlaceholder of featureNamePlaceholders) {
+			featureNamePlaceholder.textContent = Shared.common.getFeatureName(
+				null,
+				featureNamePlaceholder.dataset.esgstFeatureId
+			);
+		}
 	}
 }
 
