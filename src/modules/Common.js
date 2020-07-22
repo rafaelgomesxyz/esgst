@@ -1387,10 +1387,12 @@ class Common extends Module {
 				addScrollable: true,
 				icon: 'fa-smile-o',
 				isTemp: true,
-				title: [
-					['i', { class: 'fa fa-circle-o-notch fa-spin' }],
-					' Hi! ESGST is retrieving your avatar, username and Steam ID. This will not take long...',
-				],
+				title: (
+					<fragment>
+						<i className="fa fa-circle-o-notch fa-spin"></i> Hi! ESGST is retrieving your avatar,
+						username and Steam ID. This will not take long...
+					</fragment>
+				),
 			});
 			popup.open();
 			await this.checkSync(true);
@@ -1399,85 +1401,68 @@ class Common extends Module {
 				`All done, ${Settings.get('username')}! Here's some useful info on how to get started!`
 			);
 
-			popup.getScrollable([
-				[
-					'div',
-					{ class: 'markdown' },
-					[
-						[
-							'ul',
-							[
-								[
-									'li',
-									'ESGST comes with all features disabled. Use the ESGST button at the header to access the settings menu and start enabling features.',
-								],
-								[
-									'li',
-									'The page heading in the settings menu allows you to access many useful functionalities (sync data, backup data, restore data, delete data, clean old data, etc), as well as save any changes you have made.',
-								],
-								[
-									'li',
-									'To enable a feature, simply toggle the [SG] switch for SteamGifts or the [ST] switch for SteamTrades (you have to enable ESGST for SteamTrades in the "Other" section).',
-								],
-								[
-									'li',
-									'You can click on the name of the feature to get more details about it, such as what it does, additional settings for it, what data you need to sync in order for it to work properly (if any), and you can also specify where exactly you want it to run, instead of letting it run everywhere.',
-								],
-								[
-									'li',
-									'Some features require additional browser permissions in order to work propertly. Scroll to the end of the settings menu to find the "Permissions" section, where you can see what each permission is required for.',
-								],
-								['li', 'It is very important to back up your data often to prevent data loss.'],
-								[
-									'li',
-									'In the event of data loss, you can restore a previous backup to get your data back.',
-								],
-								[
-									'li',
-									[
-										'If you do not like popups, you can access the settings menu and all of the functionalities accessible from it through links in the sidebar on your account page, which will open a new page with the content instead of a popup in the same page. These are the links for quick access: ',
-										[
-											'a',
-											{
-												href: 'https://www.steamgifts.com/account/settings/profile?esgst=settings',
-											},
-											'Settings Menu',
-										],
-										', ',
-										[
-											'a',
-											{ href: 'https://www.steamgifts.com/account/settings/profile?esgst=sync' },
-											'Sync Data',
-										],
-										', ',
-										[
-											'a',
-											{ href: 'https://www.steamgifts.com/account/settings/profile?esgst=backup' },
-											'Backup Data',
-										],
-										', ',
-										[
-											'a',
-											{ href: 'https://www.steamgifts.com/account/settings/profile?esgst=restore' },
-											'Restore Data',
-										],
-										', ',
-										[
-											'a',
-											{ href: 'https://www.steamgifts.com/account/settings/profile?esgst=delete' },
-											'Delete Data',
-										],
-									],
-								],
-								[
-									'li',
-									"And that's the basics! ESGST can be very overwhelming with the huge number of features it has, but we want to make it as easy-to-use as possible, so make sure to leave your feedback in the SG thread. And please do not hesitate to report bugs. Enjoy!",
-								],
-							],
-						],
-					],
-				],
-			]);
+			popup.getScrollable(
+				<div className="markdown">
+					<ul>
+						<li>
+							ESGST comes with all features disabled. Use the ESGST button at the header to access
+							the settings menu and start enabling features.
+						</li>
+						<li>
+							'The page heading in the settings menu allows you to access many useful
+							functionalities (sync data, backup data, restore data, delete data, clean old data,
+							etc), as well as save any changes you have made.
+						</li>
+						<li>
+							To enable a feature, simply toggle the [SG] switch for SteamGifts or the [ST] switch
+							for SteamTrades (you have to enable ESGST for SteamTrades in the "Other" section).
+						</li>
+						<li>
+							You can click on the name of the feature to get more details about it, such as what it
+							does, additional settings for it, what data you need to sync in order for it to work
+							properly (if any), and you can also specify where exactly you want it to run, instead
+							of letting it run everywhere.
+						</li>
+						<li>
+							Some features require additional browser permissions in order to work propertly.
+							Scroll to the end of the settings menu to find the "Permissions" section, where you
+							can see what each permission is required for.
+						</li>
+						<li>It is very important to back up your data often to prevent data loss.</li>
+						<li>
+							In the event of data loss, you can restore a previous backup to get your data back.
+						</li>
+						<li>
+							If you do not like popups, you can access the settings menu and all of the
+							functionalities accessible from it through links in the sidebar on your account page,
+							which will open a new page with the content instead of a popup in the same page. These
+							are the links for quick access:{' '}
+							<a href="https://www.steamgifts.com/account/settings/profile?esgst=settings">
+								Settings Menu
+							</a>
+							,{' '}
+							<a href="https://www.steamgifts.com/account/settings/profile?esgst=sync">Sync Data</a>
+							,{' '}
+							<a href="https://www.steamgifts.com/account/settings/profile?esgst=backup">
+								Backup Data
+							</a>
+							,{' '}
+							<a href="https://www.steamgifts.com/account/settings/profile?esgst=restore">
+								Restore Data
+							</a>
+							,{' '}
+							<a href="https://www.steamgifts.com/account/settings/profile?esgst=delete">
+								Delete Data
+							</a>
+						</li>
+						<li>
+							And that's the basics! ESGST can be very overwhelming with the huge number of features
+							it has, but we want to make it as easy-to-use as possible, so make sure to leave your
+							feedback in the SG thread. And please do not hesitate to report bugs. Enjoy!
+						</li>
+					</ul>
+				</div>
+			);
 			Shared.esgst.isFirstRun = false;
 		} else if (Shared.esgst.isUpdate && Settings.get('showChangelog')) {
 			const hasPermission = await permissions.contains([['gitlab']]);
@@ -1487,15 +1472,17 @@ class Common extends Module {
 					addScrollable: true,
 					icon: 'fa-check',
 					isTemp: true,
-					title: [
-						`ESGST has updated from v${Shared.esgst.previousVersion} to v${Shared.esgst.currentVersion}! Please go to `,
-						[
-							'a',
-							{ href: 'https://gitlab.com/rafaelgssa/esgst/-/releases' },
-							'https://gitlab.com/rafaelgssa/esgst/-/releases',
-						],
-						' to view the changelog. If you want the changelog to be automatically retrieved from GitLab and shown in this popup when updating, then go to the settings menu and grant permission to "gitlab.com"',
-					],
+					title: (
+						<fragment>
+							{`ESGST has updated from v${Shared.esgst.previousVersion} to v${Shared.esgst.currentVersion}! Please go to `}
+							<a href="https://gitlab.com/rafaelgssa/esgst/-/releases">
+								https://gitlab.com/rafaelgssa/esgst/-/releases
+							</a>{' '}
+							to view the changelog. If you want the changelog to be automatically retrieved from
+							GitLab and shown in this popup when updating, then go to the settings menu and grant
+							permission to "gitlab.com"
+						</fragment>
+					),
 				}).open();
 
 				Shared.esgst.isUpdate = false;
@@ -1549,22 +1536,22 @@ class Common extends Module {
 				popup.setTitle(
 					`ESGST has updated from v${Shared.esgst.previousVersion} to v${Shared.esgst.currentVersion}! Here's the changelog:`
 				);
-				popup.getScrollable([
-					['div', { class: 'markdown' }, await this.parseMarkdown(popup.scrollable, changelog)],
-				]);
+				popup.getScrollable(
+					<div className="markdown">{await this.parseMarkdown(popup.scrollable, changelog)}</div>
+				);
 			} catch (e) {
 				Logger.warning(e.message);
 
 				popup.setIcon('fa-times');
-				popup.setTitle([
-					`ESGST has updated from v${Shared.esgst.previousVersion} to v${Shared.esgst.currentVersion}! An error occurred when retrieving the changelog from GitLab, please go to `,
-					[
-						'a',
-						{ href: 'https://gitlab.com/rafaelgssa/esgst/-/releases' },
-						'https://gitlab.com/rafaelgssa/esgst/-/releases',
-					],
-					' to view it.',
-				]);
+				popup.setTitle(
+					<fragment>
+						{`ESGST has updated from v${Shared.esgst.previousVersion} to v${Shared.esgst.currentVersion}! An error occurred when retrieving the changelog from GitLab, please go to `}
+						<a href="https://gitlab.com/rafaelgssa/esgst/-/releases">
+							https://gitlab.com/rafaelgssa/esgst/-/releases
+						</a>{' '}
+						to view it.
+					</fragment>
+				);
 			}
 
 			Shared.esgst.isUpdate = false;
@@ -4054,11 +4041,11 @@ class Common extends Module {
 		popup = new Popup({
 			addScrollable: true,
 			icon: 'fa-eye-slash',
-			title: [
-				'Would you like to hide all giveaways for ',
-				['span', { class: 'esgst-bold' }, name],
-				'?',
-			],
+			title: (
+				<fragment>
+					Would you like to hide all giveaways for <span className="esgst-bold">{name}</span>?
+				</fragment>
+			),
 		});
 		popup.description.appendChild(
 			new ButtonSet({
@@ -4102,11 +4089,11 @@ class Common extends Module {
 			addScrollable: true,
 			icon: 'fa-eye-slash',
 			isTemp: true,
-			title: [
-				'Would you like to unhide all giveaways for ',
-				['span', { class: 'esgst-bold' }, name],
-				'?',
-			],
+			title: (
+				<fragment>
+					Would you like to unhide all giveaways for <span className="esgst-bold">{name}</span>?
+				</fragment>
+			),
 		});
 		popup.description.appendChild(
 			new ButtonSet({
@@ -5095,14 +5082,13 @@ class Common extends Module {
 	}
 
 	getCopyIcon(value) {
-		return [
-			'i',
-			{
-				class: 'esgst-clickable fa fa-copy',
-				title: 'Copy',
-				onclick: (event) => this.copyValue(event.currentTarget, value),
-			},
-		];
+		return (
+			<i
+				className="esgst-clickable fa fa-copy"
+				title="Copy"
+				onclick={(event) => this.copyValue(event.currentTarget, value)}
+			></i>
+		);
 	}
 
 	copyValue(icon, value) {
@@ -6250,63 +6236,46 @@ class Common extends Module {
 			isTemp: true,
 		});
 
-		popup.getScrollable([
-			['br'],
-			[
-				'div',
-				[
-					[
-						'a',
-						{
-							class: 'table__column__secondary-link',
-							href: `https://www.buymeacoffee.com/rafaelgssa`,
-							target: '_blank',
-						},
-						[['strong', 'Buy Me A Coffee']],
-					],
-				],
-			],
-			[
-				'div',
-				[
-					[
-						'a',
-						{
-							class: 'table__column__secondary-link',
-							href: `https://steamcommunity.com/tradeoffer/new/?partner=214244550&token=LW6Selqp`,
-							target: '_blank',
-						},
-						[['strong', 'Steam Trade']],
-					],
-				],
-			],
-			[
-				'div',
-				[['strong', `Paypal: `], 'rafael.gssa@pm.me ', this.getCopyIcon('rafael.gssa@pm.me')],
-			],
-			[
-				'div',
-				[
-					['strong', `Bitcoin: `],
-					'32WY96ch5MSZ3FNubL5f7QZ9K3WWNHNpV9 ',
-					this.getCopyIcon('32WY96ch5MSZ3FNubL5f7QZ9K3WWNHNpV9'),
-				],
-			],
-			[
-				'div',
-				[
-					['strong', `Monero: `],
-					'42Tw49nUAig3kk1tJh1y1ZP8vrkmY4EH3QW3SRijHxGggtBpDUn2TqJAVBJYBCybGXNninC4gGD9nhe3cttBaZ6u5NuhiLM ',
-					this.getCopyIcon(
+		popup.getScrollable(
+			<fragment>
+				<br />
+				<div>
+					<a
+						class="table__column__secondary-link"
+						href={`https://www.buymeacoffee.com/rafaelgssa`}
+						target="_blank"
+					>
+						<strong>Buy Me A Coffee</strong>
+					</a>
+				</div>
+				<div>
+					<a
+						class="table__column__secondary-link"
+						href={`https://steamcommunity.com/tradeoffer/new/?partner=214244550&token=LW6Selqp`}
+						target="_blank"
+					>
+						<strong>Steam Trade</strong>
+					</a>
+				</div>
+				<div>
+					<strong>Paypal:</strong> rafael.gssa@pm.me {this.getCopyIcon('rafael.gssa@pm.me')}
+				</div>
+				<div>
+					<strong>Bitcoin:</strong> 32WY96ch5MSZ3FNubL5f7QZ9K3WWNHNpV9{' '}
+					{this.getCopyIcon('32WY96ch5MSZ3FNubL5f7QZ9K3WWNHNpV9')}
+				</div>
+				<div>
+					<strong>Monero:</strong>{' '}
+					42Tw49nUAig3kk1tJh1y1ZP8vrkmY4EH3QW3SRijHxGggtBpDUn2TqJAVBJYBCybGXNninC4gGD9nhe3cttBaZ6u5NuhiLM{' '}
+					{this.getCopyIcon(
 						'42Tw49nUAig3kk1tJh1y1ZP8vrkmY4EH3QW3SRijHxGggtBpDUn2TqJAVBJYBCybGXNninC4gGD9nhe3cttBaZ6u5NuhiLM'
-					),
-				],
-			],
-			[
-				'div',
-				[['strong', `Humble Bundle Partner ID: `], 'gsrafael01 ', this.getCopyIcon('gsrafael01')],
-			],
-		]);
+					)}
+				</div>
+				<div>
+					<strong>Humble Bundle Partner ID:</strong> gsrafael01 {this.getCopyIcon('gsrafael01')}
+				</div>
+			</fragment>
+		);
 
 		popup.open();
 	}

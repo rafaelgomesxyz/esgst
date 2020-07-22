@@ -135,25 +135,21 @@ class GeneralCakeDayReminder extends Module {
 			cdrObj.elements.push([
 				{
 					size: 'fill',
-					value: [
-						className
-							? ['span', { class: className }, 'YOU']
-							: [
-									'a',
-									{ class: 'table__column__secondary-link', href: `/user/${user.username}` },
-									user.username,
-							  ],
-					],
+					value: className ? (
+						<span className={className}>YOU</span>
+					) : (
+						<a className="table__column__secondary-link" href={`/user/${user.username}`}>
+							{user.username}
+						</a>
+					),
 				},
 				{
 					size: 'fill',
-					value: [
-						[
-							'span',
-							{ class: className },
-							`In ${Math.floor((registrationTime - cdrObj.currentTime) / 86400000)} days`,
-						],
-					],
+					value: (
+						<span className={className}>{`In ${Math.floor(
+							(registrationTime - cdrObj.currentTime) / 86400000
+						)} days`}</span>
+					),
 				},
 			]);
 		} else if (
@@ -170,17 +166,15 @@ class GeneralCakeDayReminder extends Module {
 			cdrObj.elements.push([
 				{
 					size: 'fill',
-					value: [
-						className
-							? ['span', { class: className }, 'YOU']
-							: [
-									'a',
-									{ class: 'table__column__secondary-link', href: `/user/${user.username}` },
-									user.username,
-							  ],
-					],
+					value: className ? (
+						<span className={className}>YOU</span>
+					) : (
+						<a className="table__column__secondary-link" href={`/user/${user.username}`}>
+							{user.username}
+						</a>
+					),
 				},
-				{ size: 'fill', value: [['span', { class: className }, 'Today! Happy cake day!']] },
+				{ size: 'fill', value: <span className={className}>Today! Happy cake day!</span> },
 			]);
 		} else if (
 			user.cdr.a &&
@@ -196,25 +190,21 @@ class GeneralCakeDayReminder extends Module {
 			cdrObj.elements.push([
 				{
 					size: 'fill',
-					value: [
-						className
-							? ['span', { class: className }, 'YOU']
-							: [
-									'a',
-									{ class: 'table__column__secondary-link', href: `/user/${user.username}` },
-									user.username,
-							  ],
-					],
+					value: className ? (
+						<span className={className}>YOU</span>
+					) : (
+						<a className="table__column__secondary-link" href={`/user/${user.username}`}>
+							{user.username}
+						</a>
+					),
 				},
 				{
 					size: 'fill',
-					value: [
-						[
-							'span',
-							{ class: className },
-							`${Math.floor((cdrObj.currentTime - registrationTime) / 86400000)} days ago`,
-						],
-					],
+					value: (
+						<span className={className}>{`${Math.floor(
+							(cdrObj.currentTime - registrationTime) / 86400000
+						)} days ago`}</span>
+					),
 				},
 			]);
 		}
@@ -269,19 +259,18 @@ class GeneralCakeDayReminder extends Module {
 				null,
 				null,
 				false,
-				[
-					'Notify ',
-					[
-						'input',
-						{
-							class: 'esgst-switch-input',
-							onchange: (event) => (user.values.cdr.bDays = parseFloat(event.currentTarget.value)),
-							type: 'number',
-							value: user.values.cdr.bDays,
-						},
-					],
-					' days before their cake day.',
-				],
+				(
+					<fragment>
+						Notify{' '}
+						<input
+							className="esgst-switch-input"
+							onchange={(event) => (user.values.cdr.bDays = parseFloat(event.currentTarget.value))}
+							type="number"
+							value={user.values.cdr.bDays}
+						/>{' '}
+						days before their cake day.
+					</fragment>
+				),
 				false,
 				false,
 				null,
@@ -301,19 +290,18 @@ class GeneralCakeDayReminder extends Module {
 				null,
 				null,
 				false,
-				[
-					'Notify ',
-					[
-						'input',
-						{
-							class: 'esgst-switch-input',
-							onchange: (event) => (user.values.cdr.aDays = parseFloat(event.currentTarget.value)),
-							type: 'number',
-							value: user.values.cdr.aDays,
-						},
-					],
-					' days after their cake day.',
-				],
+				(
+					<fragment>
+						Notify{' '}
+						<input
+							className="esgst-switch-input"
+							onchange={(event) => (user.values.cdr.aDays = parseFloat(event.currentTarget.value))}
+							type="number"
+							value={user.values.cdr.aDays}
+						/>{' '}
+						days after their cake day.
+					</fragment>
+				),
 				false,
 				false,
 				null,

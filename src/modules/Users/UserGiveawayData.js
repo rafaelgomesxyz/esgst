@@ -377,20 +377,12 @@ class UsersUserGiveawayData extends Module {
 				addProgress: true,
 				addScrollable: 'left',
 				scrollableContent:
-					!mainPopup && ugdCache
-						? [
-								{
-									attributes: {
-										class: 'esgst-italic',
-									},
-									text: `Last checked ${dateFns_format(
-										ugdCache.lastCheck,
-										`MMM dd, yyyy, HH:mm:ss`
-									)}.`,
-									type: 'span',
-								},
-						  ]
-						: null,
+					!mainPopup && ugdCache ? (
+						<span className="esgst-italic">{`Last checked ${dateFns_format(
+							ugdCache.lastCheck,
+							`MMM dd, yyyy, HH:mm:ss`
+						)}.`}</span>
+					) : null,
 			},
 			mainPopup: mainPopup,
 			init: this.ugd_init.bind(this, key, user),
@@ -1091,13 +1083,9 @@ class UsersUserGiveawayData extends Module {
 							attributes: [`data-sort-value="0"`],
 							value: `0/0 (0%)`,
 						},
-						[
-							[
-								'a',
-								{ class: 'table__column__secondary-link', href: `/user/${giveaway.creator}` },
-								giveaway.creator,
-							],
-						],
+						<a className="table__column__secondary-link" href={`/user/${giveaway.creator}`}>
+							{giveaway.creator}
+						</a>,
 					],
 					packageId,
 					true,
@@ -1152,13 +1140,9 @@ class UsersUserGiveawayData extends Module {
 					attributes: [`data-sort-value="${achievementsAttributes}"`],
 					value: achievements,
 				},
-				[
-					[
-						'a',
-						{ class: 'table__column__secondary-link', href: `/user/${giveaway.creator}` },
-						giveaway.creator,
-					],
-				],
+				<a className="table__column__secondary-link" href={`/user/${giveaway.creator}`}>
+					{giveaway.creator}
+				</a>,
 			],
 			packageId,
 			false,
@@ -1284,7 +1268,7 @@ class UsersUserGiveawayData extends Module {
 	}
 
 	async ugd_complete(obj, results) {
-		const items = [['div', { class: 'esgst-ugd-lists' }, []]];
+		const items = [];
 		for (const key in obj.lists) {
 			if (obj.lists.hasOwnProperty(key)) {
 				const list = obj.lists[key];
@@ -1295,21 +1279,20 @@ class UsersUserGiveawayData extends Module {
 						{
 							alignment: 'left',
 							size: 'fill',
-							value: [
-								[
-									'a',
-									{
-										class: 'table__column__secondary-link',
-										href:
+							value: (
+								<a
+									className="table__column__secondary-link"
+									href={
 											key === 'gameName'
 												? `https://store.steampowered.com/${item.gameType.slice(0, -1)}/${
 														item.gameSteamId
 												  }`
-												: `/user/${item.name}`,
-									},
-									item.name,
-								],
-							],
+											: `/user/${item.name}`
+									}
+								>
+									{item.name}
+								</a>
+							),
 						},
 						{
 							alignment: 'center',
@@ -1320,38 +1303,34 @@ class UsersUserGiveawayData extends Module {
 							alignment: 'left',
 							size: 'fill',
 							value: item.values.map((x) =>
-								x
-									? [
-											'span',
-											[
-												x.code
-													? [
-															'a',
-															{
-																class: 'table__column__secondary-link',
-																href: `/giveaway/${x.code}/`,
-																title: 'Go to the giveaway',
-															},
-															[['i', { class: 'fa fa-gift' }]],
-													  ]
-													: null,
-												' ',
-												[
-													'a',
-													{
-														class: 'table__column__secondary-link',
-														href:
+								x ? (
+									<span>
+										{x.code ? (
+											<a
+												className="table__column__secondary-link"
+												href={`/giveaway/${x.code}/`}
+												title="Go to the giveaway"
+											>
+												<i className="fa fa-gift"></i>
+											</a>
+										) : null}
+										' '
+										<a
+											className="table__column__secondary-link"
+											href={
 															key === 'gameName'
 																? `/user/${x.name}`
 																: `https://store.steampowered.com/${x.gameType.slice(0, -1)}/${
 																		x.gameSteamId
-																  }`,
-													},
-													x.name,
-												],
-											],
-									  ]
-									: ['br']
+													  }`
+											}
+										>
+											{x.name}
+										</a>
+									</span>
+								) : (
+									<br />
+								)
 							),
 						},
 					]);
@@ -1379,10 +1358,10 @@ class UsersUserGiveawayData extends Module {
 				const listHeading = new elementBuilder.sg.pageHeading({
 					breadcrumbs: [list.name],
 				});
-				items[0][2].push(listHeading.pageHeading, listTable.table, ['br']);
+				items.push(listHeading.pageHeading, listTable.table, <br />);
 			}
 		}
-		DOM.build(results, 'beforeEnd', items);
+		DOM.insert(results, 'beforeend', <div className="esgst-ugd-lists">{items}</div>);
 		await endless_load(results);
 	}
 }

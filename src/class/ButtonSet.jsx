@@ -23,25 +23,25 @@ class ButtonSet {
 		const icons2 = Array.isArray(details.icon2) ? details.icon2 : [details.icon2];
 		DOM.insert(
 			this.set,
-			'inner',
-			<>
-				<div class={`${classes[details.color1]} btn_action ${details.color1}`}>
+			'atinner',
+			<fragment>
+				<div className={`${classes[details.color1]} btn_action ${details.color1}`}>
 					{icons1.map((icon) => (
-						<i class={`fa ${icon}`}></i>
+						<i className={`fa ${icon}`}></i>
 					))}
 					<span>{details.title1}</span>
 				</div>
 				<div
-					class={`${classes[details.color2]} btn_action ${
+					className={`${classes[details.color2]} btn_action ${
 						details.color2
 					} is-disabled is_disabled esgst-hidden`}
 				>
 					{icons2.map((icon) => (
-						<i class={`fa ${icon}`}></i>
+						<i className={`fa ${icon}`}></i>
 					))}
 					<span>{details.title2}</span>
 				</div>
-			</>
+			</fragment>
 		);
 		this.button1 = this.set.firstElementChild;
 		this.button2 = this.set.lastElementChild;

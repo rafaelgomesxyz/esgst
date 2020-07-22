@@ -108,7 +108,11 @@ class UsersUserNotes extends Module {
 			addScrollable: true,
 			icon: 'fa-sticky-note',
 			isTemp: true,
-			title: ['Edit user notes for ', ['span', profile.name], `:`],
+			title: (
+				<fragment>
+					Edit user notes for <span>{profile.name}</span>:
+				</fragment>
+			),
 		});
 		profile.unTextArea = createElements(profile.unPopup.scrollable, 'beforeEnd', [
 			{

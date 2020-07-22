@@ -99,27 +99,23 @@ class GiveawaysSentKeySearcher extends Module {
 			sks.popup.description,
 			'sks_limitDate',
 			false,
-			[
-				`Limit search by date, from `,
-				[
-					'input',
-					{
-						class: 'esgst-switch-input esgst-switch-input-large',
-						type: 'date',
-						value: Settings.get('sks_minDate'),
-					},
-				],
-				' to ',
-				[
-					'input',
-					{
-						class: 'esgst-switch-input esgst-switch-input-large',
-						type: 'date',
-						value: Settings.get('sks_maxDate'),
-					},
-				],
-				'.',
-			],
+			(
+				<fragment>
+					Limit search by date, from{' '}
+					<input
+						className="esgst-switch-input esgst-switch-input-large"
+						type="date"
+						value={Settings.get('sks_minDate')}
+					/>
+					{' to '}
+					<input
+						className="esgst-switch-input esgst-switch-input-large"
+						type="date"
+						value={Settings.get('sks_maxDate')}
+					/>
+					.
+				</fragment>
+			),
 			false,
 			false,
 			null,
@@ -130,29 +126,25 @@ class GiveawaysSentKeySearcher extends Module {
 			sks.popup.description,
 			'sks_limitPages',
 			false,
-			[
-				`Limit search by pages, from `,
-				[
-					'input',
-					{
-						class: 'esgst-switch-input',
-						min: '1',
-						type: 'number',
-						value: Settings.get('sks_minPage'),
-					},
-				],
-				' to ',
-				[
-					'input',
-					{
-						class: 'esgst-switch-input',
-						min: '1',
-						type: 'number',
-						value: Settings.get('sks_maxPage'),
-					},
-				],
-				'.',
-			],
+			(
+				<fragment>
+					Limit search by pages, from{' '}
+					<input
+						className="esgst-switch-input"
+						min="1"
+						type="number"
+						value={Settings.get('sks_minPage')}
+					/>
+					{' to '}
+					<input
+						className="esgst-switch-input"
+						min="1"
+						type="number"
+						value={Settings.get('sks_maxPage')}
+					/>
+					.
+				</fragment>
+			),
 			false,
 			false,
 			null,

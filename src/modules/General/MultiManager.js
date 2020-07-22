@@ -716,25 +716,29 @@ class GeneralMultiManager extends Module {
 				if (button.key === 'searchReplace') {
 					new Process({
 						button: element,
-						contextHtml: [['div', { class: 'markdown' }, [['ul']]]],
+						context: (
+							<div className="markdown">
+								<ul></ul>
+							</div>
+						),
 						popup: {
 							icon: 'fa-search',
 							title: 'Search & Replace',
 							options: [
 								{
 									check: true,
-									description: [
-										'Use ',
-										[
-											'a',
-											{
-												class: 'esgst-bold',
-												href: `https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions`,
-											},
-											'regular expression',
-										],
-										'.',
-									],
+									description: (
+										<fragment>
+											Use{' '}
+											<a
+												className="esgst-bold"
+												href="https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions"
+											>
+												regular expression
+											</a>
+											.
+										</fragment>
+									),
 									id: 'mm_useRegExp',
 									tooltip: null,
 								},
@@ -1571,7 +1575,11 @@ class GeneralMultiManager extends Module {
 					placeholder: `Category1, Category2, Category3, ...`,
 				},
 			],
-			title: ['Categorize Games', ['i', { class: 'fa fa-question-circle' }]],
+			title: (
+				<fragment>
+					Categorize Games <i className="fa fa-question-circle"></i>
+				</fragment>
+			),
 		});
 		obj.categorizePopup = popup;
 		obj.categorizeInput = createElements(popup.description, 'afterBegin', [

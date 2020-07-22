@@ -24,24 +24,21 @@ class ToggleSwitch {
 		this.sg = sg;
 		this.st = st;
 		this.value = value;
-		this.container = DOM.build(context, 'beforeEnd', [
-			[
-				'div',
-				{ class: `esgst-toggle-switch-container ${inline ? 'inline' : ''}` },
-				[
-					[
-						'label',
-						{ class: 'esgst-toggle-switch' },
-						[
-							['input', { type: 'checkbox' }],
-							['div', { class: 'esgst-toggle-switch-slider' }],
-						],
-					],
-					['span', name],
-					tooltip ? ['i', { class: 'fa fa-question-circle', title: tooltip }] : null,
-				],
-			],
-		]);
+		DOM.insert(
+			context,
+			'beforeend',
+			<div
+				className={`esgst-toggle-switch-container ${inline ? 'inline' : ''}`}
+				ref={(ref) => (this.container = ref)}
+			>
+				<label className="esgst-toggle-switch">
+					<input type="checkbox" />
+					<div className="esgst-toggle-switch-slider"></div>
+				</label>
+				<span>{name}</span>
+				{tooltip ? <i className="fa fa-question-circle" title={tooltip}></i> : null}
+			</div>
+		);
 		if (!context) {
 			this.container = this.container.firstElementChild;
 		}
@@ -69,16 +66,17 @@ class ToggleSwitch {
 				setting.enabled = this.value ? 1 : 0;
 			}
 			if (!settings) {
-				let message = DOM.insert(
+				let message;
+				DOM.insert(
 					this.container,
-					'beforeEnd',
-					<div class="esgst-description esgst-bold">
-						<i class="fa fa-circle-o-notch fa-spin" title="Saving..."></i>
+					'beforeend',
+					<div className="esgst-description esgst-bold" ref={(ref) => (message = ref)}>
+						<i className="fa fa-circle-o-notch fa-spin" title="Saving..."></i>
 					</div>
 				);
 				await Shared.common.setSetting(key, setting);
 				message.classList.add('esgst-green');
-				DOM.insert(message, 'inner', <i class="fa fa-check" title="Saved!"></i>);
+				DOM.insert(message, 'atinner', <i className="fa fa-check" title="Saved!"></i>);
 				window.setTimeout(() => message.remove(), 2500);
 			}
 		}

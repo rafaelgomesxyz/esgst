@@ -10,7 +10,7 @@ class Process {
 		this.mainContext = null;
 		this.mainPopup = details.mainPopup;
 		this.popupDetails = details.popup;
-		this.contextHtml = details.contextHtml;
+		this.context = details.context;
 		this.init = details.init;
 		this.requests = details.requests;
 		this.requestsBackup = this.requests;
@@ -60,18 +60,19 @@ class Process {
 		];
 		this.popup = new Popup(this.popupDetails);
 		if (this.urls && this.urls.id && !this.urls.lockPerLoad) {
-			DOM.build(this.popup.description, 'afterBegin', [
-				`Items per load: `,
-				[
-					'input',
-					{
-						class: 'esgst-switch-input',
-						type: 'number',
-						value: Settings.get(`${this.urls.id}_perLoad`),
-						ref: (ref) => Shared.common.observeNumChange(ref, `${this.urls.id}_perLoad`, true),
-					},
-				],
-			]);
+			DOM.insert(
+				this.popup.description,
+				'afterbegin',
+				<fragment>
+					Items per load:{' '}
+					<input
+						className="esgst-switch-input"
+						type="number"
+						value={Settings.get(`${this.urls.id}_perLoad`)}
+						ref={(ref) => Shared.common.observeNumChange(ref, `${this.urls.id}_perLoad`, true)}
+					/>
+				</fragment>
+			);
 		}
 		this.popup.open();
 		if (this.urls) {
@@ -149,9 +150,11 @@ class Process {
 		}
 		this.popup.setProgress('Loading more...');
 		this.popup.setOverallProgress(`${this.index} of ${this.total} loaded.`);
-		this.context = this.mainContext
-			? DOM.build(this.mainContext, 'beforeEnd', this.contextHtml)
-			: this.popup.getScrollable(this.contextHtml);
+		if (this.mainContext) {
+			DOM.insert(this.mainContext, 'beforeend', this.context);
+		} else {
+			this.context = this.popup.getScrollable(this.context);
+		}
 		let i = 0;
 		while (
 			!this.isCanceled &&

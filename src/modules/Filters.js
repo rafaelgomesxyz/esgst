@@ -1238,183 +1238,151 @@ class Filters extends Module {
 			title: 'Advanced Filters Manual',
 			addScrollable: 'left',
 		});
-		obj.manualPopup.getScrollable([
-			['div', { class: 'esgst-bold' }, 'Interface'],
-			['br'],
-			[
-				'div',
-				{ class: 'markdown' },
-				[
-					[
-						'ul',
-						[
-							[
-								'li',
-								[
-									['span', { class: 'esgst-bold' }, [['i', { class: 'fa fa-square-o' }], ' NOT']],
-									` - If checked, only items that do not apply to the group will be shown.`,
-								],
-							],
-							[
-								'li',
-								[
-									['span', { class: 'esgst-bold' }, 'AND'],
-									` - Turns the group into an AND group, which means that only items that apply to every single rule of the group will be shown.`,
-								],
-							],
-							[
-								'li',
-								[
-									['span', { class: 'esgst-bold' }, 'OR'],
-									` - Turns the group into an OR group, which means that only items that apply to at least one rule of the group will be shown.`,
-								],
-							],
-							[
-								'li',
-								[
-									['span', { class: 'esgst-bold' }, [['i', { class: 'fa fa-arrows' }]]],
-									' - Allows you reorder/move rules/groups. The order of the rules does not alter the result.',
-								],
-							],
-							[
-								'li',
-								[
-									['span', { class: 'esgst-bold' }, [['i', { class: 'fa fa-pause' }], ' Pause']],
-									` - Allows you to pause the rule/group, so that it does not filter anything until you resume it or refresh the page.`,
-								],
-							],
-							['li', 'The other buttons in the interface should be self-explanatory.'],
-						],
-					],
-				],
-			],
-			['br'],
-			['div', { class: 'esgst-bold' }, 'Types of Filters'],
-			['br'],
-			[
-				'div',
-				{ class: 'markdown' },
-				[
-					[
-						'ul',
-						[
-							[
-								'li',
-								[
-									['span', { class: 'esgst-bold' }, 'Boolean'],
-									` - Presents a choice between true and false. Set to true if you only want to see items that apply to the filter, and to false otherwise. For example, if you only want to see giveaways that are on your wishlist, set wishlisted to "true"; if you only want to see giveaways that you have not entered, set entered to "false".`,
-								],
-							],
-							[
-								'li',
-								[
-									['span', { class: 'esgst-bold' }, 'Number'],
-									` - Presents a text field and a choice between equal, not equal, less, less or equal, greater, greater or equal, is null and is not null. Enter the value that you want in the text field and choose the option that you want. For example, if you only want to see giveaways above level 5, you can either set level to "greater than 4" or to "greater or equal to 5". The is null and is not null options regard the presence of the filter. For example, some giveaways do not have a rating. If you still want to see those giveaways when filtering by rating, add an additional rule and set rating to "is null".`,
-								],
-							],
-							[
-								'li',
-								[
-									['span', { class: 'esgst-bold' }, 'Text'],
-									` - Presents a text field and a choice between contains and doesn't contain. Enter the values that you want in the text field, separated by a comma followed by a space, and choose the option that you want. For example, if you only want to see giveaways that have the adventure or the action genres, set genres to "contains Adventure, Action". But if you only want to see giveaways that have both the adventure and the action genres, add 2 rules, set one to "contains Adventure" and the other to "contains Action", and turn the group into an AND group.`,
-								],
-							],
-						],
-					],
-				],
-			],
-			['br'],
-			['div', { class: 'esgst-bold' }, 'Building the Filters'],
-			['br'],
-			[
-				'div',
-				{ class: 'markdown' },
-				[
-					[
-						'div',
-						`The process of building the filters might seem intimidating at first, but it is actually quite simple. Just think of it like this:`,
-					],
-					[
-						'ul',
-						[
-							['li', `Show me a="true" AND b="false".`],
-							['li', `Show me a="false" OR b="true".`],
-							['li', `Do NOT show me a="true".`],
-						],
-					],
-					['div', `The building process for the filters above becomes, respectively:`],
-					[
-						'ul',
-						[
-							['li', `Turn group into AND, add rule a="true", add rule b="false".`],
-							['li', `Turn group into OR, add rule a="false", add rule b="true".`],
-							['li', `Check NOT option, add rule a="true".`],
-						],
-					],
-					['div', `For more advanced filters, think in parenthesis:`],
-					[
-						'ul',
-						[
-							['li', `Show me (a="true" AND b="false") OR c="greater or equal to 5".`],
-							[
-								'li',
-								`Show me (a="false" AND b="true" AND c="false") OR (d="true" AND e="false") OR f="equal to 2".`,
-							],
-							[
-								'li',
-								`Show me (a="true" AND b="false" AND c="true" AND d="false") AND do NOT show me e="contains Adventure, Action".`,
-							],
-						],
-					],
-					[
-						'div',
-						`Each parenthesis represents a new group. NOT filters also represent a new group, since there isn't a NOT option for rules. So the building process for the filters above becomes, respectively:`,
-					],
-					[
-						'ul',
-						[
-							[
-								'li',
-								`Turn group into OR, add group (turn group into AND, add rule a="true", add rule b="false"), add rule c="greater or equal to 5".`,
-							],
-							[
-								'li',
-								`Turn group into OR, add group (turn group into AND, add rule a="false", add rule b="true", add rule c="false"), add group (turn group into AND, add rule d="true", add rule e="false"), add rule f="equal to 2".`,
-							],
-							[
-								'li',
-								`Turn group into AND, add group (turn group into AND, add rule a="true", add rule b="false", add rule c="true", add rule d="false"), add group (check NOT option, add rule e="contains Adventure, Action").`,
-							],
-						],
-					],
-					[
-						'div',
-						`Real example: suppose you only want to see giveaways that are for level 5 or more and that have achievements or trading cards. The sentence for that system is:`,
-					],
-					[
-						'ul',
-						[
-							[
-								'li',
-								`Show me level="greater or equal to 5" AND (achievements="true" OR tradingCards="true").`,
-							],
-						],
-					],
-					['div', `And the building process is:`],
-					[
-						'ul',
-						[
-							[
-								'li',
-								`Turn group into AND, add rule level="greater or equal to 5", add group (turn group into OR, add rule achievements="true", add rule tradingCards="true").`,
-							],
-						],
-					],
-					['div', `The final result is illustrated in the picture below:`],
-				],
-			],
-			['img', { src: `https://i.imgur.com/F1UXcKs.png` }],
-		]);
+		obj.manualPopup.getScrollable(
+			<fragment>
+				<div className="esgst-bold">Interface</div>
+				<br />
+				<div className="markdown">
+					<ul>
+						<li>
+							<span className="esgst-bold">
+								<i className="fa fa-square-o"></i> NOT
+							</span>{' '}
+							- If checked, only items that do not apply to the group will be shown.
+						</li>
+						<li>
+							<span className="esgst-bold">AND</span> - Turns the group into an AND group, which
+							means that only items that apply to every single rule of the group will be shown.
+						</li>
+						<li>
+							<span className="esgst-bold">OR</span> - Turns the group into an OR group, which means
+							that only items that apply to at least one rule of the group will be shown.
+						</li>
+						<li>
+							<span className="esgst-bold">
+								<i className="fa fa-arrows"></i>
+							</span>{' '}
+							- Allows you reorder/move rules/groups. The order of the rules does not alter the
+							result.
+						</li>
+						<li>
+							<span className="esgst-bold">
+								<i className="fa fa-pause"></i> Pause
+							</span>{' '}
+							- Allows you to pause the rule/group, so that it does not filter anything until you
+							resume it or refresh the page.
+						</li>
+						<li>The other buttons in the interface should be self-explanatory.</li>
+					</ul>
+				</div>
+				<br />
+				<div className="esgst-bold">Types of Filters</div>
+				<br />
+				<div className="markdown">
+					<ul>
+						<li>
+							<span className="esgst-bold">Boolean</span> - Presents a choice between true and
+							false. Set to true if you only want to see items that apply to the filter, and to
+							false otherwise. For example, if you only want to see giveaways that are on your
+							wishlist, set wishlisted to "true"; if you only want to see giveaways that you have
+							not entered, set entered to "false".
+						</li>
+						<li>
+							<span className="esgst-bold">Number</span> - Presents a text field and a choice
+							between equal, not equal, less, less or equal, greater, greater or equal, is null and
+							is not null. Enter the value that you want in the text field and choose the option
+							that you want. For example, if you only want to see giveaways above level 5, you can
+							either set level to "greater than 4" or to "greater or equal to 5". The is null and is
+							not null options regard the presence of the filter. For example, some giveaways do not
+							have a rating. If you still want to see those giveaways when filtering by rating, add
+							an additional rule and set rating to "is null".
+						</li>
+						<li>
+							<span className="esgst-bold">Text</span> - Presents a text field and a choice between
+							contains and doesn't contain. Enter the values that you want in the text field,
+							separated by a comma followed by a space, and choose the option that you want. For
+							example, if you only want to see giveaways that have the adventure or the action
+							genres, set genres to "contains Adventure, Action". But if you only want to see
+							giveaways that have both the adventure and the action genres, add 2 rules, set one to
+							"contains Adventure" and the other to "contains Action", and turn the group into an
+							AND group.
+						</li>
+					</ul>
+				</div>
+				<br />
+				<div className="esgst-bold">Building the Filters</div>
+				<br />
+				<div className="markdown">
+					<div>
+						The process of building the filters might seem intimidating at first, but it is actually
+						quite simple. Just think of it like this:
+					</div>
+					<ul>
+						<li>Show me a="true" AND b="false".</li>
+						<li>Show me a="false" OR b="true".</li>
+						<li>Do NOT show me a="true".</li>
+					</ul>
+					<div>The building process for the filters above becomes, respectively:</div>
+					<ul>
+						<li>Turn group into AND, add rule a="true", add rule b="false".</li>
+						<li>Turn group into OR, add rule a="false", add rule b="true".</li>
+						<li>Check NOT option, add rule a="true".</li>
+					</ul>
+					<div>For more advanced filters, think in parenthesis:</div>
+					<ul>
+						<li>Show me (a="true" AND b="false") OR c="greater or equal to 5".</li>
+						<li>
+							Show me (a="false" AND b="true" AND c="false") OR (d="true" AND e="false") OR f="equal
+							to 2".
+						</li>
+						<li>
+							Show me (a="true" AND b="false" AND c="true" AND d="false") AND do NOT show me
+							e="contains Adventure, Action".
+						</li>
+					</ul>
+					<div>
+						Each parenthesis represents a new group. NOT filters also represent a new group, since
+						there isn't a NOT option for rules. So the building process for the filters above
+						becomes, respectively:
+					</div>
+					<ul>
+						<li>
+							Turn group into OR, add group (turn group into AND, add rule a="true", add rule
+							b="false"), add rule c="greater or equal to 5".
+						</li>
+						<li>
+							Turn group into OR, add group (turn group into AND, add rule a="false", add rule
+							b="true", add rule c="false"), add group (turn group into AND, add rule d="true", add
+							rule e="false"), add rule f="equal to 2".
+						</li>
+						<li>
+							Turn group into AND, add group (turn group into AND, add rule a="true", add rule
+							b="false", add rule c="true", add rule d="false"), add group (check NOT option, add
+							rule e="contains Adventure, Action").
+						</li>
+					</ul>
+					<div>
+						Real example: suppose you only want to see giveaways that are for level 5 or more and
+						that have achievements or trading cards. The sentence for that system is:
+					</div>
+					<ul>
+						<li>
+							Show me level="greater or equal to 5" AND (achievements="true" OR
+							tradingCards="true").
+						</li>
+					</ul>
+					<div>And the building process is:</div>
+					<ul>
+						<li>
+							Turn group into AND, add rule level="greater or equal to 5", add group (turn group
+							into OR, add rule achievements="true", add rule tradingCards="true").
+						</li>
+					</ul>
+					<div>The final result is illustrated in the picture below:</div>
+				</div>
+				<img src="https://i.imgur.com/F1UXcKs.png" />
+			</fragment>
+		);
 		obj.manualPopup.open();
 	}
 

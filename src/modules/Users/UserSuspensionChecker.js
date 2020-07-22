@@ -101,29 +101,25 @@ class UsersUserSuspensionChecker extends Module {
 				uscObj.options,
 				'usc_checkPages',
 				false,
-				[
-					'Check only pages from ',
-					[
-						'input',
-						{
-							class: 'esgst-switch-input',
-							min: '1',
-							type: 'number',
-							value: Settings.get('usc_minPage'),
-						},
-					],
-					' to ',
-					[
-						'input',
-						{
-							class: 'esgst-switch-input',
-							min: '1',
-							type: 'number',
-							value: Settings.get('usc_maxPage'),
-						},
-					],
-					'.',
-				],
+				(
+					<fragment>
+						Check only pages from{' '}
+						<input
+							className="esgst-switch-input"
+							min="1"
+							type="number"
+							value={Settings.get('usc_minPage')}
+						/>
+						{' to '}
+						<input
+							className="esgst-switch-input"
+							min="1"
+							type="number"
+							value={Settings.get('usc_maxPage')}
+						/>
+						.
+					</fragment>
+				),
 				false,
 				false,
 				null,

@@ -80,13 +80,15 @@ class _Logger {
 			isTemp: true,
 			title: 'Logs',
 		});
-		DOM.build(popup.scrollable, 'beforeEnd', [
-			[
-				'div',
-				{ class: 'popup__keys__list' },
-				this.logs.map((x) => ['div', { class: `esgst-log esgst-log-${x.level}` }, x.message]),
-			],
-		]);
+		DOM.insert(
+			popup.scrollable,
+			'beforeend',
+			<div className="popup__keys__list">
+				{this.logs.map((x) => (
+					<div className={`esgst-log esgst-log-${x.level}`}>{x.message}</div>
+				))}
+			</div>
+		);
 		popup.open();
 	}
 }

@@ -139,23 +139,22 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 				glwc.container,
 				'glwc_checkMaxWishlists',
 				false,
-				[
-					'Only check users with a maximum of ',
-					[
-						'input',
-						{
-							class: 'esgst-switch-input',
-							type: 'number',
-							min: '0',
-							value: Settings.get('glwc_maxWishlists'),
-							onchange: (event) => {
+				(
+					<fragment>
+						Only check users with a maximum of{' '}
+						<input
+							className="esgst-switch-input"
+							type="number"
+							min="0"
+							value={Settings.get('glwc_maxWishlists')}
+							onchange={(event) => {
 								Settings.set('glwc_maxWishlists', parseInt(event.target.value));
 								Shared.common.setSetting('glwc_maxWishlists', Settings.get('glwc_maxWishlists'));
-							},
-						},
-					],
-					' games in their wishlist.',
-				],
+							}}
+						/>{' '}
+						games in their wishlist.
+					</fragment>
+				),
 				false,
 				false,
 				'Enter the maximum number of games that a user must have in their wishlist in order to be checked.',

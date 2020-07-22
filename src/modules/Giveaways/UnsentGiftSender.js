@@ -118,19 +118,18 @@ class GiveawaysUnsentGiftSender extends Module {
 				ugs.popup.description,
 				'ugs_checkDifference',
 				false,
-				[
-					'Do not send if the winner has a gift difference lower than ',
-					[
-						'input',
-						{
-							class: 'esgst-ugs-difference',
-							step: '0.1',
-							type: 'number',
-							value: Settings.get('ugs_difference'),
-						},
-					],
-					'.',
-				],
+				(
+					<fragment>
+						Do not send if the winner has a gift difference lower than{' '}
+						<input
+							className="esgst-ugs-difference"
+							step="0.1"
+							type="number"
+							value={Settings.get('ugs_difference')}
+						/>
+						.
+					</fragment>
+				),
 				false,
 				false,
 				'The winners will be checked in real time.',

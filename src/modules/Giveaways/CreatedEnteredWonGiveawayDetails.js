@@ -577,17 +577,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
 			title: 'Winners',
 			addScrollable: 'left',
 		});
-		let html = [
-			[
-				'div',
-				{ class: 'table__heading' },
-				[
-					['div', { class: 'table__column--width-small' }, 'Winner'],
-					['div', { class: 'table__column--width-small' }, 'Received'],
-				],
-			],
-			['div', { class: 'table__rows' }, []],
-		];
+		let rows = [];
 		for (const winner of details.winners) {
 			let className = '';
 			switch (winner.status) {
@@ -603,34 +593,32 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
 				default:
 					break;
 			}
-			// @ts-ignore
-			html[1][2].push([
-				'div',
-				{ class: 'table__row-outer-wrap' },
-				[
-					[
-						'div',
-						{ class: 'table__row-inner-wrap' },
-						[
-							[
-								'div',
-								{ class: 'table__column--width-small' },
-								[
-									[
-										'a',
-										{ class: 'table__column__secondary-link', href: `/user/${winner.username}` },
-										winner.username,
-									],
-								],
-							],
-							['div', { class: 'table__column--width-small' }, [['i', { class: className }]]],
-						],
-					],
-				],
-			]);
+			rows.push(
+				<div className="table__row-outer-wrap">
+					<div className="table__row-inner-wrap">
+						<div className="table__column--width-small">
+							<a className="table__column__secondary-link" href={`/user/${winner.username}`}>
+								{winner.username}
+							</a>
+						</div>
+						<div className="table__column--width-small">
+							<i className={className}></i>
+						</div>
+					</div>
+				</div>
+			);
 		}
+		let fragment = (
+			<fragment>
+				<div className="table__heading">
+					<div className="table__column--width-small">Winner</div>
+					<div className="table__column--width-small">Received</div>
+				</div>
+				<div className="table__rows">{rows}</div>
+			</fragment>
+		);
 		popup.open();
-		Shared.common.endless_load(popup.getScrollable(html));
+		Shared.common.endless_load(popup.getScrollable(fragment));
 	}
 }
 

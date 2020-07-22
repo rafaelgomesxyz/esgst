@@ -8,12 +8,14 @@ class Table {
 	constructor(values) {
 		this.table = document.createElement('div');
 		this.table.className = 'table esgst-ugd-table';
-		DOM.build(this.table, 'inner', [
-			['div', { class: 'table__heading' }],
-			['div', { class: 'table__rows' }],
-		]);
-		this.heading = this.table.firstElementChild;
-		this.rows = this.heading.nextElementSibling;
+		DOM.insert(
+			this.table,
+			'atinner',
+			<fragment>
+				<div className="table__heading" ref={(ref) => (this.heading = ref)}></div>
+				<div className="table__rows" ref={(ref) => (this.rows = ref)}></div>
+			</fragment>
+		);
 		this.rowGroups = {};
 		this.hiddenColumns = [];
 		this.numRows = 0;
@@ -58,7 +60,7 @@ class Table {
 		const alignment = cellDetails.alignment || 'center';
 		const size = cellDetails.size || 'small';
 		const attributes = {
-			class: `table__column--width-${size} text-${alignment} ${additionalClasses.join(' ')}`,
+			className: `table__column--width-${size} text-${alignment} ${additionalClasses.join(' ')}`,
 		};
 
 		if (cellDetails.attributes) {
@@ -69,28 +71,31 @@ class Table {
 		}
 
 		if (cell === 'Total') {
-			attributes.class += ' esgst-bold';
+			attributes.className += ' esgst-bold';
 		}
 
-		return DOM.build(this.rows.children[row].firstElementChild.children[column], 'outer', [
-			['div', attributes, cell],
-		]);
+		let cellEl;
+		DOM.insert(
+			this.rows.children[row].firstElementChild.children[column],
+			'atouter',
+			<div {...attributes} ref={(ref) => (cellEl = ref)}>
+				{cell}
+			</div>
+		);
+		return cellEl;
 	}
 
 	addRow(columns, name, isCollapsibleGroup, isCollapsible, collapseMessage, expandMessage) {
-		const row = DOM.build(this.rows, 'beforeEnd', [
-			[
-				'div',
-				{ class: `table__row-outer-wrap ${name && isCollapsible ? 'esgst-hidden' : ''}` },
-				[
-					[
-						'div',
-						{ class: 'table__row-inner-wrap' },
-						name && isCollapsible ? [['i', { class: 'fa fa-chevron-right' }]] : null,
-					],
-				],
-			],
-		]).firstElementChild;
+		let row;
+		DOM.insert(
+			this.rows,
+			'beforeend',
+			<div className={`table__row-outer-wrap ${name && isCollapsible ? 'esgst-hidden' : ''}`}>
+				<div className="table__row-inner-wrap" ref={(ref) => (row = ref)}>
+					{name && isCollapsible ? <i className="fa fa-chevron-right"></i> : null}
+				</div>
+			</div>
+		);
 		let group = null;
 		if (name) {
 			if (isCollapsibleGroup) {
@@ -100,14 +105,23 @@ class Table {
 					isCollapsible: true,
 					row: row,
 				};
-				const expand = DOM.build(row, 'afterBegin', [
-					['i', { class: 'fa fa-plus-square esgst-clickable', title: expandMessage }],
-					[
-						'i',
-						{ class: 'fa fa-minus-square esgst-clickable esgst-hidden', title: collapseMessage },
-					],
-				]);
-				const collapse = expand.nextElementSibling;
+				let expand, collapse;
+				DOM.insert(
+					row,
+					'afterbegin',
+					<fragment>
+						<i
+							className="fa fa-plus-square esgst-clickable"
+							title={expandMessage}
+							ref={(ref) => (expand = ref)}
+						></i>
+						<i
+							className="fa fa-minus-square esgst-clickable esgst-hidden"
+							title={collapseMessage}
+							ref={(ref) => (collapse = ref)}
+						></i>
+					</fragment>
+				);
 				collapse.addEventListener('click', this.collapseRows.bind(this, collapse, expand, name));
 				expand.addEventListener('click', this.expandRows.bind(this, collapse, expand, name));
 			} else if (isCollapsible) {
@@ -121,7 +135,7 @@ class Table {
 			let additionalAttributes = null;
 			let alignment = 'center';
 			let size = 'small';
-			if (cell && typeof cell === 'object' && !Array.isArray(cell)) {
+			if (cell && typeof cell === 'object' && !(cell instanceof Node)) {
 				additionalClasses = additionalClasses.concat(cell.additionalClasses);
 				additionalAttributes = cell.additionalAttributes;
 				alignment = cell.alignment || alignment;
@@ -141,7 +155,7 @@ class Table {
 				additionalClasses.push('esgst-bold');
 			}
 			const attributes = {
-				class: `table__column--width-${size} text-${alignment} ${additionalClasses.join(' ')}`,
+				className: `table__column--width-${size} text-${alignment} ${additionalClasses.join(' ')}`,
 			};
 			if (additionalAttributes) {
 				for (const attribute of additionalAttributes) {
@@ -149,7 +163,14 @@ class Table {
 					attributes[parts[1]] = attributes[parts[2]];
 				}
 			}
-			const column = DOM.build(row, 'beforeEnd', [['div', attributes, cell]]);
+			let column;
+			DOM.insert(
+				row,
+				'beforeend',
+				<div {...attributes} ref={(ref) => (column = ref)}>
+					{cell}
+				</div>
+			);
 			if (group) {
 				group.columns.push(column);
 			}
@@ -171,7 +192,7 @@ class Table {
 		const alignment = column.alignment || 'center';
 		const size = column.size || 'small';
 		const attributes = {
-			class: `table__column--width-${size} text-${alignment} ${additionalClasses.join(' ')}`,
+			className: `table__column--width-${size} text-${alignment} ${additionalClasses.join(' ')}`,
 		};
 		if (column.attributes) {
 			for (const attribute of column.attributes) {
@@ -179,13 +200,13 @@ class Table {
 				attributes[parts[1]] = attributes[parts[2]];
 			}
 		}
-		DOM.build(this.heading, 'beforeEnd', [['div', attributes, cell]]);
+		DOM.insert(this.heading, 'beforeend', <div {...attributes}>{cell}</div>);
 		if (cell === 'Total') {
-			attributes.class += ' esgst-bold';
+			attributes.className += ' esgst-bold';
 		}
 		for (let i = 0; i < this.numRows; i++) {
 			const row = this.rows.children[i];
-			DOM.build(row, 'beforeEnd', [['div', attributes]]);
+			DOM.insert(row, 'beforeend', <div {...attributes}></div>);
 		}
 		this.numColumns += 1;
 	}

@@ -99,17 +99,16 @@ class UsersWhitelistBlacklistManager extends Module {
 				wbm.popup.description,
 				'wbm_clearTags',
 				false,
-				[
-					`Only clear users who are tagged with these specific tags (separate with comma): `,
-					[
-						'input',
-						{
-							class: 'esgst-switch-input esgst-switch-input-large',
-							type: 'text',
-							value: Settings.get('wbm_tags').join(`, `),
-						},
-					],
-				],
+				(
+					<fragment>
+						Only clear users who are tagged with these specific tags (separate with comma):{' '}
+						<input
+							className="esgst-switch-input esgst-switch-input-large"
+							type="text"
+							value={Settings.get('wbm_tags').join(`, `)}
+						/>
+					</fragment>
+				),
 				false,
 				false,
 				'Uses the User Tags database to remove only users with the specified tags.',

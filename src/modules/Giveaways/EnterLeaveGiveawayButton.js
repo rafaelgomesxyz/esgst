@@ -443,15 +443,15 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
 			addScrollable: true,
 			icon: 'fa-file-text-o',
 			isTemp: true,
-			title: [
-				[
-					'a',
-					{ href: giveaway.url, ref: (ref) => (headingButton = ref) },
-					[['span', giveaway.name]],
-				],
-				' by ',
-				['a', { href: `/user/${giveaway.creator}` }, giveaway.creator],
-			],
+			title: (
+				<fragment>
+					<a href={giveaway.url} ref={(ref) => (headingButton = ref)}>
+						<span>{giveaway.name}</span>
+					</a>
+					{' by '}
+					<a href={`/user/${giveaway.creator}`}>{giveaway.creator}</a>
+				</fragment>
+			),
 			name: 'elgb',
 		});
 		if (headingButton) {

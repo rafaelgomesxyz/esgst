@@ -142,7 +142,11 @@ class UsersUserFilters extends Filters {
 			addScrollable: true,
 			icon: 'fa-eye',
 			isTemp: true,
-			title: ['Apply user filters for ', ['span', profile.name], `:`],
+			title: (
+				<fragment>
+					Apply user filters for <span>{profile.name}</span>:
+				</fragment>
+			),
 		});
 		profile.ufOptions = createElements(profile.ufPopup.description, 'beforeEnd', [
 			{

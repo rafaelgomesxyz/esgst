@@ -2181,11 +2181,13 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 				const popup = new Popup({
 					addScrollable: true,
 					icon: 'fa-circle-o-notch fa-spin',
-					title: [
-						'Waiting ',
-						['span'],
-						` minutes to create another identical giveaway... Please do not close this popup. If you do not want this waiting period, create a single multiple-copy giveaway for the game.`,
-					],
+					title: (
+						<fragment>
+							Waiting <span /> minutes to create another identical giveaway... Please do not close
+							this popup. If you do not want this waiting period, create a single multiple-copy
+							giveaway for the game.
+						</fragment>
+					),
 				});
 				popup.open();
 				setCountdown(popup.title.firstElementChild, 120, async () => {

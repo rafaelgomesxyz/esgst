@@ -944,19 +944,23 @@ class CommentsCommentFormattingHelper extends Module {
 											title: `Select emojis:`,
 											addScrollable: true,
 										});
-										filter = popup.getScrollable([
-											['input', { placeholder: 'Filter emojis...', type: 'text' }],
-											['div', { class: 'esgst-cfh-emojis' }],
-											[
-												'div',
-												{ class: 'esgst-description' },
-												`Simply click on an emoji above to add it to your selection. You can re-order emojis in your selection by dragging and dropping them. To remove an emoji from your selection, start dragging it and a trash area will appear, then drop it there.`,
-											],
-											[
-												'div',
-												{ class: 'global__image-outer-wrap page_heading_btn esgst-cfh-emojis' },
-											],
-										]).firstElementChild;
+										popup.getScrollable(
+											<fragment>
+												<input
+													placeholder="Filter emojis..."
+													type="text"
+													ref={(ref) => (filter = ref)}
+												/>
+												<div className="esgst-cfh-emojis"></div>
+												<div className="esgst-description">
+													Simply click on an emoji above to add it to your selection. You can
+													re-order emojis in your selection by dragging and dropping them. To remove
+													an emoji from your selection, start dragging it and a trash area will
+													appear, then drop it there.
+												</div>
+												<div className="global__image-outer-wrap page_heading_btn esgst-cfh-emojis"></div>
+											</fragment>
+										);
 										emojis = filter.nextElementSibling;
 										const savedEmojis = emojis.nextElementSibling.nextElementSibling;
 										DOM.insert(savedEmojis, 'inner', <>{await this.cfh_getEmojis()}</>);

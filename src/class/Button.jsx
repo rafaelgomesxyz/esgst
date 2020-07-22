@@ -9,7 +9,11 @@ class Button {
 		this.id = details.id;
 		this.index = details.index;
 		this.titles = details.titles;
-		this.button = DOM.build(context, position, [['div', { class: details.className }]]);
+		DOM.insert(
+			context,
+			position,
+			<div className={details.className} ref={(ref) => (this.button = ref)}></div>
+		);
 		// noinspection JSIgnoredPromiseFromCall
 		this.change();
 		return this;
@@ -21,15 +25,17 @@ class Button {
 		}
 		this.index = index + 1;
 		this.button.title = Shared.common.getFeatureTooltip(this.id, this.titles[index]);
-		DOM.build(this.button, 'inner', [['i', { class: `fa ${this.icons[index]}` }]]);
+		DOM.insert(this.button, 'atinner', <i className={`fa ${this.icons[index]}`}></i>);
 		if (mainCallback) {
 			if (await mainCallback(event)) {
 				// noinspection JSIgnoredPromiseFromCall
 				this.change();
 			} else {
-				DOM.build(this.button, 'inner', [
-					['i', { class: 'fa fa-times esgst-red', title: 'Unable to perform action' }],
-				]);
+				DOM.insert(
+					this.button,
+					'atinner',
+					<i className="fa fa-times esgst-red" title="Unable to perform action"></i>
+				);
 			}
 		} else if (this.callbacks[index]) {
 			this.button.firstElementChild.addEventListener(

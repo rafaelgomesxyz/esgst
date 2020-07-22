@@ -622,18 +622,17 @@ function loadDataManagement(type, isPopup, callback) {
 				containerr,
 				'exportBackup',
 				false,
-				[
-					'Backup to ',
-					[
-						'select',
-						[
-							['option', 'Computer'],
-							['option', 'Dropbox'],
-							['option', 'Google Drive'],
-							['option', 'OneDrive'],
-						],
-					],
-				],
+				(
+					<fragment>
+						Backup to{' '}
+						<select>
+							<option>Computer</option>
+							<option>Dropbox</option>
+							<option>Google Drive</option>
+							<option>OneDrive</option>
+						</select>
+					</fragment>
+				),
 				false,
 				false,
 				'Backs up the current data to one of the selected places before restoring another backup.',
@@ -650,18 +649,17 @@ function loadDataManagement(type, isPopup, callback) {
 				containerr,
 				'deleteOldBackups',
 				false,
-				[
-					'Delete backups older than ',
-					[
-						'input',
-						{
-							class: 'esgst-switch-input',
-							type: 'number',
-							value: Settings.get('deleteOldBackups_days'),
-						},
-					],
-					' days when backing up to the cloud.',
-				],
+				(
+					<fragment>
+						Delete backups older than{' '}
+						<input
+							className="esgst-switch-input"
+							type="number"
+							value={Settings.get('deleteOldBackups_days')}
+						/>{' '}
+						days when backing up to the cloud.
+					</fragment>
+				),
 				false,
 				false,
 				'',
@@ -675,26 +673,24 @@ function loadDataManagement(type, isPopup, callback) {
 					containerr,
 					'usePreferredGoogle',
 					false,
-					[
-						`Use preferred Google account: `,
-						[
-							'input',
-							{
-								class: 'esgst-switch-input esgst-switch-input-large',
-								placeholder: 'example@gmail.com',
-								type: 'text',
-							},
-						],
-						[
-							'span',
-							{
-								class: 'esgst-bold esgst-clickable',
-								onclick: () =>
-									window.alert(Settings.get('preferredGoogle') || 'No email address defined'),
-							},
-							'Reveal',
-						],
-					],
+					(
+						<fragment>
+							Use preferred Google account:{' '}
+							<input
+								className="esgst-switch-input esgst-switch-input-large"
+								placeholder="example@gmail.com"
+								type="text"
+							/>
+							<span
+								className="esgst-bold esgst-clickable"
+								onclick={() =>
+									window.alert(Settings.get('preferredGoogle') || 'No email address defined')
+								}
+							>
+								Reveal
+							</span>
+						</fragment>
+					),
 					false,
 					false,
 					`With this option enabled, you will not be prompted to select an account when restoring/backing up to Google Drive. The account associated with the email address entered here will be automatically selected if you're already logged in. For security purposes, the email address will not be visible if you re-open the menu. After that, you have to click on "Reveal" to see it.`,
@@ -708,26 +704,24 @@ function loadDataManagement(type, isPopup, callback) {
 					containerr,
 					'usePreferredMicrosoft',
 					false,
-					[
-						`Use preferred Microsoft account: `,
-						[
-							'input',
-							{
-								class: 'esgst-switch-input esgst-switch-input-large',
-								placeholder: 'example@outlook.com',
-								type: 'text',
-							},
-						],
-						[
-							'span',
-							{
-								class: 'esgst-bold esgst-clickable',
-								onclick: () =>
-									window.alert(Settings.get('preferredMicrosoft') || 'No email address defined'),
-							},
-							'Reveal',
-						],
-					],
+					(
+						<fragment>
+							Use preferred Microsoft account:{' '}
+							<input
+								className="esgst-switch-input esgst-switch-input-large"
+								placeholder="example@outlook.com"
+								type="text"
+							/>
+							<span
+								className="esgst-bold esgst-clickable"
+								onclick={() =>
+									window.alert(Settings.get('preferredMicrosoft') || 'No email address defined')
+								}
+							>
+								Reveal
+							</span>
+						</fragment>
+					),
 					false,
 					false,
 					`With this option enabled, you will not be prompted to select an account when restoring/backing up to OneDrive. The account associated with the email address entered here will be automatically selected if you're already logged in. For security purposes, the email address will not be visible if you re-open the menu. After that, you have to click on "Reveal" to see it.`,
@@ -1002,18 +996,17 @@ function loadDataCleaner(isPopup) {
 			context,
 			'cleanDiscussions',
 			false,
-			[
-				'Discussions data older than ',
-				[
-					'input',
-					{
-						class: 'esgst-switch-input',
-						type: 'text',
-						value: Settings.get('cleanDiscussions_days'),
-					},
-				],
-				' days.',
-			],
+			(
+				<fragment>
+					Discussions data older than{' '}
+					<input
+						className="esgst-switch-input"
+						type="text"
+						value={Settings.get('cleanDiscussions_days')}
+					/>{' '}
+					days.
+				</fragment>
+			),
 			false,
 			false,
 			`Discussions data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`,
@@ -1027,14 +1020,17 @@ function loadDataCleaner(isPopup) {
 			context,
 			'cleanEntries',
 			false,
-			[
-				'Entries data older than ',
-				[
-					'input',
-					{ class: 'esgst-switch-input', type: 'text', value: Settings.get('cleanEntries_days') },
-				],
-				' days.',
-			],
+			(
+				<fragment>
+					Entries data older than{' '}
+					<input
+						className="esgst-switch-input"
+						type="text"
+						value={Settings.get('cleanEntries_days')}
+					/>{' '}
+					days.
+				</fragment>
+			),
 			false,
 			false,
 			'',
@@ -1048,14 +1044,17 @@ function loadDataCleaner(isPopup) {
 			context,
 			'cleanGiveaways',
 			false,
-			[
-				'Giveaways data older than ',
-				[
-					'input',
-					{ class: 'esgst-switch-input', type: 'text', value: Settings.get('cleanGiveaways_days') },
-				],
-				' days.',
-			],
+			(
+				<fragment>
+					Giveaways data older than{' '}
+					<input
+						className="esgst-switch-input"
+						type="text"
+						value={Settings.get('cleanGiveaways_days')}
+					/>{' '}
+					days.
+				</fragment>
+			),
 			false,
 			false,
 			`Some giveaways data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`,
@@ -1069,18 +1068,17 @@ function loadDataCleaner(isPopup) {
 			context,
 			'cleanSgCommentHistory',
 			false,
-			[
-				'SteamGifts comment history data older than ',
-				[
-					'input',
-					{
-						class: 'esgst-switch-input',
-						type: 'text',
-						value: Settings.get('cleanSgCommentHistory_days'),
-					},
-				],
-				' days.',
-			],
+			(
+				<fragment>
+					SteamGifts comment history data older than{' '}
+					<input
+						className="esgst-switch-input"
+						type="text"
+						value={Settings.get('cleanSgCommentHistory_days')}
+					/>{' '}
+					days.
+				</fragment>
+			),
 			false,
 			false,
 			'',
@@ -1094,14 +1092,17 @@ function loadDataCleaner(isPopup) {
 			context,
 			'cleanTickets',
 			false,
-			[
-				'Tickets data older than ',
-				[
-					'input',
-					{ class: 'esgst-switch-input', type: 'text', value: Settings.get('cleanTickets_days') },
-				],
-				' days.',
-			],
+			(
+				<fragment>
+					Tickets data older than{' '}
+					<input
+						className="esgst-switch-input"
+						type="text"
+						value={Settings.get('cleanTickets_days')}
+					/>{' '}
+					days.
+				</fragment>
+			),
 			false,
 			false,
 			`Tickets data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`,
@@ -1115,14 +1116,17 @@ function loadDataCleaner(isPopup) {
 			context,
 			'cleanTrades',
 			false,
-			[
-				'Trades data older than ',
-				[
-					'input',
-					{ class: 'esgst-switch-input', type: 'text', value: Settings.get('cleanTrades_days') },
-				],
-				' days.',
-			],
+			(
+				<fragment>
+					Trades data older than{' '}
+					<input
+						className="esgst-switch-input"
+						type="text"
+						value={Settings.get('cleanTrades_days')}
+					/>{' '}
+					days.
+				</fragment>
+			),
 			false,
 			false,
 			`Trades data only started being date-tracked since v7.11.0, so not all old data may be cleaned.`,
@@ -1530,19 +1534,21 @@ function loadDataCleaner(isPopup) {
 				const newSize = await manageData(dm, false, false, false, true);
 				const successPopup = new Popup({
 					icon: 'fa-check',
-					title: [
-						'Success! The selected data was cleaned.',
-						['br'],
-						['br'],
-						`Size before cleaning: `,
-						['span', { class: 'esgst-bold' }, Shared.common.convertBytes(oldSize)],
-						['br'],
-						`Size after cleaning: `,
-						['span', { class: 'esgst-bold' }, Shared.common.convertBytes(newSize)],
-						['br'],
-						['br'],
-						`${Math.round((100 - (newSize / oldSize) * 100) * 100) / 100}% reduction`,
-					],
+					title: (
+						<fragment>
+							Success! The selected data was cleaned.
+							<br />
+							<br />
+							Size before cleaning:{' '}
+							<span className="esgst-bold">{Shared.common.convertBytes(oldSize)}</span>
+							<br />
+							Size after cleaning:{' '}
+							<span className="esgst-bold">{Shared.common.convertBytes(newSize)}</span>
+							<br />
+							<br />
+							{`${Math.round((100 - (newSize / oldSize) * 100) * 100) / 100}% reduction`}
+						</fragment>
+					),
 				});
 				successPopup.open();
 			},

@@ -267,22 +267,21 @@ class UsersWhitelistBlacklistChecker extends Module {
 			popup.Options,
 			'wbc_checkFromList',
 			false,
-			[
-				'Only check these users: ',
-				[
-					'input',
-					{
-						class: 'esgst-switch-input esgst-switch-input-large',
-						placeholder: 'user1, user2, user3, ...',
-						type: 'text',
-						value: Settings.get('wbc_userList').join(', '),
-						onchange: (event) => {
+			(
+				<fragment>
+					Only check these users:{' '}
+					<input
+						className="esgst-switch-input esgst-switch-input-large"
+						placeholder="user1, user2, user3, ..."
+						type="text"
+						value={Settings.get('wbc_userList').join(', ')}
+						onchange={(event) => {
 							Settings.set('wbc_userList', Array.from(new Set(event.target.value.split(/,\s*/))));
 							Shared.common.setSetting('wbc_userList', Settings.get('wbc_userList'));
-						},
-					},
-				],
-			],
+						}}
+					/>
+				</fragment>
+			),
 			false,
 			false,
 			'Enter the usernames of the users that you want to check, separated by a comma.',
@@ -315,29 +314,25 @@ class UsersWhitelistBlacklistChecker extends Module {
 				popup.Options,
 				'wbc_checkPages',
 				false,
-				[
-					'Check only pages from ',
-					[
-						'input',
-						{
-							class: 'esgst-switch-input',
-							min: '1',
-							type: 'number',
-							value: Settings.get('wbc_minPage'),
-						},
-					],
-					' to ',
-					[
-						'input',
-						{
-							class: 'esgst-switch-input',
-							min: '1',
-							type: 'number',
-							value: Settings.get('wbc_maxPage'),
-						},
-					],
-					'.',
-				],
+				(
+					<fragment>
+						Check only pages from{' '}
+						<input
+							className="esgst-switch-input"
+							min="1"
+							type="number"
+							value={Settings.get('wbc_minPage')}
+						/>
+						{' to '}
+						<input
+							className="esgst-switch-input"
+							min="1"
+							type="number"
+							value={Settings.get('wbc_maxPage')}
+						/>
+						.
+					</fragment>
+				),
 				false,
 				false,
 				null,
@@ -393,14 +388,17 @@ class UsersWhitelistBlacklistChecker extends Module {
 				popup.Options,
 				'wbc_skipUsers',
 				false,
-				[
-					'Skip users after ',
-					[
-						'input',
-						{ class: 'esgst-ugs-difference', type: 'number', value: Settings.get('wbc_pages') },
-					],
-					' pages.',
-				],
+				(
+					<fragment>
+						Skip users after{' '}
+						<input
+							className="esgst-ugs-difference"
+							type="number"
+							value={Settings.get('wbc_pages')}
+						/>{' '}
+						pages.
+					</fragment>
+				),
 				false,
 				false,
 				`If enabled, when a user check passes the number of pages specified, the user will be skipped.`,
@@ -553,93 +551,95 @@ class UsersWhitelistBlacklistChecker extends Module {
 			[
 				{
 					size: 'fill',
-					value: [
-						['i', { class: 'fa fa-heart esgst-whitelist' }],
-						' Whitelisted (',
-						['span', { ref: (ref) => (this.whitelistedCount = ref) }, '0'],
-						') ',
-						['i', { class: 'fa fa-question-circle', title: 'Users that have whitelisted you' }],
-					],
+					value: (
+						<fragment>
+							<i className="fa fa-heart esgst-whitelist"></i>
+							{' Whitelisted ('}
+							<span ref={(ref) => (this.whitelistedCount = ref)}>0</span>
+							{') '}
+							<i className="fa fa-question-circle" title="Users that have whitelisted you"></i>
+						</fragment>
+					),
 				},
 				{
 					size: 'fill',
-					value: [
-						['i', { class: 'fa fa-ban esgst-blacklist' }],
-						' Blacklisted (',
-						['span', { ref: (ref) => (this.blacklistedCount = ref) }, '0'],
-						') ',
-						['i', { class: 'fa fa-question-circle', title: 'Users that have blacklisted you' }],
-					],
+					value: (
+						<fragment>
+							<i className="fa fa-ban esgst-blacklist"></i>
+							{' Blacklisted ('}
+							<span ref={(ref) => (this.blacklistedCount = ref)}>0</span>
+							{') '}
+							<i className="fa fa-question-circle" title="Users that have blacklisted you"></i>
+						</fragment>
+					),
 				},
 				{
 					size: 'fill',
-					value: [
-						['i', { class: 'fa fa-check' }],
-						WBC.B ? ' None (' : ' Not Whitelisted (',
-						['span', { ref: (ref) => (this.noneCount = ref) }, '0'],
-						') ',
-						[
-							'i',
-							{
-								class: 'fa fa-question-circle',
-								title: WBC.B
+					value: (
+						<fragment>
+							<i className="fa fa-check"></i>
+							{` ${WBC.B ? 'None' : 'Not Blacklisted'} (`}
+							<span ref={(ref) => (this.noneCount = ref)}>0</span>
+							{') '}
+							<i
+								className="fa fa-question-circle"
+								title={
+									WBC.B
 									? 'Users that have neither whitelisted nor blacklisted you'
-									: 'Users that have not whitelisted you',
-							},
-						],
-					],
+										: 'Users that have not whitelisted you'
+								}
+							></i>
+						</fragment>
+					),
 				},
 				{
 					size: 'fill',
-					value: [
-						['i', { class: 'fa fa-question' }],
-						' Not Blacklisted (',
-						['span', { ref: (ref) => (this.notBlacklistedCount = ref) }, '0'],
-						') ',
-						[
-							'i',
-							{
-								class: 'fa fa-question-circle',
-								title:
-									'Users that have not blacklisted you, but there is not enough information to know if they have whitelisted you',
-							},
-						],
-					],
+					value: (
+						<fragment>
+							<i className="fa fa-question"></i>
+							{' Not Blacklisted ('}
+							<span ref={(ref) => (this.notBlacklistedCount = ref)}>0</span>
+							{') '}
+							<i
+								className="fa fa-question-circle"
+								title="Users that have not blacklisted you, but there is not enough information to know if they have whitelisted you"
+							></i>
+						</fragment>
+					),
 				},
 				{
 					size: 'fill',
-					value: [
-						['i', { class: 'fa fa-question' }],
-						' Unknown (',
-						['span', { ref: (ref) => (this.unknownCount = ref) }, '0'],
-						') ',
-						[
-							'i',
-							{
-								class: 'fa fa-question-circle',
-								title: WBC.B
+					value: (
+						<fragment>
+							<i className="fa fa-question"></i>
+							{' Unknown ('}
+							<span ref={(ref) => (this.unknownCount = ref)}>0</span>
+							{') '}
+							<i
+								className="fa fa-question-circle"
+								title={
+									WBC.B
 									? 'There is not enough information to know if these users have whitelisted or blacklisted you'
-									: 'There is not enough information to know if these users have whitelisted you',
-							},
-						],
-					],
+										: 'There is not enough information to know if these users have whitelisted you'
+								}
+							></i>
+						</fragment>
+					),
 				},
 				{
 					size: 'fill',
-					value: [
-						['i', { class: 'fa fa-times' }],
-						' Not Found (',
-						['span', { ref: (ref) => (this.nonexistentCount = ref) }, '0'],
-						') ',
-						[
-							'i',
-							{
-								class: 'fa fa-question-circle',
-								title:
-									'These users were not found (most likely they changed usernames or deleted their account)',
-							},
-						],
-					],
+					value: (
+						<fragment>
+							<i className="fa fa-times"></i>
+							{' Not Found ('}
+							<span ref={(ref) => (this.nonexistentCount = ref)}>0</span>
+							{') '}
+							<i
+								className="fa fa-question-circle"
+								title="These users were not found (most likely they changed usernames or deleted their account)"
+							></i>
+						</fragment>
+					),
 				},
 			],
 		]);
@@ -995,49 +995,33 @@ class UsersWhitelistBlacklistChecker extends Module {
 				href: `/user/${user.username}`,
 			};
 			if (New) {
-				attributes.class = 'esgst-bold esgst-italic';
+				attributes.className = 'esgst-bold esgst-italic';
 			}
 			let items = null;
-
 			if (isSkipped && (wbc.result === 'unknown' || wbc.result === 'notBlacklisted')) {
-				items = [
-					[
-						'span',
-						[
-							['a', attributes, `${user.username} `],
-							[
-								'i',
-								{
-									class: 'fa fa-forward',
-									title:
-										'This user was skipped, so there may actually be enough information available.',
-								},
-							],
-						],
-					],
-				];
+				items = (
+					<span>
+						<a {...attributes}>{user.username}</a>{' '}
+						<i
+							className="fa fa-forward"
+							title="This user was skipped, so there may actually be enough information available."
+						></i>
+					</span>
+				);
 			} else {
-				items = [
-					[
-						'div',
-						[
-							['a', attributes, user.username],
-							...(wbc.wl_ga || wbc.g_wl_ga || wbc.ga
-								? [
-										' ',
-										[
-											'a',
-											{
-												href: `/giveaway/${wbc.wl_ga || wbc.g_wl_ga || wbc.ga}/`,
-												target: '_blank',
-											},
-											[['i', { class: 'fa fa-external-link', title: 'Confirm' }]],
-										],
-								  ]
-								: []),
-						],
-					],
-				];
+				items = (
+					<div>
+						<a {...attributes}>{user.username}</a>
+						{wbc.wl_ga || wbc.g_wl_ga || wbc.ga ? (
+							<fragment>
+								{' '}
+								<a href={`/giveaway/${wbc.wl_ga || wbc.g_wl_ga || wbc.ga}/`} target="_blank">
+									<i className="fa fa-external-link" title="Confirm"></i>
+								</a>
+							</fragment>
+						) : null}
+					</div>
+				);
 			}
 
 			this[`${Key}Count`].textContent = parseInt(this[`${Key}Count`].textContent) + 1;

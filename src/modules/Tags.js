@@ -288,11 +288,12 @@ class Tags extends Module {
 			],
 			icon: 'fa-tag',
 			isTemp: true,
-			title: [
-				'Edit tags for ',
-				['span', (obj.items && `${obj.items.length} items`) || obj.item.name || obj.item.id],
-				`:`,
-			],
+			title: (
+				<fragment>
+					Edit tags for{' '}
+					<span>{(obj.items && `${obj.items.length} items`) || obj.item.name || obj.item.id}</span>:
+				</fragment>
+			),
 		});
 		createElements(obj.popup.description, 'beforeEnd', [
 			{

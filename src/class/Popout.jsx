@@ -20,7 +20,15 @@ class Popout {
 		this.onFirstOpen = null;
 		this.hasOpened = false;
 		this.context = context;
-		this.popout = popout || DOM.insert(document.body, 'beforeEnd', <div class={className}></div>);
+		if (popout) {
+			this.popout = popout;
+		} else {
+			DOM.insert(
+				document.body,
+				'beforeend',
+				<div className={className} ref={(ref) => (this.popout = ref)}></div>
+			);
+		}
 		this.popout.classList.add('esgst-popout', 'esgst-hidden');
 		this.popup = this.popout.closest('.esgst-popup');
 		this.hoverSpeed = hoverSpeed;

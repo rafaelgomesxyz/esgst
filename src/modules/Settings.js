@@ -337,27 +337,29 @@ class SettingsModule {
 							addScrollable: true,
 							icon: 'fa-exclamation',
 							isTemp: true,
-							title: [
-								'Some of the features you enabled require permissions in order to work. Go ',
-								[
-									'a',
-									{
-										class: 'esgst-bold table__column__secondary-link',
-										href: browser.runtime.getURL('permissions.html'),
-										target: '_blank',
-									},
-									'here',
-								],
-								' to grant them. Specifically, you need to grant these permissions: ',
-							],
+							title: (
+								<fragment>
+									Some of the features you enabled require permissions in order to work. Go{' '}
+									<a
+										className="esgst-bold table__column__secondary-link"
+										href={browser.runtime.getURL('permissions.html')}
+										target="_blank"
+									>
+										here
+									</a>{' '}
+									to grant them. Specifically, you need to grant these permissions:{' '}
+								</fragment>
+							),
 						});
-						permissionsPopup.getScrollable([
-							[
-								'div',
-								{ class: 'markdown' },
-								[['ul', missingRequiredPermissions.map((value) => `<li>${value}</li>`)]],
-							],
-						]);
+						permissionsPopup.getScrollable(
+							<div className="markdown">
+								<ul>
+									{missingRequiredPermissions.map((value) => (
+										<li>{value}</li>
+									))}
+								</ul>
+							</div>
+						);
 						permissionsPopup.open();
 						this.requiredPermissions = {};
 					}
@@ -544,49 +546,43 @@ class SettingsModule {
 			addScrollable: true,
 			icon: 'fa-exclamation',
 			isTemp: true,
-			title: [
-				`This feature is only available in the extension version of ESGST. Please upgrade to the extension to use it. Below are the links for it:`,
-				['br'],
-				['br'],
-				[
-					'a',
-					{
-						href: `https://chrome.google.com/webstore/detail/esgst/ibedmjbicclcdfmghnkfldnplocgihna`,
-					},
-					`https://chrome.google.com/webstore/detail/esgst/ibedmjbicclcdfmghnkfldnplocgihna`,
-				],
-				['br'],
-				['br'],
-				[
-					'a',
-					{ href: `https://addons.mozilla.org/en-US/firefox/addon/esgst/` },
-					`https://addons.mozilla.org/en-US/firefox/addon/esgst/`,
-				],
-				['br'],
-				['br'],
-				[
-					'a',
-					{ href: `http://addons.palemoon.org/addon/esgst/` },
-					`http://addons.palemoon.org/addon/esgst/`,
-				],
-				['br'],
-				['br'],
-				`To transfer your data from the userscript to the extension, backup your data in the backup menu of the userscript, then disable the userscript, install the extension and restore your data in the restore menu of the extension. Below are the links to the backup/restore pages:`,
-				['br'],
-				['br'],
-				[
-					'a',
-					{ href: `https://www.steamgifts.com/account/settings/profile?esgst=backup` },
-					`https://www.steamgifts.com/account/settings/profile?esgst=backup`,
-				],
-				['br'],
-				['br'],
-				[
-					'a',
-					{ href: `https://www.steamgifts.com/account/settings/profile?esgst=restore` },
-					`https://www.steamgifts.com/account/settings/profile?esgst=restore`,
-				],
-			],
+			title: (
+				<fragment>
+					This feature is only available in the extension version of ESGST. Please upgrade to the
+					extension to use it. Below are the links for it:
+					<br />
+					<br />
+					<a href="https://chrome.google.com/webstore/detail/esgst/ibedmjbicclcdfmghnkfldnplocgihna">
+						https://chrome.google.com/webstore/detail/esgst/ibedmjbicclcdfmghnkfldnplocgihna
+					</a>
+					<br />
+					<br />
+					<a href="https://addons.mozilla.org/en-US/firefox/addon/esgst/">
+						https://addons.mozilla.org/en-US/firefox/addon/esgst/
+					</a>
+					<br />
+					<br />
+					<a href="http://addons.palemoon.org/addon/esgst/">
+						http://addons.palemoon.org/addon/esgst/
+					</a>
+					<br />
+					<br />
+					To transfer your data from the userscript to the extension, backup your data in the backup
+					menu of the userscript, then disable the userscript, install the extension and restore
+					your data in the restore menu of the extension. Below are the links to the backup/restore
+					pages:
+					<br />
+					<br />
+					<a href="https://www.steamgifts.com/account/settings/profile?esgst=backup">
+						https://www.steamgifts.com/account/settings/profile?esgst=backup
+					</a>
+					<br />
+					<br />
+					<a href="https://www.steamgifts.com/account/settings/profile?esgst=restore">
+						https://www.steamgifts.com/account/settings/profile?esgst=restore
+					</a>
+				</fragment>
+			),
 		}).open();
 	}
 
@@ -1723,19 +1719,16 @@ class SettingsModule {
 				}
 				if (feature.dependencies) {
 					Shared.common.createConfirmation(
-						[
-							`This feature depends on the following features to work properly: `,
-							['br'],
-							['br'],
-							...feature.dependencies
-								.map((x) => `"${Shared.common.getFeatureName(null, x)}"::ESGST::["br"]::ESGST::`)
-								.join('')
-								.split(`::ESGST::`)
-								.filter((x) => x)
-								.map((x) => JSON.parse(x)),
-							['br'],
-							"Would you like ESGST to automatically enable these features now if they're not already enabled?",
-						],
+						<fragment>
+							This feature depends on the following features to work properly: <br />
+							<br />
+							{feature.dependencies
+								.map((x) => [`"${Shared.common.getFeatureName(null, x)}"`, <br />])
+								.flat()}
+							<br />
+							Would you like ESGST to automatically enable these features now if they're not already
+							enabled?
+						</fragment>,
 						() => this.enableDependencies(feature.dependencies, 'sg')
 					);
 				}
@@ -1808,19 +1801,16 @@ class SettingsModule {
 				}
 				if (feature.dependencies) {
 					Shared.common.createConfirmation(
-						[
-							`This feature depends on the following features to work properly: `,
-							['br'],
-							['br'],
-							...feature.dependencies
-								.map((x) => `"${Shared.common.getFeatureName(null, x)}"::ESGST::["br"]::ESGST::`)
-								.join('')
-								.split(`::ESGST::`)
-								.filter((x) => x)
-								.map((x) => JSON.parse(x)),
-							['br'],
-							"Would you like ESGST to automatically enable these features now if they're not already enabled?",
-						],
+						<fragment>
+							This feature depends on the following features to work properly: <br />
+							<br />
+							{feature.dependencies
+								.map((x) => [`"${Shared.common.getFeatureName(null, x)}"`, <br />])
+								.flat()}
+							<br />
+							Would you like ESGST to automatically enable these features now if they're not already
+							enabled?
+						</fragment>,
 						() => this.enableDependencies(feature.dependencies, 'st')
 					);
 				}
@@ -1902,19 +1892,16 @@ class SettingsModule {
 				}
 				if (feature.dependencies) {
 					Shared.common.createConfirmation(
-						[
-							`This feature depends on the following features to work properly: `,
-							['br'],
-							['br'],
-							...feature.dependencies
-								.map((x) => `"${Shared.common.getFeatureName(null, x)}"::ESGST::["br"]::ESGST::`)
-								.join('')
-								.split(`::ESGST::`)
-								.filter((x) => x)
-								.map((x) => JSON.parse(x)),
-							['br'],
-							"Would you like ESGST to automatically enable these features now if they're not already enabled?",
-						],
+						<fragment>
+							This feature depends on the following features to work properly: <br />
+							<br />
+							{feature.dependencies
+								.map((x) => [`"${Shared.common.getFeatureName(null, x)}"`, <br />])
+								.flat()}
+							<br />
+							Would you like ESGST to automatically enable these features now if they're not already
+							enabled?
+						</fragment>,
 						() => this.enableDependencies(feature.dependencies, 'sgt')
 					);
 				}
@@ -3470,8 +3457,8 @@ class SettingsModule {
 			addScrollable: true,
 		});
 		obj.popup.onClose = resolve.bind(Shared.common, url);
-		let context = obj.popup.getScrollable([['div', { class: 'esgst-sm-colors' }]])
-			.firstElementChild;
+		let context;
+		obj.popup.getScrollable(<div className="esgst-sm-colors" ref={(ref) => (context = ref)}></div>);
 		obj.options[key].forEach((option) => {
 			option.select = Shared.common.createElements(context, 'beforeEnd', [
 				{

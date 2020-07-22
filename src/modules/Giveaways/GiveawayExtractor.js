@@ -253,19 +253,18 @@ class GiveawaysGiveawayExtractor extends Module {
 					context,
 					'ge_flushCache',
 					null,
-					[
-						'Flush the cache if it is older than ',
-						[
-							'input',
-							{
-								class: 'esgst-switch-input',
-								step: '0.1',
-								type: 'number',
-								value: ge.flushCacheHours,
-							},
-						],
-						' hours.',
-					],
+					(
+						<fragment>
+							Flush the cache if it is older than{' '}
+							<input
+								className="esgst-switch-input"
+								step="0.1"
+								type="number"
+								value={ge.flushCacheHours}
+							/>{' '}
+							hours.
+						</fragment>
+					),
 					false,
 					false,
 					null,

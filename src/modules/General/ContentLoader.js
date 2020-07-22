@@ -408,7 +408,7 @@ class GeneralContentLoader extends Module {
 						triggerObj = new Popup({
 							addScrollable: true,
 							icon: `fa-${icon}`,
-							title: [['a', { href: url }, name]],
+							title: <a href={url}>{name}</a>,
 						});
 						context = triggerObj.scrollable;
 

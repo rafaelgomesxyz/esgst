@@ -11,66 +11,41 @@ class Popup {
 		this.Results = undefined;
 		this.textArea = undefined;
 		this.temp = details.isTemp;
-		this.layer = DOM.build(document.body, 'beforeEnd', [
-			[
-				'div',
-				{ class: 'esgst-hidden esgst-popup-layer' },
-				[
-					...(details.popup
-						? [details.popup]
-						: [
-								[
-									'div',
-									{ class: 'esgst-popup' },
-									[
-										[
-											'div',
-											{ class: 'esgst-popup-heading' },
-											[
-												[
-													'i',
-													{
-														class: `fa ${details.icon} esgst-popup-icon${
-															details.icon ? '' : ' esgst-hidden'
-														}`,
-													},
-												],
-												[
-													'div',
-													{ class: `esgst-popup-title${details.title ? '' : ' esgst-hidden'}` },
-													details.title,
-												],
-											],
-										],
-										['div', { class: 'esgst-popup-description' }],
-										[
-											'div',
-											{
-												class: `esgst-popup-scrollable ${
-													details.addScrollable === 'left' ? 'esgst-text-left' : ''
-												}`,
-											},
-											details.scrollableContent,
-										],
-										[
-											'div',
-											{ class: 'esgst-popup-actions' },
-											[
-												[
-													'a',
-													{ class: 'esgst-hidden', href: Shared.esgst.settingsUrl },
-													'Settings',
-												],
-												['a', { class: 'esgst-popup-close' }, 'Close'],
-											],
-										],
-									],
-								],
-						  ]),
-					['div', { class: 'esgst-popup-modal', title: 'Click to close the modal' }],
-				],
-			],
-		]);
+		DOM.insert(
+			document.body,
+			'beforeend',
+			<div className="esgst-hidden esgst-popup-layer" ref={(ref) => (this.layer = ref)}>
+				{details.popup || (
+					<div className="esgst-popup">
+						<div className="esgst-popup-heading">
+							<i
+								className={`fa ${details.icon} esgst-popup-icon${
+									details.icon ? '' : ' esgst-hidden'
+								}`}
+							></i>
+							<div className={`esgst-popup-title${details.title ? '' : ' esgst-hidden'}`}>
+								{details.title}
+							</div>
+						</div>
+						<div className="esgst-popup-description"></div>
+						<div
+							className={`esgst-popup-scrollable ${
+								details.addScrollable === 'left' ? 'esgst-text-left' : ''
+							}`}
+						>
+							{details.scrollableContent}
+						</div>
+						<div className="esgst-popup-actions">
+							<a className="esgst-hidden" href={Shared.esgst.settingsUrl}>
+								Settings
+							</a>
+							<a className="esgst-popup-close">Close</a>
+						</div>
+					</div>
+				)}
+				<div className="esgst-popup-modal" title="Click to close the modal"></div>
+			</div>
+		);
 		this.onCloseByUser = details.onCloseByUser;
 		this.onClose = details.onClose;
 		this.popup = this.layer.firstElementChild;
@@ -107,13 +82,18 @@ class Popup {
 		if (details.textInputs) {
 			this.textInputs = [];
 			details.textInputs.forEach((textInput) => {
-				let input = DOM.insert(
+				let input;
+				DOM.insert(
 					this.description,
-					'beforeEnd',
-					<>
+					'beforeend',
+					<fragment>
 						{textInput.title || null}
-						<input placeholder={textInput.placeholder || ''} type="text" />
-					</>
+						<input
+							placeholder={textInput.placeholder || ''}
+							ref={(ref) => (input = ref)}
+							type="text"
+						/>
+					</fragment>
 				);
 				input.addEventListener('keydown', this.triggerButton.bind(this, 0));
 				this.textInputs.push(input);
@@ -144,8 +124,12 @@ class Popup {
 			});
 		}
 		if (details.addProgress) {
-			this.progress = DOM.insert(this.description, 'beforeEnd', <div />);
-			this.overallProgress = DOM.insert(this.description, 'beforeEnd', <div />);
+			DOM.insert(this.description, 'beforeend', <div ref={(ref) => (this.progress = ref)}></div>);
+			DOM.insert(
+				this.description,
+				'beforeend',
+				<div ref={(ref) => (this.overallProgress = ref)}></div>
+			);
 		}
 		this.id = Shared.common.addScope(details.name, this.popup);
 	}
@@ -218,22 +202,24 @@ class Popup {
 		button.set.remove();
 	}
 
-	setScrollable(fragments) {
-		DOM.insert(this.scrollable, 'beforeEnd', <div>{fragments}</div>);
+	setScrollable(jsx) {
+		DOM.insert(this.scrollable, 'beforeend', <div>{jsx}</div>);
 	}
 
-	getScrollable(html) {
-		return DOM.build(this.scrollable, 'beforeEnd', [['div', html]]);
+	getScrollable(jsx) {
+		let scrollableEl;
+		DOM.insert(this.scrollable, 'beforend', <div ref={(ref) => (scrollableEl = ref)}>{jsx}</div>);
+		return scrollableEl;
 	}
 
 	setError(message) {
 		DOM.insert(
 			this.progress,
-			'inner',
-			<>
-				<i class="fa fa-times-circle"></i>
+			'atinner',
+			<fragment>
+				<i className="fa fa-times-circle"></i>
 				<span>{message}</span>
-			</>
+			</fragment>
 		);
 	}
 
@@ -243,11 +229,11 @@ class Popup {
 		} else {
 			DOM.insert(
 				this.progress,
-				'inner',
-				<>
-					<i class="fa fa-circle-o-notch fa-spin"></i>
+				'atinner',
+				<fragment>
+					<i className="fa fa-circle-o-notch fa-spin"></i>
 					<span>{message}</span>
-				</>
+				</fragment>
 			);
 			this.progressMessage = this.progress.lastElementChild;
 		}
@@ -274,7 +260,7 @@ class Popup {
 	}
 
 	setTitle(title) {
-		DOM.build(this.title, 'inner', title);
+		DOM.insert(this.title, 'atinner', title);
 	}
 
 	/**

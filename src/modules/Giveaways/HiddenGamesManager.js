@@ -166,25 +166,24 @@ class GiveawaysHiddenGamesManager extends Module {
 			obj.popup.scrollable,
 			'hgm_removeTagged',
 			false,
-			[
-				'Only remove games tagged with: ',
-				[
-					'input',
-					{
-						class: 'esgst-switch-input esgst-switch-input-large',
-						placeholder: 'tag1, tag2, tag3, ...',
-						type: 'text',
-						value: Settings.get('hgm_tags').join(', '),
-						onchange: (event) => {
+			(
+				<fragment>
+					Only remove games tagged with:{' '}
+					<input
+						className="esgst-switch-input esgst-switch-input-large"
+						placeholder="tag1, tag2, tag3, ..."
+						type="text"
+						value={Settings.get('hgm_tags').join(', ')}
+						onchange={(event) => {
 							Settings.set(
 								'hgm_tags',
 								Array.from(new Set(event.target.value.toLowerCase().split(/,\s*/)))
 							);
 							Shared.common.setSetting('hgm_tags', Settings.get('hgm_tags'));
-						},
-					},
-				],
-			],
+						}}
+					/>
+				</fragment>
+			),
 			false,
 			false,
 			'Enter the tags for the games that you want to remove, separated by a comma.',

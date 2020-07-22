@@ -11,23 +11,16 @@ class Checkbox {
 		this.isBlocked = false;
 		this.value = defaultValue;
 		this.isThreeState = threeState;
-		const items = [
-			[
-				'span',
-				{ class: 'esgst-checkbox' },
-				[
-					['input', { class: 'esgst-hidden', type: 'checkbox' }],
-					['i', { class: 'fa fa-square-o' }],
-					['i', { class: 'fa fa-square', type: messages.select || '' }],
-					['i', { class: 'fa fa-check-square', type: messages.unselect || '' }],
-				],
-			],
-		];
-		if (context) {
-			this.checkbox = DOM.build(context, 'afterBegin', items);
-		} else {
-			this.checkbox = DOM.build(items).firstElementChild;
-		}
+		DOM.insert(
+			context || DOM.fragment(),
+			'afterbegin',
+			<span className="esgst-checkbox" ref={(ref) => (this.checkbox = ref)}>
+				<input className="esgst-hidden" type="checkbox" />
+				<i className="fa fa-square-o"></i>
+				<i className="fa fa-square" title={messages.select || ''}></i>
+				<i className="fa fa-check-square" title={messages.unselect || ''}></i>
+			</span>
+		);
 		this.input = this.checkbox.firstElementChild;
 		this.disabled = this.input.nextElementSibling;
 		this.none = this.disabled.nextElementSibling;
