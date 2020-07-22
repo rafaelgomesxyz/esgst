@@ -1,11 +1,16 @@
 import { Module } from '../../class/Module';
 import { Shared } from '../../class/Shared';
+import { DOM } from '../../class/DOM';
 
 class TradesHeaderTradesButton extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [['ul', [['li', 'Brings back the Trades button to the SteamGifts header.']]]],
+			description: () => (
+				<ul>
+					<li>Brings back the Trades button to the SteamGifts header.</li>
+				</ul>
+			),
 			id: 'htb',
 			name: 'Header Trades Button',
 			sg: true,

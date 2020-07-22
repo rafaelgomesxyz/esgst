@@ -4,6 +4,7 @@ import { common } from '../Common';
 import { Shared } from '../../class/Shared';
 import { permissions } from '../../class/Permissions';
 import { LocalStorage } from '../../class/LocalStorage';
+import { DOM } from '../../class/DOM';
 
 const createElements = common.createElements.bind(common),
 	createHeadingButton = common.createHeadingButton.bind(common),
@@ -18,21 +19,15 @@ class TradesHaveWantListChecker extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							[
-								`Adds a button (`,
-								['i', { class: 'fa fa-list' }],
-								`) to the right side of the first page heading of any trade that allows you to check the have/want list against your wishlisted/owned games, along with some filtering options.`,
-							],
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Adds a button (<i className="fa fa-list"></i>) to the right side of the first page
+						heading of any trade that allows you to check the have/want list against your
+						wishlisted/owned games, along with some filtering options.
+					</li>
+				</ul>
+			),
 			id: 'hwlc',
 			name: 'Have/Want List Checker',
 			st: true,

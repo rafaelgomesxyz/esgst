@@ -14,41 +14,29 @@ class TradesTradeBumper extends Module {
 	constructor() {
 		super();
 		this.info = {
-			description: [
-				[
-					'ul',
-					[
-						[
-							'li',
-							[
-								`Adds a button (`,
-								['i', { class: 'fa fa-chevron-circle-up' }],
-								`) to the main page heading of your `,
-								[
-									'a',
-									{ href: `https://www.steamtrades.com/trades/search?user=your-steam-id` },
-									'created trades',
-								],
-								' page that allows you to bump all of your open trades at once.',
-							],
-						],
-					],
-				],
-			],
+			description: () => (
+				<ul>
+					<li>
+						Adds a button (<i className="fa fa-chevron-circle-up"></i>) to the main page heading of
+						your{' '}
+						<a href="https://www.steamtrades.com/trades/search?user=your-steam-id">
+							created trades
+						</a>{' '}
+						page that allows you to bump all of your open trades at once.
+					</li>
+				</ul>
+			),
 			features: {
 				tb_a: {
-					description: [
-						[
-							'ul',
-							[
-								['li', 'Automatically bumps all of your trades every hour.'],
-								[
-									'li',
-									`Requires either SteamGifts or SteamTrades to be open, depending on where you have this option enabled.`,
-								],
-							],
-						],
-					],
+					description: () => (
+						<ul>
+							<li>Automatically bumps all of your trades every hour.</li>
+							<li>
+								Requires either SteamGifts or SteamTrades to be open, depending on where you have
+								this option enabled.
+							</li>
+						</ul>
+					),
 					name: 'Auto bump every hour.',
 					sg: true,
 					st: true,
