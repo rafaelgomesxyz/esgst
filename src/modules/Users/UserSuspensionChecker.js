@@ -59,7 +59,7 @@ class UsersUserSuspensionChecker extends Module {
 			icon: 'fa-question',
 			title: `Check users for suspensions:`,
 		});
-		uscObj.options = DOM.build(popup.description, 'beforeEnd', [['div']]);
+		DOM.insert(popup.description, 'beforeend', <div ref={(ref) => (uscObj.options = ref)} />);
 		let checkSingleSwitch;
 		if (uscObj.username) {
 			checkSingleSwitch = new ToggleSwitch(
@@ -81,7 +81,9 @@ class UsersUserSuspensionChecker extends Module {
 			'Only check selected.',
 			false,
 			false,
-			`Use ${mmFeature.number} ${mmFeature.name} to select the users that you want to check. Then click the button 'Check Suspensions' in the Multi-Manager popout and you will be redirected here.`,
+			`Use ${mmFeature.number} ${
+				typeof mmFeature.name === 'function' ? mmFeature.name() : mmFeature.name
+			} to select the users that you want to check. Then click the button 'Check Suspensions' in the Multi-Manager popout and you will be redirected here.`,
 			Settings.get('usc_checkSelected')
 		);
 		let checkAllSwitch;
@@ -222,8 +224,8 @@ class UsersUserSuspensionChecker extends Module {
 				},
 			}).set
 		);
-		uscObj.progress = DOM.build(popup.description, 'beforeEnd', [['div']]);
-		uscObj.results = DOM.build(popup.scrollable, 'beforeEnd', [['div']]);
+		DOM.insert(popup.description, 'beforeend', <div ref={(ref) => (uscObj.progress = ref)}></div>);
+		DOM.insert(popup.scrollable, 'beforeend', <div ref={(ref) => (uscObj.results = ref)}></div>);
 		Shared.common.createResults(uscObj.results, uscObj, [
 			{
 				Icon: 'fa fa-times-circle esgst-red',
@@ -245,7 +247,7 @@ class UsersUserSuspensionChecker extends Module {
 			if (button.getAttribute('data-mm')) {
 				if (!Settings.get('usc_checkSelected')) {
 					if (Settings.get('usc_checkSingle') && checkSingleSwitch) {
-						let element = Shared.common.createElements(checkSingleSwitch.container, 'afterBegin', [
+						let element = Shared.common.createElements(checkSingleSwitch.container, 'afterbegin', [
 							{
 								attributes: {
 									class: 'esgst-bold esgst-red',
@@ -256,7 +258,7 @@ class UsersUserSuspensionChecker extends Module {
 						]);
 						window.setTimeout(() => element.remove(), 5000);
 					} else if (Settings.get('usc_checkAll')) {
-						let element = Shared.common.createElements(checkAllSwitch.container, 'afterBegin', [
+						let element = Shared.common.createElements(checkAllSwitch.container, 'afterbegin', [
 							{
 								attributes: {
 									class: 'esgst-bold esgst-red',
@@ -267,7 +269,7 @@ class UsersUserSuspensionChecker extends Module {
 						]);
 						window.setTimeout(() => element.remove(), 5000);
 					} else if (Settings.get('usc_checkPages')) {
-						let element = Shared.common.createElements(checkPagesSwitch.container, 'afterBegin', [
+						let element = Shared.common.createElements(checkPagesSwitch.container, 'afterbegin', [
 							{
 								attributes: {
 									class: 'esgst-bold esgst-red',
@@ -278,7 +280,7 @@ class UsersUserSuspensionChecker extends Module {
 						]);
 						window.setTimeout(() => element.remove(), 5000);
 					}
-					let element = Shared.common.createElements(checkSelectedSwitch.container, 'afterBegin', [
+					let element = Shared.common.createElements(checkSelectedSwitch.container, 'afterbegin', [
 						{
 							attributes: {
 								class: 'esgst-bold esgst-red',
@@ -378,9 +380,13 @@ class UsersUserSuspensionChecker extends Module {
 				key = 'none';
 			}
 			uscObj[key].classList.remove('esgst-hidden');
-			DOM.build(uscObj[`${key}Users`], 'beforeEnd', [
-				['div', [['a', { href: `/user/${username}` }, username], text ? ` (${text})` : null]],
-			]);
+			DOM.insert(
+				uscObj[`${key}Users`],
+				'beforeend',
+				<div>
+					<a href={`/user/${username}`}>{username}</a> {text ? ` (${text})` : null}
+				</div>
+			);
 			uscObj[`${key}Count`].textContent = parseInt(uscObj[`${key}Count`].textContent) + 1;
 		}
 		uscObj.progress.innerHTML = `${i} of ${n} users checked...`;
@@ -420,10 +426,14 @@ class UsersUserSuspensionChecker extends Module {
 				uscObj.lastPage = Shared.esgst.modules.generalLastPageLink.lpl_getLastPage(html, true);
 				uscObj.lastPage = uscObj.lastPage === 999999999 ? '' : ` of ${uscObj.lastPage}`;
 			}
-			DOM.build(uscObj.progress, 'inner', [
-				['i', { class: 'fa fa-circle-o-notch fa-spin' }],
-				['span', `Retrieving users (page ${nextPage}${uscObj.lastPage})...`],
-			]);
+			DOM.insert(
+				uscObj.progress,
+				'atinner',
+				<fragment>
+					<i className="fa fa-circle-o-notch fa-spin"></i>
+					<span>{`Retrieving users (page ${nextPage}${uscObj.lastPage})...`}</span>
+				</fragment>
+			);
 			const elements = html.querySelectorAll(`a[href*="/user/"]`);
 			for (const element of elements) {
 				const match = element.getAttribute('href').match(/\/user\/(.+)/);

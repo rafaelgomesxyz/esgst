@@ -55,7 +55,7 @@ class UsersNotReceivedFinder extends Module {
 		if (profile[`${key}NotReceived`] < 1) {
 			return;
 		}
-		const button = createElements(profile[`${key}RowLeft`], 'beforeEnd', [
+		const button = createElements(profile[`${key}RowLeft`], 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-nrf-button',
@@ -112,7 +112,7 @@ class UsersNotReceivedFinder extends Module {
 
 	async nrf_init(key, profile, obj) {
 		if (profile.username !== Settings.get('username') && !obj.nrfMessage) {
-			obj.nrfMessage = createElements(obj.popup.scrollable, 'beforeBegin', [
+			obj.nrfMessage = createElements(obj.popup.scrollable, 'beforebegin', [
 				{
 					attributes: {
 						class: 'esgst-description',
@@ -155,14 +155,14 @@ class UsersNotReceivedFinder extends Module {
 		} else {
 			obj.onDone = null;
 			obj.requests = [];
-			createElements(obj.nrfResults, 'inner', [
+			createElements(obj.nrfResults, 'atinner', [
 				...Array.from(DOM.parse(obj.nrfData.results).body.childNodes).map((x) => {
 					return {
 						context: x,
 					};
 				}),
 			]);
-			createElements(obj.popup.overallProgress, 'inner', [
+			createElements(obj.popup.overallProgress, 'atinner', [
 				{
 					text: `${obj.nrfData.found} of ${obj.nrfData.total} not received giveaways found...`,
 					type: 'node',

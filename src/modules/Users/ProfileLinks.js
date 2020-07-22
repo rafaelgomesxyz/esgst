@@ -213,7 +213,7 @@ class UsersProfileLinks extends Module {
 		}
 		createElements(
 			Shared.esgst.sidebar.getElementsByClassName('sidebar__navigation')[0],
-			'afterEnd',
+			'afterend',
 			items
 		);
 	}

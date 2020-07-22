@@ -113,7 +113,7 @@ class UsersWhitelistBlacklistHighlighter extends Module {
 					user.element.classList.add('esgst-wbh-highlight', `esgst-wbh-highlight-${status}`);
 					user.element.title = getFeatureTooltip('wbh', title);
 				} else {
-					createElements(user.context, 'beforeBegin', [
+					createElements(user.context, 'beforebegin', [
 						{
 							attributes: {
 								class: 'esgst-wbh-icon esgst-user-icon',

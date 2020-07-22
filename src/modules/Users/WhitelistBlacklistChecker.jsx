@@ -168,7 +168,7 @@ class UsersWhitelistBlacklistChecker extends Module {
 			) {
 				let result = user.saved.wbc.result;
 				if (result === 'whitelisted' || (result === 'blacklisted' && !Settings.get('wbc_hb'))) {
-					createElements(user.context, 'beforeBegin', [
+					createElements(user.context, 'beforebegin', [
 						{
 							attributes: {
 								class: 'esgst-wbc-icon esgst-user-icon',
@@ -239,7 +239,7 @@ class UsersWhitelistBlacklistChecker extends Module {
 
 		const popout = new Popout('', optionsButton, 0, true);
 
-		popup.Options = createElements(popout.popout, 'beforeEnd', [{ type: 'div' }]);
+		popup.Options = createElements(popout.popout, 'beforeend', [{ type: 'div' }]);
 		if (WBC.User) {
 			checkSingleSwitch = new ToggleSwitch(
 				popup.Options,
@@ -493,7 +493,7 @@ class UsersWhitelistBlacklistChecker extends Module {
 		}
 		checkSelectedSwitch.exclusions.push(checkFromListSwitch.container);
 		checkFromListSwitch.exclusions.push(checkSelectedSwitch.container);
-		createElements(popup.Options, 'afterEnd', [
+		createElements(popup.Options, 'afterend', [
 			{
 				attributes: {
 					class: 'esgst-description',
@@ -543,9 +543,9 @@ class UsersWhitelistBlacklistChecker extends Module {
 				},
 			}).set
 		);
-		WBC.Progress = createElements(popup.description, 'beforeEnd', [{ type: 'div' }]);
-		WBC.OverallProgress = createElements(popup.description, 'beforeEnd', [{ type: 'div' }]);
-		popup.Results = createElements(popup.scrollable, 'beforeEnd', [{ type: 'div' }]);
+		WBC.Progress = createElements(popup.description, 'beforeend', [{ type: 'div' }]);
+		WBC.OverallProgress = createElements(popup.description, 'beforeend', [{ type: 'div' }]);
+		popup.Results = createElements(popup.scrollable, 'beforeend', [{ type: 'div' }]);
 
 		this.table = new Table([
 			[
@@ -585,7 +585,7 @@ class UsersWhitelistBlacklistChecker extends Module {
 								className="fa fa-question-circle"
 								title={
 									WBC.B
-									? 'Users that have neither whitelisted nor blacklisted you'
+										? 'Users that have neither whitelisted nor blacklisted you'
 										: 'Users that have not whitelisted you'
 								}
 							></i>
@@ -619,7 +619,7 @@ class UsersWhitelistBlacklistChecker extends Module {
 								className="fa fa-question-circle"
 								title={
 									WBC.B
-									? 'There is not enough information to know if these users have whitelisted or blacklisted you'
+										? 'There is not enough information to know if these users have whitelisted or blacklisted you'
 										: 'There is not enough information to know if these users have whitelisted you'
 								}
 							></i>
@@ -656,7 +656,7 @@ class UsersWhitelistBlacklistChecker extends Module {
 			if (WBCButton.getAttribute('data-mm')) {
 				if (!Settings.get('wbc_checkSelected')) {
 					if (Settings.get('wbc_checkSingle') && checkSingleSwitch) {
-						let element = createElements(checkSingleSwitch.container, 'afterBegin', [
+						let element = createElements(checkSingleSwitch.container, 'afterbegin', [
 							{
 								attributes: {
 									class: 'esgst-bold esgst-red',
@@ -667,7 +667,7 @@ class UsersWhitelistBlacklistChecker extends Module {
 						]);
 						window.setTimeout(() => element.remove(), 5000);
 					} else if (Settings.get('wbc_checkAll')) {
-						let element = createElements(checkAllSwitch.container, 'afterBegin', [
+						let element = createElements(checkAllSwitch.container, 'afterbegin', [
 							{
 								attributes: {
 									class: 'esgst-bold esgst-red',
@@ -678,7 +678,7 @@ class UsersWhitelistBlacklistChecker extends Module {
 						]);
 						window.setTimeout(() => element.remove(), 5000);
 					} else if (Settings.get('wbc_checkPages')) {
-						let element = createElements(checkPagesSwitch.container, 'afterBegin', [
+						let element = createElements(checkPagesSwitch.container, 'afterbegin', [
 							{
 								attributes: {
 									class: 'esgst-bold esgst-red',
@@ -689,7 +689,7 @@ class UsersWhitelistBlacklistChecker extends Module {
 						]);
 						window.setTimeout(() => element.remove(), 5000);
 					}
-					let element = createElements(checkSelectedSwitch.container, 'afterBegin', [
+					let element = createElements(checkSelectedSwitch.container, 'afterbegin', [
 						{
 							attributes: {
 								class: 'esgst-bold esgst-red',
@@ -884,7 +884,7 @@ class UsersWhitelistBlacklistChecker extends Module {
 	async wbc_checkUsers(WBC, I, N, Callback) {
 		let User, Result;
 		if (!WBC.Canceled) {
-			createElements(WBC.Progress, 'inner', [
+			createElements(WBC.Progress, 'atinner', [
 				{
 					attributes: {
 						class: 'fa fa-circle-o-notch fa-spin',
@@ -1110,7 +1110,7 @@ class UsersWhitelistBlacklistChecker extends Module {
 		if (!WBC.Canceled) {
 			Key = wbc.result;
 			Type = Key.match(/(.+)ed/)[1];
-			createElements(WBC.Progress, 'inner', [
+			createElements(WBC.Progress, 'atinner', [
 				{
 					attributes: {
 						class: 'fa fa-circle-o-notch fa-spin',
@@ -1344,7 +1344,7 @@ class UsersWhitelistBlacklistChecker extends Module {
 				);
 				obj.lastPage = obj.lastPage === 999999999 ? '' : ` of ${obj.lastPage}`;
 			}
-			createElements(obj.Progress, 'inner', [
+			createElements(obj.Progress, 'atinner', [
 				{
 					attributes: {
 						class: 'fa fa-circle-o-notch fa-spin',
@@ -1461,7 +1461,7 @@ class UsersWhitelistBlacklistChecker extends Module {
 		const n = groupGiveaways.length;
 		for (let i = 0; i < n; i++) {
 			const groupGiveaway = groupGiveaways[i];
-			createElements(obj.Progress, 'inner', [
+			createElements(obj.Progress, 'atinner', [
 				{
 					attributes: {
 						class: 'fa fa-circle-o-notch',
@@ -1533,7 +1533,7 @@ class UsersWhitelistBlacklistChecker extends Module {
 				WBC.lastPage = Shared.esgst.modules.generalLastPageLink.lpl_getLastPage(Context, true);
 				WBC.lastPage = WBC.lastPage === 999999999 ? '' : ` of ${WBC.lastPage}`;
 			}
-			createElements(WBC.Progress, 'inner', [
+			createElements(WBC.Progress, 'atinner', [
 				{
 					attributes: {
 						class: 'fa fa-circle-o-notch fa-spin',

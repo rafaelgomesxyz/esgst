@@ -68,21 +68,22 @@ class UsersUsernameHistory extends Module {
 	}
 
 	addButton(profile) {
-		const container = DOM.insert(
+		let container;
+		DOM.insert(
 			profile.heading,
-			'beforeEnd',
-			<div class="esgst-uh-container">
+			'beforeend',
+			<div className="esgst-uh-container" ref={(ref) => (container = ref)}>
 				<a
-					class="esgst-uh-button"
+					className="esgst-uh-button"
 					title={Shared.common.getFeatureTooltip('uh', 'View username history')}
 				>
-					<i class="fa fa-caret-down"></i>
+					<i className="fa fa-caret-down"></i>
 				</a>
-				<div class="esgst-uh-box esgst-hidden">
-					<div class="esgst-uh-title">
+				<div className="esgst-uh-box esgst-hidden">
+					<div className="esgst-uh-title">
 						<span>Username History</span>
 					</div>
-					<ul class="esgst-uh-list"></ul>
+					<ul className="esgst-uh-list"></ul>
 				</div>
 			</div>
 		);
@@ -102,9 +103,9 @@ class UsersUsernameHistory extends Module {
 		if (!hasPermissions) {
 			DOM.insert(
 				list,
-				'inner',
+				'atinner',
 				<div>
-					<i class="fa fa-times"></i>
+					<i className="fa fa-times"></i>
 					<span>
 						No permissions granted for https://rafaelgssa.com. Please grant the permissions on the
 						settings menu so that the data can be retrieved from the ESGST API.
@@ -115,9 +116,9 @@ class UsersUsernameHistory extends Module {
 		}
 		DOM.insert(
 			list,
-			'inner',
+			'atinner',
 			<div>
-				<i class="fa fa-circle-o-notch fa-spin"></i>
+				<i className="fa fa-circle-o-notch fa-spin"></i>
 				<span>Loading username history...</span>
 			</div>
 		);
@@ -125,7 +126,7 @@ class UsersUsernameHistory extends Module {
 			const response = await this.getUserNames(profile.steamId, profile.username);
 			DOM.insert(
 				list,
-				'inner',
+				'atinner',
 				<fragment>
 					{response.result.usernames.map((username) => (
 						<li>{username}</li>
@@ -136,9 +137,9 @@ class UsersUsernameHistory extends Module {
 			Logger.warning(err);
 			DOM.insert(
 				list,
-				'inner',
+				'atinner',
 				<div>
-					<i class="fa fa-times"></i>
+					<i className="fa fa-times"></i>
 					<span>Failed to load history. Please try again later.</span>
 				</div>
 			);

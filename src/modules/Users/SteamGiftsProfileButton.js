@@ -37,7 +37,7 @@ class UsersSteamGiftsProfileButton extends Module {
 
 	sgpb_add(profile) {
 		let button;
-		button = createElements(profile.steamButtonContainer, 'beforeEnd', [
+		button = createElements(profile.steamButtonContainer, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-sgpb-container',

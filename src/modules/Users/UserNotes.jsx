@@ -4,6 +4,7 @@ import { Popup } from '../../class/Popup';
 import { common } from '../Common';
 import { Settings } from '../../class/Settings';
 import { Shared } from '../../class/Shared';
+import { DOM } from '../../class/DOM';
 
 const createElements = common.createElements.bind(common),
 	getFeatureTooltip = common.getFeatureTooltip.bind(common),
@@ -58,7 +59,7 @@ class UsersUserNotes extends Module {
 	un_add(profile, savedUser) {
 		let blacklistButton, position, whitelistButton;
 		if (Shared.esgst.sg) {
-			position = 'beforeEnd';
+			position = 'beforeend';
 			if (Settings.get('un_p')) {
 				whitelistButton = profile.steamButtonContainer.getElementsByClassName(
 					'sidebar__shortcut__whitelist'
@@ -74,7 +75,7 @@ class UsersUserNotes extends Module {
 				}
 			}
 		} else {
-			position = 'afterBegin';
+			position = 'afterbegin';
 		}
 		profile.unButton = createElements(profile.heading, position, [
 			{
@@ -114,7 +115,7 @@ class UsersUserNotes extends Module {
 				</fragment>
 			),
 		});
-		profile.unTextArea = createElements(profile.unPopup.scrollable, 'beforeEnd', [
+		profile.unTextArea = createElements(profile.unPopup.scrollable, 'beforeend', [
 			{
 				type: 'textarea',
 			},

@@ -45,16 +45,15 @@ class UsersUserLinks extends Module {
 				const icon = label.match(iconRegex);
 				if (icon) {
 					label = label.replace(iconRegex, '');
-					children.push(['i', { class: `fa ${icon[1]}` }]);
+					children.push(<i className={`fa ${icon[1]}`}></i>);
 					continue;
 				}
 				const image = label.match(imageRegex);
 				if (image) {
 					label = label.replace(imageRegex, '');
-					children.push([
-						'img',
-						{ height: '16', src: image[1], style: `vertical-align: middle;`, width: '16' },
-					]);
+					children.push(
+						<img height={16} src={image[1]} style={`vertical-align: middle;`} width={16} />
+					);
 					continue;
 				}
 				const text = label.match(textRegex);
@@ -63,18 +62,18 @@ class UsersUserLinks extends Module {
 					children.push(text[1]);
 				}
 			}
-			items.push([
-				'a',
-				{
-					href: link.url
+			items.push(
+				<a
+					href={link.url
 						.replace(/%username%/g, profile.username)
-						.replace(/%steamid%/g, profile.steamId),
-					target: '_blank',
-				},
-				children,
-			]);
+						.replace(/%steamid%/g, profile.steamId)}
+					target="_blank"
+				>
+					{children}
+				</a>
+			);
 		}
-		DOM.build(profile.heading, 'beforeEnd', items);
+		DOM.insert(profile.heading, 'beforeend', <fragment>{items}</fragment>);
 	}
 }
 

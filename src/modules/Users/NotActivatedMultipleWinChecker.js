@@ -214,7 +214,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 						Settings.get('namwc_h_i') ||
 						(Settings.get('wbh') && (Settings.get('wbh_w') || Settings.get('wbh_b')))
 					) {
-						createElements(user.context, 'beforeBegin', [
+						createElements(user.context, 'beforebegin', [
 							{
 								attributes: {
 									class: 'esgst-namwc-icon esgst-user-icon',
@@ -242,7 +242,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 
 	namwc_addUser(profile) {
 		this.namwc_setPopup({
-			button: createElements(profile.wonRowLeft, 'beforeEnd', [
+			button: createElements(profile.wonRowLeft, 'beforeend', [
 				{
 					attributes: {
 						class: 'esgst-namwc-button',
@@ -277,7 +277,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 				: `Check for ${obj.user ? `${obj.user.username}'s ` : ''} not activated / multiple wins:`,
 		});
 		if (!obj.isMenu) {
-			createElements(obj.popup.scrollable, 'beforeBegin', [
+			createElements(obj.popup.scrollable, 'beforebegin', [
 				{
 					type: 'div',
 				},
@@ -305,7 +305,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 					},
 				])
 			);
-			createElements(obj.popup.scrollable, 'beforeBegin', [
+			createElements(obj.popup.scrollable, 'beforebegin', [
 				{
 					attributes: {
 						class: 'esgst-description',
@@ -327,17 +327,17 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 				}).set
 			);
 		}
-		obj.popup.progress = createElements(obj.popup.scrollable, 'beforeBegin', [
+		obj.popup.progress = createElements(obj.popup.scrollable, 'beforebegin', [
 			{
 				type: 'div',
 			},
 		]);
-		obj.popup.overallProgress = createElements(obj.popup.scrollable, 'beforeBegin', [
+		obj.popup.overallProgress = createElements(obj.popup.scrollable, 'beforebegin', [
 			{
 				type: 'div',
 			},
 		]);
-		obj.popup.results = createElements(obj.popup.scrollable, 'beforeEnd', [
+		obj.popup.results = createElements(obj.popup.scrollable, 'beforeend', [
 			{
 				type: 'div',
 			},
@@ -514,7 +514,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 					if (isNew) {
 						attributes.class = 'esgst-bold esgst-italic';
 					}
-					elements[key] = createElements(obj.popup[`${key}Users`], 'beforeEnd', [
+					elements[key] = createElements(obj.popup[`${key}Users`], 'beforeend', [
 						{
 							attributes,
 							text: `${user.username}${
@@ -566,7 +566,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 					i++
 				) {}
 				if (i > 0) {
-					createElements(userElements[steamId].notActivated, 'beforeEnd', [
+					createElements(userElements[steamId].notActivated, 'beforeend', [
 						{
 							attributes: {
 								title: getFeatureTooltip(
@@ -583,7 +583,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 						},
 					]);
 				} else if (userElements[steamId].activated) {
-					createElements(userElements[steamId].activated, 'beforeEnd', [
+					createElements(userElements[steamId].activated, 'beforeend', [
 						{
 							attributes: {
 								title: getFeatureTooltip(
@@ -609,7 +609,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 					i++
 				) {}
 				if (i > 0) {
-					createElements(userElements[steamId].multiple, 'beforeEnd', [
+					createElements(userElements[steamId].multiple, 'beforeend', [
 						{
 							attributes: {
 								title: getFeatureTooltip(
@@ -626,7 +626,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 						},
 					]);
 				} else if (userElements[steamId].notMultiple) {
-					createElements(userElements[steamId].notMultiple, 'beforeEnd', [
+					createElements(userElements[steamId].notMultiple, 'beforeend', [
 						{
 							attributes: {
 								title: getFeatureTooltip(
@@ -661,7 +661,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 		if (obj.isCanceled) return;
 
 		if (obj.popup.progress) {
-			createElements(obj.popup.progress, 'inner', [
+			createElements(obj.popup.progress, 'atinner', [
 				{
 					attributes: {
 						class: 'fa fa-circle-o-notch fa-spin',
@@ -706,7 +706,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 		if (obj.isCanceled) return;
 
 		if (obj.popup.progress) {
-			createElements(obj.popup.progress, 'inner', [
+			createElements(obj.popup.progress, 'atinner', [
 				{
 					attributes: {
 						class: 'fa fa-circle-o-notch fa-spin',

@@ -131,7 +131,7 @@ class UsersUserSuspensionTracker extends Module {
 				if (!tickets[code] || !tickets[code].sent) {
 					Shared.esgst.ustButton = createElements(
 						document.getElementsByClassName('page__heading')[0].lastElementChild,
-						'beforeBegin',
+						'beforebegin',
 						[
 							{
 								attributes: {
@@ -165,7 +165,7 @@ class UsersUserSuspensionTracker extends Module {
 		}
 
 		Shared.esgst.ustButton.removeEventListener('click', this.ust_sendAll);
-		createElements(Shared.esgst.ustButton, 'inner', [
+		createElements(Shared.esgst.ustButton, 'atinner', [
 			{
 				attributes: {
 					class: 'fa fa-circle-o-notch fa-spin',
@@ -216,7 +216,7 @@ class UsersUserSuspensionTracker extends Module {
 		if (n === this.numTickets) {
 			Shared.esgst.ustButton.remove();
 		} else {
-			createElements(Shared.esgst.ustButton, 'inner', [
+			createElements(Shared.esgst.ustButton, 'atinner', [
 				{
 					attributes: {
 						class: 'fa fa-paper-plane',
@@ -274,7 +274,7 @@ class UsersUserSuspensionTracker extends Module {
 
 		let code = Shared.esgst.locationHref.match(/\/ticket\/(.+?)\//)[1];
 		Shared.esgst.ustButton.removeEventListener('click', this.ust_send);
-		createElements(Shared.esgst.ustButton, 'inner', [
+		createElements(Shared.esgst.ustButton, 'atinner', [
 			{
 				attributes: {
 					class: 'fa fa-circle-o-notch fa-spin',
@@ -315,7 +315,7 @@ class UsersUserSuspensionTracker extends Module {
 				title: `Ticket sent! It will be analyzed and, if accepted, added to the database in 48 hours at most.`,
 			}).open();
 		} else {
-			createElements(Shared.esgst.ustButton, 'inner', [
+			createElements(Shared.esgst.ustButton, 'atinner', [
 				{
 					attributes: {
 						class: 'fa fa-paper-plane',

@@ -112,77 +112,55 @@ class UsersUserGiveawayData extends Module {
 			return;
 		}
 
-		const context = DOM.build(profile.commentsRow, 'afterEnd', [
-			[
-				'div',
-				{ class: 'esgst-ugd featured__table__row', title: getFeatureTooltip('ugd') },
-				[
-					[
-						'div',
-						{ class: 'featured__table__row__left' },
-						[
-							'Won Games Playtime > ',
-							[
-								'input',
-								{
-									class: 'esgst-ugd-input',
-									min: '0',
-									step: '0.1',
-									type: 'number',
-									value: Settings.get('ugd_playtime'),
-								},
-							],
-							' hours',
-						],
-					],
-					['div', { class: 'featured__table__row__right' }],
-				],
-			],
-			[
-				'div',
-				{ class: 'esgst-ugd featured__table__row', title: getFeatureTooltip('ugd') },
-				[
-					[
-						'div',
-						{ class: 'featured__table__row__left' },
-						[
-							'Won Games Achievements > ',
-							[
-								'input',
-								{
-									class: 'esgst-ugd-input',
-									max: '100',
-									min: '0',
-									step: '0.1',
-									type: 'number',
-									value: Settings.get('ugd_achievements'),
-								},
-							],
-							' %',
-						],
-					],
-					['div', { class: 'featured__table__row__right' }],
-				],
-			],
-			[
-				'div',
-				{ class: 'esgst-ugd featured__table__row', title: getFeatureTooltip('ugd') },
-				[
-					['div', { class: 'featured__table__row__left' }],
-					[
-						'div',
-						{ class: 'featured__table__row__right' },
-						[
-							[
-								'span',
-								{ class: 'esgst-italic' },
-								`Last checked ${dateFns_format(ugdCache.lastCheck, `MMM dd, yyyy, HH:mm:ss`)}.`,
-							],
-						],
-					],
-				],
-			],
-		]);
+		let context;
+		DOM.insert(
+			profile.commentsRow,
+			'afterend',
+			<fragment>
+				<div
+					className="esgst-ugd featured__table__row"
+					title={getFeatureTooltip('ugd')}
+					ref={(ref) => (context = ref)}
+				>
+					<div className="featured__table__row__left">
+						{'Won Games Playtime > '}
+						<input
+							className="esgst-ugd-input"
+							min="0"
+							step="0.1"
+							type="number"
+							value={Settings.get('ugd_playtime')}
+						/>
+						{' hours'}
+					</div>
+					<div className="featured__table__row__right"></div>
+				</div>
+				<div className="esgst-ugd featured__table__row" title={getFeatureTooltip('ugd')}>
+					<div className="featured__table__row__left">
+						{'Won Games Achievements > '}
+						<input
+							className="esgst-ugd-input"
+							max="100"
+							min="0"
+							step="0.1"
+							type="number"
+							value={Settings.get('ugd_achievements')}
+						/>
+						{' %'}
+					</div>
+					<div className="featured__table__row__right"></div>
+				</div>
+				<div className="esgst-ugd featured__table__row" title={getFeatureTooltip('ugd')}>
+					<div className="featured__table__row__left"></div>
+					<div className="featured__table__row__right">
+						<span className="esgst-italic">{`Last checked ${dateFns_format(
+							ugdCache.lastCheck,
+							`MMM dd, yyyy, HH:mm:ss`
+						)}.`}</span>
+					</div>
+				</div>
+			</fragment>
+		);
 		const playtimeInput = context.firstElementChild.lastElementChild;
 		const playtimeDisplay = context.lastElementChild;
 		const achievementsInput = context.nextElementSibling.firstElementChild.lastElementChild;
@@ -298,30 +276,30 @@ class UsersUserGiveawayData extends Module {
 			}
 		}
 
-		DOM.build(profile.levelRow, 'afterEnd', [
-			[
-				'div',
-				{ class: 'esgst-ugd featured__table__row', title: getFeatureTooltip('ugd') },
-				[
-					['div', { class: 'featured__table__row__left' }, 'Gifts Won From This User'],
-					['div', { class: 'featured__table__row__right', title: won.join(`, `) }, won.length],
-				],
-			],
-			[
-				'div',
-				{ class: 'esgst-ugd featured__table__row', title: getFeatureTooltip('ugd') },
-				[
-					['div', { class: 'featured__table__row__left' }, 'Gifts Sent To This User'],
-					['div', { class: 'featured__table__row__right', title: sent.join(`, `) }, sent.length],
-				],
-			],
-		]);
+		DOM.insert(
+			profile.levelRow,
+			'afterend',
+			<fragment>
+				<div className="esgst-ugd featured__table__row" title={getFeatureTooltip('ugd')}>
+					<div className="featured__table__row__left">Gifts Won From This User</div>
+					<div className="featured__table__row__right" title={won.join(`, `)}>
+						{won.length}
+					</div>
+				</div>
+				<div className="esgst-ugd featured__table__row" title={getFeatureTooltip('ugd')}>
+					<div className="featured__table__row__left">Gifts Sent To This User</div>
+					<div className="featured__table__row__right" title={sent.join(`, `)}>
+						{sent.length}
+					</div>
+				</div>
+			</fragment>
+		);
 	}
 
 	async ugd_add(context, key, user, mainPopup) {
 		let button = null;
 		if (context) {
-			button = createElements(context, 'beforeEnd', [
+			button = createElements(context, 'beforeend', [
 				{
 					attributes: {
 						class: 'esgst-ugd-button',
@@ -678,19 +656,17 @@ class UsersUserGiveawayData extends Module {
 				values: [],
 			};
 			obj.lists.username = {
-				name: [
-					'Winners',
-					obj.user.username === Settings.get('username')
-						? null
-						: [
-								'i',
-								{
-									class: 'fa fa-question-circle',
-									title:
-										'This list might not be 100% accurate if the user has giveaways for more than 3 copies that you cannot access.',
-								},
-						  ],
-				],
+				name: (
+					<fragment>
+						Winners{' '}
+						{obj.user.username === Settings.get('username') ? null : (
+							<i
+								className="fa fa-question-circle"
+								title="This list might not be 100% accurate if the user has giveaways for more than 3 copies that you cannot access."
+							></i>
+						)}
+					</fragment>
+				),
 				values: [],
 			};
 		} else {
@@ -957,7 +933,7 @@ class UsersUserGiveawayData extends Module {
 				type: 'div',
 			});
 		}
-		createElements(results, 'beforeEnd', items);
+		createElements(results, 'beforeend', items);
 
 		await this.ugd_complete(obj, results);
 

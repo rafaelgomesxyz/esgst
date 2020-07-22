@@ -101,7 +101,7 @@ class UsersWhitelistBlacklistSorter extends Module {
 
 		let popup = new Popup({ addScrollable: true, icon: obj.icon, isTemp: true, title: obj.title });
 		popup.popup.classList.add('esgst-wbs-popup');
-		let table = createElements(popup.scrollable, 'beforeEnd', [
+		let table = createElements(popup.scrollable, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-text-left table',
@@ -148,7 +148,7 @@ class UsersWhitelistBlacklistSorter extends Module {
 		]);
 		let rows = table.lastElementChild;
 		users.forEach((user) => {
-			let row = createElements(rows, 'beforeEnd', [
+			let row = createElements(rows, 'beforeend', [
 				{
 					attributes: {
 						class: 'table__row-outer-wrap',

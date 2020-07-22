@@ -47,7 +47,7 @@ class UsersSharedGroupChecker extends Module {
 			// no point in checking which groups a user shares with themselves
 			return;
 		}
-		profile.sgcButton = createElements(profile.heading, 'beforeEnd', [
+		profile.sgcButton = createElements(profile.heading, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-sgc-button',
@@ -80,7 +80,7 @@ class UsersSharedGroupChecker extends Module {
 				icon: 'fa-users',
 				title: 'Shared Groups',
 			});
-			profile.sgcProgress = createElements(profile.sgcPopup.description, 'beforeEnd', [
+			profile.sgcProgress = createElements(profile.sgcPopup.description, 'beforeend', [
 				{
 					type: 'div',
 					children: [
@@ -97,7 +97,7 @@ class UsersSharedGroupChecker extends Module {
 					],
 				},
 			]);
-			profile.sgcResults = createElements(profile.sgcPopup.scrollable, 'beforeEnd', [
+			profile.sgcResults = createElements(profile.sgcPopup.scrollable, 'beforeend', [
 				{
 					attributes: {
 						class: 'esgst-sgc-results esgst-glwc-results esgst-text-left',
@@ -287,13 +287,13 @@ class UsersSharedGroupChecker extends Module {
 		if (n1 || n2) {
 			if (n1 > 0) {
 				Utils.sortArray(publicGroups, false, 'name').map((x) => {
-					createElements(profile.sgcPublicResults, 'beforeEnd', x.html).getElementsByClassName(
+					createElements(profile.sgcPublicResults, 'beforeend', x.html).getElementsByClassName(
 						'table__column__heading'
 					)[0].textContent = x.name;
 				});
 				profile.sgcPublic.classList.remove('esgst-hidden');
 			} else {
-				createElements(profile.sgcPublic, 'outer', [
+				createElements(profile.sgcPublic, 'atouter', [
 					{
 						text: 'No shared public groups found.',
 						type: 'div',
@@ -302,13 +302,13 @@ class UsersSharedGroupChecker extends Module {
 			}
 			if (n2 > 0) {
 				Utils.sortArray(privateGroups, false, 'name').map((x) => {
-					createElements(profile.sgcPrivateResults, 'beforeEnd', x.html).getElementsByClassName(
+					createElements(profile.sgcPrivateResults, 'beforeend', x.html).getElementsByClassName(
 						'table__column__heading'
 					)[0].textContent = x.name;
 				});
 				profile.sgcPrivate.classList.remove('esgst-hidden');
 			} else {
-				createElements(profile.sgcPrivate, 'outer', [
+				createElements(profile.sgcPrivate, 'atouter', [
 					{
 						text: 'No shared private groups found.',
 						type: 'div',
@@ -318,7 +318,7 @@ class UsersSharedGroupChecker extends Module {
 			profile.sgcProgress.remove();
 			profile.sgcProgress = null;
 		} else {
-			createElements(profile.sgcProgress, 'inner', [
+			createElements(profile.sgcProgress, 'atinner', [
 				{
 					text: 'No shared groups found.',
 					type: 'node',

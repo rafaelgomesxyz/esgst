@@ -118,7 +118,7 @@ class UsersWhitelistBlacklistManager extends Module {
 				let tags = element.value.replace(/(,\s*)+/g, formatTags).split(`, `);
 				setSetting('wbm_tags', tags);
 			});
-			wbm.input = createElements(wbm.popup.description, 'beforeEnd', [
+			wbm.input = createElements(wbm.popup.description, 'beforeend', [
 				{
 					attributes: {
 						type: 'file',
@@ -126,7 +126,7 @@ class UsersWhitelistBlacklistManager extends Module {
 					type: 'input',
 				},
 			]);
-			wbm.message = createElements(wbm.popup.description, 'beforeEnd', [
+			wbm.message = createElements(wbm.popup.description, 'beforeend', [
 				{
 					attributes: {
 						class: 'esgst-description',
@@ -134,7 +134,7 @@ class UsersWhitelistBlacklistManager extends Module {
 					type: 'div',
 				},
 			]);
-			wbm.warning = createElements(wbm.popup.description, 'beforeEnd', [
+			wbm.warning = createElements(wbm.popup.description, 'beforeend', [
 				{
 					attributes: {
 						class: 'esgst-description esgst-warning',
@@ -190,7 +190,7 @@ class UsersWhitelistBlacklistManager extends Module {
 					callback2: this.wbm_cancel.bind(this, wbm),
 				}).set
 			);
-			wbm.results = createElements(wbm.popup.scrollable, 'beforeEnd', [
+			wbm.results = createElements(wbm.popup.scrollable, 'beforeend', [
 				{
 					type: 'div',
 				},
@@ -247,7 +247,7 @@ class UsersWhitelistBlacklistManager extends Module {
 
 	async wbm_insertUsers(wbm, list, i, n, callback) {
 		if (wbm.isCanceled) return;
-		createElements(wbm.message, 'inner', [
+		createElements(wbm.message, 'atinner', [
 			{
 				attributes: {
 					class: 'fa fa-circle-o-notch fa-spin',
@@ -287,7 +287,7 @@ class UsersWhitelistBlacklistManager extends Module {
 			createFadeMessage(wbm.message, 'List exported with success!');
 			callback();
 		} else {
-			createElements(wbm.message, 'inner', [
+			createElements(wbm.message, 'atinner', [
 				{
 					attributes: {
 						class: 'fa fa-circle-o-notch fa-spin',
@@ -353,7 +353,7 @@ class UsersWhitelistBlacklistManager extends Module {
 			// noinspection JSIgnoredPromiseFromCall
 			this.wbm_deleteUsers(wbm, list, 0, list.length, callback);
 		} else {
-			createElements(wbm.message, 'inner', [
+			createElements(wbm.message, 'atinner', [
 				{
 					attributes: {
 						class: 'fa fa-circle-o-notch fa-spin',
@@ -414,7 +414,7 @@ class UsersWhitelistBlacklistManager extends Module {
 
 	async wbm_deleteUsers(wbm, list, i, n, callback) {
 		if (wbm.isCanceled) return;
-		createElements(wbm.message, 'inner', [
+		createElements(wbm.message, 'atinner', [
 			{
 				attributes: {
 					class: 'fa fa-circle-o-notch fa-spin',
@@ -435,7 +435,7 @@ class UsersWhitelistBlacklistManager extends Module {
 			window.setTimeout(() => this.wbm_deleteUsers(wbm, list, ++i, n, callback), 0);
 		} else {
 			createFadeMessage(wbm.message, 'List cleared with success!');
-			createElements(wbm.results, 'inner', [
+			createElements(wbm.results, 'atinner', [
 				{
 					attributes: {
 						class: 'esgst-bold',
@@ -451,7 +451,7 @@ class UsersWhitelistBlacklistManager extends Module {
 				},
 			]);
 			wbm.usernames.forEach((username) => {
-				createElements(wbm.results.lastElementChild, 'beforeEnd', [
+				createElements(wbm.results.lastElementChild, 'beforeend', [
 					{
 						attributes: {
 							href: `/user/${username}`,

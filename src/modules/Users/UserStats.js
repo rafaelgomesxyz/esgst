@@ -53,7 +53,7 @@ class UsersUserStats extends Module {
 		if (context === document || !main) {
 			createElements(
 				context.getElementsByClassName('table__heading')[0].firstElementChild,
-				'afterEnd',
+				'afterend',
 				[
 					{
 						attributes: {
@@ -236,7 +236,7 @@ class UsersUserStats extends Module {
 					break;
 			}
 		}
-		createElements(context, 'afterEnd', html);
+		createElements(context, 'afterend', html);
 	}
 }
 

@@ -44,15 +44,15 @@ class UsersLevelUpCalculator extends Module {
 		for (const [index, value] of Shared.esgst.cvLevels.entries()) {
 			const cvRounded = Math.round(profile.realSentCV);
 			if (cvRounded < value) {
-				DOM.build(profile.levelRowRight, 'beforeEnd', [
-					[
-						'span',
-						{ class: 'esgst-luc-value', title: Shared.common.getFeatureTooltip('luc') },
-						`(${Settings.get('luc_c') ? `${profile.level} / ` : ''}~$${Shared.common.round(
+				DOM.insert(
+					profile.levelRowRight,
+					'beforeend',
+					<span className="esgst-luc-value" title={Shared.common.getFeatureTooltip('luc')}>
+						{`(${Settings.get('luc_c') ? `${profile.level} / ` : ''}~$${Shared.common.round(
 							value - cvRounded
-						)} real CV to level ${index})`,
-					],
-				]);
+						)} real CV to level ${index})`}
+					</span>
+				);
 				break;
 			}
 		}

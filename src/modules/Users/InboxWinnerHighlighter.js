@@ -105,7 +105,7 @@ class UsersInboxWinnerHighlighter extends Module {
 					Context = Matches[I].getElementsByClassName('comment__username')[0];
 					Username = Context.textContent;
 					if (Winners[Key].indexOf(Username) >= 0) {
-						createElements(Context, 'afterEnd', [
+						createElements(Context, 'afterend', [
 							{
 								attributes: {
 									class: 'fa fa-trophy esgst-iwh-icon',

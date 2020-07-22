@@ -49,21 +49,21 @@ class UsersSteamFriendsIndicator extends Module {
 				user.saved.steamFriend &&
 				!user.context.parentElement.querySelector('.esgst-sfi-icon')
 			) {
-				DOM.build(user.context, 'afterEnd', [
-					[
-						'span',
-						{
-							class: 'esgst-sfi-icon esgst-user-icon',
-							title: Shared.common.getFeatureTooltip(
-								'sfi',
-								`You have been friends with ${
-									user.username
-								} on Steam since ${Shared.common.getTimestamp(user.saved.steamFriend * 1e3)}`
-							),
-						},
-						[['i', { class: `fa fa-${Settings.get('sfi_icon')}` }]],
-					],
-				]);
+				DOM.insert(
+					user.context,
+					'afterend',
+					<span
+						className="esgst-sfi-icon esgst-user-icon"
+						title={Shared.common.getFeatureTooltip(
+							'sfi',
+							`You have been friends with ${
+								user.username
+							} on Steam since ${Shared.common.getTimestamp(user.saved.steamFriend * 1e3)}`
+						)}
+					>
+						<i className={`fa fa-${Settings.get('sfi_icon')}`}></i>
+					</span>
+				);
 			}
 		}
 	}

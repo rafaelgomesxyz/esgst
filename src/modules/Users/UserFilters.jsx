@@ -6,6 +6,7 @@ import { Shared } from '../../class/Shared';
 import { Settings } from '../../class/Settings';
 import { Utils } from '../../lib/jsUtils';
 import { Filters } from '../Filters';
+import { DOM } from '../../class/DOM';
 
 const createElements = common.createElements.bind(common),
 	getFeatureTooltip = common.getFeatureTooltip.bind(common),
@@ -86,7 +87,7 @@ class UsersUserFilters extends Filters {
 
 	uf_add(profile, savedUser) {
 		if (profile.username !== Settings.get('username')) {
-			profile.ufButton = createElements(profile.heading, 'beforeEnd', [
+			profile.ufButton = createElements(profile.heading, 'beforeend', [
 				{
 					attributes: {
 						class: 'esgst-uf-button',
@@ -148,7 +149,7 @@ class UsersUserFilters extends Filters {
 				</fragment>
 			),
 		});
-		profile.ufOptions = createElements(profile.ufPopup.description, 'beforeEnd', [
+		profile.ufOptions = createElements(profile.ufPopup.description, 'beforeend', [
 			{
 				type: 'div',
 			},

@@ -129,7 +129,7 @@ class UsersSentWonRatio extends Module {
 				},
 			],
 		};
-		createElements(profile.sentRow, 'afterEnd', [
+		createElements(profile.sentRow, 'afterend', [
 			{
 				attributes: {
 					class: 'esgst-swr-ratio featured__table__row',

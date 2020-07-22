@@ -57,22 +57,26 @@ class UsersVisibleGiftsBreakdown extends Module {
 	}
 
 	vgb_add(profile) {
-		const position = Settings.get('vgb_index') === 0 ? 'afterBegin' : 'beforeEnd';
-		DOM.build(profile.wonRowRight.firstElementChild.firstElementChild, position, [
-			` ${Settings.get('vgb_wonFormat')
+		const position = Settings.get('vgb_index') === 0 ? 'afterbegin' : 'beforeend';
+		DOM.insert(
+			profile.wonRowRight.firstElementChild.firstElementChild,
+			position,
+			<fragment>{` ${Settings.get('vgb_wonFormat')
 				.replace(/\[FCV]/, profile.wonFull)
 				.replace(/\[RCV]/, profile.wonReduced)
 				.replace(/\[NCV]/, profile.wonZero)
-				.replace(/\[NR]/, profile.wonNotReceived)} `,
-		]);
-		DOM.build(profile.sentRowRight.firstElementChild.firstElementChild, position, [
-			` ${Settings.get('vgb_sentFormat')
+				.replace(/\[NR]/, profile.wonNotReceived)} `}</fragment>
+		);
+		DOM.insert(
+			profile.sentRowRight.firstElementChild.firstElementChild,
+			position,
+			<fragment>{` ${Settings.get('vgb_sentFormat')
 				.replace(/\[FCV]/, profile.sentFull)
 				.replace(/\[RCV]/, profile.sentReduced)
 				.replace(/\[NCV]/, profile.sentZero)
 				.replace(/\[A]/, profile.sentAwaiting)
-				.replace(/\[NR]/, profile.sentNotReceived)} `,
-		]);
+				.replace(/\[NR]/, profile.sentNotReceived)} `}</fragment>
+		);
 	}
 }
 

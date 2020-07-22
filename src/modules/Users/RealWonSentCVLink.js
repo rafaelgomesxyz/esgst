@@ -49,7 +49,7 @@ class UsersRealWonSentCVLink extends Module {
 			wonUrl += '/newestfirst';
 			sentUrl += '/newestfirst';
 		}
-		createElements(profile.wonRowLeft, 'inner', [
+		createElements(profile.wonRowLeft, 'atinner', [
 			{
 				attributes: {
 					class: 'esgst-rwscvl-link',
@@ -61,7 +61,7 @@ class UsersRealWonSentCVLink extends Module {
 				type: 'a',
 			},
 		]);
-		createElements(profile.sentRowLeft, 'inner', [
+		createElements(profile.sentRowLeft, 'atinner', [
 			{
 				attributes: {
 					class: 'esgst-rwscvl-link',
