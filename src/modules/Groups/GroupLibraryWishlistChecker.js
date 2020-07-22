@@ -123,7 +123,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 			glwc.container.setAttribute('data-esgst-popup', true);
 			new elementBuilder[Shared.esgst.name].pageHeading({
 				context: glwc.container,
-				position: 'beforeEnd',
+				position: 'beforeend',
 				breadcrumbs: [
 					{
 						name: 'ESGST',

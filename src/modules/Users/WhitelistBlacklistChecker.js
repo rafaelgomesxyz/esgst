@@ -221,7 +221,7 @@ class UsersWhitelistBlacklistChecker extends Module {
 
 		this.heading = new elementBuilder.sg.pageHeading({
 			context: popup.description,
-			position: 'beforeEnd',
+			position: 'beforeend',
 			breadcrumbs: [
 				WBC.Update
 					? 'Manage Whitelist/Blacklist Checker caches'
@@ -230,7 +230,7 @@ class UsersWhitelistBlacklistChecker extends Module {
 			buttons: [
 				{
 					icons: ['fa-gear'],
-					position: 'beforeEnd',
+					position: 'beforeend',
 					title: 'Options',
 					ref: (ref) => (optionsButton = ref),
 				},

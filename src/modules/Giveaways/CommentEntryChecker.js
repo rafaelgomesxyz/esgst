@@ -109,7 +109,7 @@ class GiveawaysCommentEntryChecker extends Module {
 		}
 		const heading = new elementBuilder[Shared.esgst.name].pageHeading({
 			context: container,
-			position: 'afterBegin',
+			position: 'afterbegin',
 			breadcrumbs: [
 				{
 					name: 'ESGST',

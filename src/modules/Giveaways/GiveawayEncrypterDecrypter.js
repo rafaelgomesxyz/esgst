@@ -137,7 +137,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
 		}
 		new elementBuilder[Shared.esgst.name].pageHeading({
 			context: ged.popup.description || ged.popup,
-			position: 'afterBegin',
+			position: 'afterbegin',
 			breadcrumbs: [
 				{
 					name: 'ESGST',

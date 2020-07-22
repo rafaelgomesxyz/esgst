@@ -155,7 +155,7 @@ async function setSync(isPopup = false, isSilent = false) {
 	}
 	const heading = new elementBuilder[Shared.esgst.name].pageHeading({
 		context: containerr,
-		position: 'afterBegin',
+		position: 'afterbegin',
 		breadcrumbs: [
 			{
 				name: 'ESGST',

@@ -276,7 +276,7 @@ class SettingsModule {
 			.reverse();
 		const heading = new elementBuilder[Shared.esgst.name].pageHeading({
 			context: Container,
-			position: 'afterBegin',
+			position: 'afterbegin',
 			breadcrumbs: [
 				{
 					name: 'ESGST',

@@ -2751,7 +2751,7 @@ class Common extends Module {
 		context.innerHTML = '';
 		this.esgst.mainPageHeading = new elementBuilder[Shared.esgst.name].pageHeading({
 			context,
-			position: 'beforeEnd',
+			position: 'beforeend',
 			breadcrumbs: [
 				{
 					name: 'ESGST',

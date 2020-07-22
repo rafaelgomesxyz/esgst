@@ -34,17 +34,13 @@ class SgNotification {
 			},
 			options
 		);
-		DOM.build(options.context, options.position, [
-			[
-				'div',
-				{ ref: (ref) => (this.notification = ref) },
-				[
-					['i', { ref: (ref) => (this.icon = ref) }],
-					' ',
-					['span', { ref: (ref) => (this.message = ref) }],
-				],
-			],
-		]);
+		DOM.insert(
+			options.context,
+			options.position,
+			<div ref={(ref) => (this.notification = ref)}>
+				<i ref={(ref) => (this.icon = ref)}></i> <span ref={(ref) => (this.message = ref)}></span>
+			</div>
+		);
 		this.setType(options.type);
 		this.setIcons(options.icons);
 		this.setMessage(options.message);
@@ -77,21 +73,19 @@ class PageHeading {
 			},
 			options
 		);
-		DOM.build(options.context, options.position, [
-			[
-				'div',
-				{ class: CLASS_NAMES[this.namespace].pageHeading, ref: (ref) => (this.pageHeading = ref) },
-				[
-					[
-						'div',
-						{
-							class: CLASS_NAMES[this.namespace].pageHeadingBreadcrumbs,
-							ref: (ref) => (this.breadcrumbs = ref),
-						},
-					],
-				],
-			],
-		]);
+		DOM.insert(
+			options.context,
+			options.position,
+			<div
+				className={CLASS_NAMES[this.namespace].pageHeading}
+				ref={(ref) => (this.pageHeading = ref)}
+			>
+				<div
+					className={CLASS_NAMES[this.namespace].pageHeadingBreadcrumbs}
+					ref={(ref) => (this.breadcrumbs = ref)}
+				></div>
+			</div>
+		);
 		if (Settings.get('fmph')) {
 			this.pageHeading.classList.add('esgst-fmph');
 		}
@@ -107,13 +101,15 @@ class PageHeading {
 		const items = [];
 		for (const breadcrumb of breadcrumbs) {
 			items.push(
-				typeof breadcrumb === 'string' || Array.isArray(breadcrumb)
-					? ['span', breadcrumb]
-					: ['a', { href: breadcrumb.url }, breadcrumb.name],
-				['i', { class: 'fa fa-angle-right' }]
+				typeof breadcrumb === 'string' || breadcrumb instanceof Node ? (
+					<span>{breadcrumb}</span>
+				) : (
+					<a href={breadcrumb.url}>{breadcrumb.name}</a>
+				),
+				<i className="fa fa-angle-right"></i>
 			);
 		}
-		DOM.build(this.breadcrumbs, 'inner', items.slice(0, -1));
+		DOM.insert(this.breadcrumbs, 'atinner', <fragment>{items.slice(0, -1)}</fragment>);
 	}
 
 	addButtons(buttons) {
@@ -125,21 +121,26 @@ class PageHeading {
 	addButton(options) {
 		let icons = [];
 		for (const icon of options.icons) {
-			icons.push(['i', { class: `fa ${icon}`, style: `margin: 0` }], ' ');
+			icons.push(<i className={`fa ${icon}`} style={{ margin: '0' }}></i>, ' ');
 		}
-		return DOM.build(this.pageHeading, options.position, [
-			[
-				'a',
-				{
-					class: `${CLASS_NAMES[this.namespace].pageHeadingButton} is-clickable`,
-					title: options.title,
-					onclick: options.onclick,
-					ref: options.ref,
-					style: `display: inline-block;`,
-				},
-				icons.slice(0, -1),
-			],
-		]);
+		let button;
+		DOM.insert(
+			this.pageHeading,
+			options.position,
+			<a
+				className={`${CLASS_NAMES[this.namespace].pageHeadingButton} is-clickable`}
+				title={options.title}
+				onclick={options.onclick}
+				ref={(ref) => (button = ref)}
+				style={{ display: 'inline-block' }}
+			>
+				{icons.slice(0, -1)}
+			</a>
+		);
+		if (options.ref) {
+			options.ref(button);
+		}
+		return button;
 	}
 }
 

@@ -111,7 +111,7 @@ class GiveawaysArchiveSearcher extends Module {
 		}
 		new elementBuilder[Shared.esgst.name].pageHeading({
 			context: container,
-			position: 'afterBegin',
+			position: 'afterbegin',
 			breadcrumbs: [
 				{
 					name: 'ESGST',

@@ -352,7 +352,7 @@ class GiveawaysGiveawayExtractor extends Module {
 			context.innerHTML = '';
 			new elementBuilder[Shared.esgst.name].pageHeading({
 				context: context,
-				position: 'beforeEnd',
+				position: 'beforeend',
 				breadcrumbs: [
 					{
 						name: 'ESGST',

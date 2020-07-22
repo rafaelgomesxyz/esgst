@@ -1283,10 +1283,10 @@ class UsersUserGiveawayData extends Module {
 								<a
 									className="table__column__secondary-link"
 									href={
-											key === 'gameName'
-												? `https://store.steampowered.com/${item.gameType.slice(0, -1)}/${
-														item.gameSteamId
-												  }`
+										key === 'gameName'
+											? `https://store.steampowered.com/${item.gameType.slice(0, -1)}/${
+													item.gameSteamId
+											  }`
 											: `/user/${item.name}`
 									}
 								>
@@ -1318,10 +1318,10 @@ class UsersUserGiveawayData extends Module {
 										<a
 											className="table__column__secondary-link"
 											href={
-															key === 'gameName'
-																? `/user/${x.name}`
-																: `https://store.steampowered.com/${x.gameType.slice(0, -1)}/${
-																		x.gameSteamId
+												key === 'gameName'
+													? `/user/${x.name}`
+													: `https://store.steampowered.com/${x.gameType.slice(0, -1)}/${
+															x.gameSteamId
 													  }`
 											}
 										>
@@ -1356,7 +1356,7 @@ class UsersUserGiveawayData extends Module {
 					...listItems,
 				]);
 				const listHeading = new elementBuilder.sg.pageHeading({
-					breadcrumbs: [list.name],
+					breadcrumbs: list.name,
 				});
 				items.push(listHeading.pageHeading, listTable.table, <br />);
 			}

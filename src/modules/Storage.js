@@ -258,7 +258,7 @@ function loadDataManagement(type, isPopup, callback) {
 		containerr.classList.add('esgst-text-left');
 		const heading = new elementBuilder[Shared.esgst.name].pageHeading({
 			context: containerr,
-			position: 'afterBegin',
+			position: 'afterbegin',
 			breadcrumbs: [
 				{
 					name: 'ESGST',
@@ -967,7 +967,7 @@ function loadDataCleaner(isPopup) {
 	}
 	const heading = new elementBuilder[Shared.esgst.name].pageHeading({
 		context: containerr,
-		position: 'afterBegin',
+		position: 'afterbegin',
 		breadcrumbs: [
 			{
 				name: 'ESGST',

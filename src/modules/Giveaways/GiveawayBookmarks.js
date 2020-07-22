@@ -249,7 +249,7 @@ class GiveawaysGiveawayBookmarks extends Module {
 			context.setAttribute('data-esgst-popup', 'true');
 			new elementBuilder[Shared.esgst.name].pageHeading({
 				context: context,
-				position: 'beforeEnd',
+				position: 'beforeend',
 				breadcrumbs: [
 					{
 						name: 'ESGST',
@@ -282,7 +282,7 @@ class GiveawaysGiveawayBookmarks extends Module {
 					});
 					new elementBuilder[Shared.esgst.name].pageHeading({
 						context: popup.description,
-						position: 'afterBegin',
+						position: 'afterbegin',
 						breadcrumbs: [
 							{
 								name: 'ESGST',
