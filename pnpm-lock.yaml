@@ -24,6 +24,7 @@ devDependencies:
   '@types/jquery': 3.5.0
   '@types/mocha': 8.0.0
   '@types/node': 14.0.23
+  '@types/sinon': 9.0.4
   '@typescript-eslint/eslint-plugin': 3.6.1_bc8d11cb3e8b1afcde085af04d885b08
   '@typescript-eslint/parser': 3.6.1_eslint@7.5.0+typescript@3.9.7
   babel-loader: 8.1.0_13c776b87d2822e76e5e552d0872621e
@@ -54,6 +55,8 @@ devDependencies:
   node-fetch: 2.6.0
   prettier: 2.0.5
   progress-bar-webpack-plugin: 1.12.1_webpack@4.43.0
+  sinon: 9.0.2
+  sinon-chrome: 3.0.1
   style-loader: 1.2.1_webpack@4.43.0
   typescript: 3.9.7
   web-ext-types: 3.2.1
@@ -1193,6 +1196,52 @@ packages:
     dev: true
     resolution:
       integrity: sha512-OFxUBgrEllAbdEmWp/wNmKIu5EuumKHG4sgy56vjZ8lXPgMhF05c76hmulfOdFHHYRpPj49ygOZJ8wgVsPecuA==
+  /@sinonjs/commons/1.8.1:
+    dependencies:
+      type-detect: 4.0.8
+    dev: true
+    resolution:
+      integrity: sha512-892K+kWUUi3cl+LlqEWIDrhvLgdL79tECi8JZUyq6IviKy/DNhuzCRlbHUjxK89f4ypPMMaFnFuR9Ie6DoIMsw==
+  /@sinonjs/fake-timers/6.0.1:
+    dependencies:
+      '@sinonjs/commons': 1.8.1
+    dev: true
+    resolution:
+      integrity: sha512-MZPUxrmFubI36XS1DI3qmI0YdN1gks62JtFZvxR67ljjSNCeK6U08Zx4msEWOXuofgqUt6zPHSi1H9fbjR/NRA==
+  /@sinonjs/formatio/3.2.2:
+    dependencies:
+      '@sinonjs/commons': 1.8.1
+      '@sinonjs/samsam': 3.3.3
+    dev: true
+    resolution:
+      integrity: sha512-B8SEsgd8gArBLMD6zpRw3juQ2FVSsmdd7qlevyDqzS9WTCtvF55/gAL+h6gue8ZvPYcdiPdvueM/qm//9XzyTQ==
+  /@sinonjs/formatio/5.0.1:
+    dependencies:
+      '@sinonjs/commons': 1.8.1
+      '@sinonjs/samsam': 5.0.3
+    dev: true
+    resolution:
+      integrity: sha512-KaiQ5pBf1MpS09MuA0kp6KBQt2JUOQycqVG1NZXvzeaXe5LGFqAKueIS0bw4w0P9r7KuBSVdUk5QjXsUdu2CxQ==
+  /@sinonjs/samsam/3.3.3:
+    dependencies:
+      '@sinonjs/commons': 1.8.1
+      array-from: 2.1.1
+      lodash: 4.17.19
+    dev: true
+    resolution:
+      integrity: sha512-bKCMKZvWIjYD0BLGnNrxVuw4dkWCYsLqFOUWw8VgKF/+5Y+mE7LfHWPIYoDXowH+3a9LsWDMo0uAP8YDosPvHQ==
+  /@sinonjs/samsam/5.0.3:
+    dependencies:
+      '@sinonjs/commons': 1.8.1
+      lodash.get: 4.4.2
+      type-detect: 4.0.8
+    dev: true
+    resolution:
+      integrity: sha512-QucHkc2uMJ0pFGjJUDP3F9dq5dx8QIaqISl9QgwLOh6P9yv877uONPGXh/OH/0zmM3tW1JjuJltAZV2l7zU+uQ==
+  /@sinonjs/text-encoding/0.7.1:
+    dev: true
+    resolution:
+      integrity: sha512-+iTbntw2IZPb/anVDbypzfQa+ay64MW0Zo8aJ8gZPWMMK6/OubMVb6lUPMagqjOPnmtauXnFCACVl3O7ogjeqQ==
   /@types/anymatch/1.3.1:
     dev: true
     resolution:
@@ -1242,6 +1291,16 @@ packages:
     dev: true
     resolution:
       integrity: sha512-Z4U8yDAl5TFkmYsZdFPdjeMa57NOvnaf1tljHzhouaPEp7LCj2JKkejpI1ODviIAQuW4CcQmxkQ77rnLsOOoKw==
+  /@types/sinon/9.0.4:
+    dependencies:
+      '@types/sinonjs__fake-timers': 6.0.1
+    dev: true
+    resolution:
+      integrity: sha512-sJmb32asJZY6Z2u09bl0G2wglSxDlROlAejCjsnor+LzBMz17gu8IU7vKC/vWDnv9zEq2wqADHVXFjf4eE8Gdw==
+  /@types/sinonjs__fake-timers/6.0.1:
+    dev: true
+    resolution:
+      integrity: sha512-yYezQwGWty8ziyYLdZjwxyMb0CZR49h8JALHGrxjQHWlqGgc8kLdHEgWrgL0uZ29DMvEVBDnHU2Wg36zKSIUtA==
   /@types/sizzle/2.3.2:
     dev: true
     resolution:
@@ -1722,6 +1781,10 @@ packages:
     dev: true
     resolution:
       integrity: sha1-fajPLiZijtcygDWB/SH2fKzS7uw=
+  /array-from/2.1.1:
+    dev: true
+    resolution:
+      integrity: sha1-z+nYwmYoudxa7MYqn12PHzUsEZU=
   /array-includes/3.1.1:
     dependencies:
       define-properties: 1.1.3
@@ -3006,6 +3069,12 @@ packages:
     dev: true
     resolution:
       integrity: sha1-gGZJMmzqp8qjMG112YXqJ0i6kTw=
+  /diff/3.5.0:
+    dev: true
+    engines:
+      node: '>=0.3.1'
+    resolution:
+      integrity: sha512-A46qtFgd+g7pDZinpnwiRJtxbC1hpgf0uzP3iG89scHk0AUC7A1TGxf5OiiOUv/JMZR8GOt8hL900hV0bOy5xA==
   /diff/4.0.2:
     dev: true
     engines:
@@ -5033,6 +5102,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-NmKajvAFQpbg3taXQXr/ccS2wcucR1AZ+NtyWp2Nq7HHVsXhcJFR8p0Baf32C2yVvBylFWVeKf+WI2AnvlPhpA==
+  /just-extend/4.1.0:
+    dev: true
+    resolution:
+      integrity: sha512-ApcjaOdVTJ7y4r08xI5wIqpvwS48Q0PBG4DJROcEkH1f8MdAiNFyFxz3xoL0LWAVwjrwPYZdVHHxhRHcx/uGLA==
   /jwa/1.4.1:
     dependencies:
       buffer-equal-constant-time: 1.0.1
@@ -5312,6 +5385,16 @@ packages:
       node: '>=8.0'
     resolution:
       integrity: sha512-Mc8jNuSFImQUIateBFwdOQcmC6Q5maU0VVvdC2R6XMb66/VnT+7WS4D/0EeNMZu1YODmJe5NIn2XftCzEocUgw==
+  /lolex/4.2.0:
+    dev: true
+    resolution:
+      integrity: sha512-gKO5uExCXvSm6zbF562EvM+rd1kQDnB9AZBbiQVzf1ZmdDpxUSvpnAaVOP83N/31mRK8Ml8/VE8DMvsAZQ+7wg==
+  /lolex/5.1.2:
+    dependencies:
+      '@sinonjs/commons': 1.8.1
+    dev: true
+    resolution:
+      integrity: sha512-h4hmjAvHTmd+25JSwrtTIuwbKdwg5NzZVRMLn9saij4SZaepCrTCxPr35H/3bjwfMJtN+t3CX8672UIkglz28A==
   /loose-envify/1.4.0:
     dependencies:
       js-tokens: 4.0.0
@@ -5636,6 +5719,26 @@ packages:
     dev: true
     resolution:
       integrity: sha512-1nh45deeb5olNY7eX82BkPO7SSxR5SSYJiPTrTdFUVYwAl8CKMA5N9PjTYkHiRjisVcxcQ1HXdLhx2qxxJzLNQ==
+  /nise/1.5.3:
+    dependencies:
+      '@sinonjs/formatio': 3.2.2
+      '@sinonjs/text-encoding': 0.7.1
+      just-extend: 4.1.0
+      lolex: 5.1.2
+      path-to-regexp: 1.8.0
+    dev: true
+    resolution:
+      integrity: sha512-Ymbac/94xeIrMf59REBPOv0thr+CJVFMhrlAkW/gjCIE58BGQdCj0x7KRCb3yz+Ga2Rz3E9XXSvUyyxqqhjQAQ==
+  /nise/4.0.4:
+    dependencies:
+      '@sinonjs/commons': 1.8.1
+      '@sinonjs/fake-timers': 6.0.1
+      '@sinonjs/text-encoding': 0.7.1
+      just-extend: 4.1.0
+      path-to-regexp: 1.8.0
+    dev: true
+    resolution:
+      integrity: sha512-bTTRUNlemx6deJa+ZyoCUTRvH3liK5+N6VQZ4NIw90AgDXY6iPnsqplNFf6STcj+ePk0H/xqxnP75Lr0J0Fq3A==
   /no-case/3.0.3:
     dependencies:
       lower-case: 2.0.1
@@ -6079,6 +6182,12 @@ packages:
     dev: true
     resolution:
       integrity: sha512-GSmOT2EbHrINBf9SR7CDELwlJ8AENk3Qn7OikK4nFYAu3Ote2+JYNVvkpAEQm3/TLNEJFD/xZJjzyxg3KBWOzw==
+  /path-to-regexp/1.8.0:
+    dependencies:
+      isarray: 0.0.1
+    dev: true
+    resolution:
+      integrity: sha512-n43JRhlUKUAlibEJhPeir1ncUID16QnEjNpwzNdO3Lm4ywrBpBZ5oLD0I6br9evr1Y9JTqwRtAh7JLoOzAQdVA==
   /pathval/1.1.0:
     dev: true
     resolution:
@@ -6912,6 +7021,38 @@ packages:
     dev: false
     resolution:
       integrity: sha1-B+LE3sBs9hTtb0IRsYzOEjyT/Kk=
+  /sinon-chrome/3.0.1:
+    dependencies:
+      lodash: 4.17.19
+      sinon: 7.5.0
+      urijs: 1.19.2
+    dev: true
+    resolution:
+      integrity: sha512-NTEFhyuiWEMnRmIqldUiA2DhKn2EqnZxyEk5Ez5rBXj+Nl54aJ0MEmF4wjltrxecxd8zlNLxyE0HyLabev9JsQ==
+  /sinon/7.5.0:
+    dependencies:
+      '@sinonjs/commons': 1.8.1
+      '@sinonjs/formatio': 3.2.2
+      '@sinonjs/samsam': 3.3.3
+      diff: 3.5.0
+      lolex: 4.2.0
+      nise: 1.5.3
+      supports-color: 5.5.0
+    dev: true
+    resolution:
+      integrity: sha512-AoD0oJWerp0/rY9czP/D6hDTTUYGpObhZjMpd7Cl/A6+j0xBE+ayL/ldfggkBXUs0IkvIiM1ljM8+WkOc5k78Q==
+  /sinon/9.0.2:
+    dependencies:
+      '@sinonjs/commons': 1.8.1
+      '@sinonjs/fake-timers': 6.0.1
+      '@sinonjs/formatio': 5.0.1
+      '@sinonjs/samsam': 5.0.3
+      diff: 4.0.2
+      nise: 4.0.4
+      supports-color: 7.1.0
+    dev: true
+    resolution:
+      integrity: sha512-0uF8Q/QHkizNUmbK3LRFqx5cpTttEVXudywY9Uwzy8bTfZUhljZ7ARzSxnRHWYWtVTeh4Cw+tTb3iU21FQVO9A==
   /slice-ansi/2.1.0:
     dependencies:
       ansi-styles: 3.2.1
@@ -7716,6 +7857,10 @@ packages:
     dev: true
     resolution:
       integrity: sha512-KY9Frmirql91X2Qgjry0Wd4Y+YTdrdZheS8TFwvkbLWf/G5KNJDCh6pKL5OZctEW4+0Baa5idK2ZQuELRwPznQ==
+  /urijs/1.19.2:
+    dev: true
+    resolution:
+      integrity: sha512-s/UIq9ap4JPZ7H1EB5ULo/aOUbWqfDi7FKzMC2Nz+0Si8GiT1rIEaprt8hy3Vy2Ex2aJPpOQv4P4DuOZ+K1c6w==
   /urix/0.1.0:
     deprecated: 'Please see https://github.com/lydell/urix#deprecated'
     dev: true
@@ -8149,6 +8294,7 @@ specifiers:
   '@types/jquery': ^3.5.0
   '@types/mocha': ^8.0.0
   '@types/node': ^14.0.23
+  '@types/sinon': ^9.0.4
   '@typescript-eslint/eslint-plugin': ^3.6.1
   '@typescript-eslint/parser': ^3.6.1
   awesome-bootstrap-checkbox: ^0.3.7
@@ -8189,6 +8335,8 @@ specifiers:
   prettier: ^2.0.5
   progress-bar-webpack-plugin: ^1.12.1
   simple-vdf: ^1.1.1
+  sinon: ^9.0.2
+  sinon-chrome: ^3.0.1
   style-loader: ^1.2.1
   typescript: ^3.9.7
   web-ext-types: ^3.2.1

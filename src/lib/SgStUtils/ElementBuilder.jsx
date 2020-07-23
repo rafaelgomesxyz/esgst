@@ -14,51 +14,6 @@ const CLASS_NAMES = {
 	},
 };
 
-class SgNotification {
-	/**
-	 * @param {Object} [options]
-	 * @param {HTMLElement} [options.context]
-	 * @param {String} [options.position]
-	 * @param {"success"|"warning"} options.type
-	 * @param {String[]} options.icons
-	 * @param {String} options.message
-	 */
-	constructor(options) {
-		options = Object.assign(
-			{
-				context: null,
-				position: null,
-				type: 'warning',
-				icons: [],
-				message: '',
-			},
-			options
-		);
-		DOM.insert(
-			options.context,
-			options.position,
-			<div ref={(ref) => (this.notification = ref)}>
-				<i ref={(ref) => (this.icon = ref)}></i> <span ref={(ref) => (this.message = ref)}></span>
-			</div>
-		);
-		this.setType(options.type);
-		this.setIcons(options.icons);
-		this.setMessage(options.message);
-	}
-
-	setType(type) {
-		this.notification.className = `notification notification--${type} notification--margin-top-small`;
-	}
-
-	setIcons(icons) {
-		this.icon.className = `fa fa-fw ${icons.join(' ')}`;
-	}
-
-	setMessage(text) {
-		this.message.textContent = text;
-	}
-}
-
 class PageHeading {
 	/**
 	 * @param {Object} options
@@ -158,7 +113,6 @@ class StPageHeading extends PageHeading {
 
 const elementBuilder = {
 	sg: {
-		notification: SgNotification,
 		pageHeading: SgPageHeading,
 	},
 	st: {

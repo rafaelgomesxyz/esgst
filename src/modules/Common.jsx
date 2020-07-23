@@ -1,5 +1,4 @@
 import dateFns_format from 'date-fns/format';
-import dateFns_formatDistanceStrict from 'date-fns/formatDistanceStrict';
 import dateFns_isSameWeek from 'date-fns/isSameWeek';
 import IntersectionObserver from 'intersection-observer-polyfill';
 import JSZip from 'jszip';
@@ -5465,48 +5464,6 @@ class Common extends Module {
 			css.pop();
 		});
 		return css.join('');
-	}
-
-	createFormNotification(context, position, options) {
-		let notification;
-		DOM.insert(
-			context,
-			position,
-			<div
-				className={`notification notification--${
-					options.loading ? 'default' : options.success ? 'success' : 'warning'
-				}`}
-				ref={(ref) => (notification = ref)}
-			>
-				<i
-					className={`fa ${
-						options.loading
-							? 'fa-circle-o-notch fa-spin'
-							: options.success
-							? 'fa-check-circle'
-							: 'fa-times-circle'
-					}`}
-				></i>{' '}
-				{options.loading ? (
-					<fragment>
-						Syncing <span>{options.name}</span>
-					</fragment>
-				) : options.success ? (
-					<fragment>
-						Synced <span>{options.name}</span>{' '}
-						<span data-timestamp={options.date / 1e3}>
-							{dateFns_formatDistanceStrict(options.date, new Date())}
-						</span>
-						{' ago.'}
-					</fragment>
-				) : (
-					<fragment>
-						Never synced <span>{options.name}</span>
-					</fragment>
-				)}
-			</div>
-		);
-		return notification;
 	}
 
 	createFormRows(context, position, options) {

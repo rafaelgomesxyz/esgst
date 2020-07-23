@@ -13,6 +13,10 @@ declare namespace JSX {
 	};
 }
 
+declare interface Element {
+	textContent: string;
+}
+
 interface IUser {
 	nodes: IUserNodes;
 	data: IUserData;
