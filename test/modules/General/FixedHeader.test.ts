@@ -3,21 +3,23 @@ import { Shared } from '../../../src/class/Shared';
 import { Header, IHeader } from '../../../src/components/Header';
 import { Namespaces } from '../../../src/constants/Namespaces';
 import { generalFixedHeader } from '../../../src/modules/General/FixedHeader';
-import { loadFixture, unloadFixtures } from '../../../test-helpers/fixture-loader';
+import { loadFixture } from '../../../test-helpers/fixture-loader';
 import sgHeaderFixture from '../../fixtures/sg/header.html';
 import stHeaderFixture from '../../fixtures/st/header.html';
+
+let fixtureEl: Element;
 
 describe('Fixed Header', () => {
 	describe('on SG', () => {
 		describe('when there is a header', () => {
 			before(() => {
-				loadFixture(sgHeaderFixture);
+				fixtureEl = loadFixture(sgHeaderFixture);
 				Shared.header = Header(Namespaces.SG);
 				Shared.header.parse(document.body);
 			});
 
 			after(() => {
-				unloadFixtures();
+				fixtureEl.remove();
 			});
 
 			it('should load successfully', () => {
@@ -33,7 +35,7 @@ describe('Fixed Header', () => {
 			});
 
 			after(() => {
-				unloadFixtures();
+				fixtureEl.remove();
 			});
 
 			it('should silently fail to load', () => {
@@ -46,13 +48,13 @@ describe('Fixed Header', () => {
 	describe('on ST', () => {
 		describe('when there is a header', () => {
 			before(() => {
-				loadFixture(stHeaderFixture);
+				fixtureEl = loadFixture(stHeaderFixture);
 				Shared.header = Header(Namespaces.ST);
 				Shared.header.parse(document.body);
 			});
 
 			after(() => {
-				unloadFixtures();
+				fixtureEl.remove();
 			});
 
 			it('should load successfully', () => {
@@ -68,7 +70,7 @@ describe('Fixed Header', () => {
 			});
 
 			after(() => {
-				unloadFixtures();
+				fixtureEl.remove();
 			});
 
 			it('should silently fail to load', () => {
