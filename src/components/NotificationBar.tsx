@@ -140,6 +140,7 @@ export class SgNotificationBar extends NotificationBar {
 		this._nodes = NotificationBar.getInitialNodes();
 		this._data = NotificationBar.getInitialData();
 		if (outerEl) {
+			this._nodes.outer = outerEl;
 			this.build();
 		}
 		return this;
