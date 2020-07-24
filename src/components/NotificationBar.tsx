@@ -97,6 +97,10 @@ export abstract class NotificationBar extends Base {
 
 	abstract setMessage(message: ElementChild): void;
 
+	abstract removeIcons(): void;
+
+	abstract removeMessage(): void;
+
 	abstract parseStatus(): void;
 
 	abstract parseIcons(): void;
@@ -152,29 +156,80 @@ export class SgNotificationBar extends NotificationBar {
 		if (!this._nodes.outer) {
 			throw this.getError('could not set content');
 		}
+		this._nodes.outer.innerHTML = '';
 		this._nodes.icons = [];
+		this._data.icons = [];
+		this._data.message = null;
+		this.setIcons(icons);
+		this.setMessage(message);
+	};
+
+	setIcons = (icons: string[]): void => {
+		if (!this._nodes.outer) {
+			throw this.getError('could not set icons');
+		}
+		this.removeIcons();
 		this._data.icons = icons;
-		this._data.message = message;
 		DOM.insert(
 			this._nodes.outer,
-			'atinner',
+			'afterbegin',
 			<fragment>
 				{this._data.icons.map((icon) => (
 					<fragment>
 						<i className={`fa ${icon}`} ref={(ref) => this._nodes.icons.push(ref)}></i>{' '}
 					</fragment>
 				))}
-				{this._data.message}
 			</fragment>
 		);
 	};
 
-	setIcons = (icons: string[]): void => {
-		this.setContent(icons, this._data.message);
+	setMessage = (message: ElementChild): void => {
+		if (!this._nodes.outer) {
+			throw this.getError('could not set message');
+		}
+		this.removeMessage();
+		this._data.message = message;
+		DOM.insert(this._nodes.outer, 'beforeend', <fragment>{this._data.message}</fragment>);
 	};
 
-	setMessage = (message: ElementChild): void => {
-		this.setContent(this._data.icons, message);
+	removeIcons = () => {
+		if (this._data.icons.length === 0) {
+			return;
+		}
+		if (!this._nodes.outer) {
+			throw this.getError('could not remove icons');
+		}
+		if (this._data.message) {
+			for (const icon of this._nodes.icons) {
+				(icon.nextSibling as ChildNode).remove();
+				icon.remove();
+			}
+		} else {
+			this._nodes.outer.innerHTML = '';
+		}
+		this._nodes.icons = [];
+		this._data.icons = [];
+	};
+
+	removeMessage = () => {
+		if (!this._data.message) {
+			return;
+		}
+		if (!this._nodes.outer) {
+			throw this.getError('could not remove message');
+		}
+		if (this._data.icons.length > 0) {
+			let nextSibling = (this._nodes.icons[this._nodes.icons.length - 1].nextSibling as ChildNode)
+				.nextSibling;
+			while (nextSibling) {
+				const sibling = nextSibling;
+				nextSibling = nextSibling.nextSibling;
+				sibling.remove();
+			}
+		} else {
+			this._nodes.outer.innerHTML = '';
+		}
+		this._data.message = null;
 	};
 
 	parse = (referenceEl: Element): void => {

@@ -69,38 +69,85 @@ describe('NotificationBar', () => {
 				);
 			});
 
-			it('setContent() should suceed', () => {
+			it('setContent() should succeed', () => {
+				const setIconsStub = sinon.stub(notificationBar1, 'setIcons');
+				const setMessageStub = sinon.stub(notificationBar1, 'setMessage');
 				const icons = ['fa-check-circle'];
 				const message = 'Done!';
 				notificationBar1.setContent(icons, message);
-				expect(notificationBar1.nodes.icons.length).to.equal(1);
-				expect(notificationBar1.data.icons).to.deep.equal(icons);
-				expect(notificationBar1.data.message).to.equal(message);
+				expect(setIconsStub.callCount).to.equal(1);
+				expect(setMessageStub.callCount).to.equal(1);
+				setIconsStub.restore();
+				setMessageStub.restore();
 			});
 
 			it('setIcons() should succeed', () => {
-				const setContentStub = sinon.stub(notificationBar1, 'setContent');
+				const removeIconsStub = sinon.stub(notificationBar1, 'removeIcons');
 				const icons = ['fa-check-circle'];
 				notificationBar1.setIcons(icons);
-				expect(setContentStub.callCount).to.equal(1);
-				expect(setContentStub.calledWith(icons, notificationBar1.data.message)).to.be.true;
-				setContentStub.restore();
+				expect(notificationBar1.nodes.icons.length).to.equal(1);
+				expect(notificationBar1.data.icons).to.deep.equal(icons);
+				removeIconsStub.restore();
+			});
+
+			it('when there is no message, removeIcons() should remove current icons', () => {
+				notificationBar1.removeIcons();
+				expect(notificationBar1.nodes.icons.length).to.equal(0);
+				expect(notificationBar1.data.icons.length).to.equal(0);
 			});
 
 			it('setMessage() should succeed', () => {
-				const setContentStub = sinon.stub(notificationBar1, 'setContent');
+				const removeMessageStub = sinon.stub(notificationBar1, 'removeMessage');
 				const message = 'Done!';
 				notificationBar1.setMessage(message);
-				expect(setContentStub.callCount).to.equal(1);
-				expect(setContentStub.calledWith(notificationBar1.data.icons, message)).to.be.true;
-				setContentStub.restore();
+				expect(notificationBar1.data.message).to.equal(message);
+				removeMessageStub.restore();
+			});
+
+			it('when there are no icons, removeMessage() should remove current message', () => {
+				notificationBar1.removeMessage();
+				expect(notificationBar1.data.message).to.be.null;
+			});
+
+			it('when there is a message, removeIcons() should remove current icons', () => {
+				const removeIconsStub = sinon.stub(notificationBar1, 'removeIcons');
+				const removeMessageStub = sinon.stub(notificationBar1, 'removeMessage');
+				const icons = ['fa-check-circle'];
+				const message = 'Done!';
+				notificationBar1.setContent(icons, message);
+				removeIconsStub.restore();
+				notificationBar1.removeIcons();
+				expect(notificationBar1.nodes.icons.length).to.equal(0);
+				expect(notificationBar1.data.icons.length).to.equal(0);
+				removeMessageStub.restore();
+			});
+
+			it('when there are icons, removeMessage() should remove current message', () => {
+				const removeIconsStub = sinon.stub(notificationBar1, 'removeIcons');
+				const removeMessageStub = sinon.stub(notificationBar1, 'removeMessage');
+				const icons = ['fa-check-circle'];
+				const message = 'Done!';
+				notificationBar1.setContent(icons, message);
+				removeMessageStub.restore();
+				notificationBar1.removeMessage();
+				expect(notificationBar1.data.message).to.be.null;
+				removeIconsStub.restore();
 			});
 
 			it('destroy() should succeed', () => {
+				const outerEl = notificationBar1.nodes.outer;
 				notificationBar1.destroy();
-				expect(document.body.children[0]).not.to.equal(notificationBar1.nodes.outer);
+				expect(document.body.children[0]).not.to.equal(outerEl);
 				expect(notificationBar1.nodes).to.deep.equal(NotificationBar.getInitialNodes());
 				expect(notificationBar1.data).to.deep.equal(NotificationBar.getInitialData());
+			});
+
+			it('when there are no icons, removeIcons() should return', () => {
+				expect(() => notificationBar1.removeIcons()).not.to.throw();
+			});
+
+			it('when there is no message, removeMessage() should return', () => {
+				expect(() => notificationBar1.removeMessage()).not.to.throw();
 			});
 
 			it('reset() should succeed', () => {
@@ -130,6 +177,24 @@ describe('NotificationBar', () => {
 				const icons = ['fa-check-circle'];
 				const message = 'Done!';
 				expect(() => notificationBar2.setContent(icons, message)).to.throw();
+			});
+
+			it('setIcons() should fail', () => {
+				const icons = ['fa-check-circle'];
+				expect(() => notificationBar2.setIcons(icons)).to.throw();
+			});
+
+			it('setMessage() should fail', () => {
+				const message = 'Done!';
+				expect(() => notificationBar2.setMessage(message)).to.throw();
+			});
+
+			it('removeIcons() should fail', () => {
+				expect(() => notificationBar2.removeIcons()).to.throw();
+			});
+
+			it('removeMessage() should fail', () => {
+				expect(() => notificationBar2.removeMessage()).to.throw();
 			});
 
 			it('destroy() should fail', () => {
