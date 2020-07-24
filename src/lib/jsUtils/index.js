@@ -17,6 +17,15 @@ class _Utils {
 	}
 
 	/**
+	 * @param {any[]} arr1
+	 * @param {any[]} arr2
+	 * @returns {boolean}
+	 */
+	areArraysEqual(arr1, arr2) {
+		return arr1.length === arr2.length && !arr1.find((value, index) => arr2[index] !== value);
+	}
+
+	/**
 	 * @param {string} c
 	 * @returns {string}
 	 */

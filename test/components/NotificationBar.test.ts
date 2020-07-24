@@ -82,6 +82,16 @@ describe('NotificationBar', () => {
 				);
 			});
 
+			it('when called with the same status, setStatus() should return', () => {
+				outerEl = notificationBar1.nodes.outer as HTMLDivElement;
+				const classBackup = outerEl.className;
+				outerEl.className = 'notification';
+				const status = 'success';
+				notificationBar1.setStatus(status);
+				expect(outerEl.className).to.equal('notification');
+				outerEl.className = classBackup;
+			});
+
 			it('setContent() should succeed', () => {
 				const setIconsStub = sinon.stub(notificationBar1, 'setIcons');
 				const setMessageStub = sinon.stub(notificationBar1, 'setMessage');
@@ -103,6 +113,14 @@ describe('NotificationBar', () => {
 				removeIconsStub.restore();
 			});
 
+			it('when called with the same icons, setIcons() should return', () => {
+				const outerEl = notificationBar1.nodes.outer as HTMLDivElement;
+				const childNodes = outerEl.childNodes;
+				const icons = ['fa-check-circle'];
+				notificationBar1.setIcons(icons);
+				expect(outerEl.childNodes).to.deep.equal(childNodes);
+			});
+
 			it('when there is no message, removeIcons() should remove current icons', () => {
 				notificationBar1.removeIcons();
 				expect(notificationBar1.nodes.icons.length).to.equal(0);
@@ -117,9 +135,81 @@ describe('NotificationBar', () => {
 				removeMessageStub.restore();
 			});
 
+			it('when called with the same message, setMessage() should return', () => {
+				const outerEl = notificationBar1.nodes.outer as HTMLDivElement;
+				const childNodes = outerEl.childNodes;
+				const message = 'Done!';
+				notificationBar1.setMessage(message);
+				expect(outerEl.childNodes).to.deep.equal(childNodes);
+			});
+
 			it('when there are no icons, removeMessage() should remove current message', () => {
 				notificationBar1.removeMessage();
 				expect(notificationBar1.data.message).to.be.null;
+			});
+
+			it('when called again with same content, setContent() should not clear', () => {
+				const icons = ['fa-check-circle'];
+				const message = 'Done!';
+				notificationBar1.setContent(icons, message);
+				const setIconsStub = sinon.stub(notificationBar1, 'setIcons');
+				const setMessageStub = sinon.stub(notificationBar1, 'setMessage');
+				notificationBar1.setContent(icons, message);
+				expect((notificationBar1.nodes.outer as HTMLDivElement).innerHTML).not.to.be.empty;
+				expect(notificationBar1.nodes.icons.length).to.equal(1);
+				expect(notificationBar1.data.icons).to.deep.equal(icons);
+				expect(notificationBar1.data.message).to.equal(message);
+				setIconsStub.restore();
+				setMessageStub.restore();
+			});
+
+			it('when called again with different content, setContent() should clear all', () => {
+				let icons = ['fa-check-circle'];
+				let message = 'Done!';
+				notificationBar1.setContent(icons, message);
+				const setIconsStub = sinon.stub(notificationBar1, 'setIcons');
+				const setMessageStub = sinon.stub(notificationBar1, 'setMessage');
+				icons = ['fa-question-circle'];
+				message = 'Is this a test?';
+				notificationBar1.setContent(icons, message);
+				expect((notificationBar1.nodes.outer as HTMLDivElement).innerHTML).to.be.empty;
+				expect(notificationBar1.nodes.icons).to.deep.equal([]);
+				expect(notificationBar1.data.icons).to.deep.equal([]);
+				expect(notificationBar1.data.message).to.equal(null);
+				setIconsStub.restore();
+				setMessageStub.restore();
+			});
+
+			it('when called again with only different icons, setContent() should clear icons', () => {
+				let icons = ['fa-check-circle'];
+				const message = 'Done!';
+				notificationBar1.setContent(icons, message);
+				const setIconsStub = sinon.stub(notificationBar1, 'setIcons');
+				const setMessageStub = sinon.stub(notificationBar1, 'setMessage');
+				icons = ['fa-question-circle'];
+				notificationBar1.setContent(icons, message);
+				expect((notificationBar1.nodes.outer as HTMLDivElement).innerHTML).not.to.be.empty;
+				expect(notificationBar1.nodes.icons).to.deep.equal([]);
+				expect(notificationBar1.data.icons).to.deep.equal([]);
+				expect(notificationBar1.data.message).to.equal(message);
+				setIconsStub.restore();
+				setMessageStub.restore();
+			});
+
+			it('when called again with only different message, setContent() should clear message', () => {
+				const icons = ['fa-check-circle'];
+				let message = 'Done!';
+				notificationBar1.setContent(icons, message);
+				const setIconsStub = sinon.stub(notificationBar1, 'setIcons');
+				const setMessageStub = sinon.stub(notificationBar1, 'setMessage');
+				message = 'Is this a test?';
+				notificationBar1.setContent(icons, message);
+				expect((notificationBar1.nodes.outer as HTMLDivElement).innerHTML).not.to.be.empty;
+				expect(notificationBar1.nodes.icons.length).to.equal(1);
+				expect(notificationBar1.data.icons).to.deep.equal(icons);
+				expect(notificationBar1.data.message).to.equal(null);
+				setIconsStub.restore();
+				setMessageStub.restore();
 			});
 
 			it('when there is a message, removeIcons() should remove current icons', () => {
@@ -152,21 +242,26 @@ describe('NotificationBar', () => {
 				outerEl = notificationBar1.nodes.outer as HTMLDivElement;
 				notificationBar1.destroy();
 				expect(document.body.children[0]).not.to.equal(outerEl);
+				expect(notificationBar1.nodes.outer).to.be.null;
 				expect(resetStub.callCount).to.equal(1);
 				resetStub.restore();
 			});
 
-			it('reset() should rebuild when there is an outer element', () => {
+			it('when there is an outer element, reset() should rebuild', () => {
 				notificationBar1.nodes.outer = outerEl;
 				const buildStub = sinon.stub(notificationBar1, 'build');
 				notificationBar1.reset();
-				expect(notificationBar1.nodes).to.deep.equal(NotificationBar.getInitialNodes());
+				expect(notificationBar1.nodes).to.deep.equal({
+					...NotificationBar.getInitialNodes(),
+					outer: outerEl,
+				});
 				expect(notificationBar1.data).to.deep.equal(NotificationBar.getInitialData());
 				expect(buildStub.callCount).to.equal(1);
 				buildStub.restore();
 			});
 
-			it('reset() should not rebuild when there is no outer element', () => {
+			it('when there is no outer element, reset() should not rebuild ', () => {
+				notificationBar1.nodes.outer = null;
 				const buildStub = sinon.stub(notificationBar1, 'build');
 				notificationBar1.reset();
 				expect(notificationBar1.nodes).to.deep.equal(NotificationBar.getInitialNodes());

@@ -1,6 +1,7 @@
 import { DOM, ElementChild, ExtendedInsertPosition } from '../class/DOM';
 import { Session } from '../class/Session';
 import { Namespaces } from '../constants/Namespaces';
+import { Utils } from '../lib/jsUtils';
 import { Base, BaseNodes } from './Base';
 
 export interface NotificationBarNodes extends BaseNodes {
@@ -150,6 +151,9 @@ export class SgNotificationBar extends NotificationBar {
 		if (!this._nodes.outer) {
 			throw this.getError('could not set status');
 		}
+		if (this._data.status === status) {
+			return this;
+		}
 		this._data.status = status;
 		this._nodes.outer.className = `notification notification--${this._data.status} notification--margin-top-small`;
 		return this;
@@ -159,10 +163,16 @@ export class SgNotificationBar extends NotificationBar {
 		if (!this._nodes.outer) {
 			throw this.getError('could not set content');
 		}
-		this._nodes.outer.innerHTML = '';
-		this._nodes.icons = [];
-		this._data.icons = [];
-		this._data.message = null;
+		if (!Utils.areArraysEqual(this._data.icons, icons) && this._data.message !== message) {
+			this._nodes.outer.innerHTML = '';
+		}
+		if (!Utils.areArraysEqual(this._data.icons, icons)) {
+			this._nodes.icons = [];
+			this._data.icons = [];
+		}
+		if (this._data.message !== message) {
+			this._data.message = null;
+		}
 		this.setIcons(icons);
 		this.setMessage(message);
 		return this;
@@ -171,6 +181,9 @@ export class SgNotificationBar extends NotificationBar {
 	setIcons = (icons: string[]): NotificationBar => {
 		if (!this._nodes.outer) {
 			throw this.getError('could not set icons');
+		}
+		if (Utils.areArraysEqual(this._data.icons, icons)) {
+			return this;
 		}
 		this.removeIcons();
 		this._data.icons = icons;
@@ -191,6 +204,9 @@ export class SgNotificationBar extends NotificationBar {
 	setMessage = (message: ElementChild): NotificationBar => {
 		if (!this._nodes.outer) {
 			throw this.getError('could not set message');
+		}
+		if (this._data.message === message) {
+			return this;
 		}
 		this.removeMessage();
 		this._data.message = message;
