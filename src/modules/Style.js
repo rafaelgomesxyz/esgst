@@ -197,21 +197,21 @@ function addStyle() {
 	}
 	style += `
 	.notification--info {
-		background-image: linear-gradient(#e5f6ff 0%, #e5f5fe 100%);
-		border-color: #bae6ff;
-		color: #33b1ff;
+		background-image: linear-gradient(#eafef7 0%, #d9edf7 100%);
+		border-color: #bce8f1;
+		color: #53928f;
 	}
 
 	.notification--danger {
-		background-image: linear-gradient(#fff1f1 0px, #fff0f0 20px);
-		border-color: #ffd7d9;
-		color: #ff8389;
+		background-image: linear-gradient(#f2efef 0%, #f2dede 100%);
+		border-color: #ebccd1;
+		color: #a96664;
 	}
 
 	.notification--default {
-		background-image: linear-gradient(#f4f4f4 0%, #f3f3f3 100%);
-		border-color: #e0e0e0;
-		color: #8d8d8d;
+		background-image: linear-gradient(#f3f4f6 0%, #e2e3e5 100%);
+		border-color: #d6d8db;
+		color: #5a5f63;
 	}
 
 	.esgst-sm-feature-container {
