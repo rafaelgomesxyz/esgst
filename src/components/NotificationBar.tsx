@@ -112,6 +112,7 @@ export class SgNotificationBar extends NotificationBar {
 		}
 		this.setStatus(this._data.status);
 		this.setContent(this._data.icons, this._data.message);
+		this._hasBuilt = true;
 		return this;
 	};
 
@@ -132,6 +133,7 @@ export class SgNotificationBar extends NotificationBar {
 		}
 		this._nodes.outer.remove();
 		this._nodes.outer = null;
+		this._hasBuilt = false;
 		this.reset();
 		return this;
 	};
@@ -142,6 +144,7 @@ export class SgNotificationBar extends NotificationBar {
 		this._data = NotificationBar.getInitialData();
 		if (outerEl) {
 			this._nodes.outer = outerEl;
+			this._hasBuilt = false;
 			this.build();
 		}
 		return this;
@@ -151,7 +154,7 @@ export class SgNotificationBar extends NotificationBar {
 		if (!this._nodes.outer) {
 			throw this.getError('could not set status');
 		}
-		if (this._data.status === status) {
+		if (this._hasBuilt && this._data.status === status) {
 			return this;
 		}
 		this._data.status = status;
@@ -163,14 +166,16 @@ export class SgNotificationBar extends NotificationBar {
 		if (!this._nodes.outer) {
 			throw this.getError('could not set content');
 		}
-		if (!Utils.areArraysEqual(this._data.icons, icons) && this._data.message !== message) {
+		const areIconsEqual = this._hasBuilt && Utils.areArraysEqual(this._data.icons, icons);
+		const isMessageEqual = this._hasBuilt && this._data.message === message;
+		if (!areIconsEqual && !isMessageEqual) {
 			this._nodes.outer.innerHTML = '';
 		}
-		if (!Utils.areArraysEqual(this._data.icons, icons)) {
+		if (!areIconsEqual) {
 			this._nodes.icons = [];
 			this._data.icons = [];
 		}
-		if (this._data.message !== message) {
+		if (!isMessageEqual) {
 			this._data.message = null;
 		}
 		this.setIcons(icons);
@@ -182,7 +187,7 @@ export class SgNotificationBar extends NotificationBar {
 		if (!this._nodes.outer) {
 			throw this.getError('could not set icons');
 		}
-		if (Utils.areArraysEqual(this._data.icons, icons)) {
+		if (this._hasBuilt && Utils.areArraysEqual(this._data.icons, icons)) {
 			return this;
 		}
 		this.removeIcons();
@@ -205,7 +210,7 @@ export class SgNotificationBar extends NotificationBar {
 		if (!this._nodes.outer) {
 			throw this.getError('could not set message');
 		}
-		if (this._data.message === message) {
+		if (this._hasBuilt && this._data.message === message) {
 			return this;
 		}
 		this.removeMessage();

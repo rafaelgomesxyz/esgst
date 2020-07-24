@@ -49,6 +49,7 @@ describe('NotificationBar', () => {
 			expect(outerEl).to.be.instanceOf(Node);
 			expect(setStatusStub.callCount).to.equal(1);
 			expect(setContentStub.callCount).to.equal(1);
+			expect(notificationBar1.hasBuilt).to.be.true;
 			setStatusStub.restore();
 			setContentStub.restore();
 		});
@@ -60,6 +61,7 @@ describe('NotificationBar', () => {
 			expect(notificationBar1.nodes.outer).to.equal(outerEl);
 			expect(setStatusStub.callCount).to.equal(1);
 			expect(setContentStub.callCount).to.equal(1);
+			expect(notificationBar1.hasBuilt).to.be.true;
 			setStatusStub.restore();
 			setContentStub.restore();
 		});
@@ -243,6 +245,7 @@ describe('NotificationBar', () => {
 				notificationBar1.destroy();
 				expect(document.body.children[0]).not.to.equal(outerEl);
 				expect(notificationBar1.nodes.outer).to.be.null;
+				expect(notificationBar1.hasBuilt).to.be.false;
 				expect(resetStub.callCount).to.equal(1);
 				resetStub.restore();
 			});
@@ -256,6 +259,7 @@ describe('NotificationBar', () => {
 					outer: outerEl,
 				});
 				expect(notificationBar1.data).to.deep.equal(NotificationBar.getInitialData());
+				expect(notificationBar1.hasBuilt).to.be.false;
 				expect(buildStub.callCount).to.equal(1);
 				buildStub.restore();
 			});
@@ -266,6 +270,7 @@ describe('NotificationBar', () => {
 				notificationBar1.reset();
 				expect(notificationBar1.nodes).to.deep.equal(NotificationBar.getInitialNodes());
 				expect(notificationBar1.data).to.deep.equal(NotificationBar.getInitialData());
+				expect(notificationBar1.hasBuilt).to.be.false;
 				expect(buildStub.callCount).to.equal(0);
 				buildStub.restore();
 			});

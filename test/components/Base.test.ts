@@ -38,6 +38,10 @@ describe('Base', () => {
 			expect(TestClass.getError('Test!').message).to.equal('TestClass: Test!');
 		});
 
+		it('hasBuilt should be false', () => {
+			expect(testClass.hasBuilt).to.be.false;
+		});
+
 		it('getError() should return correct error message', () => {
 			expect(testClass.getError('Test!').message).to.equal('TestClass: Test!');
 		});

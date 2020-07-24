@@ -11,9 +11,14 @@ export abstract class Base<T> {
 		outer: null,
 	};
 	protected _data: unknown;
+	protected _hasBuilt = false;
 
 	static getError(message: string): Error {
 		return new Error(`${this.name}: ${message}`);
+	}
+
+	get hasBuilt(): boolean {
+		return this._hasBuilt;
 	}
 
 	hide = (): T => {
