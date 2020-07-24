@@ -130,13 +130,18 @@ export class SgNotificationBar extends NotificationBar {
 			throw this.getError('could not destroy');
 		}
 		this._nodes.outer.remove();
+		this._nodes.outer = null;
 		this.reset();
 		return this;
 	};
 
 	reset = (): NotificationBar => {
+		const outerEl = this._nodes.outer;
 		this._nodes = NotificationBar.getInitialNodes();
 		this._data = NotificationBar.getInitialData();
+		if (outerEl) {
+			this.build();
+		}
 		return this;
 	};
 

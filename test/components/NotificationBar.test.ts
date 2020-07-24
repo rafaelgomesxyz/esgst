@@ -156,10 +156,23 @@ describe('NotificationBar', () => {
 				resetStub.restore();
 			});
 
-			it('reset() should succeed', () => {
+			it('reset() should rebuild when there is an outer element', () => {
+				notificationBar1.nodes.outer = outerEl;
+				const buildStub = sinon.stub(notificationBar1, 'build');
 				notificationBar1.reset();
 				expect(notificationBar1.nodes).to.deep.equal(NotificationBar.getInitialNodes());
 				expect(notificationBar1.data).to.deep.equal(NotificationBar.getInitialData());
+				expect(buildStub.callCount).to.equal(1);
+				buildStub.restore();
+			});
+
+			it('reset() should not rebuild when there is no outer element', () => {
+				const buildStub = sinon.stub(notificationBar1, 'build');
+				notificationBar1.reset();
+				expect(notificationBar1.nodes).to.deep.equal(NotificationBar.getInitialNodes());
+				expect(notificationBar1.data).to.deep.equal(NotificationBar.getInitialData());
+				expect(buildStub.callCount).to.equal(0);
+				buildStub.restore();
 			});
 
 			it('when there are no icons, removeIcons() should return', () => {
