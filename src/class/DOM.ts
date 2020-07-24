@@ -150,19 +150,19 @@ class _DOM {
 					}
 					break;
 				case 'afterbegin':
-					referenceEl.insertBefore(node, referenceEl.firstElementChild);
+					referenceEl.insertBefore(node, referenceEl.firstChild);
 					break;
 				case 'beforeend':
 					referenceEl.appendChild(node);
 					break;
 				case 'afterend':
 					if (referenceElParent) {
-						referenceElParent.insertBefore(node, referenceEl.nextElementSibling);
+						referenceElParent.insertBefore(node, referenceEl.nextSibling);
 					}
 					break;
 				case 'atouter':
 					if (referenceElParent) {
-						referenceElParent.insertBefore(node, referenceEl.nextElementSibling);
+						referenceElParent.insertBefore(node, referenceEl.nextSibling);
 						referenceEl.remove();
 					}
 					break;
