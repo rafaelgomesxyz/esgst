@@ -10,10 +10,11 @@ import { Namespaces } from '../../src/constants/Namespaces';
 import { loadFixture } from '../../test-helpers/fixture-loader';
 import sgNotificationBarFixture from '../fixtures/sg/notification-bar.html';
 
-let fixtureEl: Element;
 let notificationBar1: NotificationBar;
 let notificationBar2: NotificationBar;
 let notificationBars: NotificationBar[];
+let outerEl: HTMLDivElement;
+let fixtureEl: Element;
 
 describe('NotificationBar', () => {
 	describe('on SG:', () => {
@@ -44,7 +45,19 @@ describe('NotificationBar', () => {
 			const setStatusStub = sinon.stub(notificationBar1, 'setStatus');
 			const setContentStub = sinon.stub(notificationBar1, 'setContent');
 			notificationBar1.build();
-			expect(notificationBar1.nodes.outer).to.be.instanceOf(Node);
+			outerEl = notificationBar1.nodes.outer as HTMLDivElement;
+			expect(outerEl).to.be.instanceOf(Node);
+			expect(setStatusStub.callCount).to.equal(1);
+			expect(setContentStub.callCount).to.equal(1);
+			setStatusStub.restore();
+			setContentStub.restore();
+		});
+
+		it('when called again, build() should rebuild using the same outer element', () => {
+			const setStatusStub = sinon.stub(notificationBar1, 'setStatus');
+			const setContentStub = sinon.stub(notificationBar1, 'setContent');
+			notificationBar1.build();
+			expect(notificationBar1.nodes.outer).to.equal(outerEl);
 			expect(setStatusStub.callCount).to.equal(1);
 			expect(setContentStub.callCount).to.equal(1);
 			setStatusStub.restore();
@@ -135,9 +148,16 @@ describe('NotificationBar', () => {
 			});
 
 			it('destroy() should succeed', () => {
-				const outerEl = notificationBar1.nodes.outer;
+				const resetStub = sinon.stub(notificationBar1, 'reset');
+				outerEl = notificationBar1.nodes.outer as HTMLDivElement;
 				notificationBar1.destroy();
 				expect(document.body.children[0]).not.to.equal(outerEl);
+				expect(resetStub.callCount).to.equal(1);
+				resetStub.restore();
+			});
+
+			it('reset() should succeed', () => {
+				notificationBar1.reset();
 				expect(notificationBar1.nodes).to.deep.equal(NotificationBar.getInitialNodes());
 				expect(notificationBar1.data).to.deep.equal(NotificationBar.getInitialData());
 			});
@@ -148,15 +168,6 @@ describe('NotificationBar', () => {
 
 			it('when there is no message, removeMessage() should return', () => {
 				expect(() => notificationBar1.removeMessage()).not.to.throw();
-			});
-
-			it('reset() should succeed', () => {
-				const buildStub = sinon.stub(notificationBar1, 'build');
-				notificationBar1.reset();
-				expect(notificationBar1.nodes).to.deep.equal(NotificationBar.getInitialNodes());
-				expect(notificationBar1.data).to.deep.equal(NotificationBar.getInitialData());
-				expect(buildStub.callCount).to.equal(1);
-				buildStub.restore();
 			});
 		});
 

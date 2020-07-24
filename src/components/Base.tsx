@@ -6,7 +6,7 @@ export interface BaseNodes {
 	outer: HTMLElement | null;
 }
 
-export abstract class Base {
+export abstract class Base<T> {
 	protected _nodes: BaseNodes = {
 		outer: null,
 	};
@@ -16,31 +16,29 @@ export abstract class Base {
 		return new Error(`${this.name}: ${message}`);
 	}
 
-	hide = () => {
+	hide = (): T => {
 		if (!this._nodes.outer) {
 			throw this.getError('could not hide');
 		}
 		this._nodes.outer.classList.add(ClassNames[Session.namespace].hiddenClass);
+		return (this as unknown) as T;
 	};
 
-	show = () => {
+	show = (): T => {
 		if (!this._nodes.outer) {
 			throw this.getError('could not show');
 		}
 		this._nodes.outer.classList.remove(ClassNames[Session.namespace].hiddenClass);
+		return (this as unknown) as T;
 	};
 
 	getError = (message: string): Error => {
 		return new Error(`${this.constructor.name}: ${message}`);
 	};
 
-	abstract build(): void;
-
-	abstract insert(referenceEl: Element, position: ExtendedInsertPosition): void;
-
-	abstract destroy(): void;
-
-	abstract reset(): void;
-
-	abstract parse(referenceEl: Element): void;
+	abstract build(): T;
+	abstract insert(referenceEl: Element, position: ExtendedInsertPosition): T;
+	abstract destroy(): T;
+	abstract reset(): T;
+	abstract parse(referenceEl: Element): T;
 }

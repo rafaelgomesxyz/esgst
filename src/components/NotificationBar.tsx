@@ -16,7 +16,7 @@ export interface NotificationBarData {
 
 export type NotificationBarStatus = 'info' | 'success' | 'warning' | 'danger' | 'default';
 
-export abstract class NotificationBar extends Base {
+export abstract class NotificationBar extends Base<NotificationBar> {
 	static readonly defaultStatus: NotificationBarStatus = 'default';
 	static readonly statusList: readonly NotificationBarStatus[] = [
 		'info',
@@ -89,23 +89,15 @@ export abstract class NotificationBar extends Base {
 		return this._data;
 	}
 
-	abstract setStatus(status: NotificationBarStatus): void;
-
-	abstract setContent(icons: string[], message: ElementChild): void;
-
-	abstract setIcons(icons: string[]): void;
-
-	abstract setMessage(message: ElementChild): void;
-
-	abstract removeIcons(): void;
-
-	abstract removeMessage(): void;
-
-	abstract parseStatus(): void;
-
-	abstract parseIcons(): void;
-
-	abstract parseMessage(): void;
+	abstract setStatus(status: NotificationBarStatus): NotificationBar;
+	abstract setContent(icons: string[], message: ElementChild): NotificationBar;
+	abstract setIcons(icons: string[]): NotificationBar;
+	abstract setMessage(message: ElementChild): NotificationBar;
+	abstract removeIcons(): NotificationBar;
+	abstract removeMessage(): NotificationBar;
+	abstract parseStatus(): NotificationBar;
+	abstract parseIcons(): NotificationBar;
+	abstract parseMessage(): NotificationBar;
 }
 
 export class SgNotificationBar extends NotificationBar {
@@ -113,13 +105,16 @@ export class SgNotificationBar extends NotificationBar {
 		super(options);
 	}
 
-	build = () => {
-		this._nodes.outer = <div></div>;
+	build = (): NotificationBar => {
+		if (!this._nodes.outer) {
+			this._nodes.outer = <div></div>;
+		}
 		this.setStatus(this._data.status);
 		this.setContent(this._data.icons, this._data.message);
+		return this;
 	};
 
-	insert = (referenceEl: Element, position: ExtendedInsertPosition): void => {
+	insert = (referenceEl: Element, position: ExtendedInsertPosition): NotificationBar => {
 		if (!this._nodes.outer) {
 			this.build();
 		}
@@ -127,32 +122,34 @@ export class SgNotificationBar extends NotificationBar {
 			throw this.getError('could not insert');
 		}
 		DOM.insert(referenceEl, position, this._nodes.outer);
+		return this;
 	};
 
-	destroy = (): void => {
+	destroy = (): NotificationBar => {
 		if (!this._nodes.outer) {
 			throw this.getError('could not destroy');
 		}
 		this._nodes.outer.remove();
-		this._nodes = NotificationBar.getInitialNodes();
-		this._data = NotificationBar.getInitialData();
+		this.reset();
+		return this;
 	};
 
-	reset = () => {
+	reset = (): NotificationBar => {
 		this._nodes = NotificationBar.getInitialNodes();
 		this._data = NotificationBar.getInitialData();
-		this.build();
+		return this;
 	};
 
-	setStatus = (status: NotificationBarStatus): void => {
+	setStatus = (status: NotificationBarStatus): NotificationBar => {
 		if (!this._nodes.outer) {
 			throw this.getError('could not set status');
 		}
 		this._data.status = status;
 		this._nodes.outer.className = `notification notification--${this._data.status} notification--margin-top-small`;
+		return this;
 	};
 
-	setContent = (icons: string[], message: ElementChild): void => {
+	setContent = (icons: string[], message: ElementChild): NotificationBar => {
 		if (!this._nodes.outer) {
 			throw this.getError('could not set content');
 		}
@@ -162,9 +159,10 @@ export class SgNotificationBar extends NotificationBar {
 		this._data.message = null;
 		this.setIcons(icons);
 		this.setMessage(message);
+		return this;
 	};
 
-	setIcons = (icons: string[]): void => {
+	setIcons = (icons: string[]): NotificationBar => {
 		if (!this._nodes.outer) {
 			throw this.getError('could not set icons');
 		}
@@ -181,20 +179,22 @@ export class SgNotificationBar extends NotificationBar {
 				))}
 			</fragment>
 		);
+		return this;
 	};
 
-	setMessage = (message: ElementChild): void => {
+	setMessage = (message: ElementChild): NotificationBar => {
 		if (!this._nodes.outer) {
 			throw this.getError('could not set message');
 		}
 		this.removeMessage();
 		this._data.message = message;
 		DOM.insert(this._nodes.outer, 'beforeend', <fragment>{this._data.message}</fragment>);
+		return this;
 	};
 
-	removeIcons = () => {
+	removeIcons = (): NotificationBar => {
 		if (this._data.icons.length === 0) {
-			return;
+			return this;
 		}
 		if (!this._nodes.outer) {
 			throw this.getError('could not remove icons');
@@ -209,11 +209,12 @@ export class SgNotificationBar extends NotificationBar {
 		}
 		this._nodes.icons = [];
 		this._data.icons = [];
+		return this;
 	};
 
-	removeMessage = () => {
+	removeMessage = (): NotificationBar => {
 		if (!this._data.message) {
-			return;
+			return this;
 		}
 		if (!this._nodes.outer) {
 			throw this.getError('could not remove message');
@@ -230,9 +231,10 @@ export class SgNotificationBar extends NotificationBar {
 			this._nodes.outer.innerHTML = '';
 		}
 		this._data.message = null;
+		return this;
 	};
 
-	parse = (referenceEl: Element): void => {
+	parse = (referenceEl: Element): NotificationBar => {
 		if (!referenceEl.matches(NotificationBar.selectors)) {
 			throw this.getError('could not parse');
 		}
@@ -240,18 +242,20 @@ export class SgNotificationBar extends NotificationBar {
 		this.parseStatus();
 		this.parseIcons();
 		this.parseMessage();
+		return this;
 	};
 
-	parseStatus = (): void => {
+	parseStatus = (): NotificationBar => {
 		if (!this._nodes.outer) {
 			throw this.getError('could not parse status');
 		}
 		this._data.status = NotificationBar.statusRegex.exec(
 			this._nodes.outer.className
 		)?.[1] as NotificationBarStatus;
+		return this;
 	};
 
-	parseIcons = (): void => {
+	parseIcons = (): NotificationBar => {
 		if (!this._nodes.outer) {
 			throw this.getError('could not parse icons');
 		}
@@ -265,12 +269,14 @@ export class SgNotificationBar extends NotificationBar {
 			}
 			this._data.icons.push(iconParts.join(' '));
 		}
+		return this;
 	};
 
-	parseMessage = (): void => {
+	parseMessage = (): NotificationBar => {
 		if (!this._nodes.outer) {
 			throw this.getError('could not parse message');
 		}
 		this._data.message = this._nodes.outer.textContent.trim();
+		return this;
 	};
 }

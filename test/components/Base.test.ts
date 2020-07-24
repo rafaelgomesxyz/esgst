@@ -4,23 +4,25 @@ import { Base } from '../../src/components/Base';
 import { ClassNames } from '../../src/constants/ClassNames';
 import { Namespaces } from '../../src/constants/Namespaces';
 
-class TestClass extends Base {
+class TestClass extends Base<TestClass> {
 	get nodes() {
 		return this._nodes;
 	}
 
-	build = (): void => {};
+	build = (): TestClass => this;
 
-	insert = (): void => {};
+	insert = (): TestClass => this;
 
-	destroy = (): void => {};
+	destroy = (): TestClass => this;
 
-	reset = (): void => {
+	reset = (): TestClass => {
 		this._nodes.outer = null;
+		return this;
 	};
 
-	parse = (): void => {
+	parse = (): TestClass => {
 		this._nodes.outer = document.body;
+		return this;
 	};
 }
 
