@@ -170,12 +170,8 @@ export class SgNotificationBar extends NotificationBar {
 		const isMessageEqual = this._hasBuilt && this._data.message === message;
 		if (!areIconsEqual && !isMessageEqual) {
 			this._nodes.outer.innerHTML = '';
-		}
-		if (!areIconsEqual) {
 			this._nodes.icons = [];
 			this._data.icons = [];
-		}
-		if (!isMessageEqual) {
 			this._data.message = null;
 		}
 		this.setIcons(icons);

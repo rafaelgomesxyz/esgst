@@ -182,38 +182,6 @@ describe('NotificationBar', () => {
 				setMessageStub.restore();
 			});
 
-			it('when called again with only different icons, setContent() should clear icons', () => {
-				let icons = ['fa-check-circle'];
-				const message = 'Done!';
-				notificationBar1.setContent(icons, message);
-				const setIconsStub = sinon.stub(notificationBar1, 'setIcons');
-				const setMessageStub = sinon.stub(notificationBar1, 'setMessage');
-				icons = ['fa-question-circle'];
-				notificationBar1.setContent(icons, message);
-				expect((notificationBar1.nodes.outer as HTMLDivElement).innerHTML).not.to.be.empty;
-				expect(notificationBar1.nodes.icons).to.deep.equal([]);
-				expect(notificationBar1.data.icons).to.deep.equal([]);
-				expect(notificationBar1.data.message).to.equal(message);
-				setIconsStub.restore();
-				setMessageStub.restore();
-			});
-
-			it('when called again with only different message, setContent() should clear message', () => {
-				const icons = ['fa-check-circle'];
-				let message = 'Done!';
-				notificationBar1.setContent(icons, message);
-				const setIconsStub = sinon.stub(notificationBar1, 'setIcons');
-				const setMessageStub = sinon.stub(notificationBar1, 'setMessage');
-				message = 'Is this a test?';
-				notificationBar1.setContent(icons, message);
-				expect((notificationBar1.nodes.outer as HTMLDivElement).innerHTML).not.to.be.empty;
-				expect(notificationBar1.nodes.icons.length).to.equal(1);
-				expect(notificationBar1.data.icons).to.deep.equal(icons);
-				expect(notificationBar1.data.message).to.equal(null);
-				setIconsStub.restore();
-				setMessageStub.restore();
-			});
-
 			it('when there is a message, removeIcons() should remove current icons', () => {
 				const removeIconsStub = sinon.stub(notificationBar1, 'removeIcons');
 				const removeMessageStub = sinon.stub(notificationBar1, 'removeMessage');
