@@ -146,7 +146,7 @@ class _DOM {
 			switch (position) {
 				case 'beforebegin':
 					if (referenceElParent) {
-						referenceEl.insertBefore(node, referenceEl);
+						referenceElParent.insertBefore(node, referenceEl);
 					}
 					break;
 				case 'afterbegin':
