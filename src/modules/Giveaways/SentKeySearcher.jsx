@@ -6,6 +6,7 @@ import { common } from '../Common';
 import { Settings } from '../../class/Settings';
 import { DOM } from '../../class/DOM';
 import { Session } from '../../class/Session';
+import { NotificationBar } from '../../components/NotificationBar';
 
 const createElements = common.createElements.bind(common),
 	createHeadingButton = common.createHeadingButton.bind(common),
@@ -171,16 +172,10 @@ class GiveawaysSentKeySearcher extends Module {
 				callback2: this.sks_cancelSearch.bind(this, sks),
 			}).set
 		);
-		sks.progress = createElements(sks.popup.description, 'beforeend', [
-			{
-				type: 'div',
-			},
-		]);
-		sks.overallProgress = createElements(sks.popup.description, 'beforeend', [
-			{
-				type: 'div',
-			},
-		]);
+		sks.progressBar = NotificationBar.create().insert(sks.popup.description, 'beforeend').hide();
+		sks.overallProgressBar = NotificationBar.create()
+			.insert(sks.popup.description, 'beforeend')
+			.hide();
 		sks.popup.open();
 	}
 
@@ -192,8 +187,8 @@ class GiveawaysSentKeySearcher extends Module {
 		sks.giveaways = {};
 		sks.allKeys = [];
 		sks.keys = [];
-		sks.progress.innerHTML = '';
-		sks.overallProgress.innerHTML = '';
+		sks.progressBar.setStatus('info').setContent(['fa-circle-o-notch fa-spin'], null).show();
+		sks.overallProgressBar.reset().show();
 		sks.results.innerHTML = '';
 		let keys = sks.textArea.value.trim().split(/\n/);
 		let n = keys.length;
@@ -256,32 +251,10 @@ class GiveawaysSentKeySearcher extends Module {
 						: ` of ${sks.lastPage}`;
 				}
 			}
-			createElements(sks.overallProgress, 'atinner', [
-				{
-					attributes: {
-						class: 'fa fa-circle-o-notch fa-spin',
-					},
-					type: 'i',
-				},
-				{
-					text: `Searching for ${sks.count} keys (page ${nextPage}${sks.lastPage})...`,
-					type: 'span',
-				},
-			]);
+			sks.overallProgressBar.setMessage(`Page ${nextPage}${sks.lastPage} (${sks.count} keys left)`);
 			let elements = context.getElementsByClassName('trigger-popup--keys');
 			for (let i = 0, n = elements.length; !sks.canceled && i < n; i++) {
-				createElements(sks.progress, 'atinner', [
-					{
-						attributes: {
-							class: 'fa fa-circle-o-notch fa-spin',
-						},
-						type: 'i',
-					},
-					{
-						text: `Retrieving keys (${i + 1} of ${n})...`,
-						type: 'span',
-					},
-				]);
+				sks.progressBar.setMessage(`Retrieving keys (${i + 1} of ${n})...`);
 				let element = elements[i];
 				let endDate =
 					parseInt(
@@ -428,16 +401,23 @@ class GiveawaysSentKeySearcher extends Module {
 		if (Settings.get('sks_exportKeys')) {
 			downloadFile(sks.allKeys.join('\r\n'), `esgst_sks_keys_${new Date().toISOString()}.csv`);
 		}
-		sks.progress.innerHTML = '';
-		sks.overallProgress.innerHTML = '';
+		sks.progressBar.reset().hide();
+		if (sks.count > 0) {
+			sks.overallProgressBar
+				.setStatus('warning')
+				.setContent(['fa-exclamation-circle'], `${sks.count} keys were not found.`);
+		} else {
+			sks.overallProgressBar
+				.setStatus('success')
+				.setContent(['fa-check-circle'], 'All keys were found!');
+		}
 		sks.button.classList.remove('esgst-busy');
 	}
 
 	sks_cancelSearch(sks) {
 		sks.canceled = true;
 		sks.button.classList.remove('esgst-busy');
-		sks.progress.innerHTML = '';
-		sks.overallProgress.innerHTML = '';
+		sks.progressBar.reset().hide();
 	}
 }
 

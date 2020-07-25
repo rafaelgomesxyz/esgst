@@ -36,7 +36,12 @@ class CommentsReplyBoxPopup extends Module {
 			icons: ['fa-comment'],
 			title: 'Add a comment',
 		});
-		let popup = new Popup({ addScrollable: true, icon: 'fa-comment', title: `Add a comment:` });
+		let popup = new Popup({
+			addProgress: true,
+			addScrollable: true,
+			icon: 'fa-comment',
+			title: `Add a comment:`,
+		});
 		DOM.insert(
 			popup.scrollable,
 			'beforeend',
@@ -51,20 +56,18 @@ class CommentsReplyBoxPopup extends Module {
 				title1: 'Save',
 				title2: 'Saving...',
 				callback1: async () => {
-					popup.progress.innerHTML = '';
 					await Shared.common.saveComment(
 						null,
 						Shared.esgst.sg ? '' : document.querySelector(`[name="trade_code"]`).value,
 						'',
 						popup.textArea.value,
 						Shared.esgst.sg ? Shared.esgst.locationHref.match(/(.+?)(#.+?)?$/)[1] : '/ajax.php',
-						popup.progress,
+						popup.progressBar,
 						true
 					);
 				},
 			}).set
 		);
-		DOM.insert(popup.description, 'beforeend', <div ref={(ref) => (popup.progress = ref)} />);
 		button.addEventListener(
 			'click',
 			popup.open.bind(popup, popup.textArea.focus.bind(popup.textArea))

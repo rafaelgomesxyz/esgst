@@ -158,12 +158,9 @@ class UsersNotReceivedFinder extends Module {
 					};
 				}),
 			]);
-			createElements(obj.popup.overallProgress, 'atinner', [
-				{
-					text: `${obj.nrfData.found} of ${obj.nrfData.total} not received giveaways found...`,
-					type: 'node',
-				},
-			]);
+			obj.popup.setOverallProgress(
+				`${obj.nrfData.found} of ${obj.nrfData.total} not received giveaways found...`
+			);
 			await endless_load(obj.nrfResults);
 		}
 	}

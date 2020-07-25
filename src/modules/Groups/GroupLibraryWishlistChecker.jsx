@@ -1,12 +1,20 @@
-import { Module } from '../../class/Module';
-import { common } from '../Common';
-import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
-import { Shared } from '../../class/Shared';
-import { Settings } from '../../class/Settings';
-import { permissions } from '../../class/Permissions';
 import { DOM } from '../../class/DOM';
-import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { Logger } from '../../class/Logger';
+import { Module } from '../../class/Module';
+import { permissions } from '../../class/Permissions';
+import { Popout } from '../../class/Popout';
+import { Settings } from '../../class/Settings';
+import { Shared } from '../../class/Shared';
+import { ToggleSwitch } from '../../class/ToggleSwitch';
+import { NotificationBar } from '../../components/NotificationBar';
+import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
+import { common } from '../Common';
+
+/**
+ * @typedef {Object} GlwcObj
+ * @property {NotificationBar} progressBar
+ * @property {NotificationBar} overallProgressBar
+ */
 
 const createElements = common.createElements.bind(common),
 	createHeadingButton = common.createHeadingButton.bind(common),
@@ -113,14 +121,21 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 				return;
 			}
 
-			let glwc = {},
-				parameters;
+			let glwc = {
+				progressBar: NotificationBar.create({
+					status: 'info',
+					icons: ['fa-circle-o-notch fa-spin'],
+				}),
+				overallProgressBar: NotificationBar.create(),
+			};
+			let parameters;
 			glwc.container = Shared.esgst.sidebar.nextElementSibling;
 			if (Settings.get('removeSidebarInFeaturePages')) {
 				Shared.esgst.sidebar.remove();
 			}
 			glwc.container.innerHTML = '';
 			glwc.container.setAttribute('data-esgst-popup', true);
+			let optionsButton;
 			new elementBuilder[Shared.esgst.name].pageHeading({
 				context: glwc.container,
 				position: 'beforeend',
@@ -134,9 +149,18 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 						url: `https://www.steamgifts.com/account/settings/profile?esgst=glwc`,
 					},
 				],
+				buttons: [
+					{
+						icons: ['fa-gear'],
+						position: 'beforeend',
+						title: 'Options',
+						ref: (ref) => (optionsButton = ref),
+					},
+				],
 			});
+			const popout = new Popout('', optionsButton, 0, true);
 			new ToggleSwitch(
-				glwc.container,
+				popout.popout,
 				'glwc_checkMaxWishlists',
 				false,
 				(
@@ -160,16 +184,8 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 				'Enter the maximum number of games that a user must have in their wishlist in order to be checked.',
 				Settings.get('glwc_checkMaxWishlists')
 			);
-			glwc.progress = createElements(glwc.container, 'beforeend', [
-				{
-					type: 'div',
-				},
-			]);
-			glwc.overallProgress = createElements(glwc.container, 'beforeend', [
-				{
-					type: 'div',
-				},
-			]);
+			glwc.progressBar.insert(glwc.container, 'beforeend');
+			glwc.overallProgressBar.insert(glwc.container, 'beforeend');
 			glwc.context = createElements(glwc.container, 'beforeend', [
 				{
 					type: 'div',
@@ -183,7 +199,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 				: [];
 			glwc.games = {};
 			if (glwc.id) {
-				glwc.overallProgress.textContent = 'Preparing...';
+				glwc.overallProgressBar.setMessage('Preparing...');
 				glwc.members = [];
 				const members = (
 					await request({
@@ -196,31 +212,23 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 				});
 			}
 			if (glwc.users.length > 0) {
-				glwc.overallProgress.textContent = 'Step 2 of 3';
+				glwc.overallProgressBar.setMessage('Step 2 of 3');
 				// noinspection JSIgnoredPromiseFromCall
 				this.glwc_getSteamIds(glwc, 0, glwc.users.length);
 			} else {
-				glwc.overallProgress.textContent = 'Step 1 of 3';
+				glwc.overallProgressBar.setMessage('Step 1 of 3');
 				// noinspection JSIgnoredPromiseFromCall
 				this.glwc_getUsers(glwc, 1);
 			}
 		}
 	}
 
+	/**
+	 * @param {GlwcObj} glwc
+	 */
 	async glwc_getUsers(glwc, nextPage) {
 		if (glwc.isCanceled) return;
-		createElements(glwc.progress, 'atinner', [
-			{
-				attributes: {
-					class: 'fa fa-circle-o-notch fa-spin',
-				},
-				type: 'i',
-			},
-			{
-				text: `Retrieving users (page ${nextPage})...`,
-				type: 'span',
-			},
-		]);
+		glwc.progressBar.setMessage(`Retrieving users (page ${nextPage})...`);
 		let elements, i, n, pagination, responseHtml;
 		responseHtml = DOM.parse(
 			(
@@ -240,27 +248,19 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 		if (pagination && !pagination.lastElementChild.classList.contains('is-selected')) {
 			window.setTimeout(() => this.glwc_getUsers(glwc, ++nextPage), 0);
 		} else {
-			glwc.overallProgress.textContent = 'Step 2 of 3';
+			glwc.overallProgressBar.setMessage('Step 2 of 3');
 			// noinspection JSIgnoredPromiseFromCall
 			this.glwc_getSteamIds(glwc, 0, glwc.users.length);
 		}
 	}
 
+	/**
+	 * @param {GlwcObj} glwc
+	 */
 	async glwc_getSteamIds(glwc, i, n) {
 		if (glwc.isCanceled) return;
 		if (i < n) {
-			createElements(glwc.progress, 'atinner', [
-				{
-					attributes: {
-						class: 'fa fa-circle-o-notch fa-spin',
-					},
-					type: 'i',
-				},
-				{
-					text: `Retrieving Steam ids (${i + 1} of ${n})...`,
-					type: 'span',
-				},
-			]);
+			glwc.progressBar.setMessage(`Retrieving Steam ids (${i + 1} of ${n})...`);
 			let steamId = Shared.esgst.users.steamIds[glwc.users[i].username];
 			if (steamId) {
 				glwc.users[i].steamId = steamId;
@@ -280,7 +280,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 				window.setTimeout(() => this.glwc_getSteamIds(glwc, ++i, n), 0);
 			}
 		} else {
-			glwc.overallProgress.textContent = `Step 3 of 3 (this might take a while)`;
+			glwc.overallProgressBar.setMessage(`Step 3 of 3 (this might take a while)`);
 			glwc.memberCount = 0;
 			// noinspection JSIgnoredPromiseFromCall
 
@@ -292,22 +292,14 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 		}
 	}
 
+	/**
+	 * @param {GlwcObj} glwc
+	 */
 	async glwc_getGames(glwc, i, n) {
 		if (glwc.isCanceled) return;
 		if (i < n) {
 			try {
-				createElements(glwc.progress, 'atinner', [
-					{
-						attributes: {
-							class: 'fa fa-circle-o-notch fa-spin',
-						},
-						type: 'i',
-					},
-					{
-						text: `Retrieving libraries/wishlists (${i + 1} of ${n})...`,
-						type: 'span',
-					},
-				]);
+				glwc.progressBar.setMessage(`Retrieving libraries/wishlists (${i + 1} of ${n})...`);
 				if (!glwc.id || glwc.members.indexOf(glwc.users[i].steamId) >= 0) {
 					try {
 						glwc.users[i].library = [];
@@ -406,12 +398,14 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 				}
 			} catch (err) {
 				Logger.error(err);
-				glwc.progress.innerHTML = 'An error happened (check the console log).';
-				glwc.overallProgress.innerHTML = '';
+				glwc.progressBar
+					.setStatus('danger')
+					.setContent(['fa-times-circle'], 'An error happened (check the console log).');
+				glwc.overallProgressBar.destroy();
 			}
 		} else {
-			glwc.progress.innerHTML = '';
-			glwc.overallProgress.innerHTML = '';
+			glwc.progressBar.destroy();
+			glwc.overallProgressBar.destroy();
 			this.glwc_showResults(glwc);
 		}
 	}

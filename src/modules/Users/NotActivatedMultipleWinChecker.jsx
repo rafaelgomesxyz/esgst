@@ -233,6 +233,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 	namwc_setPopup(obj) {
 		obj = obj.button ? obj : { button: obj, isMenu: true };
 		obj.popup = new Popup({
+			addProgress: true,
 			addScrollable: true,
 			icon: obj.isMenu ? 'fa-cog' : 'fa-question',
 			title: obj.isMenu
@@ -290,16 +291,6 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 				}).set
 			);
 		}
-		obj.popup.progress = createElements(obj.popup.scrollable, 'beforebegin', [
-			{
-				type: 'div',
-			},
-		]);
-		obj.popup.overallProgress = createElements(obj.popup.scrollable, 'beforebegin', [
-			{
-				type: 'div',
-			},
-		]);
 		obj.popup.results = createElements(obj.popup.scrollable, 'beforeend', [
 			{
 				type: 'div',
@@ -346,8 +337,8 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 
 		obj.isCanceled = false;
 		obj.button.classList.add('esgst-busy');
-		obj.popup.progress.innerHTML = '';
-		obj.popup.overallProgress.innerHTML = '';
+		obj.popup.progressBar.setStatus('info').setContent(['fa-circle-o-notch fa-spin'], null).show();
+		obj.popup.overallProgressBar.reset().show();
 		obj.popup.activated.classList.add('esgst-hidden');
 		obj.popup.notMultiple.classList.add('esgst-hidden');
 		obj.popup.notActivated.classList.add('esgst-hidden');
@@ -408,8 +399,8 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 			unknown: {},
 		};
 		for (let i = 0, n = users.length; !obj.isCanceled && i < n; i++) {
-			obj.popup.progress.innerHTML = '';
-			obj.popup.overallProgress.textContent = `${i} of ${n} users checked...`;
+			obj.popup.progressBar.removeMessage();
+			obj.popup.overallProgressBar.setMessage(`${i} of ${n} users checked`);
 			let user = obj.user || { username: users[i] };
 			let savedUser = await getUser(null, user);
 			user.values = {
@@ -493,7 +484,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 				steamIds.push(user.steamId);
 				userElements[user.steamId] = elements;
 			}
-			obj.popup.overallProgress.textContent = `${i + 1} of ${n} users checked...`;
+			obj.popup.overallProgressBar.setMessage(`${i} of ${n} users checked`);
 		}
 
 		if (obj.isCanceled) {
@@ -503,13 +494,16 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 
 		if (!Settings.get('ust') || obj.isMenu) {
 			obj.button.classList.remove('esgst-busy');
-			obj.popup.progress.innerHTML = '';
+			obj.popup.progressBar.reset().hide();
+			obj.popup.overallProgressBar
+				.setStatus('success')
+				.setContent(['fa-check-circle'], 'All users checked!');
 			obj.popup.setDone();
 			return;
 		}
 
 		// check for suspensions
-		obj.popup.progress.textContent = 'Checking suspensions...';
+		obj.popup.progressBar.setMessage('Checking suspensions...');
 		users = [];
 		let savedUsers = JSON.parse(getValue('users'));
 		let suspensions = (await getSuspensions(steamIds)).suspensions;
@@ -610,32 +604,24 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 		}
 		await saveUsers(users);
 		obj.button.classList.remove('esgst-busy');
-		obj.popup.progress.innerHTML = '';
+		obj.popup.progressBar.reset().hide();
+		obj.popup.overallProgressBar
+			.setStatus('success')
+			.setContent(['fa-check-circle'], 'All users checked!');
 		obj.popup.setDone();
 	}
 
 	namwc_stop(obj) {
 		obj.button.classList.remove('esgst-busy');
-		obj.popup.progress.innerHTML = '';
+		obj.popup.progressBar.reset().hide();
 		obj.isCanceled = true;
 	}
 
 	async namwc_checkNotActivated(obj, user) {
 		if (obj.isCanceled) return;
 
-		if (obj.popup.progress) {
-			createElements(obj.popup.progress, 'atinner', [
-				{
-					attributes: {
-						class: 'fa fa-circle-o-notch fa-spin',
-					},
-					type: 'i',
-				},
-				{
-					text: `Retrieving ${user.username}'s not activated wins...`,
-					type: 'span',
-				},
-			]);
+		if (obj.popup.progressBar) {
+			obj.popup.progressBar.setMessage(`Retrieving ${user.username}'s not activated wins...`);
 		}
 		let responseText = (
 			await request({
@@ -668,19 +654,8 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 	async namwc_checkMultiple(obj, user) {
 		if (obj.isCanceled) return;
 
-		if (obj.popup.progress) {
-			createElements(obj.popup.progress, 'atinner', [
-				{
-					attributes: {
-						class: 'fa fa-circle-o-notch fa-spin',
-					},
-					type: 'i',
-				},
-				{
-					text: `Retrieving ${user.username}'s multiple wins...`,
-					type: 'span',
-				},
-			]);
+		if (obj.popup.progressBar) {
+			obj.popup.progressBar.setMessage(`Retrieving ${user.username}'s multiple wins...`);
 		}
 		user.values.namwc.results.multiple = [];
 		let elements = DOM.parse(

@@ -7,6 +7,7 @@ import { Settings } from '../../class/Settings';
 import { permissions } from '../../class/Permissions';
 import { DOM } from '../../class/DOM';
 import { Session } from '../../class/Session';
+import { NotificationBar } from '../../components/NotificationBar';
 
 const createElements = common.createElements.bind(common),
 	createHeadingButton = common.createHeadingButton.bind(common),
@@ -283,16 +284,10 @@ class GiveawaysUnsentGiftSender extends Module {
 					callback2: this.ugs_cancel.bind(this, ugs),
 				}).set
 			);
-			ugs.progress = createElements(ugs.popup.description, 'beforeend', [
-				{
-					type: 'div',
-				},
-			]);
-			ugs.overallProgress = createElements(ugs.popup.description, 'beforeend', [
-				{
-					type: 'div',
-				},
-			]);
+			ugs.progressBar = NotificationBar.create().insert(ugs.popup.description, 'beforeend').hide();
+			ugs.overallProgressBar = NotificationBar.create()
+				.insert(ugs.popup.description, 'beforeend')
+				.hide();
 			ugs.popup.description.appendChild(ugs.popup.scrollable);
 		}
 		ugs.popup.open();
@@ -316,20 +311,19 @@ class GiveawaysUnsentGiftSender extends Module {
 		ugs.unsentGifts.innerHTML = '';
 		ugs.leftoverGifts.innerHTML = '';
 		ugs.sentCount.textContent = ugs.unsentCount.textContent = ugs.leftoverCount.textContent = '0';
-		ugs.progress.innerHTML = '';
-		ugs.overallProgress.textContent = '';
 
 		if (!Session.counters.created) {
 			// there are no unsent giveaways
 			ugs.button.classList.remove('esgst-busy');
-			createElements(ugs.progress, 'atinner', [
-				{
-					text: 'You do not have any unsent gifts.',
-					type: 'node',
-				},
-			]);
+			ugs.progressBar
+				.setStatus('warning')
+				.setContent(['fa-exclamation-circle'], 'You do not have any unsent gifts.')
+				.show();
 			return;
 		}
+
+		ugs.progressBar.setStatus('info').setContent(['fa-circle-o-notch fa-spin'], null).show();
+		ugs.overallProgressBar.reset().show();
 
 		// retrieve unsent giveaways
 		ugs.count = Session.counters.created;
@@ -363,18 +357,7 @@ class GiveawaysUnsentGiftSender extends Module {
 				);
 				ugs.lastPage = ugs.lastPage === 999999999 ? '' : ` of ${ugs.lastPage}`;
 			}
-			createElements(ugs.progress, 'atinner', [
-				{
-					attributes: {
-						class: 'fa fa-circle-o-notch fa-spin',
-					},
-					type: 'i',
-				},
-				{
-					text: `Searching for unsent gifts (page ${nextPage}${ugs.lastPage})...`,
-					type: 'span',
-				},
-			]);
+			ugs.progressBar.setMessage(`Searching for unsent gifts (page ${nextPage}${ugs.lastPage})...`);
 			ugs.continue = false;
 			let elements = context.getElementsByClassName('table__row-outer-wrap');
 			for (let i = 0, n = elements.length; i < n; i++) {
@@ -403,7 +386,7 @@ class GiveawaysUnsentGiftSender extends Module {
 
 		// retrieve the winners/groups of each giveaway
 		for (let i = 0, n = giveaways.length; !ugs.isCanceled && i < n; i++) {
-			ugs.overallProgress.textContent = `${i} of ${n} giveaways checked...`;
+			ugs.overallProgressBar.setMessage(`${i} of ${n} giveaways checked`);
 			let giveaway = giveaways[i];
 			ugs.giveaways[giveaway.code] = {
 				code: giveaway.code,
@@ -432,18 +415,9 @@ class GiveawaysUnsentGiftSender extends Module {
 					ugs.lastWinnersPage =
 						ugs.lastWinnersPage === 999999999 ? '' : ` of ${ugs.lastWinnersPage}`;
 				}
-				createElements(ugs.progress, 'atinner', [
-					{
-						attributes: {
-							class: 'fa fa-circle-o-notch fa-spin',
-						},
-						type: 'i',
-					},
-					{
-						text: `Retrieving winners (page ${nextPage}${ugs.lastWinnersPage})...`,
-						type: 'span',
-					},
-				]);
+				ugs.progressBar.setMessage(
+					`Retrieving winners (page ${nextPage}${ugs.lastWinnersPage})...`
+				);
 				if (!ugs.giveaways[giveaway.code].copies) {
 					const elements = context.querySelectorAll('.featured__heading__small');
 					if (elements && elements.length === 2) {
@@ -531,18 +505,9 @@ class GiveawaysUnsentGiftSender extends Module {
 						ugs.lastGroupsPage =
 							ugs.lastGroupsPage === 999999999 ? '' : ` of ${ugs.lastGroupsPage}`;
 					}
-					createElements(ugs.progress, 'atinner', [
-						{
-							attributes: {
-								class: 'fa fa-circle-o-notch fa-spin',
-							},
-							type: 'i',
-						},
-						{
-							text: `Retrieving groups (page ${nextPage}${ugs.lastGroupsPage})...`,
-							type: 'span',
-						},
-					]);
+					ugs.progressBar.setMessage(
+						`Retrieving groups (page ${nextPage}${ugs.lastGroupsPage})...`
+					);
 					let elements = context.getElementsByClassName('table__row-outer-wrap');
 					for (let i = 0, n = elements.length; i < n; i++) {
 						let element = elements[i];
@@ -581,7 +546,7 @@ class GiveawaysUnsentGiftSender extends Module {
 			ugs.winners = {};
 			ugs.results.classList.remove('esgst-hidden');
 			for (let i = 0; !ugs.isCanceled && i < n; i++) {
-				ugs.overallProgress.textContent = `${i} of ${n} giveaways checked...`;
+				ugs.overallProgressBar.setMessage(`${i} of ${n} giveaways checked`);
 				let giveaway = ugs.giveaways[codes[i]];
 				for (let j = 0, numWinners = giveaway.winners.length; j < numWinners; j++) {
 					let winner = giveaway.winners[j];
@@ -600,18 +565,9 @@ class GiveawaysUnsentGiftSender extends Module {
 					} else {
 						if (Settings.get('ugs_checkRules')) {
 							// check if winner has not activated/multiple wins
-							createElements(ugs.progress, 'atinner', [
-								{
-									attributes: {
-										class: 'fa fa-circle-o-notch fa-spin',
-									},
-									type: 'i',
-								},
-								{
-									text: `Checking if ${winner.username} has not activated/multiple wins...`,
-									type: 'span',
-								},
-							]);
+							ugs.progressBar.setMessage(
+								`Checking if ${winner.username} has not activated/multiple wins...`
+							);
 							winner.values.namwc = {
 								lastCheck: Date.now(),
 								results: {},
@@ -652,18 +608,9 @@ class GiveawaysUnsentGiftSender extends Module {
 
 						if (Settings.get('ugs_checkMember') && giveaway.group && !winner.error) {
 							// check if winner is still a group member
-							createElements(ugs.progress, 'atinner', [
-								{
-									attributes: {
-										class: 'fa fa-circle-o-notch fa-spin',
-									},
-									type: 'i',
-								},
-								{
-									text: `Checking if ${winner.username} is a member of one of the groups...`,
-									type: 'span',
-								},
-							]);
+							ugs.progressBar.setMessage(
+								`Checking if ${winner.username} is a member of one of the groups...`
+							);
 							await getSteamId(null, false, this.esgst.users, winner);
 							let member = false;
 							for (let k = 0, numGroups = giveaway.groups.length; k < numGroups; k++) {
@@ -723,18 +670,9 @@ class GiveawaysUnsentGiftSender extends Module {
 								}
 
 								// check winner's gift difference
-								createElements(ugs.progress, 'atinner', [
-									{
-										attributes: {
-											class: 'fa fa-circle-o-notch fa-spin',
-										},
-										type: 'i',
-									},
-									{
-										text: `Checking if ${winner.username} has a gift difference higher than the one set...`,
-										type: 'span',
-									},
-								]);
+								ugs.progressBar.setMessage(
+									`Checking if ${winner.username} has a gift difference higher than the one set...`
+								);
 								let element = DOM.parse(
 									(
 										await request({
@@ -982,43 +920,33 @@ class GiveawaysUnsentGiftSender extends Module {
 					}
 				}
 			}
-			createElements(ugs.progress, 'atinner', [
-				{
-					attributes: {
-						class: 'fa fa-circle-o-notch fa-spin',
-					},
-					type: 'i',
-				},
-				{
-					text: 'Saving data...',
-					type: 'span',
-				},
-			]);
-			ugs.overallProgress.textContent = '';
+			ugs.progressBar.setMessage('Saving data...');
+			ugs.overallProgressBar.hide();
 			await Promise.all([
 				setValue('winners', JSON.stringify(winners)),
 				saveUsers(savedUsers),
 				setValue('groups', JSON.stringify(this.esgst.groups)),
 			]);
 			ugs.button.classList.remove('esgst-busy');
-			ugs.progress.innerHTML = '';
+			ugs.progressBar.reset().hide();
+			ugs.overallProgressBar
+				.setStatus('success')
+				.setContent(['fa-check-circle'], 'All giveaways checked!')
+				.show();
 		} else {
 			// there are no unsent gifts
 			ugs.button.classList.remove('esgst-busy');
-			createElements(ugs.progress, 'atinner', [
-				{
-					text: 'You do not have any unsent gifts.',
-					type: 'node',
-				},
-			]);
+			ugs.progressBar
+				.setStatus('warning')
+				.setContent(['fa-exclamation-circle'], 'You do not have any unsent gifts.');
+			ugs.overallProgressBar.reset().hide();
 		}
 	}
 
 	ugs_cancel(ugs) {
 		ugs.isCanceled = true;
 		ugs.button.classList.remove('esgst-busy');
-		ugs.progress.innerHTML = '';
-		ugs.overallProgress.textContent = '';
+		ugs.progressBar.reset().hide();
 	}
 }
 

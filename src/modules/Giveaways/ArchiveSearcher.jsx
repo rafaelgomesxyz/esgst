@@ -7,6 +7,7 @@ import { Shared } from '../../class/Shared';
 import { Settings } from '../../class/Settings';
 import { permissions } from '../../class/Permissions';
 import { DOM } from '../../class/DOM';
+import { NotificationBar } from '../../components/NotificationBar';
 
 const endless_load = common.endless_load.bind(common),
 	request = common.request.bind(common);
@@ -46,15 +47,20 @@ class GiveawaysArchiveSearcher extends Module {
 		const temp = input.parentElement;
 		input.outerHTML = `${input.outerHTML}`;
 		input = temp.firstElementChild;
-		input.addEventListener('keypress', (event) => {
-			if (event.key === 'Enter') {
-				if (input.value.match(/"|id:/)) {
-					this.as_openPage(input);
-				} else {
-					window.location.href = `${this.esgst.path}/search?q=${encodeURIComponent(input.value)}`;
+		input.addEventListener(
+			'keypress',
+			(event) => {
+				if (event.key === 'Enter') {
+					event.stopImmediatePropagation();
+					if (input.value.match(/"|id:/)) {
+						this.as_openPage(input);
+					} else {
+						window.location.href = `${this.esgst.path}/search?q=${encodeURIComponent(input.value)}`;
+					}
 				}
-			}
-		});
+			},
+			true
+		);
 	}
 
 	as_openPage(input) {
@@ -79,6 +85,7 @@ class GiveawaysArchiveSearcher extends Module {
 	async as_init(obj) {
 		if (!obj.isPopup) {
 			obj.query = decodeURIComponent(this.esgst.parameters.query);
+			obj.isAppId = !!this.esgst.parameters.isAppId;
 		}
 		if (!obj.query) {
 			return;
@@ -119,12 +126,14 @@ class GiveawaysArchiveSearcher extends Module {
 		});
 		obj.context = context;
 
-		let progress;
-		DOM.insert(container, 'beforeend', <div ref={(ref) => (progress = ref)} />);
-		progress.innerHTML = 'Retrieving game title...';
+		const progressBar = NotificationBar.create({
+			status: 'info',
+			icons: ['fa-circle-o-notch fa-spin'],
+			message: 'Retrieving game title...',
+		}).insert(container, 'beforeend');
 
 		// retrieve the game title from Steam
-		if (this.esgst.parameters.isAppId) {
+		if (obj.isAppId) {
 			let title = DOM.parse(
 				(
 					await request({
@@ -136,12 +145,17 @@ class GiveawaysArchiveSearcher extends Module {
 			if (title) {
 				obj.query = title.textContent;
 			} else {
-				progress.innerHTML = `Game title not found. Make sure you are entering a valid AppID. For example, 229580 is the AppID for Dream (http://steamcommunity.com/app/229580).`;
+				progressBar
+					.setStatus('danger')
+					.setContent(
+						['fa-times-circle'],
+						'Game title not found. Make sure you are entering a valid AppID. For example, 229580 is the AppID for Dream (http://steamcommunity.com/app/229580).'
+					);
 				return;
 			}
 		}
 
-		progress.innerHTML = '';
+		progressBar.reset().hide();
 
 		obj.query = (obj.query.length >= 50 ? obj.query.slice(0, 50) : obj.query).toLowerCase();
 		obj.page = 1;

@@ -7,6 +7,7 @@ import { DOM } from '../../class/DOM';
 import { EventDispatcher } from '../../class/EventDispatcher';
 import { Events } from '../../constants/Events';
 import { FetchRequest } from '../../class/FetchRequest';
+import { NotificationBar } from '../../components/NotificationBar';
 
 const animateScroll = common.animateScroll.bind(common),
 	checkMissingDiscussions = common.checkMissingDiscussions.bind(common),
@@ -394,26 +395,14 @@ class GeneralEndlessScrolling extends Module {
 		) {
 			es.limitCount -= 1;
 			es.busy = true;
-			es.progress = createElements(this.esgst.pagination.firstElementChild, 'beforeend', [
-				{
-					attributes: {
-						class: 'esgst-bold',
-					},
-					type: 'span',
-					children: [
-						{
-							attributes: {
-								class: 'fa fa-circle-o-notch fa-spin',
-							},
-							type: 'i',
-						},
-						{
-							text: ' Loading next page...',
-							type: 'node',
-						},
-					],
-				},
-			]);
+			if (!es.progressBar) {
+				es.progressBar = NotificationBar.create({
+					status: 'info',
+					icons: ['fa-circle-o-notch fa-spin'],
+					message: 'Loading next page...',
+				});
+			}
+			es.progressBar.insert(this.esgst.pagination, 'afterend').show();
 			// noinspection JSIgnoredPromiseFromCall
 			this.es_getNext(
 				es,
@@ -608,7 +597,7 @@ class GeneralEndlessScrolling extends Module {
 			if (Settings.get('ts') && !Settings.get('us')) {
 				this.esgst.modules.generalTableSorter.ts_sortTables();
 			}
-			es.progress.remove();
+			es.progressBar.hide();
 			if (es.reverseScrolling) {
 				--es.nextPage;
 				es.busy = false;

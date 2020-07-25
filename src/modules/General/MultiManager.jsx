@@ -13,6 +13,7 @@ import { Settings } from '../../class/Settings';
 import { DOM } from '../../class/DOM';
 import { Session } from '../../class/Session';
 import { Tabs } from '../../class/Tabs';
+import { NotificationBar } from '../../components/NotificationBar';
 
 const createElements = common.createElements.bind(common),
 	createFadeMessage = common.createFadeMessage.bind(common),
@@ -780,7 +781,7 @@ class GeneralMultiManager extends Module {
 				}
 			});
 		});
-		DOM.insert(context, 'beforeend', <div ref={(ref) => (obj[`progress${key}`] = ref)}></div>);
+		obj[`progress${key}`] = NotificationBar.create().insert(context, 'beforeend').hide();
 		createTooltip(
 			createElements(context, 'beforeend', [
 				{
@@ -1542,11 +1543,13 @@ class GeneralMultiManager extends Module {
 			}
 		}
 
+		obj.progressGames.setStatus('info').setContent(['fa-circle-o-notch fa-spin'], null).show();
 		const result = await common.hideGames({
 			appIds,
 			subIds,
-			update: (message) => (obj.progressGames.textContent = message),
+			update: (message) => obj.progressGames.setMessage(message),
 		});
+		obj.progressGames.reset().hide();
 
 		let message = '';
 		if (result.apps.length) {

@@ -1,10 +1,10 @@
-import { Module } from '../../class/Module';
-import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
-import { Shared } from '../../class/Shared';
-import { Settings } from '../../class/Settings';
-import { permissions } from '../../class/Permissions';
-import { FetchRequest } from '../../class/FetchRequest';
 import { DOM } from '../../class/DOM';
+import { FetchRequest } from '../../class/FetchRequest';
+import { Module } from '../../class/Module';
+import { permissions } from '../../class/Permissions';
+import { Settings } from '../../class/Settings';
+import { Shared } from '../../class/Shared';
+import { NotificationBar } from '../../components/NotificationBar';
 
 class GroupsGroupStats extends Module {
 	constructor() {
@@ -144,19 +144,18 @@ class GroupsGroupStats extends Module {
 				) : null}
 			</fragment>
 		);
-		this.notification = new elementBuilder.sg.notification();
-		this.numGroups = 0;
-		Shared.esgst.mainPageHeading.parentElement.insertBefore(
-			this.notification.notification,
-			Shared.esgst.pagination.previousElementSibling
+		this.notification = NotificationBar.create().insert(
+			Shared.esgst.pagination.previousElementSibling,
+			'beforebegin'
 		);
+		this.numGroups = 0;
 		Shared.esgst.groupFeatures.push(this.gs_getGroups.bind(this));
 	}
 
 	gs_getGroups(groups, main) {
-		this.notification.setType('warning');
-		this.notification.setIcons(['fa-circle-o-notch', 'fa-spin']);
-		this.notification.setMessage('Loading stats for groups...');
+		this.notification
+			.setStatus('info')
+			.setContent(['fa-circle-o-notch fa-spin'], 'Loading stats for groups...');
 		this.numGroups += groups.length;
 		const promises = [];
 		for (const group of groups) {
@@ -168,9 +167,9 @@ class GroupsGroupStats extends Module {
 		}
 		Promise.all(promises).then(() => {
 			if (this.numGroups === 0) {
-				this.notification.setType('success');
-				this.notification.setIcons(['fa-check-circle']);
-				this.notification.setMessage('Stats for groups loaded.');
+				this.notification
+					.setStatus('success')
+					.setContent(['fa-check-circle'], 'Stats for groups loaded.');
 			}
 		});
 	}

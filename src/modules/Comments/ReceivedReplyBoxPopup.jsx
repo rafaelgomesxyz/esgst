@@ -42,8 +42,13 @@ class CommentsReceivedReplyBoxPopup extends Module {
 	}
 
 	rrbp_openPopup(giveaway) {
-		let popup, progress, textArea;
-		popup = new Popup({ addScrollable: true, icon: 'fa-comment', title: `Add a comment:` });
+		let popup, textArea;
+		popup = new Popup({
+			addProgress: true,
+			addScrollable: true,
+			icon: 'fa-comment',
+			title: `Add a comment:`,
+		});
 		DOM.insert(popup.scrollable, 'beforeend', <textarea ref={(ref) => (textArea = ref)} />);
 		if (Settings.get('cfh')) {
 			Shared.esgst.modules.commentsCommentFormattingHelper.cfh_addPanel(textArea);
@@ -57,13 +62,18 @@ class CommentsReceivedReplyBoxPopup extends Module {
 				title1: 'Save',
 				title2: 'Saving...',
 				callback1: async () => {
-					progress.innerHTML = '';
-					await Shared.common.saveComment(null, '', '', textArea.value, giveaway.url, progress);
+					await Shared.common.saveComment(
+						null,
+						'',
+						'',
+						textArea.value,
+						giveaway.url,
+						popup.progressBar
+					);
 					popup.close();
 				},
 			}).set
 		);
-		DOM.insert(popup.description, 'beforeend', <div ref={(ref) => (progress = ref)} />);
 		popup.open(() => {
 			textArea.focus();
 		});

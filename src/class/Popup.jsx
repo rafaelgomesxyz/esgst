@@ -2,6 +2,7 @@ import { ButtonSet } from './ButtonSet';
 import { Shared } from './Shared';
 import { Settings } from './Settings';
 import { DOM } from './DOM';
+import { NotificationBar } from '../components/NotificationBar';
 
 class Popup {
 	constructor(details) {
@@ -124,12 +125,10 @@ class Popup {
 			});
 		}
 		if (details.addProgress) {
-			DOM.insert(this.description, 'beforeend', <div ref={(ref) => (this.progress = ref)}></div>);
-			DOM.insert(
-				this.description,
-				'beforeend',
-				<div ref={(ref) => (this.overallProgress = ref)}></div>
-			);
+			this.progressBar = NotificationBar.create().insert(this.description, 'beforeend').hide();
+			this.overallProgressBar = NotificationBar.create()
+				.insert(this.description, 'beforeend')
+				.hide();
 		}
 		this.id = Shared.common.addScope(details.name, this.popup);
 	}
@@ -208,50 +207,29 @@ class Popup {
 
 	getScrollable(jsx) {
 		let scrollableEl;
-		DOM.insert(this.scrollable, 'beforend', <div ref={(ref) => (scrollableEl = ref)}>{jsx}</div>);
+		DOM.insert(this.scrollable, 'beforeend', <div ref={(ref) => (scrollableEl = ref)}>{jsx}</div>);
 		return scrollableEl;
 	}
 
 	setError(message) {
-		DOM.insert(
-			this.progress,
-			'atinner',
-			<fragment>
-				<i className="fa fa-times-circle"></i>
-				<span>{message}</span>
-			</fragment>
-		);
+		this.progressBar.setStatus('danger').setContent(['fa-times-circle'], message).show();
 	}
 
 	setProgress(message) {
-		if (this.progressMessage) {
-			this.progressMessage.textContent = message;
-		} else {
-			DOM.insert(
-				this.progress,
-				'atinner',
-				<fragment>
-					<i className="fa fa-circle-o-notch fa-spin"></i>
-					<span>{message}</span>
-				</fragment>
-			);
-			this.progressMessage = this.progress.lastElementChild;
-		}
+		this.progressBar.setStatus('info').setContent(['fa-circle-o-notch fa-spin'], message).show();
 	}
 
 	clearProgress() {
-		this.progress.innerHTML = '';
-		this.progressMessage = null;
+		this.progressBar.reset().hide();
 	}
 
 	setOverallProgress(message) {
-		this.overallProgress.textContent = message;
+		this.overallProgressBar.setMessage(message).show();
 	}
 
 	clear() {
-		this.progress.innerHTML = '';
-		this.progressMessage = null;
-		this.overallProgress.textContent = '';
+		this.progressBar.reset().hide();
+		this.overallProgressBar.reset().hide();
 		this.scrollable.innerHTML = '';
 	}
 

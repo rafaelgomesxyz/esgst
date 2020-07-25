@@ -470,7 +470,7 @@ class UsersUserGiveawayData extends Module {
 		if (obj.popup) {
 			obj.popup.setProgress(msg);
 		} else if (!obj.mainPopup.isSilent) {
-			obj.mainPopup.progress.lastElementChild.textContent = msg;
+			obj.mainPopup.progressBar.setMessage(msg);
 		}
 
 		let found = false;
@@ -1216,7 +1216,7 @@ class UsersUserGiveawayData extends Module {
 		if (obj.popup) {
 			obj.popup.setProgress(msg);
 		} else if (!obj.mainPopup.isSilent) {
-			obj.mainPopup.progress.lastElementChild.textContent = msg;
+			obj.mainPopup.progressBar.setMessage(msg);
 		}
 
 		if (responseHtml.getElementsByClassName('table--summary')[0]) {
@@ -1283,8 +1283,7 @@ class UsersUserGiveawayData extends Module {
 											>
 												<i className="fa fa-gift"></i>
 											</a>
-										) : null}
-										' '
+										) : null}{' '}
 										<a
 											className="table__column__secondary-link"
 											href={
@@ -1326,7 +1325,7 @@ class UsersUserGiveawayData extends Module {
 					...listItems,
 				]);
 				const listHeading = new elementBuilder.sg.pageHeading({
-					breadcrumbs: list.name,
+					breadcrumbs: [list.name],
 				});
 				items.push(listHeading.pageHeading, listTable.table, <br />);
 			}

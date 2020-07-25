@@ -1,14 +1,16 @@
+import dateFns_formatDistanceStrict from 'date-fns/formatDistanceStrict';
 import { ButtonSet } from '../class/ButtonSet';
 import { Checkbox } from '../class/Checkbox';
-import { Popup } from '../class/Popup';
-import { Shared } from '../class/Shared';
-import { elementBuilder } from '../lib/SgStUtils/ElementBuilder';
-import { Settings } from '../class/Settings';
-import { permissions } from '../class/Permissions';
-import { Logger } from '../class/Logger';
 import { DOM } from '../class/DOM';
-import { LocalStorage } from '../class/LocalStorage';
 import { FetchRequest } from '../class/FetchRequest';
+import { LocalStorage } from '../class/LocalStorage';
+import { Logger } from '../class/Logger';
+import { permissions } from '../class/Permissions';
+import { Popup } from '../class/Popup';
+import { Settings } from '../class/Settings';
+import { Shared } from '../class/Shared';
+import { NotificationBar } from '../components/NotificationBar';
+import { elementBuilder } from '../lib/SgStUtils/ElementBuilder';
 
 let toSave = {};
 
@@ -245,11 +247,7 @@ async function setSync(isPopup = false, isSilent = false) {
 					</div>
 				);
 				setAutoSync(info.key, info.name, syncer);
-				Shared.common.createFormNotification(syncer.notificationArea, 'beforeend', {
-					name: info.name,
-					success: !!Settings.get(`lastSync${info.key}`),
-					date: Settings.get(`lastSync${info.key}`),
-				});
+				addNotificationBars(syncer, info);
 			}
 		}
 		syncer.set = new ButtonSet({
@@ -328,14 +326,7 @@ async function setSync(isPopup = false, isSilent = false) {
 			Shared.esgst.modules.generalAccurateTimestamp.at_getTimestamps(syncer.notificationArea);
 		}
 	}
-	syncer.progress = Shared.common.createElements(syncer.area, 'beforeend', [
-		{
-			attributes: {
-				class: 'esgst-hidden esgst-popup-progress',
-			},
-			type: 'div',
-		},
-	]);
+	syncer.progressBar = NotificationBar.create().insert(syncer.area, 'beforeend').hide();
 	syncer.results = Shared.common.createElements(syncer.area, 'beforeend', [
 		{
 			type: 'div',
@@ -352,16 +343,46 @@ function updateSyncDates(syncer) {
 	for (let id in syncer.switchesKeys) {
 		if (syncer.switchesKeys.hasOwnProperty(id)) {
 			const info = syncer.switchesKeys[id];
-			Shared.common.createFormNotification(syncer.notificationArea, 'beforeend', {
-				name: info.name,
-				success: !!Settings.get(`lastSync${info.key}`),
-				date: Settings.get(`lastSync${info.key}`),
-			});
+			addNotificationBars(syncer, info);
 		}
 	}
 	if (Settings.get('at')) {
 		Shared.esgst.modules.generalAccurateTimestamp.at_getTimestamps(syncer.notificationArea);
 	}
+}
+
+function addNotificationBars(syncer, info) {
+	let status;
+	let icons;
+	let message;
+	let timestamp = Settings.get(`lastSync${info.key}`);
+	if (timestamp) {
+		status = 'success';
+		icons = ['fa-check-circle'];
+		message = (
+			<fragment>
+				Synced <span>{info.name}</span>{' '}
+				<span data-timestamp={timestamp / 1e3}>
+					{dateFns_formatDistanceStrict(timestamp, new Date())}
+				</span>
+				{' ago.'}
+			</fragment>
+		);
+	} else {
+		status = 'danger';
+		icons = ['fa-times-circle'];
+		message = (
+			<fragment>
+				Never synced <span>{info.name}</span>
+			</fragment>
+		);
+	}
+	const notificationBar = NotificationBar.create({
+		status,
+		icons,
+		message,
+	});
+	notificationBar.insert(syncer.notificationArea, 'beforeend');
 }
 
 function setAutoSync(key, name, syncer) {
@@ -392,23 +413,12 @@ function cancelSync(syncer) {
 	syncer.canceled = true;
 }
 
-//use: syncer.results, syncer.progress, syncer.parameters
+//use: syncer.results, syncer.progressBar, syncer.parameters
 async function sync(syncer) {
 	if (!Shared.esgst.isFirstRun) {
 		await Shared.common.setSetting('lastSync', Date.now());
 		syncer.results.innerHTML = '';
-		syncer.progress.classList.remove('esgst-hidden');
-		Shared.common.createElements(syncer.progress, 'atinner', [
-			{
-				attributes: {
-					class: 'fa fa-circle-o-notch fa-spin',
-				},
-				type: 'i',
-			},
-			{
-				type: 'span',
-			},
-		]);
+		syncer.progressBar.setStatus('info').setIcons(['fa-circle-o-notch fa-spin']).show();
 	}
 
 	// if this is the user's fist time using the script, only sync steam id and stop
@@ -429,7 +439,7 @@ async function sync(syncer) {
 		((syncer.parameters && syncer.parameters.Groups) ||
 			(!syncer.parameters && Settings.get('syncGroups')))
 	) {
-		syncer.progress.lastElementChild.textContent = 'Syncing your Steam groups...';
+		syncer.progressBar.setMessage('Syncing your Steam groups...');
 		syncer.groups = {};
 		let savedGroups = JSON.parse(Shared.common.getValue('groups'));
 		if (!Array.isArray(savedGroups)) {
@@ -593,13 +603,13 @@ async function sync(syncer) {
 				'blacklistedDate',
 			]);
 			syncer.users = [];
-			syncer.progress.lastElementChild.textContent = 'Syncing your whitelist...';
+			syncer.progressBar.setMessage('Syncing your whitelist...');
 			await syncWhitelistBlacklist(
 				'whitelisted',
 				syncer,
 				`https://www.steamgifts.com/account/manage/whitelist/search?page=`
 			);
-			syncer.progress.lastElementChild.textContent = 'Syncing your blacklist...';
+			syncer.progressBar.setMessage('Syncing your blacklist...');
 			await syncWhitelistBlacklist(
 				'blacklisted',
 				syncer,
@@ -611,7 +621,7 @@ async function sync(syncer) {
 		) {
 			await Shared.common.deleteUserValues(['whitelisted', 'whitelistedDate']);
 			syncer.users = [];
-			syncer.progress.lastElementChild.textContent = 'Syncing your whitelist...';
+			syncer.progressBar.setMessage('Syncing your whitelist...');
 			await syncWhitelistBlacklist(
 				'whitelisted',
 				syncer,
@@ -620,14 +630,14 @@ async function sync(syncer) {
 		} else {
 			await Shared.common.deleteUserValues(['blacklisted', 'blacklistedDate']);
 			syncer.users = [];
-			syncer.progress.lastElementChild.textContent = 'Syncing your blacklist...';
+			syncer.progressBar.setMessage('Syncing your blacklist...');
 			await syncWhitelistBlacklist(
 				'blacklisted',
 				syncer,
 				`https://www.steamgifts.com/account/manage/blacklist/search?page=`
 			);
 		}
-		syncer.progress.lastElementChild.textContent = `Saving your whitelist/blacklist (this may take a while)...`;
+		syncer.progressBar.setMessage(`Saving your whitelist/blacklist (this may take a while)...`);
 		await Shared.common.saveUsers(syncer.users);
 		DOM.insert(syncer.results, 'beforeend', <div>Whitelist/blacklist synced.</div>);
 	}
@@ -646,7 +656,7 @@ async function sync(syncer) {
 		if (isPermitted) {
 			try {
 				const users = [];
-				syncer.progress.lastElementChild.textContent = 'Syncing your Steam friends...';
+				syncer.progressBar.setMessage('Syncing your Steam friends...');
 				await Shared.common.deleteUserValues(['steamFriend']);
 				const response = await Shared.common.request({
 					method: 'GET',
@@ -663,7 +673,7 @@ async function sync(syncer) {
 						},
 					});
 				}
-				syncer.progress.lastElementChild.textContent = `Saving your Steam friends (this may take a while)...`;
+				syncer.progressBar.setMessage(`Saving your Steam friends (this may take a while)...`);
 				await Shared.common.saveUsers(users);
 				DOM.insert(syncer.results, 'beforeend', <div>Steam friends synced.</div>);
 			} catch (e) {
@@ -693,7 +703,7 @@ async function sync(syncer) {
 		(syncer.parameters && syncer.parameters.HiddenGames) ||
 		(!syncer.parameters && Settings.get('syncHiddenGames'))
 	) {
-		syncer.progress.lastElementChild.textContent = 'Syncing your hidden games...';
+		syncer.progressBar.setMessage('Syncing your hidden games...');
 		syncer.hiddenGames = {
 			apps: [],
 			subs: [],
@@ -774,8 +784,7 @@ async function sync(syncer) {
 	) {
 		const isPermitted = await permissions.contains([['steamApi'], ['steamStore']]);
 		if (isPermitted) {
-			syncer.progress.lastElementChild.textContent =
-				'Syncing your wishlisted/owned/ignored games...';
+			syncer.progressBar.setMessage('Syncing your wishlisted/owned/ignored games...');
 			syncer.jsx = [];
 			let apiResponse = null;
 			if (Settings.get('steamApiKey')) {
@@ -844,7 +853,7 @@ async function sync(syncer) {
 	) {
 		const isPermitted = await permissions.contains([['steamCommunity']]);
 		if (isPermitted) {
-			syncer.progress.lastElementChild.textContent = 'Syncing your followed games...';
+			syncer.progressBar.setMessage('Syncing your followed games...');
 			const response = await Shared.common.request({
 				method: 'GET',
 				url: `https://steamcommunity.com/my/followedgames/`,
@@ -886,7 +895,7 @@ async function sync(syncer) {
 		(syncer.parameters && syncer.parameters.WonGames) ||
 		(!syncer.parameters && Settings.get('syncWonGames'))
 	) {
-		syncer.progress.lastElementChild.textContent = 'Syncing your won games...';
+		syncer.progressBar.setMessage('Syncing your won games...');
 		await Shared.common.getWonGames(syncer);
 		DOM.insert(syncer.results, 'beforeend', <div>Won games synced.</div>);
 	}
@@ -903,7 +912,7 @@ async function sync(syncer) {
 	) {
 		const isPermitted = await permissions.contains([['server']]);
 		if (isPermitted) {
-			syncer.progress.lastElementChild.textContent = 'Syncing reduced CV games...';
+			syncer.progressBar.setMessage('Syncing reduced CV games...');
 			try {
 				await syncReducedCvGames();
 				DOM.insert(
@@ -948,7 +957,7 @@ async function sync(syncer) {
 	) {
 		const isPermitted = await permissions.contains([['server']]);
 		if (isPermitted) {
-			syncer.progress.lastElementChild.textContent = 'Syncing no CV games...';
+			syncer.progressBar.setMessage('Syncing no CV games...');
 			try {
 				await syncNoCvGames();
 				DOM.insert(
@@ -988,7 +997,7 @@ async function sync(syncer) {
 	) {
 		const isPermitted = await permissions.contains([['googleWebApp']]);
 		if (isPermitted) {
-			syncer.progress.lastElementChild.textContent = 'Syncing HLTB times...';
+			syncer.progressBar.setMessage('Syncing HLTB times...');
 			try {
 				const responseText = (
 					await Shared.common.request({
@@ -1046,7 +1055,7 @@ async function sync(syncer) {
 	) {
 		const isPermitted = await permissions.contains([['steamTracker']]);
 		if (isPermitted) {
-			syncer.progress.lastElementChild.textContent = 'Syncing delisted games...';
+			syncer.progressBar.setMessage('Syncing delisted games...');
 			const response = await Shared.common.request({
 				method: 'GET',
 				url: `https://steam-tracker.com/api?action=GetAppListV3`,
@@ -1100,13 +1109,13 @@ async function sync(syncer) {
 		const result = await Shared.common.hideGames({
 			appIds: syncer.hgm.toAdd.apps,
 			subIds: syncer.hgm.toAdd.subs,
-			update: (message) => (syncer.progress.lastElementChild.textContent = message),
+			update: (message) => syncer.progressBar.setMessage(message),
 		});
 		const tmpResult = await Shared.common.hideGames(
 			{
 				appIds: syncer.hgm.toRemove.apps,
 				subIds: syncer.hgm.toRemove.subs,
-				update: (message) => (syncer.progress.lastElementChild.textContent = message),
+				update: (message) => syncer.progressBar.setMessage(message),
 			},
 			true
 		);
@@ -1138,7 +1147,7 @@ async function sync(syncer) {
 			(!syncer.parameters && Settings.get('syncGiveaways'))) &&
 		Shared.esgst.sg
 	) {
-		syncer.progress.lastElementChild.textContent = 'Syncing your giveaways...';
+		syncer.progressBar.setMessage('Syncing your giveaways...');
 		const key = 'sent';
 		const user = {
 			steamId: Settings.get('steamId'),
@@ -1160,7 +1169,7 @@ async function sync(syncer) {
 			(!syncer.parameters && Settings.get('syncWonGiveaways'))) &&
 		Shared.esgst.sg
 	) {
-		syncer.progress.lastElementChild.textContent = 'Syncing your won giveaways...';
+		syncer.progressBar.setMessage('Syncing your won giveaways...');
 		const key = 'won';
 		const user = {
 			steamId: Settings.get('steamId'),
@@ -1178,7 +1187,7 @@ async function sync(syncer) {
 
 	// finish sync
 	if (!Shared.esgst.isFirstRun) {
-		syncer.progress.lastElementChild.textContent = 'Updating last sync date...';
+		syncer.progressBar.setMessage('Updating last sync date...');
 		const currentTime = Date.now();
 		let keys = [
 			'Groups',
@@ -1209,7 +1218,7 @@ async function sync(syncer) {
 		}
 		await Shared.common.lockAndSaveSettings(toSave);
 		toSave = {};
-		DOM.insert(syncer.progress, 'atinner', <fragment>Synced!</fragment>);
+		syncer.progressBar.setStatus('success').setContent(['fa-check-circle'], 'Synced!');
 		LocalStorage.delete('isSyncing');
 	}
 	if (!syncer.isSilent) {

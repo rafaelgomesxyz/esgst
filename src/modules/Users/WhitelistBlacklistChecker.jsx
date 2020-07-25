@@ -12,6 +12,7 @@ import { Session } from '../../class/Session';
 import { Table } from '../../class/Table';
 import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
 import { Popout } from '../../class/Popout';
+import { NotificationBar } from '../../components/NotificationBar';
 
 const createElements = common.createElements.bind(common),
 	createHeadingButton = common.createHeadingButton.bind(common),
@@ -497,6 +498,8 @@ class UsersWhitelistBlacklistChecker extends Module {
 
 								this.skip = null;
 							}
+							WBC.progressBar.reset().hide();
+							WBC.overallProgressBar.setStatus('success').setIcons(['fa-check-circle']);
 							WBCButton.classList.remove('esgst-busy');
 							resolve();
 							WBC.popup.setDone();
@@ -513,14 +516,14 @@ class UsersWhitelistBlacklistChecker extends Module {
 					window.clearInterval(WBC.Save);
 					WBC.Canceled = true;
 					window.setTimeout(() => {
-						WBC.Progress.innerHTML = '';
+						WBC.progressBar.reset().hide();
 					}, 500);
 					WBCButton.classList.remove('esgst-busy');
 				},
 			}).set
 		);
-		WBC.Progress = createElements(popup.description, 'beforeend', [{ type: 'div' }]);
-		WBC.OverallProgress = createElements(popup.description, 'beforeend', [{ type: 'div' }]);
+		WBC.progressBar = NotificationBar.create().insert(popup.description, 'beforeend').hide();
+		WBC.overallProgressBar = NotificationBar.create().insert(popup.description, 'beforeend').hide();
 		popup.Results = createElements(popup.scrollable, 'beforeend', [{ type: 'div' }]);
 
 		this.table = new Table([
@@ -696,8 +699,8 @@ class UsersWhitelistBlacklistChecker extends Module {
 	 */
 	async wbc_setCheck(WBC, Callback) {
 		let SavedUsers, I, N;
-		WBC.Progress.innerHTML = '';
-		WBC.OverallProgress.innerHTML = '';
+		WBC.progressBar.setStatus('info').setContent(['fa-circle-o-notch fa-spin'], null).show();
+		WBC.overallProgressBar.reset().show();
 
 		this.whitelistedCount.textContent = '0';
 		this.blacklistedCount.textContent = '0';
@@ -860,15 +863,7 @@ class UsersWhitelistBlacklistChecker extends Module {
 	async wbc_checkUsers(WBC, I, N, Callback) {
 		let User, Result;
 		if (!WBC.Canceled) {
-			createElements(WBC.Progress, 'atinner', [
-				{
-					attributes: {
-						class: 'fa fa-circle-o-notch fa-spin',
-					},
-					type: 'i',
-				},
-			]);
-			WBC.OverallProgress.textContent = `${I} of ${N} users checked...`;
+			WBC.overallProgressBar.setMessage(`${I} of ${N} users checked`);
 			if (I < N) {
 				User =
 					WBC.User && Settings.get('wbc_checkSingle')
@@ -1086,18 +1081,7 @@ class UsersWhitelistBlacklistChecker extends Module {
 		if (!WBC.Canceled) {
 			Key = wbc.result;
 			Type = Key.match(/(.+)ed/)[1];
-			createElements(WBC.Progress, 'atinner', [
-				{
-					attributes: {
-						class: 'fa fa-circle-o-notch fa-spin',
-					},
-					type: 'i',
-				},
-				{
-					text: `Returning ${Type} for ${username}...`,
-					type: 'span',
-				},
-			]);
+			WBC.progressBar.setMessage(`Returning ${Type} for ${username}...`);
 			if (window.location.pathname.match(new RegExp(`^/user/${username}`))) {
 				document.getElementsByClassName(`sidebar__shortcut__${Type}`)[0].click();
 				if (Settings.get('wbc_n')) {
@@ -1320,18 +1304,9 @@ class UsersWhitelistBlacklistChecker extends Module {
 				);
 				obj.lastPage = obj.lastPage === 999999999 ? '' : ` of ${obj.lastPage}`;
 			}
-			createElements(obj.Progress, 'atinner', [
-				{
-					attributes: {
-						class: 'fa fa-circle-o-notch fa-spin',
-					},
-					type: 'i',
-				},
-				{
-					text: `Retrieving ${username}'s giveaways (page ${nextPage}${obj.lastPage})...`,
-					type: 'span',
-				},
-			]);
+			obj.progressBar.setMessage(
+				`Retrieving ${username}'s giveaways (page ${nextPage}${obj.lastPage})...`
+			);
 			if (!data.ga) {
 				const element = context.querySelector(
 					`[class*="giveaway__heading__name"][href*="/giveaway/"]`
@@ -1437,18 +1412,7 @@ class UsersWhitelistBlacklistChecker extends Module {
 		const n = groupGiveaways.length;
 		for (let i = 0; i < n; i++) {
 			const groupGiveaway = groupGiveaways[i];
-			createElements(obj.Progress, 'atinner', [
-				{
-					attributes: {
-						class: 'fa fa-circle-o-notch',
-					},
-					type: 'i',
-				},
-				{
-					text: `Retrieving ${username}'s group giveaways (${i + 1} of ${n})...`,
-					type: 'span',
-				},
-			]);
+			obj.progressBar.setMessage(`Retrieving ${username}'s group giveaways (${i + 1} of ${n})...`);
 			if (data.groupGiveaways && data.groupGiveaways[groupGiveaway]) {
 				continue;
 			}
@@ -1509,18 +1473,7 @@ class UsersWhitelistBlacklistChecker extends Module {
 				WBC.lastPage = Shared.esgst.modules.generalLastPageLink.lpl_getLastPage(Context, true);
 				WBC.lastPage = WBC.lastPage === 999999999 ? '' : ` of ${WBC.lastPage}`;
 			}
-			createElements(WBC.Progress, 'atinner', [
-				{
-					attributes: {
-						class: 'fa fa-circle-o-notch fa-spin',
-					},
-					type: 'i',
-				},
-				{
-					text: `Retrieving users (page ${NextPage}${WBC.lastPage})...`,
-					type: 'span',
-				},
-			]);
+			WBC.progressBar.setMessage(`Retrieving users (page ${NextPage}${WBC.lastPage})...`);
 			Matches = Context.querySelectorAll(`a[href*="/user/"]`);
 			for (I = 0, N = Matches.length; I < N; ++I) {
 				Match = Matches[I].getAttribute('href').match(/\/user\/(.+)/);

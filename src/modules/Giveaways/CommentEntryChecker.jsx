@@ -7,6 +7,7 @@ import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
 import { Shared } from '../../class/Shared';
 import { Settings } from '../../class/Settings';
 import { DOM } from '../../class/DOM';
+import { NotificationBar } from '../../components/NotificationBar';
 
 const request = common.request.bind(common);
 class GiveawaysCommentEntryChecker extends Module {
@@ -110,12 +111,13 @@ class GiveawaysCommentEntryChecker extends Module {
 			this.esgst.mainPageHeading = heading;
 		}
 		const obj = { context };
-		DOM.insert(context, 'beforeend', <div ref={(ref) => (obj.progress = ref)} />);
+		obj.progressBar = NotificationBar.create().insert(context, 'beforeend').hide();
 		this.cec_start(obj);
 	}
 
 	async cec_start(obj) {
 		obj.isCanceled = false;
+		obj.progressBar.setStatus('info').setContent(['fa-circle-o-notch fa-spin'], null).show();
 
 		// get comments
 		let comments = [];
@@ -125,9 +127,9 @@ class GiveawaysCommentEntryChecker extends Module {
 			let pagination = null;
 			let url = urls[i];
 			do {
-				obj.progress.innerHTML = `Retrieving ${
-					i > 0 ? 'bumps ' : 'comments '
-				} (page ${nextPage})...`;
+				obj.progressBar.setMessage(
+					`Retrieving ${i > 0 ? 'bumps ' : 'comments '} (page ${nextPage})...`
+				);
 				let response = await request({ method: 'GET', queue: true, url: `${url}${nextPage}` });
 				let responseHtml = DOM.parse(response.responseText);
 				let elements = responseHtml.querySelectorAll(
@@ -164,7 +166,7 @@ class GiveawaysCommentEntryChecker extends Module {
 		let pagination = null;
 		let url = urls[0].replace(/search\?page=/, `entries/search?page=`);
 		do {
-			obj.progress.innerHTML = `Retrieving entries (page ${nextPage})...`;
+			obj.progressBar.setMessage(`Retrieving entries (page ${nextPage})...`);
 			let responseHtml = DOM.parse(
 				(
 					await request({
@@ -188,7 +190,7 @@ class GiveawaysCommentEntryChecker extends Module {
 
 		if (obj.isCanceled) return;
 
-		obj.progress.innerHTML = '';
+		obj.progressBar.reset().hide();
 
 		// calculate data
 		comments = Utils.sortArray(Array.from(/** @type {ArrayLike} */ new Set(comments)));
@@ -274,7 +276,7 @@ class GiveawaysCommentEntryChecker extends Module {
 	}
 
 	cec_stop(obj) {
-		obj.progress.innerHTML = '';
+		obj.progressBar.reset.hide();
 		obj.isCanceled = true;
 	}
 }

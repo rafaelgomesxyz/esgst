@@ -11,6 +11,7 @@ import { Logger } from '../../class/Logger';
 import { DOM } from '../../class/DOM';
 import { permissions } from '../../class/Permissions';
 import { Tabs } from '../../class/Tabs';
+import { NotificationBar } from '../../components/NotificationBar';
 
 const buildGiveaway = common.buildGiveaway.bind(common),
 	createElements = common.createElements.bind(common),
@@ -445,28 +446,23 @@ class GiveawaysGiveawayExtractor extends Module {
 					}
 					ge.mainCallback = resolve;
 					if (ge.callback) {
+						ge.progressBar.setStatus('info').setIcons(['fa-circle-o-notch fa-spin']);
 						ge.callback();
 					} else {
 						ge.isCanceled = false;
 						if (ge.button) {
 							ge.button.classList.add('esgst-busy');
 						}
-						this.esgst.modules.common.createElements(ge.progress, 'atinner', [
-							{
-								attributes: {
-									class: 'fa fa-circle-o-notch fa-spin',
-								},
-								type: 'i',
-							},
-							{
-								text: ge.total,
-								type: 'span',
-							},
-							{
-								text: ' giveaways extracted.',
-								type: 'node',
-							},
-						]);
+						ge.progressBar
+							.setStatus('info')
+							.setContent(
+								['fa-circle-o-notch fa-spin'],
+								<fragment>
+									<span ref={(ref) => (ge.progressBarCounter = ref)}>{ge.total}</span> giveaways
+									extracted.
+								</fragment>
+							)
+							.show();
 						let giveaways = this.ge_getGiveaways(
 							ge,
 							Shared.common.isCurrentPath('Account') && this.esgst.parameters.esgst === 'ge'
@@ -491,11 +487,7 @@ class GiveawaysGiveawayExtractor extends Module {
 			},
 		});
 		ge.popup.description.appendChild(ge.set.set);
-		ge.progress = createElements(ge.popup.description, 'beforeend', [
-			{
-				type: 'div',
-			},
-		]);
+		ge.progressBar = NotificationBar.create().insert(ge.popup.description, 'beforeend').hide();
 		ge.popup.open();
 		if (
 			ge.flushCache &&
@@ -550,16 +542,7 @@ class GiveawaysGiveawayExtractor extends Module {
 				ge.results.insertAdjacentHTML('beforeend', html);
 				ge.results.lastElementChild.classList.add(`esgst-es-page-${ge.endless}`);
 			}
-			this.esgst.modules.common.createElements(ge.progress, 'atinner', [
-				{
-					text: total,
-					type: 'span',
-				},
-				{
-					text: ' giveaways extracted.',
-					type: 'node',
-				},
-			]);
+			ge.progressBarCounter.textContent = total;
 			await endless_load(ge.results, false, 'ge', ge.endless);
 			const items = [
 				{
@@ -663,7 +646,7 @@ class GiveawaysGiveawayExtractor extends Module {
 				ge.count = 0;
 				await endless_load(ge.results, false, 'ge', ge.endless);
 				ge.set.set.firstElementChild.lastElementChild.textContent = 'Extract More';
-				ge.progress.firstElementChild.remove();
+				ge.progressBar.setStatus('default').removeIcons();
 				ge.callback = this.ge_extractGiveaway.bind(this, ge, code, callback);
 				filtered = false;
 				children = ge.results.querySelectorAll(`:scope > .esgst-es-page-${ge.endless}`);
@@ -743,22 +726,7 @@ class GiveawaysGiveawayExtractor extends Module {
 							ge.points += giveaway.points;
 							ge.count += 1;
 							ge.total += 1;
-							createElements(ge.progress, 'atinner', [
-								{
-									attributes: {
-										class: 'fa fa-circle-o-notch fa-spin',
-									},
-									type: 'i',
-								},
-								{
-									text: ge.total,
-									type: 'span',
-								},
-								{
-									text: ' giveaways extracted.',
-									type: 'node',
-								},
-							]);
+							ge.progressBarCounter.textContent = ge.total;
 							ge.extracted.push(code);
 							if (sgTools) {
 								callback();
@@ -801,22 +769,7 @@ class GiveawaysGiveawayExtractor extends Module {
 								ge.points += giveaway.points;
 								ge.count += 1;
 								ge.total += 1;
-								createElements(ge.progress, 'atinner', [
-									{
-										attributes: {
-											class: 'fa fa-circle-o-notch fa-spin',
-										},
-										type: 'i',
-									},
-									{
-										text: ge.total,
-										type: 'span',
-									},
-									{
-										text: ' giveaways extracted.',
-										type: 'node',
-									},
-								]);
+								ge.progressBarCounter.textContent = ge.total;
 								ge.extracted.push(code);
 								if (!ge.bumpLink) {
 									bumpLink = responseHtml.querySelector(`[href*="/discussion/"]`);
@@ -1033,7 +986,7 @@ class GiveawaysGiveawayExtractor extends Module {
 		if (ge.button) {
 			ge.button.classList.remove('esgst-busy');
 		}
-		ge.progress.firstElementChild.remove();
+		ge.progressBar.setStatus('success').setIcons(['fa-check-circle']);
 		if (ge.mainCallback) {
 			ge.mainCallback();
 			ge.mainCallback = null;

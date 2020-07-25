@@ -7,6 +7,7 @@ import { Settings } from '../../class/Settings';
 import { Shared } from '../../class/Shared';
 import { DOM } from '../../class/DOM';
 import { Session } from '../../class/Session';
+import { NotificationBar } from '../../components/NotificationBar';
 
 const createElements = common.createElements.bind(common),
 	createHeadingButton = common.createHeadingButton.bind(common),
@@ -222,11 +223,7 @@ class GiveawaysHiddenGamesManager extends Module {
 				callback2: this.stop.bind(this, obj),
 			}).set
 		);
-		obj.progress = createElements(obj.popup.description, 'beforeend', [
-			{
-				type: 'div',
-			},
-		]);
+		obj.progressBar = NotificationBar.create().insert(obj.popup.description, 'beforeend').hide();
 		obj.popup.open();
 	}
 
@@ -238,18 +235,10 @@ class GiveawaysHiddenGamesManager extends Module {
 		obj.running = true;
 		obj.canceled = false;
 		obj.button.classList.add('esgst-busy');
-		createElements(obj.progress, 'atinner', [
-			{
-				attributes: {
-					class: 'fa fa-circle-o-notch fa-spin',
-				},
-				type: 'i',
-			},
-			{
-				text: 'Adding games...',
-				type: 'span',
-			},
-		]);
+		obj.progressBar
+			.setStatus('info')
+			.setContent(['fa-circle-o-notch fa-spin'], 'Adding games...')
+			.show();
 		obj.result.innerHTML = '';
 
 		const appIds = [];
@@ -284,7 +273,7 @@ class GiveawaysHiddenGamesManager extends Module {
 			appIds.push(...Shared.esgst.delistedGames.banned);
 		}
 
-		obj.hideObj = { appIds, subIds, update: (message) => (obj.progress.textContent = message) };
+		obj.hideObj = { appIds, subIds, update: (message) => obj.progressBar.setMessage(message) };
 
 		const result = await common.hideGames(obj.hideObj);
 
@@ -304,7 +293,7 @@ class GiveawaysHiddenGamesManager extends Module {
 		}
 
 		obj.button.classList.remove('esgst-busy');
-		obj.progress.innerHTML = '';
+		obj.progressBar.reset().hide();
 		obj.running = false;
 	}
 
@@ -320,18 +309,13 @@ class GiveawaysHiddenGamesManager extends Module {
 		obj.canceled = false;
 		obj.lastPage = '';
 		obj.button.classList.add('esgst-busy');
-		createElements(obj.progress, 'atinner', [
-			{
-				attributes: {
-					class: 'fa fa-circle-o-notch fa-spin',
-				},
-				type: 'i',
-			},
-			{
-				text: `${exportOnly ? 'Exporting' : 'Removing'} games...`,
-				type: 'span',
-			},
-		]);
+		obj.progressBar
+			.setStatus('info')
+			.setContent(
+				['fa-circle-o-notch fa-spin'],
+				`${exportOnly ? 'Exporting' : 'Removing'} games...`
+			)
+			.show();
 		if (!exportOnly) {
 			createElements(obj.result, 'atinner', [
 				{
@@ -379,20 +363,9 @@ class GiveawaysHiddenGamesManager extends Module {
 				);
 				obj.lastPage = obj.lastPage === 999999999 ? '' : ` of ${obj.lastPage}`;
 			}
-			createElements(obj.progress, 'atinner', [
-				{
-					attributes: {
-						class: 'fa fa-circle-o-notch fa-spin',
-					},
-					type: 'i',
-				},
-				{
-					text: `${exportOnly ? 'Exporting' : 'Removing'} games (page ${nextPage}${
-						obj.lastPage
-					})...`,
-					type: 'span',
-				},
-			]);
+			obj.progressBar.setMessage(
+				`${exportOnly ? 'Exporting' : 'Removing'} games (page ${nextPage}${obj.lastPage})...`
+			);
 			let elements = context.getElementsByClassName('table__row-outer-wrap');
 			for (let i = 0, n = elements.length; i < n; i++) {
 				let element = elements[i];
@@ -480,7 +453,7 @@ class GiveawaysHiddenGamesManager extends Module {
 			}
 		}
 		obj.button.classList.remove('esgst-busy');
-		obj.progress.innerHTML = '';
+		obj.progressBar.reset().hide();
 		obj.running = false;
 	}
 
@@ -490,7 +463,7 @@ class GiveawaysHiddenGamesManager extends Module {
 			obj.hideObj.canceled = true;
 		}
 		obj.button.classList.remove('esgst-busy');
-		obj.progress.innerHTML = '';
+		obj.progressBar.reset().hide();
 	}
 }
 

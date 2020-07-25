@@ -28,19 +28,17 @@ class PageHeading {
 			},
 			options
 		);
-		DOM.insert(
-			options.context,
-			options.position,
-			<div
-				className={CLASS_NAMES[this.namespace].pageHeading}
-				ref={(ref) => (this.pageHeading = ref)}
-			>
+		this.pageHeading = (
+			<div className={CLASS_NAMES[this.namespace].pageHeading}>
 				<div
 					className={CLASS_NAMES[this.namespace].pageHeadingBreadcrumbs}
 					ref={(ref) => (this.breadcrumbs = ref)}
 				></div>
 			</div>
 		);
+		if (options.context && options.position) {
+			DOM.insert(options.context, options.position, this.pageHeading);
+		}
 		if (Settings.get('fmph')) {
 			this.pageHeading.classList.add('esgst-fmph');
 		}

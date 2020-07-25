@@ -6,6 +6,7 @@ import { Utils } from '../../lib/jsUtils';
 import { Shared } from '../../class/Shared';
 import { Settings } from '../../class/Settings';
 import { DOM } from '../../class/DOM';
+import { NotificationBar } from '../../components/NotificationBar';
 
 class UsersUserSuspensionChecker extends Module {
 	constructor() {
@@ -200,19 +201,22 @@ class UsersUserSuspensionChecker extends Module {
 				callback1: async () => {
 					button.classList.add('esgst-busy');
 					await this.setCheck(uscObj);
+					uscObj.progressBar
+						.setStatus('success')
+						.setContent(['fa-check-circle'], 'All users checked!');
 					button.classList.remove('esgst-busy');
 					popup.setDone();
 				},
 				callback2: () => {
 					uscObj.canceled = true;
 					window.setTimeout(() => {
-						uscObj.progress.innerHTML = '';
+						uscObj.progressBar.reset().hide();
 					}, 500);
 					button.classList.remove('esgst-busy');
 				},
 			}).set
 		);
-		DOM.insert(popup.description, 'beforeend', <div ref={(ref) => (uscObj.progress = ref)}></div>);
+		uscObj.progressBar = NotificationBar.create().insert(popup.description, 'beforeend').hide();
 		DOM.insert(popup.scrollable, 'beforeend', <div ref={(ref) => (uscObj.results = ref)}></div>);
 		Shared.common.createResults(uscObj.results, uscObj, [
 			{
@@ -286,7 +290,7 @@ class UsersUserSuspensionChecker extends Module {
 	}
 
 	async setCheck(uscObj) {
-		uscObj.progress.innerHTML = '';
+		uscObj.progressBar.setStatus('info').setContent(['fa-circle-o-notch fa-spin'], null).show();
 		uscObj.suspended.classList.add('esgst-hidden');
 		uscObj.banned.classList.add('esgst-hidden');
 		uscObj.none.classList.add('esgst-hidden');
@@ -340,7 +344,7 @@ class UsersUserSuspensionChecker extends Module {
 	async checkUsers(uscObj) {
 		let i, n;
 		for (i = 0, n = uscObj.users.length; i < n && !uscObj.canceled; i++) {
-			uscObj.progress.innerHTML = `${i} of ${n} users checked...`;
+			uscObj.progressBar.setMessage(`Checking users (${i} of ${n})...`);
 			const username = uscObj.users[i];
 			const html = DOM.parse(
 				(
@@ -377,7 +381,7 @@ class UsersUserSuspensionChecker extends Module {
 			);
 			uscObj[`${key}Count`].textContent = parseInt(uscObj[`${key}Count`].textContent) + 1;
 		}
-		uscObj.progress.innerHTML = `${i} of ${n} users checked...`;
+		uscObj.progressBar.setMessage(`Checking users (${i} of ${n})...`);
 	}
 
 	async getUsers(uscObj) {
@@ -414,14 +418,7 @@ class UsersUserSuspensionChecker extends Module {
 				uscObj.lastPage = Shared.esgst.modules.generalLastPageLink.lpl_getLastPage(html, true);
 				uscObj.lastPage = uscObj.lastPage === 999999999 ? '' : ` of ${uscObj.lastPage}`;
 			}
-			DOM.insert(
-				uscObj.progress,
-				'atinner',
-				<fragment>
-					<i className="fa fa-circle-o-notch fa-spin"></i>
-					<span>{`Retrieving users (page ${nextPage}${uscObj.lastPage})...`}</span>
-				</fragment>
-			);
+			uscObj.progressBar.setMessage(`Retrieving users (page ${nextPage}${uscObj.lastPage})...`);
 			const elements = html.querySelectorAll(`a[href*="/user/"]`);
 			for (const element of elements) {
 				const match = element.getAttribute('href').match(/\/user\/(.+)/);

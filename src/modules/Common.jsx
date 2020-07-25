@@ -24,6 +24,7 @@ import { Session } from '../class/Session';
 import { LocalStorage } from '../class/LocalStorage';
 import { FetchRequest } from '../class/FetchRequest';
 import { Tabs } from '../class/Tabs';
+import { NotificationBar } from '../components/NotificationBar';
 
 const SHORT_MONTHS = [
 	'Jan',
@@ -753,7 +754,7 @@ class Common extends Module {
 			try {
 				await feature(context, main, source, endless, mainEndless);
 			} catch (e) {
-				Logger.error(e.message, e.stack);
+				Logger.error(feature.name, e.message, e.stack);
 			}
 		}
 	}
@@ -839,18 +840,22 @@ class Common extends Module {
 			}
 		}
 		if (!success) {
-			this.createElements(status, 'atinner', [
-				{
-					attributes: {
-						class: 'fa fa-times-circle',
+			if (status instanceof NotificationBar) {
+				status.setStatus('danger').setContent(['fa-times-circle'], 'Failed!').show();
+			} else {
+				this.createElements(status, 'atinner', [
+					{
+						attributes: {
+							class: 'fa fa-times-circle',
+						},
+						type: 'i',
 					},
-					type: 'i',
-				},
-				{
-					text: 'Failed!',
-					type: 'span',
-				},
-			]);
+					{
+						text: 'Failed!',
+						type: 'span',
+					},
+				]);
+			}
 			return { id: null, response: null, status };
 		}
 		if (Settings.get('ch')) {
@@ -2445,9 +2450,9 @@ class Common extends Module {
 			nextPage = 1,
 			pagination = null;
 		do {
-			syncer.progress.lastElementChild.textContent = `Syncing your won games (page ${nextPage}${
-				lastPage ? ` of ${lastPage}` : ''
-			})...`;
+			syncer.progressBar.setMessage(
+				`Syncing your won games (page ${nextPage}${lastPage ? ` of ${lastPage}` : ''})...`
+			);
 			const responseHtml = DOM.parse(
 					(
 						await this.request({
@@ -3369,11 +3374,12 @@ class Common extends Module {
 
 	async setSMRecentUsernameChanges() {
 		const popup = new Popup({
+			addProgress: true,
 			addScrollable: true,
 			icon: 'fa-comments',
 			title: 'Recent Username Changes',
 		});
-		const hasPermissions = await permissions.request([['server']]);
+		const hasPermissions = await permissions.contains([['server']]);
 		if (!hasPermissions) {
 			DOM.insert(
 				popup.description,
@@ -3389,14 +3395,7 @@ class Common extends Module {
 			popup.open();
 			return;
 		}
-		DOM.insert(
-			popup.description,
-			'beforeend',
-			<div ref={(ref) => (popup.progress = ref)}>
-				<i className="fa fa-circle-o-notch fa-spin"></i>
-				<span>Loading recent username changes...</span>
-			</div>
-		);
+		popup.setProgress('Loading recent username changes...');
 		DOM.insert(
 			popup.scrollable,
 			'beforeend',
@@ -3405,7 +3404,7 @@ class Common extends Module {
 		popup.open();
 		try {
 			const recentChanges = await this.getRecentChanges();
-			popup.progress.innerHTML = '';
+			popup.clearProgress();
 			DOM.insert(
 				popup.results,
 				'atinner',
@@ -3426,14 +3425,7 @@ class Common extends Module {
 			}
 		} catch (err) {
 			Logger.warning(err);
-			DOM.insert(
-				popup.progress,
-				'atinner',
-				<div>
-					<i className="fa fa-times"></i>
-					<span>Failed to load recent changes. Please try again later.</span>
-				</div>
-			);
+			popup.setError('Failed to load recent changes. Please try again later.');
 		}
 	}
 

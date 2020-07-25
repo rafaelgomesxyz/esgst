@@ -278,6 +278,9 @@ class CommentsCommentTracker extends Module {
 				heading = match.querySelector(
 					`.homepage_table_column_heading, .table__column__heading, .column_flex h3 a`
 				);
+				if (!heading) {
+					continue;
+				}
 				name = heading.textContent.trim();
 				url = heading.getAttribute('href');
 				if (url) {

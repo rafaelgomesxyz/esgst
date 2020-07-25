@@ -79,8 +79,8 @@
 
 /**
  * @typedef {Object} PopupObject
- * @property {HTMLElement} progress
- * @property {HTMLElement} overallProgress
+ * @property {import('./components/NotificationBar').NotificationBar} progressBar
+ * @property {import('./components/NotificationBar').NotificationBar} overallProgressBar
  * @property {HTMLElement} activated
  * @property {HTMLElement} notMultiple
  * @property {HTMLElement} notActivated
@@ -110,11 +110,9 @@
 
 /**
  * @typedef {Object} NRF
- * @property {HTMLElement} Progress
  * @property {number} Request
  * @property {number} Save
  * @property {boolean} Canceled
- * @property {HTMLElement} OverallProgress
  * @property {HTMLElement} Results
  * @property {Popup} popup
  */
@@ -162,8 +160,8 @@
  * @property {boolean} ShowResults
  * @property {boolean} Canceled
  * @property {boolean} Update
- * @property {HTMLElement} Progress
- * @property {HTMLElement} OverallProgress
+ * @property {import('./components/NotificationBar').NotificationBar} progressBar
+ * @property {import('./components/NotificationBar').NotificationBar} overallProgressBar
  * @property {Popup} popup
  * @property {string[]} Users
  * @property {HTMLElement} whitelisted
@@ -300,7 +298,7 @@
 /**
  * @typedef {Object} EsgstSyncer
  * @property {HTMLElement} results
- * @property {HTMLElement} progress
+ * @property {import('./components/NotificationBar').NotificationBar} progressBar
  * @property {boolean} canceled
  * @property {EsgstSyncerParameters} parameters
  * @property {boolean} autoSync
