@@ -6,7 +6,7 @@ export interface BaseNodes {
 	outer: HTMLElement | null;
 }
 
-export abstract class Base<T> {
+export abstract class Base<T, TNodes extends BaseNodes, TData> {
 	protected _nodes: BaseNodes = {
 		outer: null,
 	};
@@ -17,6 +17,14 @@ export abstract class Base<T> {
 		return new Error(`${this.name}: ${message}`);
 	}
 
+	get nodes(): TNodes {
+		return this._nodes as TNodes;
+	}
+
+	get data(): TData {
+		return this._data as TData;
+	}
+
 	get hasBuilt(): boolean {
 		return this._hasBuilt;
 	}
@@ -25,7 +33,7 @@ export abstract class Base<T> {
 		if (!this._nodes.outer) {
 			throw this.getError('could not hide');
 		}
-		this._nodes.outer.classList.add(ClassNames[Session.namespace].hiddenClass);
+		this._nodes.outer.classList.add(ClassNames[Session.namespace].hidden);
 		return (this as unknown) as T;
 	};
 
@@ -33,7 +41,7 @@ export abstract class Base<T> {
 		if (!this._nodes.outer) {
 			throw this.getError('could not show');
 		}
-		this._nodes.outer.classList.remove(ClassNames[Session.namespace].hiddenClass);
+		this._nodes.outer.classList.remove(ClassNames[Session.namespace].hidden);
 		return (this as unknown) as T;
 	};
 

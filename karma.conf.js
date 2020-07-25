@@ -11,20 +11,25 @@ module.exports = (config) => {
 		concurrency: 1,
 		files: ['test/**/*.+(js|jsx|ts|tsx)'],
 		frameworks: ['mocha', 'chai'],
+		logLevel: config.LOG_DISABLE,
 		plugins: [
 			'karma-chai',
 			'karma-chrome-launcher',
 			'karma-coverage',
 			'karma-firefox-launcher',
 			'karma-mocha',
+			'karma-mocha-reporter',
 			'karma-webpack',
 		],
 		preprocessors: {
 			'test/**/*+(js|jsx|ts|tsx)': ['webpack'],
 		},
-		reporters: ['progress', 'coverage'],
+		reporters: ['mocha', 'coverage'],
 		singleRun: true,
 		webpack: webpackConfig({ development: true, test: true }),
+		webpackMiddleware: {
+			logLevel: 'silent',
+		},
 	};
 	config.set(karmaConfig);
 };

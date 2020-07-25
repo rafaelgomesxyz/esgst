@@ -49,6 +49,7 @@ devDependencies:
   karma-coverage: 2.0.2
   karma-firefox-launcher: 1.3.0
   karma-mocha: 2.0.1
+  karma-mocha-reporter: 2.2.5_karma@5.1.0
   karma-webpack: 4.0.2_webpack@4.43.0
   mocha: 8.0.1
   node: 12.18.2
@@ -5165,6 +5166,17 @@ packages:
     dev: true
     resolution:
       integrity: sha512-Fi7xPhwrRgr+94BnHX0F5dCl1miIW4RHnzjIGxF8GaIEp7rNqX7LSi7ok63VXs3PS/5MQaQMhGxw+bvD+pibBQ==
+  /karma-mocha-reporter/2.2.5_karma@5.1.0:
+    dependencies:
+      chalk: 2.4.2
+      karma: 5.1.0
+      log-symbols: 2.2.0
+      strip-ansi: 4.0.0
+    dev: true
+    peerDependencies:
+      karma: '>=0.13'
+    resolution:
+      integrity: sha1-FRIAlejtgZGG5HoLAS8810GJVWA=
   /karma-mocha/2.0.1:
     dependencies:
       minimist: 1.2.5
@@ -5365,6 +5377,14 @@ packages:
     dev: true
     resolution:
       integrity: sha512-JNvd8XER9GQX0v2qJgsaN/mzFCNA5BRe/j8JN9d+tWyGLSodKQHKFicdwNYzWwI3wjRnaKPsGj1XkBjx/F96DQ==
+  /log-symbols/2.2.0:
+    dependencies:
+      chalk: 2.4.2
+    dev: true
+    engines:
+      node: '>=4'
+    resolution:
+      integrity: sha512-VeIAFslyIerEJLXHziedo2basKbMKtTw3vfn5IzG0XTjhAVEJyNHnL2p7vc+wBDSdQuUpNw3M2u6xb9QsAY5Eg==
   /log-symbols/3.0.0:
     dependencies:
       chalk: 2.4.2
@@ -8328,6 +8348,7 @@ specifiers:
   karma-coverage: ^2.0.2
   karma-firefox-launcher: ^1.3.0
   karma-mocha: ^2.0.1
+  karma-mocha-reporter: ^2.2.5
   karma-webpack: ^4.0.2
   mocha: ^8.0.1
   node: ^12.18.2

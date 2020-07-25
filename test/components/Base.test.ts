@@ -1,139 +1,151 @@
 import { expect } from 'chai';
 import { Session } from '../../src/class/Session';
-import { Base } from '../../src/components/Base';
+import { Base, BaseNodes } from '../../src/components/Base';
 import { ClassNames } from '../../src/constants/ClassNames';
 import { Namespaces } from '../../src/constants/Namespaces';
 
-class TestClass extends Base<TestClass> {
-	get nodes() {
-		return this._nodes;
-	}
+interface TestClassNodes extends BaseNodes {}
 
-	build = (): TestClass => this;
+interface TestClassData {}
+
+class TestClass extends Base<TestClass, TestClassNodes, TestClassData> {
+	build = (): TestClass => {
+		this._nodes.outer = document.body;
+		this._hasBuilt = true;
+		return this;
+	};
 
 	insert = (): TestClass => this;
 
 	destroy = (): TestClass => this;
 
-	reset = (): TestClass => {
-		this._nodes.outer = null;
-		return this;
-	};
+	reset = (): TestClass => this;
 
-	parse = (): TestClass => {
-		this._nodes.outer = document.body;
-		return this;
-	};
+	parse = (): TestClass => this;
 }
 
-const testClass = new TestClass();
+let testClass: TestClass;
 
 describe('Base', () => {
-	describe('on SG:', () => {
-		before(() => {
-			Session.namespace = Namespaces.SG;
-		});
+	beforeEach(() => {
+		testClass = new TestClass();
+	});
 
-		it('static getError() should return correct error message', () => {
+	describe('.getError()', () => {
+		it('return correct error message', () => {
 			expect(TestClass.getError('Test!').message).to.equal('TestClass: Test!');
 		});
+	});
 
-		it('hasBuilt should be false', () => {
-			expect(testClass.hasBuilt).to.be.false;
-		});
-
-		it('getError() should return correct error message', () => {
-			expect(testClass.getError('Test!').message).to.equal('TestClass: Test!');
-		});
-
-		describe('when parsed,', () => {
-			before(() => {
-				testClass.parse();
+	describe('#hasBuilt', () => {
+		describe('when built', () => {
+			beforeEach(() => {
+				testClass.build();
 			});
 
-			it('hide() should succeed', () => {
-				testClass.hide();
-				expect(
-					(testClass.nodes.outer as HTMLElement).classList.contains(
-						ClassNames[Namespaces.SG].hiddenClass
-					)
-				).to.be.true;
-			});
-
-			it('show() should succeed', () => {
-				testClass.show();
-				expect(
-					(testClass.nodes.outer as HTMLElement).classList.contains(
-						ClassNames[Namespaces.SG].hiddenClass
-					)
-				).to.be.false;
+			it('be true', () => {
+				expect(testClass.hasBuilt).to.be.true;
 			});
 		});
 
-		describe('when not parsed,', () => {
-			before(() => {
-				testClass.reset();
+		describe('when not built', () => {
+			it('be false', () => {
+				expect(testClass.hasBuilt).to.be.false;
+			});
+		});
+	});
+
+	describe('#hide()', () => {
+		describe('when built', () => {
+			beforeEach(() => {
+				testClass.build();
 			});
 
-			it('hide() should fail', () => {
+			describe('when on SG', () => {
+				beforeEach(() => {
+					Session.namespace = Namespaces.SG;
+				});
+
+				it('succeed', () => {
+					testClass.hide();
+					expect(
+						(testClass.nodes.outer as HTMLElement).classList.contains(
+							ClassNames[Namespaces.SG].hidden
+						)
+					).to.be.true;
+				});
+			});
+
+			describe('when on ST', () => {
+				beforeEach(() => {
+					Session.namespace = Namespaces.ST;
+				});
+
+				it('succeed', () => {
+					testClass.hide();
+					expect(
+						(testClass.nodes.outer as HTMLElement).classList.contains(
+							ClassNames[Namespaces.ST].hidden
+						)
+					).to.be.true;
+				});
+			});
+		});
+
+		describe('when not built', () => {
+			it('fail', () => {
 				expect(() => testClass.hide()).to.throw();
 			});
+		});
+	});
 
-			it('show() should fail', () => {
+	describe('#show()', () => {
+		describe('when built', () => {
+			beforeEach(() => {
+				testClass.build();
+			});
+
+			describe('when on SG', () => {
+				beforeEach(() => {
+					Session.namespace = Namespaces.SG;
+				});
+
+				it('succeed', () => {
+					testClass.show();
+					expect(
+						(testClass.nodes.outer as HTMLElement).classList.contains(
+							ClassNames[Namespaces.SG].hidden
+						)
+					).to.be.false;
+				});
+			});
+
+			describe('when on ST', () => {
+				beforeEach(() => {
+					Session.namespace = Namespaces.ST;
+				});
+
+				it('succeed', () => {
+					testClass.show();
+					expect(
+						(testClass.nodes.outer as HTMLElement).classList.contains(
+							ClassNames[Namespaces.ST].hidden
+						)
+					).to.be.false;
+				});
+			});
+		});
+
+		describe('when not built', () => {
+			it('fail', () => {
 				expect(() => testClass.show()).to.throw();
 			});
 		});
 	});
 
-	describe('on ST:', () => {
-		before(() => {
-			Session.namespace = Namespaces.ST;
-		});
-
-		it('static getError() should return correct error message', () => {
-			expect(TestClass.getError('Test!').message).to.equal('TestClass: Test!');
-		});
-
-		it('getError() should return correct error message', () => {
+	describe('#getError()', () => {
+		it('return correct error message', () => {
 			expect(testClass.getError('Test!').message).to.equal('TestClass: Test!');
-		});
-
-		describe('when parsed,', () => {
-			before(() => {
-				testClass.parse();
-			});
-
-			it('hide() should succeed', () => {
-				testClass.hide();
-				expect(
-					(testClass.nodes.outer as HTMLElement).classList.contains(
-						ClassNames[Namespaces.ST].hiddenClass
-					)
-				).to.be.true;
-			});
-
-			it('show() should succeed', () => {
-				testClass.show();
-				expect(
-					(testClass.nodes.outer as HTMLElement).classList.contains(
-						ClassNames[Namespaces.ST].hiddenClass
-					)
-				).to.be.false;
-			});
-		});
-
-		describe('when not parsed,', () => {
-			before(() => {
-				testClass.reset();
-			});
-
-			it('hide() should fail', () => {
-				expect(() => testClass.hide()).to.throw();
-			});
-
-			it('show() should fail', () => {
-				expect(() => testClass.show()).to.throw();
-			});
 		});
 	});
 });

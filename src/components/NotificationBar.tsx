@@ -17,7 +17,11 @@ export interface NotificationBarData {
 
 export type NotificationBarStatus = 'info' | 'success' | 'warning' | 'danger' | 'default';
 
-export abstract class NotificationBar extends Base<NotificationBar> {
+export abstract class NotificationBar extends Base<
+	NotificationBar,
+	NotificationBarNodes,
+	NotificationBarData
+> {
 	static readonly defaultStatus: NotificationBarStatus = 'default';
 	static readonly statusList: readonly NotificationBarStatus[] = [
 		'info',
@@ -81,14 +85,6 @@ export abstract class NotificationBar extends Base<NotificationBar> {
 		}
 		return notificationBars;
 	};
-
-	get nodes() {
-		return this._nodes;
-	}
-
-	get data() {
-		return this._data;
-	}
 
 	abstract setStatus(status: NotificationBarStatus): NotificationBar;
 	abstract setContent(icons: string[], message: ElementChild): NotificationBar;
@@ -187,6 +183,7 @@ export class SgNotificationBar extends NotificationBar {
 			return this;
 		}
 		this.removeIcons();
+		this._nodes.icons = [];
 		this._data.icons = icons;
 		DOM.insert(
 			this._nodes.outer,

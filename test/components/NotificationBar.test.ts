@@ -10,305 +10,569 @@ import { Namespaces } from '../../src/constants/Namespaces';
 import { loadFixture } from '../../test-helpers/fixture-loader';
 import sgNotificationBarFixture from '../fixtures/sg/notification-bar.html';
 
-let notificationBar1: NotificationBar;
-let notificationBar2: NotificationBar;
-let notificationBars: NotificationBar[];
-let outerEl: HTMLDivElement;
+let notificationBar: NotificationBar;
 let fixtureEl: Element;
+const fixtureData = {
+	status: 'warning',
+	icons: ['fa-info-circle'],
+	message:
+		'Please remember, all games you receive need to be activated on your corresponding Steam account to remain in good standing. Users failing to do so will receive a suspension.',
+};
 
 describe('NotificationBar', () => {
-	describe('on SG:', () => {
-		before(() => {
+	describe('.create()', () => {
+		describe('when on SG', () => {
+			beforeEach(() => {
+				Session.namespace = Namespaces.SG;
+			});
+
+			it('succeed with default options', () => {
+				notificationBar = NotificationBar.create();
+				expect(notificationBar).to.be.instanceOf(SgNotificationBar);
+				expect(notificationBar.nodes).to.deep.equal(NotificationBar.getInitialNodes());
+				expect(notificationBar.data).to.deep.equal(NotificationBar.getInitialData());
+			});
+
+			it('succeed with provided options', () => {
+				const options: Partial<NotificationBarData> = {
+					status: 'info',
+					icons: ['fa-question-circle'],
+					message: 'Is this a test?',
+				};
+				notificationBar = NotificationBar.create(options);
+				expect(notificationBar).to.be.instanceOf(SgNotificationBar);
+				expect(notificationBar.nodes).to.deep.equal(NotificationBar.getInitialNodes());
+				expect(notificationBar.data).to.deep.equal(options);
+			});
+		});
+
+		describe('when on ST', () => {
+			beforeEach(() => {
+				Session.namespace = Namespaces.ST;
+			});
+
+			it('fail', () => {
+				expect(() => NotificationBar.create()).to.throw();
+			});
+		});
+	});
+
+	describe('.getAll()', () => {
+		beforeEach(() => {
 			Session.namespace = Namespaces.SG;
+			fixtureEl = loadFixture(sgNotificationBarFixture);
 		});
 
-		it('create() should succeed with default options', () => {
-			notificationBar1 = NotificationBar.create();
-			expect(notificationBar1).to.be.instanceOf(SgNotificationBar);
-			expect(notificationBar1.nodes).to.deep.equal(NotificationBar.getInitialNodes());
-			expect(notificationBar1.data).to.deep.equal(NotificationBar.getInitialData());
+		afterEach(() => {
+			fixtureEl.remove();
 		});
 
-		it('create() should succeed with provided options', () => {
-			const options: Partial<NotificationBarData> = {
-				status: 'info',
-				icons: ['fa-question-circle'],
-				message: 'Is this a test?',
-			};
-			notificationBar2 = NotificationBar.create(options);
-			expect(notificationBar2).to.be.instanceOf(SgNotificationBar);
-			expect(notificationBar2.nodes).to.deep.equal(NotificationBar.getInitialNodes());
-			expect(notificationBar2.data).to.deep.equal(options);
+		it('return correct items', () => {
+			const notificationBars = NotificationBar.getAll(fixtureEl);
+			expect(notificationBars.length).to.equal(1);
+			expect(notificationBars[0].nodes.outer).to.equal(fixtureEl.children[0]);
+			expect(notificationBars[0].data).to.deep.equal(fixtureData);
+		});
+	});
+
+	describe('#build()', () => {
+		beforeEach(() => {
+			Session.namespace = Namespaces.SG;
+			notificationBar = NotificationBar.create();
 		});
 
-		it('build() should succeed', () => {
-			const setStatusStub = sinon.stub(notificationBar1, 'setStatus');
-			const setContentStub = sinon.stub(notificationBar1, 'setContent');
-			notificationBar1.build();
-			outerEl = notificationBar1.nodes.outer as HTMLDivElement;
-			expect(outerEl).to.be.instanceOf(Node);
-			expect(setStatusStub.callCount).to.equal(1);
-			expect(setContentStub.callCount).to.equal(1);
-			expect(notificationBar1.hasBuilt).to.be.true;
-			setStatusStub.restore();
-			setContentStub.restore();
+		describe('when called for the first time', () => {
+			it('succeed', () => {
+				const setStatusStub = sinon.stub(notificationBar, 'setStatus');
+				const setContentStub = sinon.stub(notificationBar, 'setContent');
+				notificationBar.build();
+				expect(notificationBar.nodes.outer).to.be.instanceOf(Node);
+				expect(setStatusStub.callCount).to.equal(1);
+				expect(setContentStub.callCount).to.equal(1);
+				expect(notificationBar.hasBuilt).to.be.true;
+				setStatusStub.restore();
+				setContentStub.restore();
+			});
 		});
 
-		it('when called again, build() should rebuild using the same outer element', () => {
-			const setStatusStub = sinon.stub(notificationBar1, 'setStatus');
-			const setContentStub = sinon.stub(notificationBar1, 'setContent');
-			notificationBar1.build();
-			expect(notificationBar1.nodes.outer).to.equal(outerEl);
-			expect(setStatusStub.callCount).to.equal(1);
-			expect(setContentStub.callCount).to.equal(1);
-			expect(notificationBar1.hasBuilt).to.be.true;
-			setStatusStub.restore();
-			setContentStub.restore();
+		describe('when called again', () => {
+			it('rebuild using same outer element', () => {
+				const setStatusStub = sinon.stub(notificationBar, 'setStatus');
+				const setContentStub = sinon.stub(notificationBar, 'setContent');
+				notificationBar.build();
+				const outerEl = notificationBar.nodes.outer;
+				notificationBar.build();
+				expect(notificationBar.nodes.outer).to.equal(outerEl);
+				expect(setStatusStub.callCount).to.equal(2);
+				expect(setContentStub.callCount).to.equal(2);
+				expect(notificationBar.hasBuilt).to.be.true;
+				setStatusStub.restore();
+				setContentStub.restore();
+			});
+		});
+	});
+
+	describe('#insert()', () => {
+		beforeEach(() => {
+			Session.namespace = Namespaces.SG;
+			notificationBar = NotificationBar.create();
 		});
 
-		describe('when built,', () => {
-			it('insert() should succeed', () => {
-				const buildStub = sinon.stub(notificationBar1, 'build');
-				notificationBar1.insert(document.body, 'afterbegin');
-				expect(buildStub.callCount).to.equal(0);
-				expect(document.body.children[0]).to.equal(notificationBar1.nodes.outer);
-				buildStub.restore();
+		describe('when built', () => {
+			beforeEach(() => {
+				notificationBar.build();
 			});
 
-			it('setStatus() should succeed', () => {
-				const status = 'success';
-				notificationBar1.setStatus(status);
-				expect(notificationBar1.data.status).to.equal(status);
-				expect((notificationBar1.nodes.outer as HTMLDivElement).className).to.equal(
-					`notification notification--${status} notification--margin-top-small`
-				);
+			afterEach(() => {
+				notificationBar.destroy();
 			});
 
-			it('when called with the same status, setStatus() should return', () => {
-				outerEl = notificationBar1.nodes.outer as HTMLDivElement;
-				const classBackup = outerEl.className;
-				outerEl.className = 'notification';
-				const status = 'success';
-				notificationBar1.setStatus(status);
-				expect(outerEl.className).to.equal('notification');
-				outerEl.className = classBackup;
+			it('succeed', () => {
+				const buildSpy = sinon.spy(notificationBar, 'build');
+				notificationBar.insert(document.body, 'afterbegin');
+				expect(buildSpy.callCount).to.equal(0);
+				expect(document.body.children[0]).to.equal(notificationBar.nodes.outer);
+				buildSpy.restore();
+			});
+		});
+
+		describe('when not built', () => {
+			describe('when build succeeds', () => {
+				afterEach(() => {
+					notificationBar.destroy();
+				});
+
+				it('succeed', () => {
+					const buildSpy = sinon.spy(notificationBar, 'build');
+					notificationBar.insert(document.body, 'afterbegin');
+					expect(buildSpy.callCount).to.equal(1);
+					expect(document.body.children[0]).to.equal(notificationBar.nodes.outer);
+					buildSpy.restore();
+				});
 			});
 
-			it('setContent() should succeed', () => {
-				const setIconsStub = sinon.stub(notificationBar1, 'setIcons');
-				const setMessageStub = sinon.stub(notificationBar1, 'setMessage');
-				const icons = ['fa-check-circle'];
-				const message = 'Done!';
-				notificationBar1.setContent(icons, message);
-				expect(setIconsStub.callCount).to.equal(1);
-				expect(setMessageStub.callCount).to.equal(1);
-				setIconsStub.restore();
-				setMessageStub.restore();
+			describe('when build fails', () => {
+				it('fail', () => {
+					const buildStub = sinon.stub(notificationBar, 'build');
+					expect(() => notificationBar.insert(document.body, 'afterbegin')).to.throw();
+					expect(buildStub.callCount).to.equal(1);
+					buildStub.restore();
+				});
+			});
+		});
+	});
+
+	describe('#destroy()', () => {
+		beforeEach(() => {
+			Session.namespace = Namespaces.SG;
+			notificationBar = NotificationBar.create();
+		});
+
+		describe('when built', () => {
+			beforeEach(() => {
+				notificationBar.insert(document.body, 'afterbegin');
 			});
 
-			it('setIcons() should succeed', () => {
-				const removeIconsStub = sinon.stub(notificationBar1, 'removeIcons');
-				const icons = ['fa-check-circle'];
-				notificationBar1.setIcons(icons);
-				expect(notificationBar1.nodes.icons.length).to.equal(1);
-				expect(notificationBar1.data.icons).to.deep.equal(icons);
-				removeIconsStub.restore();
-			});
-
-			it('when called with the same icons, setIcons() should return', () => {
-				const outerEl = notificationBar1.nodes.outer as HTMLDivElement;
-				const childNodes = outerEl.childNodes;
-				const icons = ['fa-check-circle'];
-				notificationBar1.setIcons(icons);
-				expect(outerEl.childNodes).to.deep.equal(childNodes);
-			});
-
-			it('when there is no message, removeIcons() should remove current icons', () => {
-				notificationBar1.removeIcons();
-				expect(notificationBar1.nodes.icons.length).to.equal(0);
-				expect(notificationBar1.data.icons.length).to.equal(0);
-			});
-
-			it('setMessage() should succeed', () => {
-				const removeMessageStub = sinon.stub(notificationBar1, 'removeMessage');
-				const message = 'Done!';
-				notificationBar1.setMessage(message);
-				expect(notificationBar1.data.message).to.equal(message);
-				removeMessageStub.restore();
-			});
-
-			it('when called with the same message, setMessage() should return', () => {
-				const outerEl = notificationBar1.nodes.outer as HTMLDivElement;
-				const childNodes = outerEl.childNodes;
-				const message = 'Done!';
-				notificationBar1.setMessage(message);
-				expect(outerEl.childNodes).to.deep.equal(childNodes);
-			});
-
-			it('when there are no icons, removeMessage() should remove current message', () => {
-				notificationBar1.removeMessage();
-				expect(notificationBar1.data.message).to.be.null;
-			});
-
-			it('when called again with same content, setContent() should not clear', () => {
-				const icons = ['fa-check-circle'];
-				const message = 'Done!';
-				notificationBar1.setContent(icons, message);
-				const setIconsStub = sinon.stub(notificationBar1, 'setIcons');
-				const setMessageStub = sinon.stub(notificationBar1, 'setMessage');
-				notificationBar1.setContent(icons, message);
-				expect((notificationBar1.nodes.outer as HTMLDivElement).innerHTML).not.to.be.empty;
-				expect(notificationBar1.nodes.icons.length).to.equal(1);
-				expect(notificationBar1.data.icons).to.deep.equal(icons);
-				expect(notificationBar1.data.message).to.equal(message);
-				setIconsStub.restore();
-				setMessageStub.restore();
-			});
-
-			it('when called again with different content, setContent() should clear all', () => {
-				let icons = ['fa-check-circle'];
-				let message = 'Done!';
-				notificationBar1.setContent(icons, message);
-				const setIconsStub = sinon.stub(notificationBar1, 'setIcons');
-				const setMessageStub = sinon.stub(notificationBar1, 'setMessage');
-				icons = ['fa-question-circle'];
-				message = 'Is this a test?';
-				notificationBar1.setContent(icons, message);
-				expect((notificationBar1.nodes.outer as HTMLDivElement).innerHTML).to.be.empty;
-				expect(notificationBar1.nodes.icons).to.deep.equal([]);
-				expect(notificationBar1.data.icons).to.deep.equal([]);
-				expect(notificationBar1.data.message).to.equal(null);
-				setIconsStub.restore();
-				setMessageStub.restore();
-			});
-
-			it('when there is a message, removeIcons() should remove current icons', () => {
-				const removeIconsStub = sinon.stub(notificationBar1, 'removeIcons');
-				const removeMessageStub = sinon.stub(notificationBar1, 'removeMessage');
-				const icons = ['fa-check-circle'];
-				const message = 'Done!';
-				notificationBar1.setContent(icons, message);
-				removeIconsStub.restore();
-				notificationBar1.removeIcons();
-				expect(notificationBar1.nodes.icons.length).to.equal(0);
-				expect(notificationBar1.data.icons.length).to.equal(0);
-				removeMessageStub.restore();
-			});
-
-			it('when there are icons, removeMessage() should remove current message', () => {
-				const removeIconsStub = sinon.stub(notificationBar1, 'removeIcons');
-				const removeMessageStub = sinon.stub(notificationBar1, 'removeMessage');
-				const icons = ['fa-check-circle'];
-				const message = 'Done!';
-				notificationBar1.setContent(icons, message);
-				removeMessageStub.restore();
-				notificationBar1.removeMessage();
-				expect(notificationBar1.data.message).to.be.null;
-				removeIconsStub.restore();
-			});
-
-			it('destroy() should succeed', () => {
-				const resetStub = sinon.stub(notificationBar1, 'reset');
-				outerEl = notificationBar1.nodes.outer as HTMLDivElement;
-				notificationBar1.destroy();
+			it('succeed', () => {
+				const resetStub = sinon.stub(notificationBar, 'reset');
+				const outerEl = notificationBar.nodes.outer;
+				notificationBar.destroy();
 				expect(document.body.children[0]).not.to.equal(outerEl);
-				expect(notificationBar1.nodes.outer).to.be.null;
-				expect(notificationBar1.hasBuilt).to.be.false;
+				expect(notificationBar.nodes.outer).to.be.null;
+				expect(notificationBar.hasBuilt).to.be.false;
 				expect(resetStub.callCount).to.equal(1);
 				resetStub.restore();
 			});
+		});
 
-			it('when there is an outer element, reset() should rebuild', () => {
-				notificationBar1.nodes.outer = outerEl;
-				const buildStub = sinon.stub(notificationBar1, 'build');
-				notificationBar1.reset();
-				expect(notificationBar1.nodes).to.deep.equal({
+		describe('when not built', () => {
+			it('fail', () => {
+				expect(() => notificationBar.destroy()).to.throw();
+			});
+		});
+	});
+
+	describe('#reset()', () => {
+		beforeEach(() => {
+			Session.namespace = Namespaces.SG;
+			notificationBar = NotificationBar.create();
+		});
+
+		describe('when built', () => {
+			beforeEach(() => {
+				notificationBar.build();
+			});
+
+			it('rebuild', () => {
+				const outerEl = notificationBar.nodes.outer;
+				const buildStub = sinon.stub(notificationBar, 'build');
+				notificationBar.reset();
+				expect(notificationBar.nodes).to.deep.equal({
 					...NotificationBar.getInitialNodes(),
 					outer: outerEl,
 				});
-				expect(notificationBar1.data).to.deep.equal(NotificationBar.getInitialData());
-				expect(notificationBar1.hasBuilt).to.be.false;
+				expect(notificationBar.data).to.deep.equal(NotificationBar.getInitialData());
+				expect(notificationBar.hasBuilt).to.be.false;
 				expect(buildStub.callCount).to.equal(1);
 				buildStub.restore();
 			});
+		});
 
-			it('when there is no outer element, reset() should not rebuild ', () => {
-				notificationBar1.nodes.outer = null;
-				const buildStub = sinon.stub(notificationBar1, 'build');
-				notificationBar1.reset();
-				expect(notificationBar1.nodes).to.deep.equal(NotificationBar.getInitialNodes());
-				expect(notificationBar1.data).to.deep.equal(NotificationBar.getInitialData());
-				expect(notificationBar1.hasBuilt).to.be.false;
+		describe('when not built', () => {
+			it('do not rebuild', () => {
+				const buildStub = sinon.stub(notificationBar, 'build');
+				notificationBar.reset();
+				expect(notificationBar.nodes).to.deep.equal(NotificationBar.getInitialNodes());
+				expect(notificationBar.data).to.deep.equal(NotificationBar.getInitialData());
+				expect(notificationBar.hasBuilt).to.be.false;
 				expect(buildStub.callCount).to.equal(0);
 				buildStub.restore();
 			});
+		});
+	});
 
-			it('when there are no icons, removeIcons() should return', () => {
-				expect(() => notificationBar1.removeIcons()).not.to.throw();
+	describe('#setStatus()', () => {
+		beforeEach(() => {
+			Session.namespace = Namespaces.SG;
+			notificationBar = NotificationBar.create();
+		});
+
+		describe('when built', () => {
+			beforeEach(() => {
+				notificationBar.build();
 			});
 
-			it('when there is no message, removeMessage() should return', () => {
-				expect(() => notificationBar1.removeMessage()).not.to.throw();
+			describe('when called with different status', () => {
+				it('succeed', () => {
+					const outerEl = notificationBar.nodes.outer as HTMLDivElement;
+					const status = 'success';
+					notificationBar.setStatus(status);
+					expect(notificationBar.data.status).to.equal(status);
+					expect(outerEl.className).to.equal(
+						`notification notification--${status} notification--margin-top-small`
+					);
+				});
+			});
+
+			describe('when called with same status', () => {
+				it('do nothing', () => {
+					const outerEl = notificationBar.nodes.outer as HTMLDivElement;
+					outerEl.className = '';
+					notificationBar.setStatus(NotificationBar.defaultStatus);
+					expect(outerEl.className).to.be.empty;
+				});
 			});
 		});
 
-		describe('when not built,', () => {
-			it('insert() should fail', () => {
-				const buildStub = sinon.stub(notificationBar2, 'build');
-				expect(() => notificationBar2.insert(document.body, 'afterbegin')).to.throw();
-				expect(buildStub.callCount).to.equal(1);
-				buildStub.restore();
-			});
-
-			it('setStatus() should fail', () => {
+		describe('when not built', () => {
+			it('fail', () => {
 				const status = 'success';
-				expect(() => notificationBar2.setStatus(status)).to.throw();
+				expect(() => notificationBar.setStatus(status)).to.throw();
+			});
+		});
+	});
+
+	describe('#setContent()', () => {
+		beforeEach(() => {
+			Session.namespace = Namespaces.SG;
+			notificationBar = NotificationBar.create();
+		});
+
+		describe('when built', () => {
+			beforeEach(() => {
+				notificationBar.build();
 			});
 
-			it('setContent() should fail', () => {
+			describe('when called with different content', () => {
+				it('clear current content', () => {
+					const outerEl = notificationBar.nodes.outer as HTMLDivElement;
+					const icons = ['fa-check-circle'];
+					const message = 'Done!';
+					const setIconsStub = sinon.stub(notificationBar, 'setIcons');
+					const setMessageStub = sinon.stub(notificationBar, 'setMessage');
+					notificationBar.setContent(icons, message);
+					expect(outerEl.innerHTML).to.be.empty;
+					expect(notificationBar.nodes.icons.length).to.equal(0);
+					expect(notificationBar.data.icons.length).to.equal(0);
+					expect(notificationBar.data.message).to.be.null;
+					expect(setIconsStub.callCount).to.equal(1);
+					expect(setMessageStub.callCount).to.equal(1);
+					setIconsStub.restore();
+					setMessageStub.restore();
+				});
+			});
+
+			describe('when called with same content', () => {
 				const icons = ['fa-check-circle'];
 				const message = 'Done!';
-				expect(() => notificationBar2.setContent(icons, message)).to.throw();
-			});
 
-			it('setIcons() should fail', () => {
-				const icons = ['fa-check-circle'];
-				expect(() => notificationBar2.setIcons(icons)).to.throw();
-			});
+				beforeEach(() => {
+					notificationBar.setContent(icons, message);
+				});
 
-			it('setMessage() should fail', () => {
-				const message = 'Done!';
-				expect(() => notificationBar2.setMessage(message)).to.throw();
-			});
-
-			it('removeIcons() should fail', () => {
-				expect(() => notificationBar2.removeIcons()).to.throw();
-			});
-
-			it('removeMessage() should fail', () => {
-				expect(() => notificationBar2.removeMessage()).to.throw();
-			});
-
-			it('destroy() should fail', () => {
-				expect(() => notificationBar2.destroy()).to.throw();
+				it('do nothing', () => {
+					const outerEl = notificationBar.nodes.outer as HTMLDivElement;
+					const setIconsStub = sinon.stub(notificationBar, 'setIcons');
+					const setMessageStub = sinon.stub(notificationBar, 'setMessage');
+					notificationBar.setContent(icons, message);
+					expect(outerEl.innerHTML).not.to.be.empty;
+					expect(notificationBar.nodes.icons.length).to.equal(1);
+					expect(notificationBar.data.icons).to.deep.equal(icons);
+					expect(notificationBar.data.message).to.equal(message);
+					expect(setIconsStub.callCount).to.equal(1);
+					expect(setMessageStub.callCount).to.equal(1);
+					setIconsStub.restore();
+					setMessageStub.restore();
+				});
 			});
 		});
 
-		describe('when loading fixtures,', () => {
-			before(() => {
-				fixtureEl = loadFixture(sgNotificationBarFixture);
+		describe('when not built', () => {
+			it('fail', () => {
+				const icons = ['fa-check-circle'];
+				const message = 'Done!';
+				expect(() => notificationBar.setContent(icons, message)).to.throw();
+			});
+		});
+	});
+
+	describe('#setIcons()', () => {
+		beforeEach(() => {
+			Session.namespace = Namespaces.SG;
+			notificationBar = NotificationBar.create();
+		});
+
+		describe('when built', () => {
+			beforeEach(() => {
+				notificationBar.build();
 			});
 
-			after(() => {
-				fixtureEl.remove();
+			describe('when called with different icons', () => {
+				it('succeed', () => {
+					const removeIconsStub = sinon.stub(notificationBar, 'removeIcons');
+					const icons = ['fa-check-circle'];
+					notificationBar.setIcons(icons);
+					expect(removeIconsStub.callCount).to.equal(1);
+					expect(notificationBar.nodes.icons.length).to.equal(1);
+					expect(notificationBar.data.icons).to.deep.equal(icons);
+					removeIconsStub.restore();
+				});
 			});
 
-			it('parse() should succeed with compatible element', () => {
-				const parseStatusStub = sinon.stub(notificationBar1, 'parseStatus');
-				const parseIconsStub = sinon.stub(notificationBar1, 'parseIcons');
-				const parseMessageStub = sinon.stub(notificationBar1, 'parseMessage');
-				notificationBar1.parse(fixtureEl.children[0] as Element);
-				expect(notificationBar1.nodes.outer).to.equal(fixtureEl.children[0]);
+			describe('when called with same icons', () => {
+				it('do nothing', () => {
+					const outerEl = notificationBar.nodes.outer as HTMLDivElement;
+					outerEl.innerHTML = '';
+					const removeIconsStub = sinon.stub(notificationBar, 'removeIcons');
+					const { icons } = NotificationBar.getInitialData();
+					notificationBar.setIcons(icons);
+					expect(removeIconsStub.callCount).to.equal(0);
+					expect(outerEl.innerHTML).to.be.empty;
+					removeIconsStub.restore();
+				});
+			});
+		});
+
+		describe('when not built', () => {
+			it('fail', () => {
+				const icons = ['fa-check-circle'];
+				expect(() => notificationBar.setIcons(icons)).to.throw();
+			});
+		});
+	});
+
+	describe('#setMessage()', () => {
+		beforeEach(() => {
+			Session.namespace = Namespaces.SG;
+			notificationBar = NotificationBar.create();
+		});
+
+		describe('when built', () => {
+			beforeEach(() => {
+				notificationBar.build();
+			});
+
+			describe('when called with different message', () => {
+				it('succeed', () => {
+					const removeMessageStub = sinon.stub(notificationBar, 'removeMessage');
+					const message = 'Done!';
+					notificationBar.setMessage(message);
+					expect(removeMessageStub.callCount).to.equal(1);
+					expect(notificationBar.data.message).to.equal(message);
+					removeMessageStub.restore();
+				});
+			});
+
+			describe('when called with same message', () => {
+				it('do nothing', () => {
+					const outerEl = notificationBar.nodes.outer as HTMLDivElement;
+					outerEl.innerHTML = '';
+					const removeMessageStub = sinon.stub(notificationBar, 'removeMessage');
+					const { message } = NotificationBar.getInitialData();
+					notificationBar.setMessage(message);
+					expect(removeMessageStub.callCount).to.equal(0);
+					expect(outerEl.innerHTML).to.be.empty;
+					removeMessageStub.restore();
+				});
+			});
+		});
+
+		describe('when not built', () => {
+			it('fail', () => {
+				const message = 'Done!';
+				expect(() => notificationBar.setMessage(message)).to.throw();
+			});
+		});
+	});
+
+	describe('#removeIcons()', () => {
+		beforeEach(() => {
+			Session.namespace = Namespaces.SG;
+		});
+
+		describe('when built', () => {
+			beforeEach(() => {
+				notificationBar = NotificationBar.create().build();
+			});
+
+			describe('when there are icons', () => {
+				beforeEach(() => {
+					const icons = ['fa-check-circle'];
+					notificationBar.setIcons(icons);
+				});
+
+				describe('when there is a message', () => {
+					const message = 'Done!';
+
+					beforeEach(() => {
+						notificationBar.setMessage(message);
+					});
+
+					it('remove current icons', () => {
+						const outerEl = notificationBar.nodes.outer as HTMLDivElement;
+						notificationBar.removeIcons();
+						expect(outerEl.innerHTML).to.equal(message);
+						expect(notificationBar.nodes.icons.length).to.equal(0);
+						expect(notificationBar.data.icons.length).to.equal(0);
+					});
+				});
+
+				describe('when there is no message', () => {
+					it('clear current content', () => {
+						const outerEl = notificationBar.nodes.outer as HTMLDivElement;
+						notificationBar.removeIcons();
+						expect(outerEl.innerHTML).to.be.empty;
+						expect(notificationBar.nodes.icons.length).to.equal(0);
+						expect(notificationBar.data.icons.length).to.equal(0);
+					});
+				});
+			});
+
+			describe('when there are no icons', () => {
+				it('do nothing', () => {
+					const outerEl = notificationBar.nodes.outer as HTMLDivElement;
+					outerEl.innerHTML = 'Test';
+					notificationBar.removeIcons();
+					expect(outerEl.innerHTML).to.equal('Test');
+				});
+			});
+		});
+
+		describe('when not built', () => {
+			beforeEach(() => {
+				notificationBar = NotificationBar.create({
+					icons: ['fa-check-circle'],
+				});
+			});
+
+			it('fail', () => {
+				expect(() => notificationBar.removeIcons()).to.throw();
+			});
+		});
+	});
+
+	describe('#removeMessage()', () => {
+		beforeEach(() => {
+			Session.namespace = Namespaces.SG;
+		});
+
+		describe('when built', () => {
+			beforeEach(() => {
+				notificationBar = NotificationBar.create().build();
+			});
+
+			describe('when there is a message', () => {
+				beforeEach(() => {
+					const message = 'Done!';
+					notificationBar.setMessage(message);
+				});
+
+				describe('when there are icons', () => {
+					const icons = ['fa-check-circle'];
+
+					beforeEach(() => {
+						notificationBar.setIcons(icons);
+					});
+
+					it('remove current message', () => {
+						const outerEl = notificationBar.nodes.outer as HTMLDivElement;
+						notificationBar.removeMessage();
+						expect(outerEl.innerHTML).to.equal('<i class="fa fa-check-circle"></i> ');
+						expect(notificationBar.data.message).to.be.null;
+					});
+				});
+
+				describe('when there are no icons', () => {
+					it('clear current content', () => {
+						const outerEl = notificationBar.nodes.outer as HTMLDivElement;
+						notificationBar.removeMessage();
+						expect(outerEl.innerHTML).to.be.empty;
+						expect(notificationBar.data.message).to.be.null;
+					});
+				});
+			});
+
+			describe('when there is no message', () => {
+				it('do nothing', () => {
+					const outerEl = notificationBar.nodes.outer as HTMLDivElement;
+					outerEl.innerHTML = 'Test';
+					notificationBar.removeMessage();
+					expect(outerEl.innerHTML).to.equal('Test');
+				});
+			});
+		});
+
+		describe('when not built', () => {
+			beforeEach(() => {
+				notificationBar = NotificationBar.create({
+					message: 'Done!',
+				});
+			});
+
+			it('fail', () => {
+				expect(() => notificationBar.removeMessage()).to.throw();
+			});
+		});
+	});
+
+	describe('#parse()', () => {
+		beforeEach(() => {
+			Session.namespace = Namespaces.SG;
+			notificationBar = NotificationBar.create();
+			fixtureEl = loadFixture(sgNotificationBarFixture);
+		});
+
+		afterEach(() => {
+			fixtureEl.remove();
+		});
+
+		describe('when called with compatible element', () => {
+			it('succeed', () => {
+				const parseStatusStub = sinon.stub(notificationBar, 'parseStatus');
+				const parseIconsStub = sinon.stub(notificationBar, 'parseIcons');
+				const parseMessageStub = sinon.stub(notificationBar, 'parseMessage');
+				notificationBar.parse(fixtureEl.children[0] as Element);
+				expect(notificationBar.nodes.outer).to.equal(fixtureEl.children[0]);
 				expect(parseStatusStub.callCount).to.equal(1);
 				expect(parseIconsStub.callCount).to.equal(1);
 				expect(parseMessageStub.callCount).to.equal(1);
@@ -316,60 +580,99 @@ describe('NotificationBar', () => {
 				parseIconsStub.restore();
 				parseMessageStub.restore();
 			});
+		});
 
-			it('parse() should fail with incompatible element', () => {
-				expect(() => notificationBar2.parse(fixtureEl)).to.throw();
-			});
-
-			describe('when parse() succeeds,', () => {
-				it('parseStatus() should succeed', () => {
-					notificationBar1.parseStatus();
-					expect(notificationBar1.data.status).to.equal('warning');
-				});
-
-				it('parseIcons() should succeed', () => {
-					notificationBar1.parseIcons();
-					expect(notificationBar1.data.icons).to.deep.equal(['fa-info-circle']);
-				});
-
-				it('parseMessage() should succeed', () => {
-					notificationBar1.parseMessage();
-					expect(notificationBar1.data.message).to.equal(
-						'Please remember, all games you receive need to be activated on your corresponding Steam account to remain in good standing. Users failing to do so will receive a suspension.'
-					);
-				});
-
-				it('getAll() should return correct items', () => {
-					notificationBars = NotificationBar.getAll(fixtureEl);
-					expect(notificationBars.length).to.equal(1);
-					expect(notificationBars[0].nodes).to.deep.equal(notificationBar1.nodes);
-					expect(notificationBars[0].data).to.deep.equal(notificationBar1.data);
-				});
-			});
-
-			describe('when parse() fails,', () => {
-				it('parseStatus() should fail', () => {
-					expect(() => notificationBar2.parseStatus()).to.throw();
-				});
-
-				it('parseIcons() should fail', () => {
-					expect(() => notificationBar2.parseIcons()).to.throw();
-				});
-
-				it('parseMessage() should fail', () => {
-					expect(() => notificationBar2.parseMessage()).to.throw();
-				});
+		describe('when called with incompatible element', () => {
+			it('fail', () => {
+				expect(() => notificationBar.parse(fixtureEl)).to.throw();
 			});
 		});
 	});
 
-	describe('on ST:', () => {
-		before(() => {
-			Session.namespace = Namespaces.ST;
+	describe('#parseStatus()', () => {
+		beforeEach(() => {
+			Session.namespace = Namespaces.SG;
+			notificationBar = NotificationBar.create();
+			fixtureEl = loadFixture(sgNotificationBarFixture);
 		});
 
-		it('create() should fail', () => {
-			expect(() => NotificationBar.create()).to.throw();
+		afterEach(() => {
+			fixtureEl.remove();
+		});
+
+		describe('when outer element exists', () => {
+			beforeEach(() => {
+				notificationBar.nodes.outer = fixtureEl.children[0] as HTMLDivElement;
+			});
+
+			it('succeed', () => {
+				notificationBar.parseStatus();
+				expect(notificationBar.data.status).to.equal(fixtureData.status);
+			});
+		});
+
+		describe('when outer element does not exist', () => {
+			it('fail', () => {
+				expect(() => notificationBar.parseStatus()).to.throw();
+			});
+		});
+	});
+
+	describe('#parseIcons()', () => {
+		beforeEach(() => {
+			Session.namespace = Namespaces.SG;
+			notificationBar = NotificationBar.create();
+			fixtureEl = loadFixture(sgNotificationBarFixture);
+		});
+
+		afterEach(() => {
+			fixtureEl.remove();
+		});
+
+		describe('when outer element exists', () => {
+			beforeEach(() => {
+				notificationBar.nodes.outer = fixtureEl.children[0] as HTMLDivElement;
+			});
+
+			it('succeed', () => {
+				notificationBar.parseIcons();
+				expect(notificationBar.data.icons).to.deep.equal(fixtureData.icons);
+			});
+		});
+
+		describe('when outer element does not exist', () => {
+			it('fail', () => {
+				expect(() => notificationBar.parseIcons()).to.throw();
+			});
+		});
+	});
+
+	describe('#parseMessage()', () => {
+		beforeEach(() => {
+			Session.namespace = Namespaces.SG;
+			notificationBar = NotificationBar.create();
+			fixtureEl = loadFixture(sgNotificationBarFixture);
+		});
+
+		afterEach(() => {
+			fixtureEl.remove();
+		});
+
+		describe('when outer element exists', () => {
+			beforeEach(() => {
+				notificationBar.nodes.outer = fixtureEl.children[0] as HTMLDivElement;
+			});
+
+			it('succeed', () => {
+				notificationBar.parseMessage();
+				expect(notificationBar.data.message).to.equal(fixtureData.message);
+			});
+		});
+
+		describe('when outer element does not exist', () => {
+			it('fail', () => {
+				expect(() => notificationBar.parseMessage()).to.throw();
+			});
 		});
 	});
 });
