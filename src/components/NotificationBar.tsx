@@ -1,5 +1,7 @@
-import { DOM, ElementChild, ExtendedInsertPosition } from '../class/DOM';
+import { DOM, ElementChild } from '../class/DOM';
+import { EventDispatcher } from '../class/EventDispatcher';
 import { Session } from '../class/Session';
+import { Events } from '../constants/Events';
 import { Namespaces } from '../constants/Namespaces';
 import { Utils } from '../lib/jsUtils';
 import { Base, BaseNodes } from './Base';
@@ -109,28 +111,7 @@ export class SgNotificationBar extends NotificationBar {
 		this.setStatus(this._data.status);
 		this.setContent(this._data.icons, this._data.message);
 		this._hasBuilt = true;
-		return this;
-	};
-
-	insert = (referenceEl: Element, position: ExtendedInsertPosition): NotificationBar => {
-		if (!this._nodes.outer) {
-			this.build();
-		}
-		if (!this._nodes.outer) {
-			throw this.getError('could not insert');
-		}
-		DOM.insert(referenceEl, position, this._nodes.outer);
-		return this;
-	};
-
-	destroy = (): NotificationBar => {
-		if (!this._nodes.outer) {
-			throw this.getError('could not destroy');
-		}
-		this._nodes.outer.remove();
-		this._nodes.outer = null;
-		this._hasBuilt = false;
-		this.reset();
+		void EventDispatcher.dispatch(Events.NOTIFICATION_BAR_BUILD, this);
 		return this;
 	};
 
@@ -162,7 +143,7 @@ export class SgNotificationBar extends NotificationBar {
 		if (!this._nodes.outer) {
 			throw this.getError('could not set content');
 		}
-		const areIconsEqual = this._hasBuilt && Utils.areArraysEqual(this._data.icons, icons);
+		const areIconsEqual = this._hasBuilt && Utils.isDeepEqual(this._data.icons, icons);
 		const isMessageEqual = this._hasBuilt && this._data.message === message;
 		if (!areIconsEqual && !isMessageEqual) {
 			this._nodes.outer.innerHTML = '';
@@ -179,7 +160,7 @@ export class SgNotificationBar extends NotificationBar {
 		if (!this._nodes.outer) {
 			throw this.getError('could not set icons');
 		}
-		if (this._hasBuilt && Utils.areArraysEqual(this._data.icons, icons)) {
+		if (this._hasBuilt && Utils.isDeepEqual(this._data.icons, icons)) {
 			return this;
 		}
 		this.removeIcons();

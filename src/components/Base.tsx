@@ -1,4 +1,4 @@
-import { ExtendedInsertPosition } from '../class/DOM';
+import { DOM, ExtendedInsertPosition } from '../class/DOM';
 import { Session } from '../class/Session';
 import { ClassNames } from '../constants/ClassNames';
 
@@ -29,6 +29,28 @@ export abstract class Base<T, TNodes extends BaseNodes, TData> {
 		return this._hasBuilt;
 	}
 
+	insert = (referenceEl: Element, position: ExtendedInsertPosition): T => {
+		if (!this._nodes.outer) {
+			this.build();
+		}
+		if (!this._nodes.outer) {
+			throw this.getError('could not insert');
+		}
+		DOM.insert(referenceEl, position, this._nodes.outer);
+		return (this as unknown) as T;
+	};
+
+	destroy = (): T => {
+		if (!this._nodes.outer) {
+			throw this.getError('could not destroy');
+		}
+		this._nodes.outer.remove();
+		this._nodes.outer = null;
+		this._hasBuilt = false;
+		this.reset();
+		return (this as unknown) as T;
+	};
+
 	hide = (): T => {
 		if (!this._nodes.outer) {
 			throw this.getError('could not hide');
@@ -50,8 +72,6 @@ export abstract class Base<T, TNodes extends BaseNodes, TData> {
 	};
 
 	abstract build(): T;
-	abstract insert(referenceEl: Element, position: ExtendedInsertPosition): T;
-	abstract destroy(): T;
 	abstract reset(): T;
 	abstract parse(referenceEl: Element): T;
 }

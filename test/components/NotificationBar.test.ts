@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import * as sinon from 'sinon';
+import { EventDispatcher } from '../../src/class/EventDispatcher';
 import { Session } from '../../src/class/Session';
 import {
 	NotificationBar,
@@ -85,13 +86,16 @@ describe('NotificationBar', () => {
 			it('succeed', () => {
 				const setStatusStub = sinon.stub(notificationBar, 'setStatus');
 				const setContentStub = sinon.stub(notificationBar, 'setContent');
+				const dispatchStub = sinon.stub(EventDispatcher, 'dispatch');
 				notificationBar.build();
 				expect(notificationBar.nodes.outer).to.be.instanceOf(Node);
 				expect(setStatusStub.callCount).to.equal(1);
 				expect(setContentStub.callCount).to.equal(1);
 				expect(notificationBar.hasBuilt).to.be.true;
+				expect(dispatchStub.callCount).to.equal(1);
 				setStatusStub.restore();
 				setContentStub.restore();
+				dispatchStub.restore();
 			});
 		});
 
@@ -99,6 +103,7 @@ describe('NotificationBar', () => {
 			it('rebuild using same outer element', () => {
 				const setStatusStub = sinon.stub(notificationBar, 'setStatus');
 				const setContentStub = sinon.stub(notificationBar, 'setContent');
+				const dispatchStub = sinon.stub(EventDispatcher, 'dispatch');
 				notificationBar.build();
 				const outerEl = notificationBar.nodes.outer;
 				notificationBar.build();
@@ -106,88 +111,10 @@ describe('NotificationBar', () => {
 				expect(setStatusStub.callCount).to.equal(2);
 				expect(setContentStub.callCount).to.equal(2);
 				expect(notificationBar.hasBuilt).to.be.true;
+				expect(dispatchStub.callCount).to.equal(2);
 				setStatusStub.restore();
 				setContentStub.restore();
-			});
-		});
-	});
-
-	describe('#insert()', () => {
-		beforeEach(() => {
-			Session.namespace = Namespaces.SG;
-			notificationBar = NotificationBar.create();
-		});
-
-		describe('when built', () => {
-			beforeEach(() => {
-				notificationBar.build();
-			});
-
-			afterEach(() => {
-				notificationBar.destroy();
-			});
-
-			it('succeed', () => {
-				const buildSpy = sinon.spy(notificationBar, 'build');
-				notificationBar.insert(document.body, 'afterbegin');
-				expect(buildSpy.callCount).to.equal(0);
-				expect(document.body.children[0]).to.equal(notificationBar.nodes.outer);
-				buildSpy.restore();
-			});
-		});
-
-		describe('when not built', () => {
-			describe('when build succeeds', () => {
-				afterEach(() => {
-					notificationBar.destroy();
-				});
-
-				it('succeed', () => {
-					const buildSpy = sinon.spy(notificationBar, 'build');
-					notificationBar.insert(document.body, 'afterbegin');
-					expect(buildSpy.callCount).to.equal(1);
-					expect(document.body.children[0]).to.equal(notificationBar.nodes.outer);
-					buildSpy.restore();
-				});
-			});
-
-			describe('when build fails', () => {
-				it('fail', () => {
-					const buildStub = sinon.stub(notificationBar, 'build');
-					expect(() => notificationBar.insert(document.body, 'afterbegin')).to.throw();
-					expect(buildStub.callCount).to.equal(1);
-					buildStub.restore();
-				});
-			});
-		});
-	});
-
-	describe('#destroy()', () => {
-		beforeEach(() => {
-			Session.namespace = Namespaces.SG;
-			notificationBar = NotificationBar.create();
-		});
-
-		describe('when built', () => {
-			beforeEach(() => {
-				notificationBar.insert(document.body, 'afterbegin');
-			});
-
-			it('succeed', () => {
-				const resetStub = sinon.stub(notificationBar, 'reset');
-				const outerEl = notificationBar.nodes.outer;
-				notificationBar.destroy();
-				expect(document.body.children[0]).not.to.equal(outerEl);
-				expect(notificationBar.nodes.outer).to.be.null;
-				expect(notificationBar.hasBuilt).to.be.false;
-				expect(resetStub.callCount).to.equal(1);
-				resetStub.restore();
-			});
-		});
-
-		describe('when not built', () => {
-			it('fail', () => {
-				expect(() => notificationBar.destroy()).to.throw();
+				dispatchStub.restore();
 			});
 		});
 	});

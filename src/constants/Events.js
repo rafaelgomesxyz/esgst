@@ -8,6 +8,7 @@ const Events = {
 	REPUTATION_UPDATED: 6,
 	PAGE_REFRESHED: 7,
 	HEADER_REFRESHED: 8,
+	NOTIFICATION_BAR_BUILD: 9,
 };
 
 export { Events };
