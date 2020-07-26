@@ -196,19 +196,19 @@ function addStyle() {
 	`;
 	}
 	style += `
-	.notification--info {
+	.notification--info, .notification.blue {
 		background-image: linear-gradient(#eafef7 0%, #d9edf7 100%);
 		border-color: #bce8f1;
 		color: #53928f;
 	}
 
-	.notification--danger {
+	.notification--danger, .notification.red {
 		background-image: linear-gradient(#f2efef 0%, #f2dede 100%);
 		border-color: #ebccd1;
 		color: #a96664;
 	}
 
-	.notification--default {
+	.notification--default, .notification.gray {
 		background-image: linear-gradient(#f3f4f6 0%, #e2e3e5 100%);
 		border-color: #d6d8db;
 		color: #5a5f63;
@@ -2749,39 +2749,37 @@ function addStyle() {
 	.esgst-gv-popout .esgst-tags, .esgst-adots .esgst-tags {
 		display: none;
 	}
+
+	.esgst-settings-menu-feature {
+		align-self: flex-start;
+		margin-top: 14px;
+		min-height: 400px;
+		overflow: auto;
+		position: sticky;
+		top: 24px;
+	}
+
+	.esgst-menu-split {
+		display: flex;
+	}
+
+	.esgst-menu-split >* {
+		flex: 1;
+	}
 `;
-	if (Shared.esgst.sg) {
+	if (!Shared.esgst.sg) {
 		style += `
-		.esgst-settings-menu-feature {
-			align-self: flex-start;
-			margin-top: 14px;
-			min-height: 400px;
-			overflow: auto;
-			position: sticky;
-			top: 24px;
-		}
-
-		.esgst-menu-split {
-			display: flex;
-		}
-
-		.esgst-menu-split >* {
-			flex: 1;
-		}
-	`;
-	} else {
-		style += `
-		.esgst-un-button, .page_heading .esgst-heading-button {
-			background-image: linear-gradient(#fff 0%, rgba(255, 255, 255, 0.4) 100%);
-			border: 1px solid #d2d6e0;
-			border-radius: 3px;
-			color: #4b72d4;
-			cursor: pointer;
-			display: inline-block;
-			font: 700 14px/22px "Open Sans", sans-serif;
-			padding: 5px 15px;
-		}
-	`;
+			.esgst-un-button, .page_heading .esgst-heading-button {
+				background-image: linear-gradient(#fff 0%, rgba(255, 255, 255, 0.4) 100%);
+				border: 1px solid #d2d6e0;
+				border-radius: 3px;
+				color: #4b72d4;
+				cursor: pointer;
+				display: inline-block;
+				font: 700 14px/22px "Open Sans", sans-serif;
+				padding: 5px 15px;
+			}
+		`;
 	}
 	Shared.esgst.style = Shared.common.createElements(document.head, 'beforeend', [
 		{
