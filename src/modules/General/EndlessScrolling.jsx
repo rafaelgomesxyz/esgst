@@ -397,7 +397,7 @@ class GeneralEndlessScrolling extends Module {
 			es.busy = true;
 			if (!es.progressBar) {
 				es.progressBar = NotificationBar.create({
-					status: 'info',
+					color: 'blue',
 					icons: ['fa-circle-o-notch fa-spin'],
 					message: 'Loading next page...',
 				});

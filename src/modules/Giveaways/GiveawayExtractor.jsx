@@ -446,7 +446,7 @@ class GiveawaysGiveawayExtractor extends Module {
 					}
 					ge.mainCallback = resolve;
 					if (ge.callback) {
-						ge.progressBar.setStatus('info').setIcons(['fa-circle-o-notch fa-spin']);
+						ge.progressBar.setColor('blue').setIcons(['fa-circle-o-notch fa-spin']);
 						ge.callback();
 					} else {
 						ge.isCanceled = false;
@@ -454,7 +454,7 @@ class GiveawaysGiveawayExtractor extends Module {
 							ge.button.classList.add('esgst-busy');
 						}
 						ge.progressBar
-							.setStatus('info')
+							.setColor('blue')
 							.setContent(
 								['fa-circle-o-notch fa-spin'],
 								<fragment>
@@ -646,7 +646,7 @@ class GiveawaysGiveawayExtractor extends Module {
 				ge.count = 0;
 				await endless_load(ge.results, false, 'ge', ge.endless);
 				ge.set.set.firstElementChild.lastElementChild.textContent = 'Extract More';
-				ge.progressBar.setStatus('default').removeIcons();
+				ge.progressBar.setColor('gray').removeIcons();
 				ge.callback = this.ge_extractGiveaway.bind(this, ge, code, callback);
 				filtered = false;
 				children = ge.results.querySelectorAll(`:scope > .esgst-es-page-${ge.endless}`);
@@ -986,7 +986,7 @@ class GiveawaysGiveawayExtractor extends Module {
 		if (ge.button) {
 			ge.button.classList.remove('esgst-busy');
 		}
-		ge.progressBar.setStatus('success').setIcons(['fa-check-circle']);
+		ge.progressBar.setColor('green').setIcons(['fa-check-circle']);
 		if (ge.mainCallback) {
 			ge.mainCallback();
 			ge.mainCallback = null;

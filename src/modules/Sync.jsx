@@ -352,12 +352,12 @@ function updateSyncDates(syncer) {
 }
 
 function addNotificationBars(syncer, info) {
-	let status;
+	let color;
 	let icons;
 	let message;
 	let timestamp = Settings.get(`lastSync${info.key}`);
 	if (timestamp) {
-		status = 'success';
+		color = 'green';
 		icons = ['fa-check-circle'];
 		message = (
 			<fragment>
@@ -369,7 +369,7 @@ function addNotificationBars(syncer, info) {
 			</fragment>
 		);
 	} else {
-		status = 'danger';
+		color = 'red';
 		icons = ['fa-times-circle'];
 		message = (
 			<fragment>
@@ -378,7 +378,7 @@ function addNotificationBars(syncer, info) {
 		);
 	}
 	const notificationBar = NotificationBar.create({
-		status,
+		color,
 		icons,
 		message,
 	});
@@ -418,7 +418,7 @@ async function sync(syncer) {
 	if (!Shared.esgst.isFirstRun) {
 		await Shared.common.setSetting('lastSync', Date.now());
 		syncer.results.innerHTML = '';
-		syncer.progressBar.setStatus('info').setIcons(['fa-circle-o-notch fa-spin']).show();
+		syncer.progressBar.setColor('blue').setIcons(['fa-circle-o-notch fa-spin']).show();
 	}
 
 	// if this is the user's fist time using the script, only sync steam id and stop
@@ -1218,7 +1218,7 @@ async function sync(syncer) {
 		}
 		await Shared.common.lockAndSaveSettings(toSave);
 		toSave = {};
-		syncer.progressBar.setStatus('success').setContent(['fa-check-circle'], 'Synced!');
+		syncer.progressBar.setColor('green').setContent(['fa-check-circle'], 'Synced!');
 		LocalStorage.delete('isSyncing');
 	}
 	if (!syncer.isSilent) {

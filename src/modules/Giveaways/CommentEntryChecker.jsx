@@ -117,7 +117,7 @@ class GiveawaysCommentEntryChecker extends Module {
 
 	async cec_start(obj) {
 		obj.isCanceled = false;
-		obj.progressBar.setStatus('info').setContent(['fa-circle-o-notch fa-spin'], null).show();
+		obj.progressBar.setColor('blue').setContent(['fa-circle-o-notch fa-spin'], null).show();
 
 		// get comments
 		let comments = [];

@@ -202,7 +202,7 @@ class UsersUserSuspensionChecker extends Module {
 					button.classList.add('esgst-busy');
 					await this.setCheck(uscObj);
 					uscObj.progressBar
-						.setStatus('success')
+						.setColor('green')
 						.setContent(['fa-check-circle'], 'All users checked!');
 					button.classList.remove('esgst-busy');
 					popup.setDone();
@@ -290,7 +290,7 @@ class UsersUserSuspensionChecker extends Module {
 	}
 
 	async setCheck(uscObj) {
-		uscObj.progressBar.setStatus('info').setContent(['fa-circle-o-notch fa-spin'], null).show();
+		uscObj.progressBar.setColor('blue').setContent(['fa-circle-o-notch fa-spin'], null).show();
 		uscObj.suspended.classList.add('esgst-hidden');
 		uscObj.banned.classList.add('esgst-hidden');
 		uscObj.none.classList.add('esgst-hidden');

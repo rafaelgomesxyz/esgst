@@ -1543,7 +1543,7 @@ class GeneralMultiManager extends Module {
 			}
 		}
 
-		obj.progressGames.setStatus('info').setContent(['fa-circle-o-notch fa-spin'], null).show();
+		obj.progressGames.setColor('blue').setContent(['fa-circle-o-notch fa-spin'], null).show();
 		const result = await common.hideGames({
 			appIds,
 			subIds,

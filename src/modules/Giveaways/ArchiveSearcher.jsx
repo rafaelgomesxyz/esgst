@@ -127,7 +127,7 @@ class GiveawaysArchiveSearcher extends Module {
 		obj.context = context;
 
 		const progressBar = NotificationBar.create({
-			status: 'info',
+			color: 'blue',
 			icons: ['fa-circle-o-notch fa-spin'],
 			message: 'Retrieving game title...',
 		}).insert(container, 'beforeend');
@@ -146,7 +146,7 @@ class GiveawaysArchiveSearcher extends Module {
 				obj.query = title.textContent;
 			} else {
 				progressBar
-					.setStatus('danger')
+					.setColor('red')
 					.setContent(
 						['fa-times-circle'],
 						'Game title not found. Make sure you are entering a valid AppID. For example, 229580 is the AppID for Dream (http://steamcommunity.com/app/229580).'

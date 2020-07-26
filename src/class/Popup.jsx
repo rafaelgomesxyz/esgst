@@ -212,11 +212,11 @@ class Popup {
 	}
 
 	setError(message) {
-		this.progressBar.setStatus('danger').setContent(['fa-times-circle'], message).show();
+		this.progressBar.setColor('red').setContent(['fa-times-circle'], message).show();
 	}
 
 	setProgress(message) {
-		this.progressBar.setStatus('info').setContent(['fa-circle-o-notch fa-spin'], message).show();
+		this.progressBar.setColor('blue').setContent(['fa-circle-o-notch fa-spin'], message).show();
 	}
 
 	clearProgress() {

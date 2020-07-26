@@ -316,13 +316,13 @@ class GiveawaysUnsentGiftSender extends Module {
 			// there are no unsent giveaways
 			ugs.button.classList.remove('esgst-busy');
 			ugs.progressBar
-				.setStatus('warning')
+				.setColor('yellow')
 				.setContent(['fa-exclamation-circle'], 'You do not have any unsent gifts.')
 				.show();
 			return;
 		}
 
-		ugs.progressBar.setStatus('info').setContent(['fa-circle-o-notch fa-spin'], null).show();
+		ugs.progressBar.setColor('blue').setContent(['fa-circle-o-notch fa-spin'], null).show();
 		ugs.overallProgressBar.reset().show();
 
 		// retrieve unsent giveaways
@@ -930,14 +930,14 @@ class GiveawaysUnsentGiftSender extends Module {
 			ugs.button.classList.remove('esgst-busy');
 			ugs.progressBar.reset().hide();
 			ugs.overallProgressBar
-				.setStatus('success')
+				.setColor('green')
 				.setContent(['fa-check-circle'], 'All giveaways checked!')
 				.show();
 		} else {
 			// there are no unsent gifts
 			ugs.button.classList.remove('esgst-busy');
 			ugs.progressBar
-				.setStatus('warning')
+				.setColor('yellow')
 				.setContent(['fa-exclamation-circle'], 'You do not have any unsent gifts.');
 			ugs.overallProgressBar.reset().hide();
 		}

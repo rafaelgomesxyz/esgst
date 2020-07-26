@@ -154,7 +154,7 @@ class GroupsGroupStats extends Module {
 
 	gs_getGroups(groups, main) {
 		this.notification
-			.setStatus('info')
+			.setColor('blue')
 			.setContent(['fa-circle-o-notch fa-spin'], 'Loading stats for groups...');
 		this.numGroups += groups.length;
 		const promises = [];
@@ -168,7 +168,7 @@ class GroupsGroupStats extends Module {
 		Promise.all(promises).then(() => {
 			if (this.numGroups === 0) {
 				this.notification
-					.setStatus('success')
+					.setColor('green')
 					.setContent(['fa-check-circle'], 'Stats for groups loaded.');
 			}
 		});

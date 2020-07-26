@@ -841,7 +841,7 @@ class Common extends Module {
 		}
 		if (!success) {
 			if (status instanceof NotificationBar) {
-				status.setStatus('danger').setContent(['fa-times-circle'], 'Failed!').show();
+				status.setColor('red').setContent(['fa-times-circle'], 'Failed!').show();
 			} else {
 				this.createElements(status, 'atinner', [
 					{
