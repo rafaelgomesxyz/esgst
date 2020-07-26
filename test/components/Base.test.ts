@@ -1,15 +1,14 @@
 import { expect } from 'chai';
 import * as sinon from 'sinon';
-import { Session } from '../../src/class/Session';
 import { Base, BaseNodes } from '../../src/components/Base';
 import { ClassNames } from '../../src/constants/ClassNames';
 import { Namespaces } from '../../src/constants/Namespaces';
 
-interface TestClassNodes extends BaseNodes {}
-
 interface TestClassData {}
 
-class TestClass extends Base<TestClass, TestClassNodes, TestClassData> {
+interface TestClassNodes extends BaseNodes {}
+
+class TestClass extends Base<TestClass, TestClassData, TestClassNodes> {
 	build = (): TestClass => {
 		this._nodes.outer = document.createElement('div');
 		this._hasBuilt = true;
@@ -24,10 +23,6 @@ class TestClass extends Base<TestClass, TestClassNodes, TestClassData> {
 let testClass: TestClass;
 
 describe('Base', () => {
-	beforeEach(() => {
-		testClass = new TestClass();
-	});
-
 	describe('.getError()', () => {
 		it('return correct error message', () => {
 			expect(TestClass.getError('Test!').message).to.equal('TestClass: Test!');
@@ -35,6 +30,10 @@ describe('Base', () => {
 	});
 
 	describe('#insert()', () => {
+		beforeEach(() => {
+			testClass = new TestClass(Namespaces.SG);
+		});
+
 		describe('when built', () => {
 			beforeEach(() => {
 				testClass.build();
@@ -80,6 +79,10 @@ describe('Base', () => {
 	});
 
 	describe('#destroy()', () => {
+		beforeEach(() => {
+			testClass = new TestClass(Namespaces.SG);
+		});
+
 		describe('when built', () => {
 			beforeEach(() => {
 				testClass.insert(document.body, 'afterbegin');
@@ -87,9 +90,9 @@ describe('Base', () => {
 
 			it('succeed', () => {
 				const resetStub = sinon.stub(testClass, 'reset');
-				const outerEl = testClass.nodes.outer;
+				const outerNode = testClass.nodes.outer;
 				testClass.destroy();
-				expect(document.body.children[0]).not.to.equal(outerEl);
+				expect(document.body.children[0]).not.to.equal(outerNode);
 				expect(testClass.nodes.outer).to.be.null;
 				expect(testClass.hasBuilt).to.be.false;
 				expect(resetStub.callCount).to.equal(1);
@@ -104,7 +107,21 @@ describe('Base', () => {
 		});
 	});
 
+	describe('#namespace', () => {
+		beforeEach(() => {
+			testClass = new TestClass(Namespaces.SG);
+		});
+
+		it('be correct', () => {
+			expect(testClass.namespace).to.equal(Namespaces.SG);
+		});
+	});
+
 	describe('#hasBuilt', () => {
+		beforeEach(() => {
+			testClass = new TestClass(Namespaces.SG);
+		});
+
 		describe('when built', () => {
 			beforeEach(() => {
 				testClass.build();
@@ -124,42 +141,36 @@ describe('Base', () => {
 
 	describe('#hide()', () => {
 		describe('when built', () => {
-			beforeEach(() => {
-				testClass.build();
-			});
-
 			describe('when on SG', () => {
 				beforeEach(() => {
-					Session.namespace = Namespaces.SG;
+					testClass = new TestClass(Namespaces.SG).build();
 				});
 
 				it('succeed', () => {
+					const outerNode = testClass.nodes.outer as HTMLElement;
 					testClass.hide();
-					expect(
-						(testClass.nodes.outer as HTMLElement).classList.contains(
-							ClassNames[Namespaces.SG].hidden
-						)
-					).to.be.true;
+					expect(outerNode.classList.contains(ClassNames[Namespaces.SG].hidden)).to.be.true;
 				});
 			});
 
 			describe('when on ST', () => {
 				beforeEach(() => {
-					Session.namespace = Namespaces.ST;
+					testClass = new TestClass(Namespaces.ST).build();
 				});
 
 				it('succeed', () => {
+					const outerNode = testClass.nodes.outer as HTMLElement;
 					testClass.hide();
-					expect(
-						(testClass.nodes.outer as HTMLElement).classList.contains(
-							ClassNames[Namespaces.ST].hidden
-						)
-					).to.be.true;
+					expect(outerNode.classList.contains(ClassNames[Namespaces.ST].hidden)).to.be.true;
 				});
 			});
 		});
 
 		describe('when not built', () => {
+			beforeEach(() => {
+				testClass = new TestClass(Namespaces.SG);
+			});
+
 			it('fail', () => {
 				expect(() => testClass.hide()).to.throw();
 			});
@@ -168,42 +179,36 @@ describe('Base', () => {
 
 	describe('#show()', () => {
 		describe('when built', () => {
-			beforeEach(() => {
-				testClass.build();
-			});
-
 			describe('when on SG', () => {
 				beforeEach(() => {
-					Session.namespace = Namespaces.SG;
+					testClass = new TestClass(Namespaces.SG).build();
 				});
 
 				it('succeed', () => {
+					const outerNode = testClass.nodes.outer as HTMLElement;
 					testClass.show();
-					expect(
-						(testClass.nodes.outer as HTMLElement).classList.contains(
-							ClassNames[Namespaces.SG].hidden
-						)
-					).to.be.false;
+					expect(outerNode.classList.contains(ClassNames[Namespaces.SG].hidden)).to.be.false;
 				});
 			});
 
 			describe('when on ST', () => {
 				beforeEach(() => {
-					Session.namespace = Namespaces.ST;
+					testClass = new TestClass(Namespaces.ST).build();
 				});
 
 				it('succeed', () => {
+					const outerNode = testClass.nodes.outer as HTMLElement;
 					testClass.show();
-					expect(
-						(testClass.nodes.outer as HTMLElement).classList.contains(
-							ClassNames[Namespaces.ST].hidden
-						)
-					).to.be.false;
+					expect(outerNode.classList.contains(ClassNames[Namespaces.ST].hidden)).to.be.false;
 				});
 			});
 		});
 
 		describe('when not built', () => {
+			beforeEach(() => {
+				testClass = new TestClass(Namespaces.SG);
+			});
+
 			it('fail', () => {
 				expect(() => testClass.show()).to.throw();
 			});
@@ -211,6 +216,10 @@ describe('Base', () => {
 	});
 
 	describe('#getError()', () => {
+		beforeEach(() => {
+			testClass = new TestClass(Namespaces.SG);
+		});
+
 		it('return correct error message', () => {
 			expect(testClass.getError('Test!').message).to.equal('TestClass: Test!');
 		});

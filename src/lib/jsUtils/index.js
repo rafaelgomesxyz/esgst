@@ -17,12 +17,26 @@ class _Utils {
 	}
 
 	/**
-	 * @param {any[]} arr1
-	 * @param {any[]} arr2
+	 * @param {any} obj1
+	 * @param {any} obj2
 	 * @returns {boolean}
 	 */
-	areArraysEqual(arr1, arr2) {
-		return arr1.length === arr2.length && !arr1.find((value, index) => arr2[index] !== value);
+	isDeepEqual(obj1, obj2) {
+		if (Array.isArray(obj1) && Array.isArray(obj2)) {
+			if (obj1.length === obj2.length) {
+				return !obj1.find(([value, index]) => !this.isDeepEqual(value, obj2[index]));
+			}
+			return false;
+		}
+		if (typeof obj1 === 'object' && typeof obj2 === 'object') {
+			const obj1Entries = Object.entries(obj1);
+			const obj2Entries = Object.entries(obj2);
+			if (obj1Entries.length === obj2Entries.length) {
+				return !obj1Entries.find(([key, value]) => !this.isDeepEqual(value, obj2[key]));
+			}
+			return false;
+		}
+		return obj1 === obj2;
 	}
 
 	/**

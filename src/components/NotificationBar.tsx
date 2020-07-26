@@ -1,67 +1,78 @@
 import { DOM, ElementChild } from '../class/DOM';
 import { EventDispatcher } from '../class/EventDispatcher';
 import { Session } from '../class/Session';
+import { ClassNames, NotificationColor } from '../constants/ClassNames';
 import { Events } from '../constants/Events';
 import { Namespaces } from '../constants/Namespaces';
 import { Utils } from '../lib/jsUtils';
 import { Base, BaseNodes } from './Base';
 
-export interface NotificationBarNodes extends BaseNodes {
-	outer: HTMLDivElement | null;
-	icons: HTMLElement[];
-}
-
 export interface NotificationBarData {
-	status: NotificationBarStatus;
+	color: NotificationColor;
 	icons: string[];
 	message: ElementChild;
 }
 
-export type NotificationBarStatus = 'info' | 'success' | 'warning' | 'danger' | 'default';
+export interface NotificationBarNodes extends BaseNodes {
+	outer: HTMLDivElement | null;
+	icons: HTMLElement[];
+	message: ChildNode[] | HTMLElement | null;
+}
+
+export interface SgNotificationBarNodes extends NotificationBarNodes {
+	message: ChildNode[];
+}
+
+export interface StNotificationBarNodes extends NotificationBarNodes {
+	message: HTMLElement | null;
+}
 
 export abstract class NotificationBar extends Base<
 	NotificationBar,
-	NotificationBarNodes,
-	NotificationBarData
+	NotificationBarData,
+	NotificationBarNodes
 > {
-	static readonly defaultStatus: NotificationBarStatus = 'default';
-	static readonly statusList: readonly NotificationBarStatus[] = [
-		'info',
-		'success',
-		'warning',
-		'danger',
-		'default',
-	];
-	static readonly statusRegex = new RegExp(
-		`notification--(${NotificationBar.statusList.join('|')})`
-	);
-	static readonly iconsRegex = /fa-(?!fw)[\w-]+/g;
-	static readonly selectors = NotificationBar.statusList
-		.map((status) => `.notification.notification--${status}`)
-		.join(', ');
+	static readonly defaultColor: NotificationColor = 'gray';
+	static readonly colorRegExps = {
+		[Namespaces.SG]: new RegExp(
+			`(${Object.keys(ClassNames[Namespaces.SG].notification.reversedColors).join('|')})`
+		),
+		[Namespaces.ST]: new RegExp(
+			`notification\\s(${Object.keys(ClassNames[Namespaces.ST].notification.colors).join('|')})`
+		),
+	};
+	static readonly iconsRegExp = /fa-(?!fw)[\w-]+/g;
+	static readonly selectors = {
+		[Namespaces.SG]: Object.values(ClassNames[Namespaces.SG].notification.colors)
+			.map((className) => `.${ClassNames[Namespaces.SG].notification.root}.${className}`)
+			.join(', '),
+		[Namespaces.ST]: Object.values(ClassNames[Namespaces.ST].notification.colors)
+			.map((className) => `.${ClassNames[Namespaces.SG].notification.root}.${className}`)
+			.join(', '),
+	};
 
-	protected _nodes: NotificationBarNodes;
 	protected _data: NotificationBarData;
+	protected _nodes: NotificationBarNodes;
 
-	constructor(options: Partial<NotificationBarData>) {
-		super();
-
-		this._nodes = NotificationBar.getInitialNodes();
+	constructor(options: Partial<NotificationBarData>, namespace: number) {
+		super(namespace);
 		this._data = NotificationBar.getInitialData(options);
+		this._nodes = NotificationBar.getInitialNodes();
 	}
+
+	static getInitialData = (options: Partial<NotificationBarData> = {}): NotificationBarData => {
+		return {
+			color: options.color ?? NotificationBar.defaultColor,
+			icons: [...(options.icons ?? [])],
+			message: options.message ?? null,
+		};
+	};
 
 	static getInitialNodes = (): NotificationBarNodes => {
 		return {
 			outer: null,
 			icons: [],
-		};
-	};
-
-	static getInitialData = (options: Partial<NotificationBarData> = {}): NotificationBarData => {
-		return {
-			status: options.status ?? NotificationBar.defaultStatus,
-			icons: [...(options.icons ?? [])],
-			message: options.message ?? null,
+			message: [],
 		};
 	};
 
@@ -72,43 +83,112 @@ export abstract class NotificationBar extends Base<
 		switch (namespace) {
 			case Namespaces.SG:
 				return new SgNotificationBar(options);
+			case Namespaces.ST:
+				return new StNotificationBar(options);
 			default:
-				throw NotificationBar.getError('could not create');
+				throw NotificationBar.getError('failed to create');
 		}
 	};
 
-	static getAll = (referenceEl: Element): NotificationBar[] => {
+	static getAll = (referenceNode: Element, namespace = Session.namespace): NotificationBar[] => {
 		const notificationBars: NotificationBar[] = [];
-		const els = referenceEl.querySelectorAll(NotificationBar.selectors);
-		for (const el of els) {
-			const notificationBar = NotificationBar.create();
-			notificationBar.parse(el);
+		const nodes = referenceNode.querySelectorAll(NotificationBar.selectors[namespace]);
+		for (const node of nodes) {
+			const notificationBar = NotificationBar.create({}, namespace);
+			notificationBar.parse(node);
 			notificationBars.push(notificationBar);
 		}
 		return notificationBars;
 	};
 
-	abstract setStatus(status: NotificationBarStatus): NotificationBar;
+	setColor = (color: NotificationColor): NotificationBar => {
+		if (!this._nodes.outer) {
+			throw this.getError('failed to set color');
+		}
+		if (this._hasBuilt && this._data.color === color) {
+			return this;
+		}
+		const classNames = ClassNames[this._namespace].notification;
+		this._data.color = color;
+		this._nodes.outer.className = [
+			classNames.root,
+			classNames.colors[this._data.color],
+			classNames.marginTop,
+		]
+			.join(' ')
+			.trim();
+		return this;
+	};
+
+	parse = (referenceNode: Element): NotificationBar => {
+		if (!referenceNode.matches(NotificationBar.selectors[this._namespace])) {
+			throw this.getError('failed to parse');
+		}
+		this._nodes.outer = referenceNode as HTMLDivElement;
+		this.parseColor();
+		this.parseIcons();
+		this.parseMessage();
+		return this;
+	};
+
+	parseColor = (): NotificationBar => {
+		if (!this._nodes.outer) {
+			throw this.getError('failed to parse color');
+		}
+		const className = NotificationBar.colorRegExps[this._namespace].exec(
+			this._nodes.outer.className
+		)?.[1] as string;
+		// @ts-expect-error
+		this._data.color = ClassNames[this._namespace].notification.reversedColors[className];
+		return this;
+	};
+
+	parseIcons = (): NotificationBar => {
+		if (!this._nodes.outer) {
+			throw this.getError('failed to parse icons');
+		}
+		this._data.icons = [];
+		this._nodes.icons = Array.from(this._nodes.outer.querySelectorAll('i'));
+		for (const iconNode of this._nodes.icons) {
+			const iconParts = [];
+			let matches;
+			while ((matches = NotificationBar.iconsRegExp.exec(iconNode.className)) !== null) {
+				iconParts.push(matches[0]);
+			}
+			this._data.icons.push(iconParts.join(' '));
+		}
+		return this;
+	};
+
 	abstract setContent(icons: string[], message: ElementChild): NotificationBar;
 	abstract setIcons(icons: string[]): NotificationBar;
 	abstract setMessage(message: ElementChild): NotificationBar;
 	abstract removeIcons(): NotificationBar;
 	abstract removeMessage(): NotificationBar;
-	abstract parseStatus(): NotificationBar;
-	abstract parseIcons(): NotificationBar;
 	abstract parseMessage(): NotificationBar;
 }
 
 export class SgNotificationBar extends NotificationBar {
+	protected _nodes: SgNotificationBarNodes;
+
 	constructor(options: Partial<NotificationBarData>) {
-		super(options);
+		super(options, Namespaces.SG);
+		this._nodes = SgNotificationBar.getInitialNodes();
 	}
+
+	static getInitialNodes = (): SgNotificationBarNodes => {
+		return {
+			outer: null,
+			icons: [],
+			message: [],
+		};
+	};
 
 	build = (): NotificationBar => {
 		if (!this._nodes.outer) {
 			this._nodes.outer = <div></div>;
 		}
-		this.setStatus(this._data.status);
+		this.setColor(this._data.color);
 		this.setContent(this._data.icons, this._data.message);
 		this._hasBuilt = true;
 		void EventDispatcher.dispatch(Events.NOTIFICATION_BAR_BUILD, this);
@@ -116,40 +196,29 @@ export class SgNotificationBar extends NotificationBar {
 	};
 
 	reset = (): NotificationBar => {
-		const outerEl = this._nodes.outer;
-		this._nodes = NotificationBar.getInitialNodes();
+		const outerNode = this._nodes.outer;
 		this._data = NotificationBar.getInitialData();
-		if (outerEl) {
-			this._nodes.outer = outerEl;
+		this._nodes = SgNotificationBar.getInitialNodes();
+		if (outerNode) {
+			this._nodes.outer = outerNode;
 			this._hasBuilt = false;
 			this.build();
 		}
 		return this;
 	};
 
-	setStatus = (status: NotificationBarStatus): NotificationBar => {
-		if (!this._nodes.outer) {
-			throw this.getError('could not set status');
-		}
-		if (this._hasBuilt && this._data.status === status) {
-			return this;
-		}
-		this._data.status = status;
-		this._nodes.outer.className = `notification notification--${this._data.status} notification--margin-top-small`;
-		return this;
-	};
-
 	setContent = (icons: string[], message: ElementChild): NotificationBar => {
 		if (!this._nodes.outer) {
-			throw this.getError('could not set content');
+			throw this.getError('failed to set content');
 		}
 		const areIconsEqual = this._hasBuilt && Utils.isDeepEqual(this._data.icons, icons);
 		const isMessageEqual = this._hasBuilt && this._data.message === message;
 		if (!areIconsEqual && !isMessageEqual) {
 			this._nodes.outer.innerHTML = '';
-			this._nodes.icons = [];
 			this._data.icons = [];
 			this._data.message = null;
+			this._nodes.icons = [];
+			this._nodes.message = [];
 		}
 		this.setIcons(icons);
 		this.setMessage(message);
@@ -158,14 +227,14 @@ export class SgNotificationBar extends NotificationBar {
 
 	setIcons = (icons: string[]): NotificationBar => {
 		if (!this._nodes.outer) {
-			throw this.getError('could not set icons');
+			throw this.getError('failed to set icons');
 		}
 		if (this._hasBuilt && Utils.isDeepEqual(this._data.icons, icons)) {
 			return this;
 		}
 		this.removeIcons();
-		this._nodes.icons = [];
 		this._data.icons = icons;
+		this._nodes.icons = [];
 		DOM.insert(
 			this._nodes.outer,
 			'afterbegin',
@@ -182,14 +251,16 @@ export class SgNotificationBar extends NotificationBar {
 
 	setMessage = (message: ElementChild): NotificationBar => {
 		if (!this._nodes.outer) {
-			throw this.getError('could not set message');
+			throw this.getError('failed to set message');
 		}
 		if (this._hasBuilt && this._data.message === message) {
 			return this;
 		}
 		this.removeMessage();
 		this._data.message = message;
-		DOM.insert(this._nodes.outer, 'beforeend', <fragment>{this._data.message}</fragment>);
+		const docFragment = (<fragment>{this._data.message}</fragment>) as DocumentFragment;
+		this._nodes.message = Array.from(docFragment.childNodes);
+		DOM.insert(this._nodes.outer, 'beforeend', docFragment);
 		return this;
 	};
 
@@ -198,18 +269,21 @@ export class SgNotificationBar extends NotificationBar {
 			return this;
 		}
 		if (!this._nodes.outer) {
-			throw this.getError('could not remove icons');
+			throw this.getError('failed to remove icons');
 		}
 		if (this._data.message) {
-			for (const icon of this._nodes.icons) {
-				(icon.nextSibling as ChildNode).remove();
-				icon.remove();
+			for (const iconNode of this._nodes.icons) {
+				const iconNodeSibling = iconNode.nextSibling;
+				iconNode.remove();
+				if (iconNodeSibling?.nodeType === Node.TEXT_NODE && iconNodeSibling.textContent === ' ') {
+					iconNodeSibling.remove();
+				}
 			}
 		} else {
 			this._nodes.outer.innerHTML = '';
 		}
-		this._nodes.icons = [];
 		this._data.icons = [];
+		this._nodes.icons = [];
 		return this;
 	};
 
@@ -218,66 +292,160 @@ export class SgNotificationBar extends NotificationBar {
 			return this;
 		}
 		if (!this._nodes.outer) {
-			throw this.getError('could not remove message');
+			throw this.getError('failed to remove message');
 		}
 		if (this._data.icons.length > 0) {
-			let nextSibling = (this._nodes.icons[this._nodes.icons.length - 1].nextSibling as ChildNode)
-				.nextSibling;
-			while (nextSibling) {
-				const sibling = nextSibling;
-				nextSibling = nextSibling.nextSibling;
-				sibling.remove();
+			for (const messageNode of this._nodes.message) {
+				messageNode.remove();
 			}
 		} else {
 			this._nodes.outer.innerHTML = '';
 		}
 		this._data.message = null;
-		return this;
-	};
-
-	parse = (referenceEl: Element): NotificationBar => {
-		if (!referenceEl.matches(NotificationBar.selectors)) {
-			throw this.getError('could not parse');
-		}
-		this._nodes.outer = referenceEl as HTMLDivElement;
-		this.parseStatus();
-		this.parseIcons();
-		this.parseMessage();
-		return this;
-	};
-
-	parseStatus = (): NotificationBar => {
-		if (!this._nodes.outer) {
-			throw this.getError('could not parse status');
-		}
-		this._data.status = NotificationBar.statusRegex.exec(
-			this._nodes.outer.className
-		)?.[1] as NotificationBarStatus;
-		return this;
-	};
-
-	parseIcons = (): NotificationBar => {
-		if (!this._nodes.outer) {
-			throw this.getError('could not parse icons');
-		}
-		this._data.icons = [];
-		const els = this._nodes.outer.querySelectorAll('i');
-		for (const el of els) {
-			let iconParts = [];
-			let matches;
-			while ((matches = NotificationBar.iconsRegex.exec(el.className)) !== null) {
-				iconParts.push(matches[0]);
-			}
-			this._data.icons.push(iconParts.join(' '));
-		}
+		this._nodes.message = [];
 		return this;
 	};
 
 	parseMessage = (): NotificationBar => {
 		if (!this._nodes.outer) {
-			throw this.getError('could not parse message');
+			throw this.getError('failed to parse message');
+		}
+		if (this._data.icons.length > 0) {
+			this._nodes.message = [];
+			let messageNode = this._nodes.icons[this._nodes.icons.length - 1].nextSibling;
+			if (messageNode?.nodeType === Node.TEXT_NODE && messageNode.textContent === ' ') {
+				messageNode = messageNode.nextSibling;
+			}
+			while (messageNode) {
+				this._nodes.message.push(messageNode);
+				messageNode = messageNode.nextSibling;
+			}
+		} else {
+			this._nodes.message = Array.from(this._nodes.outer.childNodes);
 		}
 		this._data.message = this._nodes.outer.textContent.trim();
+		return this;
+	};
+}
+
+export class StNotificationBar extends NotificationBar {
+	protected _nodes: StNotificationBarNodes;
+
+	constructor(options: Partial<NotificationBarData>) {
+		super(options, Namespaces.ST);
+		this._nodes = StNotificationBar.getInitialNodes();
+	}
+
+	static getInitialNodes = (): StNotificationBarNodes => {
+		return {
+			outer: null,
+			icons: [],
+			message: null,
+		};
+	};
+
+	build = (): NotificationBar => {
+		if (!this._nodes.outer) {
+			this._nodes.outer = (
+				<div style={{ marginTop: '5px' }}>
+					<div ref={(ref) => (this._nodes.message = ref)}></div>
+				</div>
+			);
+		}
+		this.setColor(this._data.color);
+		this.setContent(this._data.icons, this._data.message);
+		this._hasBuilt = true;
+		void EventDispatcher.dispatch(Events.NOTIFICATION_BAR_BUILD, this);
+		return this;
+	};
+
+	reset = (): NotificationBar => {
+		const outerNode = this._nodes.outer;
+		const messageNode = this._nodes.message;
+		this._data = NotificationBar.getInitialData();
+		this._nodes = StNotificationBar.getInitialNodes();
+		if (outerNode) {
+			this._nodes.outer = outerNode;
+			this._nodes.message = messageNode;
+			this._hasBuilt = false;
+			this.build();
+		}
+		return this;
+	};
+
+	setContent = (icons: string[], message: ElementChild): NotificationBar => {
+		this.setIcons(icons);
+		this.setMessage(message);
+		return this;
+	};
+
+	setIcons = (icons: string[]): NotificationBar => {
+		if (!this._nodes.outer) {
+			throw this.getError('failed to set icons');
+		}
+		if (this._hasBuilt && Utils.isDeepEqual(this._data.icons, icons)) {
+			return this;
+		}
+		this.removeIcons();
+		this._data.icons = icons;
+		this._nodes.icons = [];
+		DOM.insert(
+			this._nodes.outer,
+			'afterbegin',
+			<fragment>
+				{this._data.icons.map((icon) => (
+					<i className={`fa ${icon}`} ref={(ref) => this._nodes.icons.push(ref)}></i>
+				))}
+			</fragment>
+		);
+		return this;
+	};
+
+	setMessage = (message: ElementChild): NotificationBar => {
+		if (!this._nodes.message) {
+			throw this.getError('failed to set message');
+		}
+		if (this._hasBuilt && this._data.message === message) {
+			return this;
+		}
+		this._data.message = message;
+		DOM.insert(this._nodes.message, 'atinner', <fragment>{this._data.message}</fragment>);
+		return this;
+	};
+
+	removeIcons = (): NotificationBar => {
+		if (this._data.icons.length === 0) {
+			return this;
+		}
+		for (const iconNode of this._nodes.icons) {
+			iconNode.remove();
+		}
+		this._data.icons = [];
+		this._nodes.icons = [];
+		return this;
+	};
+
+	removeMessage = (): NotificationBar => {
+		if (!this._data.message) {
+			return this;
+		}
+		if (!this._nodes.message) {
+			throw this.getError('failed to remove message');
+		}
+		this._nodes.message.innerHTML = '';
+		this._data.message = null;
+		return this;
+	};
+
+	parseMessage = (): NotificationBar => {
+		if (!this._nodes.outer) {
+			throw this.getError('failed to parse message');
+		}
+		this._nodes.message = this._nodes.outer.querySelector('div:last-child');
+		if (!this._nodes.message) {
+			throw this.getError('failed to parse message');
+		}
+		this._data.message = this._nodes.message.textContent.trim();
 		return this;
 	};
 }
