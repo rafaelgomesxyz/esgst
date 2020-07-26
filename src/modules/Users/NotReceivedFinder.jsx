@@ -158,17 +158,19 @@ class UsersNotReceivedFinder extends Module {
 					};
 				}),
 			]);
-			obj.popup.setOverallProgress(
-				`${obj.nrfData.found} of ${obj.nrfData.total} not received giveaways found...`
-			);
+			obj.popup.overallProgressBar
+				.setMessage(`${obj.nrfData.found} of ${obj.nrfData.total} not received giveaways found...`)
+				.show();
 			await endless_load(obj.nrfResults);
 		}
 	}
 
 	nrf_request(obj, details, response, responseHtml) {
-		obj.popup.setProgress(
-			`Searching ${obj.nrfUsername}'s giveaways (page ${details.nextPage}${details.lastPage})...`
-		);
+		obj.popup.progressBar
+			.setLoading(
+				`Searching ${obj.nrfUsername}'s giveaways (page ${details.nextPage}${details.lastPage})...`
+			)
+			.show();
 		const elements = responseHtml.querySelectorAll('div.giveaway__column--negative');
 		for (const element of elements) {
 			obj.nrfFound += element.querySelectorAll(`a[href*="/user/"]`).length;
@@ -176,9 +178,9 @@ class UsersNotReceivedFinder extends Module {
 			obj.nrfResults.appendChild(giveaway);
 			obj.nrfResultsRaw += giveaway.outerHTML;
 		}
-		obj.popup.setOverallProgress(
-			`${obj.nrfFound} of ${obj.nrfTotal} not received giveaways found...`
-		);
+		obj.popup.overallProgressBar
+			.setMessage(`${obj.nrfFound} of ${obj.nrfTotal} not received giveaways found...`)
+			.show();
 		if (
 			Settings.get('nrf_searchMultiple') &&
 			obj.nrfKey === 'sent' &&
@@ -216,9 +218,9 @@ class UsersNotReceivedFinder extends Module {
 	}
 
 	nrf_requestGiveaway(obj, details, response, responseHtml) {
-		obj.popup.setProgress(
-			`Searching inside giveaways with multiple copies (${obj.nrfMultiple} left)...`
-		);
+		obj.popup.progressBar
+			.setLoading(`Searching inside giveaways with multiple copies (${obj.nrfMultiple} left)...`)
+			.show();
 		const elements = responseHtml.getElementsByClassName('table__column--width-small');
 		details.nrfFound = false;
 		for (const element of elements) {
@@ -231,9 +233,9 @@ class UsersNotReceivedFinder extends Module {
 				break;
 			}
 		}
-		obj.popup.setOverallProgress(
-			`${obj.nrfFound} of ${obj.nrfTotal} not received giveaways found...`
-		);
+		obj.popup.overallProgressBar
+			.setMessage(`${obj.nrfFound} of ${obj.nrfTotal} not received giveaways found...`)
+			.show();
 	}
 
 	nrf_onRequestGiveawayDone(obj, details) {

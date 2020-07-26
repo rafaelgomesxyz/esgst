@@ -841,7 +841,7 @@ class Common extends Module {
 		}
 		if (!success) {
 			if (status instanceof NotificationBar) {
-				status.setColor('red').setContent(['fa-times-circle'], 'Failed!').show();
+				status.setError('Failed!').show();
 			} else {
 				this.createElements(status, 'atinner', [
 					{
@@ -3395,7 +3395,7 @@ class Common extends Module {
 			popup.open();
 			return;
 		}
-		popup.setProgress('Loading recent username changes...');
+		popup.progressBar.setLoading('Loading recent username changes...').show();
 		DOM.insert(
 			popup.scrollable,
 			'beforeend',
@@ -3404,7 +3404,7 @@ class Common extends Module {
 		popup.open();
 		try {
 			const recentChanges = await this.getRecentChanges();
-			popup.clearProgress();
+			popup.progressBar.reset().hide();
 			DOM.insert(
 				popup.results,
 				'atinner',
@@ -3425,7 +3425,7 @@ class Common extends Module {
 			}
 		} catch (err) {
 			Logger.warning(err);
-			popup.setError('Failed to load recent changes. Please try again later.');
+			popup.progressBar.setError('Failed to load recent changes. Please try again later.');
 		}
 	}
 

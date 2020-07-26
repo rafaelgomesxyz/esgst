@@ -1147,7 +1147,7 @@ class GeneralMultiManager extends Module {
 				searchValue = new RegExp(parts[1], parts[2]);
 				replaceValue = obj.popup.getTextInputValue(1);
 			} catch (error) {
-				obj.popup.setError('Invalid regular expression!');
+				obj.popup.progressBar.setError('Invalid regular expression!').show();
 				return;
 			}
 		} else {
@@ -1543,7 +1543,7 @@ class GeneralMultiManager extends Module {
 			}
 		}
 
-		obj.progressGames.setColor('blue').setContent(['fa-circle-o-notch fa-spin'], null).show();
+		obj.progressGames.setLoading(null).show();
 		const result = await common.hideGames({
 			appIds,
 			subIds,

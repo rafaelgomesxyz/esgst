@@ -111,12 +111,14 @@ class CommentsCommentSearcher extends Module {
 	}
 
 	async cs_request(obj, details, response, responseHtml) {
-		obj.popup.setProgress(
-			`Searching comments (page ${details.nextPage}${
-				details.maxPage ? ` of ${details.maxPage}` : details.lastPage
-			})..`
-		);
-		obj.popup.setOverallProgress(`${obj.results} results found.`);
+		obj.popup.progressBar
+			.setLoading(
+				`Searching comments (page ${details.nextPage}${
+					details.maxPage ? ` of ${details.maxPage}` : details.lastPage
+				})..`
+			)
+			.show();
+		obj.popup.overallProgressBar.setMessage(`${obj.results} results found.`).show();
 		let comments = responseHtml.getElementsByClassName('comments');
 		let elements = (comments[1] || comments[0]).querySelectorAll(
 			`.comment:not(.comment--submit), .comment_outer`
@@ -175,7 +177,7 @@ class CommentsCommentSearcher extends Module {
 				obj.results += 1;
 			}
 		}
-		obj.popup.setOverallProgress(`${obj.results} results found.`);
+		obj.popup.overallProgressBar.setMessage(`${obj.results} results found.`).show();
 		await Shared.common.endless_load(context);
 	}
 }

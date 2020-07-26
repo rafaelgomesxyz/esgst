@@ -122,10 +122,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 			}
 
 			let glwc = {
-				progressBar: NotificationBar.create({
-					color: 'blue',
-					icons: ['fa-circle-o-notch fa-spin'],
-				}),
+				progressBar: NotificationBar.create().setLoading(),
 				overallProgressBar: NotificationBar.create(),
 			};
 			let parameters;
@@ -398,9 +395,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 				}
 			} catch (err) {
 				Logger.error(err);
-				glwc.progressBar
-					.setColor('red')
-					.setContent(['fa-times-circle'], 'An error happened (check the console log).');
+				glwc.progressBar.setError('An error happened (check the console log).');
 				glwc.overallProgressBar.destroy();
 			}
 		} else {

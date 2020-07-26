@@ -72,9 +72,11 @@ class DiscussionsImprovedDiscussionBookmarks extends Module {
 							for (const code in highlightedDiscussions) {
 								await this.bookmarkDiscussion(code);
 
-								popup.setProgress(
-									`${current++} of ${numHighlightedDiscussions} discussions transferred...`
-								);
+								popup.progressBar
+									.setLoading(
+										`${current++} of ${numHighlightedDiscussions} discussions transferred...`
+									)
+									.show();
 							}
 
 							await Shared.common.lockAndSaveDiscussions(highlightedDiscussions);

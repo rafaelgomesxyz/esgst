@@ -337,7 +337,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 
 		obj.isCanceled = false;
 		obj.button.classList.add('esgst-busy');
-		obj.popup.progressBar.setColor('blue').setContent(['fa-circle-o-notch fa-spin'], null).show();
+		obj.popup.progressBar.setLoading(null).show();
 		obj.popup.overallProgressBar.reset().show();
 		obj.popup.activated.classList.add('esgst-hidden');
 		obj.popup.notMultiple.classList.add('esgst-hidden');
@@ -495,9 +495,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 		if (!Settings.get('ust') || obj.isMenu) {
 			obj.button.classList.remove('esgst-busy');
 			obj.popup.progressBar.reset().hide();
-			obj.popup.overallProgressBar
-				.setColor('green')
-				.setContent(['fa-check-circle'], 'All users checked!');
+			obj.popup.overallProgressBar.setSuccess('All users checked!');
 			obj.popup.setDone();
 			return;
 		}
@@ -605,9 +603,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 		await saveUsers(users);
 		obj.button.classList.remove('esgst-busy');
 		obj.popup.progressBar.reset().hide();
-		obj.popup.overallProgressBar
-			.setColor('green')
-			.setContent(['fa-check-circle'], 'All users checked!');
+		obj.popup.overallProgressBar.setSuccess('All users checked!');
 		obj.popup.setDone();
 	}
 

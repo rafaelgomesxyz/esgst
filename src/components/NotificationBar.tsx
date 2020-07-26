@@ -101,6 +101,46 @@ export abstract class NotificationBar extends Base<
 		return notificationBars;
 	};
 
+	setLoading = (message?: ElementChild): NotificationBar => {
+		this.setColor('blue').setContent(
+			['fa-circle-o-notch fa-spin'],
+			typeof message === 'undefined' ? this._data.message : message
+		);
+		return this;
+	};
+
+	setSuccess = (message?: ElementChild): NotificationBar => {
+		this.setColor('green').setContent(
+			['fa-check-circle'],
+			typeof message === 'undefined' ? this._data.message : message
+		);
+		return this;
+	};
+
+	setWarning = (message?: ElementChild): NotificationBar => {
+		this.setColor('yellow').setContent(
+			['fa-exclamation-circle'],
+			typeof message === 'undefined' ? this._data.message : message
+		);
+		return this;
+	};
+
+	setError = (message?: ElementChild): NotificationBar => {
+		this.setColor('red').setContent(
+			['fa-times-circle'],
+			typeof message === 'undefined' ? this._data.message : message
+		);
+		return this;
+	};
+
+	setInfo = (message?: ElementChild): NotificationBar => {
+		this.setColor('gray').setContent(
+			[],
+			typeof message === 'undefined' ? this._data.message : message
+		);
+		return this;
+	};
+
 	setColor = (color: NotificationColor): NotificationBar => {
 		if (!this._nodes.outer) {
 			throw this.getError('failed to set color');

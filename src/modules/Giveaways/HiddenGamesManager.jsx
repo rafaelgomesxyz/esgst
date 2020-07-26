@@ -235,10 +235,7 @@ class GiveawaysHiddenGamesManager extends Module {
 		obj.running = true;
 		obj.canceled = false;
 		obj.button.classList.add('esgst-busy');
-		obj.progressBar
-			.setColor('blue')
-			.setContent(['fa-circle-o-notch fa-spin'], 'Adding games...')
-			.show();
+		obj.progressBar.setLoading('Adding games...').show();
 		obj.result.innerHTML = '';
 
 		const appIds = [];
@@ -309,13 +306,7 @@ class GiveawaysHiddenGamesManager extends Module {
 		obj.canceled = false;
 		obj.lastPage = '';
 		obj.button.classList.add('esgst-busy');
-		obj.progressBar
-			.setColor('blue')
-			.setContent(
-				['fa-circle-o-notch fa-spin'],
-				`${exportOnly ? 'Exporting' : 'Removing'} games...`
-			)
-			.show();
+		obj.progressBar.setLoading(`${exportOnly ? 'Exporting' : 'Removing'} games...`).show();
 		if (!exportOnly) {
 			createElements(obj.result, 'atinner', [
 				{

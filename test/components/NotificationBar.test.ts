@@ -111,6 +111,195 @@ describe('NotificationBar', () => {
 		});
 	});
 
+	describe('#setLoading()', () => {
+		beforeEach(() => {
+			Session.namespace = Namespaces.SG;
+			sgNotificationBar = NotificationBar.create() as SgNotificationBar;
+		});
+
+		describe('when message is defined', () => {
+			it('pass correct parameters', () => {
+				const setColorStub = sinon.stub(sgNotificationBar, 'setColor').returns(sgNotificationBar);
+				const setContentStub = sinon
+					.stub(sgNotificationBar, 'setContent')
+					.returns(sgNotificationBar);
+				const message = 'Loading';
+				sgNotificationBar.setLoading(message);
+				expect(setColorStub.calledOnceWith('blue')).to.be.true;
+				expect(setContentStub.calledOnceWith(['fa-circle-o-notch fa-spin'], message)).to.be.true;
+				setColorStub.restore();
+				setContentStub.restore();
+			});
+		});
+
+		describe('when message is undefined', () => {
+			it('pass correct parameters', () => {
+				const setColorStub = sinon.stub(sgNotificationBar, 'setColor').returns(sgNotificationBar);
+				const setContentStub = sinon
+					.stub(sgNotificationBar, 'setContent')
+					.returns(sgNotificationBar);
+				sgNotificationBar.setLoading();
+				expect(setColorStub.calledOnceWith('blue')).to.be.true;
+				expect(
+					setContentStub.calledOnceWith(
+						['fa-circle-o-notch fa-spin'],
+						sgNotificationBar.data.message
+					)
+				).to.be.true;
+				setColorStub.restore();
+				setContentStub.restore();
+			});
+		});
+	});
+
+	describe('#setSuccess()', () => {
+		beforeEach(() => {
+			Session.namespace = Namespaces.SG;
+			sgNotificationBar = NotificationBar.create() as SgNotificationBar;
+		});
+
+		describe('when message is defined', () => {
+			it('pass correct parameters', () => {
+				const setColorStub = sinon.stub(sgNotificationBar, 'setColor').returns(sgNotificationBar);
+				const setContentStub = sinon
+					.stub(sgNotificationBar, 'setContent')
+					.returns(sgNotificationBar);
+				const message = 'Success';
+				sgNotificationBar.setSuccess(message);
+				expect(setColorStub.calledOnceWith('green')).to.be.true;
+				expect(setContentStub.calledOnceWith(['fa-check-circle'], message)).to.be.true;
+				setColorStub.restore();
+				setContentStub.restore();
+			});
+		});
+
+		describe('when message is undefined', () => {
+			it('pass correct parameters', () => {
+				const setColorStub = sinon.stub(sgNotificationBar, 'setColor').returns(sgNotificationBar);
+				const setContentStub = sinon
+					.stub(sgNotificationBar, 'setContent')
+					.returns(sgNotificationBar);
+				sgNotificationBar.setSuccess();
+				expect(setColorStub.calledOnceWith('green')).to.be.true;
+				expect(setContentStub.calledOnceWith(['fa-check-circle'], sgNotificationBar.data.message))
+					.to.be.true;
+				setColorStub.restore();
+				setContentStub.restore();
+			});
+		});
+	});
+
+	describe('#setWarning()', () => {
+		beforeEach(() => {
+			Session.namespace = Namespaces.SG;
+			sgNotificationBar = NotificationBar.create() as SgNotificationBar;
+		});
+
+		describe('when message is defined', () => {
+			it('pass correct parameters', () => {
+				const setColorStub = sinon.stub(sgNotificationBar, 'setColor').returns(sgNotificationBar);
+				const setContentStub = sinon
+					.stub(sgNotificationBar, 'setContent')
+					.returns(sgNotificationBar);
+				const message = 'Warning';
+				sgNotificationBar.setWarning(message);
+				expect(setColorStub.calledOnceWith('yellow')).to.be.true;
+				expect(setContentStub.calledOnceWith(['fa-exclamation-circle'], message)).to.be.true;
+				setColorStub.restore();
+				setContentStub.restore();
+			});
+		});
+
+		describe('when message is undefined', () => {
+			it('pass correct parameters', () => {
+				const setColorStub = sinon.stub(sgNotificationBar, 'setColor').returns(sgNotificationBar);
+				const setContentStub = sinon
+					.stub(sgNotificationBar, 'setContent')
+					.returns(sgNotificationBar);
+				sgNotificationBar.setWarning();
+				expect(setColorStub.calledOnceWith('yellow')).to.be.true;
+				expect(
+					setContentStub.calledOnceWith(['fa-exclamation-circle'], sgNotificationBar.data.message)
+				).to.be.true;
+				setColorStub.restore();
+				setContentStub.restore();
+			});
+		});
+	});
+
+	describe('#setError()', () => {
+		beforeEach(() => {
+			Session.namespace = Namespaces.SG;
+			sgNotificationBar = NotificationBar.create() as SgNotificationBar;
+		});
+
+		describe('when message is defined', () => {
+			it('pass correct parameters', () => {
+				const setColorStub = sinon.stub(sgNotificationBar, 'setColor').returns(sgNotificationBar);
+				const setContentStub = sinon
+					.stub(sgNotificationBar, 'setContent')
+					.returns(sgNotificationBar);
+				const message = 'Error';
+				sgNotificationBar.setError(message);
+				expect(setColorStub.calledOnceWith('red')).to.be.true;
+				expect(setContentStub.calledOnceWith(['fa-times-circle'], message)).to.be.true;
+				setColorStub.restore();
+				setContentStub.restore();
+			});
+		});
+
+		describe('when message is undefined', () => {
+			it('pass correct parameters', () => {
+				const setColorStub = sinon.stub(sgNotificationBar, 'setColor').returns(sgNotificationBar);
+				const setContentStub = sinon
+					.stub(sgNotificationBar, 'setContent')
+					.returns(sgNotificationBar);
+				sgNotificationBar.setError();
+				expect(setColorStub.calledOnceWith('red')).to.be.true;
+				expect(setContentStub.calledOnceWith(['fa-times-circle'], sgNotificationBar.data.message))
+					.to.be.true;
+				setColorStub.restore();
+				setContentStub.restore();
+			});
+		});
+	});
+
+	describe('#setInfo()', () => {
+		beforeEach(() => {
+			Session.namespace = Namespaces.SG;
+			sgNotificationBar = NotificationBar.create() as SgNotificationBar;
+		});
+
+		describe('when message is defined', () => {
+			it('pass correct parameters', () => {
+				const setColorStub = sinon.stub(sgNotificationBar, 'setColor').returns(sgNotificationBar);
+				const setContentStub = sinon
+					.stub(sgNotificationBar, 'setContent')
+					.returns(sgNotificationBar);
+				const message = 'Info';
+				sgNotificationBar.setInfo(message);
+				expect(setColorStub.calledOnceWith('gray')).to.be.true;
+				expect(setContentStub.calledOnceWith([], message)).to.be.true;
+				setColorStub.restore();
+				setContentStub.restore();
+			});
+		});
+
+		describe('when message is undefined', () => {
+			it('pass correct parameters', () => {
+				const setColorStub = sinon.stub(sgNotificationBar, 'setColor').returns(sgNotificationBar);
+				const setContentStub = sinon
+					.stub(sgNotificationBar, 'setContent')
+					.returns(sgNotificationBar);
+				sgNotificationBar.setInfo();
+				expect(setColorStub.calledOnceWith('gray')).to.be.true;
+				expect(setContentStub.calledOnceWith([], sgNotificationBar.data.message)).to.be.true;
+				setColorStub.restore();
+				setContentStub.restore();
+			});
+		});
+	});
+
 	describe('#setColor()', () => {
 		beforeEach(() => {
 			Session.namespace = Namespaces.SG;

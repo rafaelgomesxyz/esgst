@@ -187,7 +187,7 @@ class GiveawaysSentKeySearcher extends Module {
 		sks.giveaways = {};
 		sks.allKeys = [];
 		sks.keys = [];
-		sks.progressBar.setColor('blue').setContent(['fa-circle-o-notch fa-spin'], null).show();
+		sks.progressBar.setLoading(null).show();
 		sks.overallProgressBar.reset().show();
 		sks.results.innerHTML = '';
 		let keys = sks.textArea.value.trim().split(/\n/);
@@ -403,13 +403,9 @@ class GiveawaysSentKeySearcher extends Module {
 		}
 		sks.progressBar.reset().hide();
 		if (sks.count > 0) {
-			sks.overallProgressBar
-				.setColor('yellow')
-				.setContent(['fa-exclamation-circle'], `${sks.count} keys were not found.`);
+			sks.overallProgressBar.setWarning(`${sks.count} keys were not found.`);
 		} else {
-			sks.overallProgressBar
-				.setColor('green')
-				.setContent(['fa-check-circle'], 'All keys were found!');
+			sks.overallProgressBar.setSuccess('All keys were found!');
 		}
 		sks.button.classList.remove('esgst-busy');
 	}

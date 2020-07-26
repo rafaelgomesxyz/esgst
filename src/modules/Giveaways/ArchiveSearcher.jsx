@@ -126,11 +126,9 @@ class GiveawaysArchiveSearcher extends Module {
 		});
 		obj.context = context;
 
-		const progressBar = NotificationBar.create({
-			color: 'blue',
-			icons: ['fa-circle-o-notch fa-spin'],
-			message: 'Retrieving game title...',
-		}).insert(container, 'beforeend');
+		const progressBar = NotificationBar.create()
+			.setLoading('Retrieving game title...')
+			.insert(container, 'beforeend');
 
 		// retrieve the game title from Steam
 		if (obj.isAppId) {
@@ -145,12 +143,9 @@ class GiveawaysArchiveSearcher extends Module {
 			if (title) {
 				obj.query = title.textContent;
 			} else {
-				progressBar
-					.setColor('red')
-					.setContent(
-						['fa-times-circle'],
-						'Game title not found. Make sure you are entering a valid AppID. For example, 229580 is the AppID for Dream (http://steamcommunity.com/app/229580).'
-					);
+				progressBar.setError(
+					'Game title not found. Make sure you are entering a valid AppID. For example, 229580 is the AppID for Dream (http://steamcommunity.com/app/229580).'
+				);
 				return;
 			}
 		}

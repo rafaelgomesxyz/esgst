@@ -499,7 +499,7 @@ class UsersWhitelistBlacklistChecker extends Module {
 								this.skip = null;
 							}
 							WBC.progressBar.reset().hide();
-							WBC.overallProgressBar.setColor('green').setIcons(['fa-check-circle']);
+							WBC.overallProgressBar.setSuccess();
 							WBCButton.classList.remove('esgst-busy');
 							resolve();
 							WBC.popup.setDone();
@@ -699,7 +699,7 @@ class UsersWhitelistBlacklistChecker extends Module {
 	 */
 	async wbc_setCheck(WBC, Callback) {
 		let SavedUsers, I, N;
-		WBC.progressBar.setColor('blue').setContent(['fa-circle-o-notch fa-spin'], null).show();
+		WBC.progressBar.setLoading(null).show();
 		WBC.overallProgressBar.reset().show();
 
 		this.whitelistedCount.textContent = '0';

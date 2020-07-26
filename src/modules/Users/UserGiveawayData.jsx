@@ -468,7 +468,7 @@ class UsersUserGiveawayData extends Module {
 	async ugd_requestGiveaways(obj, details, response, responseHtml) {
 		const msg = `Retrieving giveaways (page ${details.nextPage}${details.lastPage})...`;
 		if (obj.popup) {
-			obj.popup.setProgress(msg);
+			obj.popup.progressBar.setLoading(msg).show();
 		} else if (!obj.mainPopup.isSilent) {
 			obj.mainPopup.progressBar.setMessage(msg);
 		}
@@ -636,7 +636,7 @@ class UsersUserGiveawayData extends Module {
 			return;
 		}
 
-		obj.popup.setProgress('Calculating results...');
+		obj.popup.progressBar.setLoading('Calculating results...').show();
 
 		obj.games = obj.userGiveaways[obj.key];
 		obj.perType = {};
@@ -814,7 +814,7 @@ class UsersUserGiveawayData extends Module {
 
 		obj.playtimes = null;
 		if (Settings.get('ugd_getPlaytime') && obj.isUpdating) {
-			obj.popup.setProgress('Retrieving playtime stats...');
+			obj.popup.progressBar.setLoading('Retrieving playtime stats...').show();
 			obj.ugdCache.playtimes = {};
 			try {
 				const response = await request({
@@ -985,11 +985,13 @@ class UsersUserGiveawayData extends Module {
 		if (Settings.get('ugd_getAchievements')) {
 			let achievementsData = obj.ugdCache && obj.ugdCache.achievements[appId];
 			if (obj.isUpdating) {
-				obj.popup.setProgress(
-					`Retrieving achievement stats for ${giveaway.gameName || packageId} (${
-						packageId ? `${obj.subsTotal} packages` : obj.appsTotal
-					} left)...`
-				);
+				obj.popup.progressBar
+					.setLoading(
+						`Retrieving achievement stats for ${giveaway.gameName || packageId} (${
+							packageId ? `${obj.subsTotal} packages` : obj.appsTotal
+						} left)...`
+					)
+					.show();
 
 				try {
 					const responseJson = (await getPlayerAchievements(appId, obj.user.steamId)).playerstats;
@@ -1214,7 +1216,7 @@ class UsersUserGiveawayData extends Module {
 	async ugd_requestGiveaway(obj, details, response, responseHtml) {
 		const msg = `Retrieving giveaway winners (${details.giveaway.gameName})...`;
 		if (obj.popup) {
-			obj.popup.setProgress(msg);
+			obj.popup.progressBar.setLoading(msg).show();
 		} else if (!obj.mainPopup.isSilent) {
 			obj.mainPopup.progressBar.setMessage(msg);
 		}

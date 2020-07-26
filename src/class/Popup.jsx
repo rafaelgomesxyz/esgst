@@ -211,22 +211,6 @@ class Popup {
 		return scrollableEl;
 	}
 
-	setError(message) {
-		this.progressBar.setColor('red').setContent(['fa-times-circle'], message).show();
-	}
-
-	setProgress(message) {
-		this.progressBar.setColor('blue').setContent(['fa-circle-o-notch fa-spin'], message).show();
-	}
-
-	clearProgress() {
-		this.progressBar.reset().hide();
-	}
-
-	setOverallProgress(message) {
-		this.overallProgressBar.setMessage(message).show();
-	}
-
 	clear() {
 		this.progressBar.reset().hide();
 		this.overallProgressBar.reset().hide();

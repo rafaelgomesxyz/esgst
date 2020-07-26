@@ -135,7 +135,7 @@ class Process {
 			this.button.classList.remove('esgst-busy');
 		}
 		if (this.popup) {
-			this.popup.clearProgress();
+			this.popup.progressBar.reset().hide();
 		}
 	}
 
@@ -148,8 +148,8 @@ class Process {
 			this.popup.removeButton(0);
 			return;
 		}
-		this.popup.setProgress('Loading more...');
-		this.popup.setOverallProgress(`${this.index} of ${this.total} loaded.`);
+		this.popup.progressBar.setLoading('Loading more...').show();
+		this.popup.overallProgressBar.setMessage(`${this.index} of ${this.total} loaded.`).show();
 		if (this.mainContext) {
 			DOM.insert(this.mainContext, 'beforeend', this.context);
 		} else {
@@ -178,7 +178,7 @@ class Process {
 				Logger.error(e.message, e.stack);
 			}
 			this.index += 1;
-			this.popup.setOverallProgress(`${this.index} of ${this.total} loaded.`);
+			this.popup.overallProgressBar.setMessage(`${this.index} of ${this.total} loaded.`).show();
 		}
 		if (!this.urls.doNotTrigger && this.index >= this.total) {
 			this.popup.removeButton(0);
