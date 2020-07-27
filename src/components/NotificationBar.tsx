@@ -5,9 +5,9 @@ import { ClassNames, EsgstClassNames, NotificationColor } from '../constants/Cla
 import { Events } from '../constants/Events';
 import { Namespaces } from '../constants/Namespaces';
 import { Utils } from '../lib/jsUtils';
-import { Base, BaseNodes } from './Base';
+import { Base, BaseData, BaseNodes } from './Base';
 
-export interface NotificationBarData {
+export interface NotificationBarData extends BaseData {
 	color: NotificationColor;
 	icons: string[];
 	message: ElementChild;
@@ -65,6 +65,7 @@ export abstract class NotificationBar extends Base<
 	static getInitialData = (options: Partial<NotificationBarData> = {}): NotificationBarData => {
 		return {
 			color: options.color ?? NotificationBar.defaultColor,
+			isHidden: options.isHidden ?? false,
 			icons: [...(options.icons ?? [])],
 			message: options.message ?? null,
 		};
@@ -232,6 +233,7 @@ export class SgNotificationBar extends NotificationBar {
 			this._nodes.outer = <div></div>;
 		}
 		this.setColor(this._data.color);
+		this.toggleHidden(this._data.isHidden);
 		this.setContent(this._data.icons, this._data.message);
 		this._hasBuilt = true;
 		void EventDispatcher.dispatch(Events.NOTIFICATION_BAR_BUILD, this);
@@ -396,6 +398,7 @@ export class StNotificationBar extends NotificationBar {
 			);
 		}
 		this.setColor(this._data.color);
+		this.toggleHidden(this._data.isHidden);
 		this.setContent(this._data.icons, this._data.message);
 		this._hasBuilt = true;
 		void EventDispatcher.dispatch(Events.NOTIFICATION_BAR_BUILD, this);

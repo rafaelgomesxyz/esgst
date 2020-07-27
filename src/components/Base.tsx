@@ -1,13 +1,19 @@
 import { DOM, ExtendedInsertPosition } from '../class/DOM';
 import { ClassNames } from '../constants/ClassNames';
 
+export interface BaseData {
+	isHidden: boolean;
+}
+
 export interface BaseNodes {
 	outer: HTMLElement | null;
 }
 
-export abstract class Base<T, TData, TNodes extends BaseNodes> {
+export abstract class Base<T, TData extends BaseData, TNodes extends BaseNodes> {
 	protected _namespace: number;
-	protected _data: unknown;
+	protected _data: BaseData = {
+		isHidden: false,
+	};
 	protected _nodes: BaseNodes = {
 		outer: null,
 	};
@@ -63,6 +69,7 @@ export abstract class Base<T, TData, TNodes extends BaseNodes> {
 		if (!this._nodes.outer) {
 			throw this.getError('failed to hide');
 		}
+		this._data.isHidden = true;
 		this._nodes.outer.classList.add(ClassNames[this._namespace].hidden);
 		return (this as unknown) as T;
 	};
@@ -71,7 +78,17 @@ export abstract class Base<T, TData, TNodes extends BaseNodes> {
 		if (!this._nodes.outer) {
 			throw this.getError('failed to show');
 		}
+		this._data.isHidden = false;
 		this._nodes.outer.classList.remove(ClassNames[this._namespace].hidden);
+		return (this as unknown) as T;
+	};
+
+	toggleHidden = (isHidden: boolean): T => {
+		if (!this._nodes.outer) {
+			throw this.getError('failed to show');
+		}
+		this._data.isHidden = isHidden;
+		this._nodes.outer.classList.toggle(ClassNames[this._namespace].hidden, this._data.isHidden);
 		return (this as unknown) as T;
 	};
 
