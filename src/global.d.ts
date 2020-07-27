@@ -17,6 +17,14 @@ declare interface Element {
 	textContent: string;
 }
 
+declare interface ChildNode {
+	textContent: string;
+}
+
+declare interface Text {
+	textContent: string;
+}
+
 interface IUser {
 	nodes: IUserNodes;
 	data: IUserData;

@@ -9,6 +9,7 @@ const Events = {
 	PAGE_REFRESHED: 7,
 	HEADER_REFRESHED: 8,
 	NOTIFICATION_BAR_BUILD: 9,
+	BUTTON_BUILD: 10,
 };
 
 export { Events };

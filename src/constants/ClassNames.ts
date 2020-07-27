@@ -1,13 +1,37 @@
 import { Namespaces } from './Namespaces';
 
-export type NotificationColor = 'blue' | 'green' | 'yellow' | 'red' | 'gray';
+export type Color = 'white' | 'blue' | 'green' | 'yellow' | 'red' | 'gray';
+
+export type ButtonColor = Exclude<Color, 'blue'>;
+
+export type NotificationColor = Exclude<Color, 'white'>;
 
 export const EsgstClassNames = {
+	button: 'esgst-button',
+	buttonContainer: 'esgst-button-container',
 	notification: 'esgst-notification-bar',
 };
 
 export const ClassNames = {
 	[Namespaces.SG]: {
+		button: {
+			root: '',
+			colors: {
+				white: 'form__saving-button',
+				green: 'form__submit-button',
+				yellow: 'sidebar__entry-delete',
+				red: 'sidebar__error',
+				gray: 'form__saving-button form__saving-button--gray',
+			},
+			reversedColors: {
+				'form__saving-button': 'white',
+				'form__submit-button': 'green',
+				'sidebar__entry-delete': 'yellow',
+				sidebar__error: 'red',
+				'form__saving-button form__saving-button--gray': 'gray',
+			},
+		},
+		disabled: 'is-disabled',
 		hidden: 'is-hidden',
 		notification: {
 			root: 'notification',
@@ -27,8 +51,29 @@ export const ClassNames = {
 				'notification--default': 'gray',
 			},
 		},
+		pageHeading: 'page__heading',
+		pageHeadingBreadcrumbs: 'page__heading__breadcrumbs',
+		pageHeadingButton: 'page__heading__button',
 	},
 	[Namespaces.ST]: {
+		button: {
+			root: 'btn_action',
+			colors: {
+				white: 'white',
+				green: 'green',
+				yellow: 'yellow',
+				red: 'red',
+				gray: 'grey',
+			},
+			reversedColors: {
+				white: 'white',
+				green: 'green',
+				yellow: 'yellow',
+				red: 'red',
+				grey: 'gray',
+			},
+		},
+		disabled: 'is_disabled',
 		hidden: 'is_hidden',
 		notification: {
 			root: 'notification',
@@ -48,5 +93,8 @@ export const ClassNames = {
 				gray: 'gray',
 			},
 		},
+		pageHeading: 'page_heading',
+		pageHeadingBreadcrumbs: 'page_heading_breadcrumbs',
+		pageHeadingButton: 'page_heading_btn',
 	},
 };
