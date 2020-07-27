@@ -365,9 +365,9 @@ export abstract class Button extends Base<Button, ButtonData, ButtonNodes> {
 		return this;
 	};
 
-	onClick = async (): Promise<void> => {
+	onClick = async (): Promise<Button> => {
 		if (this._data.isDisabled) {
-			return;
+			return this;
 		}
 		const state = this._data.states[this._currentStateNumber - 1];
 		if (!state) {
@@ -391,22 +391,26 @@ export abstract class Button extends Base<Button, ButtonData, ButtonNodes> {
 			}
 		}
 		this.enableConflicts();
+		return this;
 	};
 
-	addConflict = (button: Button) => {
+	addConflict = (button: Button): Button => {
 		this._conflicts.push(button);
+		return this;
 	};
 
-	disableConflicts = () => {
+	disableConflicts = (): Button => {
 		for (const button of this._conflicts) {
 			button.setDisabled(true);
 		}
+		return this;
 	};
 
-	enableConflicts = () => {
+	enableConflicts = (): Button => {
 		for (const button of this._conflicts) {
 			button.setDisabled(false);
 		}
+		return this;
 	};
 
 	abstract build(stateNumber?: number): Button;
