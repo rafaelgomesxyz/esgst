@@ -318,7 +318,7 @@ describe('NotificationBar', () => {
 					sgNotificationBar.setColor(color);
 					expect(sgNotificationBar.data.color).to.equal(color);
 					expect(outerNode.className).to.equal(
-						`notification notification--success notification--margin-top-small`
+						'esgst-notification-bar notification notification--success notification--margin-top-small'
 					);
 				});
 			});

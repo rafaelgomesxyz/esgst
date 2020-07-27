@@ -1,7 +1,7 @@
 import { DOM, ElementChild } from '../class/DOM';
 import { EventDispatcher } from '../class/EventDispatcher';
 import { Session } from '../class/Session';
-import { ClassNames, NotificationColor } from '../constants/ClassNames';
+import { ClassNames, EsgstClassNames, NotificationColor } from '../constants/ClassNames';
 import { Events } from '../constants/Events';
 import { Namespaces } from '../constants/Namespaces';
 import { Utils } from '../lib/jsUtils';
@@ -38,7 +38,9 @@ export abstract class NotificationBar extends Base<
 			`(${Object.keys(ClassNames[Namespaces.SG].notification.reversedColors).join('|')})`
 		),
 		[Namespaces.ST]: new RegExp(
-			`notification\\s(${Object.keys(ClassNames[Namespaces.ST].notification.colors).join('|')})`
+			`${ClassNames[Namespaces.ST].notification.root}\\s(${Object.keys(
+				ClassNames[Namespaces.ST].notification.colors
+			).join('|')})`
 		),
 	};
 	static readonly iconsRegExp = /fa-(?!fw)[\w-]+/g;
@@ -151,6 +153,7 @@ export abstract class NotificationBar extends Base<
 		const classNames = ClassNames[this._namespace].notification;
 		this._data.color = color;
 		this._nodes.outer.className = [
+			EsgstClassNames.notification,
 			classNames.root,
 			classNames.colors[this._data.color],
 			classNames.marginTop,

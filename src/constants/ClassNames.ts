@@ -2,6 +2,10 @@ import { Namespaces } from './Namespaces';
 
 export type NotificationColor = 'blue' | 'green' | 'yellow' | 'red' | 'gray';
 
+export const EsgstClassNames = {
+	notification: 'esgst-notification-bar',
+};
+
 export const ClassNames = {
 	[Namespaces.SG]: {
 		hidden: 'is-hidden',
