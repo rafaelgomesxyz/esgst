@@ -38,6 +38,7 @@ export interface ButtonStateBase {
 }
 
 export interface ButtonStateExtra {
+	additionalClass?: string;
 	isDisabled?: boolean;
 	tooltip?: string;
 	name?: string;
@@ -445,6 +446,9 @@ export class SgButton extends Button {
 			({ color, icons } = state);
 		}
 		this.setColor(color);
+		if (state.additionalClass) {
+			this._nodes.outer?.classList.add(state.additionalClass);
+		}
 		this.toggleHidden(this._data.isHidden);
 		this.setDisabled(state.isDisabled ?? false);
 		if (state.tooltip) {
@@ -546,6 +550,9 @@ export class StButton extends Button {
 			({ color, icons } = state);
 		}
 		this.setColor(color);
+		if (state.additionalClass) {
+			this._nodes.outer?.classList.add(state.additionalClass);
+		}
 		this.toggleHidden(this._data.isHidden);
 		this.setDisabled(state.isDisabled ?? false);
 		if (state.tooltip) {
