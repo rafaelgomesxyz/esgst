@@ -5,7 +5,7 @@ import { ButtonColor, ClassNames, EsgstClassNames } from '../constants/ClassName
 import { Events } from '../constants/Events';
 import { Namespaces } from '../constants/Namespaces';
 import { Utils } from '../lib/jsUtils';
-import { Base, BaseNodes } from './Base';
+import { Base, BaseData, BaseNodes } from './Base';
 
 export type ButtonOptions =
 	| Partial<ButtonStateData>
@@ -13,7 +13,7 @@ export type ButtonOptions =
 	| ButtonStateWithTemplate
 	| ButtonStateWithoutTemplate;
 
-export interface ButtonData extends ButtonStateData {
+export interface ButtonData extends BaseData, ButtonStateData {
 	color: ButtonColor;
 	isDisabled: boolean;
 	tooltip: string;
@@ -109,6 +109,7 @@ export abstract class Button extends Base<Button, ButtonData, ButtonNodes> {
 	protected _data: ButtonData;
 	protected _nodes: ButtonNodes;
 	protected _currentStateNumber: number;
+	protected _conflicts: Button[] = [];
 
 	constructor(options: ButtonOptions, namespace: number) {
 		super(namespace);
@@ -130,6 +131,7 @@ export abstract class Button extends Base<Button, ButtonData, ButtonNodes> {
 		}
 		return {
 			color: Button.defaultColor,
+			isHidden: false,
 			isDisabled: false,
 			tooltip: '',
 			icons: [],
@@ -371,6 +373,7 @@ export abstract class Button extends Base<Button, ButtonData, ButtonNodes> {
 		if (!state) {
 			throw this.getError('current state does not exist');
 		}
+		this.disableConflicts();
 		let nextStateNumber =
 			state.switchTo?.onClick ?? (this._currentStateNumber % this._data.states.length) + 1;
 		if (nextStateNumber > 0) {
@@ -379,14 +382,30 @@ export abstract class Button extends Base<Button, ButtonData, ButtonNodes> {
 		if (!state.isDisabled && state.onClick) {
 			await state.onClick();
 		}
-		if (this._currentStateNumber !== nextStateNumber) {
-			// Another state has taken over.
-			return;
+		if (this._currentStateNumber == nextStateNumber) {
+			// No other state has taken over.
+			nextStateNumber =
+				state.switchTo?.onReturn ?? (this._currentStateNumber % this._data.states.length) + 1;
+			if (nextStateNumber > 0) {
+				this.build(nextStateNumber);
+			}
 		}
-		nextStateNumber =
-			state.switchTo?.onReturn ?? (this._currentStateNumber % this._data.states.length) + 1;
-		if (nextStateNumber > 0) {
-			this.build(nextStateNumber);
+		this.enableConflicts();
+	};
+
+	addConflict = (button: Button) => {
+		this._conflicts.push(button);
+	};
+
+	disableConflicts = () => {
+		for (const button of this._conflicts) {
+			button.setDisabled(true);
+		}
+	};
+
+	enableConflicts = () => {
+		for (const button of this._conflicts) {
+			button.setDisabled(false);
 		}
 	};
 
@@ -422,6 +441,7 @@ export class SgButton extends Button {
 			({ color, icons } = state);
 		}
 		this.setColor(color);
+		this.toggleHidden(this._data.isHidden);
 		this.setDisabled(state.isDisabled ?? false);
 		if (state.tooltip) {
 			this.setTooltip(state.tooltip);
@@ -522,6 +542,7 @@ export class StButton extends Button {
 			({ color, icons } = state);
 		}
 		this.setColor(color);
+		this.toggleHidden(this._data.isHidden);
 		this.setDisabled(state.isDisabled ?? false);
 		if (state.tooltip) {
 			this.setTooltip(state.tooltip);
