@@ -381,6 +381,7 @@ export abstract class Button extends Base<Button, ButtonData, ButtonNodes> {
 		}
 		if (this._currentStateNumber !== nextStateNumber) {
 			// Another state has taken over.
+			return;
 		}
 		nextStateNumber =
 			state.switchTo?.onReturn ?? (this._currentStateNumber % this._data.states.length) + 1;
