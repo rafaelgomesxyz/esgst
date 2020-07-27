@@ -89,12 +89,21 @@ export abstract class Button extends Base<Button, ButtonData, ButtonNodes> {
 			.map((key) => `.${ClassNames[Namespaces.ST][key]}`)
 			.join(', '),
 	};
-	static readonly templates: Record<ButtonStateTemplate, ButtonStateBase> = {
-		loading: { color: 'white', icons: ['fa-circle-o-notch fa-spin'] },
-		success: { color: 'green', icons: ['fa-check-circle'] },
-		warning: { color: 'yellow', icons: ['fa-exclamation-circle'] },
-		error: { color: 'red', icons: ['fa-times-circle'] },
-		info: { color: 'gray', icons: [] },
+	static readonly templates: Record<number, Record<ButtonStateTemplate, ButtonStateBase>> = {
+		[Namespaces.SG]: {
+			loading: { color: 'white', icons: ['fa-circle-o-notch fa-spin'] },
+			success: { color: 'green', icons: ['fa-check-circle'] },
+			warning: { color: 'yellow', icons: ['fa-exclamation-circle'] },
+			error: { color: 'red', icons: ['fa-times-circle'] },
+			info: { color: 'gray', icons: [] },
+		},
+		[Namespaces.ST]: {
+			loading: { color: 'white', icons: ['fa-circle-o-notch fa-spin'] },
+			success: { color: 'green', icons: ['fa-check'] },
+			warning: { color: 'yellow', icons: ['fa-exclamation'] },
+			error: { color: 'red', icons: ['fa-times'] },
+			info: { color: 'gray', icons: [] },
+		},
 	};
 
 	protected _data: ButtonData;
@@ -407,7 +416,7 @@ export class SgButton extends Button {
 		let color: ButtonColor;
 		let icons: string[] | undefined;
 		if ('template' in state) {
-			({ color, icons } = Button.templates[state.template]);
+			({ color, icons } = Button.templates[this._namespace][state.template]);
 		} else {
 			({ color, icons } = state);
 		}
@@ -507,7 +516,7 @@ export class StButton extends Button {
 		let color: ButtonColor;
 		let icons: string[] | undefined;
 		if ('template' in state) {
-			({ color, icons } = Button.templates[state.template]);
+			({ color, icons } = Button.templates[this._namespace][state.template]);
 		} else {
 			({ color, icons } = state);
 		}
