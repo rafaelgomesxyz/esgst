@@ -2078,14 +2078,12 @@ class GamesGameCategories extends Module {
 									type: 'a',
 									children: [
 										Settings.get('gc_hltb_s') && Settings.get('gc_hltb_s_i')
-											? [
-													{
-														attributes: {
-															class: `fa fa-${Settings.get('gc_hltbIcon')}`,
-														},
-														type: 'i',
+											? {
+													attributes: {
+														class: `fa fa-${Settings.get('gc_hltbIcon')}`,
 													},
-											  ]
+													type: 'i',
+											  }
 											: null,
 										{
 											text: `${
