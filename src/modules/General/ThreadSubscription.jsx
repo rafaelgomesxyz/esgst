@@ -130,6 +130,9 @@ class GeneralThreadSubscription extends Module {
 		}
 
 		const match = window.location.pathname.match(/(discussion|ticket|trade)\/(.+?)\//);
+		if (!match) {
+			return;
+		}
 		const type = `${match[1]}s`;
 		const code = match[2];
 
