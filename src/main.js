@@ -317,6 +317,5 @@ window.interact = interact;
 		await common.loadFeatures(esgst.modules);
 	}
 
-	// noinspection JSIgnoredPromiseFromCall
-	init();
+	init().catch((err) => console.log(err));
 })();
