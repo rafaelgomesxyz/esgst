@@ -382,6 +382,7 @@ class GeneralEndlessScrolling extends Module {
 			// noinspection JSIgnoredPromiseFromCall
 			this.es_continuouslyLoad(es);
 		}
+		this.moveAdsDown(es);
 	}
 
 	async es_loadNext(es, callback, force) {
@@ -537,6 +538,7 @@ class GeneralEndlessScrolling extends Module {
 				es.observer.observe(es.mainContext.lastElementChild);
 			}
 			if (!refreshAll) {
+				this.moveAdsDown(es);
 				await endless_load(es.mainContext, true, null, currentPage);
 				this.es_setRemoveEntry(es.mainContext);
 				if (Settings.get('ts') && !Settings.get('us')) {
@@ -588,6 +590,7 @@ class GeneralEndlessScrolling extends Module {
 			}
 			es.mainContext.appendChild(fragment);
 			es.observer.observe(es.mainContext.lastElementChild);
+			this.moveAdsDown(es);
 			await endless_load(es.mainContext, true, null, currentPage);
 			this.es_setRemoveEntry(es.mainContext);
 			if (Settings.get('ts') && !Settings.get('us')) {
@@ -900,6 +903,7 @@ class GeneralEndlessScrolling extends Module {
 		);
 
 		await Promise.all(promises);
+		this.moveAdsDown(es);
 		await endless_load(es.mainContext, true);
 		this.es_setRemoveEntry(es.mainContext);
 		es.refreshAllButton.addEventListener('click', this.esgst.es_refreshAll.bind(this));
@@ -1021,6 +1025,25 @@ class GeneralEndlessScrolling extends Module {
 			}`
 		);
 	}
+
+	moveAdsDown = (es) => {
+		if (!Shared.common.isCurrentPath('Browse Giveaways')) {
+			return;
+		}
+		let adNode;
+		for (const node of es.mainContext.children) {
+			if (node.classList.contains('giveaway__row-outer-wrap')) {
+				continue;
+			}
+			if (!adNode) {
+				adNode = node;
+			}
+			node.remove();
+		}
+		if (adNode) {
+			es.mainContext.appendChild(adNode);
+		}
+	};
 }
 
 const generalEndlessScrolling = new GeneralEndlessScrolling();
