@@ -899,10 +899,10 @@ class SettingsModule {
 			});
 		}
 		const additionalOptions = this.getSmFeatureAdditionalOptions(feature, id);
-		if (additionalOptions.length) {
+		if (additionalOptions.length > 0) {
 			items.push({
 				check: true,
-				content: additionalOptions,
+				content: <fragment>{additionalOptions}</fragment>,
 				name: 'Additional Options',
 			});
 		}
@@ -2043,7 +2043,7 @@ class SettingsModule {
 				);
 			}
 		} else if (Settings.get('makeSectionsCollapsible')) {
-			menuContainer.style.marginLeft = '20px';
+			menuContainer.style.marginLeft = '17px';
 		}
 		return {
 			isNew: isMainNew,
@@ -2060,6 +2060,16 @@ class SettingsModule {
 
 	getSmFeatureAdditionalOptions(Feature, ID) {
 		let items = [];
+		if (ID.startsWith('gc_')) {
+			if (Feature.isCategory) {
+				items.push(this.addGcCategoryPanel(ID, Feature));
+			}
+			if (ID === 'gc_r') {
+				items.push(this.addGcRatingPanel());
+			} else if (ID === 'gc_o_a') {
+				items.push(this.addGcAltMenuPanel());
+			}
+		}
 		if (ID === 'ul') {
 			items.push(this.addUlMenuPanel('ul_links'));
 		} else if (ID === 'gch') {
@@ -2074,10 +2084,6 @@ class SettingsModule {
 			items.push(this.addGwcrMenuPanel('gptw_colors', 'points to win'));
 		} else if (ID === 'geth') {
 			items.push(this.addGwcrMenuPanel('geth_colors', 'hours'));
-		} else if (ID === 'gc_r') {
-			items.push(this.addGcRatingPanel());
-		} else if (ID === 'gc_o_a') {
-			items.push(this.addGcAltMenuPanel());
 		} else if (Feature.colors || Feature.background) {
 			if (typeof Feature.background === 'boolean') {
 				Feature.colors = {
@@ -2130,36 +2136,6 @@ class SettingsModule {
 				Shared.common.observeChange(input.firstElementChild, 'gc_g_filters', this.toSave);
 				items.push(input);
 				items.push(this.addGcMenuPanel());
-			}
-			if (Feature.input) {
-				const input = (
-					<div className="esgst-sm-colors">
-						Icon: <input type="text" value={Settings.get(`${ID}Icon`)} />
-						<i className="esgst-clickable fa fa-question-circle"></i>
-						<br />
-						Label: <input type="text" value={Settings.get(`${ID}Label`)} />
-					</div>
-				);
-				Shared.common.createTooltip(
-					input.firstElementChild.nextElementSibling,
-					`The name of the icon must be any name in this page: <a href="https://fontawesome.com/v4.7.0/icons/">https://fontawesome.com/v4.7.0/icons/</a>`
-				);
-				let icon = input.firstElementChild;
-				let label = input.lastElementChild;
-				Shared.common.observeChange(icon, `${ID}Icon`, this.toSave);
-				Shared.common.observeChange(label, `${ID}Label`, this.toSave);
-				if (ID === 'gc_rd') {
-					Shared.common.createElements(input, 'beforeend', [
-						{
-							attributes: {
-								class: 'fa fa-question-circle',
-								title: `Enter the date format here, using the following keywords:\n\nDD - Day\nMM - Month in numbers (i.e. 1)\nMon - Month in short name (i.e. Jan)\nMonth - Month in full name (i.e. January)\nYYYY - Year`,
-							},
-							type: 'i',
-						},
-					]);
-				}
-				items.push(input);
 			}
 		} else if (Feature.inputItems) {
 			let containerr = <div className="esgst-sm-colors"></div>;
@@ -2414,7 +2390,7 @@ class SettingsModule {
 				items.push(select);
 			}
 		}
-		return <fragment>{items}</fragment>;
+		return items;
 	}
 
 	readHrAudioFile(id, event) {
@@ -2729,6 +2705,136 @@ class SettingsModule {
 				}
 			},
 		});
+	}
+
+	addGcCategoryPanel(id, feature) {
+		let showField;
+		let labelField;
+		let labelInfoNode;
+		let iconField;
+		let iconInfoNode;
+		let urlField;
+		let urlInfoNode;
+		const panel = (
+			<div className="esgst-sm-colors">
+				{feature.allowCustomDisplay ? (
+					<fragment>
+						<span className="esgst-bold">Show:</span>
+						<select
+							onchange={(event) => {
+								switch (event.currentTarget.value) {
+									case 'label':
+										this.preSave(`${id}_s`, false);
+										this.preSave(`${id}_s_i`, false);
+										labelField.classList.remove('esgst-hidden');
+										if (id === 'gc_rd') {
+											labelInfoNode.classList.remove('esgst-hidden');
+										}
+										iconField.classList.add('esgst-hidden');
+										iconInfoNode.classList.add('esgst-hidden');
+										break;
+									case 'initials':
+										this.preSave(`${id}_s`, true);
+										this.preSave(`${id}_s_i`, false);
+										labelField.classList.add('esgst-hidden');
+										labelInfoNode.classList.add('esgst-hidden');
+										iconField.classList.add('esgst-hidden');
+										iconInfoNode.classList.add('esgst-hidden');
+										break;
+									case 'icon':
+										this.preSave(`${id}_s`, true);
+										this.preSave(`${id}_s_i`, true);
+										labelField.classList.add('esgst-hidden');
+										labelInfoNode.classList.add('esgst-hidden');
+										iconField.classList.remove('esgst-hidden');
+										iconInfoNode.classList.remove('esgst-hidden');
+										break;
+								}
+							}}
+							ref={(ref) => (showField = ref)}
+						>
+							<option value="label">Label</option>
+							<option value="initials">Initials</option>
+							<option value="icon">Icon</option>
+						</select>
+						<input
+							className="esgst-hidden"
+							type="text"
+							value={Settings.get(`${id}Label`)}
+							ref={(ref) => (labelField = ref)}
+						/>
+						<i
+							className="esgst-clickable esgst-hidden fa fa-question-circle"
+							ref={(ref) => (labelInfoNode = ref)}
+						></i>
+						<input
+							className="esgst-hidden"
+							type="text"
+							value={Settings.get(`${id}Icon`)}
+							ref={(ref) => (iconField = ref)}
+						/>
+						<i
+							className="esgst-clickable esgst-hidden fa fa-question-circle"
+							ref={(ref) => (iconInfoNode = ref)}
+						></i>
+					</fragment>
+				) : null}
+				<br />
+				<span className="esgst-bold">URL: </span>
+				<input type="text" value={Settings.get(`${id}Url`)} ref={(ref) => (urlField = ref)} />
+				<i className="esgst-clickable fa fa-question-circle" ref={(ref) => (urlInfoNode = ref)}></i>
+			</div>
+		);
+		Shared.common.createTooltip(
+			labelInfoNode,
+			`Enter the date format here, using the following keywords:
+			<br/>
+			<br/>
+			DD - Day<br/>
+			MM - Month in numbers (i.e. 1)<br/>
+			Mon - Month in short name (i.e. Jan)<br/>
+			Month - Month in full name (i.e. January)<br/>
+			YYYY - Year`
+		);
+		Shared.common.createTooltip(
+			iconInfoNode,
+			'The name of the icon must be any name in this page: <a href="https://fontawesome.com/v4.7.0/icons/">https://fontawesome.com/v4.7.0/icons/</a>'
+		);
+		Shared.common.createTooltip(
+			urlInfoNode,
+			`You can use the following placeholders here:
+			<br/>
+			<span class="esgst-bold">%steam-id%</span> - Your Steam ID.<br/>
+			<span class="esgst-bold">%username%</span> - Your username.<br/>
+			<span class="esgst-bold">%game-type%</span> - The type of the game e.g. "app" or "sub".<br/>
+			<span class="esgst-bold">%game-id%</span> - The Steam ID of the game.<br/>
+			<span class="esgst-bold">%game-name%</span> - The name of the game.<br/>
+			<span class="esgst-bold">%game-search-name%</span> - The name of the game as a URI encoded string, useful for search URLs.<br/>
+			<span class="esgst-bold">%hltb-id%</span> - The HLTB ID of the game.<br/>`
+		);
+		if (Settings.get(`${id}_s`)) {
+			if (Settings.get(`${id}_s_i`)) {
+				showField.selectedIndex = 2;
+				iconField.classList.remove('esgst-hidden');
+				iconInfoNode.classList.remove('esgst-hidden');
+			} else {
+				showField.selectedIndex = 1;
+			}
+		} else {
+			showField.selectedIndex = 0;
+			labelField.classList.remove('esgst-hidden');
+			if (id === 'gc_rd') {
+				labelInfoNode.classList.remove('esgst-hidden');
+			}
+		}
+		if (labelField) {
+			Shared.common.observeChange(labelField, `${id}Label`, this.toSave);
+		}
+		if (iconField) {
+			Shared.common.observeChange(iconField, `${id}Icon`, this.toSave);
+		}
+		Shared.common.observeChange(urlField, `${id}Url`, this.toSave);
+		return panel;
 	}
 
 	addGcRatingPanel() {
