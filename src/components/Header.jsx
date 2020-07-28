@@ -994,19 +994,17 @@ class StHeader extends IHeader {
 				<span className="message_count" ref={(ref) => (buttonContainer.nodes.counter = ref)}></span>
 			);
 		}
-
-		const oldCounter = buttonContainer.data.counter;
-
-		if (oldCounter === newCounter) {
-			return;
-		}
-
 		if (newCounter) {
 			buttonContainer.nodes.counter.classList.remove('is_hidden');
 			buttonContainer.nodes.counter.textContent = newCounter.toLocaleString('en-US');
 		} else {
 			buttonContainer.nodes.counter.classList.add('is_hidden');
 			buttonContainer.nodes.counter.textContent = '';
+		}
+
+		const oldCounter = buttonContainer.data.counter;
+		if (oldCounter === newCounter) {
+			return;
 		}
 
 		buttonContainer.data.counter = newCounter;
