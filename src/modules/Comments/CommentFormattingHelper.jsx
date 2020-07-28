@@ -1,13 +1,13 @@
-import { ButtonSet } from '../../class/ButtonSet';
+import { DOM } from '../../class/DOM';
+import { Logger } from '../../class/Logger';
 import { Module } from '../../class/Module';
+import { permissions } from '../../class/Permissions';
 import { Popout } from '../../class/Popout';
 import { Popup } from '../../class/Popup';
-import { EMOJIS } from '../../emojis';
-import { Shared } from '../../class/Shared';
 import { Settings } from '../../class/Settings';
-import { permissions } from '../../class/Permissions';
-import { Logger } from '../../class/Logger';
-import { DOM } from '../../class/DOM';
+import { Shared } from '../../class/Shared';
+import { Button } from '../../components/Button';
+import { EMOJIS } from '../../emojis';
 
 class CommentsCommentFormattingHelper extends Module {
 	constructor() {
@@ -331,7 +331,8 @@ class CommentsCommentFormattingHelper extends Module {
 						<ul>
 							<li>
 								Adds a button(<i className="fa fa-star"></i>) to the panel that allows you to add
-								encrypted giveaways(see <span data-esgst-feature-id="ged"></span> for more details about them) to your comments.
+								encrypted giveaways (see <span data-esgst-feature-id="ged"></span> for more details
+								about them) to your comments.
 							</li>
 						</ul>
 					),
@@ -606,10 +607,10 @@ class CommentsCommentFormattingHelper extends Module {
 										}
 
 										Shared.common.multiChoice(
-											'grey',
+											'white',
 											'fa-user-secret',
 											'Anonymously',
-											'grey',
+											'white',
 											'fa-user',
 											'Through Account',
 											'How would you like to upload?',
@@ -1428,15 +1429,12 @@ class CommentsCommentFormattingHelper extends Module {
 			'beforeend',
 			<div className="esgst-description esgst-warning" ref={(ref) => (warning = ref)}></div>
 		);
-		popup.description.appendChild(
-			new ButtonSet({
-				color1: 'green',
-				color2: 'grey',
-				icon1: 'fa-upload',
-				icon2: 'fa-circle-o-notch fa-spin',
-				title1: 'Upload',
-				title2: 'Uploading...',
-				callback1: () => {
+		Button.create([
+			{
+				color: 'green',
+				icons: ['fa-upload'],
+				name: 'Upload',
+				onClick: () => {
 					return new Promise((resolve) => {
 						let file = input.files[0];
 						if (file) {
@@ -1468,23 +1466,30 @@ class CommentsCommentFormattingHelper extends Module {
 						}
 					});
 				},
-			}).set
-		);
+			},
+			{
+				template: 'loading',
+				isDisabled: true,
+				name: 'Uploading...',
+			},
+		]).insert(popup.description, 'beforeend');
 		if (Settings.get('cfh_img_remember')) {
-			popup.description.appendChild(
-				new ButtonSet({
-					color1: 'grey',
-					color2: 'grey',
-					icon1: 'fa-rotate-left',
-					icon2: 'fa-circle-o-notch fa-spin',
-					title1: 'Reset',
-					title2: 'Resetting...',
-					callback1: async () => {
+			Button.create([
+				{
+					color: 'white',
+					icons: ['fa-rotate-left'],
+					name: 'Reset',
+					onClick: async () => {
 						await Shared.common.setSetting('cfh_img_remember', false);
 						popup.close();
 					},
-				}).set
-			);
+				},
+				{
+					template: 'loading',
+					isDisabled: true,
+					name: 'Resetting...',
+				},
+			]).insert(popup.description, 'beforeend');
 		}
 		popup.open();
 	}
@@ -1795,15 +1800,11 @@ class CommentsCommentFormattingHelper extends Module {
 		if (Settings.get('cfh')) {
 			this.cfh_addPanel(descriptionArea);
 		}
-		popup.description.appendChild(
-			new ButtonSet({
-				color1: 'green',
-				color2: 'grey',
-				icon1: 'fa-check',
-				icon2: 'fa-circle-o-notch fa-spin',
-				title1: 'Save',
-				title2: 'Saving...',
-				callback1: this.cfh_saveReply.bind(
+		Button.create([
+			{
+				template: 'success',
+				name: 'Save',
+				onClick: this.cfh_saveReply.bind(
 					this,
 					description,
 					descriptionArea,
@@ -1813,8 +1814,13 @@ class CommentsCommentFormattingHelper extends Module {
 					replies,
 					summary
 				),
-			}).set
-		);
+			},
+			{
+				template: 'loading',
+				isDisabled: true,
+				name: 'Saving...',
+			},
+		]).insert(popup.description, 'beforeend');
 		popup.open();
 	}
 

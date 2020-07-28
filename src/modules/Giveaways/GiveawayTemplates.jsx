@@ -1,12 +1,12 @@
-import { ButtonSet } from '../../class/ButtonSet';
 import { Checkbox } from '../../class/Checkbox';
+import { DOM } from '../../class/DOM';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
-import { common } from '../Common';
+import { Session } from '../../class/Session';
 import { Settings } from '../../class/Settings';
 import { Shared } from '../../class/Shared';
-import { DOM } from '../../class/DOM';
-import { Session } from '../../class/Session';
+import { Button } from '../../components/Button';
+import { common } from '../Common';
 
 const createElements = common.createElements.bind(common),
 	createHeadingButton = common.createHeadingButton.bind(common),
@@ -74,87 +74,91 @@ class GiveawaysGiveawayTemplates extends Module {
 			preciseStartDateOption,
 			reviewButton,
 			section,
-			set,
 			startTime,
 			warning;
 		if (!rows) return;
 		let gts = {};
 		gts.deletedTemplates = [];
 		reviewButton = rows.lastElementChild;
-		createGiveawayButton = new ButtonSet({
-			color1: 'green',
-			color2: 'grey',
-			icon1: 'fa-plus-circle',
-			icon2: 'fa-circle-o-notch fa-spin',
-			title1: 'Create Giveaway',
-			title2: 'Creating...',
-			callback1: async () => {
-				const textArea = document.querySelector(`[name="description"]`);
-				if (
-					Settings.get('ngdc') &&
-					(await Shared.esgst.modules.giveawaysNewGiveawayDescriptionChecker.check(textArea.value))
-				) {
-					return;
-				}
-				return new Promise(async (resolve) => {
-					let data = `xsrf_token=${Session.xsrfToken}&next_step=3&`;
-					data += `game_id=${document.querySelector(`[name="game_id"]`).value}&`;
-					data += `type=${document.querySelector(`[name="type"]`).value}&`;
-					data += `copies=${document.querySelector(`[name="copies"]`).value}&`;
-					data += `key_string=${encodeURIComponent(
-						document.querySelector(`[name="key_string"]`).value
-					)}&`;
-					data += `timezone=${new Date().getTimezoneOffset()}&`;
-					data += `start_time=${encodeURIComponent(
-						document.querySelector(`[name="start_time"]`).value
-					)}&`;
-					data += `end_time=${encodeURIComponent(
-						document.querySelector(`[name="end_time"]`).value
-					)}&`;
-					data += `region_restricted=${
-						document.querySelector(`[name="region_restricted"]`).value
-					}&`;
-					data += `country_item_string=${encodeURIComponent(
-						document.querySelector(`[name="country_item_string"]`).value.trim()
-					)}&`;
-					data += `group_item_string=${encodeURIComponent(
-						document.querySelector(`[name="group_item_string"]`).value.trim()
-					)}&`;
-					data += `who_can_enter=${document.querySelector(`[name="who_can_enter"]`).value}&`;
-					data += `whitelist=${
-						document.querySelector(`.form__row--who-can-enter [name="whitelist"]`).value
-					}&`;
-					data += `contributor_level=${
-						document.querySelector(`[name="contributor_level"]`).value
-					}&`;
-					data += `description=${encodeURIComponent(textArea.value)}`;
-					const response = await request({
-						data: data.replace(
-							/start_time=(.+?)&/,
-							this.esgst.modules.giveawaysMultipleGiveawayCreator.mgc_correctTime.bind(
-								this.esgst.modules.giveawaysMultipleGiveawayCreator
-							)
-						),
-						method: 'POST',
-						url: '/giveaways/new',
-					});
-					if (response.finalUrl.match(/\/giveaways\/new/)) {
-						resolve();
-						const errors = DOM.parse(response.responseText).getElementsByClassName(
-							'form__row__error'
-						);
-						let message = `Unable to create giveaway because of the following errors:\n\n`;
-						for (const error of errors) {
-							message += `* ${error.textContent.trim()}`;
-						}
-						window.alert(message);
-					} else {
-						window.location.href = response.finalUrl;
+		createGiveawayButton = Button.create([
+			{
+				color: 'green',
+				icons: ['fa-plus-circle'],
+				name: 'Create Giveaway',
+				onClick: async () => {
+					const textArea = document.querySelector(`[name="description"]`);
+					if (
+						Settings.get('ngdc') &&
+						(await Shared.esgst.modules.giveawaysNewGiveawayDescriptionChecker.check(
+							textArea.value
+						))
+					) {
+						return;
 					}
-				});
+					return new Promise(async (resolve) => {
+						let data = `xsrf_token=${Session.xsrfToken}&next_step=3&`;
+						data += `game_id=${document.querySelector(`[name="game_id"]`).value}&`;
+						data += `type=${document.querySelector(`[name="type"]`).value}&`;
+						data += `copies=${document.querySelector(`[name="copies"]`).value}&`;
+						data += `key_string=${encodeURIComponent(
+							document.querySelector(`[name="key_string"]`).value
+						)}&`;
+						data += `timezone=${new Date().getTimezoneOffset()}&`;
+						data += `start_time=${encodeURIComponent(
+							document.querySelector(`[name="start_time"]`).value
+						)}&`;
+						data += `end_time=${encodeURIComponent(
+							document.querySelector(`[name="end_time"]`).value
+						)}&`;
+						data += `region_restricted=${
+							document.querySelector(`[name="region_restricted"]`).value
+						}&`;
+						data += `country_item_string=${encodeURIComponent(
+							document.querySelector(`[name="country_item_string"]`).value.trim()
+						)}&`;
+						data += `group_item_string=${encodeURIComponent(
+							document.querySelector(`[name="group_item_string"]`).value.trim()
+						)}&`;
+						data += `who_can_enter=${document.querySelector(`[name="who_can_enter"]`).value}&`;
+						data += `whitelist=${
+							document.querySelector(`.form__row--who-can-enter [name="whitelist"]`).value
+						}&`;
+						data += `contributor_level=${
+							document.querySelector(`[name="contributor_level"]`).value
+						}&`;
+						data += `description=${encodeURIComponent(textArea.value)}`;
+						const response = await request({
+							data: data.replace(
+								/start_time=(.+?)&/,
+								this.esgst.modules.giveawaysMultipleGiveawayCreator.mgc_correctTime.bind(
+									this.esgst.modules.giveawaysMultipleGiveawayCreator
+								)
+							),
+							method: 'POST',
+							url: '/giveaways/new',
+						});
+						if (response.finalUrl.match(/\/giveaways\/new/)) {
+							resolve();
+							const errors = DOM.parse(response.responseText).getElementsByClassName(
+								'form__row__error'
+							);
+							let message = `Unable to create giveaway because of the following errors:\n\n`;
+							for (const error of errors) {
+								message += `* ${error.textContent.trim()}`;
+							}
+							window.alert(message);
+						} else {
+							window.location.href = response.finalUrl;
+						}
+					});
+				},
 			},
-		});
-		rows.appendChild(createGiveawayButton.set);
+			{
+				template: 'loading',
+				isDisabled: true,
+				name: 'Creating...',
+			},
+		]).insert(rows, 'beforeend');
 		button.addEventListener('click', this.gts_openPopup.bind(this, gts));
 		section = createElements(reviewButton, 'beforebegin', [
 			{
@@ -332,108 +336,111 @@ class GiveawaysGiveawayTemplates extends Module {
 		preciseEndDateOption.addEventListener('click', () => {
 			setSetting('gts_preciseEndDate', preciseEndDateCheckbox.input.checked);
 		});
-		set = new ButtonSet({
-			color1: 'green',
-			color2: 'grey',
-			icon1: 'fa-check',
-			icon2: 'fa-circle-o-notch fa-spin',
-			title1: 'Save Template',
-			title2: 'Saving...',
-			callback1: async () => {
-				let i, n, template, savedTemplates, startDate, endDate;
-				if (gts.input.value) {
-					warning.classList.add('esgst-hidden');
-					startDate = new Date(document.querySelector(`[name="start_time"]`).value);
-					startTime = startDate.getTime();
-					endDate = new Date(document.querySelector(`[name="end_time"]`).value);
-					endTime = endDate.getTime();
-					delay = startTime - Date.now();
-					if (delay < 0) {
-						delay = 0;
-					}
-					template = {
-						countries: document.querySelector(`[name="country_item_string"]`).value.trim(),
-						delay: delay,
-						description: document.querySelector(`[name="description"]`).value,
-						duration: endTime - startTime,
-						gameType: document.querySelector(`[name="type"]`).value,
-						groups: document.querySelector(`[name="group_item_string"]`).value.trim(),
-						level: document.querySelector(`[name="contributor_level"]`).value,
-						name: gts.input.value,
-						region: document.querySelector(`[name="region_restricted"]`).value,
-						whoCanEnter: document.querySelector(`[name="who_can_enter"]`).value,
-						whitelist: document.querySelector(`.form__row--who-can-enter [name="whitelist"]`).value,
-						createTrain: Settings.get('mgc_createTrain'),
-						removeLinks: Settings.get('mgc_removeLinks'),
-						startTime: undefined,
-						endTime: undefined,
-						startDate: undefined,
-						endDate: undefined,
-					};
-					if (preciseStartCheckbox.input.checked) {
-						template.startTime = startTime;
-					}
-					if (preciseEndCheckbox.input.checked) {
-						template.endTime = endTime;
-					}
-					if (preciseStartDateCheckbox.input.checked) {
-						template.startDate = {
-							day: startDate.getDate(),
-							month: startDate.getMonth(),
-							year: startDate.getFullYear(),
+		Button.create([
+			{
+				template: 'success',
+				name: 'Save Template',
+				onClick: async () => {
+					let i, n, template, savedTemplates, startDate, endDate;
+					if (gts.input.value) {
+						warning.classList.add('esgst-hidden');
+						startDate = new Date(document.querySelector(`[name="start_time"]`).value);
+						startTime = startDate.getTime();
+						endDate = new Date(document.querySelector(`[name="end_time"]`).value);
+						endTime = endDate.getTime();
+						delay = startTime - Date.now();
+						if (delay < 0) {
+							delay = 0;
+						}
+						template = {
+							countries: document.querySelector(`[name="country_item_string"]`).value.trim(),
+							delay: delay,
+							description: document.querySelector(`[name="description"]`).value,
+							duration: endTime - startTime,
+							gameType: document.querySelector(`[name="type"]`).value,
+							groups: document.querySelector(`[name="group_item_string"]`).value.trim(),
+							level: document.querySelector(`[name="contributor_level"]`).value,
+							name: gts.input.value,
+							region: document.querySelector(`[name="region_restricted"]`).value,
+							whoCanEnter: document.querySelector(`[name="who_can_enter"]`).value,
+							whitelist: document.querySelector(`.form__row--who-can-enter [name="whitelist"]`)
+								.value,
+							createTrain: Settings.get('mgc_createTrain'),
+							removeLinks: Settings.get('mgc_removeLinks'),
+							startTime: undefined,
+							endTime: undefined,
+							startDate: undefined,
+							endDate: undefined,
 						};
-					}
-					if (preciseEndDateCheckbox.input.checked) {
-						template.endDate = {
-							day: endDate.getDate(),
-							month: endDate.getMonth(),
-							year: endDate.getFullYear(),
-						};
-					}
-					let deleteLock = await createLock('templateLock', 300);
-					savedTemplates = JSON.parse(getValue('templates', '[]'));
-					for (
-						i = 0, n = savedTemplates.length;
-						i < n && savedTemplates[i].name !== template.name;
-						++i
-					) {}
-					if (i < n) {
-						if (gts.edit) {
-							savedTemplates[i] = template;
-							message.classList.remove('esgst-hidden');
-							window.setTimeout(() => {
-								message.classList.add('esgst-hidden');
-							}, 2000);
-						} else if (
-							window.confirm(
-								'There already exists a template with this name. Do you want to overwrite it?'
-							)
-						) {
-							savedTemplates[i] = template;
+						if (preciseStartCheckbox.input.checked) {
+							template.startTime = startTime;
+						}
+						if (preciseEndCheckbox.input.checked) {
+							template.endTime = endTime;
+						}
+						if (preciseStartDateCheckbox.input.checked) {
+							template.startDate = {
+								day: startDate.getDate(),
+								month: startDate.getMonth(),
+								year: startDate.getFullYear(),
+							};
+						}
+						if (preciseEndDateCheckbox.input.checked) {
+							template.endDate = {
+								day: endDate.getDate(),
+								month: endDate.getMonth(),
+								year: endDate.getFullYear(),
+							};
+						}
+						let deleteLock = await createLock('templateLock', 300);
+						savedTemplates = JSON.parse(getValue('templates', '[]'));
+						for (
+							i = 0, n = savedTemplates.length;
+							i < n && savedTemplates[i].name !== template.name;
+							++i
+						) {}
+						if (i < n) {
+							if (gts.edit) {
+								savedTemplates[i] = template;
+								message.classList.remove('esgst-hidden');
+								window.setTimeout(() => {
+									message.classList.add('esgst-hidden');
+								}, 2000);
+							} else if (
+								window.confirm(
+									'There already exists a template with this name. Do you want to overwrite it?'
+								)
+							) {
+								savedTemplates[i] = template;
+								message.classList.remove('esgst-hidden');
+								window.setTimeout(() => {
+									message.classList.add('esgst-hidden');
+								}, 2000);
+							}
+						} else {
+							savedTemplates.push(template);
 							message.classList.remove('esgst-hidden');
 							window.setTimeout(() => {
 								message.classList.add('esgst-hidden');
 							}, 2000);
 						}
+						await setValue('templates', JSON.stringify(savedTemplates));
+						deleteLock();
 					} else {
-						savedTemplates.push(template);
-						message.classList.remove('esgst-hidden');
-						window.setTimeout(() => {
-							message.classList.add('esgst-hidden');
-						}, 2000);
+						warning.classList.remove('esgst-hidden');
 					}
-					await setValue('templates', JSON.stringify(savedTemplates));
-					deleteLock();
-				} else {
-					warning.classList.remove('esgst-hidden');
-				}
+				},
 			},
-		});
-		section.appendChild(set.set);
-		rows.insertBefore(createGiveawayButton.set, rows.firstElementChild);
+			{
+				template: 'loading',
+				isDisabled: true,
+				name: 'Saving...',
+			},
+		]).insert(section, 'beforeend');
+		rows.insertBefore(createGiveawayButton.nodes.outer, rows.firstElementChild);
 		rows.insertBefore(reviewButton, rows.firstElementChild);
-		createGiveawayButton.set.style.display = 'inline-block';
-		createGiveawayButton.set.style.margin = '20px 5px';
+		createGiveawayButton.nodes.outer.style.display = 'inline-block';
+		createGiveawayButton.nodes.outer.style.margin = '20px 5px';
 		reviewButton.style.margin = '20px 0';
 		let first, last;
 		first = true;
@@ -441,18 +448,18 @@ class GiveawaysGiveawayTemplates extends Module {
 		window.addEventListener('scroll', () => {
 			if (window.scrollY < 138) {
 				if (!first) {
-					rows.insertBefore(createGiveawayButton.set, rows.firstElementChild);
+					rows.insertBefore(createGiveawayButton.nodes.outer, rows.firstElementChild);
 					rows.insertBefore(reviewButton, rows.firstElementChild);
-					createGiveawayButton.set.style.margin = '20px 5px';
+					createGiveawayButton.nodes.outer.style.margin = '20px 5px';
 					reviewButton.style.margin = '20px 0';
 					first = true;
 					last = false;
 				}
 			} else if (!last) {
 				rows.appendChild(reviewButton);
-				rows.appendChild(createGiveawayButton.set);
+				rows.appendChild(createGiveawayButton.nodes.outer);
 				reviewButton.style.margin = '';
-				createGiveawayButton.set.style.margin = '0 5px';
+				createGiveawayButton.nodes.outer.style.margin = '0 5px';
 				last = true;
 				first = false;
 			}

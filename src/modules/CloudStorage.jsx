@@ -1,12 +1,12 @@
-import { Settings } from '../class/Settings';
-import { Shared } from '../class/Shared';
+import { Checkbox } from '../class/Checkbox';
+import { DOM } from '../class/DOM';
 import { DropboxStorage } from '../class/DropboxStorage';
 import { GoogleDriveStorage } from '../class/GoogleDriveStorage';
 import { OneDriveStorage } from '../class/OneDriveStorage';
-import { ButtonSet } from '../class/ButtonSet';
-import { Checkbox } from '../class/Checkbox';
 import { Popup } from '../class/Popup';
-import { DOM } from '../class/DOM';
+import { Settings } from '../class/Settings';
+import { Shared } from '../class/Shared';
+import { Button } from '../components/Button';
 
 class CloudStorage {
 	static get DROPBOX() {
@@ -303,15 +303,12 @@ class CloudStorage {
 			});
 		}
 
-		popup.popup.insertBefore(
-			new ButtonSet({
-				color1: 'green',
-				color2: 'grey',
-				icon1: 'fa-trash',
-				icon2: 'fa-circle-o-notch fa-spin',
-				title1: 'Delete selected files',
-				title2: 'Deleting...',
-				callback1: () => {
+		Button.create([
+			{
+				color: 'green',
+				icons: ['fa-trash'],
+				name: 'Delete selected files',
+				onClick: () => {
 					return new Promise((resolve) => {
 						const fileIds = Object.keys(selectedFiles);
 						const numFiles = fileIds.length;
@@ -377,9 +374,13 @@ class CloudStorage {
 						);
 					});
 				},
-			}).set,
-			popup.actions
-		);
+			},
+			{
+				template: 'loading',
+				isDisabled: true,
+				name: 'Deleting...',
+			},
+		]).insert(popup.actions, 'beforebegin');
 	}
 }
 

@@ -1,13 +1,13 @@
-import { ButtonSet } from '../../class/ButtonSet';
+import { DOM } from '../../class/DOM';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
-import { Utils } from '../../lib/jsUtils';
-import { common } from '../Common';
-import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
-import { Shared } from '../../class/Shared';
 import { Settings } from '../../class/Settings';
-import { DOM } from '../../class/DOM';
+import { Shared } from '../../class/Shared';
 import { Tabs } from '../../class/Tabs';
+import { Button } from '../../components/Button';
+import { Utils } from '../../lib/jsUtils';
+import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
+import { common } from '../Common';
 
 const buildGiveaway = common.buildGiveaway.bind(common),
 	createElements = common.createElements.bind(common),
@@ -105,7 +105,8 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
 				if (Settings.get('ged_t')) {
 					Tabs.open(`https://www.steamgifts.com/account/settings/profile?esgst=ged`);
 				} else {
-					this.ged_openPopup({ isPopup: true });
+					ged.isPopup = true;
+					this.ged_openPopup(ged);
 				}
 			});
 			// noinspection JSIgnoredPromiseFromCall
@@ -188,20 +189,23 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
 				type: 'div',
 			},
 		]);
-		ged.set = new ButtonSet({
-			color1: 'green',
-			color2: 'grey',
-			icon1: 'fa-plus',
-			icon2: 'fa-circle-o-notch fa-spin',
-			title1: 'Load More',
-			title2: 'Loading more...',
-			callback1: this.ged_loadGiveaways.bind(this, ged),
-		});
-		ged.container.appendChild(ged.set.set);
+		ged.loadMoreButton = Button.create([
+			{
+				color: 'green',
+				icons: ['fa-plus'],
+				name: 'Load More',
+				onClick: this.ged_loadGiveaways.bind(this, ged),
+			},
+			{
+				template: 'loading',
+				isDisabled: true,
+				name: 'Loading more...',
+			},
+		]).insert(ged.container, 'beforeend');
 		if (ged.isPopup) {
 			ged.popup.open();
 		}
-		ged.set.trigger();
+		ged.loadMoreButton.onClick();
 		if (Settings.get('es_ged')) {
 			ged.context.addEventListener('scroll', this.ged_checkEndless.bind(this, ged));
 		}
@@ -338,16 +342,16 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
 			}
 		}
 		if (ged.i >= ged.n) {
-			ged.set.set.remove();
+			ged.loadMoreButton.destroy();
 		}
 	}
 
 	ged_checkEndless(ged) {
 		if (
 			ged.context.scrollTop + ged.context.offsetHeight >= ged.context.scrollHeight &&
-			!ged.set.busy
+			!ged.loadMoreButton.isBusy
 		) {
-			ged.set.trigger();
+			ged.loadMoreButton.onClick();
 		}
 	}
 

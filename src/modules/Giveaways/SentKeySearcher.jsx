@@ -1,12 +1,12 @@
-import { ButtonSet } from '../../class/ButtonSet';
+import { DOM } from '../../class/DOM';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
-import { ToggleSwitch } from '../../class/ToggleSwitch';
-import { common } from '../Common';
-import { Settings } from '../../class/Settings';
-import { DOM } from '../../class/DOM';
 import { Session } from '../../class/Session';
+import { Settings } from '../../class/Settings';
+import { ToggleSwitch } from '../../class/ToggleSwitch';
+import { Button } from '../../components/Button';
 import { NotificationBar } from '../../components/NotificationBar';
+import { common } from '../Common';
 
 const createElements = common.createElements.bind(common),
 	createHeadingButton = common.createHeadingButton.bind(common),
@@ -160,18 +160,20 @@ class GiveawaysSentKeySearcher extends Module {
 				type: 'div',
 			},
 		]);
-		sks.popup.description.appendChild(
-			new ButtonSet({
-				color1: 'green',
-				color2: 'grey',
-				icon1: 'fa-search',
-				icon2: 'fa-times',
-				title1: 'Search',
-				title2: 'Cancel',
-				callback1: this.sks_searchGiveaways.bind(this, sks),
-				callback2: this.sks_cancelSearch.bind(this, sks),
-			}).set
-		);
+		Button.create([
+			{
+				color: 'green',
+				icons: ['fa-search'],
+				name: 'Search',
+				onClick: this.sks_searchGiveaways.bind(this, sks),
+			},
+			{
+				template: 'error',
+				name: 'Cancel',
+				switchTo: { onReturn: 0 },
+				onClick: this.sks_cancelSearch.bind(this, sks),
+			},
+		]).insert(sks.popup.description, 'beforeend');
 		sks.progressBar = NotificationBar.create().insert(sks.popup.description, 'beforeend').hide();
 		sks.overallProgressBar = NotificationBar.create()
 			.insert(sks.popup.description, 'beforeend')

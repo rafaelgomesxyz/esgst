@@ -1,6 +1,7 @@
 import { Shared } from './Shared';
 import { Settings } from './Settings';
 import { DOM } from './DOM';
+import { Button } from '../components/Button';
 
 class ToggleSwitch {
 	/**
@@ -24,13 +25,8 @@ class ToggleSwitch {
 		this.sg = sg;
 		this.st = st;
 		this.value = value;
-		DOM.insert(
-			context,
-			'beforeend',
-			<div
-				className={`esgst-toggle-switch-container ${inline ? 'inline' : ''}`}
-				ref={(ref) => (this.container = ref)}
-			>
+		this.container = (
+			<div className={`esgst-toggle-switch-container ${inline ? 'inline' : ''}`}>
 				<label className="esgst-toggle-switch">
 					<input type="checkbox" />
 					<div className="esgst-toggle-switch-slider"></div>
@@ -39,8 +35,8 @@ class ToggleSwitch {
 				{tooltip ? <i className="fa fa-question-circle" title={tooltip}></i> : null}
 			</div>
 		);
-		if (!context) {
-			this.container = this.container.firstElementChild;
+		if (context) {
+			DOM.insert(context, 'beforeend', this.container);
 		}
 		this.switch = this.container.firstElementChild;
 		this.input = /** @type {HTMLElement} */ this.switch.firstElementChild;
@@ -81,13 +77,19 @@ class ToggleSwitch {
 			}
 		}
 		if (this.value) {
-			this.dependencies.forEach((dependency) => dependency.classList.remove('esgst-hidden'));
+			this.dependencies.forEach((dependency) =>
+				dependency instanceof Button
+					? dependency.show()
+					: dependency.classList.remove('esgst-hidden')
+			);
 			this.exclusions.forEach((exclusion) => exclusion.classList.add('esgst-hidden'));
 			if (!settings && this.onEnabled) {
 				this.onEnabled();
 			}
 		} else {
-			this.dependencies.forEach((dependency) => dependency.classList.add('esgst-hidden'));
+			this.dependencies.forEach((dependency) =>
+				dependency instanceof Button ? dependency.hide() : dependency.classList.add('esgst-hidden')
+			);
 			this.exclusions.forEach((exclusion) => exclusion.classList.remove('esgst-hidden'));
 			if (!settings && this.onDisabled) {
 				this.onDisabled();

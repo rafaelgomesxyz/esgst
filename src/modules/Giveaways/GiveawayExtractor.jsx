@@ -1,17 +1,17 @@
 import dateFns_differenceInDays from 'date-fns/differenceInDays';
-import { ButtonSet } from '../../class/ButtonSet';
-import { Module } from '../../class/Module';
-import { Popup } from '../../class/Popup';
-import { ToggleSwitch } from '../../class/ToggleSwitch';
-import { common } from '../Common';
-import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
-import { Shared } from '../../class/Shared';
-import { Settings } from '../../class/Settings';
-import { Logger } from '../../class/Logger';
 import { DOM } from '../../class/DOM';
+import { Logger } from '../../class/Logger';
+import { Module } from '../../class/Module';
 import { permissions } from '../../class/Permissions';
+import { Popup } from '../../class/Popup';
+import { Settings } from '../../class/Settings';
+import { Shared } from '../../class/Shared';
 import { Tabs } from '../../class/Tabs';
+import { ToggleSwitch } from '../../class/ToggleSwitch';
+import { Button } from '../../components/Button';
 import { NotificationBar } from '../../components/NotificationBar';
+import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
+import { common } from '../Common';
 
 const buildGiveaway = common.buildGiveaway.bind(common),
 	createElements = common.createElements.bind(common),
@@ -178,37 +178,41 @@ class GiveawaysGiveawayExtractor extends Module {
 					title: `Specify extractor parameters:`,
 					addScrollable: true,
 					buttons: [
-						{
-							color1: 'green',
-							color2: 'grey',
-							icon1: 'fa-arrow-circle-right',
-							icon2: 'fa-circle-o-notch fa-spin',
-							title1: 'Open Extractor',
-							title2: 'Opening...',
-							callback1: () => {
-								popup.close();
-								ge.extractOnward = Settings.get('ge_extractOnward');
-								ge.flushCache = Settings.get('ge_flushCache');
-								ge.flushCacheHours = Settings.get('ge_flushCacheHours');
-								ge.ignoreDiscussionComments = Settings.get('ge_ignoreDiscussionComments');
-								ge.ignoreGiveawayComments = Settings.get('ge_ignoreGiveawayComments');
-								if (Settings.get('ge_t')) {
-									Tabs.open(
-										`https://www.steamgifts.com/account/settings/profile?esgst=ge&${
-											ge.extractOnward ? `extractOnward=true&` : ''
-										}${ge.flushCache ? `flush=true&flushHrs=${ge.flushCacheHours}&` : ''}${
-											ge.ignoreDiscussionComments ? `noDiscCmt=true&` : ''
-										}${
-											ge.ignoreGiveawayComments ? `noGaCmt=true&` : ''
-										}url=${window.location.pathname.replace(/\/search.*/, '')}${
-											this.esgst.parameters.page ? `&page=${this.esgst.parameters.page}` : ''
-										}`
-									);
-								} else {
-									this.ge_openPopup(ge);
-								}
+						[
+							{
+								color: 'green',
+								icons: ['fa-arrow-circle-right'],
+								name: 'Open Extractor',
+								onClick: () => {
+									popup.close();
+									ge.extractOnward = Settings.get('ge_extractOnward');
+									ge.flushCache = Settings.get('ge_flushCache');
+									ge.flushCacheHours = Settings.get('ge_flushCacheHours');
+									ge.ignoreDiscussionComments = Settings.get('ge_ignoreDiscussionComments');
+									ge.ignoreGiveawayComments = Settings.get('ge_ignoreGiveawayComments');
+									if (Settings.get('ge_t')) {
+										Tabs.open(
+											`https://www.steamgifts.com/account/settings/profile?esgst=ge&${
+												ge.extractOnward ? `extractOnward=true&` : ''
+											}${ge.flushCache ? `flush=true&flushHrs=${ge.flushCacheHours}&` : ''}${
+												ge.ignoreDiscussionComments ? `noDiscCmt=true&` : ''
+											}${
+												ge.ignoreGiveawayComments ? `noGaCmt=true&` : ''
+											}url=${window.location.pathname.replace(/\/search.*/, '')}${
+												this.esgst.parameters.page ? `&page=${this.esgst.parameters.page}` : ''
+											}`
+										);
+									} else {
+										this.ge_openPopup(ge);
+									}
+								},
 							},
-						},
+							{
+								template: 'loading',
+								isDisabled: true,
+								name: 'Opening...',
+							},
+						],
 					],
 				});
 				this.ge_showOptions(ge, popup.scrollable);
@@ -399,92 +403,124 @@ class GiveawaysGiveawayExtractor extends Module {
 			}
 		}
 		ge.cacheWarning = null;
-		ge.set = new ButtonSet({
-			color1: 'green',
-			color2: 'grey',
-			icon1: 'fa-search',
-			icon2: 'fa-times',
-			title1: 'Extract',
-			title2: 'Cancel',
-			callback1: () => {
-				return new Promise((resolve) => {
-					if (ge.hasScrolled && ge.isComplete) {
-						resolve();
-						return;
+		const onExtractClick = () => {
+			return new Promise((resolve) => {
+				if (ge.hasScrolled && ge.isComplete) {
+					resolve();
+					return;
+				}
+				ge.hasScrolled = false;
+				ge.isComplete = false;
+				if (ge.cacheWarning || ge.reExtract) {
+					if (ge.reExtract) {
+						ge.extractOnward = Settings.get('ge_extractOnward');
+						ge.ignoreDiscussionComments = Settings.get('ge_ignoreDiscussionComments');
+						ge.ignoreGiveawayComments = Settings.get('ge_ignoreGiveawayComments');
+						ge.count = 0;
+						ge.endless = 0;
+						ge.total = 0;
+						ge.extracted = [];
+						ge.bumpLink = '';
+						ge.points = 0;
+						ge.sgToolsCount = 0;
 					}
-					ge.hasScrolled = false;
-					ge.isComplete = false;
-					if (ge.cacheWarning || ge.reExtract) {
-						if (ge.reExtract) {
-							ge.extractOnward = Settings.get('ge_extractOnward');
-							ge.ignoreDiscussionComments = Settings.get('ge_ignoreDiscussionComments');
-							ge.ignoreGiveawayComments = Settings.get('ge_ignoreGiveawayComments');
-							ge.count = 0;
-							ge.endless = 0;
-							ge.total = 0;
-							ge.extracted = [];
-							ge.bumpLink = '';
-							ge.points = 0;
-							ge.sgToolsCount = 0;
-						}
-						ge.flushCache = true;
-						ge.flushCacheHours = 0;
-						ge.reExtract = false;
-						if (ge.cacheWarning) {
-							ge.cacheWarning.remove();
-						}
-						ge.cacheWarning = null;
-						ge.results.innerHTML = '';
-						ge.cache[ge.cacheId] = {
-							codes: [],
-							giveaways: {},
-							bumpLink: '',
-							ithLinks: new Set(),
-							jigidiLinks: new Set(),
-							timestamp: now,
-						};
+					ge.flushCache = true;
+					ge.flushCacheHours = 0;
+					ge.reExtract = false;
+					if (ge.cacheWarning) {
+						ge.cacheWarning.remove();
 					}
-					ge.mainCallback = resolve;
-					if (ge.callback) {
-						ge.progressBar.setLoading();
-						ge.callback();
-					} else {
-						ge.isCanceled = false;
-						if (ge.button) {
-							ge.button.classList.add('esgst-busy');
-						}
-						ge.progressBar
-							.setLoading(
-								<fragment>
-									<span ref={(ref) => (ge.progressBarCounter = ref)}>{ge.total}</span> giveaways
-									extracted.
-								</fragment>
-							)
-							.show();
-						let giveaways = this.ge_getGiveaways(
-							ge,
-							Shared.common.isCurrentPath('Account') && this.esgst.parameters.esgst === 'ge'
-								? ge.context
-								: this.esgst.pageOuterWrap
-						);
-						this.ge_extractGiveaways(
-							ge,
-							giveaways,
-							0,
-							giveaways.length,
-							this.ge_completeExtraction.bind(this, ge)
-						);
+					ge.cacheWarning = null;
+					ge.results.innerHTML = '';
+					ge.cache[ge.cacheId] = {
+						codes: [],
+						giveaways: {},
+						bumpLink: '',
+						ithLinks: new Set(),
+						jigidiLinks: new Set(),
+						timestamp: now,
+					};
+				}
+				ge.mainCallback = resolve;
+				if (ge.callback) {
+					ge.progressBar.setLoading();
+					ge.callback();
+				} else {
+					ge.isCanceled = false;
+					if (ge.button) {
+						ge.button.classList.add('esgst-busy');
 					}
-				});
+					ge.progressBar
+						.setLoading(
+							<fragment>
+								<span ref={(ref) => (ge.progressBarCounter = ref)}>{ge.total}</span> giveaways
+								extracted.
+							</fragment>
+						)
+						.show();
+					let giveaways = this.ge_getGiveaways(
+						ge,
+						Shared.common.isCurrentPath('Account') && this.esgst.parameters.esgst === 'ge'
+							? ge.context
+							: this.esgst.pageOuterWrap
+					);
+					this.ge_extractGiveaways(
+						ge,
+						giveaways,
+						0,
+						giveaways.length,
+						this.ge_completeExtraction.bind(this, ge)
+					);
+				}
+			});
+		};
+		const onCancelClick = () => {
+			ge.mainCallback = null;
+			ge.isCanceled = true;
+			// noinspection JSIgnoredPromiseFromCall
+			this.ge_completeExtraction(ge);
+		};
+		ge.extractButton = Button.create([
+			{
+				color: 'green',
+				icons: ['fa-search'],
+				name: 'Extract',
+				switchTo: { onReturn: 1 },
+				onClick: onExtractClick,
 			},
-			callback2: () => {
-				ge.mainCallback = null;
-				ge.isCanceled = true;
-				// noinspection JSIgnoredPromiseFromCall
-				this.ge_completeExtraction(ge);
+			{
+				template: 'error',
+				name: 'Cancel',
+				switchTo: { onReturn: 0 },
+				onClick: onCancelClick,
 			},
-		});
-		ge.popup.description.appendChild(ge.set.set);
+			{
+				color: 'green',
+				icons: ['fa-search'],
+				name: 'Extract More',
+				switchTo: { onReturn: 3 },
+				onClick: onExtractClick,
+			},
+			{
+				template: 'error',
+				name: 'Cancel',
+				switchTo: { onReturn: 0 },
+				onClick: onCancelClick,
+			},
+			{
+				color: 'green',
+				icons: ['fa-search'],
+				name: 'Re-Extract',
+				switchTo: { onReturn: 5 },
+				onClick: onExtractClick,
+			},
+			{
+				template: 'error',
+				name: 'Cancel',
+				switchTo: { onReturn: 0 },
+				onClick: onCancelClick,
+			},
+		]).insert(ge.popup.description, 'beforeend');
 		ge.progressBar = NotificationBar.create().insert(ge.popup.description, 'beforeend').hide();
 		ge.popup.open();
 		if (
@@ -600,7 +636,7 @@ class GiveawaysGiveawayExtractor extends Module {
 				jigidiLinks: new Set(),
 				timestamp: now,
 			};
-			ge.set.trigger();
+			ge.extractButton.onClick();
 		}
 		if (Settings.get('es') && Settings.get('es_ge')) {
 			ge.popup.scrollable.addEventListener('scroll', this.checkScroll.bind(this, ge));
@@ -611,14 +647,14 @@ class GiveawaysGiveawayExtractor extends Module {
 		if (
 			!ge.cacheWarning &&
 			!ge.isCanceled &&
-			ge.set &&
-			!ge.set.busy &&
+			ge.extractButton &&
+			!ge.extractButton.isBusy &&
 			(ge.popup.scrollable.scrollTop + ge.popup.scrollable.offsetHeight >=
 				ge.popup.scrollable.scrollHeight ||
 				filtered)
 		) {
 			ge.hasScrolled = true;
-			ge.set.trigger();
+			ge.extractButton.onClick();
 		}
 	}
 
@@ -643,7 +679,7 @@ class GiveawaysGiveawayExtractor extends Module {
 				ge.mainCallback = null;
 				ge.count = 0;
 				await endless_load(ge.results, false, 'ge', ge.endless);
-				ge.set.set.firstElementChild.lastElementChild.textContent = 'Extract More';
+				ge.extractButton.build(3);
 				ge.progressBar.setInfo();
 				ge.callback = this.ge_extractGiveaway.bind(this, ge, code, callback);
 				filtered = false;
@@ -1033,7 +1069,7 @@ class GiveawaysGiveawayExtractor extends Module {
 		}
 		createElements(ge.results, 'afterbegin', items);
 		createElements(ge.results, 'beforeend', items);
-		ge.set.set.firstElementChild.lastElementChild.textContent = 'Re-Extract';
+		ge.extractButton.build(5);
 		ge.reExtract = true;
 		ge.isComplete = true;
 		if (!ge.optionsAdded) {

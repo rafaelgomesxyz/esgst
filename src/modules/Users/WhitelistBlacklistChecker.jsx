@@ -1,18 +1,18 @@
-import { ButtonSet } from '../../class/ButtonSet';
-import { Module } from '../../class/Module';
-import { Popup } from '../../class/Popup';
-import { ToggleSwitch } from '../../class/ToggleSwitch';
-import { Utils } from '../../lib/jsUtils';
-import { common } from '../Common';
-import { Shared } from '../../class/Shared';
-import { Settings } from '../../class/Settings';
-import { Logger } from '../../class/Logger';
 import { DOM } from '../../class/DOM';
-import { Session } from '../../class/Session';
-import { Table } from '../../class/Table';
-import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
+import { Logger } from '../../class/Logger';
+import { Module } from '../../class/Module';
 import { Popout } from '../../class/Popout';
+import { Popup } from '../../class/Popup';
+import { Session } from '../../class/Session';
+import { Settings } from '../../class/Settings';
+import { Shared } from '../../class/Shared';
+import { Table } from '../../class/Table';
+import { ToggleSwitch } from '../../class/ToggleSwitch';
+import { Button } from '../../components/Button';
 import { NotificationBar } from '../../components/NotificationBar';
+import { Utils } from '../../lib/jsUtils';
+import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
+import { common } from '../Common';
 
 const createElements = common.createElements.bind(common),
 	createHeadingButton = common.createHeadingButton.bind(common),
@@ -479,23 +479,19 @@ class UsersWhitelistBlacklistChecker extends Module {
 				type: 'div',
 			},
 		]);
-		this.heading.pageHeading.appendChild(
-			new ButtonSet({
-				color1: 'green',
-				color2: 'grey',
-				icon1: WBC.Update ? 'fa-refresh' : 'fa-question-circle',
-				icon2: 'fa-times-circle',
-				title1: WBC.Update ? 'Update' : 'Check',
-				title2: 'Cancel',
-				callback1: () => {
+		Button.create([
+			{
+				color: 'green',
+				icons: [WBC.Update ? 'fa-refresh' : 'fa-question-circle'],
+				name: WBC.Update ? 'Update' : 'Check',
+				onClick: () => {
 					return new Promise((resolve) => {
 						WBC.ShowResults = false;
 						WBCButton.classList.add('esgst-busy');
 						// noinspection JSIgnoredPromiseFromCall
 						this.wbc_setCheck(WBC, () => {
 							if (this.skip) {
-								this.skip.remove();
-
+								this.skip.destroy();
 								this.skip = null;
 							}
 							WBC.progressBar.reset().hide();
@@ -506,10 +502,14 @@ class UsersWhitelistBlacklistChecker extends Module {
 						});
 					});
 				},
-				callback2: () => {
+			},
+			{
+				template: 'error',
+				name: 'Cancel',
+				switchTo: { onReturn: 0 },
+				onClick: () => {
 					if (this.skip) {
-						this.skip.remove();
-
+						this.skip.destroy();
 						this.skip = null;
 					}
 					window.clearInterval(WBC.Request);
@@ -520,8 +520,8 @@ class UsersWhitelistBlacklistChecker extends Module {
 					}, 500);
 					WBCButton.classList.remove('esgst-busy');
 				},
-			}).set
-		);
+			},
+		]).insert(this.heading.pageHeading, 'beforeend');
 		WBC.progressBar = NotificationBar.create().insert(popup.description, 'beforeend').hide();
 		WBC.overallProgressBar = NotificationBar.create().insert(popup.description, 'beforeend').hide();
 		popup.Results = createElements(popup.scrollable, 'beforeend', [{ type: 'div' }]);
@@ -759,19 +759,16 @@ class UsersWhitelistBlacklistChecker extends Module {
 						false
 					);
 				}
+				Callback();
 			} else {
-				this.skip = new ButtonSet({
-					color1: 'green',
-					color2: '',
-					icon1: 'fa-forward',
-					icon2: '',
-					title1: 'Skip User',
-					title2: '',
-					callback1: () => {
+				this.skip = Button.create({
+					color: 'green',
+					icons: ['fa-forward'],
+					name: 'Skip User',
+					onClick: () => {
 						WBC.manualSkip = true;
 					},
-				}).set;
-				this.heading.pageHeading.appendChild(this.skip);
+				}).insert(this.heading.pageHeading, 'beforeend');
 
 				// noinspection JSIgnoredPromiseFromCall
 				this.wbc_checkUsers(WBC, 0, WBC.Users.length, Callback);
@@ -815,18 +812,14 @@ class UsersWhitelistBlacklistChecker extends Module {
 					Shared.esgst.currentPage,
 					Shared.esgst.searchUrl,
 					() => {
-						this.skip = new ButtonSet({
-							color1: 'green',
-							color2: '',
-							icon1: 'fa-forward',
-							icon2: '',
-							title1: 'Skip User',
-							title2: '',
-							callback1: () => {
+						this.skip = Button.create({
+							color: 'green',
+							icons: ['fa-forward'],
+							name: 'Skip User',
+							onClick: () => {
 								WBC.manualSkip = true;
 							},
-						}).set;
-						this.heading.pageHeading.appendChild(this.skip);
+						}).insert(this.heading.pageHeading, 'beforeend');
 
 						WBC.Users = Utils.sortArray(WBC.Users);
 						if (window.location.pathname.match(/^\/users/)) {
@@ -837,18 +830,14 @@ class UsersWhitelistBlacklistChecker extends Module {
 					}
 				);
 			} else {
-				this.skip = new ButtonSet({
-					color1: 'green',
-					color2: '',
-					icon1: 'fa-forward',
-					icon2: '',
-					title1: 'Skip User',
-					title2: '',
-					callback1: () => {
+				this.skip = Button.create({
+					color: 'green',
+					icons: ['fa-forward'],
+					name: 'Skip User',
+					onClick: () => {
 						WBC.manualSkip = true;
 					},
-				}).set;
-				this.heading.pageHeading.appendChild(this.skip);
+				}).insert(this.heading.pageHeading, 'beforeend');
 
 				WBC.Users = Utils.sortArray(WBC.Users);
 				if (window.location.pathname.match(/^\/users/)) {

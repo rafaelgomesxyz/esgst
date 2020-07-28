@@ -1,12 +1,12 @@
-import { ButtonSet } from '../../class/ButtonSet';
-import { Popup } from '../../class/Popup';
-import { ToggleSwitch } from '../../class/ToggleSwitch';
-import { common } from '../Common';
-import { Shared } from '../../class/Shared';
-import { Settings } from '../../class/Settings';
-import { Utils } from '../../lib/jsUtils';
-import { Filters } from '../Filters';
 import { DOM } from '../../class/DOM';
+import { Popup } from '../../class/Popup';
+import { Settings } from '../../class/Settings';
+import { Shared } from '../../class/Shared';
+import { ToggleSwitch } from '../../class/ToggleSwitch';
+import { Button } from '../../components/Button';
+import { Utils } from '../../lib/jsUtils';
+import { common } from '../Common';
+import { Filters } from '../Filters';
 
 const createElements = common.createElements.bind(common),
 	getFeatureTooltip = common.getFeatureTooltip.bind(common),
@@ -124,7 +124,6 @@ class UsersUserFilters extends Filters {
 	}
 
 	uf_open(profile) {
-		let resetSet, saveSet;
 		profile.ufPopup = new Popup({
 			addScrollable: true,
 			icon: 'fa-eye',
@@ -180,28 +179,33 @@ class UsersUserFilters extends Filters {
 			"Hides the user's posts made on discussions.",
 			profile.ufValues.discussionPosts
 		);
-		saveSet = new ButtonSet({
-			color1: 'green',
-			color2: 'grey',
-			icon1: 'fa-check',
-			icon2: 'fa-circle-o-notch fa-spin',
-			title1: 'Save Settings',
-			title2: 'Saving...',
-			callback1: this.uf_save.bind(this, profile, false),
-		});
-		resetSet = new ButtonSet({
-			color1: 'green',
-			color2: 'grey',
-			icon1: 'fa-rotate-left',
-			icon2: 'fa-circle-o-notch fa-spin',
-			title1: 'Reset Settings',
-			title2: 'Resetting...',
-			callback1: this.uf_save.bind(this, profile, true),
-		});
-		saveSet.dependencies.push(resetSet.set);
-		resetSet.dependencies.push(saveSet.set);
-		profile.ufPopup.description.appendChild(saveSet.set);
-		profile.ufPopup.description.appendChild(resetSet.set);
+		const saveButton = Button.create([
+			{
+				template: 'success',
+				name: 'Save Settings',
+				onClick: this.uf_save.bind(this, profile, false),
+			},
+			{
+				template: 'loading',
+				isDisabled: true,
+				name: 'Saving...',
+			},
+		]).insert(profile.ufPopup.description, 'beforeend');
+		const resetButton = Button.create([
+			{
+				color: 'green',
+				icons: ['fa-rotate-left'],
+				name: 'Reset Settings',
+				onClick: this.uf_save.bind(this, profile, true),
+			},
+			{
+				template: 'loading',
+				isDisabled: true,
+				name: 'Resetting...',
+			},
+		]).insert(profile.ufPopup.description, 'beforeend');
+		saveButton.addConflict(resetButton);
+		resetButton.addConflict(saveButton);
 		profile.ufPopup.open();
 	}
 

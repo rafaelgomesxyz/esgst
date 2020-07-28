@@ -47,16 +47,20 @@ class Process {
 			return;
 		}
 		this.popupDetails.buttons = [
-			{
-				color1: 'green',
-				color2: 'red',
-				icon1: 'fa-arrow-circle-right',
-				icon2: 'fa-times-circle',
-				title1: 'Start',
-				title2: 'Stop',
-				callback1: this.start.bind(this),
-				callback2: this.stop.bind(this),
-			},
+			[
+				{
+					color: 'green',
+					icons: ['fa-arrow-circle-right'],
+					name: 'Start',
+					onClick: this.start.bind(this),
+				},
+				{
+					template: 'error',
+					name: 'Stop',
+					switchTo: { onReturn: 0 },
+					onClick: this.stop.bind(this),
+				},
+			],
 		];
 		this.popup = new Popup(this.popupDetails);
 		if (this.urls && this.urls.id && !this.urls.lockPerLoad) {
@@ -82,16 +86,16 @@ class Process {
 			await this.urls.init(this, ...(this.urls.arguments || []));
 			this.total = this.items.length;
 			if (!this.urls.doNotTrigger) {
-				this.popup.triggerButton(0);
+				this.popup.buttons[0].onClick();
 			}
 			if (Settings.get(`es_${this.urls.id}`)) {
 				this.popup.scrollable.addEventListener('scroll', () => {
 					if (
 						this.popup.scrollable.scrollTop + this.popup.scrollable.offsetHeight >=
 							this.popup.scrollable.scrollHeight &&
-						!this.popup.isButtonBusy(0)
+						!this.popup.buttons[0].isBusy
 					) {
-						this.popup.triggerButton(0);
+						this.popup.buttons[0].onClick();
 					}
 				});
 			}
@@ -145,7 +149,7 @@ class Process {
 
 	async requestNextUrl(details) {
 		if (!this.urls.doNotTrigger && this.index >= this.total) {
-			this.popup.removeButton(0);
+			this.popup.buttons[0].destroy();
 			return;
 		}
 		this.popup.progressBar.setLoading('Loading more...').show();
@@ -181,7 +185,7 @@ class Process {
 			this.popup.overallProgressBar.setMessage(`${this.index} of ${this.total} loaded.`).show();
 		}
 		if (!this.urls.doNotTrigger && this.index >= this.total) {
-			this.popup.removeButton(0);
+			this.popup.buttons[0].destroy();
 		}
 		if (this.urls.restart) {
 			this.index = 0;

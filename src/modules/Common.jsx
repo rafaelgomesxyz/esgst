@@ -1,30 +1,29 @@
+import 'bootstrap/dist/js/bootstrap';
 import dateFns_format from 'date-fns/format';
 import dateFns_isSameWeek from 'date-fns/isSameWeek';
-import IntersectionObserver from 'intersection-observer-polyfill';
 import JSZip from 'jszip';
 import { browser } from '../browser';
-import { ButtonSet } from '../class/ButtonSet';
+import { DOM } from '../class/DOM';
+import { FetchRequest } from '../class/FetchRequest';
+import { LocalStorage } from '../class/LocalStorage';
+import { Logger } from '../class/Logger';
 import { Module } from '../class/Module';
+import { permissions } from '../class/Permissions';
 import { Popout } from '../class/Popout';
 import { Popup } from '../class/Popup';
 import { Scope } from '../class/Scope';
+import { Session } from '../class/Session';
+import { Settings } from '../class/Settings';
 import { Shared } from '../class/Shared';
+import { Tabs } from '../class/Tabs';
 import { ToggleSwitch } from '../class/ToggleSwitch';
+import { Button } from '../components/Button';
+import { NotificationBar } from '../components/NotificationBar';
 import { Utils } from '../lib/jsUtils';
+import { elementBuilder } from '../lib/SgStUtils/ElementBuilder';
 import { settingsModule } from './Settings';
 import { loadDataCleaner, loadDataManagement } from './Storage';
 import { runSilentSync, setSync } from './Sync';
-import { elementBuilder } from '../lib/SgStUtils/ElementBuilder';
-import 'bootstrap/dist/js/bootstrap';
-import { Settings } from '../class/Settings';
-import { permissions } from '../class/Permissions';
-import { Logger } from '../class/Logger';
-import { DOM } from '../class/DOM';
-import { Session } from '../class/Session';
-import { LocalStorage } from '../class/LocalStorage';
-import { FetchRequest } from '../class/FetchRequest';
-import { Tabs } from '../class/Tabs';
-import { NotificationBar } from '../components/NotificationBar';
 
 const SHORT_MONTHS = [
 	'Jan',
@@ -2782,25 +2781,29 @@ class Common extends Module {
 			],
 		}).pageHeading;
 		for (const item of options.items) {
-			const set = new ButtonSet({
-				color1: 'green',
-				color2: 'grey',
-				icon1: '',
-				icon2: '',
-				title1: 'Open',
-				title2: '',
-				callback1: item.click ? null : () => item.callback(set),
-			}).set;
+			const button = Button.create([
+				{
+					color: 'green',
+					icons: [],
+					name: 'Open',
+					onClick: item.click ? null : () => item.callback(button),
+				},
+				{
+					template: 'loading',
+					isDisabled: true,
+					name: 'Opening...',
+				},
+			]).build().nodes.outer;
 			if (item.click) {
-				item.callback(set);
+				item.callback(button);
 			}
-			item.content = [set];
+			item.content = [button];
 		}
 		this.createFormRows(context, 'beforeend', options);
 	}
 
 	async setSMManageFilteredGiveaways() {
-		let gfGiveaways, giveaway, hidden, i, key, n, popup, set;
+		let gfGiveaways, giveaway, hidden, i, key, n, popup;
 		popup = new Popup({
 			addScrollable: true,
 			icon: 'fa-gift',
@@ -2845,42 +2848,45 @@ class Common extends Module {
 			},
 		]);
 		if (n > 0) {
-			set = new ButtonSet({
-				color1: 'green',
-				color2: 'grey',
-				icon1: 'fa-plus',
-				icon2: 'fa-circle-o-notch fa-spin',
-				title1: 'Load more...',
-				title2: 'Loading more...',
-				callback1: () => {
-					return new Promise((resolve) => {
-						// noinspection JSIgnoredPromiseFromCall
-						this.loadGfGiveaways(i, i + 5, hidden, gfGiveaways, popup, (value) => {
-							i = value;
-							if (i > n) {
-								set.set.remove();
-							} else if (
-								Settings.get('es_gf') &&
-								popup.scrollable.scrollHeight <= popup.scrollable.offsetHeight
-							) {
-								set.trigger();
-							}
-							resolve();
+			const button = Button.create([
+				{
+					color: 'green',
+					icons: ['fa-plus'],
+					name: 'Load more...',
+					onClick: () => {
+						return new Promise((resolve) => {
+							// noinspection JSIgnoredPromiseFromCall
+							this.loadGfGiveaways(i, i + 5, hidden, gfGiveaways, popup, (value) => {
+								i = value;
+								if (i > n) {
+									button.destroy();
+								} else if (
+									Settings.get('es_gf') &&
+									popup.scrollable.scrollHeight <= popup.scrollable.offsetHeight
+								) {
+									button.onClick();
+								}
+								resolve();
+							});
 						});
-					});
+					},
 				},
-			});
-			popup.description.appendChild(set.set);
+				{
+					template: 'loading',
+					isDisabled: true,
+					name: 'Loading more...',
+				},
+			]).insert(popup.description, 'beforeend');
 			popup.open();
-			set.trigger();
+			button.onClick();
 			if (Settings.get('es_gf')) {
 				popup.scrollable.addEventListener('scroll', () => {
 					if (
 						popup.scrollable.scrollTop + popup.scrollable.offsetHeight >=
 							popup.scrollable.scrollHeight &&
-						!set.busy
+						!button.isBusy
 					) {
-						set.trigger();
+						button.onClick();
 					}
 				});
 			}
@@ -3801,6 +3807,17 @@ class Common extends Module {
 		}
 	}
 
+	/**
+	 * @param {import('../constants/ClassNames').ButtonColor} choice1Color
+	 * @param {string} choice1Icon
+	 * @param {string} choice1Title
+	 * @param {import('../constants/ClassNames').ButtonColor} choice2Color
+	 * @param {string} choice2Icon
+	 * @param {string} choice2Title
+	 * @param {*} title
+	 * @param {*} onChoice1
+	 * @param {*} onChoice2
+	 */
 	multiChoice(
 		choice1Color,
 		choice1Icon,
@@ -3830,48 +3847,38 @@ class Common extends Module {
 				'Remembers which option you choose forever.',
 				Settings.get('cfh_img_remember')
 			);
-			popup.description.appendChild(
-				new ButtonSet({
-					color1: choice1Color,
-					color2: '',
-					icon1: choice1Icon,
-					icon2: '',
-					title1: choice1Title,
-					title2: '',
-					callback1: () => {
-						return new Promise((resolve) => {
-							if (Settings.get('cfh_img_remember')) {
-								// noinspection JSIgnoredPromiseFromCall
-								this.setSetting('cfh_img_choice', 1);
-							}
-							resolve();
-							popup.close();
-							onChoice1();
-						});
-					},
-				}).set
-			);
-			popup.description.appendChild(
-				new ButtonSet({
-					color1: choice2Color,
-					color2: '',
-					icon1: choice2Icon,
-					icon2: '',
-					title1: choice2Title,
-					title2: '',
-					callback1: () => {
-						return new Promise((resolve) => {
-							if (Settings.get('cfh_img_remember')) {
-								// noinspection JSIgnoredPromiseFromCall
-								this.setSetting('cfh_img_choice', 2);
-							}
-							resolve();
-							popup.close();
-							onChoice2();
-						});
-					},
-				}).set
-			);
+			Button.create({
+				color: choice1Color,
+				icons: [choice1Icon],
+				name: choice1Title,
+				onClick: () => {
+					return new Promise((resolve) => {
+						if (Settings.get('cfh_img_remember')) {
+							// noinspection JSIgnoredPromiseFromCall
+							this.setSetting('cfh_img_choice', 1);
+						}
+						resolve();
+						popup.close();
+						onChoice1();
+					});
+				},
+			}).insert(popup.description, 'beforeend');
+			Button.create({
+				color: choice2Color,
+				icons: [choice2Icon],
+				name: choice2Title,
+				onClick: () => {
+					return new Promise((resolve) => {
+						if (Settings.get('cfh_img_remember')) {
+							// noinspection JSIgnoredPromiseFromCall
+							this.setSetting('cfh_img_choice', 2);
+						}
+						resolve();
+						popup.close();
+						onChoice2();
+					});
+				},
+			}).insert(popup.description, 'beforeend');
 			popup.open();
 		}
 	}
@@ -4057,15 +4064,11 @@ class Common extends Module {
 				</fragment>
 			),
 		});
-		popup.description.appendChild(
-			new ButtonSet({
-				color1: 'green',
-				color2: 'grey',
-				icon1: 'fa-check-circle',
-				icon2: 'fa-refresh fa-spin',
-				title1: 'Yes',
-				title2: 'Please wait...',
-				callback1: async () => {
+		Button.create([
+			{
+				template: 'success',
+				name: 'Yes',
+				onClick: async () => {
 					await this.request({
 						data: `xsrf_token=${Session.xsrfToken}&do=hide_giveaways_by_game_id&game_id=${id}`,
 						method: 'POST',
@@ -4079,8 +4082,14 @@ class Common extends Module {
 					button.remove();
 					popup.close();
 				},
-			}).set
-		);
+			},
+			{
+				color: 'white',
+				isDisabled: true,
+				icons: ['fa-refresh fa-spin'],
+				name: 'Please wait...',
+			},
+		]).insert(popup.description, 'beforeend');
 		this.createElements(popup.actions.firstElementChild, 'atouter', [
 			{
 				attributes: {
@@ -4105,15 +4114,11 @@ class Common extends Module {
 				</fragment>
 			),
 		});
-		popup.description.appendChild(
-			new ButtonSet({
-				color1: 'green',
-				color2: 'grey',
-				icon1: 'fa-check-circle',
-				icon2: 'fa-refresh fa-spin',
-				title1: 'Yes',
-				title2: 'Please wait...',
-				callback1: async () => {
+		Button.create([
+			{
+				template: 'success',
+				name: 'Yes',
+				onClick: async () => {
 					await this.request({
 						data: `xsrf_token=${Session.xsrfToken}&do=remove_filter&game_id=${id}`,
 						method: 'POST',
@@ -4123,8 +4128,14 @@ class Common extends Module {
 					button.remove();
 					popup.close();
 				},
-			}).set
-		);
+			},
+			{
+				color: 'white',
+				isDisabled: true,
+				icons: ['fa-refresh fa-spin'],
+				name: 'Please wait...',
+			},
+		]).insert(popup.description, 'beforeend');
 		this.createElements(popup.actions.firstElementChild, 'atouter', [
 			{
 				attributes: {
@@ -5358,34 +5369,22 @@ class Common extends Module {
 		let callback, popup;
 		callback = onNo;
 		popup = new Popup({ addScrollable: true, icon: 'fa-question', isTemp: true, title: message });
-		popup.description.appendChild(
-			new ButtonSet({
-				color1: 'green',
-				color2: '',
-				icon1: 'fa-check',
-				icon2: '',
-				title1: 'Yes',
-				title2: '',
-				callback1: () => {
-					callback = onYes;
-					popup.close();
-				},
-			}).set
-		);
-		popup.description.appendChild(
-			new ButtonSet({
-				color1: 'red',
-				color2: '',
-				icon1: 'fa-times',
-				icon2: '',
-				title1: 'No',
-				title2: '',
-				callback1: () => {
-					callback = onNo;
-					popup.close();
-				},
-			}).set
-		);
+		Button.create({
+			template: 'success',
+			name: 'Yes',
+			onClick: () => {
+				callback = onYes;
+				popup.close();
+			},
+		}).insert(popup.description, 'beforeend');
+		Button.create({
+			template: 'error',
+			name: 'No',
+			onClick: () => {
+				callback = onNo;
+				popup.close();
+			},
+		}).insert(popup.description, 'beforeend');
 		popup.onClose = () => {
 			if (callback) {
 				callback(event);
@@ -5720,7 +5719,7 @@ class Common extends Module {
 				obj.context.appendChild(comments.children[i]);
 			}
 			comments.remove();
-			obj.set.changeButton(1).setTitle('Confirm');
+			obj.submitButton.build(3);
 			this.createElements(obj.status, 'atinner', [
 				{
 					attributes: {
@@ -5797,16 +5796,32 @@ class Common extends Module {
 				type: 'div',
 			},
 		]);
-		obj.set = new ButtonSet({
-			color1: 'grey',
-			color2: 'grey',
-			icon1: 'fa-send',
-			icon2: 'fa-circle-o-notch fa-spin',
-			title1: 'Submit',
-			title2: 'Saving...',
-			callback1: this.submitComment.bind(this, obj),
-		});
-		obj.button.appendChild(obj.set.set);
+		obj.submitButton = Button.create([
+			{
+				color: 'white',
+				icons: ['fa-send'],
+				name: 'Submit',
+				switchTo: { onReturn: 1 },
+				onClick: this.submitComment.bind(this, obj),
+			},
+			{
+				template: 'loading',
+				isDisabled: true,
+				name: 'Saving...',
+			},
+			{
+				color: 'white',
+				icons: ['fa-send'],
+				name: 'Confirm',
+				switchTo: { onReturn: 3 },
+				onClick: this.submitComment.bind(this, obj),
+			},
+			{
+				template: 'loading',
+				isDisabled: true,
+				name: 'Saving...',
+			},
+		]).insert(obj.button, 'beforeend');
 	}
 
 	async hideGames(obj, unhide) {

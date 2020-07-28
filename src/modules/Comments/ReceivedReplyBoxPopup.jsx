@@ -1,9 +1,9 @@
-import { ButtonSet } from '../../class/ButtonSet';
+import { DOM } from '../../class/DOM';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
-import { Shared } from '../../class/Shared';
 import { Settings } from '../../class/Settings';
-import { DOM } from '../../class/DOM';
+import { Shared } from '../../class/Shared';
+import { Button } from '../../components/Button';
 
 class CommentsReceivedReplyBoxPopup extends Module {
 	constructor() {
@@ -53,15 +53,11 @@ class CommentsReceivedReplyBoxPopup extends Module {
 		if (Settings.get('cfh')) {
 			Shared.esgst.modules.commentsCommentFormattingHelper.cfh_addPanel(textArea);
 		}
-		popup.description.appendChild(
-			new ButtonSet({
-				color1: 'green',
-				color2: 'grey',
-				icon1: 'fa-check',
-				icon2: 'fa-circle-o-notch fa-spin',
-				title1: 'Save',
-				title2: 'Saving...',
-				callback1: async () => {
+		Button.create([
+			{
+				template: 'success',
+				name: 'Save',
+				onClick: async () => {
 					await Shared.common.saveComment(
 						null,
 						'',
@@ -72,8 +68,13 @@ class CommentsReceivedReplyBoxPopup extends Module {
 					);
 					popup.close();
 				},
-			}).set
-		);
+			},
+			{
+				template: 'loading',
+				isDisabled: true,
+				name: 'Saving...',
+			},
+		]).insert(popup.description, 'beforeend');
 		popup.open(() => {
 			textArea.focus();
 		});

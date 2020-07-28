@@ -1,16 +1,16 @@
-import { ButtonSet } from '../class/ButtonSet';
-import { Popup } from '../class/Popup';
-import { Shared } from '../class/Shared';
-import { ToggleSwitch } from '../class/ToggleSwitch';
-import { Utils } from '../lib/jsUtils';
-import { setSync } from './Sync';
-import { elementBuilder } from '../lib/SgStUtils/ElementBuilder';
-import { Settings } from '../class/Settings';
-import { permissions } from '../class/Permissions';
 import { browser } from '../browser';
-import { Logger } from '../class/Logger';
 import { DOM } from '../class/DOM';
 import { LocalStorage } from '../class/LocalStorage';
+import { Logger } from '../class/Logger';
+import { permissions } from '../class/Permissions';
+import { Popup } from '../class/Popup';
+import { Settings } from '../class/Settings';
+import { Shared } from '../class/Shared';
+import { ToggleSwitch } from '../class/ToggleSwitch';
+import { Button } from '../components/Button';
+import { Utils } from '../lib/jsUtils';
+import { elementBuilder } from '../lib/SgStUtils/ElementBuilder';
+import { setSync } from './Sync';
 
 class SettingsModule {
 	constructor() {
@@ -94,54 +94,60 @@ class SettingsModule {
 			<div className="esgst-button-group" ref={(ref) => (buttonGroup = ref)}></div>
 		);
 
-		buttonGroup.appendChild(
-			new ButtonSet({
-				color1: 'green',
-				color2: 'grey',
-				icon1: '',
-				icon2: 'fa-circle-o-notch fa-spin',
-				title1: 'Collapse All',
-				title2: 'Collapsing',
-				callback1: async () => {
+		Button.create([
+			{
+				color: 'green',
+				icons: [],
+				name: 'Collapse All',
+				onClick: async () => {
 					for (const item of this.collapseButtons) {
 						this.collapseSection(item.collapseButton, item.id, item.subMenu);
 					}
 				},
-			}).set
-		);
-
-		buttonGroup.appendChild(
-			new ButtonSet({
-				color1: 'green',
-				color2: 'grey',
-				icon1: '',
-				icon2: 'fa-circle-o-notch fa-spin',
-				title1: 'Expand All',
-				title2: 'Expanding',
-				callback1: async () => {
+			},
+			{
+				template: 'loading',
+				isDisabled: true,
+				name: 'Collapsing',
+			},
+		]).insert(buttonGroup, 'beforeend');
+		Button.create([
+			{
+				color: 'green',
+				icons: [],
+				name: 'Expand All',
+				onClick: async () => {
 					for (const item of this.collapseButtons) {
 						this.expandSection(item.collapseButton, item.id, item.subMenu);
 					}
 				},
-			}).set
-		);
-
-		const dismissAllButton = new ButtonSet({
-			color1: 'green',
-			color2: 'grey',
-			icon1: '',
-			icon2: 'fa-circle-o-notch fa-spin',
-			title1: 'Dismiss All New',
-			title2: 'Dismissing',
-			callback1: async () => {
-				await Shared.common.setSetting('dismissedOptions', Shared.esgst.toDismiss);
-				for (let i = newIndicators.length - 1; i > -1; i--) {
-					newIndicators[i].remove();
-				}
 			},
-		}).set;
-		dismissAllButton.classList.add('esgst-hidden');
-		buttonGroup.appendChild(dismissAllButton);
+			{
+				template: 'loading',
+				isDisabled: true,
+				name: 'Expanding',
+			},
+		]).insert(buttonGroup, 'beforeend');
+		const dismissAllButton = Button.create([
+			{
+				color: 'green',
+				icons: [],
+				name: 'Dismiss All New',
+				onClick: async () => {
+					await Shared.common.setSetting('dismissedOptions', Shared.esgst.toDismiss);
+					for (let i = newIndicators.length - 1; i > -1; i--) {
+						newIndicators[i].remove();
+					}
+				},
+			},
+			{
+				template: 'loading',
+				isDisabled: true,
+				name: 'Dismissing',
+			},
+		])
+			.insert(buttonGroup, 'beforeend')
+			.hide();
 
 		Container.setAttribute('data-esgst-popup', true);
 		const items = [
@@ -315,15 +321,12 @@ class SettingsModule {
 				</div>
 			</div>
 		);
-		heading.appendChild(
-			new ButtonSet({
-				color1: 'green',
-				color2: 'grey',
-				icon1: '',
-				icon2: '',
-				title1: 'Save Changes',
-				title2: 'Saving...',
-				callback1: async () => {
+		Button.create([
+			{
+				color: 'green',
+				icons: [],
+				name: 'Save Changes',
+				onClick: async () => {
 					const requiredPermissions = new Set();
 					for (const featureKey of Object.keys(this.requiredPermissions)) {
 						for (const permissionKey of this.requiredPermissions[featureKey]) {
@@ -376,8 +379,14 @@ class SettingsModule {
 						title: 'Settings saved!',
 					}).open();
 				},
-			}).set
-		);
+			},
+			{
+				color: 'white',
+				isDisabled: true,
+				icons: [],
+				name: 'Saving...',
+			},
+		]).insert(heading, 'beforeend');
 		Context.addEventListener('click', (event) =>
 			this.loadFeatureDetails(null, popup && popup.scrollable.offsetTop, event)
 		);
@@ -542,7 +551,7 @@ class SettingsModule {
 
 		newIndicators = document.querySelectorAll('.esgst-new-indicator');
 		if (newIndicators.length) {
-			dismissAllButton.classList.remove('esgst-hidden');
+			dismissAllButton.show();
 		}
 	}
 
@@ -1260,18 +1269,19 @@ class SettingsModule {
 					},
 				]
 			);
-			(item.isGridView ? obj_gv : obj).outerWrap.insertBefore(
-				new ButtonSet({
-					color1: 'grey',
-					color2: 'grey',
-					icon1: 'fa-undo',
-					icon2: 'fa-circle-o-notch fa-spin',
-					title1: 'Reset',
-					title2: 'Resetting',
-					callback1: this.resetElementOrdering.bind(this, item.id, obj, obj_gv),
-				}).set,
-				section
-			);
+			Button.create([
+				{
+					color: 'white',
+					icons: ['fa-undo'],
+					name: 'Reset',
+					onClick: this.resetElementOrdering.bind(this, item.id, obj, obj_gv),
+				},
+				{
+					template: 'loading',
+					isDisabled: true,
+					name: 'Resetting',
+				},
+			]).insert(section, 'beforebegin');
 			(item.isGridView ? obj_gv : obj)[item.key] = section;
 			section.addEventListener(
 				'dragenter',
@@ -1322,18 +1332,19 @@ class SettingsModule {
 						children: children_gv,
 					},
 				]);
-				obj_gv.outerWrap.insertBefore(
-					new ButtonSet({
-						color1: 'grey',
-						color2: 'grey',
-						icon1: 'fa-undo',
-						icon2: 'fa-circle-o-notch fa-spin',
-						title1: 'Reset',
-						title2: 'Resetting',
-						callback1: this.resetElementOrdering.bind(this, `${item.id}_gv`, obj, obj_gv),
-					}).set,
-					section_gv
-				);
+				Button.create([
+					{
+						color: 'white',
+						icons: ['fa-undo'],
+						name: 'Reset',
+						onClick: this.resetElementOrdering.bind(this, `${item.id}_gv`, obj, obj_gv),
+					},
+					{
+						template: 'loading',
+						isDisabled: true,
+						name: 'Resetting',
+					},
+				]).insert(section_gv, 'beforebegin');
 				obj_gv[item.key] = section_gv;
 				section_gv.addEventListener(
 					'dragenter',
@@ -1391,16 +1402,13 @@ class SettingsModule {
 				<div {...obj.include}></div>
 				<div className="esgst-button-group">
 					{
-						new ButtonSet({
-							color1: 'grey',
-							color2: '',
-							icon1: 'fa-plus-circle',
-							icon2: '',
-							title1: 'Add New',
-							title2: '',
-							callback1: () =>
+						Button.create({
+							color: 'white',
+							icons: ['fa-plus-circle'],
+							name: 'Add New',
+							onClick: () =>
 								obj.include.extend(feature, 'include', obj, { enabled: 1, pattern: '' }, true),
-						}).set
+						}).build().nodes.outer
 					}
 				</div>
 				<div className="esgst-bold">
@@ -1413,16 +1421,13 @@ class SettingsModule {
 				<div {...obj.exclude}></div>
 				<div className="esgst-button-group">
 					{
-						new ButtonSet({
-							color1: 'grey',
-							color2: '',
-							icon1: 'fa-plus-circle',
-							icon2: '',
-							title1: 'Add New',
-							title2: '',
-							callback1: () =>
+						Button.create({
+							color: 'white',
+							icons: ['fa-plus-circle'],
+							name: 'Add New',
+							onClick: () =>
 								obj.exclude.extend(feature, 'exclude', obj, { enabled: 1, pattern: '' }, true),
-						}).set
+						}).build().nodes.outer
 					}
 				</div>
 			</fragment>
@@ -3394,15 +3399,19 @@ class SettingsModule {
 			icon: 'fa-gear',
 			title: `Select the options that you want:`,
 			buttons: [
-				{
-					color1: 'green',
-					color2: 'grey',
-					icon1: 'fa-gear',
-					icon2: 'fa-circle-o-notch fa-spin',
-					title1: 'Generate',
-					title2: 'Generating...',
-					callback1: () => this.generateThemeUrl(obj, key),
-				},
+				[
+					{
+						color: 'green',
+						icons: ['fa-gear'],
+						name: 'Generate',
+						onClick: () => this.generateThemeUrl(obj, key),
+					},
+					{
+						template: 'loading',
+						isDisabled: true,
+						name: 'Generating...',
+					},
+				],
 			],
 			addScrollable: true,
 		});

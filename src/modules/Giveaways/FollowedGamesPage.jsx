@@ -1,8 +1,8 @@
-import { ButtonSet } from '../../class/ButtonSet';
 import { DOM } from '../../class/DOM';
 import { FetchRequest } from '../../class/FetchRequest';
 import { Module } from '../../class/Module';
 import { Shared } from '../../class/Shared';
+import { Button } from '../../components/Button';
 
 class GiveawaysFollowedGamesPage extends Module {
 	constructor() {
@@ -59,17 +59,21 @@ class GiveawaysFollowedGamesPage extends Module {
 			url: `${Shared.esgst.path}/search?page=`,
 		};
 		DOM.insert(obj.container, 'atinner', <div ref={(ref) => (obj.context = ref)} />);
-		obj.set = new ButtonSet({
-			color1: 'green',
-			color2: 'grey',
-			icon1: '',
-			icon2: '',
-			title1: 'Load More',
-			title2: 'Loading...',
-			callback1: async () => await this.loadNextPage(obj),
-		});
-		obj.container.appendChild(obj.set.set);
-		obj.set.trigger();
+		obj.button = Button.create([
+			{
+				color: 'green',
+				icons: [],
+				name: 'Load More',
+				onClick: async () => await this.loadNextPage(obj),
+			},
+			{
+				color: 'white',
+				isDisabled: true,
+				icons: [],
+				name: 'Loading...',
+			},
+		]).insert(obj.container, 'beforeend');
+		obj.button.onClick();
 	}
 
 	async loadNextPage(obj) {
@@ -86,7 +90,7 @@ class GiveawaysFollowedGamesPage extends Module {
 			return;
 		}
 		if (obj.reachedEnd) {
-			obj.set.set.remove();
+			obj.button.destroy();
 			return;
 		}
 		do {

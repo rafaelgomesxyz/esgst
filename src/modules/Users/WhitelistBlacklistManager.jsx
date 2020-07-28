@@ -1,12 +1,12 @@
-import { ButtonSet } from '../../class/ButtonSet';
+import { DOM } from '../../class/DOM';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
-import { ToggleSwitch } from '../../class/ToggleSwitch';
-import { common } from '../Common';
+import { Session } from '../../class/Session';
 import { Settings } from '../../class/Settings';
 import { Shared } from '../../class/Shared';
-import { DOM } from '../../class/DOM';
-import { Session } from '../../class/Session';
+import { ToggleSwitch } from '../../class/ToggleSwitch';
+import { Button } from '../../components/Button';
+import { common } from '../Common';
 
 const createConfirmation = common.createConfirmation.bind(common),
 	createElements = common.createElements.bind(common),
@@ -130,54 +130,60 @@ class UsersWhitelistBlacklistManager extends Module {
 					type: 'div',
 				},
 			]);
-			wbm.popup.description.appendChild(
-				new ButtonSet({
-					color1: 'green',
-					color2: 'grey',
-					icon1: 'fa-arrow-up',
-					icon2: 'fa-times',
-					title1: 'Import',
-					title2: 'Cancel',
-					callback1: () => {
+			Button.create([
+				{
+					color: 'green',
+					icons: ['fa-arrow-up'],
+					name: 'Import',
+					onClick: () => {
 						return new Promise((resolve) =>
 							this.wbm_start(wbm, this.wbm_importList.bind(this, wbm), resolve)
 						);
 					},
-					callback2: this.wbm_cancel.bind(this, wbm),
-				}).set
-			);
-			wbm.popup.description.appendChild(
-				new ButtonSet({
-					color1: 'green',
-					color2: 'grey',
-					icon1: 'fa-arrow-down',
-					icon2: 'fa-times',
-					title1: 'Export',
-					title2: 'Cancel',
-					callback1: () => {
+				},
+				{
+					template: 'error',
+					name: 'Cancel',
+					switchTo: { onReturn: 0 },
+					onClick: this.wbm_cancel.bind(this, wbm),
+				},
+			]).insert(wbm.popup.description, 'beforeend');
+			Button.create([
+				{
+					color: 'green',
+					icons: ['fa-arrow-down'],
+					name: 'Export',
+					onClick: () => {
 						return new Promise((resolve) =>
 							this.wbm_start(wbm, this.wbm_exportList.bind(this, wbm, [], 1), resolve)
 						);
 					},
-					callback2: this.wbm_cancel.bind(this, wbm),
-				}).set
-			);
-			wbm.popup.description.appendChild(
-				new ButtonSet({
-					color1: 'green',
-					color2: 'grey',
-					icon1: 'fa-trash',
-					icon2: 'fa-times',
-					title1: 'Clear',
-					title2: 'Cancel',
-					callback1: () => {
+				},
+				{
+					template: 'error',
+					name: 'Cancel',
+					switchTo: { onReturn: 0 },
+					onClick: this.wbm_cancel.bind(this, wbm),
+				},
+			]).insert(wbm.popup.description, 'beforeend');
+			Button.create([
+				{
+					color: 'green',
+					icons: ['fa-trash'],
+					name: 'Clear',
+					onClick: () => {
 						return new Promise((resolve) =>
 							this.wbm_start(wbm, this.wbm_clearList.bind(this, wbm, [], 1), resolve)
 						);
 					},
-					callback2: this.wbm_cancel.bind(this, wbm),
-				}).set
-			);
+				},
+				{
+					template: 'error',
+					name: 'Cancel',
+					switchTo: { onReturn: 0 },
+					onClick: this.wbm_cancel.bind(this, wbm),
+				},
+			]).insert(wbm.popup.description, 'beforeend');
 			wbm.results = createElements(wbm.popup.scrollable, 'beforeend', [
 				{
 					type: 'div',

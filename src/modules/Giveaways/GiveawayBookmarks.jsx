@@ -1,13 +1,13 @@
 import { Button } from '../../class/Button';
-import { ButtonSet } from '../../class/ButtonSet';
+import { DOM } from '../../class/DOM';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
-import { common } from '../Common';
-import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
-import { Shared } from '../../class/Shared';
 import { Settings } from '../../class/Settings';
-import { DOM } from '../../class/DOM';
+import { Shared } from '../../class/Shared';
 import { Tabs } from '../../class/Tabs';
+import { Button as ButtonComponent } from '../../components/Button';
+import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
+import { common } from '../Common';
 
 const createElements = common.createElements.bind(common),
 	createLock = common.createLock.bind(common),
@@ -299,40 +299,38 @@ class GiveawaysGiveawayBookmarks extends Module {
 				type: 'div',
 			},
 		]);
-		let set = new ButtonSet({
-			color1: 'green',
-			color2: 'grey',
-			icon1: 'fa-plus',
-			icon2: 'fa-circle-o-notch fa-spin',
-			title1: 'Load more...',
-			title2: 'Loading more...',
-			callback1: () => {
-				return new Promise((resolve) => {
-					// noinspection JSIgnoredPromiseFromCall
-					this.gb_loadGiveaways(i, i + 5, bookmarked, gbGiveaways, info, popup, (value) => {
-						i = value;
-						if (i > n) {
-							set.set.remove();
-						} else if (Settings.get('es_gb') && context.scrollHeight <= context.offsetHeight) {
-							set.trigger();
-						}
-						resolve();
+		ButtonComponent.create({
+			color: 'white',
+			icons: ['fa-list'],
+			name: 'View Raw List',
+			onClick: this.gb_openList.bind(this, { bookmarked }),
+		}).insert(container, 'beforeend');
+		const loadMoreButton = ButtonComponent.create([
+			{
+				color: 'green',
+				icons: ['fa-plus'],
+				name: 'Load more...',
+				onClick: () => {
+					return new Promise((resolve) => {
+						// noinspection JSIgnoredPromiseFromCall
+						this.gb_loadGiveaways(i, i + 5, bookmarked, gbGiveaways, info, popup, (value) => {
+							i = value;
+							if (i > n) {
+								loadMoreButton.destroy();
+							} else if (Settings.get('es_gb') && context.scrollHeight <= context.offsetHeight) {
+								loadMoreButton.onClick();
+							}
+							resolve();
+						});
 					});
-				});
+				},
 			},
-		});
-		container.appendChild(
-			new ButtonSet({
-				color1: 'grey',
-				color2: '',
-				icon1: 'fa-list',
-				icon2: '',
-				title1: 'View Raw List',
-				title2: '',
-				callback1: this.gb_openList.bind(this, { bookmarked }),
-			}).set
-		);
-		container.appendChild(set.set);
+			{
+				template: 'loading',
+				isDisabled: true,
+				name: 'Loading more...',
+			},
+		]).insert(container, 'beforeend');
 		if (popup) {
 			popup.open();
 		}
@@ -380,11 +378,14 @@ class GiveawaysGiveawayBookmarks extends Module {
 				this.esgst.modules.generalMultiManager.mm(heading);
 			}
 		}
-		set.trigger();
+		loadMoreButton.onClick();
 		if (Settings.get('es_gb')) {
 			context.addEventListener('scroll', () => {
-				if (context.scrollTop + context.offsetHeight >= context.scrollHeight && !set.busy) {
-					set.trigger();
+				if (
+					context.scrollTop + context.offsetHeight >= context.scrollHeight &&
+					!loadMoreButton.isBusy
+				) {
+					loadMoreButton.onClick();
 				}
 			});
 		}

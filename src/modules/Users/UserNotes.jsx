@@ -1,10 +1,10 @@
-import { ButtonSet } from '../../class/ButtonSet';
+import { DOM } from '../../class/DOM';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
-import { common } from '../Common';
 import { Settings } from '../../class/Settings';
 import { Shared } from '../../class/Shared';
-import { DOM } from '../../class/DOM';
+import { Button } from '../../components/Button';
+import { common } from '../Common';
 
 const createElements = common.createElements.bind(common),
 	getFeatureTooltip = common.getFeatureTooltip.bind(common),
@@ -96,7 +96,6 @@ class UsersUserNotes extends Module {
 	}
 
 	un_open(profile) {
-		let set;
 		profile.unPopup = new Popup({
 			addScrollable: true,
 			icon: 'fa-sticky-note',
@@ -115,21 +114,23 @@ class UsersUserNotes extends Module {
 		if (Settings.get('cfh')) {
 			Shared.esgst.modules.commentsCommentFormattingHelper.cfh_addPanel(profile.unTextArea);
 		}
-		set = new ButtonSet({
-			color1: 'green',
-			color2: 'grey',
-			icon1: 'fa-check',
-			icon2: 'fa-circle-o-notch fa-spin',
-			title1: 'Save',
-			title2: 'Saving...',
-			callback1: this.un_save.bind(this, profile),
-		});
+		const button = Button.create([
+			{
+				template: 'success',
+				name: 'Save',
+				onClick: this.un_save.bind(this, profile),
+			},
+			{
+				template: 'loading',
+				isDisabled: true,
+				name: 'Saving...',
+			},
+		]).insert(profile.unPopup.description, 'beforeend');
 		profile.unTextArea.addEventListener('keydown', (event) => {
 			if (event.ctrlKey && event.key === 'Enter') {
-				set.trigger();
+				button.onClick();
 			}
 		});
-		profile.unPopup.description.appendChild(set.set);
 		profile.unPopup.open(this.un_get.bind(this, profile));
 	}
 

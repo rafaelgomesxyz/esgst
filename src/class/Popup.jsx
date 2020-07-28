@@ -1,10 +1,20 @@
-import { ButtonSet } from './ButtonSet';
-import { Shared } from './Shared';
-import { Settings } from './Settings';
-import { DOM } from './DOM';
+import { Button } from '../components/Button';
 import { NotificationBar } from '../components/NotificationBar';
+import { DOM } from './DOM';
+import { Settings } from './Settings';
+import { Shared } from './Shared';
+
+/**
+ * @typedef {Object} PopupOptions
+ * @property {string} icon
+ * @property {string} title
+ * @property {import('../components/Button').ButtonOptions[]} buttons
+ */
 
 class Popup {
+	/**
+	 * @param {PopupOptions} details
+	 */
 	constructor(details) {
 		this.custom = {};
 		this.results = undefined;
@@ -96,7 +106,10 @@ class Popup {
 						/>
 					</fragment>
 				);
-				input.addEventListener('keydown', this.triggerButton.bind(this, 0));
+				input.addEventListener('keydown', (event) => {
+					if (event.key !== 'Enter' || this.buttons[0]?.isBusy) return;
+					this.buttons[0].onClick();
+				});
 				this.textInputs.push(input);
 			});
 		}
@@ -118,10 +131,9 @@ class Popup {
 		}
 		if (details.buttons) {
 			this.buttons = [];
-			details.buttons.forEach((button) => {
-				let set = new ButtonSet(button);
-				this.buttons.push(set);
-				this.description.appendChild(set.set);
+			details.buttons.forEach((buttonOptions) => {
+				const button = Button.create(buttonOptions).insert(this.description, 'beforeend');
+				this.buttons.push(button);
 			});
 		}
 		if (details.addProgress) {
@@ -185,20 +197,6 @@ class Popup {
 
 	getTextInputValue(index) {
 		return this.textInputs[index].value;
-	}
-
-	triggerButton(index, event) {
-		if (event && (event.key !== 'Enter' || this.buttons[index].busy)) return;
-		this.buttons[index].trigger();
-	}
-
-	isButtonBusy(index) {
-		return !this.buttons[index] || this.buttons[index].busy;
-	}
-
-	removeButton(index) {
-		let button = this.buttons.splice(index, 1)[0];
-		button.set.remove();
 	}
 
 	setScrollable(jsx) {

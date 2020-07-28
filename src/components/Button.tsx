@@ -22,6 +22,8 @@ export interface ButtonData extends BaseData, ButtonStateData {
 }
 
 export interface ButtonStateData {
+	additionalContainerClass: string;
+	additionalClass: string;
 	states: (ButtonStateWithTemplate | ButtonStateWithoutTemplate)[];
 	initialStateNumber: number;
 }
@@ -38,7 +40,6 @@ export interface ButtonStateBase {
 }
 
 export interface ButtonStateExtra {
-	additionalClass?: string;
 	isDisabled?: boolean;
 	tooltip?: string;
 	name?: string;
@@ -79,15 +80,15 @@ export abstract class Button extends Base<Button, ButtonData, ButtonNodes> {
 			.map((className) => `.${ClassNames[Namespaces.SG].button.root}.${className}`)
 			.join(', '),
 	};
-	static readonly containerKeys = ['pageHeading'];
+	static readonly containerKeys = ['mmButtonGroup', 'giveawayColumns', 'pageHeading'];
 	static readonly containerSelectors = {
 		[Namespaces.SG]: Button.containerKeys
 			// @ts-expect-error
-			.map((key) => `.${ClassNames[Namespaces.SG][key]}`)
+			.map((key) => `.${ClassNames[Namespaces.SG][key] ?? EsgstClassNames[key]}`)
 			.join(', '),
 		[Namespaces.ST]: Button.containerKeys
 			// @ts-expect-error
-			.map((key) => `.${ClassNames[Namespaces.ST][key]}`)
+			.map((key) => `.${ClassNames[Namespaces.ST][key] ?? EsgstClassNames[key]}`)
 			.join(', '),
 	};
 	static readonly templates: Record<number, Record<ButtonStateTemplate, ButtonStateBase>> = {
@@ -109,6 +110,7 @@ export abstract class Button extends Base<Button, ButtonData, ButtonNodes> {
 
 	protected _data: ButtonData;
 	protected _nodes: ButtonNodes;
+	protected _isBusy = false;
 	protected _currentStateNumber: number;
 	protected _conflicts: Button[] = [];
 
@@ -120,6 +122,8 @@ export abstract class Button extends Base<Button, ButtonData, ButtonNodes> {
 	}
 
 	static getInitialData = (options: ButtonOptions = {}): ButtonData => {
+		let additionalContainerClass = '';
+		let additionalClass = '';
 		let states: (ButtonStateWithTemplate | ButtonStateWithoutTemplate)[];
 		let initialStateNumber = 1;
 		if (Array.isArray(options)) {
@@ -127,10 +131,14 @@ export abstract class Button extends Base<Button, ButtonData, ButtonNodes> {
 		} else if ('color' in options || 'template' in options) {
 			states = [options];
 		} else {
+			additionalContainerClass = options.additionalContainerClass ?? '';
+			additionalClass = options.additionalClass ?? '';
 			states = [...(options.states ?? [])];
 			initialStateNumber = options.initialStateNumber ?? 1;
 		}
 		return {
+			additionalContainerClass,
+			additionalClass,
 			color: Button.defaultColor,
 			isHidden: false,
 			isDisabled: false,
@@ -173,6 +181,10 @@ export abstract class Button extends Base<Button, ButtonData, ButtonNodes> {
 		return buttons;
 	};
 
+	get isBusy(): boolean {
+		return this._isBusy;
+	}
+
 	insert = (referenceNode: Element, position: ExtendedInsertPosition): Button => {
 		if (!this._nodes.outer) {
 			this.build();
@@ -188,7 +200,7 @@ export abstract class Button extends Base<Button, ButtonData, ButtonNodes> {
 				referenceNode,
 				position,
 				<div
-					className={EsgstClassNames.buttonContainer}
+					className={`${EsgstClassNames.buttonContainer} ${this._data.additionalContainerClass}`}
 					ref={(ref) => (this._nodes.container = ref)}
 				>
 					{this._nodes.outer}
@@ -374,6 +386,7 @@ export abstract class Button extends Base<Button, ButtonData, ButtonNodes> {
 		if (!state) {
 			throw this.getError('current state does not exist');
 		}
+		this._isBusy = true;
 		this.disableConflicts();
 		let nextStateNumber =
 			state.switchTo?.onClick ?? (this._currentStateNumber % this._data.states.length) + 1;
@@ -383,7 +396,7 @@ export abstract class Button extends Base<Button, ButtonData, ButtonNodes> {
 		if (!state.isDisabled && state.onClick) {
 			await state.onClick();
 		}
-		if (this._currentStateNumber == nextStateNumber) {
+		if (this._currentStateNumber === nextStateNumber) {
 			// No other state has taken over.
 			nextStateNumber =
 				state.switchTo?.onReturn ?? (this._currentStateNumber % this._data.states.length) + 1;
@@ -392,6 +405,7 @@ export abstract class Button extends Base<Button, ButtonData, ButtonNodes> {
 			}
 		}
 		this.enableConflicts();
+		this._isBusy = false;
 		return this;
 	};
 
@@ -446,8 +460,8 @@ export class SgButton extends Button {
 			({ color, icons } = state);
 		}
 		this.setColor(color);
-		if (state.additionalClass) {
-			this._nodes.outer?.classList.add(state.additionalClass);
+		if (this._data.additionalClass) {
+			this._nodes.outer?.classList.add(this._data.additionalClass);
 		}
 		this.toggleHidden(this._data.isHidden);
 		this.setDisabled(state.isDisabled ?? false);
@@ -550,8 +564,8 @@ export class StButton extends Button {
 			({ color, icons } = state);
 		}
 		this.setColor(color);
-		if (state.additionalClass) {
-			this._nodes.outer?.classList.add(state.additionalClass);
+		if (this._data.additionalClass) {
+			this._nodes.outer?.classList.add(this._data.additionalClass);
 		}
 		this.toggleHidden(this._data.isHidden);
 		this.setDisabled(state.isDisabled ?? false);

@@ -1,8 +1,8 @@
-import { ButtonSet } from '../../class/ButtonSet';
+import { DOM } from '../../class/DOM';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { Shared } from '../../class/Shared';
-import { DOM } from '../../class/DOM';
+import { Button } from '../../components/Button';
 
 class CommentsReplyBoxPopup extends Module {
 	constructor() {
@@ -47,15 +47,11 @@ class CommentsReplyBoxPopup extends Module {
 			'beforeend',
 			<textarea name="description" ref={(ref) => (popup.textArea = ref)}></textarea>
 		);
-		popup.description.appendChild(
-			new ButtonSet({
-				color1: 'green',
-				color2: 'grey',
-				icon1: 'fa-check',
-				icon2: 'fa-circle-o-notch fa-spin',
-				title1: 'Save',
-				title2: 'Saving...',
-				callback1: async () => {
+		Button.create([
+			{
+				template: 'success',
+				name: 'Save',
+				onClick: async () => {
 					await Shared.common.saveComment(
 						null,
 						Shared.esgst.sg ? '' : document.querySelector(`[name="trade_code"]`).value,
@@ -66,8 +62,13 @@ class CommentsReplyBoxPopup extends Module {
 						true
 					);
 				},
-			}).set
-		);
+			},
+			{
+				template: 'loading',
+				isDisabled: true,
+				name: 'Saving...',
+			},
+		]).insert(popup.description, 'beforeend');
 		button.addEventListener(
 			'click',
 			popup.open.bind(popup, popup.textArea.focus.bind(popup.textArea))

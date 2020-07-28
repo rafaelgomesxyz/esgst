@@ -1,12 +1,12 @@
+import { DOM } from '../../class/DOM';
+import { LocalStorage } from '../../class/LocalStorage';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { Settings } from '../../class/Settings';
-import { Table } from '../../class/Table';
 import { Shared } from '../../class/Shared';
+import { Table } from '../../class/Table';
 import { ToggleSwitch } from '../../class/ToggleSwitch';
-import { ButtonSet } from '../../class/ButtonSet';
-import { DOM } from '../../class/DOM';
-import { LocalStorage } from '../../class/LocalStorage';
+import { Button } from '../../components/Button';
 
 class GeneralCakeDayReminder extends Module {
 	constructor() {
@@ -314,16 +314,11 @@ class GeneralCakeDayReminder extends Module {
 			popup.scrollable.appendChild(bSwitch.container);
 			popup.scrollable.appendChild(dSwitch.container);
 			popup.scrollable.appendChild(aSwitch.container);
-
-			popup.description.appendChild(
-				new ButtonSet({
-					color1: 'green',
-					color2: 'grey',
-					icon1: 'fa-check',
-					icon2: 'fa-circle-o-notch fa-spin',
-					title1: 'Save',
-					title2: 'Saving...',
-					callback1: async () => {
+			Button.create([
+				{
+					template: 'success',
+					name: 'Save',
+					onClick: async () => {
 						if (user.values.cdr.b || user.values.cdr.d || user.values.cdr.a) {
 							user.values.registrationDate = profile.registrationDate;
 						} else {
@@ -332,9 +327,13 @@ class GeneralCakeDayReminder extends Module {
 						await Shared.common.saveUser(null, null, user);
 						popup.close();
 					},
-				}).set
-			);
-
+				},
+				{
+					template: 'loading',
+					isDisabled: true,
+					name: 'Saving...',
+				},
+			]).insert(popup.description, 'beforeend');
 			popup.open();
 		});
 	}

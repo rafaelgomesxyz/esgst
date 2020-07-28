@@ -1,12 +1,12 @@
-import { ButtonSet } from '../../class/ButtonSet';
+import { DOM } from '../../class/DOM';
 import { Module } from '../../class/Module';
+import { permissions } from '../../class/Permissions';
 import { Popup } from '../../class/Popup';
-import { Utils } from '../../lib/jsUtils';
-import { common } from '../Common';
 import { Settings } from '../../class/Settings';
 import { Shared } from '../../class/Shared';
-import { permissions } from '../../class/Permissions';
-import { DOM } from '../../class/DOM';
+import { Button } from '../../components/Button';
+import { Utils } from '../../lib/jsUtils';
+import { common } from '../Common';
 
 const createElements = common.createElements.bind(common),
 	createHeadingButton = common.createHeadingButton.bind(common),
@@ -278,18 +278,20 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 					type: 'div',
 				},
 			]);
-			obj.popup.description.appendChild(
-				new ButtonSet({
-					color1: 'green',
-					color2: 'grey',
-					icon1: 'fa-question-circle',
-					icon2: 'fa-times-circle',
-					title1: 'Check',
-					title2: 'Cancel',
-					callback1: this.namwc_start.bind(this, obj),
-					callback2: this.namwc_stop.bind(this, obj),
-				}).set
-			);
+			Button.create([
+				{
+					color: 'green',
+					icons: ['fa-question-circle'],
+					name: 'Check',
+					onClick: this.namwc_start.bind(this, obj),
+				},
+				{
+					template: 'error',
+					name: 'Cancel',
+					switchTo: { onReturn: 0 },
+					onClick: this.namwc_stop.bind(this, obj),
+				},
+			]).insert(obj.popup.description, 'beforeend');
 		}
 		obj.popup.results = createElements(obj.popup.scrollable, 'beforeend', [
 			{

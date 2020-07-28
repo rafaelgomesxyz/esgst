@@ -1,10 +1,10 @@
-import { ButtonSet } from '../../class/ButtonSet';
+import { DOM } from '../../class/DOM';
 import { Module } from '../../class/Module';
 import { Popout } from '../../class/Popout';
-import { ToggleSwitch } from '../../class/ToggleSwitch';
-import { common } from '../Common';
 import { Settings } from '../../class/Settings';
-import { DOM } from '../../class/DOM';
+import { ToggleSwitch } from '../../class/ToggleSwitch';
+import { Button } from '../../components/Button';
+import { common } from '../Common';
 
 const capitalizeFirstLetter = common.capitalizeFirstLetter.bind(common),
 	createElements = common.createElements.bind(common),
@@ -377,17 +377,12 @@ class GiveawaysGiveawaysSorter extends Module {
 		let callback = () =>
 			saveAndSortContent(this.esgst.currentScope.giveaways, this.esgst.gas.optionKey, options);
 		options.addEventListener('change', callback);
-		obj.popout.popout.appendChild(
-			new ButtonSet({
-				color1: 'green',
-				color2: '',
-				icon1: 'fa-arrow-circle-right',
-				icon2: '',
-				title1: 'Sort',
-				title2: '',
-				callback1: callback,
-			}).set
-		);
+		Button.create({
+			color: 'green',
+			icons: ['fa-arrow-circle-right'],
+			name: 'Sort',
+			onClick: callback,
+		}).insert(obj.popout.popout, 'beforeend');
 		obj.popout.open();
 	}
 }

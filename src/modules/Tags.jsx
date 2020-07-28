@@ -277,15 +277,18 @@ class Tags extends Module {
 		obj.popup = new Popup({
 			addScrollable: true,
 			buttons: [
-				{
-					color1: 'green',
-					color2: 'grey',
-					icon1: 'fa-check',
-					icon2: 'fa-circle-o-notch fa-spin',
-					title1: 'Save',
-					title2: 'Saving...',
-					callback1: this.tags_saveTags.bind(this, obj),
-				},
+				[
+					{
+						template: 'success',
+						name: 'Save',
+						onClick: this.tags_saveTags.bind(this, obj),
+					},
+					{
+						template: 'loading',
+						isDisabled: true,
+						name: 'Saving...',
+					},
+				],
 			],
 			icon: 'fa-tag',
 			isTemp: true,
@@ -840,13 +843,9 @@ class Tags extends Module {
 			addScrollable: true,
 			buttons: [
 				{
-					color1: 'green',
-					color2: '',
-					icon1: 'fa-check',
-					icon2: '',
-					title1: 'Add Tags',
-					title2: '',
-					callback1: this.tags_addTagsFromList.bind(this, obj),
+					template: 'success',
+					name: 'Add Tags',
+					onClick: this.tags_addTagsFromList.bind(this, obj),
 				},
 			],
 			icon: 'fa-list',

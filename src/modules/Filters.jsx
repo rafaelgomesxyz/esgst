@@ -1,16 +1,16 @@
-import { ButtonSet } from '../class/ButtonSet';
 import { Checkbox } from '../class/Checkbox';
+import { DOM } from '../class/DOM';
+import { Logger } from '../class/Logger';
 import { Module } from '../class/Module';
 import { Popup } from '../class/Popup';
-import { ToggleSwitch } from '../class/ToggleSwitch';
-import { Utils } from '../lib/jsUtils';
-import { common } from './Common';
+import { Session } from '../class/Session';
 import { Settings } from '../class/Settings';
 import { Shared } from '../class/Shared';
+import { ToggleSwitch } from '../class/ToggleSwitch';
+import { Button } from '../components/Button';
+import { Utils } from '../lib/jsUtils';
+import { common } from './Common';
 import { SYNC_KEYS } from './Sync';
-import { Logger } from '../class/Logger';
-import { Session } from '../class/Session';
-import { DOM } from '../class/DOM';
 
 const createElements = common.createElements.bind(common),
 	createFadeMessage = common.createElements.bind(common),
@@ -440,17 +440,18 @@ class Filters extends Module {
 			this.filter_manual.bind(this, {})
 		);
 
-		presetPanel.appendChild(
-			new ButtonSet({
-				color1: 'green',
-				color2: 'grey',
-				icon1: 'fa-check',
-				icon2: 'fa-circle-o-notch fa-spin',
-				title1: 'Save',
-				title2: 'Saving...',
-				callback1: this.filters_savePreset.bind(this, obj),
-			}).set
-		);
+		Button.create([
+			{
+				template: 'success',
+				name: 'Save',
+				onClick: this.filters_savePreset.bind(this, obj),
+			},
+			{
+				template: 'loading',
+				isDisabled: true,
+				name: 'Saving...',
+			},
+		]).insert(presetPanel, 'beforeend');
 
 		let name = Settings.get(`${obj.id}_preset${obj.type}`);
 		if (name) {

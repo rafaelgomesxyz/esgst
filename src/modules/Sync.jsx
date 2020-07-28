@@ -1,5 +1,4 @@
 import dateFns_formatDistanceStrict from 'date-fns/formatDistanceStrict';
-import { ButtonSet } from '../class/ButtonSet';
 import { Checkbox } from '../class/Checkbox';
 import { DOM } from '../class/DOM';
 import { FetchRequest } from '../class/FetchRequest';
@@ -9,6 +8,7 @@ import { permissions } from '../class/Permissions';
 import { Popup } from '../class/Popup';
 import { Settings } from '../class/Settings';
 import { Shared } from '../class/Shared';
+import { Button } from '../components/Button';
 import { NotificationBar } from '../components/NotificationBar';
 import { elementBuilder } from '../lib/SgStUtils/ElementBuilder';
 
@@ -183,15 +183,12 @@ async function setSync(isPopup = false, isSilent = false) {
 				<div className="esgst-sync-area"></div>
 			</div>
 		);
-		context.appendChild(
-			new ButtonSet({
-				color1: 'green',
-				color2: 'grey',
-				icon1: '',
-				icon2: '',
-				title1: 'Save Changes',
-				title2: 'Saving...',
-				callback1: async () => {
+		Button.create([
+			{
+				color: 'green',
+				icons: [],
+				name: 'Save Changes',
+				onClick: async () => {
 					await Shared.common.lockAndSaveSettings(toSave);
 					toSave = {};
 					if (isPopup) {
@@ -200,8 +197,13 @@ async function setSync(isPopup = false, isSilent = false) {
 						window.location.reload();
 					}
 				},
-			}).set
-		);
+			},
+			{
+				color: 'white',
+				icons: [],
+				name: 'Saving...',
+			},
+		]).insert(context, 'beforeend');
 		syncer.container = context.querySelector('.esgst-sync-options');
 		syncer.area = context.querySelector('.esgst-sync-area');
 		DOM.insert(
@@ -250,69 +252,85 @@ async function setSync(isPopup = false, isSilent = false) {
 				addNotificationBars(syncer, info);
 			}
 		}
-		syncer.set = new ButtonSet({
-			color1: 'green',
-			color2: 'grey',
-			icon1: 'fa-refresh',
-			icon2: 'fa-times',
-			title1: 'Sync',
-			title2: 'Cancel',
-			callback1: sync.bind(null, syncer),
-			callback2: cancelSync.bind(null, syncer),
-		});
+		syncer.button = Button.create([
+			{
+				color: 'green',
+				icons: ['fa-refresh'],
+				name: 'Sync',
+				onClick: sync.bind(null, syncer),
+			},
+			{
+				template: 'error',
+				name: 'Cancel',
+				switchTo: { onReturn: 0 },
+				onClick: cancelSync.bind(null, syncer),
+			},
+		]).build();
 		syncer.manual.content.push(
 			<div className="esgst-button-group">
 				<span>Select:</span>
 				{
-					new ButtonSet({
-						color1: 'grey',
-						color2: 'grey',
-						icon1: 'fa-square',
-						icon2: 'fa-circle-o-notch fa-spin',
-						title1: 'All',
-						title2: '',
-						callback1: Shared.common.selectSwitches.bind(
-							Shared.common,
-							syncer.switches,
-							'check',
-							null
-						),
-					}).set
+					Button.create([
+						{
+							color: 'white',
+							icons: ['fa-square'],
+							name: 'All',
+							onClick: Shared.common.selectSwitches.bind(
+								Shared.common,
+								syncer.switches,
+								'check',
+								null
+							),
+						},
+						{
+							template: 'loading',
+							isDisabled: true,
+							name: '',
+						},
+					]).build().nodes.outer
 				}
 				{
-					new ButtonSet({
-						color1: 'grey',
-						color2: 'grey',
-						icon1: 'fa-square-o',
-						icon2: 'fa-circle-o-notch fa-spin',
-						title1: 'None',
-						title2: '',
-						callback1: Shared.common.selectSwitches.bind(
-							Shared.common,
-							syncer.switches,
-							'uncheck',
-							null
-						),
-					}).set
+					Button.create([
+						{
+							color: 'white',
+							icons: ['fa-square-o'],
+							name: 'None',
+							onClick: Shared.common.selectSwitches.bind(
+								Shared.common,
+								syncer.switches,
+								'uncheck',
+								null
+							),
+						},
+						{
+							template: 'loading',
+							isDisabled: true,
+							name: '',
+						},
+					]).build().nodes.outer
 				}
 				{
-					new ButtonSet({
-						color1: 'grey',
-						color2: 'grey',
-						icon1: 'fa-plus-square-o',
-						icon2: 'fa-circle-o-notch fa-spin',
-						title1: 'Inverse',
-						title2: '',
-						callback1: Shared.common.selectSwitches.bind(
-							Shared.common,
-							syncer.switches,
-							'toggle',
-							null
-						),
-					}).set
+					Button.create([
+						{
+							color: 'white',
+							icons: ['fa-plus-square-o'],
+							name: 'Inverse',
+							onClick: Shared.common.selectSwitches.bind(
+								Shared.common,
+								syncer.switches,
+								'toggle',
+								null
+							),
+						},
+						{
+							template: 'loading',
+							isDisabled: true,
+							name: '',
+						},
+					]).build().nodes.outer
 				}
 			</div>,
-			syncer.set.set
+			syncer.button.nodes.outer
 		);
 		syncer.automatic.content.push(
 			<div className="esgst-description">
@@ -332,8 +350,8 @@ async function setSync(isPopup = false, isSilent = false) {
 			type: 'div',
 		},
 	]);
-	if (!syncer.isSilent && !Shared.esgst.isSyncing && syncer.parameters && syncer.set) {
-		syncer.set.trigger();
+	if (!syncer.isSilent && !Shared.esgst.isSyncing && syncer.parameters && syncer.button) {
+		syncer.button.onClick();
 	}
 	return syncer;
 }
@@ -352,7 +370,7 @@ function updateSyncDates(syncer) {
 }
 
 function addNotificationBars(syncer, info) {
-	const notificationBar = NotificationBar.create();
+	const notificationBar = NotificationBar.create().build();
 	let timestamp = Settings.get(`lastSync${info.key}`);
 	if (timestamp) {
 		notificationBar.setSuccess(
@@ -399,11 +417,14 @@ function cancelSync(syncer) {
 	if (syncer.process) {
 		syncer.process.stop();
 	}
+	syncer.progressBar.reset().hide();
 	syncer.canceled = true;
 }
 
 //use: syncer.results, syncer.progressBar, syncer.parameters
 async function sync(syncer) {
+	syncer.canceled = false;
+
 	if (!Shared.esgst.isFirstRun) {
 		await Shared.common.setSetting('lastSync', Date.now());
 		syncer.results.innerHTML = '';

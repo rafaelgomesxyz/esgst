@@ -1,17 +1,16 @@
 import dateFns_format from 'date-fns/format';
 import 'jquery-ui/ui/widgets/progressbar';
-import { ButtonSet } from '../../class/ButtonSet';
+import { DOM } from '../../class/DOM';
+import { LocalStorage } from '../../class/LocalStorage';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
-import { ToggleSwitch } from '../../class/ToggleSwitch';
-import { common } from '../Common';
-import { Shared } from '../../class/Shared';
-import { Settings } from '../../class/Settings';
-import { Logger } from '../../class/Logger';
-import { DOM } from '../../class/DOM';
 import { Session } from '../../class/Session';
-import { LocalStorage } from '../../class/LocalStorage';
+import { Settings } from '../../class/Settings';
+import { Shared } from '../../class/Shared';
 import { Tabs } from '../../class/Tabs';
+import { ToggleSwitch } from '../../class/ToggleSwitch';
+import { Button } from '../../components/Button';
+import { common } from '../Common';
 
 const buildGiveaway = common.buildGiveaway.bind(common),
 	copyValue = common.copyValue.bind(common),
@@ -119,21 +118,14 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 	}
 
 	mgc_addSection() {
-		let addButton,
-			attachButton,
-			createButton,
+		let attachButton,
 			createTrainDescription,
 			createTrainOption,
 			detach,
-			emptyButton,
-			exportButton,
-			importButton,
 			mgc,
 			removeIcon,
 			rows,
-			section,
-			shuffleButton,
-			viewButton;
+			section;
 		rows = document.getElementsByClassName('form__rows')[0];
 		if (rows) {
 			mgc = {
@@ -299,114 +291,146 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 				'Disabling this keeps the links as plain text.',
 				Settings.get('mgc_removeLinks')
 			);
-			let generateButton = new ButtonSet({
-				color1: 'green',
-				color2: 'grey',
-				icon1: 'fa-gear',
-				icon2: 'fa-circle-o-notch fa-spin',
-				title1: 'Generate',
-				title2: 'Generating...',
-				callback1: this.mgc_generateFormat,
-			});
-			mgc.editButton = new ButtonSet({
-				color1: 'green',
-				color2: 'grey',
-				icon1: 'fa-edit',
-				icon2: 'fa-circle-o-notch fa-spin',
-				title1: 'Edit',
-				title2: 'Editing...',
-				callback1: this.mgc_getValues.bind(this, true, mgc),
-			});
-			mgc.editButton.set.classList.add('esgst-hidden');
-			addButton = new ButtonSet({
-				color1: 'green',
-				color2: 'grey',
-				icon1: 'fa-plus-circle',
-				icon2: 'fa-circle-o-notch fa-spin',
-				title1: 'Add',
-				title2: 'Adding...',
-				callback1: this.mgc_getValues.bind(this, false, mgc),
-			});
-			importButton = new ButtonSet({
-				color1: 'green',
-				color2: 'grey',
-				icon1: 'fa-arrow-circle-up',
-				icon2: 'fa-circle-o-notch fa-spin',
-				title1: 'Import',
-				title2: 'Importing...',
-				callback1: this.mgc_importGiveaways.bind(this, mgc),
-			});
-			exportButton = new ButtonSet({
-				color1: 'green',
-				color2: 'grey',
-				icon1: 'fa-arrow-circle-down',
-				icon2: 'fa-circle-o-notch fa-spin',
-				title1: 'Export',
-				title2: 'Exporting...',
-				callback1: this.mgc_exportGiveaways.bind(this, mgc),
-			});
-			shuffleButton = new ButtonSet({
-				color1: 'green',
-				color2: 'grey',
-				icon1: 'fa-random',
-				icon2: 'fa-circle-o-notch fa-spin',
-				title1: 'Shuffle',
-				title2: 'Shuffling...',
-				callback1: this.mgc_shuffleGiveaways.bind(this, mgc),
-			});
-			emptyButton = new ButtonSet({
-				color1: 'green',
-				color2: 'grey',
-				icon1: 'fa-trash',
-				icon2: 'fa-circle-o-notch fa-spin',
-				title1: 'Empty',
-				title2: 'Emptying...',
-				callback1: this.mgc_emptyGiveaways.bind(this, mgc),
-			});
-			attachButton = new ButtonSet({
-				color1: 'green',
-				color2: 'grey',
-				icon1: 'fa-paperclip',
-				icon2: 'fa-circle-o-notch fa-spin',
-				title1: 'Attach',
-				title2: 'Attaching...',
-				callback1: this.mgc_attachDiscussion.bind(this, mgc),
-			});
-			this.esgst.mgc_createTrainSwitch.dependencies.push(attachButton.set);
-			if (!Settings.get('mgc_createTrain')) {
-				attachButton.set.classList.add('esgst-hidden');
-			}
-			viewButton = new ButtonSet({
-				color1: 'green',
-				color2: 'grey',
-				icon1: 'fa-eye',
-				icon2: 'fa-circle-o-notch fa-spin',
-				title1: 'View Results',
-				title2: 'Opening...',
-				callback1: this.mgc_viewResults.bind(this, mgc),
-			});
-			createButton = new ButtonSet({
-				color1: 'green',
-				color2: 'grey',
-				icon1: 'fa-arrow-circle-right',
-				icon2: 'fa-circle-o-notch fa-spin',
-				title1: 'Create',
-				title2: 'Creating...',
-				callback1: () => {
-					return new Promise((resolve) => this.mgc_createGiveaways(mgc, viewButton, resolve));
+			Button.create([
+				{
+					color: 'green',
+					icons: ['fa-gear'],
+					name: 'Generate',
+					onClick: this.mgc_generateFormat,
 				},
-			});
-			viewButton.set.classList.add('esgst-hidden');
-			section.appendChild(generateButton.set);
-			section.appendChild(mgc.editButton.set);
-			section.appendChild(addButton.set);
-			section.appendChild(importButton.set);
-			section.appendChild(exportButton.set);
-			section.appendChild(shuffleButton.set);
-			section.appendChild(emptyButton.set);
-			section.appendChild(attachButton.set);
-			section.appendChild(createButton.set);
-			section.appendChild(viewButton.set);
+				{
+					template: 'loading',
+					isDisabled: true,
+					name: 'Generating...',
+				},
+			]).insert(section, 'beforeend');
+			mgc.editButton = Button.create([
+				{
+					color: 'green',
+					icons: ['fa-edit'],
+					name: 'Edit',
+					onClick: this.mgc_getValues.bind(this, true, mgc),
+				},
+				{
+					template: 'loading',
+					isDisabled: true,
+					name: 'Editing...',
+				},
+			])
+				.insert(section, 'beforeend')
+				.hide();
+			mgc.addButton = Button.create([
+				{
+					color: 'green',
+					icons: ['fa-plus-circle'],
+					name: 'Add',
+					onClick: this.mgc_getValues.bind(this, false, mgc),
+				},
+				{
+					template: 'loading',
+					isDisabled: true,
+					name: 'Adding...',
+				},
+			]).insert(section, 'beforeend');
+			Button.create([
+				{
+					color: 'green',
+					icons: ['fa-arrow-circle-up'],
+					name: 'Import',
+					onClick: this.mgc_importGiveaways.bind(this, mgc),
+				},
+				{
+					template: 'loading',
+					isDisabled: true,
+					name: 'Importing...',
+				},
+			]).insert(section, 'beforeend');
+			Button.create([
+				{
+					color: 'green',
+					icons: ['fa-arrow-circle-down'],
+					name: 'Export',
+					onClick: this.mgc_exportGiveaways.bind(this, mgc),
+				},
+				{
+					template: 'loading',
+					isDisabled: true,
+					name: 'Exporting...',
+				},
+			]).insert(section, 'beforeend');
+			Button.create([
+				{
+					color: 'green',
+					icons: ['fa-random'],
+					name: 'Shuffle',
+					onClick: this.mgc_shuffleGiveaways.bind(this, mgc),
+				},
+				{
+					template: 'loading',
+					isDisabled: true,
+					name: 'Shuffling...',
+				},
+			]).insert(section, 'beforeend');
+			Button.create([
+				{
+					color: 'green',
+					icons: ['fa-trash'],
+					name: 'Empty',
+					onClick: this.mgc_emptyGiveaways.bind(this, mgc),
+				},
+				{
+					template: 'loading',
+					isDisabled: true,
+					name: 'Emptying...',
+				},
+			]).insert(section, 'beforeend');
+			attachButton = Button.create([
+				{
+					color: 'green',
+					icons: ['fa-paperclip'],
+					name: 'Attach',
+					onClick: this.mgc_attachDiscussion.bind(this, mgc),
+				},
+				{
+					template: 'loading',
+					isDisabled: true,
+					name: 'Attaching...',
+				},
+			]).insert(section, 'beforeend');
+			this.esgst.mgc_createTrainSwitch.dependencies.push(attachButton);
+			if (!Settings.get('mgc_createTrain')) {
+				attachButton.hide();
+			}
+			mgc.viewButton = Button.create([
+				{
+					color: 'green',
+					icons: ['fa-eye'],
+					name: 'View Results',
+					onClick: this.mgc_viewResults.bind(this, mgc),
+				},
+				{
+					template: 'loading',
+					isDisabled: true,
+					name: 'Opening...',
+				},
+			])
+				.insert(section, 'beforeend')
+				.hide();
+			Button.create([
+				{
+					color: 'green',
+					icons: ['fa-arrow-circle-right'],
+					name: 'Create',
+					onClick: () => {
+						return new Promise((resolve) => this.mgc_createGiveaways(mgc, resolve));
+					},
+				},
+				{
+					template: 'loading',
+					isDisabled: true,
+					name: 'Creating...',
+				},
+			]).insert(section, 'beforeend');
 			mgc.discussionPanel = createElements(section, 'beforeend', [
 				{
 					attributes: {
@@ -987,6 +1011,10 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 		} else {
 			createAlert('You must first fill the details of the giveaway.');
 		}
+		if (edit) {
+			mgc.editButton.hide();
+			mgc.addButton.show();
+		}
 	}
 
 	mgc_addGiveaway(edit, mgc, values) {
@@ -1042,7 +1070,6 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 			mgc.datas[mgc.editPos] = data;
 			mgc.values[mgc.editPos] = values;
 			mgc.giveaways.children[mgc.editPos].title = details;
-			mgc.editButton.set.classList.add('esgst-hidden');
 		} else {
 			mgc.datas.push(data);
 			mgc.values.push(values);
@@ -1090,7 +1117,8 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 		values.edit = true;
 		this.esgst.modules.giveawaysGiveawayTemplates.gts_applyTemplate(values);
 		mgc.editPos = pos;
-		mgc.editButton.set.classList.remove('esgst-hidden');
+		mgc.editButton.show();
+		mgc.addButton.hide();
 	}
 
 	mgc_setSource(giveaway, mgc, event) {
@@ -1300,21 +1328,23 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 		counter = progressPanel.lastElementChild;
 		progress.current = counter.firstElementChild;
 		progress.total = progress.current.nextElementSibling;
-		popup.description.appendChild(
-			new ButtonSet({
-				color1: 'green',
-				color2: 'grey',
-				icon1: 'fa-arrow-circle-up',
-				icon2: 'fa-circle-o-notch fa-spin',
-				title1: 'Import',
-				title2: 'Importing...',
-				callback1: () => {
+		Button.create([
+			{
+				color: 'green',
+				icons: ['fa-arrow-circle-up'],
+				name: 'Import',
+				onClick: () => {
 					return new Promise((resolve) =>
 						this.mgc_getGiveaways(mgc, popup, progress, textArea, resolve)
 					);
 				},
-			}).set
-		);
+			},
+			{
+				template: 'loading',
+				isDisabled: true,
+				name: 'Importing...',
+			},
+		]).insert(popup.description, 'beforeend');
 		popup.open(this.mgc_focusTextArea.bind(this, textArea));
 		textArea.style.height = `${
 			window.innerHeight * 0.9 - (popup.popup.offsetHeight - popup.scrollable.offsetHeight) - 25
@@ -1634,17 +1664,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 		callback,
 		response
 	) {
-		let button,
-			conflictPopup,
-			context,
-			element,
-			elements,
-			exactMatch,
-			info,
-			k,
-			matches,
-			numElements,
-			value;
+		let conflictPopup, context, element, elements, exactMatch, info, k, matches, numElements, value;
 		elements = DOM.parse(JSON.parse(response.responseText).html).getElementsByClassName(
 			'table__row-outer-wrap'
 		);
@@ -1714,14 +1734,11 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 					},
 				]);
 				element.classList.remove('is-clickable');
-				button = new ButtonSet({
-					color1: 'green',
-					color2: '',
-					icon1: 'fa-arrow-circle-right',
-					icon2: '',
-					title1: 'Select',
-					title2: '',
-					callback1: async () => {
+				const button = Button.create({
+					color: 'green',
+					icons: ['fa-arrow-circle-right'],
+					name: 'Select',
+					onClick: async () => {
 						conflictPopup.close();
 						values.gameName = element.getAttribute('data-autocomplete-name');
 						values.gameId = element.getAttribute('data-autocomplete-id');
@@ -1749,10 +1766,9 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 							0
 						);
 					},
-				});
-				button.set.style.position = 'absolute';
-				button.set.style.right = '50px';
-				element.insertBefore(button.set, element.firstElementChild);
+				}).insert(element, 'afterbegin');
+				button.nodes.outer.style.position = 'absolute';
+				button.nodes.outer.style.right = '50px';
 			});
 			conflictPopup.onClose = callback;
 			conflictPopup.open();
@@ -1783,38 +1799,33 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 			'',
 			Settings.get('mgc_reversePosition')
 		);
-		popup.description.appendChild(
-			new ButtonSet({
-				color1: 'green',
-				color2: '',
-				icon1: 'fa-arrow-down',
-				icon2: '',
-				title1: 'Export',
-				title2: '',
-				callback1: () => {
-					file = '';
-					for (i = 0, n = mgc.giveaways.children.length; i < n; ++i) {
-						values = mgc.giveaways.children[i].title.split(/\n/);
-						if (values[1] === 'Gift') {
-							if (parseInt(values[2].match(/\d+/)[0]) > 1) {
-								file += `${values[0]} (${values[2]})\r\n`;
-							} else {
-								file += `${values[0]}\r\n`;
-							}
+		Button.create({
+			color: 'green',
+			icons: ['fa-arrow-down'],
+			name: 'Export',
+			onClick: () => {
+				file = '';
+				for (i = 0, n = mgc.giveaways.children.length; i < n; ++i) {
+					values = mgc.giveaways.children[i].title.split(/\n/);
+					if (values[1] === 'Gift') {
+						if (parseInt(values[2].match(/\d+/)[0]) > 1) {
+							file += `${values[0]} (${values[2]})\r\n`;
 						} else {
-							for (j = 2; values[j]; ++j) {
-								if (Settings.get('mgc_reversePosition')) {
-									file += `${values[j]} ${values[0]}\r\n`;
-								} else {
-									file += `${values[0]} ${values[j]}\r\n`;
-								}
+							file += `${values[0]}\r\n`;
+						}
+					} else {
+						for (j = 2; values[j]; ++j) {
+							if (Settings.get('mgc_reversePosition')) {
+								file += `${values[j]} ${values[0]}\r\n`;
+							} else {
+								file += `${values[0]} ${values[j]}\r\n`;
 							}
 						}
 					}
-					downloadFile(file, 'giveaways.txt');
-				},
-			}).set
-		);
+				}
+				downloadFile(file, 'giveaways.txt');
+			},
+		}).insert(popup.description, 'beforeend');
 		popup.open();
 	}
 
@@ -1831,7 +1842,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 		}
 	}
 
-	mgc_createGiveaways(mgc, viewButton, callback) {
+	mgc_createGiveaways(mgc, callback) {
 		if (!mgc.datas.length) {
 			createAlert(
 				'There are no giveaways in the queue. Click on the "Add" button to add a giveaway to the queue.'
@@ -2078,28 +2089,16 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 				},
 			]);
 		}
-		popup.description.appendChild(
-			new ButtonSet({
-				color1: 'green',
-				color2: '',
-				icon1: 'fa-check',
-				icon2: '',
-				title1: 'Yes',
-				title2: '',
-				callback1: this.mgc_createGiveaways_2.bind(this, mgc, viewButton, popup, callback),
-			}).set
-		);
-		popup.description.appendChild(
-			new ButtonSet({
-				color1: 'red',
-				color2: '',
-				icon1: 'fa-times',
-				icon2: '',
-				title1: 'No',
-				title2: '',
-				callback1: popup.close.bind(popup),
-			}).set
-		);
+		Button.create({
+			template: 'success',
+			name: 'Yes',
+			onClick: this.mgc_createGiveaways_2.bind(this, mgc, popup, callback),
+		}).insert(popup.description, 'beforeend');
+		Button.create({
+			template: 'error',
+			name: 'No',
+			onClick: () => popup.close(),
+		}).insert(popup.description, 'beforeend');
 		popup.onClose = () => {
 			if (popup.isOpen) {
 				callback();
@@ -2108,12 +2107,12 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 		popup.open();
 	}
 
-	mgc_createGiveaways_2(mgc, viewButton, popup, callback) {
+	mgc_createGiveaways_2(mgc, popup, callback) {
 		popup.onClose = null;
 		popup.close();
 		mgc.copies.value = '1';
 		mgc.keys.value = '';
-		viewButton.set.classList.add('esgst-hidden');
+		mgc.viewButton.hide();
 		mgc.saveGiveaways = {};
 		// noinspection JSIgnoredPromiseFromCall
 		this.mgc_createGiveaway(
@@ -2127,9 +2126,9 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 				? this.mgc_saveGiveaways.bind(
 						this,
 						mgc,
-						this.mgc_completeCreation.bind(this, mgc, viewButton, callback)
+						this.mgc_completeCreation.bind(this, mgc, callback)
 				  )
-				: this.mgc_completeCreation.bind(this, mgc, viewButton, callback)
+				: this.mgc_completeCreation.bind(this, mgc, callback)
 		);
 	}
 
@@ -2477,19 +2476,19 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 		return `${i + 1}${match1}${n}`;
 	}
 
-	mgc_completeCreation(mgc, viewButton, callback) {
+	mgc_completeCreation(mgc, callback) {
 		if (mgc.discussion) {
 			if (mgc.created.length) {
 				LocalStorage.delete('mgcCache');
 				LocalStorage.set('mgcAttach_step4', mgc.firstWagon);
 				Tabs.open(`/discussion/${mgc.discussion}/`);
-				viewButton.set.classList.remove('esgst-hidden');
+				mgc.viewButton.show();
 			}
 			callback();
 		} else {
 			if (mgc.created.length) {
 				LocalStorage.delete('mgcCache');
-				viewButton.set.classList.remove('esgst-hidden');
+				mgc.viewButton.show();
 			}
 			callback();
 		}
@@ -2568,30 +2567,34 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 				type: 'input',
 			},
 		]);
-		popup.description.appendChild(
-			new ButtonSet({
-				color1: 'green',
-				color2: 'grey',
-				icon1: 'fa-paperclip',
-				icon2: 'fa-circle-o-notch fa-spin',
-				title1: 'Attach Existing',
-				title2: 'Attaching...',
-				callback1: this.mgc_attachExistingDiscussion.bind(this, input, mgc, popup),
-			}).set
-		);
-		popup.description.appendChild(
-			new ButtonSet({
-				color1: 'green',
-				color2: 'grey',
-				icon1: 'fa-paperclip',
-				icon2: 'fa-circle-o-notch fa-spin',
-				title1: 'Attach New',
-				title2: 'Attaching...',
-				callback1: () => {
+		Button.create([
+			{
+				color: 'green',
+				icons: ['fa-paperclip'],
+				name: 'Attach Existing',
+				onClick: this.mgc_attachExistingDiscussion.bind(this, input, mgc, popup),
+			},
+			{
+				template: 'loading',
+				isDisabled: true,
+				name: 'Attaching...',
+			},
+		]).insert(popup.description, 'beforeend');
+		Button.create([
+			{
+				color: 'green',
+				icons: ['fa-paperclip'],
+				name: 'Attach New',
+				onClick: () => {
 					return new Promise((resolve) => this.mgc_attachNewDiscussion(mgc, popup, resolve));
 				},
-			}).set
-		);
+			},
+			{
+				template: 'loading',
+				isDisabled: true,
+				name: 'Attaching...',
+			},
+		]).insert(popup.description, 'beforeend');
 		popup.open();
 	}
 
@@ -2627,17 +2630,19 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 	mgc_addCreateAndAttachButton() {
 		let rows;
 		rows = document.getElementsByClassName('form__rows')[0];
-		rows.appendChild(
-			new ButtonSet({
-				color1: 'green',
-				color2: 'grey',
-				icon1: 'fa-check',
-				icon2: 'fa-circle-o-notch fa-spin',
-				title1: 'Create & Attach',
-				title2: 'Creating & attaching...',
-				callback1: this.mgc_createAndAttachDiscussion.bind(this, rows),
-			}).set
-		);
+
+		Button.create([
+			{
+				template: 'success',
+				name: 'Create & Attach',
+				onClick: this.mgc_createAndAttachDiscussion.bind(this, rows),
+			},
+			{
+				template: 'loading',
+				isDisabled: true,
+				name: 'Creating & attaching...',
+			},
+		]).insert(rows, 'beforeend');
 	}
 
 	mgc_createAndAttachDiscussion(rows) {

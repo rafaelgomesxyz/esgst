@@ -1,13 +1,13 @@
-import { ButtonSet } from '../../class/ButtonSet';
+import { DOM } from '../../class/DOM';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
-import { ToggleSwitch } from '../../class/ToggleSwitch';
-import { common } from '../Common';
+import { Session } from '../../class/Session';
 import { Settings } from '../../class/Settings';
 import { Shared } from '../../class/Shared';
-import { DOM } from '../../class/DOM';
-import { Session } from '../../class/Session';
+import { ToggleSwitch } from '../../class/ToggleSwitch';
+import { Button } from '../../components/Button';
 import { NotificationBar } from '../../components/NotificationBar';
+import { common } from '../Common';
 
 const createElements = common.createElements.bind(common),
 	createHeadingButton = common.createHeadingButton.bind(common),
@@ -187,42 +187,48 @@ class GiveawaysHiddenGamesManager extends Module {
 			null,
 			Settings.get('hgm_removeBanned')
 		);
-		obj.popup.description.appendChild(
-			new ButtonSet({
-				color1: 'green',
-				color2: 'grey',
-				icon1: 'fa-arrow-circle-right',
-				icon2: 'fa-plus',
-				title1: 'Add',
-				title2: 'Cancel',
-				callback1: this.startAdding.bind(this, obj),
-				callback2: this.stop.bind(this, obj),
-			}).set
-		);
-		obj.popup.description.appendChild(
-			new ButtonSet({
-				color1: 'green',
-				color2: 'grey',
-				icon1: 'fa-arrow-circle-right',
-				icon2: 'fa-times',
-				title1: 'Remove',
-				title2: 'Cancel',
-				callback1: this.startRemoving.bind(this, obj, false),
-				callback2: this.stop.bind(this, obj),
-			}).set
-		);
-		obj.popup.description.appendChild(
-			new ButtonSet({
-				color1: 'green',
-				color2: 'grey',
-				icon1: 'fa-arrow-circle-down',
-				icon2: 'fa-times',
-				title1: 'Export',
-				title2: 'Cancel',
-				callback1: this.startExporting.bind(this, obj),
-				callback2: this.stop.bind(this, obj),
-			}).set
-		);
+		Button.create([
+			{
+				color: 'green',
+				icons: ['fa-arrow-circle-right'],
+				name: 'Add',
+				onClick: this.startAdding.bind(this, obj),
+			},
+			{
+				template: 'error',
+				name: 'Cancel',
+				switchTo: { onReturn: 0 },
+				onClick: this.stop.bind(this, obj),
+			},
+		]).insert(obj.popup.description, 'beforeend');
+		Button.create([
+			{
+				color: 'green',
+				icons: ['fa-arrow-circle-right'],
+				name: 'Remove',
+				onClick: this.startRemoving.bind(this, obj, false),
+			},
+			{
+				template: 'error',
+				name: 'Cancel',
+				switchTo: { onReturn: 0 },
+				onClick: this.stop.bind(this, obj),
+			},
+		]).insert(obj.popup.description, 'beforeend');
+		Button.create([
+			{
+				color: 'green',
+				icons: ['fa-arrow-circle-down'],
+				name: 'Export',
+				onClick: this.startExporting.bind(this, obj),
+			},
+			{
+				template: 'error',
+				name: 'Cancel',
+				switchTo: { onReturn: 0 },
+				onClick: this.stop.bind(this, obj),
+			},
+		]).insert(obj.popup.description, 'beforeend');
 		obj.progressBar = NotificationBar.create().insert(obj.popup.description, 'beforeend').hide();
 		obj.popup.open();
 	}

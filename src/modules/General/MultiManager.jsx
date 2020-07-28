@@ -1,19 +1,19 @@
 import dateFns_format from 'date-fns/format';
 import vdf from 'simple-vdf';
-import { ButtonSet } from '../../class/ButtonSet';
 import { Checkbox } from '../../class/Checkbox';
+import { DOM } from '../../class/DOM';
 import { Module } from '../../class/Module';
 import { Popout } from '../../class/Popout';
 import { Popup } from '../../class/Popup';
 import { Process } from '../../class/Process';
+import { Session } from '../../class/Session';
+import { Settings } from '../../class/Settings';
+import { Tabs } from '../../class/Tabs';
 import { ToggleSwitch } from '../../class/ToggleSwitch';
+import { Button } from '../../components/Button';
+import { NotificationBar } from '../../components/NotificationBar';
 import { Utils } from '../../lib/jsUtils';
 import { common } from '../Common';
-import { Settings } from '../../class/Settings';
-import { DOM } from '../../class/DOM';
-import { Session } from '../../class/Session';
-import { Tabs } from '../../class/Tabs';
-import { NotificationBar } from '../../components/NotificationBar';
 
 const createElements = common.createElements.bind(common),
 	createFadeMessage = common.createFadeMessage.bind(common),
@@ -384,36 +384,54 @@ class GeneralMultiManager extends Module {
 					buttons: [
 						{
 							check: true,
-							color1: 'grey',
-							color2: 'grey',
-							icon1: 'fa-square',
-							icon2: 'fa-circle-o-notch fa-spin',
-							title1: '',
-							title2: '',
-							tooltip: 'All',
-							callback1: selectSwitches.bind(common, obj.checkboxes[key], 'check', null),
+							options: [
+								{
+									color: 'white',
+									tooltip: 'All',
+									icons: ['fa-square'],
+									name: '',
+									onClick: selectSwitches.bind(common, obj.checkboxes[key], 'check', null),
+								},
+								{
+									template: 'loading',
+									isDisabled: true,
+									name: '',
+								},
+							],
 						},
 						{
 							check: true,
-							color1: 'grey',
-							color2: 'grey',
-							icon1: 'fa-square-o',
-							icon2: 'fa-circle-o-notch fa-spin',
-							title1: '',
-							title2: '',
-							tooltip: 'None',
-							callback1: selectSwitches.bind(common, obj.checkboxes[key], 'uncheck', null),
+							options: [
+								{
+									color: 'white',
+									tooltip: 'None',
+									icons: ['fa-square-o'],
+									name: '',
+									onClick: selectSwitches.bind(common, obj.checkboxes[key], 'uncheck', null),
+								},
+								{
+									template: 'loading',
+									isDisabled: true,
+									name: '',
+								},
+							],
 						},
 						{
 							check: true,
-							color1: 'grey',
-							color2: 'grey',
-							icon1: 'fa-plus-square-o',
-							icon2: 'fa-circle-o-notch fa-spin',
-							title1: '',
-							title2: '',
-							tooltip: 'Inverse',
-							callback1: selectSwitches.bind(common, obj.checkboxes[key], 'toggle', null),
+							options: [
+								{
+									color: 'white',
+									tooltip: 'Inverse',
+									icons: ['fa-plus-square-o'],
+									name: '',
+									onClick: selectSwitches.bind(common, obj.checkboxes[key], 'toggle', null),
+								},
+								{
+									template: 'loading',
+									isDisabled: true,
+									name: '',
+								},
+							],
 						},
 					],
 					name: `Select:`,
@@ -426,25 +444,37 @@ class GeneralMultiManager extends Module {
 					buttons: [
 						{
 							check: true,
-							color1: 'green',
-							color2: 'grey',
-							icon1: 'fa-globe',
-							icon2: 'fa-circle-o-notch fa-spin',
-							title1: '',
-							title2: '',
-							tooltip: 'Links',
-							callback1: this.mm_exportLinks.bind(this, obj, items, key),
+							options: [
+								{
+									color: 'green',
+									tooltip: 'Links',
+									icons: ['fa-globe'],
+									name: '',
+									onClick: this.mm_exportLinks.bind(this, obj, items, key),
+								},
+								{
+									template: 'loading',
+									isDisabled: true,
+									name: '',
+								},
+							],
 						},
 						{
 							check: true,
-							color1: 'green',
-							color2: 'grey',
-							icon1: 'fa-pencil',
-							icon2: 'fa-circle-o-notch fa-spin',
-							title1: '',
-							title2: '',
-							tooltip: 'Custom',
-							callback1: this.mm_exportCustom.bind(this, obj, items, key),
+							options: [
+								{
+									color: 'green',
+									tooltip: 'Custom',
+									icons: ['fa-pencil'],
+									name: '',
+									onClick: this.mm_exportCustom.bind(this, obj, items, key),
+								},
+								{
+									template: 'loading',
+									isDisabled: true,
+									name: '',
+								},
+							],
 						},
 					],
 					name: `Export to:`,
@@ -455,71 +485,100 @@ class GeneralMultiManager extends Module {
 				[
 					{
 						check: true,
-						color1: 'green',
-						color2: '',
-						icon1: 'fa-search',
-						icon2: '',
 						key: 'searchReplace',
-						title1: '',
-						title2: '',
-						tooltip: 'Search and replace in descriptions of selected giveaways',
+						options: {
+							color: 'green',
+							tooltip: 'Search and replace in descriptions of selected giveaways',
+							icons: ['fa-search'],
+							name: '',
+						},
 					},
 					{
 						check: Settings.get('gf') && Settings.get('gf_s'),
-						color1: 'green',
-						color2: 'grey',
-						icon1: 'fa-eye-slash',
-						icon2: 'fa-circle-o-notch fa-spin',
-						title1: '',
-						title2: '',
-						tooltip: "Add selected giveaways to ESGST's single filter list",
-						callback1: this.mm_hideGiveaways.bind(this, obj, items),
+						options: [
+							{
+								color: 'green',
+								tooltip: "Add selected giveaways to ESGST's single filter list",
+								icons: ['fa-eye-slash'],
+								name: '',
+								onClick: this.mm_hideGiveaways.bind(this, obj, items),
+							},
+							{
+								template: 'loading',
+								isDisabled: true,
+								name: '',
+							},
+						],
 					},
 					{
 						check: Settings.get('ttec'),
-						color1: 'green',
-						color2: 'grey',
-						icon1: 'fa-clock-o',
-						icon2: 'fa-circle-o-notch fa-spin',
-						title1: '',
-						title2: '',
-						tooltip: 'Calculate time to enter for selected giveaways',
-						callback1: this.mm_calculateGiveaways.bind(this, obj, items),
+						options: [
+							{
+								color: 'green',
+								tooltip: 'Calculate time to enter for selected giveaways',
+								icons: ['fa-clock-o'],
+								name: '',
+								onClick: this.mm_calculateGiveaways.bind(this, obj, items),
+							},
+							{
+								template: 'loading',
+								isDisabled: true,
+								name: '',
+							},
+						],
 					},
 					{
 						check: Settings.get('gb'),
-						color1: 'green',
-						color2: 'grey',
-						icon1: 'fa-bookmark',
-						icon2: 'fa-circle-o-notch fa-spin',
-						title1: '',
-						title2: '',
-						tooltip: 'Bookmark selected giveaways',
-						callback1: this.mm_bookmarkGiveaways.bind(this, obj, items),
+						options: [
+							{
+								color: 'green',
+								tooltip: 'Bookmark selected giveaways',
+								icons: ['fa-bookmark'],
+								name: '',
+								onClick: this.mm_bookmarkGiveaways.bind(this, obj, items),
+							},
+							{
+								template: 'loading',
+								isDisabled: true,
+								name: '',
+							},
+						],
 					},
 					{
 						check: Settings.get('gb'),
-						color1: 'green',
-						color2: 'grey',
-						icon1: 'fa-bookmark-o',
-						icon2: 'fa-circle-o-notch fa-spin',
-						title1: '',
-						title2: '',
-						tooltip: 'Unbookmark selected giveaways',
-						callback1: this.mm_unbookmarkGiveaways.bind(this, obj, items),
+						options: [
+							{
+								color: 'green',
+								tooltip: 'Unbookmark selected giveaways',
+								icons: ['fa-bookmark-o'],
+								name: '',
+								onClick: this.mm_unbookmarkGiveaways.bind(this, obj, items),
+							},
+							{
+								template: 'loading',
+								isDisabled: true,
+								name: '',
+							},
+						],
 					},
 				],
 				[
 					{
 						check: Settings.get('ged'),
-						color1: 'green',
-						color2: 'grey',
-						icon1: 'fa-puzzle-piece',
-						icon2: 'fa-circle-o-notch fa-spin',
-						title1: '',
-						title2: '',
-						tooltip: 'Encrypted giveaways',
-						callback1: this.mm_exportEncryptedGiveaways.bind(this, obj, items),
+						options: [
+							{
+								color: 'green',
+								tooltip: 'Encrypted giveaways',
+								icons: ['fa-puzzle-piece'],
+								name: '',
+								onClick: this.mm_exportEncryptedGiveaways.bind(this, obj, items),
+							},
+							{
+								template: 'loading',
+								isDisabled: true,
+								name: '',
+							},
+						],
 					},
 				],
 			],
@@ -528,58 +587,88 @@ class GeneralMultiManager extends Module {
 				[
 					{
 						check: Settings.get('df') && Settings.get('df_s'),
-						color1: 'green',
-						color2: 'grey',
-						icon1: 'fa-eye-slash',
-						icon2: 'fa-circle-o-notch fa-spin',
-						title1: '',
-						title2: '',
-						tooltip: "Add selected discussions to ESGST's single filter list",
-						callback1: this.mm_hideDiscussions.bind(this, obj, items),
+						options: [
+							{
+								color: 'green',
+								tooltip: "Add selected discussions to ESGST's single filter list",
+								icons: ['fa-eye-slash'],
+								name: '',
+								onClick: this.mm_hideDiscussions.bind(this, obj, items),
+							},
+							{
+								template: 'loading',
+								isDisabled: true,
+								name: '',
+							},
+						],
 					},
 					{
 						check: true,
-						color1: 'green',
-						color2: 'grey',
-						icon1: 'fa-bookmark',
-						icon2: 'fa-circle-o-notch fa-spin',
-						title1: '',
-						title2: '',
-						tooltip: 'Bookmark selected discussions',
-						callback1: this.mm_bookmarkDiscussions.bind(this, obj, items),
+						options: [
+							{
+								color: 'green',
+								tooltip: 'Bookmark selected discussions',
+								icons: ['fa-bookmark'],
+								name: '',
+								onClick: this.mm_bookmarkDiscussions.bind(this, obj, items),
+							},
+							{
+								template: 'loading',
+								isDisabled: true,
+								name: '',
+							},
+						],
 					},
 					{
 						check: true,
-						color1: 'green',
-						color2: 'grey',
-						icon1: 'fa-bookmark-o',
-						icon2: 'fa-circle-o-notch fa-spin',
-						title1: '',
-						title2: '',
-						tooltip: 'Unbookmark selected discussions',
-						callback1: this.mm_unbookmarkDiscussions.bind(this, obj, items),
+						options: [
+							{
+								color: 'green',
+								tooltip: 'Unbookmark selected discussions',
+								icons: ['fa-bookmark-o'],
+								name: '',
+								onClick: this.mm_unbookmarkDiscussions.bind(this, obj, items),
+							},
+							{
+								template: 'loading',
+								isDisabled: true,
+								name: '',
+							},
+						],
 					},
 					{
 						check: Settings.get('gdttt'),
-						color1: 'green',
-						color2: 'grey',
-						icon1: 'fa-check',
-						icon2: 'fa-circle-o-notch fa-spin',
-						title1: '',
-						title2: '',
-						tooltip: 'Mark selected discussions as visited',
-						callback1: this.mm_visitDiscussions.bind(this, obj, items),
+						options: [
+							{
+								color: 'green',
+								tooltip: 'Mark selected discussions as visited',
+								icons: ['fa-check'],
+								name: '',
+								onClick: this.mm_visitDiscussions.bind(this, obj, items),
+							},
+							{
+								template: 'loading',
+								isDisabled: true,
+								name: '',
+							},
+						],
 					},
 					{
 						check: Settings.get('gdttt'),
-						color1: 'green',
-						color2: 'grey',
-						icon1: 'fa-times',
-						icon2: 'fa-circle-o-notch fa-spin',
-						title1: '',
-						title2: '',
-						tooltip: 'Mark selected discussions as unvisited',
-						callback1: this.mm_unvisitDiscussions.bind(this, obj, items),
+						options: [
+							{
+								color: 'green',
+								tooltip: 'Mark selected discussions as unvisited',
+								icons: ['fa-times'],
+								name: '',
+								onClick: this.mm_unvisitDiscussions.bind(this, obj, items),
+							},
+							{
+								template: 'loading',
+								isDisabled: true,
+								name: '',
+							},
+						],
 					},
 				],
 				[],
@@ -589,51 +678,75 @@ class GeneralMultiManager extends Module {
 				[
 					{
 						check: Settings.get('ut'),
-						color1: 'green',
-						color2: 'grey',
-						icon1: 'fa-tags',
-						icon2: 'fa-circle-o-notch fa-spin',
-						title1: '',
-						title2: '',
-						tooltip: 'Tag selected users',
-						callback1: this.esgst.modules.usersUserTags.tags_openMmPopup.bind(
-							this.esgst.modules.usersUserTags,
-							obj,
-							items
-						),
+						options: [
+							{
+								color: 'green',
+								tooltip: 'Tag selected users',
+								icons: ['fa-tags'],
+								name: '',
+								onClick: this.esgst.modules.usersUserTags.tags_openMmPopup.bind(
+									this.esgst.modules.usersUserTags,
+									obj,
+									items
+								),
+							},
+							{
+								template: 'loading',
+								isDisabled: true,
+								name: '',
+							},
+						],
 					},
 					{
 						check: Settings.get('wbc'),
-						color1: 'green',
-						color2: 'grey',
-						icon1: ['fa-heart', 'fa-ban', 'fa-question-circle'],
-						icon2: 'fa-circle-o-notch fa-spin',
-						title1: '',
-						title2: '',
-						tooltip: 'Check selected users for whitelists / blacklists',
-						callback1: this.mm_selectWbcUsers.bind(this, obj, items, 'wbc'),
+						options: [
+							{
+								color: 'green',
+								tooltip: 'Check selected users for whitelists / blacklists',
+								icons: ['fa-heart', 'fa-ban', 'fa-question-circle'],
+								name: '',
+								onClick: this.mm_selectWbcUsers.bind(this, obj, items, 'wbc'),
+							},
+							{
+								template: 'loading',
+								isDisabled: true,
+								name: '',
+							},
+						],
 					},
 					{
 						check: Settings.get('usc'),
-						color1: 'green',
-						color2: 'grey',
-						icon1: ['fa-ban', 'fa-question-circle'],
-						icon2: 'fa-circle-o-notch fa-spin',
-						title1: '',
-						title2: '',
-						tooltip: 'Check selected users for suspensions',
-						callback1: this.mm_selectWbcUsers.bind(this, obj, items, 'usc'),
+						options: [
+							{
+								color: 'green',
+								tooltip: 'Check selected users for suspensions',
+								icons: ['fa-ban', 'fa-question-circle'],
+								name: '',
+								onClick: this.mm_selectWbcUsers.bind(this, obj, items, 'usc'),
+							},
+							{
+								template: 'loading',
+								isDisabled: true,
+								name: '',
+							},
+						],
 					},
 					{
 						check: Settings.get('glwc') && Settings.get('glwc_mm'),
-						color1: 'green',
-						color2: 'grey',
-						icon1: ['fa-folder', 'fa-star', 'fa-question-circle'],
-						icon2: 'fa-circle-o-notch fa-spin',
-						title1: '',
-						title2: '',
-						tooltip: 'Check libraries / wishlists of selected users',
-						callback1: this.mm_selectGlwcUsers.bind(this, obj, items),
+						options: [
+							{
+								color: 'green',
+								tooltip: 'Check libraries / wishlists of selected users',
+								icons: ['fa-folder', 'fa-star', 'fa-question-circle'],
+								name: '',
+								onClick: this.mm_selectGlwcUsers.bind(this, obj, items),
+							},
+							{
+								template: 'loading',
+								isDisabled: true,
+								name: '',
+							},
+						],
 					},
 				],
 				[],
@@ -643,40 +756,58 @@ class GeneralMultiManager extends Module {
 				[
 					{
 						check: Settings.get('gt'),
-						color1: 'green',
-						color2: 'grey',
-						icon1: 'fa-tags',
-						icon2: 'fa-circle-o-notch fa-spin',
-						title1: '',
-						title2: '',
-						tooltip: 'Tag selected games',
-						callback1: this.esgst.modules.gamesGameTags.tags_openMmPopup.bind(
-							this.esgst.modules.gamesGameTags,
-							obj,
-							items
-						),
+						options: [
+							{
+								color: 'green',
+								tooltip: 'Tag selected games',
+								icons: ['fa-tags'],
+								name: '',
+								onClick: this.esgst.modules.gamesGameTags.tags_openMmPopup.bind(
+									this.esgst.modules.gamesGameTags,
+									obj,
+									items
+								),
+							},
+							{
+								template: 'loading',
+								isDisabled: true,
+								name: '',
+							},
+						],
 					},
 					{
 						check: true,
-						color1: 'green',
-						color2: 'grey',
-						icon1: 'fa-eye-slash',
-						icon2: 'fa-circle-o-notch fa-spin',
-						title1: '',
-						title2: '',
-						tooltip: "Add selected games to SteamGifts' filter list",
-						callback1: this.mm_hideGames.bind(this, obj, items),
+						options: [
+							{
+								color: 'green',
+								tooltip: "Add selected games to SteamGifts' filter list",
+								icons: ['fa-eye-slash'],
+								name: '',
+								onClick: this.mm_hideGames.bind(this, obj, items),
+							},
+							{
+								template: 'loading',
+								isDisabled: true,
+								name: '',
+							},
+						],
 					},
 					{
 						check: true,
-						color1: 'green',
-						color2: 'grey',
-						icon1: 'fa-clone',
-						icon2: 'fa-circle-o-notch fa-spin',
-						title1: '',
-						title2: '',
-						tooltip: 'Categorize games for Steam',
-						callback1: this.mm_categorizeGames.bind(this, obj, items),
+						options: [
+							{
+								color: 'green',
+								tooltip: 'Categorize games for Steam',
+								icons: ['fa-clone'],
+								name: '',
+								onClick: this.mm_categorizeGames.bind(this, obj, items),
+							},
+							{
+								template: 'loading',
+								isDisabled: true,
+								name: '',
+							},
+						],
 					},
 				],
 				[],
@@ -686,18 +817,24 @@ class GeneralMultiManager extends Module {
 				[
 					{
 						check: Settings.get('gpt'),
-						color1: 'green',
-						color2: 'grey',
-						icon1: 'fa-tags',
-						icon2: 'fa-circle-o-notch fa-spin',
-						title1: '',
-						title2: '',
-						tooltip: 'Tag selected groups',
-						callback1: this.esgst.modules.groupsGroupTags.tags_openMmPopup.bind(
-							this.esgst.modules.groupsGroupTags,
-							obj,
-							items
-						),
+						options: [
+							{
+								color: 'green',
+								tooltip: 'Tag selected groups',
+								icons: ['fa-tags'],
+								name: '',
+								onClick: this.esgst.modules.groupsGroupTags.tags_openMmPopup.bind(
+									this.esgst.modules.groupsGroupTags,
+									obj,
+									items
+								),
+							},
+							{
+								template: 'loading',
+								isDisabled: true,
+								name: '',
+							},
+						],
 					},
 				],
 				[],
@@ -707,7 +844,7 @@ class GeneralMultiManager extends Module {
 			let group = createElements(context, 'beforeend', [
 				{
 					attributes: {
-						class: 'esgst-button-group',
+						class: 'esgst-button-group esgst-mm-button-group',
 					},
 					type: 'div',
 					children: [
@@ -721,8 +858,7 @@ class GeneralMultiManager extends Module {
 			let buttons = sections[key][i].concat(section.buttons);
 			buttons.forEach((button) => {
 				if (!button.check) return;
-				let element = new ButtonSet(button).set;
-				group.appendChild(element);
+				let element = Button.create(button.options).insert(group, 'beforeend').nodes.outer;
 				if (button.key === 'searchReplace') {
 					new Process({
 						button: element,
@@ -913,17 +1049,19 @@ class GeneralMultiManager extends Module {
 				type: 'div',
 			},
 		]);
-		context.appendChild(
-			new ButtonSet({
-				color1: 'grey',
-				color2: 'grey',
-				icon1: 'fa-copy',
-				icon2: 'fa-circle-o-notch fa-spin',
-				title1: 'Copy',
-				title2: 'Copying...',
-				callback1: this.mm_copyOutput.bind(this, obj, key),
-			}).set
-		);
+		Button.create([
+			{
+				color: 'white',
+				icons: ['fa-copy'],
+				name: 'Copy',
+				onClick: this.mm_copyOutput.bind(this, obj, key),
+			},
+			{
+				template: 'loading',
+				isDisabled: true,
+				name: 'Copying...',
+			},
+		]).insert(context, 'beforeend');
 	}
 
 	mm_exportLinks(obj, items, key) {
@@ -1571,15 +1709,18 @@ class GeneralMultiManager extends Module {
 		const popup = new Popup({
 			addScrollable: true,
 			buttons: [
-				{
-					color1: 'green',
-					color2: 'grey',
-					icon1: 'fa-check',
-					icon2: 'fa-circle-o-notch fa-spin',
-					title1: 'Categorize',
-					title2: 'Categorizing...',
-					callback1: this.mm_loadFile.bind(this, obj, items),
-				},
+				[
+					{
+						template: 'success',
+						name: 'Categorize',
+						onClick: this.mm_loadFile.bind(this, obj, items),
+					},
+					{
+						template: 'loading',
+						isDisabled: true,
+						name: 'Categorizing...',
+					},
+				],
 			],
 			icon: 'fa-clone',
 			textInputs: [

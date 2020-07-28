@@ -9,6 +9,7 @@ export type NotificationColor = Exclude<Color, 'white'>;
 export const EsgstClassNames = {
 	button: 'esgst-button',
 	buttonContainer: 'esgst-button-container',
+	mmButtonGroup: 'esgst-mm-button-group',
 	notification: 'esgst-notification-bar',
 };
 
@@ -32,6 +33,7 @@ export const ClassNames = {
 			},
 		},
 		disabled: 'is-disabled',
+		giveawayColumns: 'giveaway__columns',
 		hidden: 'is-hidden',
 		notification: {
 			root: 'notification',

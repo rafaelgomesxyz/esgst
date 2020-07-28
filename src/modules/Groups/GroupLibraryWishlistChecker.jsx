@@ -122,7 +122,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 			}
 
 			let glwc = {
-				progressBar: NotificationBar.create().setLoading(),
+				progressBar: NotificationBar.create().build().setLoading(),
 				overallProgressBar: NotificationBar.create(),
 			};
 			let parameters;

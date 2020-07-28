@@ -1,13 +1,13 @@
-import { ButtonSet } from '../../class/ButtonSet';
-import { Module } from '../../class/Module';
-import { Popup } from '../../class/Popup';
-import { ToggleSwitch } from '../../class/ToggleSwitch';
-import { common } from '../Common';
-import { Settings } from '../../class/Settings';
-import { permissions } from '../../class/Permissions';
 import { DOM } from '../../class/DOM';
+import { Module } from '../../class/Module';
+import { permissions } from '../../class/Permissions';
+import { Popup } from '../../class/Popup';
 import { Session } from '../../class/Session';
+import { Settings } from '../../class/Settings';
+import { ToggleSwitch } from '../../class/ToggleSwitch';
+import { Button } from '../../components/Button';
 import { NotificationBar } from '../../components/NotificationBar';
+import { common } from '../Common';
 
 const createElements = common.createElements.bind(common),
 	createHeadingButton = common.createHeadingButton.bind(common),
@@ -272,18 +272,20 @@ class GiveawaysUnsentGiftSender extends Module {
 			ugs.leftover = ugs.unsent.nextElementSibling;
 			ugs.leftoverCount = ugs.leftover.firstElementChild.firstElementChild;
 			ugs.leftoverGifts = ugs.leftover.lastElementChild;
-			ugs.popup.description.appendChild(
-				new ButtonSet({
-					color1: 'green',
-					color2: 'red',
-					icon1: 'fa-send',
-					icon2: 'fa-times-circle',
-					title1: 'Send',
-					title2: 'Cancel',
-					callback1: this.ugs_start.bind(this, ugs),
-					callback2: this.ugs_cancel.bind(this, ugs),
-				}).set
-			);
+			Button.create([
+				{
+					color: 'green',
+					icons: ['fa-send'],
+					name: 'Send',
+					onClick: this.ugs_start.bind(this, ugs),
+				},
+				{
+					template: 'error',
+					name: 'Cancel',
+					switchTo: { onReturn: 0 },
+					onClick: this.ugs_cancel.bind(this, ugs),
+				},
+			]).insert(ugs.popup.description, 'beforeend');
 			ugs.progressBar = NotificationBar.create().insert(ugs.popup.description, 'beforeend').hide();
 			ugs.overallProgressBar = NotificationBar.create()
 				.insert(ugs.popup.description, 'beforeend')

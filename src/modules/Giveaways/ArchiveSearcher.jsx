@@ -1,13 +1,13 @@
-import { ButtonSet } from '../../class/ButtonSet';
-import { Module } from '../../class/Module';
-import { Popup } from '../../class/Popup';
-import { common } from '../Common';
-import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
-import { Shared } from '../../class/Shared';
-import { Settings } from '../../class/Settings';
-import { permissions } from '../../class/Permissions';
 import { DOM } from '../../class/DOM';
+import { Module } from '../../class/Module';
+import { permissions } from '../../class/Permissions';
+import { Popup } from '../../class/Popup';
+import { Settings } from '../../class/Settings';
+import { Shared } from '../../class/Shared';
+import { Button } from '../../components/Button';
 import { NotificationBar } from '../../components/NotificationBar';
+import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
+import { common } from '../Common';
 
 const endless_load = common.endless_load.bind(common),
 	request = common.request.bind(common);
@@ -127,8 +127,8 @@ class GiveawaysArchiveSearcher extends Module {
 		obj.context = context;
 
 		const progressBar = NotificationBar.create()
-			.setLoading('Retrieving game title...')
-			.insert(container, 'beforeend');
+			.insert(container, 'beforeend')
+			.setLoading('Retrieving game title...');
 
 		// retrieve the game title from Steam
 		if (obj.isAppId) {
@@ -156,18 +156,22 @@ class GiveawaysArchiveSearcher extends Module {
 		obj.page = 1;
 		obj.url = `${this.esgst.path}/search?q=${encodeURIComponent(obj.query)}&page=`;
 		obj.leftovers = [];
-		const set = new ButtonSet({
-			color1: 'green',
-			color2: 'grey',
-			icon1: '',
-			icon2: '',
-			title1: 'Load More',
-			title2: 'Loading...',
-			callback1: async () => await this.as_request(obj),
-		});
 		DOM.insert(obj.context, 'beforeend', <div ref={(ref) => (obj.container = ref)} />);
-		obj.context.appendChild(set.set);
-		set.trigger();
+		const button = Button.create([
+			{
+				color: 'green',
+				icons: [],
+				name: 'Load More',
+				onClick: async () => await this.as_request(obj),
+			},
+			{
+				color: 'white',
+				isDisabled: true,
+				icons: [],
+				name: 'Loading...',
+			},
+		]).insert(obj.context, 'beforeend');
+		button.onClick();
 	}
 
 	async as_request(obj) {

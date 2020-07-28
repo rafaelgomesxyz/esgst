@@ -1,16 +1,16 @@
-import { ButtonSet } from '../class/ButtonSet';
+import { DOM } from '../class/DOM';
+import { LocalStorage } from '../class/LocalStorage';
+import { permissions } from '../class/Permissions';
+import { persistentStorage } from '../class/PersistentStorage';
 import { Popup } from '../class/Popup';
+import { Settings } from '../class/Settings';
 import { Shared } from '../class/Shared';
 import { ToggleSwitch } from '../class/ToggleSwitch';
+import { Button } from '../components/Button';
 import { Utils } from '../lib/jsUtils';
-import { settingsModule } from './Settings';
 import { elementBuilder } from '../lib/SgStUtils/ElementBuilder';
-import { Settings } from '../class/Settings';
-import { permissions } from '../class/Permissions';
 import { CloudStorage } from './CloudStorage';
-import { persistentStorage } from '../class/PersistentStorage';
-import { LocalStorage } from '../class/LocalStorage';
-import { DOM } from '../class/DOM';
+import { settingsModule } from './Settings';
 
 function getDataMenu(option, switches, type) {
 	let i, m, menu, n, options, toggleSwitch;
@@ -69,54 +69,60 @@ function getDataMenu(option, switches, type) {
 					],
 				},
 			]);
-			group.appendChild(
-				new ButtonSet({
-					color1: 'grey',
-					color2: 'grey',
-					icon1: 'fa-square',
-					icon2: 'fa-circle-o-notch fa-spin',
-					title1: 'All',
-					title2: '',
-					callback1: Shared.common.selectSwitches.bind(
+			Button.create([
+				{
+					color: 'white',
+					icons: ['fa-square'],
+					name: 'All',
+					onClick: Shared.common.selectSwitches.bind(
 						Shared.common,
 						optionSwitches,
 						'enable',
 						group
 					),
-				}).set
-			);
-			group.appendChild(
-				new ButtonSet({
-					color1: 'grey',
-					color2: 'grey',
-					icon1: 'fa-square-o',
-					icon2: 'fa-circle-o-notch fa-spin',
-					title1: 'None',
-					title2: '',
-					callback1: Shared.common.selectSwitches.bind(
+				},
+				{
+					template: 'loading',
+					isDisabled: true,
+					name: '',
+				},
+			]).insert(group, 'beforeend');
+			Button.create([
+				{
+					color: 'white',
+					icons: ['fa-square-o'],
+					name: 'None',
+					onClick: Shared.common.selectSwitches.bind(
 						Shared.common,
 						optionSwitches,
 						'disable',
 						group
 					),
-				}).set
-			);
-			group.appendChild(
-				new ButtonSet({
-					color1: 'grey',
-					color2: 'grey',
-					icon1: 'fa-plus-square-o',
-					icon2: 'fa-circle-o-notch fa-spin',
-					title1: 'Inverse',
-					title2: '',
-					callback1: Shared.common.selectSwitches.bind(
+				},
+				{
+					template: 'loading',
+					isDisabled: true,
+					name: '',
+				},
+			]).insert(group, 'beforeend');
+			Button.create([
+				{
+					color: 'white',
+					icons: ['fa-plus-square-o'],
+					name: 'Inverse',
+					onClick: Shared.common.selectSwitches.bind(
 						Shared.common,
 						optionSwitches,
 						'toggle',
 						group
 					),
-				}).set
-			);
+				},
+				{
+					template: 'loading',
+					isDisabled: true,
+					name: '',
+				},
+			]).insert(group, 'beforeend');
 		}
 		for (i = 0, n = option.options.length; i < n; ++i) {
 			m = getDataMenu(option.options[i], switches, type);
@@ -762,39 +768,45 @@ function loadDataManagement(type, isPopup, callback) {
 				],
 			},
 		]);
-		group1.appendChild(
-			new ButtonSet({
-				color1: 'grey',
-				color2: 'grey',
-				icon1: 'fa-square',
-				icon2: 'fa-circle-o-notch fa-spin',
-				title1: 'All',
-				title2: '',
-				callback1: Shared.common.selectSwitches.bind(Shared.common, dm.switches, 'enable', group1),
-			}).set
-		);
-		group1.appendChild(
-			new ButtonSet({
-				color1: 'grey',
-				color2: 'grey',
-				icon1: 'fa-square-o',
-				icon2: 'fa-circle-o-notch fa-spin',
-				title1: 'None',
-				title2: '',
-				callback1: Shared.common.selectSwitches.bind(Shared.common, dm.switches, 'disable', group1),
-			}).set
-		);
-		group1.appendChild(
-			new ButtonSet({
-				color1: 'grey',
-				color2: 'grey',
-				icon1: 'fa-plus-square-o',
-				icon2: 'fa-circle-o-notch fa-spin',
-				title1: 'Inverse',
-				title2: '',
-				callback1: Shared.common.selectSwitches.bind(Shared.common, dm.switches, 'toggle', group1),
-			}).set
-		);
+		Button.create([
+			{
+				color: 'white',
+				icons: ['fa-square'],
+				name: 'All',
+				onClick: Shared.common.selectSwitches.bind(Shared.common, dm.switches, 'enable', group1),
+			},
+			{
+				template: 'loading',
+				isDisabled: true,
+				name: '',
+			},
+		]).insert(group1, 'beforeend');
+		Button.create([
+			{
+				color: 'white',
+				icons: ['fa-square-o'],
+				name: 'None',
+				onClick: Shared.common.selectSwitches.bind(Shared.common, dm.switches, 'disable', group1),
+			},
+			{
+				template: 'loading',
+				isDisabled: true,
+				name: '',
+			},
+		]).insert(group1, 'beforeend');
+		Button.create([
+			{
+				color: 'white',
+				icons: ['fa-plus-square-o'],
+				name: 'Inverse',
+				onClick: Shared.common.selectSwitches.bind(Shared.common, dm.switches, 'toggle', group1),
+			},
+			{
+				template: 'loading',
+				isDisabled: true,
+				name: '',
+			},
+		]).insert(group1, 'beforeend');
 		group2 = Shared.common.createElements(containerr, 'beforeend', [
 			{
 				attributes: {
@@ -809,119 +821,131 @@ function loadDataManagement(type, isPopup, callback) {
 				],
 			},
 		]);
-		const computerButton = new ButtonSet({
-			color1: 'green',
-			color2: 'grey',
-			icon1: 'fa-desktop',
-			icon2: 'fa-circle-o-notch fa-spin',
-			title1: 'Computer',
-			title2: title2,
-			callback1: () => {
-				return new Promise(async (resolve) => {
-					if (dm.type !== 'export') {
-						let result;
-						switch (Settings.get('exportBackupIndex')) {
-							case 0:
-								result = true;
-								break;
-							case 1:
-								result = await permissions.contains([['dropbox']]);
-								break;
-							case 2:
-								result = await permissions.contains([['googleDrive']]);
-								break;
-							case 3:
-								result = await permissions.contains([['oneDrive']]);
-								break;
+		const computerButton = Button.create([
+			{
+				color: 'green',
+				icons: ['fa-desktop'],
+				name: 'Computer',
+				onClick: () => {
+					return new Promise(async (resolve) => {
+						if (dm.type !== 'export') {
+							let result;
+							switch (Settings.get('exportBackupIndex')) {
+								case 0:
+									result = true;
+									break;
+								case 1:
+									result = await permissions.contains([['dropbox']]);
+									break;
+								case 2:
+									result = await permissions.contains([['googleDrive']]);
+									break;
+								case 3:
+									result = await permissions.contains([['oneDrive']]);
+									break;
+							}
+							if (!result) {
+								resolve();
+								return;
+							}
 						}
-						if (!result) {
-							resolve();
-							return;
-						}
-					}
 
-					onClick(dm, false, false, false, false, () => {
-						// noinspection JSIgnoredPromiseFromCall
-						manageData(dm, false, false, false, true);
-						resolve();
+						onClick(dm, false, false, false, false, () => {
+							// noinspection JSIgnoredPromiseFromCall
+							manageData(dm, false, false, false, true);
+							resolve();
+						});
 					});
-				});
+				},
 			},
-		});
-		group2.appendChild(computerButton.set);
+			{
+				template: 'loading',
+				isDisabled: true,
+				name: title2,
+			},
+		]).insert(group2, 'beforeend');
 		let dropboxButton;
 		let googleDriveButton;
 		let oneDriveButton;
 		if (type !== 'delete') {
-			dropboxButton = new ButtonSet({
-				color1: 'green',
-				color2: 'grey',
-				icon1: 'fa-dropbox',
-				icon2: 'fa-circle-o-notch fa-spin',
-				title1: 'Dropbox',
-				title2: title2,
-				callback1: () => {
-					return new Promise(async (resolve) => {
-						if (!(await permissions.contains([['dropbox']]))) {
-							resolve();
-							return;
-						}
+			dropboxButton = Button.create([
+				{
+					color: 'green',
+					icons: ['fa-dropbox'],
+					name: 'Dropbox',
+					onClick: () => {
+						return new Promise(async (resolve) => {
+							if (!(await permissions.contains([['dropbox']]))) {
+								resolve();
+								return;
+							}
 
-						onClick(dm, true, false, false, false, () => {
-							// noinspection JSIgnoredPromiseFromCall
-							manageData(dm, false, false, false, true);
-							resolve();
+							onClick(dm, true, false, false, false, () => {
+								// noinspection JSIgnoredPromiseFromCall
+								manageData(dm, false, false, false, true);
+								resolve();
+							});
 						});
-					});
+					},
 				},
-			});
-			googleDriveButton = new ButtonSet({
-				color1: 'green',
-				color2: 'grey',
-				icon1: 'fa-google',
-				icon2: 'fa-circle-o-notch fa-spin',
-				title1: 'Google Drive',
-				title2: title2,
-				callback1: () => {
-					return new Promise(async (resolve) => {
-						if (!(await permissions.contains([['googleDrive']]))) {
-							resolve();
-							return;
-						}
+				{
+					template: 'loading',
+					isDisabled: true,
+					name: title2,
+				},
+			]).insert(group2, 'beforeend');
+			googleDriveButton = Button.create([
+				{
+					color: 'green',
+					icons: ['fa-google'],
+					name: 'Google Drive',
+					onClick: () => {
+						return new Promise(async (resolve) => {
+							if (!(await permissions.contains([['googleDrive']]))) {
+								resolve();
+								return;
+							}
 
-						onClick(dm, false, true, false, false, () => {
-							// noinspection JSIgnoredPromiseFromCall
-							manageData(dm, false, false, false, true);
-							resolve();
+							onClick(dm, false, true, false, false, () => {
+								// noinspection JSIgnoredPromiseFromCall
+								manageData(dm, false, false, false, true);
+								resolve();
+							});
 						});
-					});
+					},
 				},
-			});
-			oneDriveButton = new ButtonSet({
-				color1: 'green',
-				color2: 'grey',
-				icon1: 'fa-windows',
-				icon2: 'fa-circle-o-notch fa-spin',
-				title1: 'OneDrive',
-				title2: title2,
-				callback1: () => {
-					return new Promise(async (resolve) => {
-						if (!(await permissions.contains([['oneDrive']]))) {
-							resolve();
-							return;
-						}
+				{
+					template: 'loading',
+					isDisabled: true,
+					name: title2,
+				},
+			]).insert(group2, 'beforeend');
+			oneDriveButton = Button.create([
+				{
+					color: 'green',
+					icons: ['fa-windows'],
+					name: 'OneDrive',
+					onClick: () => {
+						return new Promise(async (resolve) => {
+							if (!(await permissions.contains([['oneDrive']]))) {
+								resolve();
+								return;
+							}
 
-						onClick(dm, false, false, true, false, () => {
-							// noinspection JSIgnoredPromiseFromCall
-							manageData(dm, false, false, false, true);
-							resolve();
+							onClick(dm, false, false, true, false, () => {
+								// noinspection JSIgnoredPromiseFromCall
+								manageData(dm, false, false, false, true);
+								resolve();
+							});
 						});
-					});
+					},
 				},
-			});
-			group2.appendChild(dropboxButton.set);
-			group2.appendChild(googleDriveButton.set);
-			group2.appendChild(oneDriveButton.set);
+				{
+					template: 'loading',
+					isDisabled: true,
+					name: title2,
+				},
+			]).insert(group2, 'beforeend');
 		}
 		if (isPopup) {
 			popup.open();
@@ -932,16 +956,16 @@ function loadDataManagement(type, isPopup, callback) {
 		if (Shared.esgst.parameters.esgst === 'backup' && Shared.esgst.parameters.autoBackupIndex) {
 			switch (parseInt(Shared.esgst.parameters.autoBackupIndex)) {
 				case 0:
-					computerButton.trigger();
+					computerButton.onClick();
 					break;
 				case 1:
-					dropboxButton.trigger();
+					dropboxButton.onClick();
 					break;
 				case 2:
-					googleDriveButton.trigger();
+					googleDriveButton.onClick();
 					break;
 				case 3:
-					oneDriveButton.trigger();
+					oneDriveButton.onClick();
 					break;
 			}
 		}
@@ -1146,15 +1170,11 @@ function loadDataCleaner(isPopup) {
 		'Cleans up any duplicate data it finds.',
 		Settings.get('cleanDuplicates')
 	);
-	context.appendChild(
-		new ButtonSet({
-			color1: 'green',
-			color2: 'grey',
-			icon1: 'fa-check',
-			icon2: 'fa-circle-o-notch fa-spin',
-			title1: 'Clean',
-			title2: 'Cleaning...',
-			callback1: async () => {
+	Button.create([
+		{
+			template: 'success',
+			name: 'Clean',
+			onClick: async () => {
 				const dm = {};
 				dm.options = [
 					{
@@ -1553,8 +1573,13 @@ function loadDataCleaner(isPopup) {
 				});
 				successPopup.open();
 			},
-		}).set
-	);
+		},
+		{
+			template: 'loading',
+			isDisabled: true,
+			name: 'Cleaning...',
+		},
+	]).insert(context, 'beforeend');
 }
 
 async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {

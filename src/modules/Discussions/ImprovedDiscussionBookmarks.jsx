@@ -59,44 +59,50 @@ class DiscussionsImprovedDiscussionBookmarks extends Module {
 				title:
 					'Discussion Highlighter has been renamed to Improved Discussion Bookmarks because the ability to bookmark discussions has been added to SteamGifts, so ESGST no longer handles the data. Do you want to transfer the discussions you had previously highlighted to the SteamGifts bookmark list or do you want to delete them from your data?',
 				buttons: [
-					{
-						color1: 'green',
-						color2: 'grey',
-						icon1: 'fa-check',
-						icon2: 'fa-circle-o-notch fa-spin',
-						title1: 'Transfer',
-						title2: 'Transfering...',
-						callback1: async () => {
-							let current = 1;
+					[
+						{
+							template: 'success',
+							name: 'Transfer',
+							onClick: async () => {
+								let current = 1;
 
-							for (const code in highlightedDiscussions) {
-								await this.bookmarkDiscussion(code);
+								for (const code in highlightedDiscussions) {
+									await this.bookmarkDiscussion(code);
 
-								popup.progressBar
-									.setLoading(
-										`${current++} of ${numHighlightedDiscussions} discussions transferred...`
-									)
-									.show();
-							}
+									popup.progressBar
+										.setLoading(
+											`${current++} of ${numHighlightedDiscussions} discussions transferred...`
+										)
+										.show();
+								}
 
-							await Shared.common.lockAndSaveDiscussions(highlightedDiscussions);
+								await Shared.common.lockAndSaveDiscussions(highlightedDiscussions);
 
-							popup.close();
+								popup.close();
+							},
 						},
-					},
-					{
-						color1: 'red',
-						color2: 'grey',
-						icon1: 'fa-times',
-						icon2: 'fa-circle-o-notch fa-spin',
-						title1: 'Delete',
-						title2: 'Deleting...',
-						callback1: async () => {
-							await Shared.common.lockAndSaveDiscussions(highlightedDiscussions);
-
-							popup.close();
+						{
+							template: 'loading',
+							isDisabled: true,
+							name: 'Transfering...',
 						},
-					},
+					],
+					[
+						{
+							template: 'error',
+							name: 'Delete',
+							onClick: async () => {
+								await Shared.common.lockAndSaveDiscussions(highlightedDiscussions);
+
+								popup.close();
+							},
+						},
+						{
+							template: 'loading',
+							isDisabled: true,
+							name: 'Deleting...',
+						},
+					],
 				],
 			});
 			popup.open();

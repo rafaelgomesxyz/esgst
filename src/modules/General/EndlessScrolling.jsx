@@ -396,7 +396,7 @@ class GeneralEndlessScrolling extends Module {
 			es.limitCount -= 1;
 			es.busy = true;
 			if (!es.progressBar) {
-				es.progressBar = NotificationBar.create().setLoading('Loading next page...');
+				es.progressBar = NotificationBar.create().build().setLoading('Loading next page...');
 			}
 			es.progressBar.insert(this.esgst.pagination, 'afterend').show();
 			// noinspection JSIgnoredPromiseFromCall

@@ -1,11 +1,11 @@
-import { ButtonSet } from '../../class/ButtonSet';
-import { Module } from '../../class/Module';
-import { Popup } from '../../class/Popup';
-import { ToggleSwitch } from '../../class/ToggleSwitch';
-import { Shared } from '../../class/Shared';
-import { Settings } from '../../class/Settings';
 import { DOM } from '../../class/DOM';
 import { Logger } from '../../class/Logger';
+import { Module } from '../../class/Module';
+import { Popup } from '../../class/Popup';
+import { Settings } from '../../class/Settings';
+import { Shared } from '../../class/Shared';
+import { ToggleSwitch } from '../../class/ToggleSwitch';
+import { Button } from '../../components/Button';
 import { IHeader } from '../../components/Header';
 
 class GeneralCustomHeaderFooterLinks extends Module {
@@ -704,15 +704,12 @@ class GeneralCustomHeaderFooterLinks extends Module {
 					break;
 				}
 			}
-			popup.description.appendChild(
-				new ButtonSet({
-					color1: 'green',
-					color2: 'grey',
-					icon1: editItem ? 'fa-edit' : 'fa-plus-circle',
-					icon2: 'fa-circle-o-notch fa-spin',
-					title1: editItem ? 'Edit' : 'Add',
-					title2: editItem ? 'Editing...' : 'Adding...',
-					callback1: this.addLink.bind(
+			Button.create([
+				{
+					color: 'green',
+					icons: [editItem ? 'fa-edit' : 'fa-plus-circle'],
+					name: editItem ? 'Edit' : 'Add',
+					onClick: this.addLink.bind(
 						this,
 						color,
 						compactSwitch,
@@ -724,8 +721,13 @@ class GeneralCustomHeaderFooterLinks extends Module {
 						popup,
 						url
 					),
-				}).set
-			);
+				},
+				{
+					template: 'loading',
+					isDisabled: true,
+					name: editItem ? 'Editing...' : 'Adding...',
+				},
+			]).insert(popup.description, 'beforeend');
 			popup.open();
 		} catch (error) {
 			Logger.error(error.message);

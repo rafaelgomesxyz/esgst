@@ -379,7 +379,7 @@ function addStyle() {
 		z-index: 9999991110;
 	}
 
-	.giveaway__links .esgst-button-set >*, .giveaway__links .esgst-button {
+	.giveaway__links .esgst-button {
 		background: none;
 		border: none;
 		font: inherit;
@@ -387,7 +387,7 @@ function addStyle() {
 		padding: 0;
 	}
 
-	.giveaway__links .esgst-button-set >*:hover, .giveaway__links .esgst-button-set >*:active, .giveaway__links .esgst-button:hover, .giveaway__links .esgst-button:active {
+	.giveaway__links .esgst-button:hover, .giveaway__links .esgst-button:active {
 		background: none;
 		border: none;
 		box-shadow: none;
@@ -417,7 +417,7 @@ function addStyle() {
 	}
 
 	.esgst-panel-flexbox .esgst-giveaway-panel {
-		align-items: baseline;
+		align-items: center;
 		text-align: right;
 	}
 
@@ -438,7 +438,7 @@ function addStyle() {
 		margin-left: 5px;
 	}
 
-	.page__heading .esgst-button-set, .esgst-page-heading .esgst-button-set, .page__heading .esgst-button-container, .esgst-page-heading .esgst-button-container {
+	.page__heading .esgst-button-container, .esgst-page-heading .esgst-button-container {
 		border: none;
 		padding: 0;
 		text-shadow: none;
@@ -683,16 +683,16 @@ function addStyle() {
 		overflow-y: auto !important;
 	}
 
-	.esgst-mm-popout .esgst-button-group {
+	.esgst-mm-button-group {
 		align-items: center;
 		display: flex;
 	}
 
-	.esgst-mm-popout .esgst-button-set, .esgst-mm-popout .esgst-button-container {
-		display: flex;
+	.esgst-mm-button-group .esgst-button-container {
+		display: inline-flex;
 	}
 
-	.esgst-mm-popout .esgst-button-set >*, .esgst-mm-popout .esgst-button {
+	.esgst-mm-button-group .esgst-button {
 		flex: 1;
 		line-height: 25px;
 		margin: 2px;
@@ -1633,21 +1633,17 @@ function addStyle() {
 		margin: 5px 0;
 	}
 
-	.esgst-button-set i {
-		margin-right: 5px;
-	}
-
-	.esgst-gm-section .esgst-button-set, .esgst-gm.section .esgst-button-container {
+	.esgst-gm.section .esgst-button-container {
 		display: inline-block;
 		margin: 5px;
 	}
 
-	.sidebar .esgst-button-set >*, .sidebar .esgst-button {
+	.sidebar .esgst-button {
 		margin-bottom: 5px;
 		width: 304px;
 	}
 
-	.esgst-button-set .sidebar__entry-delete, .esgst-button-set .sidebar__error, .esgst-button.sidebar__entry-delete, .esgst-button.sidebar__error {
+	.esgst-button.sidebar__entry-delete, .esgst-button.sidebar__error {
 		display: inline-block;
 	}
 
@@ -2221,14 +2217,14 @@ function addStyle() {
 		margin: 2px;
 	}
 
-	.esgst-giveaway-panel .esgst-button-set, .esgst-giveaway-panel .esgst-button-container {
+	.esgst-giveaway-panel .esgst-button-container {
 		border: 0;
 		padding: 0;
 	}
 
-	.esgst-giveaway-panel .esgst-button-set >*, .esgst-giveaway-panel .esgst-button {
+	.esgst-giveaway-panel .esgst-button {
 		line-height: inherit;
-		margin:0;
+		margin: 0;
 	}
 
 	.esgst-giveaway-panel >:first-child {
@@ -2573,11 +2569,11 @@ function addStyle() {
 		overflow: hidden;
 	}
 
-	.esgst-gv-popout .esgst-button-set, .esgst-gv-popout .esgst-button-container {
+	.esgst-gv-popout .esgst-button-container {
 		width: 100%;
 	}
 
-	.esgst-gv-popout .esgst-button-set >*, .esgst-gv-popout .esgst-button {
+	.esgst-gv-popout .esgst-button {
 		padding: 0;
 		width: 100%;
 	}

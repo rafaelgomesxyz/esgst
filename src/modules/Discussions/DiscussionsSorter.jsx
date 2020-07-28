@@ -1,10 +1,10 @@
-import { ButtonSet } from '../../class/ButtonSet';
+import { DOM } from '../../class/DOM';
 import { Module } from '../../class/Module';
 import { Popout } from '../../class/Popout';
-import { ToggleSwitch } from '../../class/ToggleSwitch';
-import { common } from '../Common';
 import { Settings } from '../../class/Settings';
-import { DOM } from '../../class/DOM';
+import { ToggleSwitch } from '../../class/ToggleSwitch';
+import { Button } from '../../components/Button';
+import { common } from '../Common';
 
 const createHeadingButton = common.createHeadingButton.bind(common),
 	saveAndSortContent = common.saveAndSortContent.bind(common);
@@ -81,17 +81,12 @@ class DiscussionsDiscussionsSorter extends Module {
 			options
 		);
 		options.addEventListener('change', callback);
-		obj.popout.popout.appendChild(
-			new ButtonSet({
-				color1: 'green',
-				color2: '',
-				icon1: 'fa-arrow-circle-right',
-				icon2: '',
-				title1: 'Sort',
-				title2: '',
-				callback1: callback,
-			}).set
-		);
+		Button.create({
+			color: 'green',
+			icons: ['fa-arrow-circle-right'],
+			name: 'Sort',
+			onClick: callback,
+		}).insert(obj.popout.popout, 'beforeend');
 		obj.popout.open();
 	}
 }

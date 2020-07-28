@@ -288,9 +288,7 @@ class GeneralShortcutKeys extends Module {
 				if (event.target.tagName === 'TEXTAREA') {
 					let reply = event.target.closest(`.comment, .reply_form, .esgst-popup`);
 					if (reply) {
-						let button = reply.querySelector(
-							`.esgst-button-set >:first-child, .js__submit-form, .js_submit`
-						);
+						let button = reply.querySelector(`.esgst-button, .js__submit-form, .js_submit`);
 						if (button) {
 							button.click();
 							event.preventDefault();

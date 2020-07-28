@@ -1,7 +1,7 @@
-import { ButtonSet } from '../../class/ButtonSet';
-import { Module } from '../../class/Module';
-import { common } from '../Common';
 import { DOM } from '../../class/DOM';
+import { Module } from '../../class/Module';
+import { Button } from '../../components/Button';
+import { common } from '../Common';
 
 const getFeatureTooltip = common.getFeatureTooltip.bind(common);
 class GiveawaysGiveawayPopup extends Module {
@@ -44,43 +44,56 @@ class GiveawaysGiveawayPopup extends Module {
 				!giveaway.innerWrap.getElementsByClassName('esgst-gp-button')[0] &&
 				(!giveaway.inviteOnly || giveaway.url)
 			) {
-				let buttonSet = new ButtonSet({
-					color1: 'grey',
-					color2: 'grey',
-					icon1: 'fa-external-link',
-					icon2: 'fa-circle-o-notch fa-spin',
-					title1: '',
-					title2: '',
-					callback1: () => {
-						return new Promise((resolve) => {
-							// noinspection JSIgnoredPromiseFromCall
-							this.esgst.modules.giveawaysEnterLeaveGiveawayButton.elgb_openPopup(
-								giveaway,
-								main,
-								source,
-								(error) => {
-									if (error) {
-										buttonSet.firstElementChild.classList.remove('form__saving-button', 'grey');
-										buttonSet.firstElementChild.classList.add('sidebar__error', 'red');
-										buttonSet.title = getFeatureTooltip('gp', 'Could not access giveaway');
-									} else if (buttonSet.firstElementChild.classList.contains('sidebar__error')) {
-										buttonSet.firstElementChild.classList.remove('sidebar__error', 'red');
-										buttonSet.firstElementChild.classList.add('form__saving-button', 'grey');
-										buttonSet.title = getFeatureTooltip(
-											'gp',
-											'View giveaway description/add a comment'
-										);
-									}
-									resolve();
+				let button;
+				const onClick = () => {
+					return new Promise((resolve) => {
+						// noinspection JSIgnoredPromiseFromCall
+						this.esgst.modules.giveawaysEnterLeaveGiveawayButton.elgb_openPopup(
+							giveaway,
+							main,
+							source,
+							(error) => {
+								if (error) {
+									button.build(3);
+								} else {
+									button.build(1);
 								}
-							);
-						});
-					},
-				}).set;
-				buttonSet.classList.add('esgst-gp-button');
-				buttonSet.setAttribute('data-draggable-id', 'gp');
-				buttonSet.title = getFeatureTooltip('gp', 'View giveaway description/add a comment');
-				giveaway.panel.appendChild(buttonSet);
+								resolve();
+							}
+						);
+					});
+				};
+				button = Button.create({
+					additionalContainerClass: 'esgst-gp-button',
+					states: [
+						{
+							color: 'white',
+							tooltip: getFeatureTooltip('gp', 'View giveaway description / add a comment'),
+							icons: ['fa-external-link'],
+							name: '',
+							switchTo: { onReturn: 1 },
+							onClick,
+						},
+						{
+							template: 'loading',
+							isDisabled: true,
+							name: '',
+						},
+						{
+							template: 'error',
+							tooltip: getFeatureTooltip('gp', 'Could not access giveaway'),
+							name: '',
+							switchTo: { onReturn: 3 },
+							onClick,
+						},
+						{
+							template: 'loading',
+							isDisabled: true,
+							name: '',
+						},
+					],
+				}).insert(giveaway.panel, 'beforeend');
+				button.nodes.outer.setAttribute('data-draggable-id', 'gp');
 			}
 		});
 	}

@@ -1,12 +1,12 @@
-import { ButtonSet } from '../../class/ButtonSet';
+import { DOM } from '../../class/DOM';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
-import { ToggleSwitch } from '../../class/ToggleSwitch';
-import { Utils } from '../../lib/jsUtils';
-import { Shared } from '../../class/Shared';
 import { Settings } from '../../class/Settings';
-import { DOM } from '../../class/DOM';
+import { Shared } from '../../class/Shared';
+import { ToggleSwitch } from '../../class/ToggleSwitch';
+import { Button } from '../../components/Button';
 import { NotificationBar } from '../../components/NotificationBar';
+import { Utils } from '../../lib/jsUtils';
 
 class UsersUserSuspensionChecker extends Module {
 	constructor() {
@@ -190,30 +190,33 @@ class UsersUserSuspensionChecker extends Module {
 				}
 			}
 		}
-		popup.description.appendChild(
-			new ButtonSet({
-				color1: 'green',
-				color2: 'grey',
-				icon1: 'fa-question-circle',
-				icon2: 'fa-times-circle',
-				title1: 'Check',
-				title2: 'Cancel',
-				callback1: async () => {
+
+		Button.create([
+			{
+				color: 'green',
+				icons: ['fa-question-circle'],
+				name: 'Check',
+				onClick: async () => {
 					button.classList.add('esgst-busy');
 					await this.setCheck(uscObj);
 					uscObj.progressBar.setSuccess('All users checked!');
 					button.classList.remove('esgst-busy');
 					popup.setDone();
 				},
-				callback2: () => {
+			},
+			{
+				template: 'error',
+				name: 'Cancel',
+				switchTo: { onReturn: 0 },
+				onClick: () => {
 					uscObj.canceled = true;
 					window.setTimeout(() => {
 						uscObj.progressBar.reset().hide();
 					}, 500);
 					button.classList.remove('esgst-busy');
 				},
-			}).set
-		);
+			},
+		]).insert(popup.description, 'beforeend');
 		uscObj.progressBar = NotificationBar.create().insert(popup.description, 'beforeend').hide();
 		DOM.insert(popup.scrollable, 'beforeend', <div ref={(ref) => (uscObj.results = ref)}></div>);
 		Shared.common.createResults(uscObj.results, uscObj, [
