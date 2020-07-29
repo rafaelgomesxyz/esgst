@@ -32,6 +32,7 @@ class PageHeading {
 			<div className={CLASS_NAMES[this.namespace].pageHeading}>
 				<div
 					className={CLASS_NAMES[this.namespace].pageHeadingBreadcrumbs}
+					dataset={{ esgst: 'true' }}
 					ref={(ref) => (this.breadcrumbs = ref)}
 				></div>
 			</div>

@@ -60,7 +60,10 @@ class Comments extends Module {
 			if (!main || Shared.common.isCurrentPath('Messages')) {
 				count = 0;
 			} else {
-				count = context.getElementsByClassName('page__heading__breadcrumbs')[1];
+				const breadcrumbs = context.querySelectorAll(
+					'.page__heading__breadcrumbs:not([data-esgst])'
+				);
+				count = breadcrumbs[1] || breadcrumbs[0];
 				if (count) {
 					count = parseInt(count.firstElementChild.textContent.replace(/,/g, '').match(/\d+/)[0]);
 				} else {
