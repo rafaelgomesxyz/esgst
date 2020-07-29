@@ -405,7 +405,6 @@ class GamesGameCategories extends Module {
 					features: {
 						gc_o_a: {
 							isCategory: true,
-							allowCustomDisplay: true,
 							features: {
 								gc_o_a_t: {
 									background: true,

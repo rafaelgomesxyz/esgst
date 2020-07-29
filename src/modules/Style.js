@@ -2133,25 +2133,18 @@ function addStyle() {
 		padding: 0 2px;
 	}
 
-	.esgst-sm-colors input {
-		display: inline-block;
-		padding: 0;
-		width: 100px;
+	.esgst-sm-additional-option >*:not(.esgst-sm-additional-option) {
+		align-items: center;
+		display: flex;
+		margin: 5px 0;
 	}
 
-	.esgst-sm-colors input[type=color] {
-		width: 25px;
+	.esgst-sm-additional-option >* input, .esgst-sm-additional-option >* select, .esgst-sm-additional-option >* textarea {
+		flex: 1;
 	}
 
-	.esgst-sm-colors select {
-		display: inline-block;
-		padding: 0;
-		width: 100px;
-	}
-
-	.esgst-sm-colors-default {
-		line-height: normal;
-		padding: 5px 15px;
+	.esgst-sm-additional-option >* >* {
+		margin: 0 5px;
 	}
 
 	.esgst-ged-icon {

@@ -2100,17 +2100,19 @@ class SettingsModule {
 				const color = Utils.rgba2Hex(Settings.get(`${ID}_${id}`));
 				children.push(
 					<fragment>
-						<strong>{`${Feature.colors[id]}: `}</strong>
-						<br />
-						<input data-color-id={id} type="color" value={color.hex} />
-						{' Opacity: '}
-						<input max="1.0" min="0.0" step="0.1" type="number" value={color.alpha} />' '
-						<div className="form__saving-button esgst-sm-colors-default">Reset</div>
-						<br />
+						<div>
+							<strong>{`${Feature.colors[id]}:`}</strong>
+						</div>
+						<div>
+							<input data-color-id={id} type="color" value={color.hex} />
+							Opacity:
+							<input max="1.0" min="0.0" step="0.1" type="number" value={color.alpha} />
+							<div className="form__saving-button">Reset</div>
+						</div>
 					</fragment>
 				);
 			}
-			const context = <div className="esgst-sm-colors">{children}</div>;
+			const context = <div className="esgst-sm-additional-option">{children}</div>;
 			const elements = context.querySelectorAll(`[data-color-id]`);
 			for (const hexInput of elements) {
 				const colorId = hexInput.getAttribute('data-color-id');
@@ -2123,22 +2125,29 @@ class SettingsModule {
 			}
 			items.push(context);
 			if (ID === 'gc_g') {
-				const input = (
-					<div className="esgst-sm-colors">
-						Only show the following genres:{' '}
-						<input type="text" value={Settings.get('gc_g_filters')} />
-						<i
-							className="fa fa-question-circle"
-							title="If you enter genres here, a genre category will only appear if the game has the listed genre. Separate genres with a comma, for example: Genre1, Genre2"
-						></i>
+				let input;
+				const inputContainer = (
+					<div className="esgst-sm-additional-option">
+						<div>Only show the following genres:</div>
+						<div>
+							<input
+								type="text"
+								value={Settings.get('gc_g_filters')}
+								ref={(ref) => (input = ref)}
+							/>
+							<i
+								className="fa fa-question-circle"
+								title="If you enter genres here, a genre category will only appear if the game has the listed genre. Separate genres with a comma, for example: Genre1, Genre2"
+							></i>
+						</div>
 					</div>
 				);
-				Shared.common.observeChange(input.firstElementChild, 'gc_g_filters', this.toSave);
-				items.push(input);
+				Shared.common.observeChange(input, 'gc_g_filters', this.toSave);
+				items.push(inputContainer);
 				items.push(this.addGcMenuPanel());
 			}
 		} else if (Feature.inputItems) {
-			let containerr = <div className="esgst-sm-colors"></div>;
+			let containerr = <div className="esgst-sm-additional-option"></div>;
 			if (ID.match(/^(chfl|sk_)/)) {
 				Feature.inputItems = [
 					{
@@ -2280,34 +2289,47 @@ class SettingsModule {
 			});
 			items.push(containerr);
 		} else if (Feature.theme) {
+			let startTime;
+			let endTime;
+			let textArea;
+			let button;
+			let version;
 			const children = [
-				'Enabled from ',
-				<input type="text" value={Settings.get(`${ID}_startTime`)} />,
-				' to ',
-				<input type="text" value={Settings.get(`${ID}_endTime`)} />,
-				<i
-					className="fa fa-question-circle"
-					title="You can specify here what time of the day you want the theme to be enabled. Use the HH:MM format."
-				></i>,
-				<br />,
+				<div>
+					Enabled from
+					<input
+						type="text"
+						value={Settings.get(`${ID}_startTime`)}
+						ref={(ref) => (startTime = ref)}
+					/>
+					to
+					<input type="text" value={Settings.get(`${ID}_endTime`)} ref={(ref) => (endTime = ref)} />
+					<i
+						className="fa fa-question-circle"
+						title="You can specify here what time of the day you want the theme to be enabled. Use the HH:MM format."
+					></i>
+				</div>,
 			];
 			if (ID === 'customTheme') {
-				children.push(<textarea></textarea>);
+				children.push(
+					<div>
+						<textarea ref={(ref) => (textArea = ref)}></textarea>
+					</div>
+				);
 			} else {
 				children.push(
-					<div className="form__saving-button esgst-sm-colors-default" id={ID}>
-						Update
-					</div>,
-					<span></span>
+					<div>
+						<div className="form__saving-button" id={ID} ref={(ref) => (button = ref)}>
+							Update
+						</div>
+						<span ref={(ref) => (version = ref)}></span>
+					</div>
 				);
 			}
-			let containerr = <div className="esgst-sm-colors">{children}</div>;
-			let startTime = containerr.firstElementChild;
-			let endTime = startTime.nextElementSibling;
+			let containerr = <div className="esgst-sm-additional-option">{children}</div>;
 			Shared.common.observeChange(startTime, `${ID}_startTime`, this.toSave);
 			Shared.common.observeChange(endTime, `${ID}_endTime`, this.toSave);
 			if (ID === 'customTheme') {
-				let textArea = containerr.lastElementChild;
 				const value = Shared.common.getValue(ID);
 				if (value) {
 					textArea.value = JSON.parse(value);
@@ -2318,8 +2340,6 @@ class SettingsModule {
 					Shared.common.setTheme();
 				});
 			} else {
-				let version = containerr.lastElementChild,
-					button = version.previousElementSibling;
 				// noinspection JSIgnoredPromiseFromCall
 				Shared.common.setThemeVersion(ID, version);
 				button.addEventListener('click', async () => {
@@ -2375,19 +2395,18 @@ class SettingsModule {
 						)
 					);
 				}
-				const select = (
-					<div className="esgst-sm-colors">
-						{option.title} <select>{children}</select>
+				let select;
+				const selectContainer = (
+					<div className="esgst-sm-additional-option">
+						<div>
+							{option.title}
+							<select ref={(ref) => (select = ref)}>{children}</select>
+						</div>
 					</div>
 				);
-				select.firstElementChild.selectedIndex = selectedIndex;
-				Shared.common.observeNumChange(
-					select.firstElementChild,
-					`${ID}${currentKey}`,
-					this.toSave,
-					'selectedIndex'
-				);
-				items.push(select);
+				select.selectedIndex = selectedIndex;
+				Shared.common.observeNumChange(select, `${ID}${currentKey}`, this.toSave, 'selectedIndex');
+				items.push(selectContainer);
 			}
 		}
 		return items;
@@ -2435,18 +2454,20 @@ class SettingsModule {
 	}
 
 	addGwcrMenuPanel(id, key, background, upper = '100') {
+		let button;
 		const panel = (
-			<div className="esgst-sm-colors">
-				<div className="form__saving-button esgst-sm-colors-default">
-					<span>Add Color Setting</span>
+			<div className="esgst-sm-additional-option">
+				<div>
+					<div className="form__saving-button" ref={(ref) => (button = ref)}>
+						<span>Add Color Setting</span>
+					</div>
+					<i
+						className="fa fa-question-circle"
+						title={`Allows you to set different colors for different ${key} ranges.`}
+					></i>
 				</div>
-				<i
-					className="fa fa-question-circle"
-					title={`Allows you to set different colors for different ${key} ranges.`}
-				></i>
 			</div>
 		);
-		const button = panel.firstElementChild;
 		for (let i = 0, n = Settings.get(id).length; i < n; ++i) {
 			this.addGwcColorSetting(Settings.get(id)[i], id, key, panel, background);
 		}
@@ -2574,50 +2595,57 @@ class SettingsModule {
 	}
 
 	addUlMenuPanel(id) {
+		let draggableArea;
 		const panel = (
-			<div className="esgst-sm-colors">
-				<div></div>
-				<div
-					className="form__saving-button esgst-sm-colors-default"
-					onclick={() => this.addUlMenuItem(id, panel)}
-				>
-					<span>Add Link</span>
+			<fragment>
+				<div className="esgst-sm-additional-option" ref={(ref) => (draggableArea = ref)}></div>
+				<div className="esgst-sm-additional-option">
+					<div>
+						<div
+							className="form__saving-button"
+							onclick={() => this.addUlMenuItem(id, draggableArea)}
+						>
+							<span>Add Link</span>
+						</div>
+						<div
+							className="form__saving-button"
+							onclick={() => {
+								this.preSave(id, Settings.defaultValues[id]);
+								draggableArea.innerHTML = '';
+								this.addUlMenuItems(id, draggableArea);
+							}}
+						>
+							<span>Reset</span>
+						</div>
+						<div
+							className="form__saving-button"
+							title="This will merge your list with the default list, meaning that any new items in the default list will be added to your list. Also, if you previously deleted an item from the default list, it will come back."
+							onclick={() => this.mergeValues(id, draggableArea, this.addUlMenuItems.bind(this))}
+						>
+							<span>Merge</span>
+						</div>
+					</div>
+					<div>
+						<div className="form__input-description">
+							The default links should give you an idea of how the format works.
+							<br />
+							<br />
+							As label, you can use FontAwesome icons (for example, "fa-icon"), image URLs (for
+							example, "https://www.example.com/image.jpg") and plain text (for example, "Text").
+							You can also combine them (for example, "fa-icon https://www.example.com/image.jpg
+							Text"). Images will be resized to 16x16.
+							<br />
+							<br />
+							In the URL, you can use the templates %username% and %steamid%, they will be replaced
+							with the user's username/Steam id.`
+						</div>
+					</div>
 				</div>
-				<div
-					className="form__saving-button esgst-sm-colors-default"
-					onclick={() => {
-						this.preSave(id, Settings.defaultValues[id]);
-						panel.firstElementChild.innerHTML = '';
-						this.addUlMenuItems(id, panel);
-					}}
-				>
-					<span>Reset</span>
-				</div>
-				<div
-					className="form__saving-button esgst-sm-colors-default"
-					title="This will merge your list with the default list, meaning that any new items in the default list will be added to your list. Also, if you previously deleted an item from the default list, it will come back."
-					onclick={() => this.mergeValues(id, panel, this.addUlMenuItems.bind(this))}
-				>
-					<span>Merge</span>
-				</div>
-				<div className="form__input-description">
-					The default links should give you an idea of how the format works.
-					<br />
-					<br />
-					As label, you can use FontAwesome icons (for example, "fa-icon"), image URLs (for example,
-					"https://www.example.com/image.jpg") and plain text (for example, "Text"). You can also
-					combine them (for example, "fa-icon https://www.example.com/image.jpg Text"). Images will
-					be resized to 16x16.
-					<br />
-					<br />
-					In the URL, you can use the templates %username% and %steamid%, they will be replaced with
-					the user's username/Steam id.`
-				</div>
-			</div>
+			</fragment>
 		);
 		Shared.common.draggable_set({
 			addTrash: true,
-			context: panel.firstElementChild,
+			context: draggableArea,
 			id: 'ul_links',
 			item: {},
 			onDragEnd: (obj) => {
@@ -2626,11 +2654,11 @@ class SettingsModule {
 				}
 			},
 		});
-		this.addUlMenuItems(id, panel);
+		this.addUlMenuItems(id, draggableArea);
 		return panel;
 	}
 
-	mergeValues(id, panel, callback) {
+	mergeValues(id, draggableArea, callback) {
 		const setting = Settings.get(id);
 		for (const item of Settings.defaultValues[id]) {
 			const itemString = JSON.stringify(item);
@@ -2639,19 +2667,19 @@ class SettingsModule {
 			}
 		}
 		this.preSave(id, setting);
-		panel.firstElementChild.innerHTML = '';
+		draggableArea.innerHTML = '';
 		if (callback) {
-			callback(id, panel);
+			callback(id, draggableArea);
 		}
 	}
 
-	addUlMenuItems(id, panel) {
+	addUlMenuItems(id, draggableArea) {
 		for (const [i, link] of Settings.get(id).entries()) {
-			this.addUlLink(i, id, link, panel);
+			this.addUlLink(i, id, link, draggableArea);
 		}
 	}
 
-	addUlMenuItem(id, panel) {
+	addUlMenuItem(id, draggableArea) {
 		const link = {
 			label: '',
 			url: '',
@@ -2659,20 +2687,20 @@ class SettingsModule {
 		const setting = Settings.get(id);
 		setting.push(link);
 		this.preSave(id, setting);
-		this.addUlLink(setting.length - 1, id, link, panel);
+		this.addUlLink(setting.length - 1, id, link, draggableArea);
 	}
 
-	addUlLink(i, id, link, panel) {
+	addUlLink(i, id, link, draggableArea) {
 		let setting;
 		DOM.insert(
-			panel.firstElementChild,
+			draggableArea,
 			'beforeend',
 			<div
 				data-draggable-id={i}
 				data-draggable-obj={JSON.stringify(link)}
 				ref={(ref) => (setting = ref)}
 			>
-				Label:{' '}
+				Label:
 				<input
 					onchange={(event) => {
 						link.label = event.currentTarget.value;
@@ -2682,7 +2710,7 @@ class SettingsModule {
 					type="text"
 					value={link.label}
 				/>
-				URL:{' '}
+				URL:
 				<input
 					onchange={(event) => {
 						link.url = event.currentTarget.value;
@@ -2696,7 +2724,7 @@ class SettingsModule {
 		);
 		Shared.common.draggable_set({
 			addTrash: true,
-			context: panel.firstElementChild,
+			context: draggableArea,
 			id: 'ul_links',
 			item: {},
 			onDragEnd: (obj) => {
@@ -2716,10 +2744,10 @@ class SettingsModule {
 		let urlField;
 		let urlInfoNode;
 		const panel = (
-			<div className="esgst-sm-colors">
+			<div className="esgst-sm-additional-option">
 				{feature.allowCustomDisplay ? (
-					<fragment>
-						<span className="esgst-bold">Show:</span>
+					<div>
+						<strong>Show:</strong>
 						<select
 							onchange={(event) => {
 								switch (event.currentTarget.value) {
@@ -2777,17 +2805,22 @@ class SettingsModule {
 							className="esgst-clickable esgst-hidden fa fa-question-circle"
 							ref={(ref) => (iconInfoNode = ref)}
 						></i>
-					</fragment>
+					</div>
 				) : null}
-				<br />
-				<span className="esgst-bold">URL: </span>
-				<input type="text" value={Settings.get(`${id}Url`)} ref={(ref) => (urlField = ref)} />
-				<i className="esgst-clickable fa fa-question-circle" ref={(ref) => (urlInfoNode = ref)}></i>
+				<div>
+					<strong>URL:</strong>
+					<input type="text" value={Settings.get(`${id}Url`)} ref={(ref) => (urlField = ref)} />
+					<i
+						className="esgst-clickable fa fa-question-circle"
+						ref={(ref) => (urlInfoNode = ref)}
+					></i>
+				</div>
 			</div>
 		);
-		Shared.common.createTooltip(
-			labelInfoNode,
-			`Enter the date format here, using the following keywords:
+		if (feature.allowCustomDisplay) {
+			Shared.common.createTooltip(
+				labelInfoNode,
+				`Enter the date format here, using the following keywords:
 			<br/>
 			<br/>
 			DD - Day<br/>
@@ -2795,11 +2828,12 @@ class SettingsModule {
 			Mon - Month in short name (i.e. Jan)<br/>
 			Month - Month in full name (i.e. January)<br/>
 			YYYY - Year`
-		);
-		Shared.common.createTooltip(
-			iconInfoNode,
-			'The name of the icon must be any name in this page: <a href="https://fontawesome.com/v4.7.0/icons/">https://fontawesome.com/v4.7.0/icons/</a>'
-		);
+			);
+			Shared.common.createTooltip(
+				iconInfoNode,
+				'The name of the icon must be any name in this page: <a href="https://fontawesome.com/v4.7.0/icons/">https://fontawesome.com/v4.7.0/icons/</a>'
+			);
+		}
 		Shared.common.createTooltip(
 			urlInfoNode,
 			`You can use the following placeholders here:
@@ -2812,25 +2846,23 @@ class SettingsModule {
 			<span class="esgst-bold">%game-search-name%</span> - The name of the game as a URI encoded string, useful for search URLs.<br/>
 			<span class="esgst-bold">%hltb-id%</span> - The HLTB ID of the game.<br/>`
 		);
-		if (Settings.get(`${id}_s`)) {
-			if (Settings.get(`${id}_s_i`)) {
-				showField.selectedIndex = 2;
-				iconField.classList.remove('esgst-hidden');
-				iconInfoNode.classList.remove('esgst-hidden');
+		if (feature.allowCustomDisplay) {
+			if (Settings.get(`${id}_s`)) {
+				if (Settings.get(`${id}_s_i`)) {
+					showField.selectedIndex = 2;
+					iconField.classList.remove('esgst-hidden');
+					iconInfoNode.classList.remove('esgst-hidden');
+				} else {
+					showField.selectedIndex = 1;
+				}
 			} else {
-				showField.selectedIndex = 1;
+				showField.selectedIndex = 0;
+				labelField.classList.remove('esgst-hidden');
+				if (id === 'gc_rd') {
+					labelInfoNode.classList.remove('esgst-hidden');
+				}
 			}
-		} else {
-			showField.selectedIndex = 0;
-			labelField.classList.remove('esgst-hidden');
-			if (id === 'gc_rd') {
-				labelInfoNode.classList.remove('esgst-hidden');
-			}
-		}
-		if (labelField) {
 			Shared.common.observeChange(labelField, `${id}Label`, this.toSave);
-		}
-		if (iconField) {
 			Shared.common.observeChange(iconField, `${id}Icon`, this.toSave);
 		}
 		Shared.common.observeChange(urlField, `${id}Url`, this.toSave);
@@ -2838,18 +2870,20 @@ class SettingsModule {
 	}
 
 	addGcRatingPanel() {
+		let button;
 		const panel = (
-			<div className="esgst-sm-colors">
-				<div className="form__saving-button esgst-sm-colors-default">
-					<span>Add Rating Setting</span>
+			<div className="esgst-sm-additional-option">
+				<div>
+					<div className="form__saving-button" ref={(ref) => (button = ref)}>
+						<span>Add Rating Setting</span>
+					</div>
+					<i
+						className="fa fa-question-circle"
+						title="Allows you to set different colors/icons for different rating ranges."
+					></i>
 				</div>
-				<i
-					className="fa fa-question-circle"
-					title="Allows you to set different colors/icons for different rating ranges."
-				></i>
 			</div>
 		);
-		let button = panel.firstElementChild;
 		for (let i = 0, n = Settings.get('gc_r_colors').length; i < n; ++i) {
 			this.addGcRatingColorSetting(Settings.get('gc_r_colors')[i], panel);
 		}
@@ -2870,96 +2904,36 @@ class SettingsModule {
 	}
 
 	addGcRatingColorSetting(colors, panel) {
-		let setting = Shared.common.createElements(panel, 'beforeend', [
-			{
-				type: 'div',
-				children: [
-					{
-						text: `From: `,
-						type: 'node',
-					},
-					{
-						attributes: {
-							type: 'number',
-							value: colors.lower,
-						},
-						type: 'input',
-					},
-					{
-						text: '% to ',
-						type: 'node',
-					},
-					{
-						attributes: {
-							type: 'number',
-							value: colors.upper,
-						},
-						type: 'input',
-					},
-					{
-						text: `% rating, color it as `,
-						type: 'node',
-					},
-					{
-						attributes: {
-							type: 'color',
-							value: colors.color,
-						},
-						type: 'input',
-					},
-					{
-						text: ' with the background ',
-						type: 'node',
-					},
-					{
-						attributes: {
-							type: 'color',
-							value: colors.bgColor,
-						},
-						type: 'input',
-					},
-					{
-						text: ' and the icon ',
-						type: 'node',
-					},
-					{
-						attributes: {
-							type: 'text',
-							value: colors.icon,
-						},
-						type: 'input',
-					},
-					{
-						attributes: {
-							class: 'fa fa-question-circle',
-						},
-						type: 'i',
-					},
-					{
-						text: '.',
-						type: 'node',
-					},
-					{
-						attributes: {
-							class: 'esgst-clickable fa fa-times',
-							title: 'Delete this setting',
-						},
-						type: 'i',
-					},
-				],
-			},
-		]);
-		let lower = setting.firstElementChild;
-		let upper = lower.nextElementSibling;
-		let color = upper.nextElementSibling;
-		let bgColor = color.nextElementSibling;
-		let icon = bgColor.nextElementSibling;
-		let tooltip = icon.nextElementSibling;
+		let setting, lower, upper, color, bgColor, icon, tooltip, remove;
+		DOM.insert(
+			panel,
+			'beforeend',
+			<div className="esgst-sm-additional-option" ref={(ref) => (setting = ref)}>
+				<div>
+					Rating Range:
+					<input type="number" value={colors.lower} ref={(ref) => (lower = ref)} />% -
+					<input type="number" value={colors.upper} ref={(ref) => (upper = ref)} />%
+				</div>
+				<div>
+					Color:
+					<input type="color" value={colors.color} ref={(ref) => (color = ref)} />
+					Background Color:
+					<input type="color" value={colors.bgColor} ref={(ref) => (bgColor = ref)} />
+					Icon:
+					<input type="text" value={colors.icon} ref={(ref) => (icon = ref)} />
+					<i className="fa fa-question-circle" ref={(ref) => (tooltip = ref)}></i>
+				</div>
+				<div>
+					<div className="form__saving-button" ref={(ref) => (remove = ref)}>
+						<span>Delete</span>
+					</div>
+				</div>
+			</div>
+		);
 		Shared.common.createTooltip(
 			tooltip,
 			`The name of the icon can be any name from <a href="https://fontawesome.com/v4.7.0/icons/">FontAwesome</a> or any text. For example, if you want to use alt symbols like ▲ (Alt + 3 + 0) and ▼ (Alt + 3 + 1), you can.`
 		);
-		let remove = tooltip.nextElementSibling;
 		lower.addEventListener('change', () => {
 			colors.lower = lower.value;
 			this.preSave('gc_r_colors', Settings.get('gc_r_colors'));
@@ -2997,17 +2971,18 @@ class SettingsModule {
 	addGcMenuPanel() {
 		let button, colorSetting, i, n;
 		const panel = (
-			<div className="esgst-sm-colors">
-				<div className="form__saving-button esgst-sm-colors-default">
-					<span>Add Custom Genre Setting</span>
+			<div className="esgst-sm-additional-option">
+				<div>
+					<div className="form__saving-button" ref={(ref) => (button = ref)}>
+						<span>Add Custom Genre Setting</span>
+					</div>
+					<i
+						className="fa fa-question-circle"
+						title="Allows you to color genres (colored genres will appear at the beginning of the list)."
+					></i>
 				</div>
-				<i
-					className="fa fa-question-circle"
-					title="Allows you to color genres (colored genres will appear at the beginning of the list)."
-				></i>
 			</div>
 		);
-		button = panel.firstElementChild;
 		for (i = 0, n = Settings.get('gc_g_colors').length; i < n; ++i) {
 			this.addGcColorSetting(Settings.get('gc_g_colors')[i], panel);
 		}
@@ -3027,61 +3002,27 @@ class SettingsModule {
 
 	addGcColorSetting(colorSetting, panel) {
 		let bgColor, color, genre, i, n, remove, setting;
-		setting = Shared.common.createElements(panel, 'beforeend', [
-			{
-				type: 'div',
-				children: [
-					{
-						text: 'For genre ',
-						type: 'node',
-					},
-					{
-						attributes: {
-							type: 'text',
-							value: colorSetting.genre,
-						},
-						type: 'input',
-					},
-					{
-						text: `, color it as `,
-						type: 'node',
-					},
-					{
-						attributes: {
-							type: 'color',
-							value: colorSetting.color,
-						},
-						type: 'input',
-					},
-					{
-						text: ' with the background ',
-						type: 'node',
-					},
-					{
-						attributes: {
-							type: 'color',
-							value: colorSetting.bgColor,
-						},
-						type: 'input',
-					},
-					{
-						text: '.',
-						type: 'node',
-					},
-					{
-						attributes: {
-							class: 'esgst-clickable fa fa-times',
-							title: 'Delete this setting',
-						},
-						type: 'i',
-					},
-				],
-			},
-		]);
-		genre = setting.firstElementChild;
-		color = genre.nextElementSibling;
-		bgColor = color.nextElementSibling;
-		remove = bgColor.nextElementSibling;
+		DOM.insert(
+			panel,
+			'beforeend',
+			<div className="esgst-sm-additional-option" ref={(ref) => (setting = ref)}>
+				<div>
+					Genre:
+					<input type="text" value={colorSetting.genre} ref={(ref) => (genre = ref)} />
+				</div>
+				<div>
+					Color:
+					<input type="color" value={colorSetting.color} ref={(ref) => (color = ref)} />
+					Background Color:
+					<input type="color" value={colorSetting.bgColor} ref={(ref) => (bgColor = ref)} />
+				</div>
+				<div>
+					<div className="form__saving-button" ref={(ref) => (remove = ref)}>
+						<span>Delete</span>
+					</div>
+				</div>
+			</div>
+		);
 		genre.addEventListener('change', () => {
 			colorSetting.genre = genre.value;
 			this.preSave('gc_g_colors', Settings.get('gc_g_colors'));
@@ -3111,15 +3052,16 @@ class SettingsModule {
 	addGcAltMenuPanel() {
 		let altSetting, button, i, n;
 		const panel = (
-			<div className="esgst-sm-colors">
-				<div className="form__saving-button esgst-sm-colors-default">
-					<span>Add Alt Account</span>
+			<div className="esgst-sm-additional-option">
+				<div>
+					<div className="form__saving-button" ref={(ref) => (button = ref)}>
+						<span>Add Alt Account</span>
+					</div>
 				</div>
 			</div>
 		);
-		button = panel.firstElementChild;
 		Shared.common.createTooltip(
-			Shared.common.createElements(panel, 'beforeend', [
+			Shared.common.createElements(panel.firstElementChild, 'beforeend', [
 				{
 					attributes: {
 						class: 'fa fa-question-circle',
@@ -3161,108 +3103,55 @@ class SettingsModule {
 
 	addGcAltSetting(altSetting, panel) {
 		let color, bgColor, i, icon, label, n, name, remove, setting, steamId;
-		setting = Shared.common.createElements(panel, 'beforeend', [
-			{
-				type: 'div',
-				children: [
-					{
-						text: 'For account with Steam ID ',
-						type: 'node',
-					},
-					{
-						attributes: {
-							placeholder: '0000000000000000',
-							type: 'text',
-							value: altSetting.steamId,
-						},
-						type: 'input',
-					},
-					{
-						text: `, using the nickname `,
-						type: 'node',
-					},
-					{
-						attributes: {
-							placeholder: 'alt1',
-							type: 'text',
-							value: altSetting.name,
-						},
-						type: 'input',
-					},
-					{
-						text: `, `,
-						type: 'node',
-					},
-					{
-						type: 'br',
-					},
-					{
-						text: 'color it as ',
-						type: 'node',
-					},
-					{
-						attributes: {
-							type: 'color',
-							value: altSetting.color,
-						},
-						type: 'input',
-					},
-					{
-						text: ' with the background ',
-						type: 'node',
-					},
-					{
-						attributes: {
-							type: 'color',
-							value: altSetting.bgColor,
-						},
-						type: 'input',
-					},
-					{
-						text: `, icon `,
-						type: 'node',
-					},
-					{
-						attributes: {
-							placeholder: 'folder',
-							type: 'text',
-							value: altSetting.icon,
-						},
-						type: 'input',
-					},
-					{
-						text: ' and label ',
-						type: 'node',
-					},
-					{
-						attributes: {
-							placeholder: 'Owned by alt1',
-							type: 'text',
-							value: altSetting.label,
-						},
-						type: 'input',
-					},
-					{
-						text: '.',
-						type: 'node',
-					},
-					{
-						attributes: {
-							class: 'esgst-clickable fa fa-times',
-							title: 'Delete this setting',
-						},
-						type: 'i',
-					},
-				],
-			},
-		]);
-		steamId = setting.firstElementChild;
-		name = steamId.nextElementSibling;
-		color = name.nextElementSibling.nextElementSibling;
-		bgColor = color.nextElementSibling;
-		icon = bgColor.nextElementSibling;
-		label = icon.nextElementSibling;
-		remove = label.nextElementSibling;
+		DOM.insert(
+			panel,
+			'beforeend',
+			<div className="esgst-sm-additional-option" ref={(ref) => (setting = ref)}>
+				<div>
+					Steam ID:
+					<input
+						type="text"
+						placeholder="0000000000000000"
+						value={altSetting.steamId}
+						ref={(ref) => (steamId = ref)}
+					/>
+					Nickname:
+					<input
+						type="text"
+						placeholder="alt1"
+						value={altSetting.name}
+						ref={(ref) => (name = ref)}
+					/>
+				</div>
+				<div>
+					Color:
+					<input type="color" value={altSetting.color} ref={(ref) => (color = ref)} />
+					Background Color:
+					<input type="color" value={altSetting.bgColor} ref={(ref) => (bgColor = ref)} />
+				</div>
+				<div>
+					Icon:
+					<input
+						type="text"
+						placeholder="folder"
+						value={altSetting.icon}
+						ref={(ref) => (icon = ref)}
+					/>
+					Label:
+					<input
+						type="text"
+						placeholder="Owned by alt1"
+						value={altSetting.label}
+						ref={(ref) => (label = ref)}
+					/>
+				</div>
+				<div>
+					<div className="form__saving-button" ref={(ref) => (remove = ref)}>
+						<span>Delete</span>
+					</div>
+				</div>
+			</div>
+		);
 		steamId.addEventListener('change', () => {
 			altSetting.steamId = steamId.value;
 			this.preSave('gc_o_altAccounts', Settings.get('gc_o_altAccounts'));
@@ -3523,14 +3412,16 @@ class SettingsModule {
 		});
 		obj.popup.onClose = resolve.bind(Shared.common, url);
 		let context;
-		obj.popup.getScrollable(<div className="esgst-sm-colors" ref={(ref) => (context = ref)}></div>);
+		obj.popup.getScrollable(
+			<div className="esgst-sm-additional-option" ref={(ref) => (context = ref)}></div>
+		);
 		obj.options[key].forEach((option) => {
 			option.select = Shared.common.createElements(context, 'beforeend', [
 				{
 					type: 'div',
 					children: [
 						{
-							text: `${option.name} `,
+							text: option.name,
 							type: 'node',
 						},
 						{
