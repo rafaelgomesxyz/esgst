@@ -10,6 +10,7 @@ import { Shared } from '../../class/Shared';
 import { Tabs } from '../../class/Tabs';
 import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { Button } from '../../components/Button';
+import { Utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 
 const buildGiveaway = common.buildGiveaway.bind(common),
@@ -145,7 +146,9 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 				timezone: new Date().getTimezoneOffset(),
 				datas: [],
 				values: [],
+				selected: [],
 				created: [],
+				createdValues: [],
 				countryNames: {},
 				groupNames: {},
 				gameName: undefined,
@@ -304,12 +307,25 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 					name: 'Generating...',
 				},
 			]).insert(section, 'beforeend');
+			mgc.addButton = Button.create([
+				{
+					color: 'green',
+					icons: ['fa-plus-circle'],
+					name: 'Add',
+					onClick: this.mgc_getValues.bind(this, mgc),
+				},
+				{
+					template: 'loading',
+					isDisabled: true,
+					name: 'Adding...',
+				},
+			]).insert(section, 'beforeend');
 			mgc.editButton = Button.create([
 				{
 					color: 'green',
 					icons: ['fa-edit'],
 					name: 'Edit',
-					onClick: this.mgc_getValues.bind(this, true, mgc),
+					onClick: this.mgc_getValues.bind(this, mgc, true),
 				},
 				{
 					template: 'loading',
@@ -319,19 +335,6 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 			])
 				.insert(section, 'beforeend')
 				.hide();
-			mgc.addButton = Button.create([
-				{
-					color: 'green',
-					icons: ['fa-plus-circle'],
-					name: 'Add',
-					onClick: this.mgc_getValues.bind(this, false, mgc),
-				},
-				{
-					template: 'loading',
-					isDisabled: true,
-					name: 'Adding...',
-				},
-			]).insert(section, 'beforeend');
 			Button.create([
 				{
 					color: 'green',
@@ -495,7 +498,14 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 							attributes: {
 								class: 'esgst-description',
 							},
-							text: `To edit a giveaway, click on it and a "Edit" button will appear. Then make your alterations and click "Edit".`,
+							text: `To edit a giveaway, click on it and a 'Edit' button will appear. Then make your alterations and click 'Edit'.`,
+							type: 'div',
+						},
+						{
+							attributes: {
+								class: 'esgst-description',
+							},
+							text: `To edit multiple giveaways at once, hold the Ctrl key and click on the giveaways that you want tot edit. When giveaways are selected, an 'Edit' button will appear. Then make your alterations and click 'Edit'. When editing multiple giveaways, alterations to game, giveway type, number of copies and key list are not applied.`,
 							type: 'div',
 						},
 						{
@@ -511,7 +521,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 			removeIcon = mgc.giveaways.nextElementSibling;
 			removeIcon.addEventListener('dragenter', this.mgc_removeGiveaway.bind(this, mgc));
 			JSON.parse(LocalStorage.get('mgcCache', '[]')).forEach((values) => {
-				this.mgc_addGiveaway(false, mgc, values);
+				this.mgc_addGiveaway(mgc, values);
 			});
 		}
 	}
@@ -955,7 +965,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 		popup.open();
 	}
 
-	async mgc_getValues(edit, mgc) {
+	async mgc_getValues(mgc, edit) {
 		if (
 			Settings.get('ngdc') &&
 			(await Shared.esgst.modules.giveawaysNewGiveawayDescriptionChecker.check(
@@ -964,20 +974,25 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 		) {
 			return;
 		}
-		let values = {
-			gameId: mgc.gameId.value,
-			gameType: mgc.gameType.value,
-			copies: mgc.copies.value,
-			keys: mgc.keys.value,
-		};
+		const editSelected = edit && mgc.selected.length > 0;
+		let values = {};
+		if (!editSelected) {
+			values.gameId = mgc.gameId.value;
+			values.gameType = mgc.gameType.value;
+			values.copies = mgc.copies.value;
+			values.keys = mgc.keys.value;
+		}
 		if (
-			values.gameId &&
-			((values.gameType === 'gift' && parseInt(values.copies) > 0) ||
-				(values.gameType === 'key' && values.keys))
+			editSelected ||
+			(values.gameId &&
+				((values.gameType === 'gift' && parseInt(values.copies) > 0) ||
+					(values.gameType === 'key' && values.keys)))
 		) {
 			this.esgst.busy = true;
 			values.countries = mgc.countries.value.trim();
-			values.gameName = mgc.gameName.value;
+			if (!editSelected) {
+				values.gameName = mgc.gameName.value;
+			}
 			values.startTime = mgc.startTime.value;
 			values.endTime = mgc.endTime.value;
 			values.region = mgc.region.value;
@@ -986,22 +1001,41 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 			values.groups = mgc.groups.value.trim();
 			values.level = mgc.level.value;
 			values.description = mgc.description.value;
-			const context = document.querySelector(`[data-autocomplete-id="${values.gameId}"]`);
-			if (context) {
-				values.steam = await this.esgst.modules.games.games_getInfo(context);
-			}
-			if (!values.steam) {
-				values.steam = mgc.values[mgc.editPos] && mgc.values[mgc.editPos].steam;
+			if (!editSelected) {
+				const context = document.querySelector(`[data-autocomplete-id="${values.gameId}"]`);
+				if (context) {
+					values.steam = await this.esgst.modules.games.games_getInfo(context);
+				}
+				if (!values.steam) {
+					values.steam = mgc.values[mgc.editPos] && mgc.values[mgc.editPos].steam;
+				}
 			}
 			if (
 				(Settings.get('mgc_createTrain') && mgc.description.value.match(/\[ESGST-P|\[ESGST-N/)) ||
 				!Settings.get('mgc_createTrain')
 			) {
 				if ((mgc.discussion && mgc.description.value.match(/\[ESGST-B]/)) || !mgc.discussion) {
-					this.mgc_addGiveaway(edit, mgc, values);
+					if (editSelected) {
+						let filteredValues = Object.fromEntries(
+							Object.entries(values).filter(([, value]) => value)
+						);
+						for (const pos of mgc.selected) {
+							this.mgc_addGiveaway(mgc, { ...mgc.values[pos], ...filteredValues }, pos);
+							mgc.giveaways.children[pos].classList.remove('selected');
+						}
+					} else {
+						this.mgc_addGiveaway(mgc, values, edit ? mgc.editPos : null);
+					}
 					this.mgc_updateCache(mgc);
 					mgc.copies.value = '1';
 					mgc.keys.value = '';
+					if (edit) {
+						mgc.editButton.hide();
+						mgc.addButton.show();
+					}
+					if (editSelected) {
+						mgc.selected = [];
+					}
 				} else {
 					createAlert('The bump link format is missing from the description.');
 				}
@@ -1011,13 +1045,9 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 		} else {
 			createAlert('You must first fill the details of the giveaway.');
 		}
-		if (edit) {
-			mgc.editButton.hide();
-			mgc.addButton.show();
-		}
 	}
 
-	mgc_addGiveaway(edit, mgc, values) {
+	mgc_addGiveaway(mgc, values, editPos) {
 		let data, details;
 		details = `${values.gameName.replace(/"/g, '&quot;')}\n`;
 		if (values.gameType === 'gift') {
@@ -1066,10 +1096,10 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 		}&group_item_string=${encodeURIComponent(values.groups)}&contributor_level=${
 			values.level
 		}&description=${encodeURIComponent(values.description)}`;
-		if (edit) {
-			mgc.datas[mgc.editPos] = data;
-			mgc.values[mgc.editPos] = values;
-			mgc.giveaways.children[mgc.editPos].title = details;
+		if (Utils.isSet(editPos)) {
+			mgc.datas[editPos] = data;
+			mgc.values[editPos] = values;
+			mgc.giveaways.children[editPos].title = details;
 		} else {
 			mgc.datas.push(data);
 			mgc.values.push(values);
@@ -1091,10 +1121,33 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 	}
 
 	mgc_setGiveaway(giveaway, mgc) {
-		giveaway.addEventListener('click', this.mgc_setValues.bind(this, giveaway, mgc));
+		giveaway.addEventListener('click', (event) => {
+			if (event.ctrlKey) {
+				const pos = parseInt(giveaway.textContent) - 1;
+				if (mgc.selected.includes(pos)) {
+					mgc.selected = mgc.selected.filter((selectedPos) => selectedPos !== pos);
+				} else {
+					mgc.selected.push(pos);
+				}
+				giveaway.classList.toggle('selected');
+				this.mgc_toggleEditButton(mgc);
+			} else {
+				this.mgc_setValues(giveaway, mgc);
+			}
+		});
 		giveaway.addEventListener('dragstart', this.mgc_setSource.bind(this, giveaway, mgc));
 		giveaway.addEventListener('dragenter', this.mgc_getSource.bind(this, giveaway, mgc));
 	}
+
+	mgc_toggleEditButton = (mgc) => {
+		if (mgc.selected.length > 0) {
+			mgc.addButton.hide();
+			mgc.editButton.show();
+		} else {
+			mgc.editButton.hide();
+			mgc.addButton.show();
+		}
+	};
 
 	mgc_setValues(giveaway, mgc) {
 		let pos, values;
@@ -1697,7 +1750,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 			values.gameName = exactMatch.getAttribute('data-autocomplete-name');
 			values.gameId = exactMatch.getAttribute('data-autocomplete-id');
 			values.steam = await this.esgst.modules.games.games_getInfo(exactMatch);
-			this.mgc_addGiveaway(false, mgc, values);
+			this.mgc_addGiveaway(mgc, values);
 			value = window.$(progress.bar).progressbar('option', 'value') + toRemove.length;
 			window.$(progress.bar).progressbar('option', 'value', value);
 			progress.current.textContent = value;
@@ -1743,7 +1796,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 						values.gameName = element.getAttribute('data-autocomplete-name');
 						values.gameId = element.getAttribute('data-autocomplete-id');
 						values.steam = await this.esgst.modules.games.games_getInfo(element);
-						this.mgc_addGiveaway(false, mgc, values);
+						this.mgc_addGiveaway(mgc, values);
 						value = window.$(progress.bar).progressbar('option', 'value') + toRemove.length;
 						window.$(progress.bar).progressbar('option', 'value', value);
 						progress.current.textContent = value;
@@ -1835,6 +1888,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 			this.esgst.busy = false;
 			mgc.datas = [];
 			mgc.values = [];
+			mgc.selected = [];
 			mgc.created = [];
 			mgc.createdValues = [];
 			mgc.giveaways.innerHTML = '';

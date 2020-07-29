@@ -1629,12 +1629,15 @@ function addStyle() {
 		text-decoration: line-through;
 	}
 
+	.esgst-gm-giveaway.selected {
+		background-color: rgba(104, 150, 196, 0.5)
+	}
+
 	.esgst-gts-section >*, .esgst-gm-section >* {
 		margin: 5px 0;
 	}
 
-	.esgst-gm.section .esgst-button-container {
-		display: inline-block;
+	.esgst-gm-section .esgst-button {
 		margin: 5px;
 	}
 
