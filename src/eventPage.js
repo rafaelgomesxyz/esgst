@@ -8,7 +8,11 @@ if (browser.webRequest) {
 }
 
 // getBrowserInfo must be removed from webextension-polyfill/browser-polyfill.min.js for this to work on Chrome
-browser.runtime.getBrowserInfo().then((result) => (browserInfo = result));
+if ('getBrowserInfo' in browser.runtime) {
+	browser.runtime.getBrowserInfo().then((result) => (browserInfo = result));
+} else {
+	browserInfo = { name: '?' };
+}
 
 browser.storage.local.get('settings').then(async (result) => {
 	/**
