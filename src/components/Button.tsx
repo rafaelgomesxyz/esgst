@@ -394,7 +394,7 @@ export abstract class Button extends Base<Button, ButtonData, ButtonNodes> {
 			this.build(nextStateNumber);
 		}
 		if (!state.isDisabled && state.onClick) {
-			await state.onClick();
+			await state.onClick(this);
 		}
 		if (this._currentStateNumber === nextStateNumber) {
 			// No other state has taken over.

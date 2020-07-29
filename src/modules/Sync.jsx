@@ -10,7 +10,7 @@ import { Settings } from '../class/Settings';
 import { Shared } from '../class/Shared';
 import { Button } from '../components/Button';
 import { NotificationBar } from '../components/NotificationBar';
-import { elementBuilder } from '../lib/SgStUtils/ElementBuilder';
+import { PageHeading } from '../components/PageHeading';
 
 let toSave = {};
 
@@ -155,20 +155,16 @@ async function setSync(isPopup = false, isSilent = false) {
 		containerr.innerHTML = '';
 		context.setAttribute('data-esgst-popup', 'true');
 	}
-	const heading = new elementBuilder[Shared.esgst.name].pageHeading({
-		context: containerr,
-		position: 'afterbegin',
-		breadcrumbs: [
-			{
-				name: 'ESGST',
-				url: Shared.esgst.settingsUrl,
-			},
-			{
-				name: 'Sync',
-				url: Shared.esgst.syncUrl,
-			},
-		],
-	}).pageHeading;
+	const heading = PageHeading.create('sync', [
+		{
+			name: 'ESGST',
+			url: Shared.esgst.settingsUrl,
+		},
+		{
+			name: 'Sync',
+			url: Shared.esgst.syncUrl,
+		},
+	]).insert(containerr, 'afterbegin').nodes.outer;
 	if (!isPopup && !syncer.isSilent) {
 		Shared.esgst.mainPageHeading = heading;
 	}

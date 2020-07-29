@@ -28,7 +28,11 @@ class Popup {
 			<div className="esgst-hidden esgst-popup-layer" ref={(ref) => (this.layer = ref)}>
 				{details.popup || (
 					<div className="esgst-popup">
-						<div className="esgst-popup-heading">
+						<div
+							className={`esgst-popup-heading ${
+								!details.icon && !details.title ? 'esgst-hidden' : ''
+							}`}
+						>
 							<i
 								className={`fa ${details.icon} esgst-popup-icon${
 									details.icon ? '' : ' esgst-hidden'

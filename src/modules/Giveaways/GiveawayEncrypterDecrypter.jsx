@@ -5,8 +5,8 @@ import { Settings } from '../../class/Settings';
 import { Shared } from '../../class/Shared';
 import { Tabs } from '../../class/Tabs';
 import { Button } from '../../components/Button';
+import { PageHeading } from '../../components/PageHeading';
 import { Utils } from '../../lib/jsUtils';
-import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
 import { common } from '../Common';
 
 const buildGiveaway = common.buildGiveaway.bind(common),
@@ -132,20 +132,16 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
 			ged.container = ged.context = createElements(ged.popup, 'beforeend', [{ type: 'div' }]);
 			ged.context.setAttribute('data-esgst-popup', true);
 		}
-		new elementBuilder[Shared.esgst.name].pageHeading({
-			context: ged.popup.description || ged.popup,
-			position: 'afterbegin',
-			breadcrumbs: [
-				{
-					name: 'ESGST',
-					url: this.esgst.settingsUrl,
-				},
-				{
-					name: 'Decrypted Giveaways',
-					url: `https://www.steamgifts.com/account/settings/profile?esgst=ged`,
-				},
-			],
-		});
+		const heading = PageHeading.create('ged', [
+			{
+				name: 'ESGST',
+				url: this.esgst.settingsUrl,
+			},
+			{
+				name: 'Decrypted Giveaways',
+				url: `https://www.steamgifts.com/account/settings/profile?esgst=ged`,
+			},
+		]).insert(ged.popup.description || ged.popup, 'afterbegin');
 		createElements(ged.context, 'atinner', [
 			{
 				attributes: {
@@ -161,24 +157,19 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
 		await this.ged_getGiveaways(ged);
 		ged.context.innerHTML = '';
 		if (Settings.get('gas') || (Settings.get('gf') && Settings.get('gf_m')) || Settings.get('mm')) {
-			let heading = createElements(ged.context, 'afterbegin', [
-				{
-					attributes: {
-						class: 'page__heading',
-					},
-					type: 'div',
-				},
-			]);
 			if (Settings.get('gas')) {
-				this.esgst.modules.giveawaysGiveawaysSorter.init(heading);
+				this.esgst.modules.giveawaysGiveawaysSorter.init(heading.nodes.outer);
 			}
 			if (Settings.get('gf') && Settings.get('gf_m')) {
-				heading.appendChild(
-					this.esgst.modules.giveawaysGiveawayFilters.filters_addContainer(heading, 'Ged')
+				heading.nodes.outer.appendChild(
+					this.esgst.modules.giveawaysGiveawayFilters.filters_addContainer(
+						heading.nodes.outer,
+						'Ged'
+					)
 				);
 			}
 			if (Settings.get('mm')) {
-				this.esgst.modules.generalMultiManager.mm(heading);
+				this.esgst.modules.generalMultiManager.mm(heading.nodes.outer);
 			}
 		}
 		ged.results = createElements(ged.context, 'beforeend', [
@@ -201,7 +192,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
 				isDisabled: true,
 				name: 'Loading more...',
 			},
-		]).insert(ged.container, 'beforeend');
+		]).insert(heading.nodes.outer, 'beforeend');
 		if (ged.isPopup) {
 			ged.popup.open();
 		}

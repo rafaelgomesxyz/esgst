@@ -12,6 +12,7 @@ import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { Button } from '../../components/Button';
 import { Utils } from '../../lib/jsUtils';
 import { common } from '../Common';
+import { PageHeading } from '../../components/PageHeading';
 
 const buildGiveaway = common.buildGiveaway.bind(common),
 	copyValue = common.copyValue.bind(common),
@@ -2723,15 +2724,25 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 	}
 
 	async mgc_viewResults(mgc) {
-		const popup = new Popup({ addScrollable: true, icon: 'fa-eye', title: 'Results' });
-		const heading = createElements(popup.description, 'beforeend', [
+		const popup = new Popup({ addScrollable: true });
+		const heading = PageHeading.create('mgc', ['Results']).insert(popup.description, 'afterbegin');
+		const items = [];
+		for (const item of mgc.created) {
+			items.push(...item.html);
+		}
+		createElements(popup.scrollable, 'beforeend', [
 			{
 				attributes: {
-					class: 'esgst-page-heading',
+					class: 'popup__keys__list',
 				},
 				type: 'div',
+				children: items,
 			},
 		]);
+		if (Settings.get('mm')) {
+			const giveaways = await this.esgst.modules.giveaways.giveaways_get(popup.scrollable);
+			this.esgst.modules.generalMultiManager.mm(heading.nodes.outer, giveaways, 'Giveaways');
+		}
 		Button.create([
 			{
 				color: 'white',
@@ -2753,24 +2764,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 				isDisabled: true,
 				name: 'Copied!',
 			},
-		]).insert(heading, 'beforeend');
-		const items = [];
-		for (const item of mgc.created) {
-			items.push(...item.html);
-		}
-		createElements(popup.scrollable, 'beforeend', [
-			{
-				attributes: {
-					class: 'popup__keys__list',
-				},
-				type: 'div',
-				children: items,
-			},
-		]);
-		if (Settings.get('mm')) {
-			const giveaways = await this.esgst.modules.giveaways.giveaways_get(popup.scrollable);
-			this.esgst.modules.generalMultiManager.mm(heading, giveaways, 'Giveaways');
-		}
+		]).insert(heading.nodes.outer, 'beforeend');
 		popup.open();
 	}
 

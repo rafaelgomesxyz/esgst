@@ -7,8 +7,8 @@ import { Settings } from '../class/Settings';
 import { Shared } from '../class/Shared';
 import { ToggleSwitch } from '../class/ToggleSwitch';
 import { Button } from '../components/Button';
+import { PageHeading } from '../components/PageHeading';
 import { Utils } from '../lib/jsUtils';
-import { elementBuilder } from '../lib/SgStUtils/ElementBuilder';
 import { CloudStorage } from './CloudStorage';
 import { settingsModule } from './Settings';
 
@@ -263,20 +263,16 @@ function loadDataManagement(type, isPopup, callback) {
 			context.innerHTML = '';
 		}
 		containerr.classList.add('esgst-text-left');
-		const heading = new elementBuilder[Shared.esgst.name].pageHeading({
-			context: containerr,
-			position: 'afterbegin',
-			breadcrumbs: [
-				{
-					name: 'ESGST',
-					url: Shared.esgst.settingsUrl,
-				},
-				{
-					name: title1,
-					url: Shared.esgst[`${title1.toLowerCase()}Url`],
-				},
-			],
-		}).pageHeading;
+		const heading = PageHeading.create('storage', [
+			{
+				name: 'ESGST',
+				url: Shared.esgst.settingsUrl,
+			},
+			{
+				name: title1,
+				url: Shared.esgst[`${title1.toLowerCase()}Url`],
+			},
+		]).insert(containerr, 'afterbegin').nodes.outer;
 		if (!isPopup) {
 			Shared.esgst.mainPageHeading = heading;
 		}
@@ -990,20 +986,16 @@ function loadDataCleaner(isPopup) {
 		context = containerr;
 		context.setAttribute('data-esgst-popup', 'true');
 	}
-	const heading = new elementBuilder[Shared.esgst.name].pageHeading({
-		context: containerr,
-		position: 'afterbegin',
-		breadcrumbs: [
-			{
-				name: 'ESGST',
-				url: Shared.esgst.settingsUrl,
-			},
-			{
-				name: 'Clean',
-				url: Shared.esgst.cleanUrl,
-			},
-		],
-	}).pageHeading;
+	const heading = PageHeading.create('storage', [
+		{
+			name: 'ESGST',
+			url: Shared.esgst.settingsUrl,
+		},
+		{
+			name: 'Clean',
+			url: Shared.esgst.cleanUrl,
+		},
+	]).insert(containerr, 'afterbegin').nodes.outer;
 	if (!isPopup) {
 		Shared.esgst.mainPageHeading = heading;
 	}

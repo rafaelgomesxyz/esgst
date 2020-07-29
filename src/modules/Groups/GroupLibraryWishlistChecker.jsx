@@ -6,8 +6,9 @@ import { Popout } from '../../class/Popout';
 import { Settings } from '../../class/Settings';
 import { Shared } from '../../class/Shared';
 import { ToggleSwitch } from '../../class/ToggleSwitch';
+import { Button } from '../../components/Button';
 import { NotificationBar } from '../../components/NotificationBar';
-import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
+import { PageHeading } from '../../components/PageHeading';
 import { common } from '../Common';
 
 /**
@@ -132,30 +133,22 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 			}
 			glwc.container.innerHTML = '';
 			glwc.container.setAttribute('data-esgst-popup', true);
-			let optionsButton;
-			new elementBuilder[Shared.esgst.name].pageHeading({
-				context: glwc.container,
-				position: 'beforeend',
-				breadcrumbs: [
-					{
-						name: 'ESGST',
-						url: Shared.esgst.settingsUrl,
-					},
-					{
-						name: 'Group Library/Wishlist Checker',
-						url: `https://www.steamgifts.com/account/settings/profile?esgst=glwc`,
-					},
-				],
-				buttons: [
-					{
-						icons: ['fa-gear'],
-						position: 'beforeend',
-						title: 'Options',
-						ref: (ref) => (optionsButton = ref),
-					},
-				],
-			});
-			const popout = new Popout('', optionsButton, 0, true);
+			const pageHeading = PageHeading.create('glwc', [
+				{
+					name: 'ESGST',
+					url: Shared.esgst.settingsUrl,
+				},
+				{
+					name: 'Group Library/Wishlist Checker',
+					url: `https://www.steamgifts.com/account/settings/profile?esgst=glwc`,
+				},
+			]).insert(glwc.container, 'beforeend');
+			const optionsButton = Button.create({
+				color: 'alternate-white',
+				tooltip: 'Options',
+				icons: ['fa-gear'],
+			}).insert(pageHeading.nodes.outer, 'beforeend');
+			const popout = new Popout('', optionsButton.nodes.outer, 0, true);
 			new ToggleSwitch(
 				popout.popout,
 				'glwc_checkMaxWishlists',

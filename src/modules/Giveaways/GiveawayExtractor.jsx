@@ -3,6 +3,7 @@ import { DOM } from '../../class/DOM';
 import { Logger } from '../../class/Logger';
 import { Module } from '../../class/Module';
 import { permissions } from '../../class/Permissions';
+import { Popout } from '../../class/Popout';
 import { Popup } from '../../class/Popup';
 import { Settings } from '../../class/Settings';
 import { Shared } from '../../class/Shared';
@@ -10,7 +11,7 @@ import { Tabs } from '../../class/Tabs';
 import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { Button } from '../../components/Button';
 import { NotificationBar } from '../../components/NotificationBar';
-import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
+import { PageHeading } from '../../components/PageHeading';
 import { common } from '../Common';
 
 const buildGiveaway = common.buildGiveaway.bind(common),
@@ -50,16 +51,6 @@ class GiveawaysGiveawayExtractor extends Module {
 				</ul>
 			),
 			features: {
-				ge_p: {
-					description: () => (
-						<li>
-							With this option enabled, a second button is added that allows you to specify certain
-							parameters before beginning the extraction.
-						</li>
-					),
-					name: 'Add button to specify parameters.',
-					sg: true,
-				},
 				ge_j: {
 					name: 'Convert all Jigidi links to the "jigidi.com/jigsaw-puzzle" format.',
 					sg: true,
@@ -120,10 +111,7 @@ class GiveawaysGiveawayExtractor extends Module {
 			this.nextRegex = new RegExp(Settings.get('npth_nextRegex'));
 
 			// noinspection JSIgnoredPromiseFromCall
-			this.ge_addButton('Extract all giveaways');
-			if (Settings.get('ge_p')) {
-				this.ge_addButton(`Extract all giveaways (specify parameters)`, ['fa-gear'], true);
-			}
+			this.ge_addButton();
 		} else if (Shared.common.isCurrentPath('Account') && this.esgst.parameters.esgst === 'ge') {
 			this.nextRegex = new RegExp(Settings.get('npth_nextRegex'));
 
@@ -158,140 +146,26 @@ class GiveawaysGiveawayExtractor extends Module {
 		}
 	}
 
-	ge_addButton(title, extraIcons = [], specifyParams) {
+	ge_addButton() {
 		let ge = {
 			button: createHeadingButton({
 				id: 'ge',
-				icons: ['fa-gift', 'fa-search'].concat(extraIcons),
-				title,
+				icons: ['fa-gift', 'fa-search'],
+				title: 'Extract all giveaways',
 			}),
 		};
-		if (specifyParams) {
-			ge.button.addEventListener('click', () => {
-				ge.extractOnward = Settings.get('ge_extractOnward');
-				ge.flushCache = Settings.get('ge_flushCache');
-				ge.flushCacheHours = Settings.get('ge_flushCacheHours');
-				ge.ignoreDiscussionComments = Settings.get('ge_ignoreDiscussionComments');
-				ge.ignoreGiveawayComments = Settings.get('ge_ignoreGiveawayComments');
-				const popup = new Popup({
-					icon: 'fa-gear',
-					title: `Specify extractor parameters:`,
-					addScrollable: true,
-					buttons: [
-						[
-							{
-								color: 'green',
-								icons: ['fa-arrow-circle-right'],
-								name: 'Open Extractor',
-								onClick: () => {
-									popup.close();
-									ge.extractOnward = Settings.get('ge_extractOnward');
-									ge.flushCache = Settings.get('ge_flushCache');
-									ge.flushCacheHours = Settings.get('ge_flushCacheHours');
-									ge.ignoreDiscussionComments = Settings.get('ge_ignoreDiscussionComments');
-									ge.ignoreGiveawayComments = Settings.get('ge_ignoreGiveawayComments');
-									if (Settings.get('ge_t')) {
-										Tabs.open(
-											`https://www.steamgifts.com/account/settings/profile?esgst=ge&${
-												ge.extractOnward ? `extractOnward=true&` : ''
-											}${ge.flushCache ? `flush=true&flushHrs=${ge.flushCacheHours}&` : ''}${
-												ge.ignoreDiscussionComments ? `noDiscCmt=true&` : ''
-											}${
-												ge.ignoreGiveawayComments ? `noGaCmt=true&` : ''
-											}url=${window.location.pathname.replace(/\/search.*/, '')}${
-												this.esgst.parameters.page ? `&page=${this.esgst.parameters.page}` : ''
-											}`
-										);
-									} else {
-										this.ge_openPopup(ge);
-									}
-								},
-							},
-							{
-								template: 'loading',
-								isDisabled: true,
-								name: 'Opening...',
-							},
-						],
-					],
-				});
-				this.ge_showOptions(ge, popup.scrollable);
-				popup.open();
-			});
-		} else {
-			ge.button.addEventListener('click', () => {
-				if (Settings.get('ge_t')) {
-					Tabs.open(
-						`https://www.steamgifts.com/account/settings/profile?esgst=ge&url=${window.location.pathname.replace(
-							/\/search.*/,
-							''
-						)}${this.esgst.parameters.page ? `&page=${this.esgst.parameters.page}` : ''}`
-					);
-				} else {
-					this.ge_openPopup(ge);
-				}
-			});
-		}
-	}
-
-	ge_showOptions(ge, context, reExtract) {
-		new ToggleSwitch(
-			context,
-			'ge_extractOnward',
-			null,
-			'Only extract from the current giveaway onward.',
-			false,
-			false,
-			`With this option enabled, if you are in the 6th giveaway of a train that has links to the previous giveaways, the extractor will not go back and extract giveaways 1-5. This method is not 100% accurate, because the feature looks for a link with any variation of "next" in the description of the giveaway to make sure that it is going forward, so if it does not find such a link, the extraction will stop.`,
-			ge.extractOnward
-		);
-		if (!reExtract) {
-			common.observeNumChange(
-				new ToggleSwitch(
-					context,
-					'ge_flushCache',
-					null,
-					(
-						<fragment>
-							Flush the cache if it is older than{' '}
-							<input
-								className="esgst-switch-input"
-								step="0.1"
-								type="number"
-								value={ge.flushCacheHours}
-							/>{' '}
-							hours.
-						</fragment>
-					),
-					false,
-					false,
-					null,
-					ge.flushCache
-				).name.firstElementChild,
-				'ge_flushCacheHours',
-				true
-			);
-		}
-		new ToggleSwitch(
-			context,
-			'ge_ignoreDiscussionComments',
-			null,
-			'Ignore discussion comments when extracting giveaways.',
-			false,
-			false,
-			null,
-			ge.ignoreDiscussionComments
-		);
-		new ToggleSwitch(
-			context,
-			'ge_ignoreGiveawayComments',
-			null,
-			'Ignore giveaway comments when extracting giveaways.',
-			false,
-			false,
-			null,
-			ge.ignoreGiveawayComments
-		);
+		ge.button.addEventListener('click', () => {
+			if (Settings.get('ge_t')) {
+				Tabs.open(
+					`https://www.steamgifts.com/account/settings/profile?esgst=ge&url=${window.location.pathname.replace(
+						/\/search.*/,
+						''
+					)}${this.esgst.parameters.page ? `&page=${this.esgst.parameters.page}` : ''}`
+				);
+			} else {
+				this.ge_openPopup(ge);
+			}
+		});
 	}
 
 	async ge_openPopup(ge) {
@@ -348,20 +222,16 @@ class GiveawaysGiveawayExtractor extends Module {
 			}
 			context.setAttribute('data-esgst-popup', 'true');
 			context.innerHTML = '';
-			new elementBuilder[Shared.esgst.name].pageHeading({
-				context: context,
-				position: 'beforeend',
-				breadcrumbs: [
-					{
-						name: 'ESGST',
-						url: this.esgst.settingsUrl,
-					},
-					{
-						name: 'Giveaway Extractor',
-						url: `https://www.steamgifts.com/account/settings/profile?esgst=ge`,
-					},
-				],
-			});
+			ge.heading = PageHeading.create('ge', [
+				{
+					name: 'ESGST',
+					url: this.esgst.settingsUrl,
+				},
+				{
+					name: 'Giveaway Extractor',
+					url: `https://www.steamgifts.com/account/settings/profile?esgst=ge`,
+				},
+			]).insert(context, 'beforeend');
 			const container = createElements(context, 'beforeend', [{ type: 'div' }]);
 			const scrollable = createElements(context, 'beforeend', [{ type: 'div' }]);
 			ge.popup = {
@@ -371,7 +241,11 @@ class GiveawaysGiveawayExtractor extends Module {
 				reposition: () => {},
 			};
 		} else {
-			ge.popup = new Popup({ addScrollable: true, icon: 'fa-gift', title: `Extracted giveaways:` });
+			ge.popup = new Popup({ addScrollable: true });
+			ge.heading = PageHeading.create('ge', ['Extract giveaways']).insert(
+				ge.popup.description,
+				'afterbegin'
+			);
 		}
 		ge.results = createElements(ge.popup.scrollable, 'beforeend', [
 			{
@@ -382,26 +256,82 @@ class GiveawaysGiveawayExtractor extends Module {
 			},
 		]);
 		if (Settings.get('gas') || (Settings.get('gf') && Settings.get('gf_m')) || Settings.get('mm')) {
-			let heading = createElements(ge.popup.scrollable, 'afterbegin', [
-				{
-					attributes: {
-						class: 'page__heading',
-					},
-					type: 'div',
-				},
-			]);
 			if (Settings.get('gas')) {
-				this.esgst.modules.giveawaysGiveawaysSorter.init(heading);
+				this.esgst.modules.giveawaysGiveawaysSorter.init(ge.heading.nodes.outer);
 			}
 			if (Settings.get('gf') && Settings.get('gf_m')) {
-				heading.appendChild(
-					this.esgst.modules.giveawaysGiveawayFilters.filters_addContainer(heading, 'Ge')
+				ge.heading.nodes.outer.appendChild(
+					this.esgst.modules.giveawaysGiveawayFilters.filters_addContainer(
+						ge.heading.nodes.outer,
+						'Ge'
+					)
 				);
 			}
 			if (Settings.get('mm')) {
-				this.esgst.modules.generalMultiManager.mm(heading);
+				this.esgst.modules.generalMultiManager.mm(ge.heading.nodes.outer);
 			}
 		}
+		const optionsButton = Button.create({
+			color: 'alternate-white',
+			tooltip: 'Options',
+			icons: ['fa-gear'],
+		}).insert(ge.heading.nodes.outer, 'beforeend');
+		const popout = new Popout('', optionsButton.nodes.outer, 0, true);
+		new ToggleSwitch(
+			popout.popout,
+			'ge_extractOnward',
+			null,
+			'Only extract from the current giveaway onward.',
+			false,
+			false,
+			`With this option enabled, if you are in the 6th giveaway of a train that has links to the previous giveaways, the extractor will not go back and extract giveaways 1-5. This method is not 100% accurate, because the feature looks for a link with any variation of "next" in the description of the giveaway to make sure that it is going forward, so if it does not find such a link, the extraction will stop.`,
+			Settings.get('ge_extractOnward')
+		);
+		common.observeNumChange(
+			new ToggleSwitch(
+				popout.popout,
+				'ge_flushCache',
+				null,
+				(
+					<fragment>
+						Flush the cache if it is older than{' '}
+						<input
+							className="esgst-switch-input"
+							step="0.1"
+							type="number"
+							value={Settings.get('ge_flushCacheHours')}
+						/>{' '}
+						hours.
+					</fragment>
+				),
+				false,
+				false,
+				null,
+				Settings.get('ge_flushCache')
+			).name.firstElementChild,
+			'ge_flushCacheHours',
+			true
+		);
+		new ToggleSwitch(
+			popout.popout,
+			'ge_ignoreDiscussionComments',
+			null,
+			'Ignore discussion comments when extracting giveaways.',
+			false,
+			false,
+			null,
+			Settings.get('ge_ignoreDiscussionComments')
+		);
+		new ToggleSwitch(
+			popout.popout,
+			'ge_ignoreGiveawayComments',
+			null,
+			'Ignore giveaway comments when extracting giveaways.',
+			false,
+			false,
+			null,
+			Settings.get('ge_ignoreGiveawayComments')
+		);
 		ge.cacheWarning = null;
 		const onExtractClick = () => {
 			return new Promise((resolve) => {
@@ -520,7 +450,7 @@ class GiveawaysGiveawayExtractor extends Module {
 				switchTo: { onReturn: 0 },
 				onClick: onCancelClick,
 			},
-		]).insert(ge.popup.description, 'beforeend');
+		]).insert(ge.heading.nodes.outer, 'beforeend');
 		ge.progressBar = NotificationBar.create().insert(ge.popup.description, 'beforeend').hide();
 		ge.popup.open();
 		if (
@@ -1072,10 +1002,6 @@ class GiveawaysGiveawayExtractor extends Module {
 		ge.extractButton.build(5);
 		ge.reExtract = true;
 		ge.isComplete = true;
-		if (!ge.optionsAdded) {
-			this.ge_showOptions(ge, ge.popup.description, true);
-			ge.optionsAdded = true;
-		}
 		if (!ge.isCanceled && !ge.extractOnward) {
 			ge.cache[ge.cacheId].ithLinks = Array.from(ge.cache[ge.cacheId].ithLinks);
 			ge.cache[ge.cacheId].jigidiLinks = Array.from(ge.cache[ge.cacheId].jigidiLinks);

@@ -8,8 +8,8 @@ import { Settings } from '../class/Settings';
 import { Shared } from '../class/Shared';
 import { ToggleSwitch } from '../class/ToggleSwitch';
 import { Button } from '../components/Button';
+import { PageHeading } from '../components/PageHeading';
 import { Utils } from '../lib/jsUtils';
-import { elementBuilder } from '../lib/SgStUtils/ElementBuilder';
 import { setSync } from './Sync';
 
 class SettingsModule {
@@ -153,59 +153,75 @@ class SettingsModule {
 		const items = [
 			{
 				check: true,
-				icons: ['fa-refresh'],
-				position: 'afterbegin',
-				title: 'Sync data',
-				onclick: () => setSync(true),
+				options: {
+					color: 'alternate-white',
+					tooltip: 'Sync data',
+					icons: ['fa-refresh'],
+					onClick: () => setSync(true),
+				},
 			},
 			{
 				check: true,
-				icons: ['fa-sign-in esgst-rotate-90'],
-				position: 'afterbegin',
-				title: 'Restore data',
-				onclick: () => Shared.esgst.modules.loadDataManagement('import', true),
+				options: {
+					color: 'alternate-white',
+					tooltip: 'Restore data',
+					icons: ['fa-sign-in esgst-rotate-90'],
+					onClick: () => Shared.esgst.modules.loadDataManagement('import', true),
+				},
 			},
 			{
 				check: true,
-				icons: ['fa-sign-out esgst-rotate-270'],
-				position: 'afterbegin',
-				title: 'Backup data',
-				onclick: () => Shared.esgst.modules.loadDataManagement('export', true),
+				options: {
+					color: 'alternate-white',
+					tooltip: 'Backup data',
+					icons: ['fa-sign-out esgst-rotate-270'],
+					onClick: () => Shared.esgst.modules.loadDataManagement('export', true),
+				},
 			},
 			{
 				check: true,
-				icons: ['fa-trash'],
-				position: 'afterbegin',
-				title: 'Delete data',
-				onclick: () => Shared.esgst.modules.loadDataManagement('delete', true),
+				options: {
+					color: 'alternate-white',
+					tooltip: 'Delete data',
+					icons: ['fa-trash'],
+					onClick: () => Shared.esgst.modules.loadDataManagement('delete', true),
+				},
 			},
 			{
 				check: true,
-				icons: ['fa-gear', 'fa-arrow-circle-down'],
-				position: 'afterbegin',
-				title: `Download settings (downloads your settings to your computer without your personal data so you can easily share them with other users)`,
-				onclick: () => Shared.common.exportSettings(),
+				options: {
+					color: 'alternate-white',
+					tooltip: `Download settings (downloads your settings to your computer without your personal data so you can easily share them with other users)`,
+					icons: ['fa-gear', 'fa-arrow-circle-down'],
+					onClick: () => Shared.common.exportSettings(),
+				},
 			},
 			{
 				check: true,
-				icons: ['fa-paint-brush'],
-				position: 'afterbegin',
-				title: 'Clean old data',
-				onclick: () => Shared.esgst.modules.loadDataCleaner(true),
+				options: {
+					color: 'alternate-white',
+					tooltip: 'Clean old data',
+					icons: ['fa-paint-brush'],
+					onClick: () => Shared.esgst.modules.loadDataCleaner(true),
+				},
 			},
 			{
 				check: !Shared.esgst.parameters.esgst,
-				icons: ['fa-user', 'fa-history'],
-				position: 'afterbegin',
-				title: 'View recent username changes',
-				onclick: (event) => Shared.common.setSMRecentUsernameChanges(),
+				options: {
+					color: 'alternate-white',
+					tooltip: 'View recent username changes',
+					icons: ['fa-user', 'fa-history'],
+					onClick: () => Shared.common.setSMRecentUsernameChanges(),
+				},
 			},
 			{
 				check: !Shared.esgst.parameters.esgst && Settings.get('uf'),
-				icons: ['fa-user', 'fa-eye-slash'],
-				position: 'afterbegin',
-				title: 'See list of filtered users',
-				onclick: (event) => Shared.common.setSMManageFilteredUsers(),
+				options: {
+					color: 'alternate-white',
+					tooltip: 'See list of filtered users',
+					icons: ['fa-user', 'fa-eye-slash'],
+					onClick: () => Shared.common.setSMManageFilteredUsers(),
+				},
 			},
 			{
 				check:
@@ -213,10 +229,12 @@ class SettingsModule {
 					Shared.esgst.sg &&
 					Settings.get('gf') &&
 					Settings.get('gf_s'),
-				icons: ['fa-gift', 'fa-eye-slash'],
-				position: 'afterbegin',
-				title: 'Manage hidden giveaways',
-				onclick: (event) => Shared.common.setSMManageFilteredGiveaways(),
+				options: {
+					color: 'alternate-white',
+					tooltip: 'Manage hidden giveaways',
+					icons: ['fa-gift', 'fa-eye-slash'],
+					onClick: () => Shared.common.setSMManageFilteredGiveaways(),
+				},
 			},
 			{
 				check:
@@ -224,11 +242,12 @@ class SettingsModule {
 					Shared.esgst.sg &&
 					Settings.get('df') &&
 					Settings.get('df_s'),
-				icons: ['fa-comments', 'fa-eye-slash'],
-				position: 'afterbegin',
-				title: 'Manage hidden discussions',
-				onclick: (event) =>
-					Shared.esgst.modules.discussionsDiscussionFilters.df_menu({}, event.currentTarget),
+				options: {
+					color: 'alternate-white',
+					tooltip: 'Manage hidden discussions',
+					icons: ['fa-comments', 'fa-eye-slash'],
+				},
+				ref: (button) => Shared.esgst.modules.discussionsDiscussionFilters.df_menu({}, button),
 			},
 			{
 				check:
@@ -236,76 +255,88 @@ class SettingsModule {
 					Shared.esgst.st &&
 					Settings.get('tf') &&
 					Settings.get('tf_s'),
-				icons: ['fa-retweet', 'fa-eye-slash'],
-				position: 'afterbegin',
-				title: 'Manage hidden trades',
-				onclick: (event) =>
-					Shared.esgst.modules.tradesTradeFilters.tf_menu({}, event.currentTarget),
+				options: {
+					color: 'alternate-white',
+					tooltip: 'Manage hidden trades',
+					icons: ['fa-retweet', 'fa-eye-slash'],
+				},
+				ref: (button) => Shared.esgst.modules.tradesTradeFilters.tf_menu({}, button),
 			},
 			{
 				check: !Shared.esgst.parameters.esgst && Shared.esgst.sg && Settings.get('dt'),
-				icons: ['fa-comments', 'fa-tags'],
-				position: 'afterbegin',
-				title: 'Manage discussion tags',
-				onclick: () => Shared.common.openManageDiscussionTagsPopup(),
+				options: {
+					color: 'alternate-white',
+					tooltip: 'Manage discussion tags',
+					icons: ['fa-comments', 'fa-tags'],
+					onClick: () => Shared.common.openManageDiscussionTagsPopup(),
+				},
 			},
 			{
 				check: !Shared.esgst.parameters.esgst && Shared.esgst.sg && Settings.get('ut'),
-				icons: ['fa-user', 'fa-tags'],
-				position: 'afterbegin',
-				title: 'Manage user tags',
-				onclick: () => Shared.common.openManageUserTagsPopup(),
+				options: {
+					color: 'alternate-white',
+					tooltip: 'Manage user tags',
+					icons: ['fa-user', 'fa-tags'],
+					onClick: () => Shared.common.openManageUserTagsPopup(),
+				},
 			},
 			{
 				check: !Shared.esgst.parameters.esgst && Settings.get('gt'),
-				icons: ['fa-gamepad', 'fa-tags'],
-				position: 'afterbegin',
-				title: 'Manage game tags',
-				onclick: () => Shared.common.openManageGameTagsPopup(),
+				options: {
+					color: 'alternate-white',
+					tooltip: 'Manage game tags',
+					icons: ['fa-gamepad', 'fa-tags'],
+					onClick: () => Shared.common.openManageGameTagsPopup(),
+				},
 			},
 			{
 				check: !Shared.esgst.parameters.esgst && Settings.get('gpt'),
-				icons: ['fa-users', 'fa-tags'],
-				position: 'afterbegin',
-				title: 'Manage group tags',
-				onclick: () => Shared.common.openManageGroupTagsPopup(),
+				options: {
+					color: 'alternate-white',
+					tooltip: 'Manage group tags',
+					icons: ['fa-users', 'fa-tags'],
+					onClick: () => Shared.common.openManageGroupTagsPopup(),
+				},
 			},
 			{
 				check: !Shared.esgst.parameters.esgst && Settings.get('wbc'),
-				icons: ['fa-heart', 'fa-ban', 'fa-cog'],
-				position: 'afterbegin',
-				title: 'Manage Whitelist / Blacklist Checker caches',
+				options: {
+					color: 'alternate-white',
+					tooltip: 'Manage Whitelist / Blacklist Checker caches',
+					icons: ['fa-heart', 'fa-ban', 'fa-cog'],
+				},
 				ref: (button) =>
 					Shared.esgst.modules.usersWhitelistBlacklistChecker.wbc_addButton(false, button),
 			},
 			{
 				check: !Shared.esgst.parameters.esgst && Settings.get('namwc'),
-				icons: ['fa-trophy', 'fa-cog'],
-				position: 'afterbegin',
-				title: 'Manage Not Activated / Multiple Wins Checker caches',
+				options: {
+					color: 'alternate-white',
+					tooltip: 'Manage Not Activated / Multiple Wins Checker caches',
+					icons: ['fa-trophy', 'fa-cog'],
+				},
 				ref: (button) =>
 					Shared.esgst.modules.usersNotActivatedMultipleWinChecker.namwc_setPopup(button),
 			},
-		]
-			.filter((x) => x.check)
-			.reverse();
-		const heading = new elementBuilder[Shared.esgst.name].pageHeading({
-			context: Container,
-			position: 'afterbegin',
-			breadcrumbs: [
-				{
-					name: 'ESGST',
-					url: Shared.esgst.settingsUrl,
-				},
-				{
-					name: 'Settings',
-					url: Shared.esgst.settingsUrl,
-				},
-			],
-			buttons: items,
-		}).pageHeading;
+		].filter((x) => x.check);
+		const heading = PageHeading.create('sm', [
+			{
+				name: 'ESGST',
+				url: Shared.esgst.settingsUrl,
+			},
+			{
+				name: 'Settings',
+				url: Shared.esgst.settingsUrl,
+			},
+		]).insert(Container, 'afterbegin');
+		for (const item of items) {
+			const button = Button.create(item.options).insert(heading.nodes.outer, 'beforeend');
+			if (item.ref) {
+				item.ref(button.nodes.outer);
+			}
+		}
 		if (!isPopup) {
-			Shared.esgst.mainPageHeading = heading;
+			Shared.esgst.mainPageHeading = heading.nodes.outer;
 		}
 
 		input.addEventListener('input', (event) => this.filterSm(event));
@@ -386,7 +417,7 @@ class SettingsModule {
 				icons: [],
 				name: 'Saving...',
 			},
-		]).insert(heading, 'beforeend');
+		]).insert(heading.nodes.outer, 'beforeend');
 		Context.addEventListener('click', (event) =>
 			this.loadFeatureDetails(null, popup && popup.scrollable.offsetTop, event)
 		);

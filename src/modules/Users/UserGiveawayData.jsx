@@ -1,15 +1,15 @@
 import dateFns_format from 'date-fns/format';
-import { Module } from '../../class/Module';
-import { Process } from '../../class/Process';
-import { Table } from '../../class/Table';
-import { Utils } from '../../lib/jsUtils';
-import { common } from '../Common';
-import { Shared } from '../../class/Shared';
-import { Settings } from '../../class/Settings';
-import { Logger } from '../../class/Logger';
-import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
 import { DOM } from '../../class/DOM';
 import { LocalStorage } from '../../class/LocalStorage';
+import { Logger } from '../../class/Logger';
+import { Module } from '../../class/Module';
+import { Process } from '../../class/Process';
+import { Settings } from '../../class/Settings';
+import { Shared } from '../../class/Shared';
+import { Table } from '../../class/Table';
+import { PageHeading } from '../../components/PageHeading';
+import { Utils } from '../../lib/jsUtils';
+import { common } from '../Common';
 
 const createElements = common.createElements.bind(common),
 	endless_load = common.endless_load.bind(common),
@@ -1326,10 +1326,8 @@ class UsersUserGiveawayData extends Module {
 					],
 					...listItems,
 				]);
-				const listHeading = new elementBuilder.sg.pageHeading({
-					breadcrumbs: [list.name],
-				});
-				items.push(listHeading.pageHeading, listTable.table, <br />);
+				const listHeading = PageHeading.create('ugd', [list.name]).build();
+				items.push(listHeading.nodes.outer, listTable.table, <br />);
 			}
 		}
 		DOM.insert(results, 'beforeend', <div className="esgst-ugd-lists">{items}</div>);

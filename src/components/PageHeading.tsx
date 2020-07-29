@@ -132,7 +132,7 @@ export abstract class PageHeading extends Base<PageHeading, PageHeadingData, Pag
 		if (!this._nodes.breadcrumbsContainer) {
 			throw this.getError('failed to set breadcrumbs');
 		}
-		if (Utils.isDeepEqual(this._data.breadcrumbs, breadcrumbs)) {
+		if (this._hasBuilt && Utils.isDeepEqual(this._data.breadcrumbs, breadcrumbs)) {
 			return this;
 		}
 		this._data.breadcrumbs = breadcrumbs;

@@ -19,8 +19,8 @@ import { Tabs } from '../class/Tabs';
 import { ToggleSwitch } from '../class/ToggleSwitch';
 import { Button } from '../components/Button';
 import { NotificationBar } from '../components/NotificationBar';
+import { PageHeading } from '../components/PageHeading';
 import { Utils } from '../lib/jsUtils';
-import { elementBuilder } from '../lib/SgStUtils/ElementBuilder';
 import { settingsModule } from './Settings';
 import { loadDataCleaner, loadDataManagement } from './Storage';
 import { runSilentSync, setSync } from './Sync';
@@ -2766,20 +2766,16 @@ class Common extends Module {
 		const context = this.esgst.sidebar.nextElementSibling;
 		context.setAttribute('data-esgst-popup', true);
 		context.innerHTML = '';
-		this.esgst.mainPageHeading = new elementBuilder[Shared.esgst.name].pageHeading({
-			context,
-			position: 'beforeend',
-			breadcrumbs: [
-				{
-					name: 'ESGST',
-					url: this.esgst.settingsUrl,
-				},
-				{
-					name: 'Data Management',
-					url: this.esgst.dataManagementUrl,
-				},
-			],
-		}).pageHeading;
+		this.esgst.mainPageHeading = PageHeading.create('sm', [
+			{
+				name: 'ESGST',
+				url: this.esgst.settingsUrl,
+			},
+			{
+				name: 'Data Management',
+				url: this.esgst.dataManagementUrl,
+			},
+		]).insert(context, 'beforeend').nodes.outer;
 		for (const item of options.items) {
 			const button = Button.create([
 				{
@@ -2931,11 +2927,13 @@ class Common extends Module {
 		let context, input, popup, savedDiscussion, savedDiscussions, discussions;
 		popup = new Popup({
 			addScrollable: true,
-			icon: 'fa-tags',
 			isTemp: true,
-			title: `Manage discussion tags:`,
 		});
-		input = this.createElements(popup.description, 'afterbegin', [
+		const heading = PageHeading.create('dt', ['Manage discussion tags']).insert(
+			popup.description,
+			'afterbegin'
+		);
+		input = this.createElements(popup.description, 'beforeend', [
 			{
 				attributes: {
 					type: 'text',
@@ -2943,7 +2941,7 @@ class Common extends Module {
 				type: 'input',
 			},
 		]);
-		this.createElements(popup.description, 'afterbegin', [
+		this.createElements(popup.description, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-description',
@@ -2952,16 +2950,8 @@ class Common extends Module {
 				type: 'div',
 			},
 		]);
-		let heading = this.createElements(popup.description, 'beforebegin', [
-			{
-				attributes: {
-					class: 'page__heading',
-				},
-				type: 'div',
-			},
-		]);
 		if (Settings.get('mm')) {
-			this.esgst.modules.generalMultiManager.mm(heading);
+			this.esgst.modules.generalMultiManager.mm(heading.nodes.outer);
 		}
 		savedDiscussions = JSON.parse(this.getValue('discussions'));
 		discussions = {};
@@ -3031,11 +3021,13 @@ class Common extends Module {
 		let context, input, popup, savedUser, savedUsers, users;
 		popup = new Popup({
 			addScrollable: true,
-			icon: 'fa-tags',
 			isTemp: true,
-			title: `Manage user tags:`,
 		});
-		input = this.createElements(popup.description, 'afterbegin', [
+		const heading = PageHeading.create('ut', ['Manage user tags']).insert(
+			popup.description,
+			'afterbegin'
+		);
+		input = this.createElements(popup.description, 'beforeend', [
 			{
 				attributes: {
 					type: 'text',
@@ -3043,7 +3035,7 @@ class Common extends Module {
 				type: 'input',
 			},
 		]);
-		this.createElements(popup.description, 'afterbegin', [
+		this.createElements(popup.description, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-description',
@@ -3052,16 +3044,8 @@ class Common extends Module {
 				type: 'div',
 			},
 		]);
-		let heading = this.createElements(popup.description, 'beforebegin', [
-			{
-				attributes: {
-					class: 'page__heading',
-				},
-				type: 'div',
-			},
-		]);
 		if (Settings.get('mm')) {
-			this.esgst.modules.generalMultiManager.mm(heading);
+			this.esgst.modules.generalMultiManager.mm(heading.nodes.outer);
 		}
 		savedUsers = JSON.parse(this.getValue('users'));
 		users = {};
@@ -3135,11 +3119,13 @@ class Common extends Module {
 		let context, games, input, popup, savedGame, savedGames;
 		popup = new Popup({
 			addScrollable: true,
-			icon: 'fa-tags',
 			isTemp: true,
-			title: `Manage game tags:`,
 		});
-		input = this.createElements(popup.description, 'afterbegin', [
+		const heading = PageHeading.create('gt', ['Manage game tags']).insert(
+			popup.description,
+			'afterbegin'
+		);
+		input = this.createElements(popup.description, 'beforeend', [
 			{
 				attributes: {
 					type: 'text',
@@ -3147,7 +3133,7 @@ class Common extends Module {
 				type: 'input',
 			},
 		]);
-		this.createElements(popup.description, 'afterbegin', [
+		this.createElements(popup.description, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-description',
@@ -3156,16 +3142,8 @@ class Common extends Module {
 				type: 'div',
 			},
 		]);
-		let heading = this.createElements(popup.description, 'beforebegin', [
-			{
-				attributes: {
-					class: 'page__heading',
-				},
-				type: 'div',
-			},
-		]);
 		if (Settings.get('mm')) {
-			this.esgst.modules.generalMultiManager.mm(heading);
+			this.esgst.modules.generalMultiManager.mm(heading.nodes.outer);
 		}
 		savedGames = JSON.parse(this.getValue('games'));
 		games = {
@@ -3285,11 +3263,13 @@ class Common extends Module {
 		let context, input, popup, savedGroups, groups;
 		popup = new Popup({
 			addScrollable: true,
-			icon: 'fa-tags',
 			isTemp: true,
-			title: `Manage group tags:`,
 		});
-		input = this.createElements(popup.description, 'afterbegin', [
+		const heading = PageHeading.create('gpt', ['Manage group tags']).insert(
+			popup.description,
+			'afterbegin'
+		);
+		input = this.createElements(popup.description, 'beforeend', [
 			{
 				attributes: {
 					type: 'text',
@@ -3297,7 +3277,7 @@ class Common extends Module {
 				type: 'input',
 			},
 		]);
-		this.createElements(popup.description, 'afterbegin', [
+		this.createElements(popup.description, 'beforeend', [
 			{
 				attributes: {
 					class: 'esgst-description',
@@ -3306,16 +3286,8 @@ class Common extends Module {
 				type: 'div',
 			},
 		]);
-		let heading = this.createElements(popup.description, 'beforebegin', [
-			{
-				attributes: {
-					class: 'page__heading',
-				},
-				type: 'div',
-			},
-		]);
 		if (Settings.get('mm')) {
-			this.esgst.modules.generalMultiManager.mm(heading);
+			this.esgst.modules.generalMultiManager.mm(heading.nodes.outer);
 		}
 		savedGroups = JSON.parse(this.getValue('groups'));
 		groups = {};

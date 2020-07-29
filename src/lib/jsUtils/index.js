@@ -28,7 +28,12 @@ class _Utils {
 			}
 			return false;
 		}
-		if (typeof obj1 === 'object' && typeof obj2 === 'object') {
+		if (
+			typeof obj1 === 'object' &&
+			typeof obj2 === 'object' &&
+			!(obj1 instanceof Node) &&
+			!(obj2 instanceof Node)
+		) {
 			const obj1Entries = Object.entries(obj1);
 			const obj2Entries = Object.entries(obj2);
 			if (obj1Entries.length === obj2Entries.length) {

@@ -1,13 +1,12 @@
+import { DOM } from '../../class/DOM';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
+import { Settings } from '../../class/Settings';
 import { Table } from '../../class/Table';
+import { NotificationBar } from '../../components/NotificationBar';
+import { PageHeading } from '../../components/PageHeading';
 import { Utils } from '../../lib/jsUtils';
 import { common } from '../Common';
-import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
-import { Shared } from '../../class/Shared';
-import { Settings } from '../../class/Settings';
-import { DOM } from '../../class/DOM';
-import { NotificationBar } from '../../components/NotificationBar';
 
 const request = common.request.bind(common);
 class GiveawaysCommentEntryChecker extends Module {
@@ -93,20 +92,16 @@ class GiveawaysCommentEntryChecker extends Module {
 		if (!isPopup) {
 			common.setSidebarActive('cec');
 		}
-		const heading = new elementBuilder[Shared.esgst.name].pageHeading({
-			context: container,
-			position: 'afterbegin',
-			breadcrumbs: [
-				{
-					name: 'ESGST',
-					url: this.esgst.settingsUrl,
-				},
-				{
-					name: 'Comment / Entry Checker',
-					url: `?esgst=cec`,
-				},
-			],
-		}).pageHeading;
+		const heading = PageHeading.create('cec', [
+			{
+				name: 'ESGST',
+				url: this.esgst.settingsUrl,
+			},
+			{
+				name: 'Comment / Entry Checker',
+				url: `?esgst=cec`,
+			},
+		]).insert(container, 'afterbegin').nodes.outer;
 		if (!isPopup) {
 			this.esgst.mainPageHeading = heading;
 		}

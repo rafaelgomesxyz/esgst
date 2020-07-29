@@ -10,6 +10,7 @@ import { Settings } from '../../class/Settings';
 import { Shared } from '../../class/Shared';
 import { Events } from '../../constants/Events';
 import { common } from '../Common';
+import { PageHeading } from '../../components/PageHeading';
 
 const createElements = common.createElements.bind(common),
 	getFeatureTooltip = common.getFeatureTooltip.bind(common),
@@ -423,38 +424,31 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
 		let headingButton;
 		let popup = new Popup({
 			addScrollable: true,
-			icon: 'fa-file-text-o',
 			isTemp: true,
-			title: (
-				<fragment>
-					<a href={giveaway.url} ref={(ref) => (headingButton = ref)}>
-						<span>{giveaway.name}</span>
-					</a>
-					{' by '}
-					<a href={`/user/${giveaway.creator}`}>{giveaway.creator}</a>
-				</fragment>
-			),
 			name: 'elgb',
 		});
-		if (headingButton) {
-			Shared.esgst.scopes[popup.id].sourceLink = headingButton;
-		}
+		const heading = PageHeading.create('elgb', [
+			{
+				name: giveaway.creator,
+				url: `/user/${giveaway.creator}`,
+			},
+			{
+				name: giveaway.name,
+				url: giveaway.url,
+			},
+		]).insert(popup.description, 'afterbegin');
+		Shared.esgst.scopes[popup.id].sourceLink = heading.nodes.breadcrumbs[1];
 		if ((Settings.get('cf') && Settings.get('cf_m')) || Settings.get('mm')) {
-			let heading = createElements(popup.description, 'afterbegin', [
-				{
-					attributes: {
-						class: 'page__heading',
-					},
-					type: 'div',
-				},
-			]);
 			if (Settings.get('cf') && Settings.get('cf_m')) {
-				heading.appendChild(
-					this.esgst.modules.commentsCommentFilters.filters_addContainer(heading, 'Elgb')
+				heading.nodes.outer.appendChild(
+					this.esgst.modules.commentsCommentFilters.filters_addContainer(
+						heading.nodes.outer,
+						'Elgb'
+					)
 				);
 			}
 			if (Settings.get('mm')) {
-				this.esgst.modules.generalMultiManager.mm(heading);
+				this.esgst.modules.generalMultiManager.mm(heading.nodes.outer);
 			}
 		}
 		if (giveaway.entered) {
@@ -478,7 +472,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
 					isDisabled: true,
 					name: 'Leaving...',
 				},
-			]).insert(popup.description, 'beforeend');
+			]).insert(heading.nodes.outer, 'beforeend');
 		} else {
 			let games = JSON.parse(getValue('games'));
 			if (
@@ -513,7 +507,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
 						isDisabled: true,
 						name: 'Entering...',
 					},
-				]).insert(popup.description, 'beforeend');
+				]).insert(heading.nodes.outer, 'beforeend');
 			}
 		}
 		let description = null;
@@ -603,14 +597,14 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
 					isDisabled: true,
 					name: 'Saving...',
 				},
-			]).insert(popup.description, 'beforeend');
+			]).insert(popup.scrollable, 'beforeend');
 		}
 		if (description && Settings.get('elgb_f')) {
 			const button = Button.create([
 				{
-					color: 'white',
+					color: 'alternate-white',
+					tooltip: 'Add Description To Filters',
 					icons: ['fa-eye'],
-					name: 'Add Description To Filters',
 					onClick: async () => {
 						await setSetting(
 							'elgb_filters',
@@ -626,7 +620,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
 					isDisabled: true,
 					name: 'Filtering...',
 				},
-			]).insert(popup.description, 'beforeend');
+			]).insert(heading.nodes.outer.lastElementChild, 'beforebegin');
 		}
 		let commentsContainer = responseHtml.querySelector('.comments');
 		if (commentsContainer && commentsContainer.children.length) {
@@ -672,15 +666,15 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
 				common.endless_load(popup.scrollable);
 			} else {
 				const commentButton = Button.create({
-					color: 'white',
+					color: 'alternate-white',
+					tooltip: 'Show First Page Comments',
 					icons: ['fa-comments'],
-					name: 'Show First Page Comments',
 					onClick: () => {
 						commentButton.destroy();
 						commentsContainer.classList.remove('esgst-hidden');
 						common.endless_load(popup.scrollable);
 					},
-				}).insert(popup.description, 'beforeend');
+				}).insert(heading.nodes.outer.lastElementChild, 'beforebegin');
 			}
 		}
 		if (

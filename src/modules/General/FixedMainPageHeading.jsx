@@ -1,5 +1,7 @@
-import { Module } from '../../class/Module';
 import { DOM } from '../../class/DOM';
+import { EventDispatcher } from '../../class/EventDispatcher';
+import { Module } from '../../class/Module';
+import { Events } from '../../constants/Events';
 
 class GeneralFixedMainPageHeading extends Module {
 	constructor() {
@@ -39,6 +41,9 @@ class GeneralFixedMainPageHeading extends Module {
 		for (const pageHeading of this.esgst.pageHeadings) {
 			pageHeading.classList.add('esgst-fmph');
 		}
+		EventDispatcher.subscribe(Events.PAGE_HEADING_BUILD, (builtHeading) =>
+			builtHeading.nodes.outer.classList.add('esgst-fmph')
+		);
 	}
 }
 

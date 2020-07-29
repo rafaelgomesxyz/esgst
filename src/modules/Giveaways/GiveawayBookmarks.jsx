@@ -6,7 +6,7 @@ import { Settings } from '../../class/Settings';
 import { Shared } from '../../class/Shared';
 import { Tabs } from '../../class/Tabs';
 import { Button as ButtonComponent } from '../../components/Button';
-import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
+import { PageHeading } from '../../components/PageHeading';
 import { common } from '../Common';
 
 const createElements = common.createElements.bind(common),
@@ -234,20 +234,16 @@ class GiveawaysGiveawayBookmarks extends Module {
 			}
 			context.innerHTML = '';
 			context.setAttribute('data-esgst-popup', 'true');
-			new elementBuilder[Shared.esgst.name].pageHeading({
-				context: context,
-				position: 'beforeend',
-				breadcrumbs: [
-					{
-						name: 'ESGST',
-						url: this.esgst.settingsUrl,
-					},
-					{
-						name: 'Bookmarked Giveaways',
-						url: `https://www.steamgifts.com/account/settings/profile?esgst=gb`,
-					},
-				],
-			});
+			this.heading = PageHeading.create('gb', [
+				{
+					name: 'ESGST',
+					url: this.esgst.settingsUrl,
+				},
+				{
+					name: 'Bookmarked Giveaways',
+					url: `https://www.steamgifts.com/account/settings/profile?esgst=gb`,
+				},
+			]).insert(context, 'beforeend');
 			this.gb_loadGibs(
 				bookmarked,
 				context,
@@ -267,20 +263,16 @@ class GiveawaysGiveawayBookmarks extends Module {
 						addScrollable: 'left',
 						isTemp: true,
 					});
-					new elementBuilder[Shared.esgst.name].pageHeading({
-						context: popup.description,
-						position: 'afterbegin',
-						breadcrumbs: [
-							{
-								name: 'ESGST',
-								url: this.esgst.settingsUrl,
-							},
-							{
-								name: 'Bookmarked Giveaways',
-								url: `https://www.steamgifts.com/account/settings/profile?esgst=gb`,
-							},
-						],
-					});
+					this.heading = PageHeading.create('gb', [
+						{
+							name: 'ESGST',
+							url: this.esgst.settingsUrl,
+						},
+						{
+							name: 'Bookmarked Giveaways',
+							url: `https://www.steamgifts.com/account/settings/profile?esgst=gb`,
+						},
+					]).insert(popup.description, 'afterbegin');
 					this.gb_loadGibs(bookmarked, popup.description, popup.scrollable, popup);
 				}
 			});
@@ -299,12 +291,28 @@ class GiveawaysGiveawayBookmarks extends Module {
 				type: 'div',
 			},
 		]);
+		if (Settings.get('gas') || (Settings.get('gf') && Settings.get('gf_m')) || Settings.get('mm')) {
+			if (Settings.get('gas')) {
+				this.esgst.modules.giveawaysGiveawaysSorter.init(this.heading.nodes.outer);
+			}
+			if (Settings.get('gf') && Settings.get('gf_m')) {
+				this.heading.nodes.outer.appendChild(
+					this.esgst.modules.giveawaysGiveawayFilters.filters_addContainer(
+						this.heading.nodes.outer,
+						'Gb'
+					)
+				);
+			}
+			if (Settings.get('mm')) {
+				this.esgst.modules.generalMultiManager.mm(this.heading.nodes.outer);
+			}
+		}
 		ButtonComponent.create({
 			color: 'white',
 			icons: ['fa-list'],
 			name: 'View Raw List',
 			onClick: this.gb_openList.bind(this, { bookmarked }),
-		}).insert(container, 'beforeend');
+		}).insert(this.heading.nodes.outer, 'beforeend');
 		const loadMoreButton = ButtonComponent.create([
 			{
 				color: 'green',
@@ -330,7 +338,7 @@ class GiveawaysGiveawayBookmarks extends Module {
 				isDisabled: true,
 				name: 'Loading more...',
 			},
-		]).insert(container, 'beforeend');
+		]).insert(this.heading.nodes.outer, 'beforeend');
 		if (popup) {
 			popup.open();
 		}
@@ -357,27 +365,6 @@ class GiveawaysGiveawayBookmarks extends Module {
 				],
 			},
 		]);
-		if (Settings.get('gas') || (Settings.get('gf') && Settings.get('gf_m')) || Settings.get('mm')) {
-			let heading = createElements(context, 'beforebegin', [
-				{
-					attributes: {
-						class: 'page__heading',
-					},
-					type: 'div',
-				},
-			]);
-			if (Settings.get('gas')) {
-				this.esgst.modules.giveawaysGiveawaysSorter.init(heading);
-			}
-			if (Settings.get('gf') && Settings.get('gf_m')) {
-				heading.appendChild(
-					this.esgst.modules.giveawaysGiveawayFilters.filters_addContainer(heading, 'Gb')
-				);
-			}
-			if (Settings.get('mm')) {
-				this.esgst.modules.generalMultiManager.mm(heading);
-			}
-		}
 		loadMoreButton.onClick();
 		if (Settings.get('es_gb')) {
 			context.addEventListener('scroll', () => {

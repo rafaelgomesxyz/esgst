@@ -10,8 +10,8 @@ import { Table } from '../../class/Table';
 import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { Button } from '../../components/Button';
 import { NotificationBar } from '../../components/NotificationBar';
+import { PageHeading } from '../../components/PageHeading';
 import { Utils } from '../../lib/jsUtils';
-import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
 import { common } from '../Common';
 
 const createElements = common.createElements.bind(common),
@@ -196,25 +196,18 @@ class UsersWhitelistBlacklistChecker extends Module {
 
 		let optionsButton;
 
-		this.heading = new elementBuilder.sg.pageHeading({
-			context: popup.description,
-			position: 'beforeend',
-			breadcrumbs: [
-				WBC.Update
-					? 'Manage Whitelist/Blacklist Checker caches'
-					: `Check for whitelists${WBC.B ? '/blacklists' : ''}`,
-			],
-			buttons: [
-				{
-					icons: ['fa-gear'],
-					position: 'beforeend',
-					title: 'Options',
-					ref: (ref) => (optionsButton = ref),
-				},
-			],
-		});
+		this.heading = PageHeading.create('wbc', [
+			WBC.Update
+				? 'Manage Whitelist/Blacklist Checker caches'
+				: `Check for whitelists${WBC.B ? '/blacklists' : ''}`,
+		]).insert(popup.description, 'beforeend');
+		optionsButton = Button.create({
+			color: 'alternate-white',
+			tooltip: 'Options',
+			icons: ['fa-gear'],
+		}).insert(this.heading.nodes.outer, 'beforeend');
 
-		const popout = new Popout('', optionsButton, 0, true);
+		const popout = new Popout('', optionsButton.nodes.outer, 0, true);
 
 		popup.Options = createElements(popout.popout, 'beforeend', [{ type: 'div' }]);
 		if (WBC.User) {
@@ -521,7 +514,7 @@ class UsersWhitelistBlacklistChecker extends Module {
 					WBCButton.classList.remove('esgst-busy');
 				},
 			},
-		]).insert(this.heading.pageHeading, 'beforeend');
+		]).insert(this.heading.nodes.outer, 'beforeend');
 		WBC.progressBar = NotificationBar.create().insert(popup.description, 'beforeend').hide();
 		WBC.overallProgressBar = NotificationBar.create().insert(popup.description, 'beforeend').hide();
 		popup.Results = createElements(popup.scrollable, 'beforeend', [{ type: 'div' }]);
@@ -686,7 +679,9 @@ class UsersWhitelistBlacklistChecker extends Module {
 				if (WBC.Update) {
 					WBC.ShowResults = true;
 					// noinspection JSIgnoredPromiseFromCall
-					this.wbc_setCheck(WBC);
+					this.wbc_setCheck(WBC, () => {
+						WBC.progressBar.reset().hide();
+					});
 				}
 			});
 		});
@@ -768,7 +763,7 @@ class UsersWhitelistBlacklistChecker extends Module {
 					onClick: () => {
 						WBC.manualSkip = true;
 					},
-				}).insert(this.heading.pageHeading, 'beforeend');
+				}).insert(this.heading.nodes.outer, 'beforeend');
 
 				// noinspection JSIgnoredPromiseFromCall
 				this.wbc_checkUsers(WBC, 0, WBC.Users.length, Callback);
@@ -819,7 +814,7 @@ class UsersWhitelistBlacklistChecker extends Module {
 							onClick: () => {
 								WBC.manualSkip = true;
 							},
-						}).insert(this.heading.pageHeading, 'beforeend');
+						}).insert(this.heading.nodes.outer, 'beforeend');
 
 						WBC.Users = Utils.sortArray(WBC.Users);
 						if (window.location.pathname.match(/^\/users/)) {
@@ -837,7 +832,7 @@ class UsersWhitelistBlacklistChecker extends Module {
 					onClick: () => {
 						WBC.manualSkip = true;
 					},
-				}).insert(this.heading.pageHeading, 'beforeend');
+				}).insert(this.heading.nodes.outer, 'beforeend');
 
 				WBC.Users = Utils.sortArray(WBC.Users);
 				if (window.location.pathname.match(/^\/users/)) {

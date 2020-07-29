@@ -3,10 +3,9 @@ import { Module } from '../../class/Module';
 import { permissions } from '../../class/Permissions';
 import { Popup } from '../../class/Popup';
 import { Settings } from '../../class/Settings';
-import { Shared } from '../../class/Shared';
 import { Button } from '../../components/Button';
 import { NotificationBar } from '../../components/NotificationBar';
-import { elementBuilder } from '../../lib/SgStUtils/ElementBuilder';
+import { PageHeading } from '../../components/PageHeading';
 import { common } from '../Common';
 
 const endless_load = common.endless_load.bind(common),
@@ -110,20 +109,16 @@ class GiveawaysArchiveSearcher extends Module {
 			context.setAttribute('data-esgst-popup', 'true');
 			context.innerHTML = '';
 		}
-		new elementBuilder[Shared.esgst.name].pageHeading({
-			context: container,
-			position: 'afterbegin',
-			breadcrumbs: [
-				{
-					name: 'ESGST',
-					url: this.esgst.settingsUrl,
-				},
-				{
-					name: 'Archive Searcher',
-					url: `?esgst=as`,
-				},
-			],
-		});
+		PageHeading.create('as', [
+			{
+				name: 'ESGST',
+				url: this.esgst.settingsUrl,
+			},
+			{
+				name: 'Archive Searcher',
+				url: `?esgst=as`,
+			},
+		]).insert(container, 'afterbegin');
 		obj.context = context;
 
 		const progressBar = NotificationBar.create()

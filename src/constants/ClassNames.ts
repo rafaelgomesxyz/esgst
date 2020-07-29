@@ -2,7 +2,7 @@ import { Namespaces } from './Namespaces';
 
 export type Color = 'white' | 'blue' | 'green' | 'yellow' | 'red' | 'gray';
 
-export type ButtonColor = Exclude<Color, 'blue'>;
+export type ButtonColor = Exclude<Color, 'blue'> | 'alternate-white';
 
 export type NotificationColor = Exclude<Color, 'white'>;
 
@@ -19,6 +19,7 @@ export const ClassNames = {
 			root: '',
 			colors: {
 				white: 'form__saving-button',
+				'alternate-white': 'page__heading__button',
 				green: 'form__submit-button',
 				yellow: 'sidebar__entry-delete',
 				red: 'sidebar__error',
@@ -26,6 +27,7 @@ export const ClassNames = {
 			},
 			reversedColors: {
 				'form__saving-button': 'white',
+				page__heading__button: 'alternate-white',
 				'form__submit-button': 'green',
 				'sidebar__entry-delete': 'yellow',
 				sidebar__error: 'red',
@@ -62,6 +64,7 @@ export const ClassNames = {
 			root: 'btn_action',
 			colors: {
 				white: 'white',
+				'alternate-white': 'page_heading_btn',
 				green: 'green',
 				yellow: 'yellow',
 				red: 'red',
@@ -69,6 +72,7 @@ export const ClassNames = {
 			},
 			reversedColors: {
 				white: 'white',
+				page_heading_btn: 'alternate-white',
 				green: 'green',
 				yellow: 'yellow',
 				red: 'red',

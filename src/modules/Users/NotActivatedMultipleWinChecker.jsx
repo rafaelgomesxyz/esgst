@@ -1,10 +1,12 @@
 import { DOM } from '../../class/DOM';
 import { Module } from '../../class/Module';
 import { permissions } from '../../class/Permissions';
+import { Popout } from '../../class/Popout';
 import { Popup } from '../../class/Popup';
 import { Settings } from '../../class/Settings';
 import { Shared } from '../../class/Shared';
 import { Button } from '../../components/Button';
+import { PageHeading } from '../../components/PageHeading';
 import { Utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 
@@ -235,17 +237,20 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 		obj.popup = new Popup({
 			addProgress: true,
 			addScrollable: true,
-			icon: obj.isMenu ? 'fa-cog' : 'fa-question',
-			title: obj.isMenu
-				? `Manage Not Activated / Multiple Wins Checker caches:`
-				: `Check for ${obj.user ? `${obj.user.username}'s ` : ''} not activated / multiple wins:`,
 		});
+		const heading = PageHeading.create('namwc', [
+			obj.isMenu
+				? `Manage Not Activated / Multiple Wins Checker caches`
+				: `Check for ${obj.user ? `${obj.user.username}'s ` : ''} not activated / multiple wins:`,
+		]).insert(obj.popup.description, 'afterbegin');
 		if (!obj.isMenu) {
-			createElements(obj.popup.scrollable, 'beforebegin', [
-				{
-					type: 'div',
-				},
-			]).appendChild(
+			const optionsButton = Button.create({
+				color: 'alternate-white',
+				tooltip: 'Options',
+				icons: ['fa-gear'],
+			}).insert(heading.nodes.outer, 'beforeend');
+			const popout = new Popout('', optionsButton.nodes.outer, 0, true);
+			popout.popout.appendChild(
 				createOptions([
 					{
 						check: true,
@@ -269,7 +274,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 					},
 				])
 			);
-			createElements(obj.popup.scrollable, 'beforebegin', [
+			createElements(popout.popout, 'beforeend', [
 				{
 					attributes: {
 						class: 'esgst-description',
@@ -291,7 +296,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 					switchTo: { onReturn: 0 },
 					onClick: this.namwc_stop.bind(this, obj),
 				},
-			]).insert(obj.popup.description, 'beforeend');
+			]).insert(heading.nodes.outer, 'beforeend');
 		}
 		obj.popup.results = createElements(obj.popup.scrollable, 'beforeend', [
 			{
