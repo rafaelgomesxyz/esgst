@@ -148,6 +148,9 @@ class GiveawaysGiveawayBookmarks extends Module {
 		}
 		const toSave = {};
 		for (let key in this.esgst.giveaways) {
+			if (key.length > 5) {
+				continue;
+			}
 			if (this.esgst.giveaways.hasOwnProperty(key)) {
 				const giveaway = this.esgst.giveaways[key];
 				if (giveaway.bookmarked) {
@@ -681,6 +684,8 @@ class GiveawaysGiveawayBookmarks extends Module {
 			if (
 				(!main || !this.esgst.archivePath) &&
 				giveaway.creator !== Settings.get('username') &&
+				giveaway.code &&
+				giveaway.code.length === 5 &&
 				giveaway.url &&
 				!giveaway.gbButton
 			) {
