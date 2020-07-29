@@ -61,7 +61,7 @@ class Comments extends Module {
 				count = 0;
 			} else {
 				const breadcrumbs = context.querySelectorAll(
-					'.page__heading__breadcrumbs:not([data-esgst])'
+					'.page__heading:not([data-esgst]) .page__heading__breadcrumbs'
 				);
 				count = breadcrumbs[1] || breadcrumbs[0];
 				if (count) {
