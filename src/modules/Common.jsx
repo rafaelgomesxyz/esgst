@@ -1530,17 +1530,18 @@ class Common extends Module {
 				const refs = refsResponse.json;
 
 				let currentIndex = refs.findIndex((ref) => ref.name === `v${Shared.esgst.currentVersion}`);
+				if (currentIndex === -1) {
+					currentIndex = 0;
+				}
 				const previousIndex = refs.findIndex(
 					(ref) => ref.name === `v${Shared.esgst.previousVersion}`
 				);
 				if (currentIndex > -1 && previousIndex > -1) {
 					while (currentIndex < previousIndex) {
 						const version = refs[currentIndex].name;
-						const releaseResponse = await FetchRequest.get(
-							`https://gitlab.com/api/v4/projects/rafaelgssa%2Fesgst/releases/${version}`
-						);
-						if (releaseResponse && releaseResponse.json) {
-							changelog = `${changelog}## ${version}\n\n${releaseResponse.json.description.replace(
+						const description = refs[currentIndex].release?.description;
+						if (description) {
+							changelog = `${changelog}## ${version}\n\n${description.replace(
 								/#(\d+)/g,
 								'[$1](https://gitlab.com/rafaelgssa/esgst/-/issues/$1)'
 							)}\n\n`;
