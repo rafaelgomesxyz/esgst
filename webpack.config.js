@@ -247,17 +247,26 @@ async function packageLegacyExtension(env, browserName) {
 /**
  * @param {Environment} env
  */
-async function runFinalSteps(env) {
+async function runFinalSteps(env, type) {
+	if (!fs.existsSync('./dist')) {
+		fs.mkdirSync('./dist');
+	}
+
+	if (type === 'userscript') {
+		fs.copyFileSync('./build/userscript/esgst.user.js', './dist/userscript.user.js');
+		fs.writeFileSync(
+			'./dist/userscript.meta.js',
+			`// ==UserScript==\n// @version ${packageJson.version}\n// ==/UserScript==`
+		);
+		return;
+	}
+
 	if (!fs.existsSync('./build/chrome/lib')) {
 		fs.mkdirSync('./build/chrome/lib');
 	}
 
 	if (!fs.existsSync('./build/firefox/lib')) {
 		fs.mkdirSync('./build/firefox/lib');
-	}
-
-	if (!fs.existsSync('./dist')) {
-		fs.mkdirSync('./dist');
 	}
 
 	const filesToCopy = [
@@ -269,7 +278,6 @@ async function runFinalSteps(env) {
 		{ from: './src/assets/images/icon-16.png', to: './build/palemoon/data/icon-16.png' },
 		{ from: './src/assets/images/icon-32.png', to: './build/palemoon/data/icon-32.png' },
 		{ from: './src/assets/images/icon-64.png', to: './build/palemoon/data/icon-64.png' },
-		{ from: './build/userscript/esgst.user.js', to: `./dist/userscript.user.js` },
 	];
 
 	for (const fileToCopy of filesToCopy) {
@@ -304,10 +312,6 @@ async function runFinalSteps(env) {
 			data: JSON.stringify(getLegacyExtensionManifest(env, 'palemoon'), null, 2),
 			path: './build/palemoon/package.json',
 		},
-		{
-			data: `// ==UserScript==\n// @version ${packageJson.version}\n// ==/UserScript==`,
-			path: './dist/userscript.meta.js',
-		},
 	];
 
 	for (const fileToCreate of filesToCreate) {
@@ -328,7 +332,7 @@ async function runFinalSteps(env) {
 /**
  * @param {Environment} env
  */
-function getWebpackConfig(env) {
+function getWebpackConfig(env, type) {
 	let mode;
 
 	if (env.production) {
@@ -389,20 +393,35 @@ function getWebpackConfig(env) {
 	if (env.test) {
 		return config;
 	}
-	config.entry = {
-		'./chrome/eventPage': ['./src/entry/eventPage_index.js'],
-		'./chrome/esgst': ['./src/entry/index.js'],
-		'./chrome/esgst_sgtools': ['./src/entry/index_sgtools.js'],
-		'./chrome/permissions': ['./src/entry/permissions_index.js'],
-		'./firefox/eventPage': ['./src/entry/eventPage_index.js'],
-		'./firefox/esgst': ['./src/entry/index.js'],
-		'./firefox/esgst_sgtools': ['./src/entry/index_sgtools.js'],
-		'./firefox/permissions': ['./src/entry/permissions_index.js'],
-		'./palemoon/index': ['./src/entry/eventPage_sdk_index.js'],
-		'./palemoon/data/esgst': ['./src/entry/sdk_index.js'],
-		'./palemoon/data/esgst_sgtools': ['./src/entry/sdk_index_sgtools.js'],
-		'./userscript/esgst.user': ['./src/entry/gm_index.js'],
-	};
+	let cleanOnceBeforeBuildPatterns;
+	if (type === 'webextension') {
+		config.entry = {
+			'./chrome/eventPage': ['./src/entry/eventPage_index.js'],
+			'./chrome/esgst': ['./src/entry/index.js'],
+			'./chrome/esgst_sgtools': ['./src/entry/index_sgtools.js'],
+			'./chrome/permissions': ['./src/entry/permissions_index.js'],
+			'./firefox/eventPage': ['./src/entry/eventPage_index.js'],
+			'./firefox/esgst': ['./src/entry/index.js'],
+			'./firefox/esgst_sgtools': ['./src/entry/index_sgtools.js'],
+			'./firefox/permissions': ['./src/entry/permissions_index.js'],
+			'./palemoon/index': ['./src/entry/eventPage_sdk_index.js'],
+			'./palemoon/data/esgst': ['./src/entry/sdk_index.js'],
+			'./palemoon/data/esgst_sgtools': ['./src/entry/sdk_index_sgtools.js'],
+		};
+		cleanOnceBeforeBuildPatterns = [
+			path.join(process.cwd(), './build/**/*'),
+			path.join(process.cwd(), './dist/*.zip'),
+			path.join(process.cwd(), './dist/*.xpi'),
+		];
+	} else {
+		config.entry = { './userscript/esgst.user': ['./src/entry/gm_index.js'] };
+		config.optimization = { minimize: false };
+		cleanOnceBeforeBuildPatterns = [
+			path.join(process.cwd(), './build/**/*'),
+			path.join(process.cwd(), './dist/*.meta.js'),
+			path.join(process.cwd(), `./dist/*.user.js`),
+		];
+	}
 	config.output = {
 		filename: '[name].js',
 		path: path.resolve(BASE_PATH, 'build'),
@@ -431,18 +450,13 @@ function getWebpackConfig(env) {
 			raw: true,
 			test: /user\.js$/,
 		}),
-		new plugins.clean({
-			cleanOnceBeforeBuildPatterns: [
-				path.join(process.cwd(), './build/**/*'),
-				path.join(process.cwd(), './dist/*.zip'),
-				path.join(process.cwd(), './dist/*.xpi'),
-				path.join(process.cwd(), './dist/*.meta.js'),
-				path.join(process.cwd(), `./dist/*.user.js`),
-			],
-		}),
-		new plugins.runAfterBuild(() => runFinalSteps(env))
+		new plugins.clean({ cleanOnceBeforeBuildPatterns }),
+		new plugins.runAfterBuild(() => runFinalSteps(env, type))
 	);
 	return config;
 }
 
-module.exports = getWebpackConfig;
+const getWebpackExtensionConfig = (env) => getWebpackConfig(env, 'webextension');
+const getWebpackUserscriptConfig = (env) => getWebpackConfig(env, 'userscript');
+
+module.exports = [getWebpackExtensionConfig, getWebpackUserscriptConfig];
