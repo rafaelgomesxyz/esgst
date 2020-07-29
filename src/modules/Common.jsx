@@ -1491,7 +1491,8 @@ class Common extends Module {
 					isTemp: true,
 					title: (
 						<fragment>
-							{`ESGST has updated from v${Shared.esgst.previousVersion} to v${Shared.esgst.currentVersion}! Please go to `}
+							ESGST has updated from v{Shared.esgst.previousVersion} to v
+							{Shared.esgst.currentVersion}! Please go to{' '}
 							<a href="https://gitlab.com/rafaelgssa/esgst/-/releases">
 								https://gitlab.com/rafaelgssa/esgst/-/releases
 							</a>{' '}

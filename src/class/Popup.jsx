@@ -224,7 +224,11 @@ class Popup {
 	}
 
 	setTitle(title) {
-		DOM.insert(this.title, 'atinner', title);
+		DOM.insert(
+			this.title,
+			'atinner',
+			typeof title === 'string' ? <fragment>{title}</fragment> : title
+		);
 	}
 
 	/**
