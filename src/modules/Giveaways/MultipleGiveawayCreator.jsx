@@ -1836,6 +1836,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 			mgc.datas = [];
 			mgc.values = [];
 			mgc.created = [];
+			mgc.createdValues = [];
 			mgc.giveaways.innerHTML = '';
 			mgc.copies.value = '1';
 			mgc.keys.value = '';
@@ -2229,6 +2230,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 				html: (await buildGiveaway(responseHtml, response.finalUrl)).html,
 				url: response.finalUrl,
 			});
+			mgc.createdValues.push(mgc.values[i]);
 			if (
 				Settings.get('cewgd') ||
 				(Settings.get('gc') && Settings.get('gc_gi')) ||
@@ -2668,6 +2670,36 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 
 	async mgc_viewResults(mgc) {
 		const popup = new Popup({ addScrollable: true, icon: 'fa-eye', title: 'Results' });
+		const heading = createElements(popup.description, 'beforeend', [
+			{
+				attributes: {
+					class: 'esgst-page-heading',
+				},
+				type: 'div',
+			},
+		]);
+		Button.create([
+			{
+				color: 'white',
+				icons: ['fa-copy'],
+				name: 'Copy Giveaway List',
+				onClick: () =>
+					new Promise((resolve) => {
+						Shared.common.copyValue(
+							null,
+							mgc.createdValues
+								.map((values, index) => `${values.gameName} - ${mgc.created[index].url}`)
+								.join('\n')
+						);
+						window.setTimeout(resolve, 2000);
+					}),
+			},
+			{
+				template: 'success',
+				isDisabled: true,
+				name: 'Copied!',
+			},
+		]).insert(heading, 'beforeend');
 		const items = [];
 		for (const item of mgc.created) {
 			items.push(...item.html);
@@ -2681,16 +2713,8 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 				children: items,
 			},
 		]);
-		const giveaways = await this.esgst.modules.giveaways.giveaways_get(popup.scrollable);
 		if (Settings.get('mm')) {
-			const heading = createElements(popup.scrollable, 'afterbegin', [
-				{
-					attributes: {
-						class: 'esgst-page-heading',
-					},
-					type: 'div',
-				},
-			]);
+			const giveaways = await this.esgst.modules.giveaways.giveaways_get(popup.scrollable);
 			this.esgst.modules.generalMultiManager.mm(heading, giveaways, 'Giveaways');
 		}
 		popup.open();
