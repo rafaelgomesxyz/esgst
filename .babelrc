@@ -22,6 +22,11 @@
 			}
 		],
 		"@babel/typescript",
-		"@babel/preset-env"
+		[
+			"@babel/preset-env",
+			{
+				"targets": "defaults, Firefox 56, not IE 11"
+			}
+		]
 	]
 }
