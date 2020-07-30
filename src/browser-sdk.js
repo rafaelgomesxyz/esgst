@@ -13,7 +13,7 @@ const browser = {
 		},
 		getManifest: () => {
 			return new Promise((resolve) => {
-				_browser.runtime
+				browser.runtime
 					.sendMessage({
 						action: 'getPackageJson',
 					})
@@ -43,19 +43,19 @@ const browser = {
 		local: {
 			get: async () => {
 				return JSON.parse(
-					await _browser.runtime.sendMessage({
+					await browser.runtime.sendMessage({
 						action: 'getStorage',
 					})
 				);
 			},
 			remove: async (keys) => {
-				await _browser.runtime.sendMessage({
+				await browser.runtime.sendMessage({
 					action: 'delValues',
 					keys: JSON.stringify(keys),
 				});
 			},
 			set: async (values) => {
-				await _browser.runtime.sendMessage({
+				await browser.runtime.sendMessage({
 					action: 'setValues',
 					values: JSON.stringify(values),
 				});
