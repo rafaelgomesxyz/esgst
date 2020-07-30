@@ -373,12 +373,6 @@ function getWebpackConfig(env, type) {
 			}),
 			// @ts-ignore
 			new plugins.progressBar(),
-			new plugins.provide({
-				$: 'jquery',
-				'window.$': 'jquery',
-				jQuery: 'jquery',
-				'window.jQuery': 'jquery',
-			}),
 		],
 		resolve: {
 			extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
@@ -413,11 +407,18 @@ function getWebpackConfig(env, type) {
 			path.join(process.cwd(), './dist/*.zip'),
 			path.join(process.cwd(), './dist/*.xpi'),
 		];
+		config.plugins.push(
+			new plugins.provide({
+				$: 'jquery',
+				'window.$': 'jquery',
+				jQuery: 'jquery',
+				'window.jQuery': 'jquery',
+			})
+		);
 	} else {
 		config.entry = { './userscript/esgst.user': ['./src/entry/gm_index.js'] };
 		config.optimization = { minimize: false };
 		cleanOnceBeforeBuildPatterns = [
-			path.join(process.cwd(), './build/**/*'),
 			path.join(process.cwd(), './dist/*.meta.js'),
 			path.join(process.cwd(), `./dist/*.user.js`),
 		];

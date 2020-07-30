@@ -1,5 +1,4 @@
 import dateFns_format from 'date-fns/format';
-import 'jquery-ui/ui/widgets/progressbar';
 import { DOM } from '../../class/DOM';
 import { LocalStorage } from '../../class/LocalStorage';
 import { Module } from '../../class/Module';

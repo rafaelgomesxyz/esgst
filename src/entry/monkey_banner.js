@@ -1,7 +1,7 @@
 /* @preserve
 // ==UserScript==
 // @name Enhanced SteamGifts & SteamTrades (ESGST)
-// @namespace ESGST
+// @namespace https://rafaelgssa.gitlab.io/esgst
 // @description Enhances SteamGifts and SteamTrades by adding some cool features to them.
 // @icon https://gitlab.com/api/v4/projects/rafaelgssa%2Fesgst/repository/files/src%2Fassets%2Fimages%2Ficon.png/raw?ref=main
 // @version <% package.version %>
@@ -39,6 +39,7 @@
 // @grant GM_setValue
 // @grant GM_xmlhttpRequest
 // @grant GM_openInTab
+// @grant GM_getResourceURL
 // @grant GM.addValueChangeListener
 // @grant GM.deleteValue
 // @grant GM.getValue
@@ -47,6 +48,17 @@
 // @grant GM.setValue
 // @grant GM.xmlHttpRequest
 // @grant GM.openInTab
+// @grant GM.getResourceUrl
+// @require https://greasemonkey.github.io/gm4-polyfill/gm4-polyfill.js
+// @require https://cdn.jsdelivr.net/npm/interactjs@1.3.4/dist/interact.min.js
+// @require https://cdn.jsdelivr.net/npm/jquery@3.5.0/dist/jquery.min.js
+// @require https://cdn.jsdelivr.net/npm/jQuery-QueryBuilder@2.5.2/dist/js/query-builder.standalone.min.js
+// @require https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js
+// @require https://cdn.jsdelivr.net/npm/jquery-ui-dist@1.12.1/jquery-ui.min.js
+// @require https://cdn.jsdelivr.net/npm/jszip@3.2.2/dist/jszip.min.js
+// @require https://cdn.jsdelivr.net/gh/rossengeorgiev/vdf-parser@0d210ec51a2be4d6186777addf8f98df59f9eb53/vdf.js
+// @resource awesome-bootstrap-checkbox https://cdn.jsdelivr.net/npm/awesome-bootstrap-checkbox@0.3.7/awesome-bootstrap-checkbox.css
+// @resource jquery-query-builder https://cdn.jsdelivr.net/npm/jQuery-QueryBuilder@2.5.2/dist/css/query-builder.default.min.css
 // @run-at document-start
 // @noframes
 // ==/UserScript==

@@ -1,5 +1,4 @@
 import dateFns_format from 'date-fns/format';
-import vdf from 'simple-vdf';
 import { Checkbox } from '../../class/Checkbox';
 import { DOM } from '../../class/DOM';
 import { Module } from '../../class/Module';
@@ -1800,7 +1799,7 @@ class GeneralMultiManager extends Module {
 		 * @type {Object}
 		 * @property {Object} UserRoamingConfigStore.Software.Valve.Steam.Apps
 		 */
-		const data = vdf.parse(reader.result);
+		const data = VDF.parse(reader.result);
 		for (const item of items) {
 			if (
 				!item.mm ||
@@ -1820,7 +1819,7 @@ class GeneralMultiManager extends Module {
 			game.tags.push(...categories);
 			game.tags = Array.from(new Set(game.tags));
 		}
-		downloadFile(vdf.stringify(data, true), 'sharedconfig.vdf');
+		downloadFile(VDF.stringify(data, true), 'sharedconfig.vdf');
 		resolve();
 	}
 }

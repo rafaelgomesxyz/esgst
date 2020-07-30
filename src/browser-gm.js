@@ -137,46 +137,7 @@ const browser = {
 	},
 };
 
-// @ts-ignore
-if (typeof GM === 'undefined') {
-	// polyfill for userscript managers that do not support the gm-dot api
-	browser.gm = {
-		// @ts-ignore
-		// eslint-disable-next-line no-undef
-		addValueChangeListener:
-			typeof GM_addValueChangeListener === 'undefined' ? null : GM_addValueChangeListener,
-		// @ts-ignore
-		deleteValue: GM_deleteValue,
-		// @ts-ignore
-		getValue: GM_getValue,
-		// @ts-ignore
-		info: GM_info,
-		// @ts-ignore
-		listValues: GM_listValues,
-		// @ts-ignore
-		setValue: GM_setValue,
-		// @ts-ignore
-		xmlHttpRequest: GM_xmlhttpRequest,
-	};
-	for (const key in browser.gm) {
-		const old = browser.gm[key];
-		if (!old || typeof old !== 'function') {
-			continue;
-		}
-		browser.gm[key] = (...args) =>
-			new Promise((resolve, reject) => {
-				try {
-					resolve(old.apply(this, args));
-				} catch (e) {
-					reject(e);
-				}
-			});
-	}
-} else {
-	// @ts-ignore
-	browser.gm = GM;
-}
-
+browser.gm = GM;
 browser.gm.lastUpdate = 0;
 
 if (!browser.gm.addValueChangeListener) {

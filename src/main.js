@@ -1,29 +1,21 @@
 'use strict';
 
 // that will append styles to page in runtime
-// jQuery QueryBuilder want global interact object
-import interact from 'interactjs/dist/interact.min';
-import 'jquery';
-import 'jQuery-QueryBuilder/dist/js/query-builder.standalone.min';
 import './assets/styles';
 import { browser } from './browser';
+import { DOM } from './class/DOM';
 import { esgst } from './class/Esgst';
-import { Utils } from './lib/jsUtils';
-import { addStyle } from './modules/Style';
-import { runSilentSync } from './modules/Sync';
+import { LocalStorage } from './class/LocalStorage';
+import { Logger } from './class/Logger';
+import { MessageNotifier } from './class/MessageNotifier';
+import { persistentStorage } from './class/PersistentStorage';
+import { Session } from './class/Session';
 import { Settings } from './class/Settings';
 import { Shared } from './class/Shared';
-import { Logger } from './class/Logger';
-import { persistentStorage } from './class/PersistentStorage';
-import { DOM } from './class/DOM';
-import { Header } from './components/Header';
-import { Session } from './class/Session';
 import { Footer } from './components/Footer';
-import { LocalStorage } from './class/LocalStorage';
-import { MessageNotifier } from './class/MessageNotifier';
-
-// @ts-ignore
-window.interact = interact;
+import { Header } from './components/Header';
+import { addStyle } from './modules/Style';
+import { runSilentSync } from './modules/Sync';
 
 (() => {
 	const common = esgst.modules.common;

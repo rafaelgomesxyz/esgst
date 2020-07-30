@@ -1,7 +1,5 @@
-import 'bootstrap/dist/js/bootstrap';
 import dateFns_format from 'date-fns/format';
 import dateFns_isSameWeek from 'date-fns/isSameWeek';
-import JSZip from 'jszip';
 import { browser } from '../browser';
 import { DOM } from '../class/DOM';
 import { FetchRequest } from '../class/FetchRequest';
