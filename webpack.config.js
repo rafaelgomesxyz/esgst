@@ -249,12 +249,12 @@ async function packageLegacyExtension(env, browserName) {
 /**
  * @param {Environment} env
  */
-async function runFinalSteps(env, type) {
+async function runFinalSteps(env, name) {
 	if (!fs.existsSync('./dist')) {
 		fs.mkdirSync('./dist');
 	}
 
-	if (type === 'userscript') {
+	if (name === 'userscript') {
 		fs.copyFileSync('./build/userscript/esgst.user.js', './dist/userscript.user.js');
 		fs.writeFileSync(
 			'./dist/userscript.meta.js',
@@ -334,7 +334,7 @@ async function runFinalSteps(env, type) {
 /**
  * @param {Environment} env
  */
-function getWebpackConfig(env, type) {
+function getWebpackConfig(env, name) {
 	let mode;
 
 	if (env.production) {
@@ -347,6 +347,7 @@ function getWebpackConfig(env, type) {
 
 	const config = {
 		devtool: env.production || env.test ? false : 'source-map',
+		name,
 		mode,
 		module: {
 			rules: [
@@ -390,7 +391,7 @@ function getWebpackConfig(env, type) {
 		return config;
 	}
 	let cleanOnceBeforeBuildPatterns;
-	if (type === 'webextension') {
+	if (name === 'webextension') {
 		config.entry = {
 			'./chrome/eventPage': ['./src/entry/eventPage_index.js'],
 			'./chrome/esgst': ['./src/entry/index.js'],
@@ -457,7 +458,7 @@ function getWebpackConfig(env, type) {
 			test: /user\.js$/,
 		}),
 		new plugins.clean({ cleanOnceBeforeBuildPatterns }),
-		new plugins.runAfterBuild(() => runFinalSteps(env, type))
+		new plugins.runAfterBuild(() => runFinalSteps(env, name))
 	);
 	return config;
 }
