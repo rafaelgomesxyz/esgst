@@ -5,6 +5,7 @@
  * @property {boolean} test
  * @property {boolean} temporary
  * @property {boolean} withWatch
+ * @property {boolean} analyze
  * @property {string} v
  */
 
@@ -37,6 +38,7 @@ const loaders = {
 
 const plugins = {
 	banner: webpack.BannerPlugin,
+	bundleAnalyzer: require('webpack-bundle-analyzer').BundleAnalyzerPlugin,
 	circularDependency: require('circular-dependency-plugin'),
 	clean: require('clean-webpack-plugin').CleanWebpackPlugin,
 	progressBar: require('progress-bar-webpack-plugin'),
@@ -407,6 +409,9 @@ function getWebpackConfig(env, type) {
 			path.join(process.cwd(), './dist/*.zip'),
 			path.join(process.cwd(), './dist/*.xpi'),
 		];
+		if (env.analyze) {
+			config.plugins.push(new plugins.bundleAnalyzer());
+		}
 		config.plugins.push(
 			new plugins.provide({
 				$: 'jquery',
