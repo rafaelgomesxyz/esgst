@@ -489,20 +489,21 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
 			if (numWinners > 0) {
 				winners = [];
 				const firstWinner = details.winners[0].username;
-				winners.push([
-					'a',
-					{ class: 'table__column__secondary-link', href: `/user/${firstWinner}` },
-					firstWinner,
-				]);
+				winners.push(
+					<a className="table__column__secondary-link" href={`/user/${firstWinner}`}>
+						{firstWinner}
+					</a>
+				);
 				if (numWinners > 1) {
-					winners.push([
-						'span',
-						{
-							class: 'esgst-clickable table__column__secondary-link',
-							onclick: this.openWinnersPopup.bind(this, details),
-						},
-						` (+${numWinners - 1} more)`,
-					]);
+					winners.push(
+						<span
+							className="esgst-clickable table__column__secondary-link"
+							onclick={this.openWinnersPopup.bind(this, details)}
+						>
+							{' '}
+							(+{numWinners - 1} more)
+						</span>
+					);
 					let received = 0;
 					for (const winner of details.winners) {
 						if (winner.status === 'Received') {
