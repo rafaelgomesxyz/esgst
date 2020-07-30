@@ -825,15 +825,6 @@ function addStyle() {
 		overflow-y: auto;
 	}
 
-	.esgst-giveaway-column-button {
-		border: 0;
-		padding: 0;
-	}
-
-	.esgst-giveaway-column-button >* {
-		line-height: inherit;
-	}
-
 	.esgst-elgb-button .sidebar__error {
 		margin-bottom: 0;
 	}
@@ -2237,12 +2228,12 @@ function addStyle() {
 		margin: 2px;
 	}
 
-	.esgst-giveaway-panel .esgst-button-container {
+	.giveaway__row-outer-wrap .esgst-button-container {
 		border: 0;
 		padding: 0;
 	}
 
-	.esgst-giveaway-panel .esgst-button {
+	.giveaway__row-outer-wrap .esgst-button {
 		line-height: inherit;
 		margin: 0;
 	}

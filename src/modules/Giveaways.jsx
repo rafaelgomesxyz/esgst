@@ -1,8 +1,9 @@
-import { Module } from '../class/Module';
-import { common } from './Common';
-import { Shared } from '../class/Shared';
-import { Settings } from '../class/Settings';
 import { DOM } from '../class/DOM';
+import { Module } from '../class/Module';
+import { Settings } from '../class/Settings';
+import { Shared } from '../class/Shared';
+import { Button } from '../components/Button';
+import { common } from './Common';
 
 const createElements = common.createElements.bind(common),
 	getFeatureTooltip = common.getFeatureTooltip.bind(common),
@@ -819,7 +820,12 @@ class Giveaways extends Module {
 				}
 				const elements = giveaway.outerWrap.querySelectorAll(`[data-draggable-id="${id}"]`);
 				for (const element of elements) {
-					(giveaway.gvIcons || giveaway.columns).appendChild(element);
+					try {
+						const button = Button.create().parse(element);
+						button.insert(giveaway.gvIcons || giveaway.columns, 'beforeend');
+					} catch (err) {
+						(giveaway.gvIcons || giveaway.columns).appendChild(element);
+					}
 					if (giveaway.elementOrdering) {
 						continue;
 					}
@@ -856,7 +862,12 @@ class Giveaways extends Module {
 				: Settings.get('giveawayPanel')) {
 				const elements = giveaway.outerWrap.querySelectorAll(`[data-draggable-id="${id}"]`);
 				for (const element of elements) {
-					giveaway.panel.appendChild(element);
+					try {
+						const button = Button.create().parse(element);
+						button.insert(giveaway.panel, 'beforeend');
+					} catch (err) {
+						giveaway.panel.appendChild(element);
+					}
 					if (giveaway.elementOrdering) {
 						continue;
 					}
@@ -895,7 +906,12 @@ class Giveaways extends Module {
 				: Settings.get('giveawayHeading')) {
 				const elements = giveaway.outerWrap.querySelectorAll(`[data-draggable-id="${id}"]`);
 				for (const element of elements) {
-					giveaway.heading.appendChild(element);
+					try {
+						const button = Button.create().parse(element);
+						button.insert(giveaway.heading, 'beforeend');
+					} catch (err) {
+						giveaway.heading.appendChild(element);
+					}
 					if (giveaway.elementOrdering) {
 						continue;
 					}
@@ -930,7 +946,12 @@ class Giveaways extends Module {
 				: Settings.get('giveawayLinks')) {
 				const elements = giveaway.outerWrap.querySelectorAll(`[data-draggable-id="${id}"]`);
 				for (const element of elements) {
-					giveaway.links.appendChild(element);
+					try {
+						const button = Button.create().parse(element);
+						button.insert(giveaway.links, 'beforeend');
+					} catch (err) {
+						giveaway.links.appendChild(element);
+					}
 					if (giveaway.elementOrdering) {
 						continue;
 					}
@@ -965,7 +986,12 @@ class Giveaways extends Module {
 				: Settings.get('giveawayExtraPanel')) {
 				const elements = giveaway.outerWrap.querySelectorAll(`[data-draggable-id="${id}"]`);
 				for (const element of elements) {
-					giveaway.extraPanel.appendChild(element);
+					try {
+						const button = Button.create().parse(element);
+						button.insert(giveaway.extraPanel, 'beforeend');
+					} catch (err) {
+						giveaway.extraPanel.appendChild(element);
+					}
 					if (giveaway.elementOrdering) {
 						continue;
 					}
@@ -996,7 +1022,12 @@ class Giveaways extends Module {
 				: Settings.get('gc_categories')) {
 				const elements = giveaway.outerWrap.querySelectorAll(`[data-draggable-id="${id}"]`);
 				for (const element of elements) {
-					giveaway.gcPanel.appendChild(element);
+					try {
+						const button = Button.create().parse(element);
+						button.insert(giveaway.gcPanel, 'beforeend');
+					} catch (err) {
+						giveaway.gcPanel.appendChild(element);
+					}
 					if (giveaway.elementOrdering) {
 						continue;
 					}
