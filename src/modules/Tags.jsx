@@ -396,7 +396,6 @@ class Tags extends Module {
 				type: 'div',
 			},
 		]);
-		obj.popup.description.appendChild(obj.popup.buttons[0].set);
 		obj.popup.open(this.tags_loadTags.bind(this, obj));
 	}
 
