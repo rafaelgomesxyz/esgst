@@ -7,7 +7,6 @@ import { Popup } from '../../class/Popup';
 import { Settings } from '../../class/Settings';
 import { Shared } from '../../class/Shared';
 import { Button } from '../../components/Button';
-import { EMOJIS } from '../../emojis';
 
 class CommentsCommentFormattingHelper extends Module {
 	constructor() {
@@ -832,25 +831,25 @@ class CommentsCommentFormattingHelper extends Module {
 											item: {},
 										};
 										Shared.common.draggable_set(obj);
-										for (const emojiData of EMOJIS) {
+										for (const emoji of emojisUtils.emojis) {
 											DOM.insert(
 												emojis,
 												'beforeend',
 												<span
-													data-draggable-id={emojiData.emoji}
-													title={emojiData.name}
+													data-draggable-id={emoji.emoji}
+													title={emoji.name}
 													onclick={() => {
 														DOM.insert(
 															savedEmojis,
 															'beforeend',
-															<span data-draggable-id={emojiData.emoji} title={emojiData.name}>
-																{emojiData.emoji}
+															<span data-draggable-id={emoji.emoji} title={emoji.name}>
+																{emoji.emoji}
 															</span>
 														);
 														Shared.common.draggable_set(obj);
 													}}
 												>
-													{emojiData.emoji}
+													{emoji.emoji}
 												</span>
 											);
 										}
@@ -1205,7 +1204,9 @@ class CommentsCommentFormattingHelper extends Module {
 		let emojis = JSON.parse(Shared.common.getValue('emojis', '[]'));
 		return emojis
 			.map((emoji) => {
-				const emojiData = EMOJIS.filter((x) => x.emoji === emoji || x.entity === emoji)[0];
+				const emojiData = emojisUtils.emojis.filter(
+					(x) => x.emoji === emoji || emojisUtils.getEntities(x.emoji).join('') === emoji
+				)[0];
 				emoji = emojiData ? emojiData.emoji : emoji;
 				return (
 					<span data-draggable-id={emoji} title={emojiData ? emojiData.name : ''}>

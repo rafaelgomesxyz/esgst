@@ -57,6 +57,7 @@
 // @require https://cdn.jsdelivr.net/npm/jquery-ui-dist@1.12.1/jquery-ui.min.js
 // @require https://cdn.jsdelivr.net/npm/jszip@3.2.2/dist/jszip.min.js
 // @require https://cdn.jsdelivr.net/gh/rossengeorgiev/vdf-parser@0d210ec51a2be4d6186777addf8f98df59f9eb53/vdf.js
+// @require https://cdn.jsdelivr.net/npm/emojis-utils@1.0.2/dist/emojis-utils.min.js
 // @resource awesome-bootstrap-checkbox https://cdn.jsdelivr.net/npm/awesome-bootstrap-checkbox@0.3.7/awesome-bootstrap-checkbox.css
 // @resource jquery-query-builder https://cdn.jsdelivr.net/npm/jQuery-QueryBuilder@2.5.2/dist/css/query-builder.default.min.css
 // @run-at document-start

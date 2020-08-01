@@ -7,6 +7,7 @@ import 'jquery-ui/ui/widgets/progressbar';
 import 'jquery-ui/ui/widgets/slider';
 import JSZip from 'jszip';
 import VDF from 'simple-vdf';
+import * as emojisUtils from 'emojis-utils';
 
 import 'awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css';
 import 'jQuery-QueryBuilder/dist/css/query-builder.default.min.css';
@@ -14,3 +15,4 @@ import 'jQuery-QueryBuilder/dist/css/query-builder.default.min.css';
 window.interact = interact;
 window.JSZip = JSZip;
 window.VDF = VDF;
+window.emojisUtils = emojisUtils;
