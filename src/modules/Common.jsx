@@ -2,6 +2,7 @@ import dateFns_format from 'date-fns/format';
 import dateFns_isSameWeek from 'date-fns/isSameWeek';
 import { browser } from '../browser';
 import { DOM } from '../class/DOM';
+import { EventDispatcher } from '../class/EventDispatcher';
 import { FetchRequest } from '../class/FetchRequest';
 import { LocalStorage } from '../class/LocalStorage';
 import { Logger } from '../class/Logger';
@@ -18,6 +19,7 @@ import { ToggleSwitch } from '../class/ToggleSwitch';
 import { Button } from '../components/Button';
 import { NotificationBar } from '../components/NotificationBar';
 import { PageHeading } from '../components/PageHeading';
+import { Events } from '../constants/Events';
 import { Utils } from '../lib/jsUtils';
 import { settingsModule } from './Settings';
 import { loadDataCleaner, loadDataManagement } from './Storage';
@@ -192,6 +194,15 @@ class Common extends Module {
 					},
 				],
 			});
+			if (
+				this.esgst.parameters.esgst?.match(
+					/^(settings|sync|backup|restore|delete|clean|data-management)$/
+				)
+			) {
+				EventDispatcher.subscribe(Events.PAGE_HEADING_BUILD, (builtHeading) =>
+					builtHeading.nodes.outer.classList.add('esgst-fmph')
+				);
+			}
 			if (this.esgst.parameters.esgst === 'debug') {
 				let textArea;
 				DOM.insert(

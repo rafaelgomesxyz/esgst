@@ -25,6 +25,10 @@ class GeneralFixedMainPageHeading extends Module {
 	}
 
 	init() {
+		EventDispatcher.subscribe(Events.PAGE_HEADING_BUILD, (builtHeading) =>
+			builtHeading.nodes.outer.classList.add('esgst-fmph')
+		);
+
 		if (!this.esgst.pageHeadings.length) {
 			return;
 		}
@@ -41,9 +45,6 @@ class GeneralFixedMainPageHeading extends Module {
 		for (const pageHeading of this.esgst.pageHeadings) {
 			pageHeading.classList.add('esgst-fmph');
 		}
-		EventDispatcher.subscribe(Events.PAGE_HEADING_BUILD, (builtHeading) =>
-			builtHeading.nodes.outer.classList.add('esgst-fmph')
-		);
 	}
 }
 
