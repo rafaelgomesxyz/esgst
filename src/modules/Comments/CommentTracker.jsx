@@ -122,6 +122,11 @@ class CommentsCommentTracker extends Module {
 					sg: true,
 					st: true,
 				},
+				ct_fop: {
+					name: 'Fade out read OPs.',
+					sg: true,
+					st: true,
+				},
 				ct_f: {
 					name: 'Fade out read comments.',
 					sg: true,
@@ -647,7 +652,7 @@ class CommentsCommentTracker extends Module {
 			comments[comment.code].readComments[comment.id] = comment.timestamp;
 			await Shared.common.setValue(comment.type, JSON.stringify(comments));
 			deleteLock();
-			if (Settings.get('ct_f')) {
+			if ((comment.isOp && Settings.get('ct_fop')) || (!comment.isOp && Settings.get('ct_f'))) {
 				comment.comment.classList.add('esgst-ct-comment-read');
 				comment.comment.style.opacity = '0.5';
 				Shared.common.setHoverOpacity(comment.comment, '1', '0.5');
@@ -664,7 +669,7 @@ class CommentsCommentTracker extends Module {
 				}
 				comments[comment.type][comment.code].readComments[comment.id] = comment.timestamp;
 			}
-			if (Settings.get('ct_f')) {
+			if ((comment.isOp && Settings.get('ct_fop')) || (!comment.isOp && Settings.get('ct_f'))) {
 				comment.comment.classList.add('esgst-ct-comment-read');
 				comment.comment.style.opacity = '0.5';
 				Shared.common.setHoverOpacity(comment.comment, '1', '0.5');
@@ -686,7 +691,7 @@ class CommentsCommentTracker extends Module {
 			}
 			await Shared.common.setValue(comment.type, JSON.stringify(comments));
 			deleteLock();
-			if (Settings.get('ct_f')) {
+			if ((comment.isOp && Settings.get('ct_fop')) || (!comment.isOp && Settings.get('ct_f'))) {
 				comment.comment.classList.remove('esgst-ct-comment-read');
 				comment.comment.style.opacity = '1';
 				Shared.common.setHoverOpacity(comment.comment, '1', '1');
@@ -699,7 +704,7 @@ class CommentsCommentTracker extends Module {
 				}
 				delete comments[comment.type][comment.code].readComments[comment.id];
 			}
-			if (Settings.get('ct_f')) {
+			if ((comment.isOp && Settings.get('ct_fop')) || (!comment.isOp && Settings.get('ct_f'))) {
 				comment.comment.classList.remove('esgst-ct-comment-read');
 				comment.comment.style.opacity = '1';
 				Shared.common.setHoverOpacity(comment.comment, '1', '1');

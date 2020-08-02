@@ -136,6 +136,7 @@ class Comments extends Module {
 		}
 		comment.author = author.textContent.trim();
 		comment.summary = comment.comment.querySelector('.comment__summary', '.comment_inner');
+		comment.isOp = !comment.summary.id;
 		comment.displayState = comment.comment.querySelector(
 			`.comment__display-state, .comment_body_default`
 		);

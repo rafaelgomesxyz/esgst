@@ -185,6 +185,8 @@ class _Settings {
 			ugd_achievements: 0,
 			ct_o_sg: true,
 			ct_o_st: true,
+			ct_fop_sg: true,
+			ct_fop_st: true,
 			ct_f_sg: true,
 			ct_f_st: true,
 			gf_m_b_sg: false,
