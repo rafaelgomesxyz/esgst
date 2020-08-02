@@ -88,6 +88,18 @@ class GiveawaysGiveawayExtractor extends Module {
 					name: 'Open the extractor in a new tab.',
 					sg: true,
 				},
+				ge_a: {
+					description: () => (
+						<ul>
+							<li>
+								Disabling this allows you to configure the options for the extractor before starting
+								it.
+							</li>
+						</ul>
+					),
+					name: 'Automatically start extracting when the popup opens.',
+					sg: true,
+				},
 			},
 			inputItems: [
 				{
@@ -566,7 +578,9 @@ class GiveawaysGiveawayExtractor extends Module {
 				jigidiLinks: new Set(),
 				timestamp: now,
 			};
-			ge.extractButton.onClick();
+			if (Settings.get('ge_a')) {
+				ge.extractButton.onClick();
+			}
 		}
 		if (Settings.get('es') && Settings.get('es_ge')) {
 			ge.popup.scrollable.addEventListener('scroll', this.checkScroll.bind(this, ge));
