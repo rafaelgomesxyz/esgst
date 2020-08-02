@@ -2537,7 +2537,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 			if (mgc.created.length) {
 				LocalStorage.delete('mgcCache');
 				LocalStorage.set('mgcAttach_step4', mgc.firstWagon);
-				Tabs.open(`/discussion/${mgc.discussion}/`);
+				Tabs.open(`https://www.steamgifts.com/discussion/${mgc.discussion}/`);
 				mgc.viewButton.show();
 			}
 			callback();
@@ -2665,7 +2665,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 	mgc_attachNewDiscussion(mgc, popup, callback) {
 		let win;
 		LocalStorage.set('mgcAttach_step1', true);
-		win = Tabs.open('/discussions/new');
+		win = Tabs.open('https://www.steamgifts.com/discussions/new');
 		window.setTimeout(() => this.mgc_checkAttached(mgc, popup, win, callback), 100);
 	}
 

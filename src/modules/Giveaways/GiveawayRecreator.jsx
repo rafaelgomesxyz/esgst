@@ -165,7 +165,7 @@ class GiveawaysGiveawayRecreator extends Module {
 		giveaways[giveaway.code].recreated = true;
 		await setValue('giveaways', JSON.stringify(giveaways));
 		button.remove();
-		Tabs.open('/giveaways/new');
+		Tabs.open('https://www.steamgifts.com/giveaways/new');
 	}
 }
 

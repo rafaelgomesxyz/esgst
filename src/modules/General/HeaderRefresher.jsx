@@ -619,15 +619,15 @@ class GeneralHeaderRefresher extends Module {
 				});
 			} else {
 				if (details.won) {
-					Tabs.open('/giveaways/won');
+					Tabs.open('https://www.steamgifts.com/giveaways/won');
 				}
 
 				if (details.inbox) {
-					Tabs.open('/messages');
+					Tabs.open('https://www.steamgifts.com/messages');
 				}
 
 				if (details.wishlist) {
-					Tabs.open('/giveaways/search?type=wishlist');
+					Tabs.open('https://www.steamgifts.com/giveaways/search?type=wishlist');
 				}
 			}
 

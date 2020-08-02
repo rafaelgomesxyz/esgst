@@ -543,9 +543,9 @@ class CommentsCommentTracker extends Module {
 											}
 										} else {
 											if (comment.id) {
-												Tabs.open(`/go/comment/${comment.id}`);
+												Tabs.open(`https://www.steamgifts.com/go/comment/${comment.id}`);
 											} else {
-												Tabs.open(`/discussion/${comment.code}/`);
+												Tabs.open(`https://www.steamgifts.com/discussion/${comment.code}/`);
 											}
 										}
 									} else {
@@ -595,9 +595,9 @@ class CommentsCommentTracker extends Module {
 							}
 						} else {
 							if (unread.id) {
-								Tabs.open(`/go/comment/${unread.id}`);
+								Tabs.open(`https://www.steamgifts.com/go/comment/${unread.id}`);
 							} else {
-								Tabs.open(`/discussion/${unread.code}/`);
+								Tabs.open(`https://www.steamgifts.com/discussion/${unread.code}/`);
 							}
 						}
 					} else {
