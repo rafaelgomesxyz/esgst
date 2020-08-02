@@ -47,7 +47,7 @@ export interface ButtonStateExtra {
 		onClick?: number;
 		onReturn?: number;
 	};
-	onClick?: () => void | Promise<void>;
+	onClick?: (button: Button) => void | Promise<void>;
 }
 
 export type ButtonStateTemplate = 'loading' | 'success' | 'warning' | 'error' | 'info';
@@ -113,6 +113,7 @@ export abstract class Button extends Base<Button, ButtonData, ButtonNodes> {
 	protected _isBusy = false;
 	protected _currentStateNumber: number;
 	protected _conflicts: Button[] = [];
+	protected _queue = 0;
 
 	constructor(options: ButtonOptions, namespace: number) {
 		super(namespace);
@@ -378,8 +379,11 @@ export abstract class Button extends Base<Button, ButtonData, ButtonNodes> {
 		return this;
 	};
 
-	onClick = async (): Promise<Button> => {
+	onClick = async (doEnqueue?: boolean): Promise<Button> => {
 		if (this._data.isDisabled) {
+			if (doEnqueue) {
+				this._queue += 1;
+			}
 			return this;
 		}
 		const state = this._data.states[this._currentStateNumber - 1];
@@ -406,6 +410,10 @@ export abstract class Button extends Base<Button, ButtonData, ButtonNodes> {
 		}
 		this.enableConflicts();
 		this._isBusy = false;
+		if (this._queue > 0) {
+			this._queue -= 1;
+			void this.onClick();
+		}
 		return this;
 	};
 

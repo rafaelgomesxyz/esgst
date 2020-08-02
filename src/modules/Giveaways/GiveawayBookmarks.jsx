@@ -329,7 +329,7 @@ class GiveawaysGiveawayBookmarks extends Module {
 							if (i > n) {
 								loadMoreButton.destroy();
 							} else if (Settings.get('es_gb') && context.scrollHeight <= context.offsetHeight) {
-								loadMoreButton.onClick();
+								loadMoreButton.onClick(true);
 							}
 							resolve();
 						});
