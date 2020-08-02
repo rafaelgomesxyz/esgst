@@ -76,7 +76,6 @@ class _Settings {
 			collapse_groups: false,
 			collapse_games: false,
 			collapse_others: false,
-			collapse_themes: false,
 			collapse_element_ordering: false,
 			collapse_steam_api_key: false,
 			gc_e_color: '#a59d7c',
@@ -215,8 +214,6 @@ class _Settings {
 			steamGiftiesBlue_endTime: `23:59`,
 			steamTradiesBlackBlue_startTime: `00:00`,
 			steamTradiesBlackBlue_endTime: `23:59`,
-			customTheme_startTime: `00:00`,
-			customTheme_endTime: `23:59`,
 			mm_useRegExp: false,
 			mm_enableGiveaways: false,
 			mm_enableDiscussions: false,
@@ -1064,7 +1061,6 @@ class _Settings {
 			collapse_groups: 'collapseSections_sg',
 			collapse_games: 'collapseSections_sg',
 			collapse_others: 'collapseSections_sg',
-			collapse_themes: 'collapseSections_sg',
 			collapse_element_ordering: 'collapseSections_sg',
 			collapse_steam_api_key: 'collapseSections_sg',
 			hgm_sg: 'hgr_sg',
@@ -1130,12 +1126,6 @@ class _Settings {
 				const result = this.getFeatureSetting(feature, id, 'st');
 				this.settings[`${id}_st`] = result.current;
 				this.fullSettings[`${id}_st`] = result.full;
-			}
-
-			if (feature.sgtools) {
-				const result = this.getFeatureSetting(feature, id, 'sgtools');
-				this.settings[`${id}_sgtools`] = result.current;
-				this.fullSettings[`${id}_sgtools`] = result.full;
 			}
 
 			this.settings[id] = this.settings[`${id}_${Shared.esgst.name}`];

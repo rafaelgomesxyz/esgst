@@ -469,9 +469,9 @@ function loadDataManagement(type, isPopup, callback) {
 			name: 'Templates',
 		},
 		{
-			check: true,
-			key: 'themes',
-			name: 'Themes',
+			check: dm.export || dm.delete,
+			key: 'customTheme',
+			name: 'Custom Theme',
 		},
 		{
 			check: true,
@@ -1896,38 +1896,13 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
 					totalSize += sizes.total;
 				}
 				break;
-			case 'themes':
-				data.themes = {};
-				for (const themeId of Object.keys(Shared.esgst.features.themes.features)) {
-					const theme = Shared.common.getValue(themeId);
-					if (theme) {
-						data.themes[themeId] = theme;
-					}
-				}
-				if (!space) {
-					if (dm.import) {
-						let newData = dm.data.themes;
-						if (newData) {
-							if (Settings.get('importAndMerge')) {
-								for (const themeId in newData) {
-									data.themes[themeId] = newData[themeId];
-								}
-							} else {
-								data.themes = newData;
-							}
-							for (const themeId in data.themes) {
-								await Shared.common.setValue(themeId, data.themes[themeId]);
-							}
-						}
-					} else if (dm.delete) {
-						for (const themeId in data.themes) {
-							await Shared.common.delValue(themeId);
-						}
-						data.themes = {};
-					}
+			case 'customTheme':
+				data.customTheme = Shared.common.getValue('customTheme', '');
+				if (!space && dm.delete) {
+					await Shared.common.delValue('customTheme');
 				}
 				if (!dm.autoBackup) {
-					let size = JSON.stringify(data.themes).length;
+					let size = data.customTheme.length;
 					totalSize += size;
 					if (dm.switches) {
 						dm.switches[optionKey].size.textContent = Shared.common.convertBytes(size);

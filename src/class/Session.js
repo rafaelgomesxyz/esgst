@@ -58,12 +58,6 @@ class _Session extends ISession {
 				break;
 			}
 
-			case 'www.sgtools.info': {
-				this.namespace = Namespaces.SGT;
-
-				break;
-			}
-
 			default: {
 				throw 'Invalid namespace.';
 			}

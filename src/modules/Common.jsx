@@ -1076,9 +1076,8 @@ class Common extends Module {
 						st: true,
 					},
 					esgst: {
-						name: 'Enable ESGST for SteamTrades/SGTools.',
+						name: 'Enable ESGST for SteamTrades.',
 						st: true,
-						sgtools: true,
 					},
 					enableByDefault: {
 						name: 'Enable new features and functionalities by default.',
@@ -1176,90 +1175,10 @@ class Common extends Module {
 					},
 				},
 			},
-			themes: {
-				features: {
-					sgDarkGrey: {
-						name: 'SG Dark Grey by SquishedPotatoe',
-						customName: () => (
-							<fragment>
-								<a className="esgst-bold" href="https://www.steamgifts.com/discussion/3rINT/">
-									SG Dark Grey
-								</a>{' '}
-								by SquishedPotatoe (Very high compatibility with ESGST elements - recommended)
-							</fragment>
-						),
-						sg: true,
-						st: true,
-						sgtools: true,
-						theme: `https://userstyles.org/styles/141670.css`,
-					},
-					sgv2Dark: {
-						name: 'SGv2 Dark by SquishedPotatoe',
-						customName: () => (
-							<fragment>
-								<a className="esgst-bold" href="https://www.steamgifts.com/discussion/iO230/">
-									SGv2 Dark
-								</a>{' '}
-								by SquishedPotatoe (Very high compatibility with ESGST elements - recommended)
-							</fragment>
-						),
-						sg: true,
-						st: true,
-						sgtools: true,
-						theme: `https://userstyles.org/styles/109810.css`,
-					},
-					steamGiftiesBlack: {
-						name: 'SteamGifties Black by Mully',
-						customName: () => (
-							<fragment>
-								<a className="esgst-bold" href="https://www.steamgifts.com/discussion/62TRf/">
-									SteamGifties Black
-								</a>{' '}
-								by Mully (Medium compatibility with ESGST elements)
-							</fragment>
-						),
-						sg: true,
-						theme: `https://userstyles.org/styles/110675.css`,
-					},
-					steamGiftiesBlue: {
-						name: 'SteamGifties Blue by Mully',
-						customName: () => (
-							<fragment>
-								<a className="esgst-bold" href="https://www.steamgifts.com/discussion/62TRf/">
-									SteamGifties Blue
-								</a>{' '}
-								by Mully (Medium compatibility with ESGST elements)
-							</fragment>
-						),
-						sg: true,
-						theme: `https://userstyles.org/styles/110491.css`,
-					},
-					steamTradiesBlackBlue: {
-						name: 'SteamTradies Black/Blue by Mully',
-						customName: () => (
-							<fragment>
-								<a className="esgst-bold" href="https://www.steamgifts.com/discussion/FIdCm/">
-									SteamTradies Black/Blue
-								</a>{' '}
-								by Mully (No compatibility with ESGST elements)
-							</fragment>
-						),
-						st: true,
-						theme: `https://userstyles.org/styles/134348.css`,
-					},
-					customTheme: {
-						name: `Custom Theme (Add your own CSS rules)`,
-						sg: true,
-						st: true,
-						sgtools: true,
-						theme: true,
-					},
-				},
-			},
 		};
 		for (const type in features) {
 			if (features.hasOwnProperty(type)) {
-				if (type.match(/^(others|themes)$/)) {
+				if (type === 'others') {
 					continue;
 				}
 				const typeModules = Object.keys(this.esgst.modules)
@@ -1834,12 +1753,12 @@ class Common extends Module {
 						if (result) {
 							return result;
 						}
-						if (feature.sg || Settings.get('esgst_st') || Settings.get('esgst_sgtools')) {
+						if (feature.sg || Settings.get('esgst_st')) {
 							i += 1;
 						}
 					}
 				}
-				if (type !== 'trades' || Settings.get('esgst_st') || Settings.get('esgst_sgtools')) {
+				if (type !== 'trades' || Settings.get('esgst_st')) {
 					n += 1;
 				}
 			}
@@ -1866,7 +1785,7 @@ class Common extends Module {
 					if (result) {
 						return result;
 					}
-					if (subFeature.sg || Settings.get('esgst_st') || Settings.get('esgst_sgtools')) {
+					if (subFeature.sg || Settings.get('esgst_st')) {
 						j += 1;
 					}
 				}
@@ -3578,14 +3497,6 @@ class Common extends Module {
 		deleteLock();
 	}
 
-	async setThemeVersion(id, version, theme) {
-		if (!theme) {
-			theme = this.getValue(id);
-		}
-		let match = (theme || '').match(/(v|black\s|blue\s|steamtrades\s)([.\d]+?)\*/);
-		version.textContent = `v${(match && match[2]) || 'Unknown'}`;
-	}
-
 	async setSMManageFilteredUsers() {
 		/** @type {Popup} */
 		let popup;
@@ -3914,87 +3825,6 @@ class Common extends Module {
 			message.classList.add('esgst-green');
 			DOM.insert(message, 'atinner', <i className="fa fa-check" title="Saved!"></i>);
 			window.setTimeout(() => message.remove(), 2500);
-		}
-	}
-
-	async setTheme() {
-		if (this.esgst.theme) {
-			this.esgst.theme.remove();
-			this.esgst.theme = null;
-		}
-		if (this.esgst.customThemeElement) {
-			this.esgst.customThemeElement.remove();
-			this.esgst.customThemeElement = null;
-		}
-		let keys = Object.keys(this.esgst.features.themes.features);
-		for (let i = 0, n = keys.length; i < n; i++) {
-			let key = keys[i];
-			if (key === 'customTheme') continue;
-			if (Settings.get(key) && this.checkThemeTime(key)) {
-				const theme = this.getValue(key, '');
-				if (!theme) continue;
-				const css = this.getThemeCss(JSON.parse(theme));
-				this.esgst.theme = this.createElements(document.head, 'beforeend', [
-					{
-						attributes: {
-							id: 'esgst-theme',
-						},
-						text: css,
-						type: 'style',
-					},
-				]);
-				const revisedCss = css.replace(/!important;/g, ';').replace(/;/g, '!important;');
-				if (revisedCss !== LocalStorage.get('theme')) {
-					LocalStorage.set('theme', revisedCss);
-				}
-				break;
-			}
-		}
-		if (Settings.get('customTheme') && this.checkThemeTime('customTheme')) {
-			const css = JSON.parse(this.getValue('customTheme', ''));
-			this.esgst.customThemeElement = this.createElements(document.head, 'beforeend', [
-				{
-					attributes: {
-						id: 'esgst-custom-theme',
-					},
-					text: css,
-					type: 'style',
-				},
-			]);
-			const revisedCss = css.replace(/!important;/g, ';').replace(/;/g, '!important;');
-			if (revisedCss !== LocalStorage.get('customTheme')) {
-				LocalStorage.set('customTheme', revisedCss);
-			}
-		}
-	}
-
-	checkThemeTime(id) {
-		let startParts = Settings.get(`${id}_startTime`).split(`:`),
-			endParts = Settings.get(`${id}_endTime`).split(`:`),
-			startDate = new Date(),
-			startHours = parseInt(startParts[0]),
-			startMinutes = parseInt(startParts[1]),
-			endDate = new Date(),
-			endHours = parseInt(endParts[0]),
-			endMinutes = parseInt(endParts[1]),
-			currentDate = new Date();
-		startDate.setHours(startHours);
-		startDate.setMinutes(startMinutes);
-		startDate.setSeconds(0);
-		endDate.setHours(endHours);
-		endDate.setMinutes(endMinutes);
-		endDate.setSeconds(0);
-		currentDate.setSeconds(0);
-		if (endDate < startDate) {
-			if (currentDate < startDate) {
-				startDate.setDate(startDate.getDate() - 1);
-			} else {
-				endDate.setDate(endDate.getDate() + 1);
-			}
-		}
-		if (currentDate >= startDate && currentDate <= endDate) {
-			window.setTimeout(() => this.setTheme(), endDate.getTime() - currentDate.getTime());
-			return true;
 		}
 	}
 
@@ -5389,46 +5219,6 @@ class Common extends Module {
 		}
 	}
 
-	getThemeCss(theme) {
-		let separators = theme.match(/@-moz-document(.+?){/g);
-		if (!separators) {
-			return theme;
-		}
-		let css = [];
-		separators.forEach((separator) => {
-			let check = false;
-			for (const domain of separator.match(/domain\(.+?\)/g) || []) {
-				if (window.location.hostname.match(domain.match(/\("(.+?)"\)/)[1])) {
-					check = true;
-					break;
-				}
-			}
-			for (const url of separator.match(/url(-prefix)?\(.+?\)/g) || []) {
-				if (Shared.esgst.locationHref.match(url.match(/\("(.+?)"\)/)[1])) {
-					check = true;
-					break;
-				}
-			}
-			if (!check) {
-				return;
-			}
-			let index = theme.indexOf(separator) + separator.length,
-				open = 1;
-			do {
-				let character = theme[index];
-				if (character === '{') {
-					open++;
-				} else if (character === '}') {
-					open--;
-				}
-				css.push(character);
-				index++;
-			} while (open > 0);
-			css.pop();
-		});
-		return css.join('');
-	}
-
 	createFormRows(context, position, options) {
 		const items = [];
 		let i = 1;
@@ -5618,10 +5408,6 @@ class Common extends Module {
 				})
 			).responseText
 		);
-	}
-
-	updateTheme(id) {
-		document.querySelector(`#${id}`).dispatchEvent(new Event('click'));
 	}
 
 	async submitComment(obj) {

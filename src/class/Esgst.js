@@ -229,7 +229,6 @@ class Esgst {
 				{ name: 'Legal - Cookie Policy', pattern: '^/legal/cookie-policy' },
 				{ name: 'Legal - Terms Of Service', pattern: '^/legal/terms-of-service' },
 			],
-			sgtools: [{ name: 'Everywhere', pattern: '.*' }],
 		};
 		this.formatDistanceLocale = {
 			formatDistance: (token, count) => {
@@ -461,10 +460,6 @@ class Esgst {
 		this.name = undefined;
 
 		this.style = null;
-
-		this.customThemeElement = null;
-
-		this.theme = null;
 
 		this.ustButton = null;
 

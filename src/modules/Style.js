@@ -2825,10 +2825,6 @@ function addStyle() {
 			type: 'style',
 		},
 	]);
-	Shared.esgst.theme = document.getElementById('esgst-theme');
-	Shared.esgst.customThemeElement = document.getElementById('esgst-custom-theme');
-	// noinspection JSIgnoredPromiseFromCall
-	Shared.common.setTheme();
 }
 
 export { addStyle };

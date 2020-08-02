@@ -11,7 +11,6 @@
 // @downloadURL https://rafaelgssa.gitlab.io/esgst/userscript.user.js
 // @match https://www.steamgifts.com/*
 // @match https://www.steamtrades.com/*
-// @match https://www.sgtools.info/*
 // @connect steamtrades.com
 // @connect steamgifts.com
 // @connect sgtools.info

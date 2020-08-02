@@ -74,11 +74,6 @@ function getWebExtensionManifest(env, browserName) {
 				js: ['lib/browser-polyfill.js', 'esgst.js'],
 				run_at: 'document_start',
 			},
-			{
-				matches: ['*://*.sgtools.info/*'],
-				js: ['lib/browser-polyfill.js', 'esgst_sgtools.js'],
-				run_at: 'document_start',
-			},
 		],
 		permissions: [
 			'storage',
@@ -86,7 +81,6 @@ function getWebExtensionManifest(env, browserName) {
 			'unlimitedStorage',
 			'*://*.steamgifts.com/*',
 			'*://*.steamtrades.com/*',
-			'*://*.sgtools.info/*',
 		],
 		optional_permissions: [
 			'cookies',
@@ -203,7 +197,6 @@ function packageWebExtension(env, browserName) {
 			.file('browser-polyfill.js', fs.readFileSync(path.resolve(libPath, 'browser-polyfill.js')));
 		zip.file('eventPage.js', fs.readFileSync(path.resolve(extensionPath, 'eventPage.js')));
 		zip.file('esgst.js', fs.readFileSync(path.resolve(extensionPath, 'esgst.js')));
-		zip.file('esgst_sgtools.js', fs.readFileSync(path.resolve(extensionPath, 'esgst_sgtools.js')));
 		zip.file('icon.png', fs.readFileSync(path.resolve(extensionPath, 'icon.png')));
 		zip.file('permissions.html', fs.readFileSync(path.resolve(extensionPath, 'permissions.html')));
 		zip.file('permissions.js', fs.readFileSync(path.resolve(extensionPath, 'permissions.js')));
@@ -395,15 +388,12 @@ function getWebpackConfig(env, name) {
 		config.entry = {
 			'./chrome/eventPage': ['./src/entry/eventPage_index.js'],
 			'./chrome/esgst': ['./src/entry/index.js'],
-			'./chrome/esgst_sgtools': ['./src/entry/index_sgtools.js'],
 			'./chrome/permissions': ['./src/entry/permissions_index.js'],
 			'./firefox/eventPage': ['./src/entry/eventPage_index.js'],
 			'./firefox/esgst': ['./src/entry/index.js'],
-			'./firefox/esgst_sgtools': ['./src/entry/index_sgtools.js'],
 			'./firefox/permissions': ['./src/entry/permissions_index.js'],
 			'./palemoon/index': ['./src/entry/eventPage_sdk_index.js'],
 			'./palemoon/data/esgst': ['./src/entry/sdk_index.js'],
-			'./palemoon/data/esgst_sgtools': ['./src/entry/sdk_index_sgtools.js'],
 		};
 		cleanOnceBeforeBuildPatterns = [
 			path.join(process.cwd(), './build/**/*'),

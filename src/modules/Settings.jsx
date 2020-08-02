@@ -20,7 +20,7 @@ class SettingsModule {
 	}
 
 	preSave(key, value) {
-		const match = key.match(/_(sg|st|sgtools)$/);
+		const match = key.match(/_(sg|st)$/);
 		if (match) {
 			const id = key.replace(match[0], '');
 			const namespace = match[1];
@@ -453,7 +453,7 @@ class SettingsModule {
 		}
 		for (type in Shared.esgst.features) {
 			if (Shared.esgst.features.hasOwnProperty(type)) {
-				if (type !== 'trades' || Settings.get('esgst_st') || Settings.get('esgst_sgtools')) {
+				if (type !== 'trades' || Settings.get('esgst_st')) {
 					let id,
 						j,
 						section,
@@ -471,12 +471,7 @@ class SettingsModule {
 							}
 							let feature, ft;
 							feature = Shared.esgst.features[type].features[id];
-							if (
-								!feature.sg &&
-								((feature.sgtools && !Settings.get('esgst_sgtools')) ||
-									(feature.st && !Settings.get('esgst_st'))) &&
-								id !== 'esgst'
-							) {
+							if (feature.st && !Settings.get('esgst_st') && id !== 'esgst') {
 								continue;
 							}
 							ft = this.getSMFeature(feature, id, j, popup);
@@ -674,7 +669,7 @@ class SettingsModule {
 				name: 'Link',
 			},
 		];
-		let sgContext, stContext, sgtoolsContext;
+		let sgContext, stContext;
 		if (feature.sg) {
 			const value = (
 				Settings.getFull(`${id}_sg`) || Shared.common.getFeaturePath(feature, id, 'sg')
@@ -684,7 +679,7 @@ class SettingsModule {
 				sgContext,
 				null,
 				true,
-				Settings.get('esgst_st') || Settings.get('esgst_sgtools') ? 'SteamGifts' : '',
+				Settings.get('esgst_st') ? 'SteamGifts' : '',
 				true,
 				false,
 				null,
@@ -719,13 +714,6 @@ class SettingsModule {
 				if (feature.sgSwitch) {
 					feature.sgSwitch.enable(true);
 				}
-				if (feature.theme) {
-					if (id === 'customTheme') {
-						Shared.common.setTheme();
-					} else {
-						Shared.common.updateTheme(id);
-					}
-				}
 				DOM.insert(
 					document.querySelector('#esgst-paths-sg'),
 					'atinner',
@@ -736,15 +724,6 @@ class SettingsModule {
 				this.preSave(`${id}_sg`, false);
 				if (feature.sgSwitch) {
 					feature.sgSwitch.disable(true);
-				}
-				if (feature.theme) {
-					if (id === 'customTheme') {
-						LocalStorage.delete('customTheme');
-					} else {
-						LocalStorage.delete('theme');
-						await Shared.common.delValue(id);
-					}
-					Shared.common.setTheme();
 				}
 				DOM.insert(
 					document.querySelector('#esgst-paths-sg'),
@@ -797,13 +776,6 @@ class SettingsModule {
 				if (feature.stSwitch) {
 					feature.stSwitch.enable(true);
 				}
-				if (feature.theme) {
-					if (id === 'customTheme') {
-						Shared.common.setTheme();
-					} else {
-						Shared.common.updateTheme(id);
-					}
-				}
 				DOM.insert(
 					document.querySelector('#esgst-paths-st'),
 					'atinner',
@@ -815,97 +787,10 @@ class SettingsModule {
 				if (feature.stSwitch) {
 					feature.stSwitch.disable(true);
 				}
-				if (feature.theme) {
-					if (id === 'customTheme') {
-						LocalStorage.delete('customTheme');
-					} else {
-						LocalStorage.delete('theme');
-						await Shared.common.delValue(id);
-					}
-					Shared.common.setTheme();
-				}
 				DOM.insert(
 					document.querySelector('#esgst-paths-st'),
 					'atinner',
 					this.openPathsPopup(feature, id, 'st')
-				);
-			};
-		}
-		if (feature.sgtools && (Settings.get('esgst_sgtools') || id === 'esgst')) {
-			const value = (
-				Settings.getFull(`${id}_sgtools`) || Shared.common.getFeaturePath(feature, id, 'sgtools')
-			).enabled;
-			sgtoolsContext = <div></div>;
-			const sgtoolsSwitch = new ToggleSwitch(
-				sgtoolsContext,
-				null,
-				true,
-				'SGTools',
-				true,
-				false,
-				null,
-				value
-			);
-			feature.sgtoolsFeatureSwitch = sgtoolsSwitch;
-			sgtoolsSwitch.onEnabled = () => {
-				if (feature.extensionOnly && browser.gm) {
-					sgtoolsSwitch.disable(true);
-					this.showExtensionOnlyPopup();
-					return;
-				}
-				if (feature.conflicts) {
-					for (const conflictId of feature.conflicts) {
-						const setting = Settings.getFull(`${conflictId}_sgtools`);
-						if (typeof setting === 'object' ? setting.enabled : setting) {
-							sgtoolsSwitch.disable(true);
-							new Popup({
-								addScrollable: true,
-								icon: 'fa-exclamation',
-								isTemp: true,
-								title: `This feature conflicts with ${Shared.common.getFeatureName(
-									null,
-									conflictId
-								)}. While that feature is enabled, this feature cannot be enabled.`,
-							}).open();
-							return;
-						}
-					}
-				}
-				this.preSave(`${id}_sgtools`, true);
-				if (feature.sgtoolsSwitch) {
-					feature.sgtoolsSwitch.enable(true);
-				}
-				if (feature.theme) {
-					if (id === 'customTheme') {
-						Shared.common.setTheme();
-					} else {
-						Shared.common.updateTheme(id);
-					}
-				}
-				DOM.insert(
-					document.querySelector('#esgst-paths-sgtools'),
-					'atinner',
-					this.openPathsPopup(feature, id, 'sgtools')
-				);
-			};
-			sgtoolsSwitch.onDisabled = async () => {
-				this.preSave(`${id}_sgtools`, false);
-				if (feature.sgtoolsSwitch) {
-					feature.sgtoolsSwitch.disable(true);
-				}
-				if (feature.theme) {
-					if (id === 'customTheme') {
-						LocalStorage.delete('customTheme');
-					} else {
-						LocalStorage.delete('theme');
-						await Shared.common.delValue(id);
-					}
-					Shared.common.setTheme();
-				}
-				DOM.insert(
-					document.querySelector('#esgst-paths-sgtools'),
-					'atinner',
-					this.openPathsPopup(feature, id, 'sgtools')
 				);
 			};
 		}
@@ -915,7 +800,6 @@ class SettingsModule {
 				<fragment>
 					{sgContext}
 					{stContext}
-					{sgtoolsContext}
 				</fragment>
 			),
 			name: 'Enable/Disable',
@@ -985,19 +869,6 @@ class SettingsModule {
 				// @ts-ignore
 				id: 'esgst-paths-st',
 				name: 'Where to run it on SteamTrades?',
-			});
-		}
-		if (
-			feature.sgtools &&
-			Settings.get('esgst_sgtools') &&
-			(!feature.sgtoolsPaths || typeof feature.sgtoolsPaths !== 'string')
-		) {
-			items.push({
-				check: true,
-				content: this.openPathsPopup(feature, id, 'sgtools'),
-				// @ts-ignore
-				id: 'esgst-paths-sgtools',
-				name: 'Where to run it on SGTools?',
 			});
 		}
 		const context = document.querySelector('.esgst-settings-menu-feature');
@@ -1680,8 +1551,7 @@ class SettingsModule {
 		let isMainNew =
 			Settings.get('dismissedOptions').indexOf(id) < 0 &&
 			!Utils.isSet(Shared.esgst.settings[`${id}_sg`]) &&
-			!Utils.isSet(Shared.esgst.settings[`${id}_st`]) &&
-			!Utils.isSet(Shared.esgst.settings[`${id}_sgtools`]);
+			!Utils.isSet(Shared.esgst.settings[`${id}_st`]);
 		if (isMainNew) {
 			feature.isNew = true;
 			Shared.common
@@ -1698,7 +1568,7 @@ class SettingsModule {
 				.addEventListener('click', (event) => this.dismissNewOption(id, event));
 		}
 		let isHidden = true;
-		let sgContext, stContext, sgtoolsContext;
+		let sgContext, stContext;
 		let collapseButton, isExpanded, subMenu;
 		if (feature.sg) {
 			const value = (
@@ -1712,7 +1582,7 @@ class SettingsModule {
 				sgContext,
 				null,
 				true,
-				Settings.get('esgst_st') || Settings.get('esgst_sgtools') ? `[SG]` : '',
+				Settings.get('esgst_st') ? `[SG]` : '',
 				true,
 				false,
 				null,
@@ -1782,10 +1652,7 @@ class SettingsModule {
 				} else {
 					this.preSave(`${id}_sg`, false);
 				}
-				if (
-					(!feature.stSwitch || !feature.stSwitch.value) &&
-					(!feature.sgToolsSwitch || !feature.sgToolsSwitch.value)
-				) {
+				if (!feature.stSwitch || !feature.stSwitch.value) {
 					this.collapseSection(collapseButton, id, subMenu);
 					isExpanded = false;
 				}
@@ -1864,101 +1731,7 @@ class SettingsModule {
 				} else {
 					this.preSave(`${id}_st`, false);
 				}
-				if (
-					(!feature.sgSwitch || !feature.sgSwitch.value) &&
-					(!feature.sgToolsSwitch || !feature.sgToolsSwitch.value)
-				) {
-					this.collapseSection(collapseButton, id, subMenu);
-					isExpanded = false;
-				}
-			};
-		}
-		if (feature.sgtools && (Settings.get('esgst_sgtools') || id === 'esgst')) {
-			const value = (
-				Settings.getFull(`${id}_sgtools`) || Shared.common.getFeaturePath(feature, id, 'sgtools')
-			).enabled;
-			if (value) {
-				isHidden = false;
-			}
-			sgtoolsContext = <div></div>;
-			const sgtoolsSwitch = new ToggleSwitch(
-				sgtoolsContext,
-				null,
-				true,
-				`[SGT]`,
-				false,
-				true,
-				null,
-				value
-			);
-			feature.sgtoolsSwitch = sgtoolsSwitch;
-			sgtoolsSwitch.onEnabled = () => {
-				if (feature.extensionOnly && browser.gm) {
-					sgtoolsSwitch.disable(true);
-					this.showExtensionOnlyPopup();
-					return;
-				}
-				if (feature.conflicts) {
-					for (const conflictId of feature.conflicts) {
-						const setting = Settings.getFull(`${conflictId}_sgtools`);
-						if (typeof setting === 'object' ? setting.enabled : setting) {
-							sgtoolsSwitch.disable(true);
-							new Popup({
-								addScrollable: true,
-								icon: 'fa-exclamation',
-								isTemp: true,
-								title: `This feature conflicts with ${Shared.common.getFeatureName(
-									null,
-									conflictId
-								)}. While that feature is enabled, this feature cannot be enabled.`,
-							}).open();
-							return;
-						}
-					}
-				}
-				if (feature.permissions) {
-					this.requiredPermissions[id] = feature.permissions;
-				}
-				this.loadFeatureDetails(id, popup && popup.scrollable.offsetTop);
-				if (feature.sgtoolsFeatureSwitch) {
-					feature.sgtoolsFeatureSwitch.enable();
-				} else {
-					this.preSave(`${id}_sgtools`, true);
-				}
-				if (subMenu.classList.contains('esgst-hidden')) {
-					this.expandSection(collapseButton, id, subMenu);
-					isExpanded = true;
-				}
-				if (feature.dependencies) {
-					Shared.common.createConfirmation(
-						<fragment>
-							This feature depends on the following features to work properly: <br />
-							<br />
-							{feature.dependencies
-								.map((x) => [`"${Shared.common.getFeatureName(null, x)}"`, <br />])
-								.flat()}
-							<br />
-							Would you like ESGST to automatically enable these features now if they're not already
-							enabled?
-						</fragment>,
-						() => this.enableDependencies(feature.dependencies, 'sgt')
-					);
-				}
-			};
-			sgtoolsSwitch.onDisabled = () => {
-				if (feature.permissions) {
-					delete this.requiredPermissions[id];
-				}
-				this.loadFeatureDetails(id, popup && popup.scrollable.offsetTop);
-				if (feature.sgtoolsFeatureSwitch) {
-					feature.sgtoolsFeatureSwitch.disable();
-				} else {
-					this.preSave(`${id}_sgtools`, false);
-				}
-				if (
-					(!feature.sgSwitch || !feature.sgSwitch.value) &&
-					(!feature.stSwitch || !feature.stSwitch.value)
-				) {
+				if (!feature.sgSwitch || !feature.sgSwitch.value) {
 					this.collapseSection(collapseButton, id, subMenu);
 					isExpanded = false;
 				}
@@ -1980,7 +1753,6 @@ class SettingsModule {
 			<span className="esgst-sm-feature-name">
 				{sgContext && sgContext.firstElementChild}
 				{stContext && stContext.firstElementChild}
-				{sgtoolsContext && sgtoolsContext.firstElementChild}
 				<a
 					className="esgst-settings-feature table__column__secondary-link esgst-clickable"
 					data-id={id}
@@ -2005,12 +1777,7 @@ class SettingsModule {
 					continue;
 				}
 				const subFt = feature.features[subId];
-				if (
-					!subFt.sg &&
-					((subFt.sgtools && !Settings.get('esgst_sgtools')) ||
-						(subFt.st && !Settings.get('esgst_st'))) &&
-					id !== 'esgst'
-				) {
+				if (subFt.st && !Settings.get('esgst_st') && id !== 'esgst') {
 					continue;
 				}
 				const subFeature = this.getSMFeature(subFt, subId, i, popup);
@@ -2318,95 +2085,6 @@ class SettingsModule {
 					});
 				}
 			});
-			items.push(containerr);
-		} else if (Feature.theme) {
-			let startTime;
-			let endTime;
-			let textArea;
-			let button;
-			let version;
-			const children = [
-				<div>
-					Enabled from
-					<input
-						type="text"
-						value={Settings.get(`${ID}_startTime`)}
-						ref={(ref) => (startTime = ref)}
-					/>
-					to
-					<input type="text" value={Settings.get(`${ID}_endTime`)} ref={(ref) => (endTime = ref)} />
-					<i
-						className="fa fa-question-circle"
-						title="You can specify here what time of the day you want the theme to be enabled. Use the HH:MM format."
-					></i>
-				</div>,
-			];
-			if (ID === 'customTheme') {
-				children.push(
-					<div>
-						<textarea ref={(ref) => (textArea = ref)}></textarea>
-					</div>
-				);
-			} else {
-				children.push(
-					<div>
-						<div className="form__saving-button" id={ID} ref={(ref) => (button = ref)}>
-							Update
-						</div>
-						<span ref={(ref) => (version = ref)}></span>
-					</div>
-				);
-			}
-			let containerr = <div className="esgst-sm-additional-option">{children}</div>;
-			Shared.common.observeChange(startTime, `${ID}_startTime`, this.toSave);
-			Shared.common.observeChange(endTime, `${ID}_endTime`, this.toSave);
-			if (ID === 'customTheme') {
-				const value = Shared.common.getValue(ID);
-				if (value) {
-					textArea.value = JSON.parse(value);
-				}
-				textArea.addEventListener('change', async () => {
-					await Shared.common.setValue(ID, JSON.stringify(textArea.value));
-					// noinspection JSIgnoredPromiseFromCall
-					Shared.common.setTheme();
-				});
-			} else {
-				// noinspection JSIgnoredPromiseFromCall
-				Shared.common.setThemeVersion(ID, version);
-				button.addEventListener('click', async () => {
-					if (!(await permissions.contains([['userStyles']]))) {
-						return;
-					}
-
-					let url = await this.getThemeUrl(ID, Feature.theme);
-					Shared.common.createElements(button, 'atinner', [
-						{
-							attributes: {
-								class: 'fa fa-circle-o-notch fa-spin',
-							},
-							type: 'i',
-						},
-						{
-							text: ' Updating...',
-							type: 'node',
-						},
-					]);
-					let theme = JSON.stringify(
-						(await Shared.common.request({ method: 'GET', url })).responseText
-					);
-					await Shared.common.setValue(ID, theme);
-					Shared.common.createElements(button, 'atinner', [
-						{
-							text: 'Update',
-							type: 'node',
-						},
-					]);
-					// noinspection JSIgnoredPromiseFromCall
-					Shared.common.setThemeVersion(ID, version, theme);
-					// noinspection JSIgnoredPromiseFromCall
-					Shared.common.setTheme();
-				});
-			}
 			items.push(containerr);
 		}
 		if (Feature.options) {
@@ -3229,263 +2907,6 @@ class SettingsModule {
 			// noinspection JSIgnoredPromiseFromCall
 			this.preSave(`${id}_${colorId}`, Utils.hex2Rgba(hexInput.value, alphaInput.value));
 		});
-	}
-
-	getThemeUrl(id, url) {
-		return new Promise((resolve) => this.openThemePopup(id, url, resolve));
-	}
-
-	openThemePopup(id, url, resolve) {
-		let obj = {
-			resolve,
-			url,
-		};
-		obj.options = {
-			sgv2Dark: [
-				{
-					default: 0,
-					id: 'ik-page width',
-					name: 'Page width',
-					options: [
-						{
-							id: 'ik-def page width',
-							name: '100%',
-						},
-						{
-							id: 'ik-fixed sg page width',
-							name: `Fixed (1440px)`,
-						},
-					],
-				},
-			],
-			steamGifties: [
-				{
-					default: 1,
-					id: 'ik-spoilertags',
-					name: 'Remove spoiler tags',
-				},
-				{
-					default: 1,
-					id: 'ik-hiddenlinks',
-					name: 'Reveal hidden links',
-				},
-				{
-					default: 0,
-					id: 'ik-sgppsupport',
-					name: 'SG++ support',
-				},
-				{
-					default: 0,
-					id: 'ik-whiteblacklist',
-					name: 'Blacklist/Whitelist Indicator support',
-				},
-				{
-					default: 0,
-					id: 'ik-easysteamgifts',
-					name: 'Easy SteamGifts support',
-				},
-				{
-					default: 0,
-					id: 'ik-visited-link',
-					name: 'Highlight visited links',
-					options: [
-						{
-							id: 'ik-1',
-							name: 'Mark visited links',
-						},
-						{
-							id: 'ik-3',
-							name: 'Mark visited links + threads in forum',
-						},
-						{
-							id: 'ik-2',
-							name: 'No',
-						},
-					],
-				},
-				{
-					default: 0,
-					id: 'ik-touhou-style',
-					name: 'TouHou Giveaways Helper support',
-				},
-				{
-					default: 0,
-					id: 'ik-sg2os',
-					name: 'SG2O support',
-				},
-				{
-					default: 0,
-					id: 'ik-avatarsize',
-					name: 'Avatar size',
-					options: [
-						{
-							id: 'ik-1',
-							name: `Big (52px)`,
-						},
-						{
-							id: 'ik-2',
-							name: 'Normal',
-						},
-					],
-				},
-				{
-					default: 0,
-					id: 'ik-extendedsg',
-					name: 'Extended SteamGifts support',
-				},
-				{
-					default: 0,
-					id: 'ik-navbarbutton',
-					name: 'Navigation bar button color',
-					options: [
-						{
-							id: 'ik-1',
-							name: 'Default',
-						},
-						{
-							id: 'ik-2',
-							name: 'White',
-						},
-					],
-				},
-				{
-					default: 0,
-					id: 'ik-ESGST',
-					name: 'ESGST support',
-				},
-				{
-					default: 1,
-					id: 'ik-featurega',
-					name: 'Featured giveaway',
-					options: [
-						{
-							id: 'ik-1',
-							name: 'No',
-						},
-						{
-							id: 'ik-2',
-							name: 'Smaller banner',
-						},
-						{
-							id: 'ik-2',
-							name: 'Hide banner',
-						},
-					],
-				},
-				{
-					default: 0,
-					id: 'ik-removepoll',
-					name: 'Homepage poll',
-					options: [
-						{
-							id: 'ik-1',
-							name: 'Default',
-						},
-						{
-							id: 'ik-2',
-							name: 'Remove poll',
-						},
-					],
-				},
-			],
-			steamTradies: [
-				{
-					default: 0,
-					id: 'ik-color-sc',
-					name: 'Color',
-					options: [
-						{
-							id: 'ik-1',
-							name: 'Dark blue',
-						},
-						{
-							id: 'ik-2',
-							name: 'Black',
-						},
-					],
-				},
-			],
-		};
-		let binaryOptions = [
-			{
-				id: 'ik-1',
-				name: 'Yes',
-			},
-			{
-				id: 'ik-2',
-				name: 'No',
-			},
-		];
-		let key = id.replace(/Black|Blue/g, '');
-		if (!obj.options[key]) {
-			resolve(url);
-			return;
-		}
-		obj.popup = new Popup({
-			icon: 'fa-gear',
-			title: `Select the options that you want:`,
-			buttons: [
-				[
-					{
-						color: 'green',
-						icons: ['fa-gear'],
-						name: 'Generate',
-						onClick: () => this.generateThemeUrl(obj, key),
-					},
-					{
-						template: 'loading',
-						isDisabled: true,
-						name: 'Generating...',
-					},
-				],
-			],
-			addScrollable: true,
-		});
-		obj.popup.onClose = resolve.bind(Shared.common, url);
-		let context;
-		obj.popup.getScrollable(
-			<div className="esgst-sm-additional-option" ref={(ref) => (context = ref)}></div>
-		);
-		obj.options[key].forEach((option) => {
-			option.select = Shared.common.createElements(context, 'beforeend', [
-				{
-					type: 'div',
-					children: [
-						{
-							text: option.name,
-							type: 'node',
-						},
-						{
-							type: 'select',
-						},
-					],
-				},
-			]).lastElementChild;
-			(option.options || binaryOptions).forEach((subOption) => {
-				Shared.common.createElements(option.select, 'beforeend', [
-					{
-						attributes: {
-							value: subOption.id,
-						},
-						text: subOption.name,
-						type: 'option',
-					},
-				]);
-			});
-			option.select.selectedIndex = option.default;
-		});
-		obj.popup.open();
-	}
-
-	generateThemeUrl(obj, key) {
-		obj.url += '?';
-		obj.options[key].forEach((option) => {
-			obj.url += `${option.id}=${option.select.value}&`;
-		});
-		obj.url = obj.url.slice(0, -1);
-		obj.popup.onClose = null;
-		obj.popup.close();
-		obj.resolve(obj.url);
 	}
 
 	createMenuSection(context, html, number, title, type) {

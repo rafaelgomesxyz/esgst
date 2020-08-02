@@ -8,7 +8,7 @@ import { browser } from '../browser';
 
 class PersistentStorage {
 	constructor() {
-		this.currentVersion = 11;
+		this.currentVersion = 12;
 
 		this.defaultValues = {
 			decryptedGiveaways: '{}',
@@ -767,6 +767,7 @@ class PersistentStorage {
 
 		if (version < 11) {
 			window.console.log('Upgrading storage to version 11...');
+
 			let settingsChanged = false;
 			const settings = JSON.parse(storage.settings);
 
@@ -789,6 +790,28 @@ class PersistentStorage {
 				toSet.settings = JSON.stringify(settings);
 				storage.settings = toSet.settings;
 			}
+		}
+
+		if (version < 12) {
+			window.console.log('Upgrading storage to version 12...');
+
+			let settingsChanged = false;
+			const settings = JSON.parse(storage.settings);
+
+			for (const key in settings) {
+				if (!/^(sgDarkGrey|sgv2Dark|steamGiftiesBlack|steamTradiesBlackBlue)/.test(key)) {
+					continue;
+				}
+				delete settings[key];
+				settingsChanged = true;
+			}
+
+			if (settingsChanged) {
+				toSet.settings = JSON.stringify(settings);
+				storage.settings = toSet.settings;
+			}
+
+			toDelete.push('sgDarkGrey', 'sgv2Dark', 'steamGiftiesBlack', 'steamTradiesBlackBlue');
 		}
 
 		for (const key of Object.keys(toSet)) {

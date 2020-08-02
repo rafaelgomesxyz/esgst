@@ -130,13 +130,6 @@ class Permissions {
 				},
 				values: ['*://*.steam-tracker.com/*'],
 			},
-			userStyles: {
-				isOrigin: true,
-				messages: {
-					settings: 'Required to retrieve themes.',
-				},
-				values: ['*://*.userstyles.org/*'],
-			},
 		};
 	}
 

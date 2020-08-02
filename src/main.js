@@ -31,21 +31,6 @@ import { runSilentSync } from './modules/Sync';
 		window.HTMLCollection.prototype[Symbol.iterator] = Array.prototype[Symbol.iterator];
 	}
 
-	const theme = LocalStorage.get('theme');
-	if (theme) {
-		const style = document.createElement('style');
-		style.id = 'esgst-theme';
-		style.textContent = theme;
-		document.documentElement.appendChild(style);
-	}
-	const customTheme = LocalStorage.get('customTheme');
-	if (customTheme) {
-		const style = document.createElement('style');
-		style.id = 'esgst-custom-theme';
-		style.textContent = customTheme;
-		document.documentElement.appendChild(style);
-	}
-
 	// initialize esgst
 	async function init() {
 		if (document.getElementById('esgst')) {
