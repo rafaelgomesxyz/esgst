@@ -1385,7 +1385,7 @@ class SettingsModule {
 						</option>
 					))}
 				{feature[`${obj.name}Paths`] ? null : (
-					<option value="custom" selected={found || null}>
+					<option value="custom" selected={!found || null}>
 						Custom
 					</option>
 				)}
