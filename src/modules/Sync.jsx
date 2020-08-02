@@ -1594,11 +1594,11 @@ async function syncGames(altAccount, syncer, apiResponse, storeResponse) {
 	if (removedOwned.apps.length > 0) {
 		syncer.jsx.push(
 			<div>
-				<span className="esgst-bold">Removed apps:</span>
+				<span className="esgst-bold">Removed apps: </span>
 				{removedOwned.apps
 					.map((x, i) => {
 						x = <a href={`http://store.steampowered.com/app/${x}`}>{x}</a>;
-						return i < removedOwned.apps.length - 1 ? [x, ','] : [x];
+						return i < removedOwned.apps.length - 1 ? [x, ', '] : [x];
 					})
 					.flat()}
 			</div>
@@ -1607,11 +1607,11 @@ async function syncGames(altAccount, syncer, apiResponse, storeResponse) {
 	if (removedOwned.subs.length > 0) {
 		syncer.jsx.push(
 			<div>
-				<span className="esgst-bold">Removed packages:</span>
+				<span className="esgst-bold">Removed packages: </span>
 				{removedOwned.subs
 					.map((x, i) => {
 						x = <a href={`http://store.steampowered.com/sub/${x}`}>{x}</a>;
-						return i < removedOwned.subs.length - 1 ? [x, ','] : [x];
+						return i < removedOwned.subs.length - 1 ? [x, ', '] : [x];
 					})
 					.flat()}
 			</div>
@@ -1620,11 +1620,11 @@ async function syncGames(altAccount, syncer, apiResponse, storeResponse) {
 	if (addedOwned.apps.length > 0) {
 		syncer.jsx.push(
 			<div>
-				<span className="esgst-bold">Added apps:</span>
-				{removedOwned.apps
+				<span className="esgst-bold">Added apps: </span>
+				{addedOwned.apps
 					.map((x, i) => {
 						x = <a href={`http://store.steampowered.com/app/${x}`}>{x}</a>;
-						return i < removedOwned.apps.length - 1 ? [x, ','] : [x];
+						return i < addedOwned.apps.length - 1 ? [x, ', '] : [x];
 					})
 					.flat()}
 			</div>
@@ -1633,11 +1633,11 @@ async function syncGames(altAccount, syncer, apiResponse, storeResponse) {
 	if (addedOwned.subs.length > 0) {
 		syncer.jsx.push(
 			<div>
-				<span className="esgst-bold">Added packages:</span>
-				{removedOwned.subs
+				<span className="esgst-bold">Added packages: </span>
+				{addedOwned.subs
 					.map((x, i) => {
 						x = <a href={`http://store.steampowered.com/sub/${x}`}>{x}</a>;
-						return i < removedOwned.subs.length - 1 ? [x, ','] : [x];
+						return i < addedOwned.subs.length - 1 ? [x, ', '] : [x];
 					})
 					.flat()}
 			</div>

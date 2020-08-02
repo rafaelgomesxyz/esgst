@@ -2800,6 +2800,8 @@ function addStyle() {
 
 	.esgst-menu-split >* {
 		flex: 1;
+		overflow: auto;
+		word-wrap: break-word;
 	}
 `;
 	if (!Shared.esgst.sg) {
