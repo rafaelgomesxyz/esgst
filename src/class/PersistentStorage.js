@@ -8,7 +8,7 @@ import { browser } from '../browser';
 
 class PersistentStorage {
 	constructor() {
-		this.currentVersion = 10;
+		this.currentVersion = 11;
 
 		this.defaultValues = {
 			decryptedGiveaways: '{}',
@@ -756,6 +756,32 @@ class PersistentStorage {
 					settings.giveawayHeading_gv.push('screenshots-videos');
 				}
 
+				settingsChanged = true;
+			}
+
+			if (settingsChanged) {
+				toSet.settings = JSON.stringify(settings);
+				storage.settings = toSet.settings;
+			}
+		}
+
+		if (version < 11) {
+			window.console.log('Upgrading storage to version 11...');
+			let settingsChanged = false;
+			const settings = JSON.parse(storage.settings);
+
+			for (const key in settings) {
+				if (!key.startsWith('gc_') || (!key.endsWith('s_sg') && !key.endsWith('s_i_sg'))) {
+					continue;
+				}
+				const newKey = key.slice(0, -3);
+				if (!(newKey in settings)) {
+					settings[newKey] =
+						typeof settings[key] === 'object' && 'enabled' in settings[key]
+							? settings[key].enabled
+							: settings[key];
+				}
+				delete settings[key];
 				settingsChanged = true;
 			}
 
