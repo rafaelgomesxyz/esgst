@@ -654,8 +654,6 @@ class CommentsCommentTracker extends Module {
 			deleteLock();
 			if ((comment.isOp && Settings.get('ct_fop')) || (!comment.isOp && Settings.get('ct_f'))) {
 				comment.comment.classList.add('esgst-ct-comment-read');
-				comment.comment.style.opacity = '0.5';
-				Shared.common.setHoverOpacity(comment.comment, '1', '0.5');
 			}
 		} else {
 			if (comments) {
@@ -671,8 +669,6 @@ class CommentsCommentTracker extends Module {
 			}
 			if ((comment.isOp && Settings.get('ct_fop')) || (!comment.isOp && Settings.get('ct_f'))) {
 				comment.comment.classList.add('esgst-ct-comment-read');
-				comment.comment.style.opacity = '0.5';
-				Shared.common.setHoverOpacity(comment.comment, '1', '0.5');
 			}
 		}
 	}
@@ -693,8 +689,6 @@ class CommentsCommentTracker extends Module {
 			deleteLock();
 			if ((comment.isOp && Settings.get('ct_fop')) || (!comment.isOp && Settings.get('ct_f'))) {
 				comment.comment.classList.remove('esgst-ct-comment-read');
-				comment.comment.style.opacity = '1';
-				Shared.common.setHoverOpacity(comment.comment, '1', '1');
 			}
 		} else {
 			if (comments && comments[comment.type][comment.code].readComments[comment.id]) {
@@ -706,8 +700,6 @@ class CommentsCommentTracker extends Module {
 			}
 			if ((comment.isOp && Settings.get('ct_fop')) || (!comment.isOp && Settings.get('ct_f'))) {
 				comment.comment.classList.remove('esgst-ct-comment-read');
-				comment.comment.style.opacity = '1';
-				Shared.common.setHoverOpacity(comment.comment, '1', '1');
 			}
 		}
 	}

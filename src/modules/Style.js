@@ -1296,6 +1296,22 @@ function addStyle() {
 		color: rgba(193, 165, 118, 0.8) !important;
 	}
 
+	.esgst-ct-visited {
+		opacity: 0.5;
+	}
+
+	.esgst-ct-visited:hover {
+		opacity: 1;
+	}
+
+	.esgst-ct-comment-read {
+		opacity: 0.5;
+	}
+
+	.esgst-ct-comment-read:hover {
+		opacity: 1;
+	}
+
 	.esgst-ct-comment-read:hover, .esgst-ct-visited:hover {
 		background-color: rgba(119, 137, 154, 0.1) !important;
 	}

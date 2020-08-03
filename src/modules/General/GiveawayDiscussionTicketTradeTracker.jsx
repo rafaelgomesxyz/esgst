@@ -9,7 +9,6 @@ const createElements = common.createElements.bind(common),
 	getFeatureTooltip = common.getFeatureTooltip.bind(common),
 	getValue = common.getValue.bind(common),
 	getValues = common.getValues.bind(common),
-	setHoverOpacity = common.setHoverOpacity.bind(common),
 	setValue = common.setValue.bind(common);
 class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
 	constructor() {
@@ -142,8 +141,6 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
 			deleteLock();
 		}
 		container.classList.add('esgst-ct-visited');
-		container.style.opacity = '0.5';
-		setHoverOpacity(container, '1', '0.5');
 		return true;
 	}
 
@@ -161,8 +158,6 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
 			deleteLock();
 		}
 		container.classList.remove('esgst-ct-visited');
-		container.style.opacity = '1';
-		setHoverOpacity(container, '1', '1');
 		return true;
 	}
 
@@ -220,8 +215,6 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
 					if (comment && comment.visited && container) {
 						if ((type === 'giveaways' && Settings.get('gdttt_g')) || type !== 'giveaways') {
 							container.classList.add('esgst-ct-visited');
-							container.style.opacity = '0.5';
-							setHoverOpacity(container, '1', '0.5');
 						}
 					}
 				}

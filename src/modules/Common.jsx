@@ -4349,15 +4349,6 @@ class Common extends Module {
 		}
 	}
 
-	setHoverOpacity(element, EnterOpacity, LeaveOpacity) {
-		element.addEventListener('mouseenter', () => {
-			element.style.opacity = EnterOpacity;
-		});
-		element.addEventListener('mouseleave', () => {
-			element.style.opacity = LeaveOpacity;
-		});
-	}
-
 	timeout(ms) {
 		return new Promise((resolve) => window.setTimeout(resolve, ms));
 	}
