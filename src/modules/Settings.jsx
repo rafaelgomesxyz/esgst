@@ -571,7 +571,7 @@ class SettingsModule {
 		if (Shared.esgst.parameters.esgst === 'settings' && Shared.esgst.parameters.id) {
 			this.loadFeatureDetails(
 				Shared.esgst.parameters.id,
-				Shared.common.getFeatureNumber(Shared.esgst.parameteres.id),
+				Shared.common.getFeatureNumber(Shared.esgst.parameters.id).number,
 				popup && popup.scrollable.offsetTop
 			);
 		}
