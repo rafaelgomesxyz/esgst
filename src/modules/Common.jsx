@@ -4762,6 +4762,7 @@ class Common extends Module {
 				);
 				this.createElements(startTimeColumn.firstElementChild, 'atouter', items);
 			}
+			startTimeColumn.lastElementChild.classList.add('giveaway__username');
 			avatar = columns.lastElementChild;
 			if (sgTools) {
 				avatar.className = 'giveaway_image_avatar';
@@ -4812,6 +4813,9 @@ class Common extends Module {
 			}
 			if (context.getElementsByClassName('sidebar__entry-insert')[0]) {
 				attributes['data-currently-enterable'] = true;
+			}
+			if (entered) {
+				attributes['data-entered'] = true;
 			}
 			heading.className = 'giveaway__heading';
 			columns.className = 'giveaway__columns';
@@ -4868,7 +4872,7 @@ class Common extends Module {
 															},
 															{
 																attributes: {
-																	href: `${url}/comment`,
+																	href: `${url}/comments`,
 																},
 																type: 'a',
 																children: [
@@ -4887,6 +4891,7 @@ class Common extends Module {
 														],
 													},
 												],
+												type: 'div',
 											},
 											{
 												context: avatar,

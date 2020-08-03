@@ -11,6 +11,8 @@ const Events = {
 	NOTIFICATION_BAR_BUILD: 9,
 	BUTTON_BUILD: 10,
 	PAGE_HEADING_BUILD: 11,
+	GIVEAWAY_ENTER: 12,
+	GIVEAWAY_LEAVE: 13,
 };
 
 export { Events };

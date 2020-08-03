@@ -1,4 +1,3 @@
-import { Button } from '../../components/Button';
 import { DOM } from '../../class/DOM';
 import { EventDispatcher } from '../../class/EventDispatcher';
 import { LocalStorage } from '../../class/LocalStorage';
@@ -8,9 +7,10 @@ import { Popup } from '../../class/Popup';
 import { Session } from '../../class/Session';
 import { Settings } from '../../class/Settings';
 import { Shared } from '../../class/Shared';
+import { Button } from '../../components/Button';
+import { PageHeading } from '../../components/PageHeading';
 import { Events } from '../../constants/Events';
 import { common } from '../Common';
-import { PageHeading } from '../../components/PageHeading';
 
 const createElements = common.createElements.bind(common),
 	getFeatureTooltip = common.getFeatureTooltip.bind(common),
@@ -722,6 +722,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
 				giveaway.innerWrap.classList.add('is-faded');
 			}
 			giveaway.entered = true;
+			EventDispatcher.dispatch(Events.GIVEAWAY_ENTER, giveaway);
 			giveaway.error = null;
 			this.elgb_addButton(giveaway, main, source);
 			if (Settings.get('et')) {
@@ -806,6 +807,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
 		if (responseJson.type === 'success') {
 			giveaway.innerWrap.classList.remove('is-faded');
 			giveaway.entered = false;
+			EventDispatcher.dispatch(Events.GIVEAWAY_LEAVE, giveaway);
 			giveaway.error = null;
 			this.elgb_addButton(giveaway, main, source);
 			if (Settings.get('et')) {

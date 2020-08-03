@@ -1,5 +1,6 @@
 import dateFns_differenceInDays from 'date-fns/differenceInDays';
 import { DOM } from '../../class/DOM';
+import { EventDispatcher } from '../../class/EventDispatcher';
 import { Logger } from '../../class/Logger';
 import { Module } from '../../class/Module';
 import { permissions } from '../../class/Permissions';
@@ -12,6 +13,7 @@ import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { Button } from '../../components/Button';
 import { NotificationBar } from '../../components/NotificationBar';
 import { PageHeading } from '../../components/PageHeading';
+import { Events } from '../../constants/Events';
 import { common } from '../Common';
 
 const buildGiveaway = common.buildGiveaway.bind(common),
@@ -115,6 +117,8 @@ class GiveawaysGiveawayExtractor extends Module {
 	}
 
 	async init() {
+		EventDispatcher.subscribe(Events.GIVEAWAY_ENTER, this.updateCache);
+		EventDispatcher.subscribe(Events.GIVEAWAY_LEAVE, this.updateCache);
 		if (
 			((this.esgst.giveawayCommentsPath && !document.getElementsByClassName('table--summary')[0]) ||
 				this.esgst.discussionPath) &&
@@ -135,7 +139,7 @@ class GiveawaysGiveawayExtractor extends Module {
 				}
 			}
 
-			let ge = {
+			this.ge = {
 				context: DOM.parse(
 					(
 						await request({
@@ -153,20 +157,37 @@ class GiveawaysGiveawayExtractor extends Module {
 
 			Shared.esgst.customPages.ge = {
 				check: true,
-				load: this.ge_openPopup.bind(this, ge),
+				load: this.ge_openPopup.bind(this, this.ge),
 			};
 		}
 	}
 
+	updateCache = async (giveaway) => {
+		this.ge.cache = JSON.parse(common.getValue('geCache', '{}'));
+		if (giveaway.code in this.ge.cache[this.ge.cacheId].giveaways) {
+			const cacheGiveaway = this.ge.cache[this.ge.cacheId].giveaways[giveaway.code];
+			if (giveaway.entered) {
+				cacheGiveaway.html = cacheGiveaway.html
+					.replace(/"giveaway__row-outer-wrap"/, '"giveaway__row-outer-wrap" data-entered="true"')
+					.replace(/"giveaway__row-inner-wrap\s?"/, '"giveaway__row-inner-wrap is-faded"');
+			} else {
+				cacheGiveaway.html = cacheGiveaway.html
+					.replace(/\sdata-entered="true"/, '')
+					.replace(/"giveaway__row-inner-wrap\sis-faded"/, '"giveaway__row-inner-wrap"');
+			}
+			await common.setValue('geCache', JSON.stringify(this.ge.cache));
+		}
+	};
+
 	ge_addButton() {
-		let ge = {
+		this.ge = {
 			button: createHeadingButton({
 				id: 'ge',
 				icons: ['fa-gift', 'fa-search'],
 				title: 'Extract all giveaways',
 			}),
 		};
-		ge.button.addEventListener('click', () => {
+		this.ge.button.addEventListener('click', () => {
 			if (Settings.get('ge_t')) {
 				Tabs.open(
 					`https://www.steamgifts.com/account/settings/profile?esgst=ge&url=${window.location.pathname.replace(
@@ -175,7 +196,7 @@ class GiveawaysGiveawayExtractor extends Module {
 					)}${this.esgst.parameters.page ? `&page=${this.esgst.parameters.page}` : ''}`
 				);
 			} else {
-				this.ge_openPopup(ge);
+				this.ge_openPopup(this.ge);
 			}
 		});
 	}
@@ -518,6 +539,14 @@ class GiveawaysGiveawayExtractor extends Module {
 				ge.results.insertAdjacentHTML('beforeend', html);
 				ge.results.lastElementChild.classList.add(`esgst-es-page-${ge.endless}`);
 			}
+			ge.progressBar
+				.setInfo(
+					<fragment>
+						<span ref={(ref) => (ge.progressBarCounter = ref)}>{ge.total}</span> giveaways
+						extracted.
+					</fragment>
+				)
+				.show();
 			ge.progressBarCounter.textContent = total;
 			await endless_load(ge.results, false, 'ge', ge.endless);
 			const items = [

@@ -450,193 +450,23 @@ class GiveawaysGiveawayBookmarks extends Module {
 				});
 				let endTime;
 				let responseHtml = DOM.parse(response.responseText);
-				let container = responseHtml.getElementsByClassName('featured__outer-wrap--giveaway')[0];
-				if (container) {
-					let heading = responseHtml.getElementsByClassName('featured__heading')[0];
-					let columns = heading.nextElementSibling;
-					let remaining = columns.firstElementChild;
+				let url = response.finalUrl;
+				const buildResult = await Shared.common.buildGiveaway(responseHtml, url);
+				if (buildResult) {
 					endTime = 0;
-					if (!bookmarked[i].started && !remaining.textContent.match(/Begins/)) {
-						endTime = parseInt(remaining.lastElementChild.getAttribute('data-timestamp')) * 1e3;
+					if (!bookmarked[i].started && buildResult.started) {
+						endTime = buildResult.timestamp;
 					}
-					let url = response.finalUrl;
-					let gameId = container.getAttribute('data-game-id');
-					let anchors = heading.getElementsByTagName('a');
-					let j, numA, numT;
-					for (j = 0, numA = anchors.length; j < numA; ++j) {
-						anchors[j].classList.add('giveaway__icon');
-					}
-					let headingName = heading.firstElementChild;
-					createElements(headingName, 'atouter', [
-						{
-							attributes: {
-								class: 'giveaway__heading__name',
-								href: url,
-							},
-							type: 'a',
-							children: [
-								...Array.from(headingName.childNodes).map((x) => {
-									return {
-										context: x,
-									};
-								}),
-							],
-						},
-					]);
-					let thinHeadings = heading.getElementsByClassName('featured__heading__small');
-					numT = thinHeadings.length;
 					info.firstElementChild.textContent =
-						parseInt(info.firstElementChild.textContent) +
-						parseInt(thinHeadings[numT - 1].textContent.match(/\d+/)[0]);
+						parseInt(info.firstElementChild.textContent) + buildResult.points;
 					info.lastElementChild.textContent = parseInt(info.lastElementChild.textContent) + 1;
-					for (j = 0; j < numT; ++j) {
-						createElements(thinHeadings[0], 'atouter', [
-							{
-								attributes: {
-									class: 'giveaway__heading__thin',
-								},
-								type: 'span',
-								children: [
-									...Array.from(thinHeadings[0].childNodes).map((x) => {
-										return {
-											context: x,
-										};
-									}),
-								],
-							},
-						]);
-					}
-					remaining.classList.remove('featured__column');
-					let created = remaining.nextElementSibling;
-					created.classList.remove('featured__column', 'featured__column--width-fill');
-					created.classList.add('giveaway__column--width-fill');
-					created.lastElementChild.classList.add('giveaway__username');
-					let avatar = columns.lastElementChild;
-					avatar.remove();
-					let element = created.nextElementSibling;
-					while (element) {
-						element.classList.remove('featured__column');
-						element.className = element.className.replace(/featured/g, 'giveaway');
-						element = element.nextElementSibling;
-					}
-					let counts = responseHtml.getElementsByClassName('sidebar__navigation__item__count');
-					let image = responseHtml
-						.getElementsByClassName('global__image-outer-wrap--game-large')[0]
-						.firstElementChild.getAttribute('src');
-					let entered = responseHtml.getElementsByClassName('sidebar__entry-delete')[0];
-					if (entered) {
-						entered = !entered.classList.contains('is-hidden');
-					}
-					const items = [];
 					if (
 						Date.now() > bookmarked[i].endTime &&
 						!gbGiveaways.getElementsByClassName('row-spacer')[0]
 					) {
-						items.push({
-							attributes: {
-								class: 'row-spacer',
-							},
-							type: 'div',
-						});
+						DOM.insert(gbGiveaways, 'beforeend', <div className="row-spacer"></div>);
 					}
-					const attributes = {
-						class: 'giveaway__row-outer-wrap',
-						['data-game-id']: gameId,
-					};
-					if (entered) {
-						attributes['data-entered'] = true;
-					}
-					heading.className = 'giveaway__heading';
-					columns.className = 'giveaway__columns';
-					items.push({
-						type: 'div',
-						children: [
-							{
-								attributes,
-								type: 'div',
-								children: [
-									{
-										attributes: {
-											class: 'giveaway__row-inner-wrap',
-										},
-										type: 'div',
-										children: [
-											{
-												attributes: {
-													class: 'giveaway__summary',
-												},
-												type: 'div',
-												children: [
-													{
-														context: heading,
-													},
-													{
-														context: columns,
-													},
-													{
-														attributes: {
-															class: 'giveaway__links',
-														},
-														type: 'div',
-														children: [
-															{
-																attributes: {
-																	href: `${url}/entries`,
-																},
-																type: 'a',
-																children: [
-																	{
-																		attributes: {
-																			class: 'fa fa-tag',
-																		},
-																		type: 'i',
-																	},
-																	{
-																		text: `${(counts[1] && counts[1].textContent) || 0} entries`,
-																		type: 'span',
-																	},
-																],
-															},
-															{
-																attributes: {
-																	href: `${url}/comments`,
-																},
-																type: 'a',
-																children: [
-																	{
-																		attributes: {
-																			class: 'fa fa-comment',
-																		},
-																		type: 'i',
-																	},
-																	{
-																		text: `${counts[0].textContent} comments`,
-																		type: 'span',
-																	},
-																],
-															},
-														],
-													},
-												],
-											},
-											{
-												context: avatar,
-											},
-											{
-												attributes: {
-													class: 'giveaway_image_thumbnail',
-													href: url,
-													style: `background-image: url(${image})`,
-												},
-												type: 'a',
-											},
-										],
-									},
-								],
-							},
-						],
-					});
-					createElements(gbGiveaways, 'beforeend', items);
+					createElements(gbGiveaways, 'beforeend', buildResult.html);
 					await endless_load(gbGiveaways.lastElementChild, false, 'gb');
 					if (endTime > 0) {
 						let deleteLock = await createLock('giveawayLock', 300);
