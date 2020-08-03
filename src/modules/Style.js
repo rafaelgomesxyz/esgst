@@ -964,7 +964,7 @@ function addStyle() {
 		font-style: italic;
 	}
 
-	.esgst-es-page-divisor {
+	.esgst-es-page-divider {
 		margin: 5px 0;
 	}
 

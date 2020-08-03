@@ -4505,7 +4505,7 @@ class Common extends Module {
 	}
 
 	sortContent(array, option) {
-		let after, before, divisor, divisors, i, key, n, name;
+		let after, before, divider, dividers, i, key, n, name;
 		name = option.split(/_/);
 		key = name[0];
 		if (name[1] === 'asc') {
@@ -4557,19 +4557,19 @@ class Common extends Module {
 			}
 		}
 		if (key === 'sortIndex') {
-			divisors = document.getElementsByClassName('esgst-es-page-divisor');
-			for (i = divisors.length - 1; i > -1; --i) {
-				divisor = divisors[i];
-				divisor.classList.remove('esgst-hidden');
-				divisor.parentElement.insertBefore(
-					divisor,
+			dividers = document.getElementsByClassName('esgst-es-page-divider');
+			for (i = dividers.length - 1; i > -1; --i) {
+				divider = dividers[i];
+				divider.classList.remove('esgst-hidden');
+				divider.parentElement.insertBefore(
+					divider,
 					document.getElementsByClassName(`esgst-es-page-${i + 2}`)[0]
 				);
 			}
 		} else {
-			divisors = document.querySelectorAll(`.esgst-es-page-divisor:not(.esgst-hidden)`);
-			for (i = divisors.length - 1; i > -1; --i) {
-				divisors[i].classList.add('esgst-hidden');
+			dividers = document.querySelectorAll(`.esgst-es-page-divider:not(.esgst-hidden)`);
+			for (i = dividers.length - 1; i > -1; --i) {
+				dividers[i].classList.add('esgst-hidden');
 			}
 		}
 	}

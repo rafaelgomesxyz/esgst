@@ -52,7 +52,7 @@ class GeneralEndlessScrolling extends Module {
 						</li>
 					</ul>
 					<li>
-						You can choose whether or not to show page divisors (page headings separating each
+						You can choose whether or not to show page dividers (page headings separating each
 						loaded page).
 					</li>
 					<li>
@@ -147,7 +147,7 @@ class GeneralEndlessScrolling extends Module {
 							</li>
 						</ul>
 					),
-					name: 'Show page divisors.',
+					name: 'Show page dividers.',
 					sg: true,
 					st: true,
 				},
@@ -185,7 +185,7 @@ class GeneralEndlessScrolling extends Module {
 		}
 		let es = {};
 		this.esgst.es = es;
-		es.divisors = Settings.get('es_pd');
+		es.dividers = Settings.get('es_pd');
 		es.mainContext = this.esgst.pagination.previousElementSibling;
 		if (this.esgst.commentsPath && !es.mainContext.classList.contains('comments')) {
 			DOM.insert(
@@ -561,11 +561,11 @@ class GeneralEndlessScrolling extends Module {
 				]);
 			}
 		} else {
-			if (es.divisors) {
+			if (es.dividers) {
 				createElements(es.mainContext, 'beforeend', [
 					{
 						attributes: {
-							class: 'esgst-page-heading esgst-es-page-divisor',
+							class: 'esgst-page-heading esgst-es-page-divider',
 						},
 						type: 'div',
 						children: [
@@ -1032,7 +1032,10 @@ class GeneralEndlessScrolling extends Module {
 		}
 		let adNode;
 		for (const node of es.mainContext.children) {
-			if (node.classList.contains('giveaway__row-outer-wrap')) {
+			if (
+				node.classList.contains('giveaway__row-outer-wrap') ||
+				node.classList.contains('esgst-es-page-divider')
+			) {
 				continue;
 			}
 			if (!adNode) {
