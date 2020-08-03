@@ -419,7 +419,7 @@ class SettingsModule {
 			},
 		]).insert(heading.nodes.outer, 'beforeend');
 		Context.addEventListener('click', (event) =>
-			this.loadFeatureDetails(null, popup && popup.scrollable.offsetTop, event)
+			this.loadFeatureDetails(null, null, popup && popup.scrollable.offsetTop, event)
 		);
 		let SMMenu = Context.getElementsByClassName('esgst-settings-menu')[0];
 		let i, type;
@@ -474,7 +474,7 @@ class SettingsModule {
 							if (feature.st && !Settings.get('esgst_st') && id !== 'esgst') {
 								continue;
 							}
-							ft = this.getSMFeature(feature, id, j, popup);
+							ft = this.getSMFeature(feature, id, j, `${i}.${j}`, popup);
 							if (ft) {
 								if (ft.isNew) {
 									isNew = true;
@@ -569,7 +569,11 @@ class SettingsModule {
 			this.preSave('steamApiKey', SMAPIKey.value);
 		});
 		if (Shared.esgst.parameters.esgst === 'settings' && Shared.esgst.parameters.id) {
-			this.loadFeatureDetails(Shared.esgst.parameters.id, popup && popup.scrollable.offsetTop);
+			this.loadFeatureDetails(
+				Shared.esgst.parameters.id,
+				Shared.common.getFeatureNumber(Shared.esgst.parameteres.id),
+				popup && popup.scrollable.offsetTop
+			);
 		}
 		if (isPopup) {
 			popup.open();
@@ -626,13 +630,14 @@ class SettingsModule {
 		}).open();
 	}
 
-	loadFeatureDetails(id, offset, event) {
+	loadFeatureDetails(id, numberPath, offset, event) {
 		if (!offset) {
 			offset = 0;
 		}
 		if (!id) {
 			if (event.target.matches('.esgst-settings-feature')) {
 				id = event.target.getAttribute('data-id');
+				numberPath = event.target.getAttribute('data-number');
 			} else {
 				return;
 			}
@@ -662,11 +667,20 @@ class SettingsModule {
 				check: true,
 				content: (
 					<fragment>
-						{url}
-						<i data-clipboard-text={url} className="icon_to_clipboard fa fa-fw fa-copy"></i>,{' '}
+						<div>
+							{numberPath}
+							<i
+								data-clipboard-text={numberPath}
+								className="icon_to_clipboard fa fa-fw fa-copy"
+							></i>
+						</div>
+						<div>
+							{url}
+							<i data-clipboard-text={url} className="icon_to_clipboard fa fa-fw fa-copy"></i>
+						</div>
 					</fragment>
 				),
-				name: 'Link',
+				name: 'Number / Link',
 			},
 		];
 		let sgContext, stContext;
@@ -1529,7 +1543,7 @@ class SettingsModule {
 		}
 	}
 
-	getSMFeature(feature, id, number, popup) {
+	getSMFeature(feature, id, number, numberPath, popup) {
 		const menuContainer = document.createElement('div');
 		menuContainer.className = 'esgst-sm-feature-container';
 		menuContainer.id = `esgst_${id}`;
@@ -1616,7 +1630,7 @@ class SettingsModule {
 				if (feature.permissions) {
 					this.requiredPermissions[id] = feature.permissions;
 				}
-				this.loadFeatureDetails(id, popup && popup.scrollable.offsetTop);
+				this.loadFeatureDetails(id, numberPath, popup && popup.scrollable.offsetTop);
 				if (feature.sgFeatureSwitch) {
 					feature.sgFeatureSwitch.enable();
 				} else {
@@ -1646,7 +1660,7 @@ class SettingsModule {
 				if (feature.permissions) {
 					delete this.requiredPermissions[id];
 				}
-				this.loadFeatureDetails(id, popup && popup.scrollable.offsetTop);
+				this.loadFeatureDetails(id, numberPath, popup && popup.scrollable.offsetTop);
 				if (feature.sgFeatureSwitch) {
 					feature.sgFeatureSwitch.disable();
 				} else {
@@ -1695,7 +1709,7 @@ class SettingsModule {
 				if (feature.permissions) {
 					this.requiredPermissions[id] = feature.permissions;
 				}
-				this.loadFeatureDetails(id, popup && popup.scrollable.offsetTop);
+				this.loadFeatureDetails(id, numberPath, popup && popup.scrollable.offsetTop);
 				if (feature.stFeatureSwitch) {
 					feature.stFeatureSwitch.enable();
 				} else {
@@ -1725,7 +1739,7 @@ class SettingsModule {
 				if (feature.permissions) {
 					delete this.requiredPermissions[id];
 				}
-				this.loadFeatureDetails(id, popup && popup.scrollable.offsetTop);
+				this.loadFeatureDetails(id, numberPath, popup && popup.scrollable.offsetTop);
 				if (feature.stFeatureSwitch) {
 					feature.stFeatureSwitch.disable();
 				} else {
@@ -1756,6 +1770,7 @@ class SettingsModule {
 				<a
 					className="esgst-settings-feature table__column__secondary-link esgst-clickable"
 					data-id={id}
+					data-number={numberPath}
 				>
 					{featureName}
 				</a>
@@ -1780,7 +1795,7 @@ class SettingsModule {
 				if (subFt.st && !Settings.get('esgst_st') && id !== 'esgst') {
 					continue;
 				}
-				const subFeature = this.getSMFeature(subFt, subId, i, popup);
+				const subFeature = this.getSMFeature(subFt, subId, i, `${numberPath}.${i}`, popup);
 				if (subFeature) {
 					if (subFeature.isNew) {
 						isNew = true;
@@ -2916,6 +2931,7 @@ class SettingsModule {
 					class: 'esgst-form-row',
 					id: `esgst_${type}`,
 					'data-id': type,
+					'data-number': number,
 				},
 				type: 'div',
 				children: [
