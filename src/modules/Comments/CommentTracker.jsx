@@ -533,7 +533,9 @@ class CommentsCommentTracker extends Module {
 									unread = comment;
 									found = true;
 								} else {
-									if (this.esgst.discussionsPath) {
+									if (this.esgst.discussionPath) {
+										Shared.common.goToComment(comment.id, comment.comment);
+									} else {
 										this.ctUnreadFound = true;
 										if (!this.ctNewTab && Settings.get('sto')) {
 											if (comment.id) {
@@ -548,8 +550,6 @@ class CommentsCommentTracker extends Module {
 												Tabs.open(`https://www.steamgifts.com/discussion/${comment.code}/`);
 											}
 										}
-									} else {
-										Shared.common.goToComment(comment.id, comment.comment);
 									}
 									found = true;
 									break;
@@ -585,7 +585,9 @@ class CommentsCommentTracker extends Module {
 			}
 			if (!Settings.get('ct_s') && goToUnread) {
 				if (unread) {
-					if (this.esgst.discussionsPath) {
+					if (this.esgst.discussionPath) {
+						Shared.common.goToComment(unread.id, unread.comment);
+					} else {
 						this.ctUnreadFound = true;
 						if (!this.ctNewTab && Settings.get('sto')) {
 							if (unread.id) {
@@ -600,8 +602,6 @@ class CommentsCommentTracker extends Module {
 								Tabs.open(`https://www.steamgifts.com/discussion/${unread.code}/`);
 							}
 						}
-					} else {
-						Shared.common.goToComment(unread.id, unread.comment);
 					}
 				}
 			} else {
