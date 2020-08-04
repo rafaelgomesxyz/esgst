@@ -13,6 +13,7 @@ const Events = {
 	PAGE_HEADING_BUILD: 11,
 	GIVEAWAY_ENTER: 12,
 	GIVEAWAY_LEAVE: 13,
+	BEFORE_COMMENT_SUBMIT: 14,
 };
 
 export { Events };

@@ -1,7 +1,9 @@
-import { Module } from '../../class/Module';
-import { Shared } from '../../class/Shared';
-import { Settings } from '../../class/Settings';
 import { DOM } from '../../class/DOM';
+import { EventDispatcher } from '../../class/EventDispatcher';
+import { Module } from '../../class/Module';
+import { Settings } from '../../class/Settings';
+import { Shared } from '../../class/Shared';
+import { Events } from '../../constants/Events';
 
 class CommentsCommentVariables extends Module {
 	constructor() {
@@ -17,6 +19,28 @@ class CommentsCommentVariables extends Module {
 			sg: true,
 			st: true,
 			type: 'comments',
+			features: {
+				cv_e: {
+					description: () => (
+						<ul>
+							<li>
+								Allows you to enter keywords that are replaced by emojis. To see the keywords, open
+								the emojis popup with <span data-esgst-feature-id="cfh_e"></span> and hover over the
+								emojis.
+							</li>
+							<li>
+								Since the keyword format is <code>:short_name:</code>, if you want to use that
+								format without replacing it with an emoji, simply escape it with a backslash e.g.{' '}
+								<code>\:short_name:</code>.
+							</li>
+						</ul>
+					),
+					name: 'Enable emojis.',
+					dependencies: ['cfh', 'cfh_e'],
+					sg: true,
+					st: true,
+				},
+			},
 			inputItems: [
 				{
 					id: 'cv_username',
@@ -47,7 +71,7 @@ class CommentsCommentVariables extends Module {
 			Shared.common.addReplyButton(Shared.esgst.replyBox);
 		}
 
-		Shared.esgst.triggerFunctions.onBeforeCommentSubmit.push(this.replaceVariables.bind(this));
+		EventDispatcher.subscribe(Events.BEFORE_COMMENT_SUBMIT, this.replaceVariables.bind(this));
 
 		this.usernameRegex = this.getRegExp('username');
 		this.steamIdRegex = this.getRegExp('steamId');
@@ -55,6 +79,8 @@ class CommentsCommentVariables extends Module {
 		this.replyUserRegex = this.getRegExp('replyUser');
 		this.featureRegex = this.getRegExp('esgstFeature');
 		this.localFeatureRegex = this.getRegExp('esgstFeature', true);
+		this.emojiRegex = /(^|[^\\])(:\w+?:)/g;
+		this.escapedEmojiRegex = /\\(:\w+?:)/g;
 	}
 
 	replaceVariables(obj) {
@@ -105,6 +131,17 @@ class CommentsCommentVariables extends Module {
 					}
 				}
 			}
+		}
+		if (Settings.get('cv_e')) {
+			obj.comment = obj.comment
+				.replace(this.emojiRegex, (...matches) => {
+					const emoji = emojisUtils.getEmoji(matches[2].slice(1, -1));
+					if (emoji) {
+						return `${matches[1]}${emoji}`;
+					}
+					return `${matches[1]}\\${matches[2]}`;
+				})
+				.replace(this.escapedEmojiRegex, '$1');
 		}
 	}
 

@@ -812,7 +812,7 @@ class Common extends Module {
 			context,
 			comment: description,
 		};
-		await this.esgst.onBeforeCommentSubmit(obj);
+		await EventDispatcher.dispatch(Events.BEFORE_COMMENT_SUBMIT, obj);
 		description = obj.comment;
 		const data = `xsrf_token=${Session.xsrfToken}&do=${
 			this.esgst.sg ? 'comment_new' : 'comment_insert'
@@ -1510,7 +1510,7 @@ class Common extends Module {
 			context,
 			comment: string,
 		};
-		await this.esgst.onBeforeCommentSubmit(obj);
+		await EventDispatcher.dispatch(Events.BEFORE_COMMENT_SUBMIT, obj);
 		string = obj.comment;
 		return Array.from(DOM.parse(this.esgst.markdownParser.text(string)).body.children);
 	}

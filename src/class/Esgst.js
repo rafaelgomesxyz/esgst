@@ -27,7 +27,6 @@ class Esgst {
 		this.gf = undefined;
 		this.wbcButton = undefined;
 		this.minimizePanel = undefined;
-		this.onBeforeCommentSubmit = undefined;
 		this.leftMainPageHeadingButtons = undefined;
 		this.rightMainPageHeadingButtons = undefined;
 
@@ -249,16 +248,6 @@ class Esgst {
 			},
 		};
 		this.newGiveawayDateFormat = `MMM d, yyyy h:mm a`;
-		this.triggerFunctions = {
-			onBeforeCommentSubmit: [],
-		};
-
-		for (const key in this.triggerFunctions) {
-			if (!this.triggerFunctions.hasOwnProperty(key)) {
-				return;
-			}
-			this[key] = this.triggerFunction.bind(this, key);
-		}
 
 		this.documentEvents = {
 			click: null,
@@ -601,12 +590,6 @@ class Esgst {
 		this.appList = undefined;
 		this.pageHeadings = undefined;
 		this.hasAddedFilterContainer = undefined;
-	}
-
-	async triggerFunction(key, ...args) {
-		for (const func of this.triggerFunctions[key]) {
-			await func(...args);
-		}
 	}
 }
 

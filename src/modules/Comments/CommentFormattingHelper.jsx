@@ -837,12 +837,15 @@ class CommentsCommentFormattingHelper extends Module {
 												'beforeend',
 												<span
 													data-draggable-id={emoji.emoji}
-													title={emoji.name}
+													title={`${emoji.name} (Keyword: :${emoji.short_name}:)`}
 													onclick={() => {
 														DOM.insert(
 															savedEmojis,
 															'beforeend',
-															<span data-draggable-id={emoji.emoji} title={emoji.name}>
+															<span
+																data-draggable-id={emoji.emoji}
+																title={`${emoji.name} (Keyword: :${emoji.short_name}:)`}
+															>
 																{emoji.emoji}
 															</span>
 														);
@@ -1208,7 +1211,10 @@ class CommentsCommentFormattingHelper extends Module {
 				)[0];
 				emoji = emojiData ? emojiData.emoji : emoji;
 				return (
-					<span data-draggable-id={emoji} title={emojiData ? emojiData.name : ''}>
+					<span
+						data-draggable-id={emoji}
+						title={emojiData ? `${emojiData.name} (Keyword: :${emojiData.short_name}:)` : ''}
+					>
 						{emoji}
 					</span>
 				);
