@@ -1,8 +1,10 @@
-import { Module } from '../../class/Module';
-import { Shared } from '../../class/Shared';
-import { Settings } from '../../class/Settings';
 import { DOM } from '../../class/DOM';
+import { EventDispatcher } from '../../class/EventDispatcher';
+import { Module } from '../../class/Module';
 import { Session } from '../../class/Session';
+import { Settings } from '../../class/Settings';
+import { Shared } from '../../class/Shared';
+import { Events } from '../../constants/Events';
 
 class CommentsMultiReply extends Module {
 	constructor() {
@@ -295,13 +297,15 @@ class CommentsMultiReply extends Module {
 			});
 			EditSave.addEventListener('click', async () => {
 				let ResponseJSON, ResponseHTML;
+				const obj = { comment: Description.value };
+				await EventDispatcher.dispatch(Events.BEFORE_COMMENT_SUBMIT, obj);
 				ResponseJSON = JSON.parse(
 					(
 						await Shared.common.request({
 							data: `xsrf_token=${
 								Session.xsrfToken
 							}&do=comment_edit&comment_id=${ID}&allow_replies=${AllowReplies}&description=${encodeURIComponent(
-								Description.value
+								obj.comment
 							)}`,
 							method: 'POST',
 							url: '/ajax.php',
