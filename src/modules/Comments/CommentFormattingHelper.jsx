@@ -953,7 +953,6 @@ class CommentsCommentFormattingHelper extends Module {
 				name: 'Saved Replies',
 				setPopout: async (popout) => {
 					let i, n, replies, savedReplies;
-					this.esgst.cfh.deletedReplies = [];
 					savedReplies = JSON.parse(Shared.common.getValue(this.savedRepliesId, '[]'));
 					DOM.insert(
 						popout.popout,
@@ -977,6 +976,7 @@ class CommentsCommentFormattingHelper extends Module {
 								className="form__saving-button btn_action white"
 								onclick={() =>
 									this.cfh_saveReply(
+										null,
 										this.esgst.cfh.textArea.value,
 										null,
 										'Untitled',
@@ -989,19 +989,18 @@ class CommentsCommentFormattingHelper extends Module {
 							>
 								Save Reply
 							</div>
-							<div
-								className="esgst-clickable esgst-hidden"
-								ref={(ref) => (this.esgst.cfh.undoDelete = ref)}
-								onclick={this.cfh_undoDelete.bind(this)}
-							>
-								<i className="fa fa-rotate-left"></i>
-								<span>Undo Delete</span>
-							</div>
 						</fragment>
 					);
 					for (i = 0, n = savedReplies.length; i < n; ++i) {
 						this.cfh_setReply(replies, savedReplies[i]);
 					}
+					this.savedRepliesObj = {
+						addTrash: true,
+						context: replies,
+						id: this.savedRepliesId,
+						item: {},
+					};
+					Shared.common.draggable_set(this.savedRepliesObj);
 				},
 				callback: (popout) => {
 					popout.firstElementChild.firstElementChild.focus();
@@ -1616,10 +1615,8 @@ class CommentsCommentFormattingHelper extends Module {
 			'beforeend',
 			<div
 				className="esgst-cfh-sr-box"
-				draggable={true}
-				ondragstart={this.cfh_setSource.bind(this, description, name, reply)}
-				ondragenter={this.cfh_getSource.bind(this, reply, replies)}
-				ondragend={this.cfh_saveSource.bind(this)}
+				data-draggable-id={`${savedReply.name}${savedReply.description}`}
+				data-draggable-obj={JSON.stringify(savedReply)}
 				ref={(ref) => (reply = ref)}
 			>
 				<div
@@ -1657,6 +1654,7 @@ class CommentsCommentFormattingHelper extends Module {
 						className="esgst-clickable fa fa-retweet"
 						title="Replace description with current reply"
 						onclick={this.cfh_saveReply(
+							reply,
 							savedReply.description,
 							this.esgst.cfh.textArea,
 							savedReply.name,
@@ -1677,79 +1675,10 @@ class CommentsCommentFormattingHelper extends Module {
 							summary
 						)}
 					></i>
-					<i
-						className="esgst-clickable fa fa-trash"
-						title="Delete reply"
-						onclick={async () => {
-							let savedReplies = JSON.parse(Shared.common.getValue(this.savedRepliesId, '[]'));
-							let i;
-							for (
-								i = savedReplies.length - 1;
-								i > -1 &&
-								(savedReplies[i].name !== name.textContent ||
-									savedReplies[i].description !== description.textContent);
-								i--
-							) {}
-							if (i > -1) {
-								savedReplies.splice(i, 1);
-								Shared.common.setValue(this.savedRepliesId, JSON.stringify(savedReplies));
-								reply.classList.add('esgst-hidden');
-								this.esgst.cfh.deletedReplies.push({
-									reply: reply,
-									savedReply: savedReply,
-								});
-								this.esgst.cfh.undoDelete.classList.remove('esgst-hidden');
-							}
-						}}
-					></i>
-					<i className="fa fa-question-circle" title="Drag the reply to move it"></i>
+					<i className="fa fa-question-circle" title="Drag the reply to move / delete it"></i>
 				</div>
 			</div>
 		);
-	}
-
-	async cfh_setSource(description, name, reply, event) {
-		let i, savedReplies;
-		event.dataTransfer.setData('text/plain', '');
-		this.esgst.cfh.source = reply;
-		savedReplies = JSON.parse(Shared.common.getValue(this.savedRepliesId, '[]'));
-		for (
-			i = savedReplies.length - 1;
-			i > -1 &&
-			(savedReplies[i].name !== name.textContent ||
-				savedReplies[i].description !== description.textContent);
-			--i
-		) {}
-		if (i > -1) {
-			this.esgst.cfh.sourceIndex = i;
-		}
-	}
-
-	cfh_getSource(reply, replies) {
-		let current, i;
-		current = this.esgst.cfh.source;
-		i = 0;
-		do {
-			current = current.previousElementSibling;
-			if (current && current === reply) {
-				this.esgst.cfh.sourceNewIndex = i;
-				replies.insertBefore(this.esgst.cfh.source, reply);
-				return;
-			}
-			++i;
-		} while (current);
-		this.esgst.cfh.sourceNewIndex = i - 1;
-		replies.insertBefore(this.esgst.cfh.source, reply.nextElementSibling);
-	}
-
-	async cfh_saveSource() {
-		let savedReplies = JSON.parse(Shared.common.getValue(this.savedRepliesId, '[]'));
-		savedReplies.splice(
-			this.esgst.cfh.sourceNewIndex,
-			0,
-			savedReplies.splice(this.esgst.cfh.sourceIndex, 1)[0]
-		);
-		Shared.common.setValue(this.savedRepliesId, JSON.stringify(savedReplies));
 	}
 
 	cfh_openReplyPopup(description, name, replies, summary) {
@@ -1807,6 +1736,7 @@ class CommentsCommentFormattingHelper extends Module {
 				name: 'Save',
 				onClick: this.cfh_saveReply.bind(
 					this,
+					reply,
 					description,
 					descriptionArea,
 					name,
@@ -1825,7 +1755,16 @@ class CommentsCommentFormattingHelper extends Module {
 		popup.open();
 	}
 
-	async cfh_saveReply(description, descriptionArea, name, nameArea, popup, replies, summary) {
+	async cfh_saveReply(
+		reply,
+		description,
+		descriptionArea,
+		name,
+		nameArea,
+		popup,
+		replies,
+		summary
+	) {
 		let [descVal, nameVal] = [
 			descriptionArea ? descriptionArea.value.trim() : description,
 			nameArea ? nameArea.value.trim() : name,
@@ -1848,9 +1787,11 @@ class CommentsCommentFormattingHelper extends Module {
 					summary.firstElementChild.textContent = nameVal;
 					summary.lastElementChild.textContent = descVal;
 				}
+				reply.setAttribute('data-draggable-obj', JSON.stringify(savedReply));
 			} else {
 				savedReplies.push(savedReply);
 				this.cfh_setReply(replies, savedReply);
+				Shared.common.draggable_set(this.savedRepliesObj);
 			}
 			await Shared.common.setValue(this.savedRepliesId, JSON.stringify(savedReplies));
 			if (popup) {
@@ -1871,19 +1812,6 @@ class CommentsCommentFormattingHelper extends Module {
 			} else {
 				reply.classList.add('esgst-hidden');
 			}
-		}
-	}
-
-	async cfh_undoDelete() {
-		let deleted, saved;
-		deleted = this.esgst.cfh.deletedReplies.pop();
-		deleted.reply.classList.remove('esgst-hidden');
-		deleted.reply.parentElement.appendChild(deleted.reply);
-		saved = JSON.parse(Shared.common.getValue(this.savedRepliesId, '[]'));
-		saved.push(deleted.savedReply);
-		Shared.common.setValue(this.savedRepliesId, JSON.stringify(saved));
-		if (this.esgst.cfh.deletedReplies.length === 0) {
-			this.esgst.cfh.undoDelete.classList.add('esgst-hidden');
 		}
 	}
 

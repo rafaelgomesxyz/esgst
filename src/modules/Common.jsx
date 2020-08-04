@@ -3962,6 +3962,9 @@ class Common extends Module {
 	}
 
 	draggable_set(obj) {
+		if (!obj.history) {
+			obj.history = [];
+		}
 		if (!obj.values) {
 			obj.values = {};
 		}
@@ -3984,6 +3987,7 @@ class Common extends Module {
 		this.esgst.draggable.destination = null;
 		if (obj.addTrash) {
 			this.draggable_setTrash(obj);
+			this.draggable_setRestoreButton(obj);
 		}
 	}
 
@@ -4034,6 +4038,9 @@ class Common extends Module {
 			this.esgst.draggable.trash.remove();
 			this.esgst.draggable.trash = null;
 		}
+		if (this.esgst.draggable.restoreButton && obj.history.length === 0) {
+			this.esgst.draggable.restoreButton.hide();
+		}
 		if (
 			this.esgst.draggable.destination === obj.item.columns ||
 			this.esgst.draggable.destination === obj.item.gvIcons
@@ -4082,6 +4089,13 @@ class Common extends Module {
 		}
 		if (this.esgst.draggable.deleted) {
 			this.esgst.draggable.dragged.remove();
+			obj.history.push({
+				dragged: this.esgst.draggable.dragged,
+				source: this.esgst.draggable.source,
+				destination: this.esgst.draggable.destination,
+			});
+		} else if (this.esgst.draggable.restored) {
+			this.esgst.draggable.destination.appendChild(this.esgst.draggable.dragged);
 		}
 		const sources = [this.esgst.draggable.source];
 		if (this.esgst.draggable.source !== this.esgst.draggable.destination) {
@@ -4106,6 +4120,9 @@ class Common extends Module {
 			if (key === 'emojis') {
 				await this.setValue(key, JSON.stringify(obj.values[key]));
 			}
+			if (key.startsWith('savedReplies')) {
+				await this.setValue(key, JSON.stringify(obj.values[key]));
+			}
 		}
 		if (obj.onDragEnd) {
 			obj.onDragEnd(obj.values);
@@ -4113,30 +4130,28 @@ class Common extends Module {
 		this.esgst.draggable.dragged = null;
 		this.esgst.draggable.source = null;
 		this.esgst.draggable.destination = null;
+		if (this.esgst.draggable.restoreButton && obj.history.length > 0) {
+			this.esgst.draggable.restoreButton.show();
+		}
 	}
 
 	draggable_setTrash(obj) {
-		/**
-		 * @property {HTMLElement} obj.trashContext
-		 */
-		this.esgst.draggable.trash = this.createElements(obj.trashContext || obj.context, 'afterend', [
-			{
-				attributes: {
-					class: 'esgst-draggable-trash',
-				},
-				type: 'div',
-				children: [
-					{
-						attributes: {
-							class: 'fa fa-trash',
-						},
-						type: 'i',
-					},
-				],
-			},
-		]);
+		if (this.esgst.draggable.trash) {
+			this.esgst.draggable.trash.remove();
+		}
+		DOM.insert(
+			obj.trashContext || obj.context,
+			'afterend',
+			<div
+				className="esgst-draggable-trash"
+				title="Delete the element"
+				ondragenter={this.draggable_delete.bind(this, obj)}
+				ref={(ref) => (this.esgst.draggable.trash = ref)}
+			>
+				<i className="fa fa-trash"></i>
+			</div>
+		);
 		this.esgst.draggable.trash.style.width = `${(obj.trashContext || obj.context).offsetWidth}px`;
-		this.esgst.draggable.trash.addEventListener('dragenter', this.draggable_delete.bind(this, obj));
 	}
 
 	async draggable_delete(obj) {
@@ -4147,12 +4162,39 @@ class Common extends Module {
 			!window.confirm('Are you sure you want to delete this item?')
 		) {
 			this.esgst.draggable.awaitingConfirmation = false;
+			this.esgst.draggable.trash.remove();
+			this.esgst.draggable.trash = null;
 			return;
 		}
 		this.esgst.draggable.awaitingConfirmation = false;
 		this.esgst.draggable.deleted = true;
 		await this.draggable_end(obj);
 		this.esgst.draggable.deleted = false;
+	}
+
+	draggable_setRestoreButton(obj) {
+		if (this.esgst.draggable.restoreButton) {
+			this.esgst.draggable.restoreButton.destroy();
+		}
+		this.esgst.draggable.restoreButton = Button.create({
+			color: 'white',
+			tooltip: 'Restore the latest deleted element (restored elements always appear at the end)',
+			icons: ['fa-rotate-left'],
+			name: '',
+			onClick: this.draggable_restore.bind(this, obj),
+		})
+			.insert(obj.trashContext || obj.context, 'afterend')
+			.hide();
+	}
+
+	async draggable_restore(obj) {
+		const itemToRestore = obj.history.pop();
+		this.esgst.draggable.dragged = itemToRestore.dragged;
+		this.esgst.draggable.source = itemToRestore.source;
+		this.esgst.draggable.destination = itemToRestore.source;
+		this.esgst.draggable.restored = true;
+		await this.draggable_end(obj);
+		this.esgst.draggable.restored = false;
 	}
 
 	setCountdown(context, totalSeconds, callback, initialDate = Date.now()) {
