@@ -1,6 +1,7 @@
 dependencies:
   awesome-bootstrap-checkbox: 0.3.7
   bootstrap: 3.4.1
+  core-js: 3.6.5
   date-fns: 2.15.0
   emojis-utils: 1.0.2
   interactjs: 1.3.4
@@ -2800,6 +2801,11 @@ packages:
     requiresBuild: true
     resolution:
       integrity: sha512-5wjnpaT/3dV+XB4borEsnAYQchn00XSgTAWKDkEqv+K8KevjbzmofK6hfJ9TZIlpj2N0xQpazy7PiRQiWHqzWg==
+  /core-js/3.6.5:
+    dev: false
+    requiresBuild: true
+    resolution:
+      integrity: sha512-vZVEEwZoIsI+vPEuoF9Iqf5H7/M3eeQqWlQnYa8FSKKePuYTf5MWnxb5SDAzCa60b3JBRS5g9b+Dq7b1y/RCrA==
   /core-util-is/1.0.2:
     resolution:
       integrity: sha1-tf1UIgqivFq1eqtxQMlAdUUDwac=
@@ -8590,6 +8596,7 @@ specifiers:
   chai: ^4.2.0
   circular-dependency-plugin: ^5.2.0
   clean-webpack-plugin: ^3.0.0
+  core-js: ^3.6.5
   cross-env: ^7.0.2
   css-loader: ^3.6.0
   date-fns: ^2.15.0
