@@ -8,6 +8,7 @@ class _Settings {
 		this.fullSettings = {};
 
 		this.defaultValues = {
+			cgb_levelColors: [],
 			ge_a_sg: true,
 			glwc_mm_sg: false,
 			glwc_checkMaxWishlists: false,

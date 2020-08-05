@@ -1885,6 +1885,8 @@ class SettingsModule {
 		}
 		if (ID === 'ul') {
 			items.push(this.addUlMenuPanel('ul_links'));
+		} else if (ID === 'cgb') {
+			items.push(this.addGwcrMenuPanel('cgb_levelColors', 'level', false, '10'));
 		} else if (ID === 'gch') {
 			items.push(this.addGwcrMenuPanel('gch_colors', 'copies', true));
 		} else if (ID === 'glh') {

@@ -10,7 +10,7 @@ class GiveawaysCustomGiveawayBackground extends Module {
 				<ul>
 					<li>
 						Allows you to color the background of giveaways based on their type (public, invite
-						only, region restricted, group or whitelist).
+						only, region restricted, group or whitelist) and level.
 					</li>
 				</ul>
 			),
@@ -73,6 +73,13 @@ class GiveawaysCustomGiveawayBackground extends Module {
 					'style',
 					`background-color: ${Settings.get('cgb_sgt_bgColor')} !important`
 				);
+			}
+			const { color } = Settings.get('cgb_levelColors').filter(
+				(colors) =>
+					giveaway.level >= parseInt(colors.lower) && giveaway.level <= parseInt(colors.upper)
+			)[0] || { color: undefined };
+			if (color) {
+				giveaway.outerWrap.setAttribute('style', `background-color: ${color} !important`);
 			} else if (Settings.get('cgb_w') && giveaway.whitelist) {
 				giveaway.outerWrap.setAttribute(
 					'style',
