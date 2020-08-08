@@ -4,6 +4,7 @@ import { permissions } from '../../class/Permissions';
 import { Popup } from '../../class/Popup';
 import { Session } from '../../class/Session';
 import { Settings } from '../../class/Settings';
+import { Shared } from '../../class/Shared';
 import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { Button } from '../../components/Button';
 import { NotificationBar } from '../../components/NotificationBar';
@@ -540,7 +541,7 @@ class GiveawaysUnsentGiftSender extends Module {
 		let n = codes.length;
 		if (n > 0) {
 			// send gifts
-			ugs.rerolls = JSON.parse(this.esgst.storage.rerolls);
+			ugs.rerolls = JSON.parse(Shared.common.getValue('rerolls', '[]'));
 			ugs.sentWinners = {};
 			ugs.winners = {};
 			ugs.results.classList.remove('esgst-hidden');

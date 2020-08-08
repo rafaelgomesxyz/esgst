@@ -39,7 +39,7 @@ class GiveawaysStickiedGiveawayGroups extends Module {
 
 	sgg_setGiveawayGroups() {
 		let avatar, code, container, context, elements, i, id, j, n, savedGroups, stickied;
-		savedGroups = JSON.parse(this.esgst.storage.groups);
+		savedGroups = JSON.parse(Shared.common.getValue('groups', '[]'));
 		container = document.querySelector(`.form_list[data-input="group_item_string"]`);
 		elements = container.children;
 		const obj = {

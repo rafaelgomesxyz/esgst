@@ -113,7 +113,7 @@ class UsersUserSuspensionTracker extends Module {
 			) {
 				let code, tickets;
 				code = window.location.pathname.match(/\/ticket\/(.+?)\//)[1];
-				tickets = JSON.parse(Shared.esgst.storage.tickets);
+				tickets = JSON.parse(Shared.common.getValue('tickets', '{}'));
 				if (!tickets[code] || !tickets[code].sent) {
 					Shared.esgst.ustButton = createElements(
 						document.getElementsByClassName('page__heading')[0].lastElementChild,

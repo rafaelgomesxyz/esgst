@@ -1,5 +1,9 @@
 import JSZip from 'jszip';
 
+const openTabs = new Set();
+let storage = {};
+let storageChanges = null;
+let lastSaved = 0;
 let browserInfo = null;
 let hasAddedWebRequestListener = false;
 
@@ -14,13 +18,15 @@ if ('getBrowserInfo' in browser.runtime) {
 	browserInfo = { name: '?' };
 }
 
-browser.storage.local.get('settings').then(async (result) => {
+const loadStorage = () => browser.storage.local.get(null).then((result) => (storage = result));
+
+loadStorage().then(async () => {
 	/**
 	 * @type {object}
 	 * @property {boolean} activateTab_sg
 	 * @property {boolean} activateTab_st
 	 */
-	const settings = result.settings ? JSON.parse(result.settings) : {};
+	const settings = storage.settings ? JSON.parse(storage.settings) : {};
 	if (settings.activateTab_sg || settings.activateTab_st) {
 		// Get the currently active tab.
 		const currentTab = (await queryTabs({ active: true }))[0];
@@ -63,6 +69,43 @@ browser.storage.local.get('settings').then(async (result) => {
 				}
 			});
 		});
+	}
+});
+
+let checkSaveTimeout = 0;
+
+const keepCheckingSave = async () => {
+	await checkSave();
+	checkSaveTimeout = window.setTimeout(keepCheckingSave, 60000);
+};
+
+const checkSave = async (force) => {
+	const now = Date.now();
+	//console.log(storageChanges);
+	//console.log('Checking...', force, now - lastSaved);
+	if (storageChanges && (force || now - lastSaved > 60000)) {
+		const storageChangesBkp = storageChanges;
+		storageChanges = null;
+		lastSaved = now;
+		//console.log('Saving storage...');
+		await browser.storage.local.set(storageChangesBkp);
+		//console.log('Storage saved!');
+	}
+};
+
+browser.tabs.onRemoved.addListener(async (tabId) => {
+	if (!openTabs.has(tabId)) {
+		return;
+	}
+	//console.log(tabId);
+	openTabs.delete(tabId);
+	if (openTabs.size > 0) {
+		return;
+	}
+	await checkSave(true);
+	if (checkSaveTimeout) {
+		window.clearTimeout(checkSaveTimeout);
+		checkSaveTimeout = 0;
 	}
 });
 
@@ -306,6 +349,55 @@ browser.runtime.onMessage.addListener((request, sender) => {
 			case 'open_tab':
 				openTab(request.url);
 				break;
+			case 'get_storage': {
+				openTabs.add(sender.tab.id);
+				if (!checkSaveTimeout) {
+					await keepCheckingSave();
+				}
+				if (Object.keys(storage).length === 0) {
+					await loadStorage();
+				}
+				resolve(JSON.stringify(storage));
+				break;
+			}
+			case 'set_values': {
+				if (!storageChanges) {
+					storageChanges = {};
+				}
+				const newValues = {
+					changes: {},
+					areaName: 'local',
+				};
+				const values = JSON.parse(request.values);
+				for (const key in values) {
+					storage[key] = values[key];
+					storageChanges[key] = values[key];
+					newValues.changes[key] = { newValue: values[key] };
+				}
+				await checkSave();
+				sendMessage('storageChanged', sender, newValues, true);
+				resolve();
+				break;
+			}
+			case 'del_values': {
+				if (!storageChanges) {
+					storageChanges = {};
+				}
+				const newValues = {
+					changes: {},
+					areaName: 'local',
+				};
+				const keys = JSON.parse(request.keys);
+				for (const key of keys) {
+					storage[key] = null;
+					storageChanges[key] = null;
+					newValues.changes[key] = { newValue: null };
+				}
+				await checkSave();
+				sendMessage('storageChanged', sender, newValues, true);
+				resolve();
+				break;
+			}
 		}
 	});
 });

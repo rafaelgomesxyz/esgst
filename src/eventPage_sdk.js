@@ -10,7 +10,10 @@ const TYPE_SET = 0;
 const TYPE_GET = 1;
 const TYPE_DEL = 2;
 
-let workers = [];
+const workers = new Set();
+let storage = {};
+let storageChanges = null;
+let lastSaved = 0;
 
 // @ts-ignore
 buttons.ActionButton({
@@ -119,9 +122,10 @@ function handle_storage(operation, values) {
 		dbConn.asyncClose(() => resolve(output));
 	});
 }
+const loadStorage = () => handle_storage(TYPE_GET, null).then((result) => (storage = result));
 
-(async () => {
-	const settings = JSON.parse((await handle_storage(TYPE_GET, { settings: '{}' })).settings);
+loadStorage().then(async () => {
+	const settings = storage.settings ? JSON.parse(storage.settings) : {};
 	if (!settings.activateTab_sg && !settings.activateTab_st) {
 		return;
 	}
@@ -140,7 +144,28 @@ function handle_storage(operation, values) {
 	if (currentTab && currentTab.id) {
 		currentTab.activate();
 	}
-})();
+});
+
+let checkSaveTimeout = 0;
+
+const keepCheckingSave = async () => {
+	await checkSave();
+	checkSaveTimeout = setTimeout(keepCheckingSave, 60000);
+};
+
+const checkSave = async (force) => {
+	const now = Date.now();
+	//Cu.reportError(JSON.stringify(storageChanges));
+	//Cu.reportError(`Checking... ${force} ${now - lastSaved}`);
+	if (storageChanges && (force || now - lastSaved > 60000)) {
+		const storageChangesBkp = storageChanges;
+		storageChanges = null;
+		lastSaved = now;
+		//Cu.reportError('Saving storage...');
+		await handle_storage(TYPE_SET, storageChangesBkp);
+		//Cu.reportError('Storage saved!');
+	}
+};
 
 function sendMessage(action, sender, values, sendToAll) {
 	for (const worker of workers) {
@@ -218,10 +243,16 @@ function doFetch(parameters, request) {
 	});
 }
 
-function detachWorker(worker) {
-	const index = workers.indexOf(worker);
-	if (index !== -1) {
-		workers.splice(index, 1);
+async function detachWorker(worker) {
+	//Cu.reportError(worker);
+	workers.delete(worker);
+	if (workers.size > 0) {
+		return;
+	}
+	await checkSave(true);
+	if (checkSaveTimeout) {
+		clearTimeout(checkSaveTimeout);
+		checkSaveTimeout = 0;
 	}
 }
 
@@ -286,9 +317,9 @@ PageMod({
 	contentScriptFile: data.url('esgst.js'),
 	contentScriptWhen: 'start',
 	onAttach: (worker) => {
-		let keys, parameters, values;
+		let parameters;
 
-		workers.push(worker);
+		workers.add(worker);
 
 		worker.on('detach', () => {
 			detachWorker(worker);
@@ -329,19 +360,6 @@ PageMod({
 			worker.port.emit(`do_unlock_${request.uuid}_response`, 'null');
 		});
 
-		worker.port.on('delValues', async (request) => {
-			keys = JSON.parse(request.keys);
-			await handle_storage(TYPE_DEL, keys);
-			worker.port.emit(`delValues_${request.uuid}_response`, 'null');
-			const changes = {};
-			for (const key of keys) {
-				changes[key] = {
-					newValue: 'null',
-				};
-			}
-			sendMessage('storageChanged', worker, { changes, areaName: 'local' });
-		});
-
 		worker.port.on('fetch', async (request) => {
 			parameters = JSON.parse(request.parameters);
 			const response = await doFetch(parameters, request);
@@ -353,26 +371,8 @@ PageMod({
 			worker.port.emit(`getPackageJson_${request.uuid}_response`, JSON.stringify(packageJson));
 		});
 
-		worker.port.on('getStorage', async (request) => {
-			const storage = await handle_storage(TYPE_GET, null);
-			worker.port.emit(`getStorage_${request.uuid}_response`, JSON.stringify(storage));
-		});
-
 		worker.port.on('reload', (request) => {
 			worker.port.emit(`reload_${request.uuid}_response`, 'null');
-		});
-
-		worker.port.on('setValues', async (request) => {
-			values = JSON.parse(request.values);
-			await handle_storage(TYPE_SET, values);
-			worker.port.emit(`setValues_${request.uuid}_response`, 'null');
-			const changes = {};
-			for (const key in values) {
-				changes[key] = {
-					newValue: values[key],
-				};
-			}
-			sendMessage('storageChanged', worker, { changes, areaName: 'local' });
 		});
 
 		worker.port.on('tabs', (request) => {
@@ -383,6 +383,54 @@ PageMod({
 		worker.port.on('open_tab', (request) => {
 			tabs.open(request.url);
 			worker.port.emit(`open_tab_${request.uuid}_response`, 'null');
+		});
+
+		worker.port.on('get_storage', async (request) => {
+			if (!checkSaveTimeout) {
+				await keepCheckingSave();
+			}
+			if (Object.keys(storage).length === 0) {
+				await loadStorage();
+			}
+			worker.port.emit(`get_storage_${request.uuid}_response`, JSON.stringify(storage));
+		});
+
+		worker.port.on('set_values', async (request) => {
+			if (!storageChanges) {
+				storageChanges = {};
+			}
+			const newValues = {
+				changes: {},
+				areaName: 'local',
+			};
+			const values = JSON.parse(request.values);
+			for (const key in values) {
+				storage[key] = values[key];
+				storageChanges[key] = values[key];
+				newValues.changes[key] = { newValue: values[key] };
+			}
+			await checkSave();
+			sendMessage('storageChanged', worker, newValues, true);
+			worker.port.emit(`set_values_${request.uuid}_response`, 'null');
+		});
+
+		worker.port.on('del_values', async (request) => {
+			if (!storageChanges) {
+				storageChanges = {};
+			}
+			const newValues = {
+				changes: {},
+				areaName: 'local',
+			};
+			const keys = JSON.parse(request.keys);
+			for (const key of keys) {
+				storage[key] = null;
+				storageChanges[key] = null;
+				newValues.changes[key] = { newValue: null };
+			}
+			await checkSave();
+			sendMessage('storageChanged', worker, newValues, true);
+			worker.port.emit(`del_values_${request.uuid}_response`, 'null');
 		});
 	},
 });
@@ -416,7 +464,9 @@ function getTabs(request) {
 		if (!request[item.id]) {
 			continue;
 		}
-		let tab = workers.map((worker) => worker.tab).filter((tab) => tab.url.match(item.pattern))[0];
+		let tab = Array.from(workers)
+			.map((worker) => worker.tab)
+			.filter((tab) => tab.url.match(item.pattern))[0];
 		if (tab && tab.id) {
 			tab.activate();
 			if (request.refresh) {
@@ -430,7 +480,7 @@ function getTabs(request) {
 		}
 	}
 	if (any) {
-		let tab = workers
+		let tab = Array.from(workers)
 			.map((worker) => worker.tab)
 			.filter((tab) => tab.url.match(/.*:\/\/.*\.steamgifts\.com\/.*/))[0];
 		if (tab && tab.id) {
@@ -440,7 +490,7 @@ function getTabs(request) {
 }
 
 function activateTab(host) {
-	const tab = workers
+	const tab = Array.from(workers)
 		.map((worker) => worker.tab)
 		.filter((tab) => tab.url.match(new RegExp(`.*:\\/\\/.*\\.${host}\\.com\\/.*`)))[0];
 	if (tab && tab.id) {

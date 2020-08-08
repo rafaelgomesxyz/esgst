@@ -63,15 +63,17 @@ import { runSilentSync } from './modules/Sync';
 			}
 		});
 
-		browser.storage.onChanged.addListener(Shared.common.getChanges.bind(Shared.common));
-
 		// set default values or correct values
 		/**
 		 * @property {object} esgst.storage.Emojis
 		 * @property {object} esgst.storage.filterPresets
 		 * @property {object} esgst.storage.dfPresets
 		 */
-		esgst.storage = await browser.storage.local.get(null);
+		esgst.storage = JSON.parse(
+			await browser.runtime.sendMessage({
+				action: 'get_storage',
+			})
+		);
 
 		esgst.features = common.getFeatures();
 		[esgst.featuresById, esgst.featuresAncestors] = common.getFeaturesById();

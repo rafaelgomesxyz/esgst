@@ -1,8 +1,9 @@
-import { Module } from '../../class/Module';
-import { common } from '../Common';
-import { Settings } from '../../class/Settings';
-import { LocalStorage } from '../../class/LocalStorage';
 import { DOM } from '../../class/DOM';
+import { LocalStorage } from '../../class/LocalStorage';
+import { Module } from '../../class/Module';
+import { Settings } from '../../class/Settings';
+import { Shared } from '../../class/Shared';
+import { common } from '../Common';
 
 const createElements = common.createElements.bind(common),
 	createLock = common.createLock.bind(common),
@@ -66,7 +67,7 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
 		let match = window.location.pathname.match(/(giveaway|discussion|ticket|trade)\/(.+?)\//);
 		let type = `${match[1]}s`;
 		let code = match[2];
-		let savedComments = JSON.parse(this.esgst.storage[type]);
+		let savedComments = JSON.parse(Shared.common.getValue(type, '{}'));
 		if (
 			Settings.get(
 				`gdttt_v${

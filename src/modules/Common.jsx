@@ -1069,7 +1069,7 @@ class Common extends Module {
 					},
 					notifyNewVersion: {
 						name: 'Notify when a new ESGST version is available.',
-						featureOnly: true,
+						extensionOnly: true,
 						sg: true,
 						st: true,
 					},
@@ -3780,7 +3780,7 @@ class Common extends Module {
 	async exportSettings() {
 		//** @type {EsgstSettings} */
 		let settings = JSON.parse(this.getValue('settings', '{}'));
-		let data = { settings, v: Shared.esgst.storage.v };
+		let data = { settings, v: this.getValue('v') };
 
 		delete data.settings.avatar;
 		delete data.settings.lastSync;
@@ -5899,19 +5899,24 @@ class Common extends Module {
 	setValues(values) {
 		let key;
 		return new Promise((resolve) =>
-			browser.storage.local.set(values).then(() => {
-				for (key in values) {
-					if (values.hasOwnProperty(key)) {
-						this.esgst.storage[key] = values[key];
-						try {
-							this.esgst[key] = JSON.parse(values[key]);
-						} catch (e) {
-							this.esgst[key] = values[key];
+			browser.runtime
+				.sendMessage({
+					action: 'set_values',
+					values: JSON.stringify(values),
+				})
+				.then(() => {
+					for (key in values) {
+						if (values.hasOwnProperty(key)) {
+							this.esgst.storage[key] = values[key];
+							try {
+								this.esgst[key] = JSON.parse(values[key]);
+							} catch (e) {
+								this.esgst[key] = values[key];
+							}
 						}
 					}
-				}
-				resolve();
-			})
+					resolve();
+				})
 		);
 	}
 
@@ -5935,10 +5940,15 @@ class Common extends Module {
 
 	delValues(keys) {
 		return new Promise((resolve) =>
-			browser.storage.local.remove(keys).then(() => {
-				keys.forEach((key) => delete this.esgst.storage[key]);
-				resolve();
-			})
+			browser.runtime
+				.sendMessage({
+					action: 'del_values',
+					keys: JSON.stringify(keys),
+				})
+				.then(() => {
+					keys.forEach((key) => delete this.esgst.storage[key]);
+					resolve();
+				})
 		);
 	}
 
@@ -6229,6 +6239,10 @@ class Common extends Module {
 				continue;
 			}
 			const change = changes[key];
+			if (change.newValue === null) {
+				delete Shared.esgst.storage[key];
+				delete Shared.esgst[key];
+			}
 			if (!Utils.isSet(change.newValue)) {
 				continue;
 			}

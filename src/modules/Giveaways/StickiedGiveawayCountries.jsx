@@ -1,7 +1,8 @@
 import { Button } from '../../class/Button';
-import { Module } from '../../class/Module';
-import { common } from '../Common';
 import { DOM } from '../../class/DOM';
+import { Module } from '../../class/Module';
+import { Shared } from '../../class/Shared';
+import { common } from '../Common';
 
 const getValue = common.getValue.bind(common),
 	setValue = common.setValue.bind(common);
@@ -32,7 +33,7 @@ class GiveawaysStickiedGiveawayCountries extends Module {
 		let rows = document.getElementsByClassName('form__rows')[0];
 		if (!rows) return;
 		let container, context, elements, i, id, n, stickiedCountries;
-		stickiedCountries = JSON.parse(this.esgst.storage.stickiedCountries);
+		stickiedCountries = JSON.parse(Shared.common.getValue('stickiedCountries', '[]'));
 		container = document.querySelector(`.form_list[data-input="country_item_string"]`);
 		elements = container.children;
 		const obj = {

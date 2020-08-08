@@ -1,8 +1,9 @@
+import { DOM } from '../../class/DOM';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
-import { common } from '../Common';
 import { Settings } from '../../class/Settings';
-import { DOM } from '../../class/DOM';
+import { Shared } from '../../class/Shared';
+import { common } from '../Common';
 
 const createHeadingButton = common.createHeadingButton.bind(common);
 class DiscussionsMainPostPopup extends Module {
@@ -56,7 +57,7 @@ class DiscussionsMainPostPopup extends Module {
 		this.esgst.mainPageHeading.parentElement.insertBefore(MPPPost, this.esgst.mainPageHeading);
 		let Hidden;
 		if (Settings.get('mpp_r')) {
-			let discussion = JSON.parse(this.esgst.storage.discussions)[
+			let discussion = JSON.parse(Shared.common.getValue('discussions', '{}'))[
 				window.location.pathname.match(/^\/discussion\/(.+?)\//)[1]
 			];
 			if (discussion) {

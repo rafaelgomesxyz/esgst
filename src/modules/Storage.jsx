@@ -1605,8 +1605,8 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
 			);
 			await Shared.common.setValue('notifiedMessages', JSON.stringify(notifiedMessages));
 		} else if (dm.type === 'export') {
-			data.notifiedMessages = Shared.esgst.storage.notifiedMessages;
-			data.v = Shared.esgst.storage.v;
+			data.notifiedMessages = Shared.common.getValue('notifiedMessages');
+			data.v = Shared.common.getValue('v');
 		}
 	}
 
