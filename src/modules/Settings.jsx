@@ -471,7 +471,7 @@ class SettingsModule {
 							}
 							let feature, ft;
 							feature = Shared.esgst.features[type].features[id];
-							if (feature.st && !Settings.get('esgst_st') && id !== 'esgst') {
+							if (!feature.sg && feature.st && !Settings.get('esgst_st') && id !== 'esgst') {
 								continue;
 							}
 							ft = this.getSMFeature(feature, id, j, `${i}.${j}`, popup);
@@ -1792,7 +1792,7 @@ class SettingsModule {
 					continue;
 				}
 				const subFt = feature.features[subId];
-				if (subFt.st && !Settings.get('esgst_st') && id !== 'esgst') {
+				if (!subFt.sg && subFt.st && !Settings.get('esgst_st') && id !== 'esgst') {
 					continue;
 				}
 				const subFeature = this.getSMFeature(subFt, subId, i, `${numberPath}.${i}`, popup);
