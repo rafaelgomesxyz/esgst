@@ -164,6 +164,7 @@ const checkSave = async (force) => {
 		//Cu.reportError('Saving storage...');
 		await handle_storage(TYPE_SET, storageChangesBkp);
 		//Cu.reportError('Storage saved!');
+		sendMessage('storageSaved', null, now, true);
 	}
 };
 
@@ -431,6 +432,15 @@ PageMod({
 			await checkSave();
 			sendMessage('storageChanged', worker, newValues, true);
 			worker.port.emit(`del_values_${request.uuid}_response`, 'null');
+		});
+
+		worker.port.on('get_last_saved', () => {
+			worker.port.emit(`get_last_saved_${request.uuid}_response`, lastSaved);
+		});
+
+		worker.port.on('save', async (request) => {
+			await checkSave(true);
+			worker.port.emit(`save_${request.uuid}_response`, 'null');
 		});
 	},
 });

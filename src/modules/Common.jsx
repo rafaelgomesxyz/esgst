@@ -6100,6 +6100,16 @@ class Common extends Module {
 			return;
 		}
 
+		let saveDescription = null;
+		let saveOnClick = null;
+		if ((await this.getBrowserInfo()).name !== 'userscript') {
+			const lastSaved = await browser.runtime.sendMessage({ action: 'get_last_saved' });
+			saveDescription = `${
+				lastSaved ? `Last saved on ${new Date(lastSaved).toLocaleString()}.` : 'Never saved.'
+			} Click to force a save.`;
+			saveOnClick = () => browser.runtime.sendMessage({ action: 'save' });
+		}
+
 		Shared.header.addButtonContainer({
 			buttonImage: Shared.esgst.icon,
 			buttonName: ' ESGST',
@@ -6155,8 +6165,10 @@ class Common extends Module {
 					onClick: this.openDonationsPopup.bind(this),
 				},
 				{
+					description: saveDescription,
 					icon: 'fa fa-fw fa-info-circle icon-grey grey',
 					name: `Current Version: ${Shared.esgst.versionName}`,
+					onClick: saveOnClick,
 				},
 			],
 			onClick: (event) => {

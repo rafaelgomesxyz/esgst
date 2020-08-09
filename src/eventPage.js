@@ -90,6 +90,7 @@ const checkSave = async (force) => {
 		//console.log('Saving storage...');
 		await browser.storage.local.set(storageChangesBkp);
 		//console.log('Storage saved!');
+		sendMessage('storageSaved', null, now, true);
 	}
 };
 
@@ -395,6 +396,14 @@ browser.runtime.onMessage.addListener((request, sender) => {
 				}
 				await checkSave();
 				sendMessage('storageChanged', sender, newValues, true);
+				resolve();
+				break;
+			}
+			case 'get_last_saved':
+				resolve(lastSaved);
+				break;
+			case 'save': {
+				await checkSave(true);
 				resolve();
 				break;
 			}

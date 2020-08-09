@@ -51,6 +51,15 @@ import { runSilentSync } from './modules/Sync';
 				case 'storageChanged':
 					Shared.common.getChanges(message.values.changes, message.values.areaName);
 					break;
+				case 'storageSaved':
+					if (Shared.header) {
+						Shared.header.buttonContainers['esgst'].dropdownItems[
+							'currentVersion'
+						].nodes.description.textContent = `Last saved on ${new Date(
+							message.values
+						).toLocaleString()}. Click to force a save.`;
+					}
+					break;
 				case 'update':
 					common.createConfirmation(
 						`Hi! A new version of ESGST (${message.values.version}) is available. Do you want to force an update now? If you choose to force an update, ESGST will stop working in any SteamGifts/SteamTrades tab that is open, along with any operation that you might be performing (such as syncing, checking something etc), so you will have to refresh them. If you choose not to force an update, your browser will automatically update the extension when you are not using it (for example, when you restart the browser).`,
