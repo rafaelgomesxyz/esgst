@@ -1165,7 +1165,7 @@ class Common extends Module {
 							<ul>
 								<li>
 									Important messages are used to inform ESGST users of something that needs their
-									attention. Because these messages are retrieved from GitLab, the extension doesn't
+									attention. Because these messages are retrieved from GitHub, the extension doesn't
 									need to be updated in order for them to be hard-coded.
 								</li>
 							</ul>
@@ -1410,7 +1410,7 @@ class Common extends Module {
 			);
 			Shared.esgst.isFirstRun = false;
 		} else if (Shared.esgst.isUpdate && Settings.get('showChangelog')) {
-			const hasPermission = await permissions.contains([['gitlab']]);
+			const hasPermission = await permissions.contains([['github']]);
 
 			if (!hasPermission) {
 				new Popup({
@@ -1421,12 +1421,12 @@ class Common extends Module {
 						<fragment>
 							ESGST has updated from v{Shared.esgst.previousVersion} to v
 							{Shared.esgst.currentVersion}! Please go to{' '}
-							<a href="https://gitlab.com/rafaelgssa/esgst/-/releases">
-								https://gitlab.com/rafaelgssa/esgst/-/releases
+							<a href="https://github.com/rafaelgssa/esgst/-/releases">
+								https://github.com/rafaelgssa/esgst/-/releases
 							</a>{' '}
 							to view the changelog. If you want the changelog to be automatically retrieved from
-							GitLab and shown in this popup when updating, then go to the settings menu and grant
-							permission to "gitlab.com"
+							GitHub and shown in this popup when updating, then go to the settings menu and grant
+							permission to "github.com"
 						</fragment>
 					),
 				}).open();

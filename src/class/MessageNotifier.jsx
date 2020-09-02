@@ -1,13 +1,12 @@
-import { Popup } from './Popup';
-import { Shared } from './Shared';
-import { Settings } from './Settings';
 import { FetchRequest } from './FetchRequest';
 import { permissions } from './Permissions';
-import { DOM } from './DOM';
+import { Popup } from './Popup';
+import { Settings } from './Settings';
+import { Shared } from './Shared';
 
 class _MessageNotifier {
 	async notify(notifiedMessages) {
-		const hasPermission = await permissions.contains([['gitlab']]);
+		const hasPermission = await permissions.contains([['github']]);
 		if (!hasPermission) {
 			return;
 		}
@@ -19,7 +18,7 @@ class _MessageNotifier {
 		try {
 			const messages = (
 				await FetchRequest.get(
-					'https://gitlab.com/api/v4/projects/rafaelgssa%2Fesgst/repository/files/messages.json/raw?ref=main'
+					'https://raw.githubusercontent.com/rafaelgssa/esgst/main/messages.json'
 				)
 			).json;
 			// Only get messages from the last 30 days.

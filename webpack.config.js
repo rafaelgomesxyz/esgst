@@ -97,6 +97,7 @@ function getWebExtensionManifest(env, browserName) {
 			'*://*.graph.microsoft.com/*',
 			'*://*.isthereanydeal.com/*',
 			'*://*.rafaelgssa.com/*',
+			'*://*.raw.githubusercontent.com/*',
 			'*://*.script.google.com/*',
 			'*://*.script.googleusercontent.com/*',
 			'*://*.steam-tracker.com/*',

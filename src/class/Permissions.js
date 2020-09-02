@@ -23,13 +23,13 @@ class Permissions {
 				},
 				values: ['*://*.api.dropboxapi.com/*', '*://*.content.dropboxapi.com/*'],
 			},
-			gitlab: {
+			github: {
 				isOrigin: true,
 				messages: {
-					showMessages: 'Required to retrieve important messages from GitLab.',
-					showChangelog: 'Required to retrieve the changelog from GitLab when updating.',
+					showMessages: 'Required to retrieve important messages from GitHub.',
+					showChangelog: 'Required to retrieve the changelog from GitHub when updating.',
 				},
-				values: ['*://*.gitlab.com/*'],
+				values: ['*://*.github.com/*', '*://*.raw.githubusercontent.com/*'],
 			},
 			googleDrive: {
 				isOrigin: true,

@@ -24,6 +24,7 @@
 // @connect graph.microsoft.com
 // @connect isthereanydeal.com
 // @connect rafaelgssa.com
+// @connect raw.githubusercontent.com
 // @connect script.google.com
 // @connect script.googleusercontent.com
 // @connect steam-tracker.com

@@ -51,7 +51,7 @@ To install the userscript, you must install [Tampermonkey](https://tampermonkey.
 
 You can also use the userscript on Android through Firefox with Violentmonkey or USI, but some features might not work or not be optimized enough for mobile.
 
-- [Changelog](https://gitlab.com/rafaelgssa/esgst/-/releases)
+- [Changelog](https://github.com/rafaelgssa/esgst/releases)
 
 ---
 
