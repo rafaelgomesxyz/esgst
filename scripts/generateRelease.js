@@ -82,13 +82,38 @@ async function generateChangelog() {
 }
 
 async function generateRelease() {
-	const body = await generateChangelog();
-	const version = `v${packageJson.version}`;
+	if (args.beta) {
+		if (packageJson.betaVersion === packageJson.version) {
+			return;
+		}
+
+		const releases = await octokit.repos.listReleases(Object.assign({}, defaultParams));
+
+		const preRelease = releases.data.filter((release) => release.prerelease)[0];
+
+		if (preRelease) {
+			await octokit.repos.deleteRelease(
+				Object.assign({}, defaultParams, {
+					release_id: preRelease.id,
+				})
+			);
+
+			await octokit.git.deleteRef(
+				Object.assign({}, defaultParams, {
+					ref: `tags/${preRelease.tag_name}`,
+				})
+			);
+		}
+	}
+
+	const body = args.beta ? '' : await generateChangelog();
+	const version = `v${args.beta ? packageJson.betaVersion : packageJson.version}`;
 
 	const release = await octokit.repos.createRelease(
 		Object.assign({}, defaultParams, {
 			body,
 			name: version,
+			prerelease: !!args.beta,
 			tag_name: version,
 		})
 	);
@@ -110,6 +135,16 @@ async function generateRelease() {
 			content: fs.readFileSync(path.resolve(__dirname, '../dist/palemoon.xpi')),
 			name: 'palemoon.xpi',
 			type: 'application/zip',
+		},
+		{
+			content: fs.readFileSync(path.resolve(__dirname, '../dist/userscript.meta.js')),
+			name: 'userscript.meta.js',
+			type: 'text/javascript',
+		},
+		{
+			content: fs.readFileSync(path.resolve(__dirname, '../dist/userscript.user.js')),
+			name: 'userscript.user.js',
+			type: 'text/javascript',
 		},
 	];
 

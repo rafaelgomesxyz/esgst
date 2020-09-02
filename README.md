@@ -55,6 +55,12 @@ You can also use the userscript on Android through Firefox with Violentmonkey or
 
 ---
 
+## Beta Versions
+
+The latest beta version for both the extension and the userscript is always available in the latest pre-release in the [releases page](https://github.com/rafaelgssa/esgst/releases).
+
+---
+
 ## Features
 
 To learn more about each feature you have to install ESGST.

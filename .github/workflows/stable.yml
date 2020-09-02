@@ -1,0 +1,27 @@
+name: Stable Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  stable:
+    if: ${{ contains(github.event.commits[0].message, 'Bump version to') }}
+    name: Build, test and release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - name: Install pnpm
+        run: npm install -g pnpm
+      - name: Install dependencies
+        run: pnpm install
+      - name: Build
+        run: pnpm run build
+      - name: Release
+        run: pnpm run generate-release token=${{ secrets.GH_TOKEN }}
