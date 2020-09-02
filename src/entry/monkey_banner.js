@@ -7,8 +7,8 @@
 // @version <% package.version %>
 // @author <% package.author %>
 // @contributor Royalgamer06
-// @updateURL https://rafaelgssa.github.io/esgst/userscript.meta.js
-// @downloadURL https://rafaelgssa.github.io/esgst/userscript.user.js
+// @updateURL https://github.com/rafaelgssa/esgst/releases/latest/download/userscript.meta.js
+// @downloadURL https://github.com/rafaelgssa/esgst/releases/latest/download/userscript.user.js
 // @match https://www.steamgifts.com/*
 // @match https://www.steamtrades.com/*
 // @connect steamtrades.com
