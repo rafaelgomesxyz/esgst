@@ -92,7 +92,7 @@ function getWebExtensionManifest(env, browserName) {
 			'*://*.api.steampowered.com/*',
 			'*://*.content.dropboxapi.com/*',
 			'*://*.files.1drv.com/*',
-			'*://*.gitlab.com/*',
+			'*://*.github.com/*',
 			'*://*.googleapis.com/*',
 			'*://*.graph.microsoft.com/*',
 			'*://*.isthereanydeal.com/*',

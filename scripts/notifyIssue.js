@@ -67,7 +67,7 @@ async function notify() {
 
 			console.log(permalink, commentId, issueNumber);
 
-			const message = `Beep bop! ESGST bot here to let you know that your report / suggestion is being looked into. For reference, visit the GitLab issue: [#${issueNumber}](https://gitlab.com/rafaelgssa/esgst/-/issues/${issueNumber})`;
+			const message = `Beep bop! ESGST bot here to let you know that your report / suggestion is being looked into. For reference, visit the GitHub issue: [#${issueNumber}](https://github.com/rafaelgssa/esgst/issues/${issueNumber})`;
 
 			await fetch(url, {
 				body: `xsrf_token=${xsrfToken}&do=comment_new&parent_id=${commentId}&description=${encodeURIComponent(
@@ -141,7 +141,7 @@ async function notify() {
 
 			console.log(permalink, commentId, issueNumber);
 
-			const message = `Beep bop! ESGST bot here to let you know that a new version is being deployed which should fix your issue. If you're on Chrome, it may take a while until the update is available. For reference, visit the GitLab issue: [#${issueNumber}](https://gitlab.com/rafaelgssa/esgst/-/issues/${issueNumber})`;
+			const message = `Beep bop! ESGST bot here to let you know that a new version is being deployed which should fix your issue. If you're on Chrome, it may take a while until the update is available. For reference, visit the GitHub issue: [#${issueNumber}](https://github.com/rafaelgssa/esgst/issues/${issueNumber})`;
 
 			await fetch(url, {
 				body: `xsrf_token=${xsrfToken}&do=comment_new&parent_id=${commentId}&description=${encodeURIComponent(

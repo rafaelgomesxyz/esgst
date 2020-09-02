@@ -5,13 +5,13 @@
 	"title": "Enhanced SteamGifts & SteamTrades (ESGST)",
 	"description": "A script that adds some cool features to SteamGifts and SteamTrades.",
 	"author": "rafaelgssa",
-	"homepage": "https://gitlab.com/rafaelgssa/esgst",
+	"homepage": "https://github.com/rafaelgssa/esgst",
 	"bugs": {
-		"url": "https://gitlab.com/rafaelgssa/esgst/-/issues"
+		"url": "https://github.com/rafaelgssa/esgst/issues"
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://gitlab.com/rafaelgssa/esgst.git"
+		"url": "git+https://github.com/rafaelgssa/esgst.git"
 	},
 	"scripts": {
 		"build": "webpack --env.production",
