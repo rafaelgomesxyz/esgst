@@ -81,7 +81,7 @@ import { runSilentSync } from './modules/Sync';
 		const storage = await browser.runtime.sendMessage({
 			action: 'get_storage',
 		});
-		if (storage) {
+		if (storage && storage !== 'null') {
 			esgst.storage = JSON.parse(storage);
 			esgst.isTemporaryStorage = true;
 		} else {
