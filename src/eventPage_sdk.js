@@ -12,6 +12,7 @@ const TYPE_DEL = 2;
 
 const workers = new Set();
 let storage = {};
+let isTemporaryStorage = false;
 let storageChanges = null;
 let lastSaved = 0;
 
@@ -126,6 +127,9 @@ const loadStorage = () => handle_storage(TYPE_GET, null).then((result) => (stora
 
 loadStorage().then(async () => {
 	const settings = storage.settings ? JSON.parse(storage.settings) : {};
+	if (settings.useTemporaryStorage_sg || settings.useTemporaryStorage_st) {
+		isTemporaryStorage = true;
+	}
 	if (!settings.activateTab_sg && !settings.activateTab_st) {
 		return;
 	}
@@ -361,6 +365,19 @@ PageMod({
 			worker.port.emit(`do_unlock_${request.uuid}_response`, 'null');
 		});
 
+		worker.port.on('delValues', async (request) => {
+			const keys = JSON.parse(request.keys);
+			await handle_storage(TYPE_DEL, keys);
+			worker.port.emit(`delValues_${request.uuid}_response`, 'null');
+			const changes = {};
+			for (const key of keys) {
+				changes[key] = {
+					newValue: 'null',
+				};
+			}
+			sendMessage('storageChanged', worker, { changes, areaName: 'local' });
+		});
+
 		worker.port.on('fetch', async (request) => {
 			parameters = JSON.parse(request.parameters);
 			const response = await doFetch(parameters, request);
@@ -372,8 +389,26 @@ PageMod({
 			worker.port.emit(`getPackageJson_${request.uuid}_response`, JSON.stringify(packageJson));
 		});
 
+		worker.port.on('getStorage', async (request) => {
+			const storage = await handle_storage(TYPE_GET, null);
+			worker.port.emit(`getStorage_${request.uuid}_response`, JSON.stringify(storage));
+		});
+
 		worker.port.on('reload', (request) => {
 			worker.port.emit(`reload_${request.uuid}_response`, 'null');
+		});
+
+		worker.port.on('setValues', async (request) => {
+			const values = JSON.parse(request.values);
+			await handle_storage(TYPE_SET, values);
+			worker.port.emit(`setValues_${request.uuid}_response`, 'null');
+			const changes = {};
+			for (const key in values) {
+				changes[key] = {
+					newValue: values[key],
+				};
+			}
+			sendMessage('storageChanged', worker, { changes, areaName: 'local' });
 		});
 
 		worker.port.on('tabs', (request) => {
@@ -387,13 +422,17 @@ PageMod({
 		});
 
 		worker.port.on('get_storage', async (request) => {
-			if (!checkSaveTimeout) {
-				await keepCheckingSave();
+			if (isTemporaryStorage) {
+				if (!checkSaveTimeout) {
+					await keepCheckingSave();
+				}
+				if (Object.keys(storage).length === 0) {
+					await loadStorage();
+				}
+				worker.port.emit(`get_storage_${request.uuid}_response`, JSON.stringify(storage));
+			} else {
+				worker.port.emit(`get_storage_${request.uuid}_response`, 'null');
 			}
-			if (Object.keys(storage).length === 0) {
-				await loadStorage();
-			}
-			worker.port.emit(`get_storage_${request.uuid}_response`, JSON.stringify(storage));
 		});
 
 		worker.port.on('set_values', async (request) => {

@@ -134,6 +134,44 @@ const browser = {
 			});
 		},
 	},
+	storage: {
+		local: {
+			get: async () => {
+				const keys = await browser.gm.listValues();
+				const promises = [];
+				const storage = {};
+				for (const key of keys) {
+					const promise = browser.gm.getValue(key);
+					promise.then((value) => (storage[key] = value));
+					promises.push(promise);
+				}
+				await Promise.all(promises);
+
+				return storage;
+			},
+			remove: async (keys) => {
+				const promises = [];
+				for (const key of keys) {
+					promises.push(browser.gm.deleteValue(key));
+				}
+				await Promise.all(promises);
+				await browser.gm.setValue('storageChanged', JSON.stringify(Date.now()));
+			},
+			set: async (values) => {
+				const promises = [];
+				for (const key in values) {
+					if (values.hasOwnProperty(key)) {
+						promises.push(browser.gm.setValue(key, values[key]));
+					}
+				}
+				await Promise.all(promises);
+				await browser.gm.setValue('storageChanged', JSON.stringify(Date.now()));
+			},
+		},
+		onChanged: {
+			addListener: () => {},
+		},
+	},
 };
 
 browser.gm = GM;

@@ -39,6 +39,32 @@ const browser = {
 			});
 		},
 	},
+	storage: {
+		local: {
+			get: async () => {
+				return JSON.parse(
+					await browser.runtime.sendMessage({
+						action: 'getStorage',
+					})
+				);
+			},
+			remove: async (keys) => {
+				await browser.runtime.sendMessage({
+					action: 'delValues',
+					keys: JSON.stringify(keys),
+				});
+			},
+			set: async (values) => {
+				await browser.runtime.sendMessage({
+					action: 'setValues',
+					values: JSON.stringify(values),
+				});
+			},
+		},
+		onChanged: {
+			addListener: () => {},
+		},
+	},
 };
 
 setBrowser(browser);

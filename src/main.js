@@ -78,11 +78,17 @@ import { runSilentSync } from './modules/Sync';
 		 * @property {object} esgst.storage.filterPresets
 		 * @property {object} esgst.storage.dfPresets
 		 */
-		esgst.storage = JSON.parse(
-			await browser.runtime.sendMessage({
-				action: 'get_storage',
-			})
-		);
+		const storage = await browser.runtime.sendMessage({
+			action: 'get_storage',
+		});
+		if (storage) {
+			esgst.storage = JSON.parse(storage);
+			esgst.isTemporaryStorage = true;
+		} else {
+			esgst.storage = await browser.storage.local.get(null);
+			esgst.isTemporaryStorage = false;
+			browser.storage.onChanged.addListener(Shared.common.getChanges.bind(Shared.common));
+		}
 
 		esgst.features = common.getFeatures();
 		[esgst.featuresById, esgst.featuresAncestors] = common.getFeaturesById();

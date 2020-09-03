@@ -915,6 +915,30 @@ class Common extends Module {
 						sg: true,
 						st: true,
 					},
+					useTemporaryStorage: {
+						description: () => (
+							<ul>
+								<li>You must restart your browser every time you enable / disable this option.</li>
+								<li>
+									With this option enabled, your data will be temporarily saved in the background
+									page of the extension (in your RAM) and then persisted to your HD only every
+									minute or when all SG / ST tabs are closed. This reduces disk writes and should
+									also reduce CPU usage, consequently making the extension faster.
+								</li>
+								<li>
+									WARNING: This is experimental. Because your data is only persisted every minute or
+									when all SG / ST tabs are closed, if you close your browser or it crashes before
+									the data is persisted, you will lose everything that you did on ESGST since the
+									last save. For reference, the date of the last save can be found in the ESGST
+									dropdown (in the header).
+								</li>
+							</ul>
+						),
+						extensionOnly: true,
+						name: 'Use a temporary storage to improve the extension performance (experimental).',
+						sg: true,
+						st: true,
+					},
 					jumpToReplyBox: {
 						name: 'Jump to the reply box when loading a page that has one.',
 						sg: true,
@@ -5900,26 +5924,29 @@ class Common extends Module {
 	}
 
 	setValues(values) {
-		let key;
+		let promise;
+		if (Shared.esgst.isTemporaryStorage) {
+			promise = browser.runtime.sendMessage({
+				action: 'set_values',
+				values: JSON.stringify(values),
+			});
+		} else {
+			promise = browser.storage.local.set(values);
+		}
 		return new Promise((resolve) =>
-			browser.runtime
-				.sendMessage({
-					action: 'set_values',
-					values: JSON.stringify(values),
-				})
-				.then(() => {
-					for (key in values) {
-						if (values.hasOwnProperty(key)) {
-							this.esgst.storage[key] = values[key];
-							try {
-								this.esgst[key] = JSON.parse(values[key]);
-							} catch (e) {
-								this.esgst[key] = values[key];
-							}
+			promise.then(() => {
+				for (const key in values) {
+					if (values.hasOwnProperty(key)) {
+						this.esgst.storage[key] = values[key];
+						try {
+							this.esgst[key] = JSON.parse(values[key]);
+						} catch (e) {
+							this.esgst[key] = values[key];
 						}
 					}
-					resolve();
-				})
+				}
+				resolve();
+			})
 		);
 	}
 
@@ -5942,16 +5969,20 @@ class Common extends Module {
 	}
 
 	delValues(keys) {
+		let promise;
+		if (Shared.esgst.isTemporaryStorage) {
+			promise = browser.runtime.sendMessage({
+				action: 'del_values',
+				keys: JSON.stringify(keys),
+			});
+		} else {
+			promise = browser.storage.local.remove(keys);
+		}
 		return new Promise((resolve) =>
-			browser.runtime
-				.sendMessage({
-					action: 'del_values',
-					keys: JSON.stringify(keys),
-				})
-				.then(() => {
-					keys.forEach((key) => delete this.esgst.storage[key]);
-					resolve();
-				})
+			promise.then(() => {
+				keys.forEach((key) => delete this.esgst.storage[key]);
+				resolve();
+			})
 		);
 	}
 
@@ -6105,7 +6136,10 @@ class Common extends Module {
 
 		let saveDescription = null;
 		let saveOnClick = null;
-		if ((await this.getBrowserInfo()).name !== 'userscript') {
+		if (
+			Settings.get('useTemporaryStorage') &&
+			(await this.getBrowserInfo()).name !== 'userscript'
+		) {
 			const lastSaved = await browser.runtime.sendMessage({ action: 'get_last_saved' });
 			saveDescription = `${
 				lastSaved ? `Last saved on ${new Date(lastSaved).toLocaleString()}.` : 'Never saved.'

@@ -2,6 +2,7 @@ import JSZip from 'jszip';
 
 const openTabs = new Set();
 let storage = {};
+let isTemporaryStorage = false;
 let storageChanges = null;
 let lastSaved = 0;
 let browserInfo = null;
@@ -27,6 +28,9 @@ loadStorage().then(async () => {
 	 * @property {boolean} activateTab_st
 	 */
 	const settings = storage.settings ? JSON.parse(storage.settings) : {};
+	if (settings.useTemporaryStorage_sg || settings.useTemporaryStorage_st) {
+		isTemporaryStorage = true;
+	}
 	if (settings.activateTab_sg || settings.activateTab_st) {
 		// Get the currently active tab.
 		const currentTab = (await queryTabs({ active: true }))[0];
@@ -351,14 +355,18 @@ browser.runtime.onMessage.addListener((request, sender) => {
 				openTab(request.url);
 				break;
 			case 'get_storage': {
-				openTabs.add(sender.tab.id);
-				if (!checkSaveTimeout) {
-					await keepCheckingSave();
+				if (isTemporaryStorage) {
+					openTabs.add(sender.tab.id);
+					if (!checkSaveTimeout) {
+						await keepCheckingSave();
+					}
+					if (Object.keys(storage).length === 0) {
+						await loadStorage();
+					}
+					resolve(JSON.stringify(storage));
+				} else {
+					resolve('null');
 				}
-				if (Object.keys(storage).length === 0) {
-					await loadStorage();
-				}
-				resolve(JSON.stringify(storage));
 				break;
 			}
 			case 'set_values': {
