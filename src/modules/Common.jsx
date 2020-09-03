@@ -5172,9 +5172,14 @@ class Common extends Module {
 		return string.replace(/[.*+?^${}()|[\]\\]/g, `\\$&`);
 	}
 
-	triggerSetOnEnter(set, event) {
+	/**
+	 *
+	 * @param {import('../components/Button').Button} button
+	 * @param {*} event
+	 */
+	triggerSetOnEnter(button, event) {
 		if (event.key === 'Enter') {
-			set.trigger();
+			button.onClick();
 			return true;
 		}
 	}
