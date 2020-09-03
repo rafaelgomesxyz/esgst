@@ -148,11 +148,6 @@ class GiveawaysGiveawayExtractor extends Module {
 						})
 					).responseText
 				),
-				extractOnward: !!parameters.extractOnward,
-				flushCache: !!parameters.flush,
-				flushCacheHours: parameters.flushHrs,
-				ignoreDiscussionComments: !!parameters.noDiscCmt,
-				ignoreGiveawayComments: !!parameters.noGaCmt,
 			};
 
 			Shared.esgst.customPages.ge = {
@@ -365,6 +360,11 @@ class GiveawaysGiveawayExtractor extends Module {
 			null,
 			Settings.get('ge_ignoreGiveawayComments')
 		);
+		ge.extractOnward = Settings.get('ge_extractOnward');
+		ge.flushCache = Settings.get('ge_flushCache');
+		ge.flushCacheHours = Settings.get('ge_flushCacheHours');
+		ge.ignoreDiscussionComments = Settings.get('ge_ignoreDiscussionComments');
+		ge.ignoreGiveawayComments = Settings.get('ge_ignoreGiveawayComments');
 		ge.cacheWarning = null;
 		const onExtractClick = () => {
 			return new Promise((resolve) => {
