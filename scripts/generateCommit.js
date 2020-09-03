@@ -52,13 +52,14 @@ async function generateCommit() {
 	const version = bumpVersion(args);
 	if (args.stable) {
 		packageJson.version = version;
-	} else {
-		packageJson.betaVersion = version;
 	}
+	packageJson.betaVersion = version;
 	fs.writeFileSync(path.join(__dirname, '../package.json'), JSON.stringify(packageJson));
 
 	let commitMessage = '';
-	if (args.issue) {
+	if (args.stable) {
+		commitMessage = `Bump version to ${version}`;
+	} else if (args.issue) {
 		const issue = await octokit.issues.get({
 			...defaultParams,
 			issue_number: args.issue,
