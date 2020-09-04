@@ -26,6 +26,7 @@
 			"@babel/preset-env",
 			{
 				"targets": "defaults, Firefox 56, not IE 11",
+				"exclude": ["es.promise"],
 				"useBuiltIns": "usage",
 				"corejs": 3
 			}

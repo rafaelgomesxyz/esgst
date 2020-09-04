@@ -1,7 +1,7 @@
 {
 	"name": "esgst",
-	"version": "8.8.0",
-	"betaVersion": "8.8.0",
+	"version": "8.8.1",
+	"betaVersion": "8.8.1",
 	"title": "Enhanced SteamGifts & SteamTrades (ESGST)",
 	"description": "A script that adds some cool features to SteamGifts and SteamTrades.",
 	"author": "rafaelgssa",
@@ -50,6 +50,7 @@
 		"jszip": "Any version higher than 3.3.0 breaks the extension on Pale Moon"
 	},
 	"dependencies": {
+		"@babel/runtime": "^7.11.2",
 		"awesome-bootstrap-checkbox": "^0.3.7",
 		"bootstrap": "^3.4.1",
 		"core-js": "^3.6.5",
@@ -71,7 +72,6 @@
 		"@babel/preset-env": "^7.10.4",
 		"@babel/preset-react": "^7.10.4",
 		"@babel/preset-typescript": "^7.10.4",
-		"@babel/runtime": "^7.10.5",
 		"@octokit/rest": "^16.43.2",
 		"@types/chai": "^4.2.11",
 		"@types/greasemonkey": "^4.0.0",
