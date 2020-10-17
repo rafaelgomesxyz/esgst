@@ -112,7 +112,7 @@ class Popout {
 		this.isFixed = isFixed;
 		this.popout.classList.remove('esgst-hidden');
 		let n =
-			9999 +
+			999 +
 			document.querySelectorAll(`.esgst-popup:not(.esgst-hidden), .esgst-popout:not(.esgst-hidden)`)
 				.length;
 		if (Shared.esgst.openPopups > 0) {

@@ -153,7 +153,7 @@ class Popup {
 		Shared.common.setCurrentScope(this.id);
 		this.isOpen = true;
 		let n =
-			9999 +
+			999 +
 			document.querySelectorAll(
 				`.esgst-popup-layer:not(.esgst-hidden), .esgst-popout:not(.esgst-hidden)`
 			).length;

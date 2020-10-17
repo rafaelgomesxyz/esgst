@@ -26,6 +26,13 @@ class Giveaways extends Module {
 		if (context.getAttribute && context.getAttribute('data-rfi')) return;
 		let giveaways = await this.giveaways_get(context, main, null, false, null, false, endless);
 		if (!giveaways.length) return;
+		const lightbox = document.querySelector('.lightbox');
+		if (!lightbox) {
+			document.body.insertAdjacentHTML(
+				'afterbegin',
+				'<div class="lightbox" style="display: none;"><div class="lightbox_header"><div class="lightbox_header_description"><div class="lightbox_header_description_name"></div><div class="lightbox_header_description_count"></div></div><div class="lightbox_header_icons"><i data-category="images" class="lightbox_header_icon fa fa-camera"></i><i data-category="videos" class="lightbox_header_icon fa fa-video-camera"></i><i class="lightbox_header_icon lightbox_header_icon--close fa fa-times"></i></div></div><div class="lightbox_status lightbox_status--loading"><div><div class="lightbox_status_icon"><i class="fa fa-cog fa-spin"></i></div><div class="lightbox_status_text">Please Wait</div></div></div><div class="lightbox_status lightbox_status--empty"><div><div class="lightbox_status_icon"><i class="fa fa-picture-o"></i></div><div class="lightbox_status_text">No Results</div></div></div><div class="lightbox_images"></div><div class="lightbox_thumbnails_outer"><div class="lightbox_thumbnails_overlay"><div class="lightbox_thumbnails"></div></div></div></div>'
+			);
+		}
 		for (const [i, giveaway] of giveaways.entries()) {
 			giveaway.sortIndex = this.esgst.currentScope.giveaways.length;
 			this.esgst.currentScope.giveaways.push(giveaway);

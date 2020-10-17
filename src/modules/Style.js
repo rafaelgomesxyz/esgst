@@ -1747,7 +1747,7 @@ function addStyle() {
 		padding: 10px;
 		position: absolute;
 		top: 0;
-		z-index: 99999;
+		z-index: 999;
 	}
 
 	.esgst-aic-carousel {
