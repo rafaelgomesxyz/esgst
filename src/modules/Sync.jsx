@@ -791,51 +791,60 @@ async function sync(syncer) {
 		const isPermitted = await permissions.contains([['steamApi'], ['steamStore']]);
 		if (isPermitted) {
 			syncer.progressBar.setMessage('Syncing your wishlisted/owned/ignored games...');
-			syncer.jsx = [];
-			let apiResponse = null;
-			if (Settings.get('steamApiKey')) {
-				apiResponse = await Shared.common.request({
-					method: 'GET',
-					url: `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${Settings.get(
-						'steamApiKey'
-					)}&steamid=${Settings.get('steamId')}&format=json`,
-				});
-			}
-			let storeResponse = await Shared.common.request({
-				method: 'GET',
-				url: `http://store.steampowered.com/dynamicstore/userdata?${
-					Math.random().toString().split('.')[1]
-				}`,
-			});
-			await syncGames(null, syncer, apiResponse, storeResponse);
-			if (Settings.get('gc_o_altAccounts')) {
-				for (
-					let i = 0, n = Settings.get('gc_o_altAccounts').length;
-					!syncer.canceled && i < n;
-					i++
-				) {
-					let altAccount = Settings.get('gc_o_altAccounts')[i];
+			try {
+				syncer.jsx = [];
+				let apiResponse = null;
+				if (Settings.get('steamApiKey')) {
 					apiResponse = await Shared.common.request({
 						method: 'GET',
 						url: `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${Settings.get(
 							'steamApiKey'
-						)}&steamid=${altAccount.steamId}&format=json`,
+						)}&steamid=${Settings.get('steamId')}&format=json`,
 					});
-					await syncGames(altAccount, syncer, apiResponse);
 				}
-				await Shared.common.setSetting('gc_o_altAccounts', Settings.get('gc_o_altAccounts'));
-			}
-			DOM.insert(
-				syncer.results,
-				'beforeend',
-				<fragment>
-					<div>Owned/wishlisted/ignored games synced.</div>
-					{syncer.jsx}
-				</fragment>
-			);
-			if (Settings.get('getSyncGameNames')) {
-				// noinspection JSIgnoredPromiseFromCall
-				Shared.common.getGameNames(syncer.results);
+				let storeResponse = await Shared.common.request({
+					method: 'GET',
+					url: `http://store.steampowered.com/dynamicstore/userdata?${
+						Math.random().toString().split('.')[1]
+					}`,
+				});
+				await syncGames(null, syncer, apiResponse, storeResponse);
+				if (Settings.get('gc_o_altAccounts')) {
+					for (
+						let i = 0, n = Settings.get('gc_o_altAccounts').length;
+						!syncer.canceled && i < n;
+						i++
+					) {
+						let altAccount = Settings.get('gc_o_altAccounts')[i];
+						apiResponse = await Shared.common.request({
+							method: 'GET',
+							url: `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${Settings.get(
+								'steamApiKey'
+							)}&steamid=${altAccount.steamId}&format=json`,
+						});
+						await syncGames(altAccount, syncer, apiResponse);
+					}
+					await Shared.common.setSetting('gc_o_altAccounts', Settings.get('gc_o_altAccounts'));
+				}
+				DOM.insert(
+					syncer.results,
+					'beforeend',
+					<fragment>
+						<div>Owned/wishlisted/ignored games synced.</div>
+						{syncer.jsx}
+					</fragment>
+				);
+				if (Settings.get('getSyncGameNames')) {
+					// noinspection JSIgnoredPromiseFromCall
+					Shared.common.getGameNames(syncer.results);
+				}
+			} catch (e) {
+				syncer.failed.Games = true;
+				DOM.insert(
+					syncer.results,
+					'beforeend',
+					<div>Failed to sync your owned / wishlisted / ignored games. Try again later.</div>
+				);
 			}
 		} else {
 			syncer.failed.Games = true;
