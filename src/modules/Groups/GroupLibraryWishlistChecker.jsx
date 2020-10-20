@@ -343,7 +343,9 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 						let appInfo = responseText.match(/g_rgAppInfo\s=\s({(.+?)});/);
 						let games = appInfo ? JSON.parse(appInfo[1]) : null;
 						const wishlistGames = JSON.parse(wishlistData[1]);
-						const maxWishlists = parseInt(Settings.get('glwc_maxWishlists') || '0');
+						const maxWishlists = Settings.get('glwc_checkMaxWishlists')
+							? parseInt(Settings.get('glwc_maxWishlists'))
+							: Infinity;
 						if (wishlistGames.length <= maxWishlists) {
 							wishlistGames.forEach((item) => {
 								let id = item.appid;
@@ -397,6 +399,8 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 			this.glwc_showResults(glwc);
 		}
 	}
+
+	doCheck = () => {};
 
 	glwc_showResults(glwc) {
 		let game,
