@@ -139,9 +139,9 @@ class _DOM {
 		position: ExtendedInsertPosition,
 		node: HTMLElement | DocumentFragment
 	) => {
+		const elements =
+			node instanceof DocumentFragment ? (Array.from(node.children) as HTMLElement[]) : [node];
 		try {
-			const elements =
-				node instanceof DocumentFragment ? (Array.from(node.children) as HTMLElement[]) : [node];
 			const referenceElParent = referenceEl.parentElement;
 			switch (position) {
 				case 'beforebegin':
@@ -179,7 +179,7 @@ class _DOM {
 			window.console.log(error.message);
 			window.console.log(referenceEl, position, node);
 		}
-		return [];
+		return elements;
 	};
 
 	parse = (html: string) => {

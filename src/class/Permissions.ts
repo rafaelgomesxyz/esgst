@@ -1,6 +1,14 @@
 import { browser } from '../browser';
 
+export interface Permission {
+	isOrigin?: boolean;
+	messages: Record<string, string>;
+	values: string[];
+}
+
 class Permissions {
+	permissions: Record<string, Permission>;
+
 	constructor() {
 		this.permissions = {
 			allUrls: {
@@ -197,6 +205,4 @@ class Permissions {
 	}
 }
 
-const permissions = new Permissions();
-
-export { permissions };
+export const permissions = new Permissions();

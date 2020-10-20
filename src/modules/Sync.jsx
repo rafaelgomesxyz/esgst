@@ -11,6 +11,7 @@ import { Shared } from '../class/Shared';
 import { Button } from '../components/Button';
 import { NotificationBar } from '../components/NotificationBar';
 import { PageHeading } from '../components/PageHeading';
+import { Utils } from '../lib/jsUtils';
 
 let toSave = {};
 
@@ -98,10 +99,10 @@ async function runSilentSync(parameters) {
 
 	button.nodes.buttonIcon.title = 'ESGST is syncing your data... Please do not close this window.';
 
-	Shared.esgst.parameters = Object.assign(
-		Shared.esgst.parameters,
-		Shared.common.getParameters(`?autoSync=true&${parameters.replace(/&$/, '')}`)
-	);
+	Shared.esgst.parameters = {
+		...Shared.esgst.parameters,
+		...Utils.getQueryParams(`?autoSync=true&${parameters.replace(/&$/, '')}`),
+	};
 	const syncer = await setSync(false, true);
 	button.nodes.outer.addEventListener('click', () => syncer.popup.open());
 	Shared.esgst.isSyncing = true;

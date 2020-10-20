@@ -9,13 +9,14 @@ import { Shared } from './Shared';
  * @property {string} icon
  * @property {string} title
  * @property {import('../components/Button').ButtonOptions[]} buttons
+ * @property {boolean} isTemp
  */
 
 class Popup {
 	/**
-	 * @param {PopupOptions} details
+	 * @param {Partial<PopupOptions>} [details]
 	 */
-	constructor(details) {
+	constructor(details = {}) {
 		this.custom = {};
 		this.results = undefined;
 		this.Options = undefined;
@@ -207,6 +208,10 @@ class Popup {
 		DOM.insert(this.scrollable, 'beforeend', <div>{jsx}</div>);
 	}
 
+	/**
+	 * @param {*} [jsx]
+	 * @returns {HTMLElement}
+	 */
 	getScrollable(jsx) {
 		let scrollableEl;
 		DOM.insert(this.scrollable, 'beforeend', <div ref={(ref) => (scrollableEl = ref)}>{jsx}</div>);

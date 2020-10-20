@@ -358,20 +358,14 @@ class SettingsModule {
 				icons: [],
 				name: 'Save Changes',
 				onClick: async () => {
-					const requiredPermissions = new Set();
-					for (const featureKey of Object.keys(this.requiredPermissions)) {
-						for (const permissionKey of this.requiredPermissions[featureKey]) {
-							requiredPermissions.add(permissionKey);
-						}
-					}
-					const missingRequiredPermissions = [];
+					const missingPermissions = [];
+					const requiredPermissions = new Set(Object.values(this.requiredPermissions).flat());
 					for (const permissionKey of requiredPermissions) {
 						if (!(await permissions.contains([[permissionKey]]))) {
-							const permission = permissions.permissions[permissionKey];
-							missingRequiredPermissions.push(...permission.values);
+							missingPermissions.push(permissionKey);
 						}
 					}
-					if (missingRequiredPermissions.length > 0) {
+					if (missingPermissions.length > 0) {
 						const permissionsPopup = new Popup({
 							addScrollable: true,
 							icon: 'fa-exclamation',
@@ -381,24 +375,17 @@ class SettingsModule {
 									Some of the features you enabled require permissions in order to work. Go{' '}
 									<a
 										className="esgst-bold table__column__secondary-link"
-										href={browser.runtime.getURL('permissions.html')}
+										href={`${browser.runtime.getURL(
+											'permissions.html'
+										)}?keys=${missingPermissions.join(',')}`}
 										target="_blank"
 									>
 										here
 									</a>{' '}
-									to grant them. Specifically, you need to grant these permissions:{' '}
+									and click the "Grant" button to grant them.
 								</fragment>
 							),
 						});
-						permissionsPopup.getScrollable(
-							<div className="markdown">
-								<ul>
-									{missingRequiredPermissions.map((value) => (
-										<li>{value}</li>
-									))}
-								</ul>
-							</div>
-						);
 						permissionsPopup.open();
 						this.requiredPermissions = {};
 					}

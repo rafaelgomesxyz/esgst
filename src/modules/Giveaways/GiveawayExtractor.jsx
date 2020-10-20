@@ -14,13 +14,13 @@ import { Button } from '../../components/Button';
 import { NotificationBar } from '../../components/NotificationBar';
 import { PageHeading } from '../../components/PageHeading';
 import { Events } from '../../constants/Events';
+import { Utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 
 const buildGiveaway = common.buildGiveaway.bind(common),
 	createElements = common.createElements.bind(common),
 	createHeadingButton = common.createHeadingButton.bind(common),
 	endless_load = common.endless_load.bind(common),
-	getParameters = common.getParameters.bind(common),
 	request = common.request.bind(common);
 class GiveawaysGiveawayExtractor extends Module {
 	constructor() {
@@ -131,7 +131,7 @@ class GiveawaysGiveawayExtractor extends Module {
 		} else if (Shared.common.isCurrentPath('Account') && this.esgst.parameters.esgst === 'ge') {
 			this.nextRegex = new RegExp(Settings.get('npth_nextRegex'));
 
-			const parameters = getParameters();
+			const parameters = Utils.getQueryParams();
 			if (!parameters.url.match(/(^\/|www\.steamgifts\.com)/)) {
 				if (!(await permissions.contains([['allUrls']]))) {
 					window.alert('Giveaway Extractor: Not enough permissions to proceed.');
@@ -819,7 +819,7 @@ class GiveawaysGiveawayExtractor extends Module {
 		];
 		let giveaways = [];
 		if (context === ge.context) {
-			let match = getParameters().url.match(/\/giveaway\/(.+?)\//);
+			let match = Utils.getQueryParams().url.match(/\/giveaway\/(.+?)\//);
 			if (match) {
 				giveaways.push(match[1]);
 			}

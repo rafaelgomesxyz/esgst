@@ -1,7 +1,8 @@
+import { Utils } from '../lib/jsUtils';
 import { Parsedown } from '../lib/parsedown';
 import { modules } from '../modules';
-import { Shared } from './Shared';
 import { LocalStorage } from './LocalStorage';
+import { Shared } from './Shared';
 
 class Esgst {
 	constructor() {
@@ -528,7 +529,7 @@ class Esgst {
 		this.modules.common.addScope('main', document);
 		this.modules.common.setCurrentScope('main');
 
-		this.parameters = this.modules.common.getParameters();
+		this.parameters = Utils.getQueryParams();
 
 		this.locationHref = window.location.href;
 

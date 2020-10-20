@@ -9,6 +9,7 @@ import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { Button } from '../../components/Button';
 import { NotificationBar } from '../../components/NotificationBar';
 import { PageHeading } from '../../components/PageHeading';
+import { Utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 
 /**
@@ -20,7 +21,6 @@ import { common } from '../Common';
 const createElements = common.createElements.bind(common),
 	createHeadingButton = common.createHeadingButton.bind(common),
 	createTooltip = common.createTooltip.bind(common),
-	getParameters = common.getParameters.bind(common),
 	request = common.request.bind(common);
 class GroupsGroupLibraryWishlistChecker extends Module {
 	constructor() {
@@ -181,7 +181,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 					type: 'div',
 				},
 			]);
-			parameters = getParameters();
+			parameters = Utils.getQueryParams();
 			glwc.id = parameters.id;
 			glwc.url = parameters.url;
 			glwc.users = parameters.users
@@ -399,8 +399,6 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 			this.glwc_showResults(glwc);
 		}
 	}
-
-	doCheck = () => {};
 
 	glwc_showResults(glwc) {
 		let game,

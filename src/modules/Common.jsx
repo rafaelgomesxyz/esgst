@@ -5006,18 +5006,6 @@ class Common extends Module {
 		}
 	}
 
-	getParameters(source) {
-		let parameters = {};
-		(source || window.location.search)
-			.replace(/^\?/, '')
-			.split(/&/)
-			.forEach((item) => {
-				const items = item.split(/=/);
-				parameters[items[0]] = items[1];
-			});
-		return parameters;
-	}
-
 	setMissingDiscussion(context) {
 		if (context) {
 			this.createElements(context.outerWrap, 'atinner', [

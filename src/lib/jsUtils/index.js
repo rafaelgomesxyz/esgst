@@ -68,6 +68,15 @@ class _Utils {
 		return path.reduce((obj, key) => (obj && obj[key] ? obj[key] : null), obj);
 	}
 
+	getQueryParams = (str = window.location.search) => {
+		return Object.fromEntries(
+			str
+				.replace(/^\?/, '')
+				.split(/&/)
+				.map((pair) => pair.split(/=/))
+		);
+	};
+
 	/**
 	 * @param {string} hex
 	 * @param {string} alpha
