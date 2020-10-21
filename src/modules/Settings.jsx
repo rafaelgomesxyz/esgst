@@ -371,7 +371,7 @@ class SettingsModule {
 							missingPermissions.push(permissionKey);
 						}
 					}
-					if (missingPermissions.length > 0) {
+					if (browser.runtime.getURL && missingPermissions.length > 0) {
 						const permissionsPopup = new Popup({
 							addScrollable: true,
 							icon: 'fa-exclamation',

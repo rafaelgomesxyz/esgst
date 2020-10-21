@@ -1,3 +1,4 @@
+import { browser } from '../browser';
 import { Button } from '../components/Button';
 import { PageHeading } from '../components/PageHeading';
 import { DOM } from './DOM';
@@ -557,7 +558,7 @@ class _SettingsWizard {
 			runOp: () => Shared.common.lockAndSaveSettings(this.settingsToSave),
 		},
 		{
-			doShow: () => this.permissionsToGrant.size > 0,
+			doShow: () => browser.runtime.getURL && this.permissionsToGrant.size > 0,
 			isConfirmStep: true,
 			title: 'Required permissions',
 			description: () => (
