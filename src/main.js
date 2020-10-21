@@ -5,12 +5,12 @@ import './assets/styles';
 import { browser } from './browser';
 import { DOM } from './class/DOM';
 import { esgst } from './class/Esgst';
-import { LocalStorage } from './class/LocalStorage';
 import { Logger } from './class/Logger';
 import { MessageNotifier } from './class/MessageNotifier';
 import { persistentStorage } from './class/PersistentStorage';
 import { Session } from './class/Session';
 import { Settings } from './class/Settings';
+import { SettingsAnalytics } from './class/SettingsAnalytics';
 import { Shared } from './class/Shared';
 import { Footer } from './components/Footer';
 import { Header } from './components/Header';
@@ -303,6 +303,8 @@ import { runSilentSync } from './modules/Sync';
 		await common.addHeaderMenu();
 
 		common.checkNewVersion();
+
+		SettingsAnalytics.check();
 
 		if (Settings.get('showMessages')) {
 			await MessageNotifier.notify(esgst.notifiedMessages);
