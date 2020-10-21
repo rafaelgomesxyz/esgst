@@ -1,10 +1,10 @@
 import { browser } from '../browser';
 import { DOM } from '../class/DOM';
-import { LocalStorage } from '../class/LocalStorage';
 import { Logger } from '../class/Logger';
 import { permissions } from '../class/Permissions';
 import { Popup } from '../class/Popup';
 import { Settings } from '../class/Settings';
+import { SettingsWizard } from '../class/SettingsWizard';
 import { Shared } from '../class/Shared';
 import { ToggleSwitch } from '../class/ToggleSwitch';
 import { Button } from '../components/Button';
@@ -94,6 +94,12 @@ class SettingsModule {
 			<div className="esgst-button-group" ref={(ref) => (buttonGroup = ref)}></div>
 		);
 
+		Button.create({
+			color: 'green',
+			icons: [],
+			name: 'Run Wizard',
+			onClick: () => SettingsWizard.run(),
+		}).insert(buttonGroup, 'beforeend');
 		Button.create([
 			{
 				color: 'green',

@@ -13,6 +13,7 @@ import { Popup } from '../class/Popup';
 import { Scope } from '../class/Scope';
 import { Session } from '../class/Session';
 import { Settings } from '../class/Settings';
+import { SettingsWizard } from '../class/SettingsWizard';
 import { Shared } from '../class/Shared';
 import { Tabs } from '../class/Tabs';
 import { ToggleSwitch } from '../class/ToggleSwitch';
@@ -1352,6 +1353,7 @@ class Common extends Module {
 		if (Shared.esgst.isFirstRun) {
 			// noinspection JSIgnoredPromiseFromCall
 			this.setSetting('dismissedOptions', this.esgst.toDismiss);
+
 			const popup = new Popup({
 				addScrollable: true,
 				icon: 'fa-smile-o',
@@ -1364,74 +1366,13 @@ class Common extends Module {
 				),
 			});
 			popup.open();
+
 			await this.checkSync(true);
 
-			popup.setTitle(
-				`All done, ${Settings.get('username')}! Here's some useful info on how to get started!`
-			);
+			popup.close();
 
-			popup.getScrollable(
-				<div className="markdown">
-					<ul>
-						<li>
-							ESGST comes with all features disabled. Use the ESGST button at the header to access
-							the settings menu and start enabling features.
-						</li>
-						<li>
-							'The page heading in the settings menu allows you to access many useful
-							functionalities (sync data, backup data, restore data, delete data, clean old data,
-							etc), as well as save any changes you have made.
-						</li>
-						<li>
-							To enable a feature, simply toggle the [SG] switch for SteamGifts or the [ST] switch
-							for SteamTrades (you have to enable ESGST for SteamTrades in the "Other" section).
-						</li>
-						<li>
-							You can click on the name of the feature to get more details about it, such as what it
-							does, additional settings for it, what data you need to sync in order for it to work
-							properly (if any), and you can also specify where exactly you want it to run, instead
-							of letting it run everywhere.
-						</li>
-						<li>
-							Some features require additional browser permissions in order to work propertly.
-							Scroll to the end of the settings menu to find the "Permissions" section, where you
-							can see what each permission is required for.
-						</li>
-						<li>It is very important to back up your data often to prevent data loss.</li>
-						<li>
-							In the event of data loss, you can restore a previous backup to get your data back.
-						</li>
-						<li>
-							If you do not like popups, you can access the settings menu and all of the
-							functionalities accessible from it through links in the sidebar on your account page,
-							which will open a new page with the content instead of a popup in the same page. These
-							are the links for quick access:{' '}
-							<a href="https://www.steamgifts.com/account/settings/profile?esgst=settings">
-								Settings Menu
-							</a>
-							,{' '}
-							<a href="https://www.steamgifts.com/account/settings/profile?esgst=sync">Sync Data</a>
-							,{' '}
-							<a href="https://www.steamgifts.com/account/settings/profile?esgst=backup">
-								Backup Data
-							</a>
-							,{' '}
-							<a href="https://www.steamgifts.com/account/settings/profile?esgst=restore">
-								Restore Data
-							</a>
-							,{' '}
-							<a href="https://www.steamgifts.com/account/settings/profile?esgst=delete">
-								Delete Data
-							</a>
-						</li>
-						<li>
-							And that's the basics! ESGST can be very overwhelming with the huge number of features
-							it has, but we want to make it as easy-to-use as possible, so make sure to leave your
-							feedback in the SG thread. And please do not hesitate to report bugs. Enjoy!
-						</li>
-					</ul>
-				</div>
-			);
+			SettingsWizard.run();
+
 			Shared.esgst.isFirstRun = false;
 		} else if (Shared.esgst.isUpdate && Settings.get('showChangelog')) {
 			const hasPermission = await permissions.contains([['github']]);

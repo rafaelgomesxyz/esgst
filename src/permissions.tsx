@@ -31,6 +31,9 @@ const loadPermissions = async (): Promise<void> => {
 				<td>{usageCell}</td>
 			</tr>
 		);
+		if (params.keys) {
+			grantedPermissions.add(key);
+		}
 		if (!checkboxNode) {
 			continue;
 		}
