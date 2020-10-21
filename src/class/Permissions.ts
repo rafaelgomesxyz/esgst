@@ -77,6 +77,16 @@ class Permissions {
 				},
 				values: ['*://*.files.1drv.com/*', '*://*.graph.microsoft.com/*'],
 			},
+			sgTools: {
+				isOrigin: true,
+				messages: {
+					ge: 'Required by Giveaway Extractor to extract SGTools giveaways.',
+					namwc: 'Required by Not Activated / Multiple Wins Checker to check users.',
+					ugs:
+						'Required by Unsent Gifts Sender if the option to check not activated / multiple wins is enabled.',
+				},
+				values: ['*://*.sgtools.info/*'],
+			},
 			server: {
 				isOrigin: true,
 				messages: {
