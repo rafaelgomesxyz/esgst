@@ -16,7 +16,7 @@ Tested and confirmed as working:
 
 Not tested but should be working:
 
-- Any Chromium-based browser (such as Opera, Vivaldi, etc...)
+- Any Chromium-based browser (such as Edge Chromium, Opera, Vivaldi, etc...)
 
 Not supported:
 
