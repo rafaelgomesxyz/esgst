@@ -1,6 +1,13 @@
 import JSZip from 'jszip';
 
-const openTabs = new Set();
+/**
+ * @typedef {Object} OpenTab
+ * @property {number} id
+ * @property {string} url
+ */
+
+/** @type {OpenTab[]} */
+let openTabs = [];
 let storage = {};
 let isTemporaryStorage = false;
 let storageChanges = null;
@@ -36,11 +43,11 @@ loadStorage().then(async () => {
 		const currentTab = (await queryTabs({ active: true }))[0];
 		if (settings.activateTab_sg) {
 			// Set the SG tab as active.
-			await activateTab('steamgifts');
+			await activateTab('https://www.steamgifts.com');
 		}
 		if (settings.activateTab_st) {
 			// Set the ST tab as active.
-			await activateTab('steamtrades');
+			await activateTab('https://www.steamtrades.com');
 		}
 		// Go back to the previously active tab.
 		if (currentTab && currentTab.id) {
@@ -48,30 +55,29 @@ loadStorage().then(async () => {
 		}
 	}
 	if (settings.notifyNewVersion_sg || settings.notifyNewVersion_st) {
-		const url = [];
+		/** @type {string[]} */
+		const urls = [];
 		if (settings.notifyNewVersion_sg) {
-			url.push(`*://*.steamgifts.com/*`);
+			urls.push('https://www.steamgifts.com');
 		}
 		if (settings.notifyNewVersion_st) {
-			url.push(`*://*.steamtrades.com/*`);
+			urls.push('https://www.steamtrades.com');
 		}
 		browser.runtime.onUpdateAvailable.addListener((details) => {
-			browser.tabs.query({ url }).then((tabs) => {
-				const tab = tabs[0];
-				if (tab) {
-					browser.tabs
-						.sendMessage(
-							tab.id,
-							JSON.stringify({
-								action: 'update',
-								values: details,
-							})
-						)
-						.then(() => {});
-				} else {
-					browser.runtime.reload();
-				}
-			});
+			const tab = openTabs.find((tab) => urls.some((url) => tab.url.startsWith(url)));
+			if (tab) {
+				browser.tabs
+					.sendMessage(
+						tab.id,
+						JSON.stringify({
+							action: 'update',
+							values: details,
+						})
+					)
+					.then(() => {});
+			} else {
+				browser.runtime.reload();
+			}
 		});
 	}
 });
@@ -99,12 +105,8 @@ const checkSave = async (force) => {
 };
 
 browser.tabs.onRemoved.addListener(async (tabId) => {
-	if (!openTabs.has(tabId)) {
-		return;
-	}
-	//console.log(tabId);
-	openTabs.delete(tabId);
-	if (openTabs.size > 0) {
+	openTabs = openTabs.filter((tab) => tab.id !== tabId);
+	if (openTabs.length > 0) {
 		return;
 	}
 	await checkSave(true);
@@ -148,10 +150,7 @@ function addWebRequestListener() {
 }
 
 async function sendMessage(action, sender, values, sendToAll) {
-	const tabs = await browser.tabs.query({
-		url: [`*://*.steamgifts.com/*`, `*://*.steamtrades.com/*`],
-	});
-	for (const tab of tabs) {
+	for (const tab of openTabs) {
 		if (sender && tab.id === sender.tab.id) {
 			continue;
 		}
@@ -355,8 +354,11 @@ browser.runtime.onMessage.addListener((request, sender) => {
 				openTab(request.url);
 				break;
 			case 'get_storage': {
+				openTabs.push({
+					id: sender.tab.id,
+					url: request.url,
+				});
 				if (isTemporaryStorage) {
-					openTabs.add(sender.tab.id);
 					if (!checkSaveTimeout) {
 						await keepCheckingSave();
 					}
@@ -423,22 +425,18 @@ async function getTabs(request) {
 	let items = [
 		{
 			id: 'inbox_sg',
-			pattern: `*://*.steamgifts.com/messages*`,
 			url: `https://www.steamgifts.com/messages`,
 		},
 		{
 			id: 'inbox_st',
-			pattern: `*://*.steamtrades.com/messages*`,
 			url: `https://www.steamtrades.com/messages`,
 		},
 		{
 			id: 'wishlist',
-			pattern: `*://*.steamgifts.com/giveaways/search?*type=wishlist*`,
 			url: `https://www.steamgifts.com/giveaways/search?type=wishlist`,
 		},
 		{
 			id: 'won',
-			pattern: `*://*.steamgifts.com/giveaways/won*`,
 			url: `https://www.steamgifts.com/giveaways/won`,
 		},
 	];
@@ -448,7 +446,7 @@ async function getTabs(request) {
 		if (!request[item.id]) {
 			continue;
 		}
-		let tab = (await queryTabs({ url: item.pattern }))[0];
+		const tab = openTabs.find((tab) => tab.url.startsWith(item.url));
 		if (tab && tab.id) {
 			await updateTab(tab.id, { active: true });
 			if (request.refresh) {
@@ -461,7 +459,7 @@ async function getTabs(request) {
 		}
 	}
 	if (any) {
-		let tab = (await queryTabs({ url: `*://*.steamgifts.com/*` }))[0];
+		const tab = openTabs.find((tab) => tab.url.startsWith('https://www.steamgifts.com'));
 		if (tab && tab.id) {
 			await updateTab(tab.id, { active: true });
 		}
@@ -489,7 +487,7 @@ function updateTab(id, parameters) {
 }
 
 async function activateTab(host) {
-	const tab = (await queryTabs({ url: `*://*.${host}.com/*` }))[0];
+	const tab = openTabs.find((tab) => tab.url.startsWith(host));
 	if (tab && tab.id) {
 		await updateTab(tab.id, { active: true });
 	}

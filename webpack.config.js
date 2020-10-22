@@ -77,7 +77,6 @@ function getWebExtensionManifest(env, browserName) {
 		],
 		permissions: [
 			'storage',
-			'tabs',
 			'unlimitedStorage',
 			'*://*.steamgifts.com/*',
 			'*://*.steamtrades.com/*',

@@ -80,6 +80,7 @@ import { runSilentSync } from './modules/Sync';
 		 */
 		const storage = await browser.runtime.sendMessage({
 			action: 'get_storage',
+			url: window.location.href,
 		});
 		if (storage && storage !== 'null') {
 			esgst.storage = JSON.parse(storage);
