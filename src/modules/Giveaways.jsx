@@ -134,6 +134,7 @@ class Giveaways extends Module {
 				keys = [
 					'owned',
 					'wishlisted',
+					'previouslyWishlisted',
 					'followed',
 					'hidden',
 					'ignored',

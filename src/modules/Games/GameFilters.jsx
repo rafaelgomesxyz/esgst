@@ -143,6 +143,18 @@ class GamesGameFilters extends Filters {
 							name: 'Wishlisted',
 							sg: true,
 						},
+						gf_previouslyWishlisted: {
+							description: () => (
+								<ul>
+									<li>
+										Allows you to filter giveaways for games that you previously had on your
+										wishlist.
+									</li>
+								</ul>
+							),
+							name: 'Previously Wishlisted',
+							sg: true,
+						},
 						gf_followed: {
 							description: () => (
 								<ul>
@@ -485,6 +497,12 @@ class GamesGameFilters extends Filters {
 			wishlisted: {
 				check: true,
 				name: 'Wishlisted',
+				sync: ['Games'],
+				type: 'boolean',
+			},
+			previouslyWishlisted: {
+				check: true,
+				name: 'Previously Wishlisted',
 				sync: ['Games'],
 				type: 'boolean',
 			},

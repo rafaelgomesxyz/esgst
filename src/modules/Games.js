@@ -171,6 +171,7 @@ class Games extends Module {
 						const keys = [
 							'owned',
 							'wishlisted',
+							'previouslyWishlisted',
 							'followed',
 							'hidden',
 							'ignored',
@@ -311,6 +312,7 @@ class Games extends Module {
 				const keys = [
 					'owned',
 					'wishlisted',
+					'previouslyWishlisted',
 					'followed',
 					'hidden',
 					'ignored',

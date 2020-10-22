@@ -328,6 +328,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
 					'previouslyWon',
 					'reducedCV',
 					'wishlisted',
+					'previouslyWishlisted',
 				];
 				for (const key of keys) {
 					if (

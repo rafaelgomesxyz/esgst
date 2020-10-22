@@ -1543,8 +1543,6 @@ async function syncGames(altAccount, syncer, apiResponse, storeResponse) {
 		} catch (e) {
 			/**/
 		}
-
-		await Shared.common.lockAndSaveGames(savedGames);
 	}
 
 	const removedOwned = {};
@@ -1587,6 +1585,14 @@ async function syncGames(altAccount, syncer, apiResponse, storeResponse) {
 				}
 			}
 		}
+		if (!altAccount) {
+			for (const id of removedWishlisted[type]) {
+				savedGames[type][id].previouslyWishlisted = true;
+			}
+		}
+	}
+	if (!altAccount) {
+		await Shared.common.lockAndSaveGames(savedGames);
 	}
 	if (
 		altAccount &&
