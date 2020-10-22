@@ -345,6 +345,19 @@ class GiveawaysGiveawayFilters extends Filters {
 							name: 'Whitelist',
 							sg: true,
 						},
+						gf_nonMemberGroup: {
+							dependencies: ['cl', 'ggl'],
+							description: () => (
+								<ul>
+									<li>
+										Allows you to filter giveaways that are for groups/whitelist, where you're not a
+										member of any of the groups.
+									</li>
+								</ul>
+							),
+							name: 'Non-Member Group',
+							sg: true,
+						},
 						gf_regionRestricted: {
 							description: () => (
 								<ul>
@@ -1236,6 +1249,18 @@ class GiveawaysGiveawayFilters extends Filters {
 						(!this.esgst.wonPath || Settings.get('cewgd'))) ||
 					popup,
 				name: 'Whitelist',
+				type: 'boolean',
+			},
+			nonMemberGroup: {
+				check:
+					Settings.get('cl') &&
+					Settings.get('ggl') &&
+					Settings.get('ggl_index') === 0 &&
+					(((!this.esgst.createdPath || Settings.get('cewgd')) &&
+						(!this.esgst.enteredPath || Settings.get('cewgd')) &&
+						(!this.esgst.wonPath || Settings.get('cewgd'))) ||
+						popup),
+				name: 'Non-Member Group',
 				type: 'boolean',
 			},
 			regionRestricted: {

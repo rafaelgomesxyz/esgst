@@ -918,8 +918,10 @@ class GeneralContentLoader extends Module {
 
 			giveaway.groups = [];
 			giveaway.groupNames = [];
+			giveaway.nonMemberGroup = false;
 
-			let numGroups = 0;
+			let numVisibleGroups = 0;
+			let numMemberGroups = 0;
 
 			for (const code of groups) {
 				let className;
@@ -927,12 +929,13 @@ class GeneralContentLoader extends Module {
 				const group = Shared.esgst.groups.filter((x) => x.code === code)[0] || groupsToSave[code];
 				if (group.member) {
 					className = 'esgst-ggl-member';
-					numGroups += 1;
+					numVisibleGroups += 1;
+					numMemberGroups += 1;
 				} else if (Settings.get('ggl_m')) {
 					className = 'esgst-hidden';
 				} else {
 					className = '';
-					numGroups += 1;
+					numVisibleGroups += 1;
 				}
 
 				giveaway.groups.push(group.name.toLowerCase());
@@ -964,8 +967,12 @@ class GeneralContentLoader extends Module {
 				}
 			}
 
-			if (numGroups === 0) {
+			if (numVisibleGroups === 0) {
 				panel.remove();
+			}
+
+			if (numMemberGroups === 0) {
+				giveaway.nonMemberGroup = true;
 			}
 		}
 	}
