@@ -1246,6 +1246,16 @@ class Common extends Module {
 				this.getFeatureById(feature, id, featuresById, featuresAncestors);
 			}
 		}
+		for (const [id, feature] of Object.entries(featuresById)) {
+			if (!feature.alias) {
+				continue;
+			}
+			const aliasFeature = featuresById[feature.alias];
+			for (const key in aliasFeature) {
+				feature[key] = aliasFeature[key];
+			}
+			feature.id = id;
+		}
 		return [featuresById, featuresAncestors];
 	}
 

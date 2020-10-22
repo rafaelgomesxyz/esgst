@@ -1,8 +1,7 @@
-import { common } from '../Common';
-import { Filters } from '../Filters';
+import { DOM } from '../../class/DOM';
 import { Settings } from '../../class/Settings';
 import { Shared } from '../../class/Shared';
-import { DOM } from '../../class/DOM';
+import { Filters } from '../Filters';
 
 class GamesGameFilters extends Filters {
 	constructor() {
@@ -95,323 +94,101 @@ class GamesGameFilters extends Filters {
 							name: 'Hide advanced filters.',
 							sg: true,
 						},
-						gf_rating: {
-							dependencies: ['gc', 'gc_r'],
-							description: () => (
-								<ul>
-									<li>Allows you to filter games by rating percentage.</li>
-								</ul>
-							),
-							name: 'Rating',
-							sg: true,
+						gmf_rating: {
+							alias: 'gf_rating',
 						},
-						gf_reviews: {
-							dependencies: ['gc', 'gc_r'],
-							description: () => (
-								<ul>
-									<li>Allows you to filter games by the number of reviews.</li>
-								</ul>
-							),
-							name: 'Reviews',
-							sg: true,
+						gmf_reviews: {
+							alias: 'gf_reviews',
 						},
-						gf_releaseDate: {
-							dependencies: ['gc', 'gc_rd'],
-							description: () => (
-								<ul>
-									<li>Allows you to filter games by release date.</li>
-								</ul>
-							),
-							name: 'Release Date',
-							sg: true,
+						gmf_releaseDate: {
+							alias: 'gf_releaseDate',
 						},
-						gf_owned: {
-							description: () => (
-								<ul>
-									<li>Allows you to filter games that you own on Steam.</li>
-								</ul>
-							),
-							name: 'Owned',
-							sg: true,
+						gmf_owned: {
+							alias: 'gf_owned',
 						},
-						gf_wishlisted: {
-							description: () => (
-								<ul>
-									<li>Allows you to filter games that you have wishlisted on Steam.</li>
-								</ul>
-							),
-							name: 'Wishlisted',
-							sg: true,
+						gmf_wishlisted: {
+							alias: 'gf_wishlisted',
 						},
-						gf_previouslyWishlisted: {
-							description: () => (
-								<ul>
-									<li>
-										Allows you to filter giveaways for games that you previously had on your
-										wishlist.
-									</li>
-								</ul>
-							),
-							name: 'Previously Wishlisted',
-							sg: true,
+						gmf_previouslyWishlisted: {
+							alias: 'gf_previouslyWishlisted',
 						},
-						gf_followed: {
-							description: () => (
-								<ul>
-									<li>Allows you to filter games that you have followed on Steam.</li>
-								</ul>
-							),
-							name: 'Followed',
-							sg: true,
-							syncKeys: ['FollowedGames'],
+						gmf_followed: {
+							alias: 'gf_followed',
 						},
-						gf_hidden: {
-							description: () => (
-								<ul>
-									<li>Allows you to filter games that you have hidden on SteamGifts.</li>
-								</ul>
-							),
-							name: 'Hidden',
-							sg: true,
+						gmf_hidden: {
+							alias: 'gf_hidden',
 						},
-						gf_ignored: {
-							description: () => (
-								<ul>
-									<li>Allows you to filter games that you have ignored on Steam.</li>
-								</ul>
-							),
-							name: 'Ignored',
-							sg: true,
+						gmf_ignored: {
+							alias: 'gf_ignored',
 						},
-						gf_previouslyEntered: {
-							dependencies: ['egh'],
-							description: () => (
-								<ul>
-									<li>
-										Allows you to filter games that you have previously entered giveaways for.
-									</li>
-								</ul>
-							),
-							name: 'Previously Entered',
-							sg: true,
+						gmf_previouslyEntered: {
+							alias: 'gf_previouslyEntered',
 						},
-						gf_previouslyWon: {
-							description: () => (
-								<ul>
-									<li>Allows you to filter games that you have previously won.</li>
-								</ul>
-							),
-							name: 'Previously Won',
-							sg: true,
+						gmf_previouslyWon: {
+							alias: 'gf_previouslyWon',
 						},
-						gf_fullCV: {
-							description: () => (
-								<ul>
-									<li>Allows you to filter games that give full CV.</li>
-								</ul>
-							),
-							name: 'Full CV',
-							sg: true,
+						gmf_fullCV: {
+							alias: 'gf_fullCV',
 						},
-						gf_reducedCV: {
-							description: () => (
-								<ul>
-									<li>Allows you to filter games that give reduced CV.</li>
-								</ul>
-							),
-							name: 'Reduced CV',
-							sg: true,
+						gmf_reducedCV: {
+							alias: 'gf_reducedCV',
 						},
-						gf_noCV: {
-							description: () => (
-								<ul>
-									<li>Allows you to filter games that give no CV.</li>
-								</ul>
-							),
-							name: 'No CV',
-							sg: true,
+						gmf_noCV: {
+							alias: 'gf_noCV',
 						},
-						gf_learning: {
-							dependencies: ['gc', 'gc_lg'],
-							description: () => (
-								<ul>
-									<li>Allows you to filter games that Steam is learning about.</li>
-								</ul>
-							),
-							name: 'Learning',
-							sg: true,
+						gmf_learning: {
+							alias: 'gf_learning',
 						},
-						gf_removed: {
-							dependencies: ['gc', 'gc_rm'],
-							description: () => (
-								<ul>
-									<li>Allows you to filter games that have been removed from the Steam store.</li>
-								</ul>
-							),
-							name: 'Removed',
-							sg: true,
+						gmf_removed: {
+							alias: 'gf_removed',
 						},
-						gf_banned: {
-							dependencies: ['gc', 'gc_bd'],
-							description: () => (
-								<ul>
-									<li>Allows you to filter games that are banned on Steam.</li>
-								</ul>
-							),
-							name: 'Banned',
-							sg: true,
+						gmf_banned: {
+							alias: 'gf_banned',
 						},
-						gf_tradingCards: {
-							dependencies: ['gc', 'gc_tc'],
-							description: () => (
-								<ul>
-									<li>Allows you to filter games that have trading cards.</li>
-								</ul>
-							),
-							name: 'Trading Cards',
-							sg: true,
+						gmf_tradingCards: {
+							alias: 'gf_tradingCards',
 						},
-						gf_achievements: {
-							dependencies: ['gc', 'gc_a'],
-							description: () => (
-								<ul>
-									<li>Allows you to filter games that have achievements.</li>
-								</ul>
-							),
-							name: 'Achievements',
-							sg: true,
+						gmf_achievements: {
+							alias: 'gf_achievements',
 						},
-						gf_singleplayer: {
-							dependencies: ['gc', 'gc_sp'],
-							description: () => (
-								<ul>
-									<li>Allows you to filter games that are singleplayer.</li>
-								</ul>
-							),
-							name: 'Singleplayer',
-							sg: true,
+						gmf_singleplayer: {
+							alias: 'gf_singleplayer',
 						},
-						gf_multiplayer: {
-							dependencies: ['gc', 'gc_mp'],
-							description: () => (
-								<ul>
-									<li>Allows you to filter games that are multiplayer.</li>
-								</ul>
-							),
-							name: 'Multiplayer',
-							sg: true,
+						gmf_multiplayer: {
+							alias: 'gf_multiplayer',
 						},
-						gf_steamCloud: {
-							dependencies: ['gc', 'gc_sc'],
-							description: () => (
-								<ul>
-									<li>Allows you to filter games that have Steam Cloud.</li>
-								</ul>
-							),
-							name: 'Steam Cloud',
-							sg: true,
+						gmf_steamCloud: {
+							alias: 'gf_steamCloud',
 						},
-						gf_linux: {
-							dependencies: ['gc', 'gc_l'],
-							description: () => (
-								<ul>
-									<li>Allows you to filter games that have are compatible with Linux.</li>
-								</ul>
-							),
-							name: 'Linux',
-							sg: true,
+						gmf_linux: {
+							alias: 'gf_linux',
 						},
-						gf_mac: {
-							dependencies: ['gc', 'gc_m'],
-							description: () => (
-								<ul>
-									<li>Allows you to filter games that are compatible with Mac.</li>
-								</ul>
-							),
-							name: 'Mac',
-							sg: true,
+						gmf_mac: {
+							alias: 'gf_mac',
 						},
-						gf_dlc: {
-							dependencies: ['gc', 'gc_dlc'],
-							description: () => (
-								<ul>
-									<li>Allows you to filter games that are DLCs.</li>
-								</ul>
-							),
-							name: 'DLC',
-							sg: true,
+						gmf_dlc: {
+							alias: 'gf_dlc',
 						},
-						gf_dlcOwned: {
-							dependencies: ['gc', 'gc_dlc', 'gc_dlc_o'],
-							description: () => (
-								<ul>
-									<li>
-										Allows you to filter games that are DLCs and have a base game that you own.
-									</li>
-								</ul>
-							),
-							name: `DLC (Owned Base)`,
-							sg: true,
+						gmf_dlcOwned: {
+							alias: 'gf_dlcOwned',
 						},
-						gf_dlcFree: {
-							dependencies: ['gc', 'gc_dlc', 'gc_dlc_b'],
-							description: () => (
-								<ul>
-									<li>Allows you to filter games that are DLCs and have a free base game.</li>
-								</ul>
-							),
-							name: `DLC (Free Base)`,
-							sg: true,
+						gmf_dlcFree: {
+							alias: 'gf_dlcFree',
 						},
-						gf_dlcNonFree: {
-							dependencies: ['gc', 'gc_dlc', 'gc_dlc_b'],
-							description: () => (
-								<ul>
-									<li>Allows you to filter games that are DLCs and have a non-free base game.</li>
-								</ul>
-							),
-							name: `DLC (Non-Free Base)`,
-							sg: true,
+						gmf_dlcNonFree: {
+							alias: 'gf_dlcNonFree',
 						},
-						gf_package: {
-							dependencies: ['gc', 'gc_p'],
-							description: () => (
-								<ul>
-									<li>Allows you to filter games that are packages.</li>
-								</ul>
-							),
-							name: 'Package',
-							sg: true,
+						gmf_package: {
+							alias: 'gf_package',
 						},
-						gf_earlyAccess: {
-							dependencies: ['gc', 'gc_ea'],
-							description: () => (
-								<ul>
-									<li>Allows you to filter games that are in early access.</li>
-								</ul>
-							),
-							name: 'Early Access',
-							sg: true,
+						gmf_earlyAccess: {
+							alias: 'gf_earlyAccess',
 						},
-						gf_genres: {
-							dependencies: ['gc', 'gc_g'],
-							description: () => (
-								<ul>
-									<li>Allows you to filter games by genre.</li>
-								</ul>
-							),
-							name: 'Genres',
-							sg: true,
+						gmf_genres: {
+							alias: 'gf_genres',
 						},
-						gf_tags: {
-							dependencies: ['gt'],
-							description: () => (
-								<ul>
-									<li>Allows you to filter games by game tags.</li>
-								</ul>
-							),
-							name: 'Game Tags',
-							sg: true,
+						gmf_tags: {
+							alias: 'gf_tags',
 						},
 					},
 					name: 'Multiple Filters',

@@ -640,6 +640,7 @@ class SettingsModule {
 			return;
 		}
 		const url = `${Shared.esgst.settingsUrl}&id=${id}`;
+		const featureId = feature.alias ?? id;
 		let featureName;
 		if (feature.customName) {
 			featureName = feature.customName();
@@ -679,7 +680,8 @@ class SettingsModule {
 		let sgContext, stContext;
 		if (feature.sg) {
 			const value = (
-				Settings.getFull(`${id}_sg`) || Shared.common.getFeaturePath(feature, id, 'sg')
+				Settings.getFull(`${featureId}_sg`) ||
+				Shared.common.getFeaturePath(feature, featureId, 'sg')
 			).enabled;
 			sgContext = <div></div>;
 			const sgSwitch = new ToggleSwitch(
@@ -717,31 +719,32 @@ class SettingsModule {
 						}
 					}
 				}
-				this.preSave(`${id}_sg`, true);
+				this.preSave(`${featureId}_sg`, true);
 				if (feature.sgSwitch) {
 					feature.sgSwitch.enable(true);
 				}
 				DOM.insert(
 					document.querySelector('#esgst-paths-sg'),
 					'atinner',
-					this.openPathsPopup(feature, id, 'sg')
+					this.openPathsPopup(feature, featureId, 'sg')
 				);
 			};
 			sgSwitch.onDisabled = async () => {
-				this.preSave(`${id}_sg`, false);
+				this.preSave(`${featureId}_sg`, false);
 				if (feature.sgSwitch) {
 					feature.sgSwitch.disable(true);
 				}
 				DOM.insert(
 					document.querySelector('#esgst-paths-sg'),
 					'atinner',
-					this.openPathsPopup(feature, id, 'sg')
+					this.openPathsPopup(feature, featureId, 'sg')
 				);
 			};
 		}
-		if (feature.st && (Settings.get('esgst_st') || id === 'esgst')) {
+		if (feature.st && (Settings.get('esgst_st') || featureId === 'esgst')) {
 			const value = (
-				Settings.getFull(`${id}_st`) || Shared.common.getFeaturePath(feature, id, 'st')
+				Settings.getFull(`${featureId}_st`) ||
+				Shared.common.getFeaturePath(feature, featureId, 'st')
 			).enabled;
 			stContext = <div></div>;
 			const stSwitch = new ToggleSwitch(
@@ -779,25 +782,25 @@ class SettingsModule {
 						}
 					}
 				}
-				this.preSave(`${id}_st`, true);
+				this.preSave(`${featureId}_st`, true);
 				if (feature.stSwitch) {
 					feature.stSwitch.enable(true);
 				}
 				DOM.insert(
 					document.querySelector('#esgst-paths-st'),
 					'atinner',
-					this.openPathsPopup(feature, id, 'st')
+					this.openPathsPopup(feature, featureId, 'st')
 				);
 			};
 			stSwitch.onDisabled = async () => {
-				this.preSave(`${id}_st`, false);
+				this.preSave(`${featureId}_st`, false);
 				if (feature.stSwitch) {
 					feature.stSwitch.disable(true);
 				}
 				DOM.insert(
 					document.querySelector('#esgst-paths-st'),
 					'atinner',
-					this.openPathsPopup(feature, id, 'st')
+					this.openPathsPopup(feature, featureId, 'st')
 				);
 			};
 		}
@@ -820,7 +823,7 @@ class SettingsModule {
 				name: 'What does it do?',
 			});
 		}
-		const additionalOptions = this.getSmFeatureAdditionalOptions(feature, id);
+		const additionalOptions = this.getSmFeatureAdditionalOptions(feature, featureId);
 		if (additionalOptions.length > 0) {
 			items.push({
 				check: true,
@@ -859,7 +862,7 @@ class SettingsModule {
 		if (feature.sg && (!feature.sgPaths || typeof feature.sgPaths !== 'string')) {
 			items.push({
 				check: true,
-				content: this.openPathsPopup(feature, id, 'sg'),
+				content: this.openPathsPopup(feature, featureId, 'sg'),
 				// @ts-ignore
 				id: 'esgst-paths-sg',
 				name: 'Where to run it on SteamGifts?',
@@ -872,7 +875,7 @@ class SettingsModule {
 		) {
 			items.push({
 				check: true,
-				content: this.openPathsPopup(feature, id, 'st'),
+				content: this.openPathsPopup(feature, featureId, 'st'),
 				// @ts-ignore
 				id: 'esgst-paths-st',
 				name: 'Where to run it on SteamTrades?',
@@ -1537,6 +1540,7 @@ class SettingsModule {
 	}
 
 	getSMFeature(feature, id, number, numberPath, popup) {
+		const featureId = feature.alias ?? id;
 		const menuContainer = document.createElement('div');
 		menuContainer.className = 'esgst-sm-feature-container';
 		menuContainer.id = `esgst_${id}`;
@@ -1556,9 +1560,9 @@ class SettingsModule {
 			},
 		]);
 		let isMainNew =
-			Settings.get('dismissedOptions').indexOf(id) < 0 &&
-			!Utils.isSet(Shared.esgst.settings[`${id}_sg`]) &&
-			!Utils.isSet(Shared.esgst.settings[`${id}_st`]);
+			Settings.get('dismissedOptions').indexOf(featureId) < 0 &&
+			!Utils.isSet(Shared.esgst.settings[`${featureId}_sg`]) &&
+			!Utils.isSet(Shared.esgst.settings[`${featureId}_st`]);
 		if (isMainNew) {
 			feature.isNew = true;
 			Shared.common
@@ -1572,14 +1576,15 @@ class SettingsModule {
 						type: 'span',
 					},
 				])
-				.addEventListener('click', (event) => this.dismissNewOption(id, event));
+				.addEventListener('click', (event) => this.dismissNewOption(featureId, event));
 		}
 		let isHidden = true;
 		let sgContext, stContext;
 		let collapseButton, isExpanded, subMenu;
 		if (feature.sg) {
 			const value = (
-				Settings.getFull(`${id}_sg`) || Shared.common.getFeaturePath(feature, id, 'sg')
+				Settings.getFull(`${featureId}_sg`) ||
+				Shared.common.getFeaturePath(feature, featureId, 'sg')
 			).enabled;
 			if (value) {
 				isHidden = false;
@@ -1621,13 +1626,13 @@ class SettingsModule {
 					}
 				}
 				if (feature.permissions) {
-					this.requiredPermissions[id] = feature.permissions;
+					this.requiredPermissions[featureId] = feature.permissions;
 				}
 				this.loadFeatureDetails(id, numberPath, popup && popup.scrollable.offsetTop);
 				if (feature.sgFeatureSwitch) {
 					feature.sgFeatureSwitch.enable();
 				} else {
-					this.preSave(`${id}_sg`, true);
+					this.preSave(`${featureId}_sg`, true);
 				}
 				if (subMenu.classList.contains('esgst-hidden')) {
 					this.expandSection(collapseButton, id, subMenu);
@@ -1651,13 +1656,13 @@ class SettingsModule {
 			};
 			sgSwitch.onDisabled = () => {
 				if (feature.permissions) {
-					delete this.requiredPermissions[id];
+					delete this.requiredPermissions[featureId];
 				}
 				this.loadFeatureDetails(id, numberPath, popup && popup.scrollable.offsetTop);
 				if (feature.sgFeatureSwitch) {
 					feature.sgFeatureSwitch.disable();
 				} else {
-					this.preSave(`${id}_sg`, false);
+					this.preSave(`${featureId}_sg`, false);
 				}
 				if (!feature.stSwitch || !feature.stSwitch.value) {
 					this.collapseSection(collapseButton, id, subMenu);
@@ -1665,9 +1670,10 @@ class SettingsModule {
 				}
 			};
 		}
-		if (feature.st && (Settings.get('esgst_st') || id === 'esgst')) {
+		if (feature.st && (Settings.get('esgst_st') || featureId === 'esgst')) {
 			const value = (
-				Settings.getFull(`${id}_st`) || Shared.common.getFeaturePath(feature, id, 'st')
+				Settings.getFull(`${featureId}_st`) ||
+				Shared.common.getFeaturePath(feature, featureId, 'st')
 			).enabled;
 			if (value) {
 				isHidden = false;
@@ -1700,13 +1706,13 @@ class SettingsModule {
 					}
 				}
 				if (feature.permissions) {
-					this.requiredPermissions[id] = feature.permissions;
+					this.requiredPermissions[featureId] = feature.permissions;
 				}
 				this.loadFeatureDetails(id, numberPath, popup && popup.scrollable.offsetTop);
 				if (feature.stFeatureSwitch) {
 					feature.stFeatureSwitch.enable();
 				} else {
-					this.preSave(`${id}_st`, true);
+					this.preSave(`${featureId}_st`, true);
 				}
 				if (subMenu.classList.contains('esgst-hidden')) {
 					this.expandSection(collapseButton, id, subMenu);
@@ -1730,13 +1736,13 @@ class SettingsModule {
 			};
 			stSwitch.onDisabled = () => {
 				if (feature.permissions) {
-					delete this.requiredPermissions[id];
+					delete this.requiredPermissions[featureId];
 				}
 				this.loadFeatureDetails(id, numberPath, popup && popup.scrollable.offsetTop);
 				if (feature.stFeatureSwitch) {
 					feature.stFeatureSwitch.disable();
 				} else {
-					this.preSave(`${id}_st`, false);
+					this.preSave(`${featureId}_st`, false);
 				}
 				if (!feature.sgSwitch || !feature.sgSwitch.value) {
 					this.collapseSection(collapseButton, id, subMenu);
@@ -1785,7 +1791,7 @@ class SettingsModule {
 					continue;
 				}
 				const subFt = feature.features[subId];
-				if (!subFt.sg && subFt.st && !Settings.get('esgst_st') && id !== 'esgst') {
+				if (!subFt.sg && subFt.st && !Settings.get('esgst_st') && featureId !== 'esgst') {
 					continue;
 				}
 				const subFeature = this.getSMFeature(subFt, subId, i, `${numberPath}.${i}`, popup);

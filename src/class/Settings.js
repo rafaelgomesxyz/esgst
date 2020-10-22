@@ -6,6 +6,7 @@ class _Settings {
 		this.enableByDefault = false;
 		this.settings = {};
 		this.fullSettings = {};
+		this.aliases = {};
 
 		this.defaultValues = {
 			cgb_levelColors: [],
@@ -1120,6 +1121,12 @@ class _Settings {
 
 			Shared.common.dismissFeature(feature, id);
 
+			if (feature.alias) {
+				this.aliases[id] = feature.alias;
+				this.aliases[`${id}_sg`] = `${feature.alias}_sg`;
+				this.aliases[`${id}_st`] = `${feature.alias}_st`;
+			}
+
 			if (feature.sg) {
 				const result = this.getFeatureSetting(feature, id, 'sg');
 				this.settings[`${id}_sg`] = result.current;
@@ -1138,19 +1145,19 @@ class _Settings {
 	}
 
 	set(key, value) {
-		this.settings[key] = value;
+		this.settings[this.aliases[key] ?? key] = value;
 	}
 
 	get(key) {
-		return this.settings[key];
+		return this.settings[this.aliases[key] ?? key];
 	}
 
 	setFull(key, value) {
-		this.fullSettings[key] = value;
+		this.fullSettings[this.aliases[key] ?? key] = value;
 	}
 
 	getFull(key) {
-		return this.fullSettings[key];
+		return this.fullSettings[this.aliases[key] ?? key];
 	}
 
 	getSetting(id) {
