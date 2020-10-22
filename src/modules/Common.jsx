@@ -512,6 +512,10 @@ class Common extends Module {
 			this.esgst.replyBox = /** @type {HTMLElement} */ document.getElementsByClassName(
 				'reply_form'
 			)[0];
+			if (this.esgst.replyBox.querySelector('.rating_checkbox')) {
+				this.esgst.reviewBox = this.esgst.replyBox;
+				this.esgst.replyBox = null;
+			}
 			this.esgst.cancelButtonClass = 'btn_cancel';
 			this.esgst.paginationNavigationClass = 'pagination_navigation';
 			this.esgst.hiddenClass = 'is_hidden';

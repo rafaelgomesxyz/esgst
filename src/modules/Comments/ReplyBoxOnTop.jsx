@@ -24,21 +24,21 @@ class CommentsReplyBoxOnTop extends Module {
 
 	init() {
 		let element = Shared.esgst.mainPageHeading;
-		if (!Shared.esgst.replyBox) {
-			if (Shared.esgst.st && Shared.esgst.userPath) {
-				let review = document.getElementsByClassName('notification yellow')[0];
-				if (!review) return;
-				element.parentElement.insertBefore(review, element.nextElementSibling);
-			}
+		const box = Shared.esgst.replyBox || Shared.esgst.reviewBox;
+		if (!box) {
 			return;
 		}
-		let box;
-		DOM.insert(element, 'afterend', <div className="esgst-rbot" ref={(ref) => (box = ref)} />);
-		box.appendChild(Shared.esgst.replyBox);
-		let button = box.getElementsByClassName(Shared.esgst.cancelButtonClass)[0];
+		let boxContainer;
+		DOM.insert(
+			element,
+			'afterend',
+			<div className="esgst-rbot" ref={(ref) => (boxContainer = ref)} />
+		);
+		boxContainer.appendChild(box);
+		let button = boxContainer.getElementsByClassName(Shared.esgst.cancelButtonClass)[0];
 		if (!button) return;
 		button.addEventListener('click', () =>
-			window.setTimeout(box.appendChild.bind(box, Shared.esgst.replyBox), 0)
+			window.setTimeout(() => boxContainer.appendChild(box), 0)
 		);
 	}
 }
