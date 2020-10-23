@@ -66,7 +66,7 @@ async function generateCommit() {
 		});
 		commitMessage = args.keepOpen
 			? `#${args.issue} ${issue.data.title} (WIP)`
-			: `${issue.data.title} (close #${args.issue}`;
+			: `${issue.data.title} (close #${args.issue})`;
 	} else {
 		commitMessage = args.msg;
 	}
