@@ -3,29 +3,41 @@ import { PageHeading } from '../components/PageHeading';
 import { Utils } from '../lib/jsUtils';
 import { DOM } from './DOM';
 import { FetchRequest } from './FetchRequest';
+import { permissions } from './Permissions';
+import { PermissionsUi } from './PermissionsUi';
 import { Popup } from './Popup';
-import { Settings } from './Settings';
 import { Shared } from './Shared';
 
 export interface SettingsAnalyticsValues {
+	v: number;
 	enabled: boolean;
 	uuid: string;
 	lastSubmission: number;
 }
 
 class _SettingsAnalytics {
-	check = () => {
+	v = 2;
+
+	check = async () => {
 		const analytics = JSON.parse(
 			Shared.common.getValue('settingsAnalytics', '{"enabled":true}')
 		) as SettingsAnalyticsValues;
 		if (
 			!analytics.enabled ||
-			(analytics.lastSubmission && Date.now() - analytics.lastSubmission <= 2592000000)
+			(analytics.v === this.v &&
+				analytics.lastSubmission &&
+				Date.now() - analytics.lastSubmission <= 2592000000)
 		) {
 			return;
 		}
-		if (analytics.uuid) {
-			void this.send(analytics);
+		analytics.v = this.v;
+		if (analytics.lastSubmission) {
+			if (await permissions.contains([['server']])) {
+				void this.send(analytics);
+			} else {
+				analytics.lastSubmission = Date.now();
+				await Shared.common.setValue('settingsAnalytics', JSON.stringify(analytics));
+			}
 		} else {
 			const popup = new Popup({ isTemp: true });
 			PageHeading.create('sm', {
@@ -59,6 +71,12 @@ class _SettingsAnalytics {
 				template: 'success',
 				name: 'Yes',
 				onClick: async () => {
+					if (!(await PermissionsUi.check(['server']))) {
+						analytics.lastSubmission = Date.now();
+						await Shared.common.setValue('settingsAnalytics', JSON.stringify(analytics));
+						popup.close();
+						return;
+					}
 					DOM.insert(
 						scrollableArea,
 						'atinner',
@@ -66,11 +84,19 @@ class _SettingsAnalytics {
 							<h3>Perfect! Please wait a while until your data is submitted...</h3>
 						</fragment>
 					);
-					analytics.uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
-						/[xy]/g,
-						Utils.createUuid
-					);
-					await this.send(analytics);
+					if (!analytics.uuid) {
+						analytics.uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
+							/[xy]/g,
+							Utils.createUuid
+						);
+					}
+					try {
+						await this.send(analytics);
+					} catch (err) {
+						console.log(err);
+						analytics.lastSubmission = Date.now();
+						await Shared.common.setValue('settingsAnalytics', JSON.stringify(analytics));
+					}
 					popup.close();
 				},
 			}).insert(buttonGroup, 'beforeend');
@@ -90,10 +116,12 @@ class _SettingsAnalytics {
 	send = async (analytics: SettingsAnalyticsValues): Promise<void> => {
 		const settingsKeys = [];
 		for (const id of Object.keys(Shared.esgst.featuresById)) {
-			if (Settings.get(`${id}_sg`)) {
+			const sgSetting = Shared.esgst.settings[`${id}_sg`];
+			const stSetting = Shared.esgst.settings[`${id}_st`];
+			if (typeof sgSetting === 'object' ? sgSetting.enabled : sgSetting) {
 				settingsKeys.push(`${id}_sg`);
 			}
-			if (Settings.get(`${id}_st`)) {
+			if (typeof stSetting === 'object' ? stSetting.enabled : stSetting) {
 				settingsKeys.push(`${id}_st`);
 			}
 		}
@@ -102,6 +130,7 @@ class _SettingsAnalytics {
 				'Content-Type': 'application/json',
 			},
 			data: JSON.stringify({
+				v: analytics.v,
 				uuid: analytics.uuid,
 				settingsKeys,
 			}),
