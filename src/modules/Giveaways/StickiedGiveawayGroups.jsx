@@ -25,6 +25,8 @@ class GiveawaysStickiedGiveawayGroups extends Module {
 			name: 'Stickied Giveaway Groups',
 			sg: true,
 			type: 'giveaways',
+			sync: 'Steam Groups',
+			syncKeys: ['Groups'],
 		};
 	}
 
