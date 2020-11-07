@@ -21,6 +21,7 @@ class PersistentStorage {
 			giveaways: '{}',
 			groups: '[]',
 			notifiedMessages: '{ "lastCheck": 0, "ids": [] }',
+			requestLog: '[]',
 			rerolls: '[]',
 			rfiCache: '{}',
 			settings: '{}',

@@ -3841,6 +3841,19 @@ class Common extends Module {
 				typeof details.queue === 'number' ? details.queue : 1000
 			);
 			let response = await this.continueRequest(details);
+			if (isLocal) {
+				Shared.esgst.requestLog.unshift({
+					url: details.url,
+					timestamp: Date.now(),
+				});
+				if (response.redirected) {
+					Shared.esgst.requestLog.unshift({
+						url: response.url,
+						timestamp: Date.now(),
+					});
+				}
+				await Shared.common.setValue('requestLog', JSON.stringify(Shared.esgst.requestLog));
+			}
 			deleteLock();
 			return response;
 		} else if (details.url.match(/^https?:\/\/store.steampowered.com/)) {
@@ -6082,6 +6095,201 @@ class Common extends Module {
 		popup.open();
 	}
 
+	openRequestLog = async () => {
+		const limits = {
+			minute: 120,
+			hour: 2400,
+			day: 14400,
+		};
+
+		const popup = new Popup({
+			icon: 'fa-history',
+			title: 'SteamGifts Request Log',
+			isTemp: true,
+		});
+		const scrollableArea = popup.getScrollable(null);
+		scrollableArea.className = 'markdown';
+		popup.open();
+
+		do {
+			const currentDate = new Date();
+			const now = currentDate.getTime();
+			const currentDay = currentDate.getDate();
+			const currentHour = currentDate.getHours();
+			const currentMinute = currentDate.getMinutes();
+			currentDate.setDate(currentDay - 1);
+			const lastDay = currentDate.getDate();
+			currentDate.setHours(currentHour - 1);
+			const lastHour = currentDate.getHours();
+			currentDate.setMinutes(currentMinute - 1);
+			const lastMinute = currentDate.getMinutes();
+
+			let thisMinuteUrls = {};
+			let thisHourUrls = {};
+			let thisDayUrls = {};
+			let lastMinuteUrls = {};
+			let lastHourUrls = {};
+			let lastDayUrls = {};
+			let thisMinuteTotal = 0;
+			let thisHourTotal = 0;
+			let thisDayTotal = 0;
+			let lastMinuteTotal = 0;
+			let lastHourTotal = 0;
+			let lastDayTotal = 0;
+
+			Shared.esgst.requestLog = Shared.esgst.requestLog.filter(
+				(log) => now - log.timestamp <= 2592000000
+			);
+			for (const log of Shared.esgst.requestLog) {
+				const date = new Date(log.timestamp);
+				const day = date.getDate();
+				const hour = date.getHours();
+				const minute = date.getMinutes();
+
+				if (day === currentDay) {
+					thisDayUrls[log.url] = (thisDayUrls[log.url] ?? 0) + 1;
+					thisDayTotal += 1;
+					if (hour === currentHour) {
+						thisHourUrls[log.url] = (thisHourUrls[log.url] ?? 0) + 1;
+						thisHourTotal += 1;
+						if (minute === currentMinute) {
+							thisMinuteUrls[log.url] = (thisMinuteUrls[log.url] ?? 0) + 1;
+							thisMinuteTotal += 1;
+						} else if (minute === lastMinute) {
+							lastMinuteUrls[log.url] = (lastMinuteUrls[log.url] ?? 0) + 1;
+							lastMinuteTotal += 1;
+						}
+					} else if (hour === lastHour) {
+						lastHourUrls[log.url] = (lastHourUrls[log.url] ?? 0) + 1;
+						lastHourTotal += 1;
+						if (minute === lastMinute) {
+							lastMinuteUrls[log.url] = (lastMinuteUrls[log.url] ?? 0) + 1;
+							lastMinuteTotal += 1;
+						}
+					}
+				} else if (day === lastDay) {
+					lastDayUrls[log.url] = (lastDayUrls[log.url] ?? 0) + 1;
+					lastDayTotal += 1;
+					if (hour === lastHour) {
+						lastHourUrls[log.url] = (lastHourUrls[log.url] ?? 0) + 1;
+						lastHourTotal += 1;
+						if (minute === lastMinute) {
+							lastMinuteUrls[log.url] = (lastMinuteUrls[log.url] ?? 0) + 1;
+							lastMinuteTotal += 1;
+						}
+					}
+				} else {
+					break;
+				}
+			}
+			await Shared.common.setValue('requestLog', JSON.stringify(Shared.esgst.requestLog));
+
+			thisMinuteUrls = Utils.sortArray(
+				Object.entries(thisMinuteUrls).map(([url, count]) => ({ url, count })),
+				true,
+				'count'
+			);
+			thisHourUrls = Utils.sortArray(
+				Object.entries(thisHourUrls).map(([url, count]) => ({ url, count })),
+				true,
+				'count'
+			);
+			thisDayUrls = Utils.sortArray(
+				Object.entries(thisDayUrls).map(([url, count]) => ({ url, count })),
+				true,
+				'count'
+			);
+			lastMinuteUrls = Utils.sortArray(
+				Object.entries(lastMinuteUrls).map(([url, count]) => ({ url, count })),
+				true,
+				'count'
+			);
+			lastHourUrls = Utils.sortArray(
+				Object.entries(lastHourUrls).map(([url, count]) => ({ url, count })),
+				true,
+				'count'
+			);
+			lastDayUrls = Utils.sortArray(
+				Object.entries(lastDayUrls).map(([url, count]) => ({ url, count })),
+				true,
+				'count'
+			);
+
+			DOM.insert(
+				scrollableArea,
+				'atinner',
+				<fragment>
+					<p>
+						<em>Last updated {currentDate.toLocaleString()}</em>
+						<br />
+						<em>
+							Remember that this does not include the requests you make while browsing SteamGifts,
+							so you don't want to reach 0 requests left, because that leaves exactly 0 requests for
+							your browsing.
+						</em>
+					</p>
+					<h3>
+						This Minute ({thisMinuteTotal} / Max: {limits.minute} / Left:{' '}
+						{limits.minute - thisMinuteTotal})
+					</h3>
+					<ul>
+						{thisMinuteUrls.map(({ url, count }) => (
+							<li>
+								<a href={url}>{url}</a> ({count})
+							</li>
+						))}
+					</ul>
+					<h3>
+						This Hour ({thisHourTotal} / Max: {limits.hour} / Left: {limits.hour - thisHourTotal})
+					</h3>
+					<ul>
+						{thisHourUrls.map(({ url, count }) => (
+							<li>
+								<a href={url}>{url}</a> ({count})
+							</li>
+						))}
+					</ul>
+					<h3>
+						This Day ({thisDayTotal} / Max: {limits.day} / Left: {limits.day - thisDayTotal})
+					</h3>
+					<ul>
+						{thisDayUrls.map(({ url, count }) => (
+							<li>
+								<a href={url}>{url}</a> ({count})
+							</li>
+						))}
+					</ul>
+					<h3>Last Minute ({lastMinuteTotal})</h3>
+					<ul>
+						{lastMinuteUrls.map(({ url, count }) => (
+							<li>
+								<a href={url}>{url}</a> ({count})
+							</li>
+						))}
+					</ul>
+					<h3>Last Hour ({lastHourTotal})</h3>
+					<ul>
+						{lastHourUrls.map(({ url, count }) => (
+							<li>
+								<a href={url}>{url}</a> ({count})
+							</li>
+						))}
+					</ul>
+					<h3>Last Day ({lastDayTotal})</h3>
+					<ul>
+						{Object.entries(lastDayUrls).map(({ url, count }) => (
+							<li>
+								<a href={url}>{url}</a> ({count})
+							</li>
+						))}
+					</ul>
+				</fragment>
+			);
+
+			await Shared.common.timeout(10000);
+		} while (popup.isOpen);
+	};
+
 	async addHeaderMenu() {
 		if (!Shared.header) {
 			return;
@@ -6153,6 +6361,12 @@ class Common extends Module {
 					icon: 'fa fa-fw fa-dollar icon-green green',
 					name: 'Donations',
 					onClick: this.openDonationsPopup.bind(this),
+				},
+				{
+					description: 'Check out the SteamGifts request log.',
+					icon: 'fa fa-fw fa-history icon-grey grey',
+					name: 'SteamGifts Request Log',
+					onClick: this.openRequestLog.bind(this),
 				},
 				{
 					description: saveDescription,

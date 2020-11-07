@@ -103,6 +103,7 @@ import { runSilentSync } from './modules/Sync';
 		esgst.games = JSON.parse(esgst.storage.games);
 		esgst.giveaways = JSON.parse(esgst.storage.giveaways);
 		esgst.groups = JSON.parse(esgst.storage.groups);
+		esgst.requestLog = JSON.parse(esgst.storage.requestLog);
 		esgst.rerolls = JSON.parse(esgst.storage.rerolls);
 		esgst.settings = JSON.parse(esgst.storage.settings);
 		esgst.tickets = JSON.parse(esgst.storage.tickets);

@@ -65,9 +65,20 @@ class FetchRequest {
 				deleteLock = await Shared.common.createLock('steamStore', 200);
 			}
 
-			const isInternal = url.match(new RegExp(window.location.hostname));
 			if (isInternal) {
 				response = await FetchRequest.sendInternal(url, options);
+
+				Shared.esgst.requestLog.unshift({
+					url,
+					timestamp: Date.now(),
+				});
+				if (response.redirected) {
+					Shared.esgst.requestLog.unshift({
+						url: response.url,
+						timestamp: Date.now(),
+					});
+				}
+				await Shared.common.setValue('requestLog', JSON.stringify(Shared.esgst.requestLog));
 			} else {
 				response = await FetchRequest.sendExternal(url, options);
 			}
