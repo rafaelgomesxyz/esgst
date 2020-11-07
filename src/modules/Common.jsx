@@ -3830,7 +3830,12 @@ class Common extends Module {
 		if (!details.headers['Content-Type']) {
 			details.headers['Content-Type'] = 'application/x-www-form-urlencoded';
 		}
-		if (details.queue) {
+		let isLocal =
+			details.url.match(/^\//) || details.url.match(new RegExp(window.location.hostname));
+		if (isLocal || details.queue) {
+			if (isLocal) {
+				details.queue = 2000;
+			}
 			let deleteLock = await this.createLock(
 				'requestLock',
 				typeof details.queue === 'number' ? details.queue : 1000

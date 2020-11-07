@@ -56,7 +56,10 @@ class FetchRequest {
 		}
 		options.headers = Object.assign({}, DEFAULT_HEADERS, options.headers, REQUIRED_HEADERS);
 		try {
-			if (options.queue) {
+			const isInternal = url.match(new RegExp(window.location.hostname));
+			if (isInternal) {
+				deleteLock = await Shared.common.createLock('requestLock', 2000);
+			} else if (options.queue) {
 				deleteLock = await Shared.common.createLock('requestLock', 1000);
 			} else if (url.match(/^https?:\/\/store.steampowered.com/)) {
 				deleteLock = await Shared.common.createLock('steamStore', 200);
