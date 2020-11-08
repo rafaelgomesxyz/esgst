@@ -1005,7 +1005,7 @@ class Common extends Module {
 							'Allow ESGST to read your cookies and modify request headers when using Firefox containers or when blocking third-party cookies.',
 						sg: true,
 						st: true,
-						permissions: ['cookies', 'webRequest', 'webRequestBlocking'],
+						permissions: ['cookies'],
 					},
 					addNoCvGames: {
 						name:

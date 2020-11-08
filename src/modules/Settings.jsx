@@ -379,44 +379,48 @@ class SettingsModule {
 				icons: [],
 				name: 'Save Changes',
 				onClick: async () => {
-					const missingPermissions = [];
-					const requiredPermissions = new Set(Object.values(this.requiredPermissions).flat());
-					for (const permissionKey of requiredPermissions) {
-						if (!(await permissions.contains([[permissionKey]]))) {
-							missingPermissions.push(permissionKey);
+					try {
+						const missingPermissions = [];
+						const requiredPermissions = new Set(Object.values(this.requiredPermissions).flat());
+						for (const permissionKey of requiredPermissions) {
+							if (!(await permissions.contains([[permissionKey]]))) {
+								missingPermissions.push(permissionKey);
+							}
 						}
-					}
-					if (browser.runtime.getURL && missingPermissions.length > 0) {
-						const permissionsPopup = new Popup({
-							addScrollable: true,
-							icon: 'fa-exclamation',
+						if (browser.runtime.getURL && missingPermissions.length > 0) {
+							const permissionsPopup = new Popup({
+								addScrollable: true,
+								icon: 'fa-exclamation',
+								isTemp: true,
+								title: (
+									<fragment>
+										Some of the features you enabled require permissions in order to work. Go{' '}
+										<a
+											className="esgst-bold table__column__secondary-link"
+											href={`${browser.runtime.getURL(
+												'permissions.html'
+											)}?keys=${missingPermissions.join(',')}`}
+											target="_blank"
+										>
+											here
+										</a>{' '}
+										and click the "Grant" button to grant them.
+									</fragment>
+								),
+							});
+							permissionsPopup.open();
+							this.requiredPermissions = {};
+						}
+						await Shared.common.lockAndSaveSettings(this.toSave);
+						this.toSave = {};
+						new Popup({
+							icon: 'fa-check',
 							isTemp: true,
-							title: (
-								<fragment>
-									Some of the features you enabled require permissions in order to work. Go{' '}
-									<a
-										className="esgst-bold table__column__secondary-link"
-										href={`${browser.runtime.getURL(
-											'permissions.html'
-										)}?keys=${missingPermissions.join(',')}`}
-										target="_blank"
-									>
-										here
-									</a>{' '}
-									and click the "Grant" button to grant them.
-								</fragment>
-							),
-						});
-						permissionsPopup.open();
-						this.requiredPermissions = {};
+							title: 'Settings saved!',
+						}).open();
+					} catch (err) {
+						Logger.error(err.message);
 					}
-					await Shared.common.lockAndSaveSettings(this.toSave);
-					this.toSave = {};
-					new Popup({
-						icon: 'fa-check',
-						isTemp: true,
-						title: 'Settings saved!',
-					}).open();
 				},
 			},
 			{
