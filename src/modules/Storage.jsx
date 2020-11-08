@@ -285,6 +285,7 @@ function confirmDataDeletion(dm, storageType, space, callback) {
 }
 
 function loadDataManagement(type, isPopup, callback) {
+	console.log(type, isPopup, callback);
 	let containerr, context, group1, group2, i, n, onClick, option, prep, section, title1, title2;
 	let dm = {
 		autoBackup: callback && Shared.esgst.parameters.autoBackup,
@@ -1670,6 +1671,7 @@ function loadDataCleaner(isPopup) {
 }
 
 async function manageData(dm, storageType, space, callback) {
+	console.log(dm.type, storageType, space, callback);
 	let data = {};
 	let totalSize = 0;
 	let mainUsernameFound;

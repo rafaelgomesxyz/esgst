@@ -3363,8 +3363,10 @@ class Common extends Module {
 	}
 
 	checkBackup() {
+		console.log('Checking backup...');
 		let currentDate = Date.now();
 		let isBackingUp = parseInt(LocalStorage.get('isBackingUp'));
+		console.log(currentDate, isBackingUp);
 		if (
 			(!isBackingUp || currentDate - isBackingUp > 1800000) &&
 			currentDate - Settings.get('lastBackup') > Settings.get('autoBackup_days') * 86400000
