@@ -694,6 +694,11 @@ function addStyle() {
 		width: 550px;
 	}
 
+	.esgst-textarea-large {
+		height: 400px !important;
+		overflow-y: auto !important;
+	}
+
 	.esgst-mm-popout textarea, .esgst-textarea-small {
 		height: 150px !important;
 		overflow-y: auto !important;

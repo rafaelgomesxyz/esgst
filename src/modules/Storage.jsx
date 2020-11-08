@@ -213,8 +213,53 @@ async function loadImportFile(dm, storageType, space, callback) {
 			popup.open();
 			break;
 		}
-		default:
+		case STORAGE_TYPES.TEXT: {
+			let dataField, warningNode;
+			const popup = new Popup({ isTemp: true });
+			DOM.insert(
+				popup.description,
+				'beforeend',
+				<fragment>
+					<textarea
+						className="esgst-textarea-large"
+						style={{ width: '900px' }}
+						ref={(ref) => (dataField = ref)}
+					/>
+					<div className="esgst-description esgst-warning" ref={(ref) => (warningNode = ref)}></div>
+				</fragment>
+			);
+			popup.onCloseByUser = callback;
+			const cb = () => {
+				popup.close();
+				callback();
+			};
+			Button.create({
+				template: 'success',
+				name: 'Restore',
+				onClick: () => {
+					const data = dataField.value;
+					if (data) {
+						try {
+							dm.data = JSON.parse(data);
+							Shared.common.createConfirmation(
+								'Are you sure you want to restore the selected data?',
+								manageData.bind(null, dm, storageType, space, cb),
+								cb
+							);
+						} catch (err) {
+							Shared.common.createFadeMessage(
+								warningNode,
+								'Cannot parse data! Data should be in JSON format.'
+							);
+						}
+					} else {
+						Shared.common.createFadeMessage(warningNode, 'No data was provided!');
+					}
+				},
+			}).insert(popup.description, 'beforeend');
+			popup.open();
 			break;
+		}
 	}
 }
 
@@ -637,6 +682,49 @@ function loadDataManagement(type, isPopup, callback) {
 				],
 			},
 		]);
+		Button.create([
+			{
+				color: 'green',
+				icons: ['fa-align-left'],
+				name: 'Text',
+				onClick: () => {
+					return new Promise(async (resolve) => {
+						if (dm.type !== 'export') {
+							let result;
+							switch (Settings.get('exportBackupIndex')) {
+								case 0:
+									result = true;
+									break;
+								case 1:
+									result = await permissions.contains([['dropbox']]);
+									break;
+								case 2:
+									result = await permissions.contains([['googleDrive']]);
+									break;
+								case 3:
+									result = await permissions.contains([['oneDrive']]);
+									break;
+							}
+							if (!result) {
+								resolve();
+								return;
+							}
+						}
+
+						onClick(dm, STORAGE_TYPES.TEXT, false, () => {
+							// noinspection JSIgnoredPromiseFromCall
+							manageData(dm, STORAGE_TYPES.COMPUTER, true);
+							resolve();
+						});
+					});
+				},
+			},
+			{
+				template: 'loading',
+				isDisabled: true,
+				name: title2,
+			},
+		]).insert(group2, 'beforeend');
 		const computerButton = Button.create([
 			{
 				color: 'green',
@@ -2889,7 +2977,10 @@ async function manageData(dm, storageType, space, callback) {
 				(dm.type !== 'export' && Settings.get('exportBackupIndex') === 3)
 			) {
 				CloudStorage.manage(CloudStorage.ONEDRIVE, data, dm, callback);
-			} else {
+			} else if (
+				storageType === STORAGE_TYPES.COMPUTER ||
+				(dm.type !== 'export' && Settings.get('exportBackupIndex') === 0)
+			) {
 				const name = `${
 					Settings.get('askFileName')
 						? window.prompt(
@@ -2911,6 +3002,19 @@ async function manageData(dm, storageType, space, callback) {
 					Shared.common.createFadeMessage(dm.message, `Data ${dm.pastTense} with success!`);
 				}
 				callback();
+			} else {
+				const stringifiedData = JSON.stringify(data);
+				const popup = new Popup({ isTemp: true });
+				popup.setScrollable(
+					<div className="markdown">
+						{Shared.common.getCopyIcon(stringifiedData)}
+						<pre>
+							<code>{stringifiedData}</code>
+						</pre>
+					</div>
+				);
+				popup.onClose = callback;
+				popup.open();
 			}
 		} else {
 			Shared.common.createFadeMessage(dm.message, `Data ${dm.pastTense} with success!`);
