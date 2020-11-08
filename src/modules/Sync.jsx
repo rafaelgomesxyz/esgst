@@ -810,29 +810,31 @@ async function sync(syncer) {
 					}`,
 				});
 				await syncGames(null, syncer, apiResponse, storeResponse);
-				const altAccounts = Settings.get('gc_o_altAccounts');
-				if (altAccounts?.length > 0) {
-					if (Settings.get('steamApiKey')) {
-						for (const altAccount of altAccounts) {
-							if (syncer.canceled) {
-								break;
+				if (Settings.get('gc_o_a')) {
+					const altAccounts = Settings.get('gc_o_altAccounts');
+					if (altAccounts?.length > 0) {
+						if (Settings.get('steamApiKey')) {
+							for (const altAccount of altAccounts) {
+								if (syncer.canceled) {
+									break;
+								}
+								apiResponse = await Shared.common.request({
+									method: 'GET',
+									url: `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${Settings.get(
+										'steamApiKey'
+									)}&steamid=${altAccount.steamId}&format=json`,
+								});
+								await syncGames(altAccount, syncer, apiResponse);
 							}
-							apiResponse = await Shared.common.request({
-								method: 'GET',
-								url: `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${Settings.get(
-									'steamApiKey'
-								)}&steamid=${altAccount.steamId}&format=json`,
-							});
-							await syncGames(altAccount, syncer, apiResponse);
+							await Shared.common.setSetting('gc_o_altAccounts', altAccounts);
+						} else {
+							syncer.jsx.push(
+								<div>
+									Failed to sync your owned games from alt accounts. Check if you have a valid Steam
+									API key set in the settings menu.
+								</div>
+							);
 						}
-						await Shared.common.setSetting('gc_o_altAccounts', altAccounts);
-					} else {
-						syncer.jsx.push(
-							<div>
-								Failed to sync your owned games from alt accounts. Check if you have a valid Steam
-								API key set in the settings menu.
-							</div>
-						);
 					}
 				}
 				DOM.insert(

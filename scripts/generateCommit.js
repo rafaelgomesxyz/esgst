@@ -60,13 +60,17 @@ async function generateCommit() {
 	if (args.stable) {
 		commitMessage = `Bump version to ${version}`;
 	} else if (args.issue) {
-		const issue = await octokit.issues.get({
-			...defaultParams,
-			issue_number: args.issue,
-		});
-		commitMessage = args.keepOpen
-			? `#${args.issue} ${issue.data.title} (WIP)`
-			: `${issue.data.title} (close #${args.issue})`;
+		if (args.msg) {
+			commitMessage = `${args.msg} (#${args.issue})`;
+		} else {
+			const issue = await octokit.issues.get({
+				...defaultParams,
+				issue_number: args.issue,
+			});
+			commitMessage = args.keepOpen
+				? `#${args.issue} ${issue.data.title} (WIP)`
+				: `${issue.data.title} (close #${args.issue})`;
+		}
 	} else {
 		commitMessage = args.msg;
 	}
