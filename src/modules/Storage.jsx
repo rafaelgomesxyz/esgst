@@ -12,6 +12,14 @@ import { Utils } from '../lib/jsUtils';
 import { CloudStorage } from './CloudStorage';
 import { settingsModule } from './Settings';
 
+const STORAGE_TYPES = {
+	TEXT: 0,
+	COMPUTER: 1,
+	DROPBOX: 2,
+	GOOGLE_DRIVE: 3,
+	ONEDRIVE: 4,
+};
+
 function getDataMenu(option, switches, type) {
 	let i, m, menu, n, options, toggleSwitch;
 	menu = document.createElement('div');
@@ -153,66 +161,80 @@ function getDataSizes(dm) {
 		icon: 'fa-circle-o-notch fa-spin',
 		title: 'Calculating data sizes...',
 	});
-	spacePopup.open(manageData.bind(null, dm, false, false, false, spacePopup));
+	spacePopup.open(manageData.bind(null, dm, STORAGE_TYPES.COMPUTER, spacePopup));
 }
 
-async function loadImportFile(dm, dropbox, googleDrive, oneDrive, space, callback) {
-	let file;
-	if (dropbox) {
-		CloudStorage.manage(CloudStorage.DROPBOX, null, dm, callback);
-	} else if (googleDrive) {
-		CloudStorage.manage(CloudStorage.GOOGLEDRIVE, null, dm, callback);
-	} else if (oneDrive) {
-		CloudStorage.manage(CloudStorage.ONEDRIVE, null, dm, callback);
-	} else {
-		file = dm.input.files[0];
-		if (file) {
-			dm.reader = new FileReader();
-			const isZip = file.name.match(/\.zip$/);
-			dm.reader.onload = readImportFile.bind(
-				null,
-				dm,
-				dropbox,
-				googleDrive,
-				oneDrive,
-				space,
-				isZip,
-				callback
+async function loadImportFile(dm, storageType, space, callback) {
+	switch (storageType) {
+		case STORAGE_TYPES.DROPBOX:
+			CloudStorage.manage(CloudStorage.DROPBOX, null, dm, callback);
+			break;
+		case STORAGE_TYPES.GOOGLE_DRIVE:
+			CloudStorage.manage(CloudStorage.GOOGLEDRIVE, null, dm, callback);
+			break;
+		case STORAGE_TYPES.ONEDRIVE:
+			CloudStorage.manage(CloudStorage.ONEDRIVE, null, dm, callback);
+			break;
+		case STORAGE_TYPES.COMPUTER: {
+			let fileField, warningNode;
+			const popup = new Popup({ isTemp: true });
+			popup.setScrollable(
+				<fragment>
+					<input type="file" ref={(ref) => (fileField = ref)} />
+					<div className="esgst-description esgst-warning" ref={(ref) => (warningNode = ref)}></div>
+				</fragment>
 			);
-			if (isZip) {
-				dm.reader.readAsBinaryString(file);
-			} else {
-				dm.reader.readAsText(file);
-			}
-		} else {
-			Shared.common.createFadeMessage(dm.warning, 'No file was loaded!');
-			callback();
+			popup.onCloseByUser = callback;
+			const cb = () => {
+				popup.close();
+				callback();
+			};
+			fileField.addEventListener('change', () => {
+				const file = fileField.files[0];
+				if (file) {
+					dm.reader = new FileReader();
+					const isZip = file.name.match(/\.zip$/);
+					dm.reader.onload = async () => {
+						try {
+							await readImportFile(dm, STORAGE_TYPES.COMPUTER, space, isZip, cb);
+						} catch (err) {
+							Shared.common.createFadeMessage(warningNode, 'Cannot parse file!');
+						}
+					};
+					if (isZip) {
+						dm.reader.readAsBinaryString(file);
+					} else {
+						dm.reader.readAsText(file);
+					}
+				} else {
+					Shared.common.createFadeMessage(warningNode, 'No file was loaded!');
+				}
+			});
+			popup.open();
+			break;
 		}
+		default:
+			break;
 	}
 }
 
-async function readImportFile(dm, dropbox, googleDrive, oneDrive, space, isZip, callback) {
-	try {
-		if (dm.reader) {
-			dm.data = JSON.parse(
-				isZip ? (await Shared.common.readZip(dm.reader.result))[0].value : dm.reader.result
-			);
-		}
-		Shared.common.createConfirmation(
-			'Are you sure you want to restore the selected data?',
-			manageData.bind(null, dm, dropbox, googleDrive, oneDrive, space, callback),
-			callback
+async function readImportFile(dm, storageType, space, isZip, callback) {
+	if (dm.reader) {
+		dm.data = JSON.parse(
+			isZip ? (await Shared.common.readZip(dm.reader.result))[0].value : dm.reader.result
 		);
-	} catch (error) {
-		Shared.common.createFadeMessage(dm.warning, 'Cannot parse file!');
-		callback();
 	}
+	Shared.common.createConfirmation(
+		'Are you sure you want to restore the selected data?',
+		manageData.bind(null, dm, storageType, space, callback),
+		callback
+	);
 }
 
-function confirmDataDeletion(dm, dropbox, googleDrive, oneDrive, space, callback) {
+function confirmDataDeletion(dm, storageType, space, callback) {
 	Shared.common.createConfirmation(
 		'Are you sure you want to delete the selected data?',
-		manageData.bind(null, dm, dropbox, googleDrive, oneDrive, space, callback),
+		manageData.bind(null, dm, storageType, space, callback),
 		callback
 	);
 }
@@ -573,22 +595,23 @@ function loadDataManagement(type, isPopup, callback) {
 		},
 	];
 	if (dm.autoBackup) {
-		let dropbox, googleDrive, oneDrive;
+		let storageType;
 		switch (Settings.get('autoBackup_index')) {
 			case 0:
+				storageType = STORAGE_TYPES.COMPUTER;
 				break;
 			case 1:
-				dropbox = true;
+				storageType = STORAGE_TYPES.DROPBOX;
 				break;
 			case 2:
-				googleDrive = true;
+				storageType = STORAGE_TYPES.GOOGLE_DRIVE;
 				break;
 			case 3:
-				oneDrive = true;
+				storageType = STORAGE_TYPES.ONEDRIVE;
 				break;
 		}
 		// noinspection JSIgnoredPromiseFromCall
-		manageData(dm, dropbox, googleDrive, oneDrive, false, async () => {
+		manageData(dm, storageType, false, async () => {
 			LocalStorage.delete('isBackingUp');
 			await Shared.common.setSetting('lastBackup', Date.now());
 			callback();
@@ -600,16 +623,148 @@ function loadDataManagement(type, isPopup, callback) {
 				section.lastElementChild.appendChild(getDataMenu(option, dm.switches, type));
 			}
 		}
+		group2 = Shared.common.createElements(containerr, 'beforeend', [
+			{
+				attributes: {
+					class: 'esgst-button-group',
+				},
+				type: 'div',
+				children: [
+					{
+						text: `${title1} ${prep}:`,
+						type: 'span',
+					},
+				],
+			},
+		]);
+		const computerButton = Button.create([
+			{
+				color: 'green',
+				icons: ['fa-desktop'],
+				name: 'Computer',
+				onClick: () => {
+					return new Promise(async (resolve) => {
+						if (dm.type !== 'export') {
+							let result;
+							switch (Settings.get('exportBackupIndex')) {
+								case 0:
+									result = true;
+									break;
+								case 1:
+									result = await permissions.contains([['dropbox']]);
+									break;
+								case 2:
+									result = await permissions.contains([['googleDrive']]);
+									break;
+								case 3:
+									result = await permissions.contains([['oneDrive']]);
+									break;
+							}
+							if (!result) {
+								resolve();
+								return;
+							}
+						}
+
+						onClick(dm, STORAGE_TYPES.COMPUTER, false, () => {
+							// noinspection JSIgnoredPromiseFromCall
+							manageData(dm, STORAGE_TYPES.COMPUTER, true);
+							resolve();
+						});
+					});
+				},
+			},
+			{
+				template: 'loading',
+				isDisabled: true,
+				name: title2,
+			},
+		]).insert(group2, 'beforeend');
+		let dropboxButton;
+		let googleDriveButton;
+		let oneDriveButton;
+		if (type !== 'delete') {
+			dropboxButton = Button.create([
+				{
+					color: 'green',
+					icons: ['fa-dropbox'],
+					name: 'Dropbox',
+					onClick: () => {
+						return new Promise(async (resolve) => {
+							if (!(await permissions.contains([['dropbox']]))) {
+								resolve();
+								return;
+							}
+
+							onClick(dm, STORAGE_TYPES.DROPBOX, false, () => {
+								// noinspection JSIgnoredPromiseFromCall
+								manageData(dm, STORAGE_TYPES.COMPUTER, true);
+								resolve();
+							});
+						});
+					},
+				},
+				{
+					template: 'loading',
+					isDisabled: true,
+					name: title2,
+				},
+			]).insert(group2, 'beforeend');
+			googleDriveButton = Button.create([
+				{
+					color: 'green',
+					icons: ['fa-google'],
+					name: 'Google Drive',
+					onClick: () => {
+						return new Promise(async (resolve) => {
+							if (!(await permissions.contains([['googleDrive']]))) {
+								resolve();
+								return;
+							}
+
+							onClick(dm, STORAGE_TYPES.GOOGLE_DRIVE, false, () => {
+								// noinspection JSIgnoredPromiseFromCall
+								manageData(dm, STORAGE_TYPES.COMPUTER, true);
+								resolve();
+							});
+						});
+					},
+				},
+				{
+					template: 'loading',
+					isDisabled: true,
+					name: title2,
+				},
+			]).insert(group2, 'beforeend');
+			oneDriveButton = Button.create([
+				{
+					color: 'green',
+					icons: ['fa-windows'],
+					name: 'OneDrive',
+					onClick: () => {
+						return new Promise(async (resolve) => {
+							if (!(await permissions.contains([['oneDrive']]))) {
+								resolve();
+								return;
+							}
+
+							onClick(dm, STORAGE_TYPES.ONEDRIVE, false, () => {
+								// noinspection JSIgnoredPromiseFromCall
+								manageData(dm, STORAGE_TYPES.COMPUTER, true);
+								resolve();
+							});
+						});
+					},
+				},
+				{
+					template: 'loading',
+					isDisabled: true,
+					name: title2,
+				},
+			]).insert(group2, 'beforeend');
+		}
 		if (type === 'import' || type === 'delete') {
 			if (type === 'import') {
-				dm.input = Shared.common.createElements(containerr, 'beforeend', [
-					{
-						attributes: {
-							type: 'file',
-						},
-						type: 'input',
-					},
-				]);
 				new ToggleSwitch(
 					containerr,
 					'importAndMerge',
@@ -742,14 +897,6 @@ function loadDataManagement(type, isPopup, callback) {
 				type: 'div',
 			},
 		]);
-		dm.warning = Shared.common.createElements(containerr, 'beforeend', [
-			{
-				attributes: {
-					class: 'esgst-description esgst-warning',
-				},
-				type: 'div',
-			},
-		]);
 		group1 = Shared.common.createElements(containerr, 'beforeend', [
 			{
 				attributes: {
@@ -803,146 +950,6 @@ function loadDataManagement(type, isPopup, callback) {
 				name: '',
 			},
 		]).insert(group1, 'beforeend');
-		group2 = Shared.common.createElements(containerr, 'beforeend', [
-			{
-				attributes: {
-					class: 'esgst-button-group',
-				},
-				type: 'div',
-				children: [
-					{
-						text: `${title1} ${prep}:`,
-						type: 'span',
-					},
-				],
-			},
-		]);
-		const computerButton = Button.create([
-			{
-				color: 'green',
-				icons: ['fa-desktop'],
-				name: 'Computer',
-				onClick: () => {
-					return new Promise(async (resolve) => {
-						if (dm.type !== 'export') {
-							let result;
-							switch (Settings.get('exportBackupIndex')) {
-								case 0:
-									result = true;
-									break;
-								case 1:
-									result = await permissions.contains([['dropbox']]);
-									break;
-								case 2:
-									result = await permissions.contains([['googleDrive']]);
-									break;
-								case 3:
-									result = await permissions.contains([['oneDrive']]);
-									break;
-							}
-							if (!result) {
-								resolve();
-								return;
-							}
-						}
-
-						onClick(dm, false, false, false, false, () => {
-							// noinspection JSIgnoredPromiseFromCall
-							manageData(dm, false, false, false, true);
-							resolve();
-						});
-					});
-				},
-			},
-			{
-				template: 'loading',
-				isDisabled: true,
-				name: title2,
-			},
-		]).insert(group2, 'beforeend');
-		let dropboxButton;
-		let googleDriveButton;
-		let oneDriveButton;
-		if (type !== 'delete') {
-			dropboxButton = Button.create([
-				{
-					color: 'green',
-					icons: ['fa-dropbox'],
-					name: 'Dropbox',
-					onClick: () => {
-						return new Promise(async (resolve) => {
-							if (!(await permissions.contains([['dropbox']]))) {
-								resolve();
-								return;
-							}
-
-							onClick(dm, true, false, false, false, () => {
-								// noinspection JSIgnoredPromiseFromCall
-								manageData(dm, false, false, false, true);
-								resolve();
-							});
-						});
-					},
-				},
-				{
-					template: 'loading',
-					isDisabled: true,
-					name: title2,
-				},
-			]).insert(group2, 'beforeend');
-			googleDriveButton = Button.create([
-				{
-					color: 'green',
-					icons: ['fa-google'],
-					name: 'Google Drive',
-					onClick: () => {
-						return new Promise(async (resolve) => {
-							if (!(await permissions.contains([['googleDrive']]))) {
-								resolve();
-								return;
-							}
-
-							onClick(dm, false, true, false, false, () => {
-								// noinspection JSIgnoredPromiseFromCall
-								manageData(dm, false, false, false, true);
-								resolve();
-							});
-						});
-					},
-				},
-				{
-					template: 'loading',
-					isDisabled: true,
-					name: title2,
-				},
-			]).insert(group2, 'beforeend');
-			oneDriveButton = Button.create([
-				{
-					color: 'green',
-					icons: ['fa-windows'],
-					name: 'OneDrive',
-					onClick: () => {
-						return new Promise(async (resolve) => {
-							if (!(await permissions.contains([['oneDrive']]))) {
-								resolve();
-								return;
-							}
-
-							onClick(dm, false, false, true, false, () => {
-								// noinspection JSIgnoredPromiseFromCall
-								manageData(dm, false, false, false, true);
-								resolve();
-							});
-						});
-					},
-				},
-				{
-					template: 'loading',
-					isDisabled: true,
-					name: title2,
-				},
-			]).insert(group2, 'beforeend');
-		}
 		if (isPopup) {
 			popup.open();
 		}
@@ -1430,7 +1437,7 @@ function loadDataCleaner(isPopup) {
 						name: 'Winners',
 					},
 				];
-				const oldSize = await manageData(dm, false, false, false, true);
+				const oldSize = await manageData(dm, STORAGE_TYPES.COMPUTER, true);
 				let currentTime = Date.now();
 				let toSave = {};
 				if (Settings.get('cleanDiscussions')) {
@@ -1544,7 +1551,7 @@ function loadDataCleaner(isPopup) {
 					}
 				}
 				await Shared.common.setValues(toSave);
-				const newSize = await manageData(dm, false, false, false, true);
+				const newSize = await manageData(dm, STORAGE_TYPES.COMPUTER, true);
 				const successPopup = new Popup({
 					icon: 'fa-check',
 					title: (
@@ -1574,7 +1581,7 @@ function loadDataCleaner(isPopup) {
 	]).insert(context, 'beforeend');
 }
 
-async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
+async function manageData(dm, storageType, space, callback) {
 	let data = {};
 	let totalSize = 0;
 	let mainUsernameFound;
@@ -2867,11 +2874,20 @@ async function manageData(dm, dropbox, googleDrive, oneDrive, space, callback) {
 		return totalSize;
 	} else {
 		if (dm.type === 'export' || Settings.get('exportBackup')) {
-			if (dropbox || (dm.type !== 'export' && Settings.get('exportBackupIndex') === 1)) {
+			if (
+				storageType === STORAGE_TYPES.DROPBOX ||
+				(dm.type !== 'export' && Settings.get('exportBackupIndex') === 1)
+			) {
 				CloudStorage.manage(CloudStorage.DROPBOX, data, dm, callback);
-			} else if (googleDrive || (dm.type !== 'export' && Settings.get('exportBackupIndex') === 2)) {
+			} else if (
+				storageType === STORAGE_TYPES.GOOGLE_DRIVE ||
+				(dm.type !== 'export' && Settings.get('exportBackupIndex') === 2)
+			) {
 				CloudStorage.manage(CloudStorage.GOOGLEDRIVE, data, dm, callback);
-			} else if (oneDrive || (dm.type !== 'export' && Settings.get('exportBackupIndex') === 3)) {
+			} else if (
+				storageType === STORAGE_TYPES.ONEDRIVE ||
+				(dm.type !== 'export' && Settings.get('exportBackupIndex') === 3)
+			) {
 				CloudStorage.manage(CloudStorage.ONEDRIVE, data, dm, callback);
 			} else {
 				const name = `${
