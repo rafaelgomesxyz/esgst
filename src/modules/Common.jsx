@@ -500,7 +500,7 @@ class Common extends Module {
 			this.esgst.pageOuterWrapClass = 'page__outer-wrap';
 			this.esgst.pageHeadingClass = 'page__heading';
 			this.esgst.pageHeadingBreadcrumbsClass = 'page__heading__breadcrumbs';
-			this.esgst.replyBox = document.getElementsByClassName('comment--submit')[0];
+			this.esgst.replyBox = document.querySelector('.comment--submit');
 			this.esgst.cancelButtonClass = 'comment__cancel-button';
 			this.esgst.paginationNavigationClass = 'pagination__navigation';
 			this.esgst.hiddenClass = 'is-hidden';
@@ -509,10 +509,8 @@ class Common extends Module {
 			this.esgst.pageOuterWrapClass = 'page_outer_wrap';
 			this.esgst.pageHeadingClass = 'page_heading';
 			this.esgst.pageHeadingBreadcrumbsClass = 'page_heading_breadcrumbs';
-			this.esgst.replyBox = /** @type {HTMLElement} */ document.getElementsByClassName(
-				'reply_form'
-			)[0];
-			if (this.esgst.replyBox.querySelector('.rating_checkbox')) {
+			this.esgst.replyBox = /** @type {HTMLElement} */ document.querySelector('.reply_form');
+			if (this.esgst.replyBox?.querySelector('.rating_checkbox')) {
 				this.esgst.reviewBox = this.esgst.replyBox;
 				this.esgst.replyBox = null;
 			}
