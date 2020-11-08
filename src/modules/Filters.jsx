@@ -2365,6 +2365,7 @@ class Filters extends Module {
 	filters_filter(obj, unfilter, endless) {
 		if (!unfilter && !Settings.get(`${obj.id}_enable${obj.type}`)) return;
 
+		Shared.common.purgeRemovedElements();
 		let items;
 		if (obj.id === 'gf') {
 			items = this.esgst.currentScope.giveaways;
