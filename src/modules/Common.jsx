@@ -3848,7 +3848,7 @@ class Common extends Module {
 				});
 				if (response.redirected) {
 					Shared.esgst.requestLog.unshift({
-						url: response.url,
+						url: response.finalUrl,
 						timestamp: Date.now(),
 					});
 				}
@@ -6277,7 +6277,7 @@ class Common extends Module {
 					</ul>
 					<h3>Last Day ({lastDayTotal})</h3>
 					<ul>
-						{Object.entries(lastDayUrls).map(({ url, count }) => (
+						{lastDayUrls.map(({ url, count }) => (
 							<li>
 								<a href={url}>{url}</a> ({count})
 							</li>
