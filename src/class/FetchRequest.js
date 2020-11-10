@@ -57,7 +57,7 @@ class FetchRequest {
 		options.headers = Object.assign({}, DEFAULT_HEADERS, options.headers, REQUIRED_HEADERS);
 		try {
 			const isInternal = url.match(new RegExp(window.location.hostname));
-			if (isInternal) {
+			if (isInternal && !options.doNotQueue) {
 				deleteLock = await Shared.common.createLock('requestLock', 2000);
 			} else if (options.queue) {
 				deleteLock = await Shared.common.createLock('requestLock', 1000);

@@ -3833,13 +3833,16 @@ class Common extends Module {
 		let isLocal =
 			details.url.match(/^\//) || details.url.match(new RegExp(window.location.hostname));
 		if (isLocal || details.queue) {
-			if (isLocal) {
+			if (isLocal && !details.doNotQueue) {
 				details.queue = 2000;
 			}
-			let deleteLock = await this.createLock(
-				'requestLock',
-				typeof details.queue === 'number' ? details.queue : 1000
-			);
+			let deleteLock;
+			if (details.queue) {
+				deleteLock = await this.createLock(
+					'requestLock',
+					typeof details.queue === 'number' ? details.queue : 1000
+				);
+			}
 			let response = await this.continueRequest(details);
 			if (isLocal) {
 				Shared.esgst.requestLog.unshift({
@@ -3854,7 +3857,9 @@ class Common extends Module {
 				}
 				await Shared.common.setValue('requestLog', JSON.stringify(Shared.esgst.requestLog));
 			}
-			deleteLock();
+			if (deleteLock) {
+				deleteLock();
+			}
 			return response;
 		} else if (details.url.match(/^https?:\/\/store.steampowered.com/)) {
 			const deleteLock = await this.createLock('steamStore', 200);

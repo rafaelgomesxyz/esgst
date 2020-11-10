@@ -282,6 +282,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
 						data: `xsrf_token=${Session.xsrfToken}&do=entry_insert&code=${giveaway.code}`,
 						method: 'POST',
 						url: '/ajax.php',
+						doNotQueue: true,
 					})
 				).responseText
 			);
@@ -320,6 +321,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
 						data: `xsrf_token=${Session.xsrfToken}&do=entry_delete&code=${giveaway.code}`,
 						method: 'POST',
 						url: '/ajax.php',
+						doNotQueue: true,
 					})
 				).responseText
 			);
@@ -512,7 +514,9 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
 		}
 		let description = null;
 		let responseHtml = null;
-		responseHtml = DOM.parse((await request({ method: 'GET', url: giveaway.url })).responseText);
+		responseHtml = DOM.parse(
+			(await request({ method: 'GET', url: giveaway.url, doNotQueue: true })).responseText
+		);
 		if (mainCallback && !responseHtml.getElementsByClassName('featured__outer-wrap--giveaway')[0]) {
 			mainCallback(true);
 			return;
@@ -704,6 +708,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
 				data: `xsrf_token=${Session.xsrfToken}&do=entry_insert&code=${giveaway.code}`,
 				method: 'POST',
 				url: '/ajax.php',
+				doNotQueue: true,
 			})
 		).responseText;
 		let responseJson = null;
@@ -791,6 +796,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
 				data: `xsrf_token=${Session.xsrfToken}&do=entry_delete&code=${giveaway.code}`,
 				method: 'POST',
 				url: '/ajax.php',
+				doNotQueue: true,
 			})
 		).responseText;
 		let responseJson = null;
