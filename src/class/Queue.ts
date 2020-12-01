@@ -42,7 +42,7 @@ class _RequestQueue {
 			const lastRequest = this.getLastRequest(key);
 			if (lastRequest === 0 || now - queue.threshold > lastRequest) {
 				this.setLastRequest(key, now);
-				const request = this.queue[key].requests.shift();
+				const request = queue.requests.shift();
 				if (request) {
 					request();
 				}

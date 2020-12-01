@@ -18,6 +18,7 @@ import { Shared } from '../class/Shared';
 import { Tabs } from '../class/Tabs';
 import { ToggleSwitch } from '../class/ToggleSwitch';
 import { Button } from '../components/Button';
+import { Collapsible } from '../components/Collapsible';
 import { NotificationBar } from '../components/NotificationBar';
 import { PageHeading } from '../components/PageHeading';
 import { Events } from '../constants/Events';
@@ -6235,61 +6236,79 @@ class Common extends Module {
 							your browsing.
 						</em>
 					</p>
-					<h3>
-						This Minute ({thisMinuteTotal} / Max: {limits.minute} / Left:{' '}
-						{limits.minute - thisMinuteTotal})
-					</h3>
-					<ul>
-						{thisMinuteUrls.map(({ url, count }) => (
-							<li>
-								<a href={url}>{url}</a> ({count})
-							</li>
-						))}
-					</ul>
-					<h3>
-						This Hour ({thisHourTotal} / Max: {limits.hour} / Left: {limits.hour - thisHourTotal})
-					</h3>
-					<ul>
-						{thisHourUrls.map(({ url, count }) => (
-							<li>
-								<a href={url}>{url}</a> ({count})
-							</li>
-						))}
-					</ul>
-					<h3>
-						This Day ({thisDayTotal} / Max: {limits.day} / Left: {limits.day - thisDayTotal})
-					</h3>
-					<ul>
-						{thisDayUrls.map(({ url, count }) => (
-							<li>
-								<a href={url}>{url}</a> ({count})
-							</li>
-						))}
-					</ul>
-					<h3>Last Minute ({lastMinuteTotal})</h3>
-					<ul>
-						{lastMinuteUrls.map(({ url, count }) => (
-							<li>
-								<a href={url}>{url}</a> ({count})
-							</li>
-						))}
-					</ul>
-					<h3>Last Hour ({lastHourTotal})</h3>
-					<ul>
-						{lastHourUrls.map(({ url, count }) => (
-							<li>
-								<a href={url}>{url}</a> ({count})
-							</li>
-						))}
-					</ul>
-					<h3>Last Day ({lastDayTotal})</h3>
-					<ul>
-						{lastDayUrls.map(({ url, count }) => (
-							<li>
-								<a href={url}>{url}</a> ({count})
-							</li>
-						))}
-					</ul>
+					{Collapsible.create(
+						<h3>
+							This Minute ({thisMinuteTotal} / Max: {limits.minute} / Left:{' '}
+							{limits.minute - thisMinuteTotal})
+						</h3>,
+						<ul>
+							{thisMinuteUrls.map(({ url, count }) => (
+								<li>
+									<a href={url}>{url}</a> ({count})
+								</li>
+							))}
+						</ul>,
+						'sgRequestLog_thisMinute'
+					)}
+					{Collapsible.create(
+						<h3>
+							This Hour ({thisHourTotal} / Max: {limits.hour} / Left: {limits.hour - thisHourTotal})
+						</h3>,
+						<ul>
+							{thisHourUrls.map(({ url, count }) => (
+								<li>
+									<a href={url}>{url}</a> ({count})
+								</li>
+							))}
+						</ul>,
+						'sgRequestLog_thisHour'
+					)}
+					{Collapsible.create(
+						<h3>
+							This Day ({thisDayTotal} / Max: {limits.day} / Left: {limits.day - thisDayTotal})
+						</h3>,
+						<ul>
+							{thisDayUrls.map(({ url, count }) => (
+								<li>
+									<a href={url}>{url}</a> ({count})
+								</li>
+							))}
+						</ul>,
+						'sgRequestLog_thisDay'
+					)}
+					{Collapsible.create(
+						<h3>Last Minute ({lastMinuteTotal})</h3>,
+						<ul>
+							{lastMinuteUrls.map(({ url, count }) => (
+								<li>
+									<a href={url}>{url}</a> ({count})
+								</li>
+							))}
+						</ul>,
+						'sgRequestLog_lastMinute'
+					)}
+					{Collapsible.create(
+						<h3>Last Hour ({lastHourTotal})</h3>,
+						<ul>
+							{lastHourUrls.map(({ url, count }) => (
+								<li>
+									<a href={url}>{url}</a> ({count})
+								</li>
+							))}
+						</ul>,
+						'sgRequestLog_lastHour'
+					)}
+					{Collapsible.create(
+						<h3>Last Day ({lastDayTotal})</h3>,
+						<ul>
+							{lastDayUrls.map(({ url, count }) => (
+								<li>
+									<a href={url}>{url}</a> ({count})
+								</li>
+							))}
+						</ul>,
+						'sgRequestLog_lastDay'
+					)}
 				</fragment>
 			);
 
