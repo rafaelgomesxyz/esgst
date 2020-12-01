@@ -3833,11 +3833,13 @@ class Common extends Module {
 		let isLocal =
 			details.url.match(/^\//) || details.url.match(new RegExp(window.location.hostname));
 		if (isLocal || details.queue) {
-			if (isLocal && !details.doNotQueue) {
-				details.queue = 2000;
-			}
 			let deleteLock;
-			if (details.queue) {
+			if (isLocal && !details.doNotQueue) {
+				await browser.runtime.sendMessage({
+					action: 'queue_request',
+					key: 'sg',
+				});
+			} else if (details.queue) {
 				deleteLock = await this.createLock(
 					'requestLock',
 					typeof details.queue === 'number' ? details.queue : 1000

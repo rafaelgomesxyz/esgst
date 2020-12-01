@@ -1,4 +1,22 @@
 import JSZip from 'jszip';
+import { RequestQueue } from './class/Queue';
+
+const lastRequests = {};
+
+RequestQueue.getLastRequest = (key) => {
+	return lastRequests[key] ?? 0;
+};
+
+RequestQueue.setLastRequest = (key, lastRequest) => {
+	lastRequests[key] = lastRequest;
+};
+
+RequestQueue.getRequestLog = async () => {
+	const values = await handle_storage(TYPE_GET, 'requestLog');
+	return JSON.parse(values.requestLog);
+};
+
+RequestQueue.init();
 
 // @ts-ignore
 Cu.importGlobalProperties(['fetch', 'FileReader']);
@@ -348,6 +366,11 @@ PageMod({
 
 		worker.port.on('getBrowserInfo', (request) => {
 			worker.port.emit(`getBrowserInfo_${request.uuid}_response`, `{ "name": "?" }`);
+		});
+
+		worker.port.on('queue_request', async (request) => {
+			await RequestQueue.enqueue(request.key);
+			worker.port.emit(`queue_request_${request.uuid}_response`, 'null');
 		});
 
 		worker.port.on('do_lock', async (request) => {

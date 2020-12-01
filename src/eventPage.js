@@ -1,4 +1,22 @@
 import JSZip from 'jszip';
+import { RequestQueue } from './class/Queue';
+
+const lastRequests = {};
+
+RequestQueue.getLastRequest = (key) => {
+	return lastRequests[key] ?? 0;
+};
+
+RequestQueue.setLastRequest = (key, lastRequest) => {
+	lastRequests[key] = lastRequest;
+};
+
+RequestQueue.getRequestLog = async () => {
+	const values = await browser.storage.local.get('requestLog');
+	return JSON.parse(values.requestLog);
+};
+
+RequestQueue.init();
 
 /**
  * @typedef {Object} OpenTab
@@ -320,6 +338,9 @@ browser.runtime.onMessage.addListener((request, sender) => {
 				break;
 			case 'getBrowserInfo':
 				resolve(JSON.stringify(browserInfo));
+				break;
+			case 'queue_request':
+				RequestQueue.enqueue(request.key).then(resolve);
 				break;
 			case 'do_lock':
 				do_lock(JSON.parse(request.lock)).then(resolve);

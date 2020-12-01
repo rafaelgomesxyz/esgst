@@ -1,8 +1,8 @@
-import { Shared } from './Shared';
 import { browser } from '../browser';
-import { Settings } from './Settings';
 import { Utils } from '../lib/jsUtils';
 import { DOM } from './DOM';
+import { Settings } from './Settings';
+import { Shared } from './Shared';
 
 const DEFAULT_HEADERS = {
 	'Content-Type': 'application/x-www-form-urlencoded',
@@ -58,7 +58,10 @@ class FetchRequest {
 		try {
 			const isInternal = url.match(new RegExp(window.location.hostname));
 			if (isInternal && !options.doNotQueue) {
-				deleteLock = await Shared.common.createLock('requestLock', 2000);
+				await browser.runtime.sendMessage({
+					action: 'queue_request',
+					key: 'sg',
+				});
 			} else if (options.queue) {
 				deleteLock = await Shared.common.createLock('requestLock', 1000);
 			} else if (url.match(/^https?:\/\/store.steampowered.com/)) {

@@ -1,5 +1,8 @@
 import { setBrowser } from './browser';
+import { RequestQueue } from './class/Queue';
 import { Shared } from './class/Shared';
+
+RequestQueue.init();
 
 let tdsData = [];
 
