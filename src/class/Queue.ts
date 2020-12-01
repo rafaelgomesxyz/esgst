@@ -94,6 +94,8 @@ class _RequestQueue {
 			this.queue.sg.threshold = 1000;
 		} else if (minuteTotal > this.queue.sg.minute_limit * 0.5) {
 			this.queue.sg.threshold = 500;
+		} else {
+			this.queue.sg.threshold = 250;
 		}
 
 		window.setTimeout(this.checkLocalRequests, 15000);
