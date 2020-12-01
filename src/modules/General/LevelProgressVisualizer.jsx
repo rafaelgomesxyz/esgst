@@ -70,6 +70,7 @@ class GeneralLevelProgressVisualizer extends Module {
 		const cache = JSON.parse(LocalStorage.get('lpvCache', `{ "cv": 0, "level": 0, "v": 3 }`));
 		const currentLevel = Session.counters.level.full;
 		if (cache.v !== 3 || currentLevel !== cache.level) {
+			cache.v = 3;
 			cache.level = currentLevel;
 			const response = await FetchRequest.get(`/user/${Settings.get('username')}`);
 			const element = response.html.querySelectorAll('.featured__table__row__right')[6];
