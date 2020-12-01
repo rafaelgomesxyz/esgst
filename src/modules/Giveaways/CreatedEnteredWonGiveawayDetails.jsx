@@ -222,7 +222,7 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
 				details.winners.filter((x) => x.status !== 'Received' && x.status !== 'Not Received')
 					.length > 0;
 		}
-		if ((this.created || this.won) && shouldUpdateWinners) {
+		if (this.created && shouldUpdateWinners) {
 			await this.fetchWinners(giveaway, now);
 		} else if (
 			now - ((details && details.lastUpdate) || 0) <= 604800000 &&
