@@ -35,6 +35,10 @@ class _RequestQueue {
 	check = (): void => {
 		const now = Date.now();
 		for (const [key, queue] of Object.entries(this.queue)) {
+			if (queue.requests.length === 0) {
+				continue;
+			}
+
 			const lastRequest = this.getLastRequest(key);
 			if (lastRequest === 0 || now - queue.threshold > lastRequest) {
 				this.setLastRequest(key, now);
@@ -55,6 +59,10 @@ class _RequestQueue {
 	};
 
 	checkLocalRequests = async (): Promise<void> => {
+		if (this.queue.sg.requests.length === 0) {
+			return;
+		}
+
 		const currentDate = new Date();
 		const now = currentDate.getTime();
 		const currentDay = currentDate.getDate();
