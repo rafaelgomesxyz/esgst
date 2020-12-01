@@ -31,18 +31,26 @@ class GeneralLevelProgressVisualizer extends Module {
 						Displays a green bar in the account button at the header of any page that represents
 						your level progress.
 					</li>
-					<li>
-						Also displays a lighter green bar, if you have any giveaways open, to estimate what your
-						level will be when the giveaways are marked as received. If you hover over the account
-						button, it shows the number of the estimated level.
-					</li>
 				</ul>
 			),
+			features: {
+				lpv_e: {
+					description: () => (
+						<li>
+							Also displays a lighter green bar, if you have any giveaways open, to estimate what
+							your level will be when the giveaways are marked as received. If you hover over the
+							account button, it shows the number of the estimated level.
+						</li>
+					),
+					name: 'Show estimated level.',
+					sg: true,
+					sync: `Giveaways, No CV Games, Reduced CV Games`,
+					syncKeys: ['Giveaways', 'NoCvGames', 'ReducedCvGames'],
+				},
+			},
 			id: 'lpv',
 			name: 'Level Progress Visualizer',
 			sg: true,
-			sync: `Giveaways, No CV Games, Reduced CV Games`,
-			syncKeys: ['Giveaways', 'NoCvGames', 'ReducedCvGames'],
 			type: 'general',
 		};
 	}
@@ -90,25 +98,27 @@ class GeneralLevelProgressVisualizer extends Module {
 		const secondBar = `${Math.max(0, currentProgress - mainButtonWidth)}px`;
 		let projectedFirstBar = '0';
 		let projectedSecondBar = '0';
-		const cache = await this.getCache();
-		const cv = this.lpv_getCv();
-		if (cv > 0) {
-			const predictedFullLevel = Shared.common.getLevelFromCv(cache.cv + cv);
-			//Logger.info(`Current CV: ${cache.cv}`);
-			//Logger.info(`CV to gain: ${cv}`);
-			//Logger.info(`Predicted level: ${predictedFullLevel}`);
-			const predictedLevel = Math.trunc(predictedFullLevel);
-			const predictedPercentage = Math.trunc(round(predictedFullLevel - predictedLevel) * 100);
-			const predictedProgress = Math.trunc(
-				Math.min(100, predictedPercentage) * (fullButtonWidth / 100)
-			);
-			projectedFirstBar = `${predictedProgress}px`;
-			projectedSecondBar = `${Math.max(0, predictedProgress - mainButtonWidth)}px`;
+		if (Settings.get('lpv_e')) {
+			const cache = await this.getCache();
+			const cv = this.lpv_getCv();
+			if (cv > 0) {
+				const predictedFullLevel = Shared.common.getLevelFromCv(cache.cv + cv);
+				//Logger.info(`Current CV: ${cache.cv}`);
+				//Logger.info(`CV to gain: ${cv}`);
+				//Logger.info(`Predicted level: ${predictedFullLevel}`);
+				const predictedLevel = Math.trunc(predictedFullLevel);
+				const predictedPercentage = Math.trunc(round(predictedFullLevel - predictedLevel) * 100);
+				const predictedProgress = Math.trunc(
+					Math.min(100, predictedPercentage) * (fullButtonWidth / 100)
+				);
+				projectedFirstBar = `${predictedProgress}px`;
+				projectedSecondBar = `${Math.max(0, predictedProgress - mainButtonWidth)}px`;
 
-			Shared.header.buttonContainers['account'].nodes.level.title = getFeatureTooltip(
-				'lpv',
-				`${newLevel.full} (${predictedFullLevel})`
-			);
+				Shared.header.buttonContainers['account'].nodes.level.title = getFeatureTooltip(
+					'lpv',
+					`${newLevel.full} (${predictedFullLevel})`
+				);
+			}
 		}
 		const barColor = Settings.get('lpv_barColor');
 		const projectedBarColor = Settings.get('lpv_projectedBarColor');
