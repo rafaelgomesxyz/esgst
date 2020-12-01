@@ -6222,6 +6222,15 @@ class Common extends Module {
 				true,
 				'count'
 			);
+			const thisMinutePorcentage = Math.round((thisMinuteTotal / limits.minute) * 100) / 100;
+			const thisHourPorcentage = Math.round((thisHourTotal / limits.hour) * 100) / 100;
+			const thisDayPorcentage = Math.round((thisDayTotal / limits.day) * 100) / 100;
+			const thisMinuteLeft = limits.minute - thisMinuteTotal;
+			const thisHourLeft = limits.hour - thisHourTotal;
+			const thisDayLeft = limits.day - thisDayTotal;
+			const thisMinuteLeftPorcentage = Math.round((100 - thisMinutePorcentage) * 100) / 100;
+			const thisHourLeftPorcentage = Math.round((100 - thisHourPorcentage) * 100) / 100;
+			const thisDayLeftPorcentage = Math.round((100 - thisDayPorcentage) * 100) / 100;
 
 			DOM.insert(
 				scrollableArea,
@@ -6238,8 +6247,8 @@ class Common extends Module {
 					</p>
 					{Collapsible.create(
 						<h3>
-							This Minute ({thisMinuteTotal} / Max: {limits.minute} / Left:{' '}
-							{limits.minute - thisMinuteTotal})
+							This Minute - Current: {thisMinuteTotal} ({thisMinutePorcentage}%) / Left:{' '}
+							{thisMinuteLeft} ({thisMinuteLeftPorcentage}%) / Max: {limits.minute}
 						</h3>,
 						<ul>
 							{thisMinuteUrls.map(({ url, count }) => (
@@ -6252,7 +6261,8 @@ class Common extends Module {
 					)}
 					{Collapsible.create(
 						<h3>
-							This Hour ({thisHourTotal} / Max: {limits.hour} / Left: {limits.hour - thisHourTotal})
+							This Hour - Current: {thisHourTotal} ({thisHourPorcentage}%) / Left: {thisHourLeft} (
+							{thisHourLeftPorcentage}%) / Max: {limits.hour}
 						</h3>,
 						<ul>
 							{thisHourUrls.map(({ url, count }) => (
@@ -6265,7 +6275,8 @@ class Common extends Module {
 					)}
 					{Collapsible.create(
 						<h3>
-							This Day ({thisDayTotal} / Max: {limits.day} / Left: {limits.day - thisDayTotal})
+							This Day - Current: {thisDayTotal} ({thisDayPorcentage}%) / Left: {thisDayLeft} (
+							{thisDayLeftPorcentage}%) / Max: {limits.day}
 						</h3>,
 						<ul>
 							{thisDayUrls.map(({ url, count }) => (
