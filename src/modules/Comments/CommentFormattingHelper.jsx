@@ -1659,16 +1659,18 @@ class CommentsCommentFormattingHelper extends Module {
 					<i
 						className="esgst-clickable fa fa-retweet"
 						title="Replace description with current reply"
-						onclick={this.cfh_saveReply(
-							reply,
-							savedReply.description,
-							this.esgst.cfh.textArea,
-							savedReply.name,
-							null,
-							null,
-							replies,
-							summary
-						)}
+						onclick={() =>
+							this.cfh_saveReply(
+								reply,
+								savedReply.description,
+								this.esgst.cfh.textArea,
+								savedReply.name,
+								null,
+								null,
+								replies,
+								summary
+							)
+						}
 					></i>
 					<i
 						className="esgst-clickable fa fa-edit"
@@ -1740,17 +1742,17 @@ class CommentsCommentFormattingHelper extends Module {
 			{
 				template: 'success',
 				name: 'Save',
-				onClick: this.cfh_saveReply.bind(
-					this,
-					reply,
-					description,
-					descriptionArea,
-					name,
-					nameArea,
-					popup,
-					replies,
-					summary
-				),
+				onClick: () =>
+					this.cfh_saveReply(
+						reply,
+						description,
+						descriptionArea,
+						name,
+						nameArea,
+						popup,
+						replies,
+						summary
+					),
 			},
 			{
 				template: 'loading',
