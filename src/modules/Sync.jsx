@@ -1595,6 +1595,7 @@ async function syncGames(altAccount, syncer, apiResponse, storeResponse) {
 				}
 			}
 		}
+		console.log(removedWishlisted);
 		if (!altAccount) {
 			for (const id of removedWishlisted[type]) {
 				savedGames[type][id].previouslyWishlisted = true;
