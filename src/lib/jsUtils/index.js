@@ -68,6 +68,13 @@ class _Utils {
 		return path.reduce((obj, key) => (obj && obj[key] ? obj[key] : null), obj);
 	}
 
+	getPlural = (count, singular, plural) => {
+		if (count === 1) {
+			return singular;
+		}
+		return plural ?? `${singular}s`;
+	};
+
 	getQueryParams = (str = window.location.search) => {
 		return Object.fromEntries(
 			str

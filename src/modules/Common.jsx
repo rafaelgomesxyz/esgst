@@ -6115,216 +6115,232 @@ class Common extends Module {
 			title: 'SteamGifts Request Log',
 			isTemp: true,
 		});
+		const [buttonGroup] = DOM.insert(
+			popup.description,
+			'beforeend',
+			<div className="esgst-button-group">View: </div>
+		);
+		Button.create({
+			color: 'green',
+			name: 'Default',
+			onClick: async () => {
+				await Shared.common.setSetting('sgRequestLog_view', 'default');
+				this.loadRequestLog(limits, scrollableArea);
+			},
+		}).insert(buttonGroup, 'beforeend');
+		Button.create({
+			color: 'green',
+			name: 'Minutes',
+			onClick: async () => {
+				await Shared.common.setSetting('sgRequestLog_view', 'minute');
+				this.loadRequestLog(limits, scrollableArea);
+			},
+		}).insert(buttonGroup, 'beforeend');
+		Button.create({
+			color: 'green',
+			name: 'Hours',
+			onClick: async () => {
+				await Shared.common.setSetting('sgRequestLog_view', 'hour');
+				this.loadRequestLog(limits, scrollableArea);
+			},
+		}).insert(buttonGroup, 'beforeend');
+		Button.create({
+			color: 'green',
+			name: 'Days',
+			onClick: async () => {
+				await Shared.common.setSetting('sgRequestLog_view', 'day');
+				this.loadRequestLog(limits, scrollableArea);
+			},
+		}).insert(buttonGroup, 'beforeend');
 		const scrollableArea = popup.getScrollable(null);
 		scrollableArea.className = 'markdown';
 		popup.open();
 
 		do {
-			const currentDate = new Date();
-			const now = currentDate.getTime();
-			const currentDay = currentDate.getDate();
-			const currentHour = currentDate.getHours();
-			const currentMinute = currentDate.getMinutes();
-			currentDate.setDate(currentDay - 1);
-			const lastDay = currentDate.getDate();
-			currentDate.setHours(currentHour - 1);
-			const lastHour = currentDate.getHours();
-			currentDate.setMinutes(currentMinute - 1);
-			const lastMinute = currentDate.getMinutes();
-
-			let thisMinuteUrls = {};
-			let thisHourUrls = {};
-			let thisDayUrls = {};
-			let lastMinuteUrls = {};
-			let lastHourUrls = {};
-			let lastDayUrls = {};
-			let thisMinuteTotal = 0;
-			let thisHourTotal = 0;
-			let thisDayTotal = 0;
-			let lastMinuteTotal = 0;
-			let lastHourTotal = 0;
-			let lastDayTotal = 0;
-
-			Shared.esgst.requestLog = Shared.esgst.requestLog.filter(
-				(log) => now - log.timestamp <= 2592000000
-			);
-			for (const log of Shared.esgst.requestLog) {
-				const date = new Date(log.timestamp);
-				const day = date.getDate();
-				const hour = date.getHours();
-				const minute = date.getMinutes();
-
-				if (day === currentDay) {
-					thisDayUrls[log.url] = (thisDayUrls[log.url] ?? 0) + 1;
-					thisDayTotal += 1;
-					if (hour === currentHour) {
-						thisHourUrls[log.url] = (thisHourUrls[log.url] ?? 0) + 1;
-						thisHourTotal += 1;
-						if (minute === currentMinute) {
-							thisMinuteUrls[log.url] = (thisMinuteUrls[log.url] ?? 0) + 1;
-							thisMinuteTotal += 1;
-						} else if (minute === lastMinute) {
-							lastMinuteUrls[log.url] = (lastMinuteUrls[log.url] ?? 0) + 1;
-							lastMinuteTotal += 1;
-						}
-					} else if (hour === lastHour) {
-						lastHourUrls[log.url] = (lastHourUrls[log.url] ?? 0) + 1;
-						lastHourTotal += 1;
-						if (minute === lastMinute) {
-							lastMinuteUrls[log.url] = (lastMinuteUrls[log.url] ?? 0) + 1;
-							lastMinuteTotal += 1;
-						}
-					}
-				} else if (day === lastDay) {
-					lastDayUrls[log.url] = (lastDayUrls[log.url] ?? 0) + 1;
-					lastDayTotal += 1;
-					if (hour === lastHour) {
-						lastHourUrls[log.url] = (lastHourUrls[log.url] ?? 0) + 1;
-						lastHourTotal += 1;
-						if (minute === lastMinute) {
-							lastMinuteUrls[log.url] = (lastMinuteUrls[log.url] ?? 0) + 1;
-							lastMinuteTotal += 1;
-						}
-					}
-				} else {
-					break;
-				}
-			}
-			await Shared.common.setValue('requestLog', JSON.stringify(Shared.esgst.requestLog));
-
-			thisMinuteUrls = Utils.sortArray(
-				Object.entries(thisMinuteUrls).map(([url, count]) => ({ url, count })),
-				true,
-				'count'
-			);
-			thisHourUrls = Utils.sortArray(
-				Object.entries(thisHourUrls).map(([url, count]) => ({ url, count })),
-				true,
-				'count'
-			);
-			thisDayUrls = Utils.sortArray(
-				Object.entries(thisDayUrls).map(([url, count]) => ({ url, count })),
-				true,
-				'count'
-			);
-			lastMinuteUrls = Utils.sortArray(
-				Object.entries(lastMinuteUrls).map(([url, count]) => ({ url, count })),
-				true,
-				'count'
-			);
-			lastHourUrls = Utils.sortArray(
-				Object.entries(lastHourUrls).map(([url, count]) => ({ url, count })),
-				true,
-				'count'
-			);
-			lastDayUrls = Utils.sortArray(
-				Object.entries(lastDayUrls).map(([url, count]) => ({ url, count })),
-				true,
-				'count'
-			);
-			const thisMinutePorcentage = Math.round((thisMinuteTotal / limits.minute) * 100) / 100;
-			const thisHourPorcentage = Math.round((thisHourTotal / limits.hour) * 100) / 100;
-			const thisDayPorcentage = Math.round((thisDayTotal / limits.day) * 100) / 100;
-			const thisMinuteLeft = limits.minute - thisMinuteTotal;
-			const thisHourLeft = limits.hour - thisHourTotal;
-			const thisDayLeft = limits.day - thisDayTotal;
-			const thisMinuteLeftPorcentage = Math.round((100 - thisMinutePorcentage) * 100) / 100;
-			const thisHourLeftPorcentage = Math.round((100 - thisHourPorcentage) * 100) / 100;
-			const thisDayLeftPorcentage = Math.round((100 - thisDayPorcentage) * 100) / 100;
-
-			DOM.insert(
-				scrollableArea,
-				'atinner',
-				<fragment>
-					<p>
-						<em>Last updated {currentDate.toLocaleString()}</em>
-						<br />
-						<em>
-							Remember that this does not include the requests you make while browsing SteamGifts,
-							so you don't want to reach 0 requests left, because that leaves exactly 0 requests for
-							your browsing.
-						</em>
-					</p>
-					{Collapsible.create(
-						<h3>
-							This Minute - Current: {thisMinuteTotal} ({thisMinutePorcentage}%) / Left:{' '}
-							{thisMinuteLeft} ({thisMinuteLeftPorcentage}%) / Max: {limits.minute}
-						</h3>,
-						<ul>
-							{thisMinuteUrls.map(({ url, count }) => (
-								<li>
-									<a href={url}>{url}</a> ({count})
-								</li>
-							))}
-						</ul>,
-						'sgRequestLog_thisMinute'
-					)}
-					{Collapsible.create(
-						<h3>
-							This Hour - Current: {thisHourTotal} ({thisHourPorcentage}%) / Left: {thisHourLeft} (
-							{thisHourLeftPorcentage}%) / Max: {limits.hour}
-						</h3>,
-						<ul>
-							{thisHourUrls.map(({ url, count }) => (
-								<li>
-									<a href={url}>{url}</a> ({count})
-								</li>
-							))}
-						</ul>,
-						'sgRequestLog_thisHour'
-					)}
-					{Collapsible.create(
-						<h3>
-							This Day - Current: {thisDayTotal} ({thisDayPorcentage}%) / Left: {thisDayLeft} (
-							{thisDayLeftPorcentage}%) / Max: {limits.day}
-						</h3>,
-						<ul>
-							{thisDayUrls.map(({ url, count }) => (
-								<li>
-									<a href={url}>{url}</a> ({count})
-								</li>
-							))}
-						</ul>,
-						'sgRequestLog_thisDay'
-					)}
-					{Collapsible.create(
-						<h3>Last Minute ({lastMinuteTotal})</h3>,
-						<ul>
-							{lastMinuteUrls.map(({ url, count }) => (
-								<li>
-									<a href={url}>{url}</a> ({count})
-								</li>
-							))}
-						</ul>,
-						'sgRequestLog_lastMinute'
-					)}
-					{Collapsible.create(
-						<h3>Last Hour ({lastHourTotal})</h3>,
-						<ul>
-							{lastHourUrls.map(({ url, count }) => (
-								<li>
-									<a href={url}>{url}</a> ({count})
-								</li>
-							))}
-						</ul>,
-						'sgRequestLog_lastHour'
-					)}
-					{Collapsible.create(
-						<h3>Last Day ({lastDayTotal})</h3>,
-						<ul>
-							{lastDayUrls.map(({ url, count }) => (
-								<li>
-									<a href={url}>{url}</a> ({count})
-								</li>
-							))}
-						</ul>,
-						'sgRequestLog_lastDay'
-					)}
-				</fragment>
-			);
-
+			this.loadRequestLog(limits, scrollableArea);
 			await Shared.common.timeout(10000);
 		} while (popup.isOpen);
+	};
+
+	loadRequestLog = async (limits, scrollableArea) => {
+		const currentDate = new Date();
+		const now = currentDate.getTime();
+		const currentDay = currentDate.getDate();
+		const currentHour = currentDate.getHours();
+		const currentMinute = currentDate.getMinutes();
+		currentDate.setDate(currentDay - 1);
+		const lastDay = currentDate.getDate();
+		currentDate.setHours(currentHour - 1);
+		const lastHour = currentDate.getHours();
+		currentDate.setMinutes(currentMinute - 1);
+		const lastMinute = currentDate.getMinutes();
+
+		const info = {
+			minute: {
+				title: 'Minute',
+				items: [],
+			},
+			hour: {
+				title: 'Hour',
+				items: [],
+			},
+			day: {
+				title: 'Day',
+				items: [],
+			},
+		};
+
+		Shared.esgst.requestLog = Shared.esgst.requestLog.filter(
+			(log) => now - log.timestamp <= 2592000000
+		);
+		for (const log of Shared.esgst.requestLog) {
+			const date = new Date(log.timestamp);
+			const day = date.getDate();
+			const hour = date.getHours();
+			const minute = date.getMinutes();
+
+			if (day === currentDay) {
+				if (!info.day.items[0]) {
+					info.day.items[0] = { count: 0, urls: {} };
+				}
+				info.day.items[0].urls[log.url] = (info.day.items[0].urls[log.url] ?? 0) + 1;
+				info.day.items[0].count += 1;
+				const hIndex = currentHour - hour;
+				if (!info.hour.items[hIndex]) {
+					info.hour.items[hIndex] = { count: 0, urls: {} };
+				}
+				info.hour.items[hIndex].urls[log.url] = (info.hour.items[hIndex].urls[log.url] ?? 0) + 1;
+				info.hour.items[hIndex].count += 1;
+				const mIndex = hour === currentHour ? currentMinute - minute : 60 - minute + currentMinute;
+				if (mIndex < 60) {
+					if (!info.minute.items[mIndex]) {
+						info.minute.items[mIndex] = { count: 0, urls: {} };
+					}
+					info.minute.items[mIndex].urls[log.url] =
+						(info.minute.items[mIndex].urls[log.url] ?? 0) + 1;
+					info.minute.items[mIndex].count += 1;
+				}
+			} else if (day === lastDay) {
+				if (!info.day.items[1]) {
+					info.day.items[1] = { count: 0, urls: {} };
+				}
+				info.day.items[1].urls[log.url] = (info.day.items[1].urls[log.url] ?? 0) + 1;
+				info.day.items[1].count += 1;
+				const hIndex = 24 - hour + currentHour;
+				if (hIndex < 24) {
+					if (!info.hour.items[hIndex]) {
+						info.hour.items[hIndex] = { count: 0, urls: {} };
+					}
+					info.hour.items[hIndex].urls[log.url] = (info.hour.items[hIndex].urls[log.url] ?? 0) + 1;
+					info.hour.items[hIndex].count += 1;
+				}
+				if (hour === lastHour) {
+					const mIndex = 60 - minute + currentMinute;
+					if (mIndex < 60) {
+						if (!info.minute.items[mIndex]) {
+							info.minute.items[mIndex] = { count: 0, urls: {} };
+						}
+						info.minute.items[mIndex].urls[log.url] =
+							(info.minute.items[mIndex].urls[log.url] ?? 0) + 1;
+						info.minute.items[mIndex].count += 1;
+					}
+				}
+			} else {
+				break;
+			}
+		}
+		await Shared.common.setValue('requestLog', JSON.stringify(Shared.esgst.requestLog));
+
+		for (const key in info) {
+			for (let i = 0, n = info[key].items.length; i < n; i++) {
+				if (info[key].items[i]) {
+					info[key].items[i].urls = Utils.sortArray(
+						Object.entries(info[key].items[i].urls).map(([url, count]) => ({ url, count })),
+						true,
+						'count'
+					);
+				}
+			}
+		}
+
+		const nodes = [];
+		const view = Settings.get('sgRequestLog_view');
+		if (!view || view === 'default') {
+			for (const i of [0, 1]) {
+				for (const key in info) {
+					let title;
+					const count = info[key].items[i]?.count ?? 0;
+					const countPercentage = Math.round((count / limits[key]) * 100) / 100;
+					if (i === 0) {
+						const countLeft = limits[key] - count;
+						const countLeftPercentage = Math.round((100 - countPercentage) * 100) / 100;
+						title = `This ${info[key].title} - Current: ${count} (${countPercentage}%) / Left: ${countLeft} (${countLeftPercentage}%) / Max: ${limits[key]}`;
+					} else {
+						title = `Last ${info[key].title} - ${count} (${countPercentage}%)`;
+					}
+					nodes.push(
+						Collapsible.create(
+							<h3>{title}</h3>,
+							<ul>
+								{(info[key].items[i]?.urls ?? []).map(({ url, count }) => (
+									<li>
+										<a href={url}>{url}</a> ({count})
+									</li>
+								))}
+							</ul>,
+							`sgRequestLog_${key}_${i}`
+						)
+					);
+				}
+			}
+		} else {
+			const key = view;
+			for (let i = 0, n = info[key].items.length; i < n; i++) {
+				let title;
+				const count = info[key].items[i]?.count ?? 0;
+				const countPercentage = Math.round((count / limits[key]) * 100) / 100;
+				if (i === 0) {
+					const countLeft = limits[key] - count;
+					const countLeftPercentage = Math.round((100 - countPercentage) * 100) / 100;
+					title = `This ${info[key].title} - Current: ${count} (${countPercentage}%) / Left: ${countLeft} (${countLeftPercentage}%) / Max: ${limits[key]}`;
+				} else {
+					title = `${i} ${Utils.getPlural(
+						i,
+						info[key].title
+					)} Ago - ${count} (${countPercentage}%)`;
+				}
+				nodes.push(
+					Collapsible.create(
+						<h3>{title}</h3>,
+						<ul>
+							{(info[key].items[i]?.urls ?? []).map(({ url, count }) => (
+								<li>
+									<a href={url}>{url}</a> ({count})
+								</li>
+							))}
+						</ul>,
+						`sgRequestLog_${key}_${i}`
+					)
+				);
+			}
+		}
+
+		DOM.insert(
+			scrollableArea,
+			'atinner',
+			<fragment>
+				<p>
+					<em>Last updated {currentDate.toLocaleString()}</em>
+					<br />
+					<em>
+						Remember that this does not include the requests you make while browsing SteamGifts, so
+						you don't want to reach 0 requests left, because that leaves exactly 0 requests for your
+						browsing.
+					</em>
+				</p>
+				{nodes}
+			</fragment>
+		);
 	};
 
 	async addHeaderMenu() {
