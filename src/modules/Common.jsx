@@ -6270,7 +6270,7 @@ class Common extends Module {
 				for (const key in info) {
 					let title;
 					const count = info[key].items[i]?.count ?? 0;
-					const countPercentage = Math.round((count / limits[key]) * 100) / 100;
+					const countPercentage = Math.round((count / limits[key]) * 10000) / 100;
 					if (i === 0) {
 						const countLeft = limits[key] - count;
 						const countLeftPercentage = Math.round((100 - countPercentage) * 100) / 100;
