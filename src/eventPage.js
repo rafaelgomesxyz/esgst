@@ -492,7 +492,10 @@ async function openTab(url) {
 	const tab = (await browser.tabs.query({ active: true }))[0];
 	if (tab) {
 		options.index = tab.index + 1;
-		if (await browser.permissions.contains({ permissions: ['cookies'] })) {
+		if (
+			(await browser.permissions.contains({ permissions: ['cookies'] })) &&
+			'cookieStoreId' in tab
+		) {
 			options.cookieStoreId = tab.cookieStoreId;
 		}
 	}

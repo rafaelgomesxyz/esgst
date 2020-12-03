@@ -4,7 +4,6 @@ import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { Settings } from '../../class/Settings';
 import { Shared } from '../../class/Shared';
-import { Tabs } from '../../class/Tabs';
 import { Button as ButtonComponent } from '../../components/Button';
 import { PageHeading } from '../../components/PageHeading';
 import { common } from '../Common';
@@ -105,6 +104,10 @@ class GiveawaysGiveawayBookmarks extends Module {
 			buttonName: 'ESGST Bookmarked Giveaways',
 			isNotification: true,
 			side: 'left',
+			url: Settings.get('gb_t')
+				? 'https://www.steamgifts.com/account/settings/profile?esgst=gb'
+				: '',
+			openInNewTab: true,
 		});
 
 		button.nodes.outer.classList.add('esgst-hidden');
@@ -257,27 +260,23 @@ class GiveawaysGiveawayBookmarks extends Module {
 				])
 			);
 		}
-		if (button) {
+		if (button && !Settings.get('gb_t')) {
 			button.nodes.outer.addEventListener('click', () => {
-				if (Settings.get('gb_t')) {
-					Tabs.open(`https://www.steamgifts.com/account/settings/profile?esgst=gb`);
-				} else {
-					const popup = new Popup({
-						addScrollable: 'left',
-						isTemp: true,
-					});
-					this.heading = PageHeading.create('gb', [
-						{
-							name: 'ESGST',
-							url: this.esgst.settingsUrl,
-						},
-						{
-							name: 'Bookmarked Giveaways',
-							url: `https://www.steamgifts.com/account/settings/profile?esgst=gb`,
-						},
-					]).insert(popup.description, 'afterbegin');
-					this.gb_loadGibs(bookmarked, popup.description, popup.scrollable, popup);
-				}
+				const popup = new Popup({
+					addScrollable: 'left',
+					isTemp: true,
+				});
+				this.heading = PageHeading.create('gb', [
+					{
+						name: 'ESGST',
+						url: this.esgst.settingsUrl,
+					},
+					{
+						name: 'Bookmarked Giveaways',
+						url: `https://www.steamgifts.com/account/settings/profile?esgst=gb`,
+					},
+				]).insert(popup.description, 'afterbegin');
+				this.gb_loadGibs(bookmarked, popup.description, popup.scrollable, popup);
 			});
 		}
 	}

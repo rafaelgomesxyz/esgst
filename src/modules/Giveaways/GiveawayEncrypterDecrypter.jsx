@@ -3,7 +3,6 @@ import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { Settings } from '../../class/Settings';
 import { Shared } from '../../class/Shared';
-import { Tabs } from '../../class/Tabs';
 import { Button } from '../../components/Button';
 import { PageHeading } from '../../components/PageHeading';
 import { Utils } from '../../lib/jsUtils';
@@ -96,19 +95,21 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
 				isActive: true,
 				isNotification: true,
 				side: 'left',
+				url: Settings.get('ged_t')
+					? 'https://www.steamgifts.com/account/settings/profile?esgst=ged'
+					: '',
+				openInNewTab: true,
 			});
 
 			ged.button.nodes.outer.classList.add('esgst-hidden');
 			ged.button.nodes.buttonIcon.title = getFeatureTooltip('ged', 'View your decrypted giveaways');
 
-			ged.button.nodes.outer.addEventListener('click', () => {
-				if (Settings.get('ged_t')) {
-					Tabs.open(`https://www.steamgifts.com/account/settings/profile?esgst=ged`);
-				} else {
+			if (!Settings.get('ged_t')) {
+				ged.button.nodes.outer.addEventListener('click', () => {
 					ged.isPopup = true;
 					this.ged_openPopup(ged);
-				}
-			});
+				});
+			}
 			// noinspection JSIgnoredPromiseFromCall
 			this.ged_getGiveaways(ged, true);
 		}

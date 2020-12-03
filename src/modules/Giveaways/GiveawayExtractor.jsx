@@ -180,20 +180,17 @@ class GiveawaysGiveawayExtractor extends Module {
 				id: 'ge',
 				icons: ['fa-gift', 'fa-search'],
 				title: 'Extract all giveaways',
+				link: Settings.get('ge_t')
+					? `https://www.steamgifts.com/account/settings/profile?esgst=ge&url=${window.location.pathname.replace(
+							/\/search.*/,
+							''
+					  )}${this.esgst.parameters.page ? `&page=${this.esgst.parameters.page}` : ''}`
+					: '',
 			}),
 		};
-		this.ge.button.addEventListener('click', () => {
-			if (Settings.get('ge_t')) {
-				Tabs.open(
-					`https://www.steamgifts.com/account/settings/profile?esgst=ge&url=${window.location.pathname.replace(
-						/\/search.*/,
-						''
-					)}${this.esgst.parameters.page ? `&page=${this.esgst.parameters.page}` : ''}`
-				);
-			} else {
-				this.ge_openPopup(this.ge);
-			}
-		});
+		if (!Settings.get('ge_t')) {
+			this.ge.button.addEventListener('click', () => this.ge_openPopup(this.ge));
+		}
 	}
 
 	async ge_openPopup(ge) {
