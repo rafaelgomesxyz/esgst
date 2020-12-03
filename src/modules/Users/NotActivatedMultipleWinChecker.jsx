@@ -674,7 +674,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 		for (let i = 0; i < n; ++i) {
 			user.values.namwc.results.multiple.push(
 				new Date(
-					elements[i].textContent.match(/and\s(\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2})\)/)[1]
+					elements[i].textContent.match(/,\s(\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2})\)/)[1]
 				).getTime()
 			);
 		}
