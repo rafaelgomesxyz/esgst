@@ -387,6 +387,17 @@ class UsersWhitelistBlacklistChecker extends Module {
 			`If enabled, the caches of all checked users will be cleared (slower).`,
 			Settings.get('wbc_clearCache')
 		);
+		console.log(
+			Settings.get('wbc_checkSingle'),
+			Settings.get('wbc_checkSelected'),
+			Settings.get('wbc_checkFromList'),
+			Settings.get('wbc_checkBlacklist'),
+			Settings.get('wbc_checkAll'),
+			Settings.get('wbc_returnWhitelists'),
+			Settings.get('wbc_returnBlacklists'),
+			Settings.get('wbc_checkNew'),
+			Settings.get('wbc_skipUsers')
+		);
 		if (checkSingleSwitch || checkAllSwitch || checkPagesSwitch) {
 			if (checkSingleSwitch) {
 				if (checkAllSwitch) {
