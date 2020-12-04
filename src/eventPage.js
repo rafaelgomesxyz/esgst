@@ -11,6 +11,23 @@ RequestQueue.setLastRequest = (key, lastRequest) => {
 	lastRequests[key] = lastRequest;
 };
 
+RequestQueue.loadRequestThresholds = async (key) => {
+	const values = await browser.storage.local.get('settings');
+	const settings = values.settings ? JSON.parse(values.settings) : {};
+	if (settings['useCustomAdaReqLim_sg']) {
+		const thresholds = {};
+		for (const [key, minThreshold] of Object.entries(RequestQueue.queue.sg.minThresholds)) {
+			thresholds[key] = parseFloat(settings[`customAdaReqLim_${key}`] ?? 0.0);
+			if (thresholds[key] < minThreshold) {
+				thresholds[key] = minThreshold;
+			}
+		}
+		return thresholds;
+	} else {
+		return { ...RequestQueue.queue.sg.minThresholds };
+	}
+};
+
 RequestQueue.getRequestLog = async () => {
 	const values = await browser.storage.local.get('requestLog');
 	return JSON.parse(values.requestLog);

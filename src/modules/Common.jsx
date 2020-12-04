@@ -914,6 +914,62 @@ class Common extends Module {
 			},
 			others: {
 				features: {
+					useCustomAdaReqLim: {
+						name: 'Use custom adaptive request limits for SteamGifts.',
+						sg: true,
+						inputItems: [
+							{
+								id: 'customAdaReqLim_default',
+								prefix: '1 request every ',
+								suffix: ' seconds (default)',
+								attributes: {
+									type: 'number',
+									min: '0.25',
+									step: '0.01',
+								},
+							},
+							{
+								id: 'customAdaReqLim_minute50',
+								prefix: '1 request every ',
+								suffix: ' seconds (after using 50% of the minute limit)',
+								attributes: {
+									type: 'number',
+									min: '0.5',
+									step: '0.01',
+								},
+							},
+							{
+								id: 'customAdaReqLim_minute75',
+								prefix: '1 request every ',
+								suffix: ' seconds (after using 75% of the minute limit)',
+								attributes: {
+									type: 'number',
+									min: '1',
+									step: '0.01',
+								},
+							},
+							{
+								id: 'customAdaReqLim_hourly75',
+								prefix: '1 request every ',
+								suffix: ' seconds (after using 75% of the hourly limit)',
+								attributes: {
+									type: 'number',
+									min: '1.5',
+									step: '0.01',
+								},
+							},
+							{
+								id: 'customAdaReqLim_daily75',
+								prefix: '1 request every ',
+								suffix: ' seconds (after using 75% of the daily limit)',
+								attributes: {
+									type: 'number',
+									min: '2',
+									step: '0.01',
+								},
+							},
+						],
+					},
 					notifyLogs: {
 						name: 'Notify about console logs.',
 						sg: true,

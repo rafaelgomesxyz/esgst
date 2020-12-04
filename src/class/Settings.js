@@ -9,6 +9,11 @@ class _Settings {
 		this.aliases = {};
 
 		this.defaultValues = {
+			customAdaReqLim_default: 0.25,
+			customAdaReqLim_minute50: 0.5,
+			customAdaReqLim_minute75: 1,
+			customAdaReqLim_hourly75: 1.5,
+			customAdaReqLim_daily75: 2,
 			cgb_levelColors: [],
 			ge_a_sg: true,
 			glwc_mm_sg: false,
