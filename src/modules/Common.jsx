@@ -1950,23 +1950,14 @@ class Common extends Module {
 				return;
 			}
 		}
-		const response = await this.request({
-			method: 'GET',
-			url: `https://www.steamgifts.com/user/${user.username}`,
-		});
-		if (!response.finalUrl.match(/\/user\//)) {
+		const response = await FetchRequest.get(
+			`https://www.steamgifts.com/user/${user.username}?format=json`
+		);
+		if (!response.url.includes('/user/') || !response.json.success) {
 			return;
 		}
-		responseHtml = DOM.parse(response.responseText);
-		const profileLink = responseHtml.querySelector(`[href*="/profiles/"]`);
-		if (!profileLink) {
-			return;
-		}
-		user.steamId = profileLink.getAttribute('href').match(/\d+/)[0];
-		input = responseHtml.querySelector(`[name="child_user_id"]`);
-		if (input) {
-			user.id = input.value;
-		}
+		user.steamId = response.json.user.steam_id;
+		user.id = response.json.user.id;
 		if (save) {
 			if (list) {
 				list.new.push(user);

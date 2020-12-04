@@ -1,4 +1,5 @@
 import { DOM } from '../../class/DOM';
+import { FetchRequest } from '../../class/FetchRequest';
 import { Logger } from '../../class/Logger';
 import { Module } from '../../class/Module';
 import { permissions } from '../../class/Permissions';
@@ -256,17 +257,10 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 				glwc.users[i].steamId = steamId;
 				window.setTimeout(() => this.glwc_getSteamIds(glwc, ++i, n), 0);
 			} else {
-				glwc.users[i].steamId = DOM.parse(
-					(
-						await request({
-							method: 'GET',
-							url: `/user/${glwc.users[i].username}`,
-						})
-					).responseText
-				)
-					.querySelector(`[href*="/profiles/"]`)
-					.getAttribute('href')
-					.match(/\d+/)[0];
+				const response = await FetchRequest.get(`/user/${glwc.users[i].username}?format=json`);
+				if (response.json?.success) {
+					glwc.users[i].steamId = response.json.user.steam_id;
+				}
 				window.setTimeout(() => this.glwc_getSteamIds(glwc, ++i, n), 0);
 			}
 		} else {

@@ -7,6 +7,7 @@ interface RequestQueueList {
 	hour_limit: number;
 	day_limit: number;
 	requests: (() => void)[];
+	wasRequesting: boolean;
 }
 
 class _RequestQueue {
@@ -19,6 +20,7 @@ class _RequestQueue {
 			hour_limit: 2400,
 			day_limit: 14400,
 			requests: [],
+			wasRequesting: false,
 		};
 	}
 
@@ -59,9 +61,10 @@ class _RequestQueue {
 	};
 
 	checkLocalRequests = async (): Promise<void> => {
-		if (this.queue.sg.requests.length === 0) {
+		if (!this.queue.sg.wasRequesting) {
 			return;
 		}
+		this.queue.sg.wasRequesting = false;
 
 		const currentDate = new Date();
 		const now = currentDate.getTime();
@@ -115,8 +118,9 @@ class _RequestQueue {
 
 	enqueue = (key: string): Promise<void> => {
 		const promise = new Promise<void>((resolve) => {
-			this.queue[key] = this.queue[key] ?? { threshold: 100, requests: [] };
+			this.queue[key] = this.queue[key] ?? { threshold: 100, requests: [], numRequests: 0 };
 			this.queue[key].requests.push(resolve);
+			this.queue[key].wasRequesting = true;
 		});
 		this.check();
 		return promise;

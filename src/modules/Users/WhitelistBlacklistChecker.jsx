@@ -1,4 +1,5 @@
 import { DOM } from '../../class/DOM';
+import { FetchRequest } from '../../class/FetchRequest';
 import { Logger } from '../../class/Logger';
 import { Module } from '../../class/Module';
 import { Popout } from '../../class/Popout';
@@ -906,7 +907,7 @@ class UsersWhitelistBlacklistChecker extends Module {
 					if (!wbc) {
 						wbc = {};
 					}
-					await this.wbc_checkUser(wbc, WBC, user.username);
+					await this.wbc_checkUser(wbc, WBC, user);
 					window.setTimeout(
 						() =>
 							this.wbc_setResult(
@@ -975,13 +976,14 @@ class UsersWhitelistBlacklistChecker extends Module {
 					</span>
 				);
 			} else {
+				const url = wbc.wl_ga || wbc.g_wl_ga || wbc.ga;
 				items = (
 					<div>
 						<a {...attributes}>{user.username}</a>
 						{wbc.wl_ga || wbc.g_wl_ga || wbc.ga ? (
 							<fragment>
 								{' '}
-								<a href={`/giveaway/${wbc.wl_ga || wbc.g_wl_ga || wbc.ga}/`} target="_blank">
+								<a href={`/giveaway/${url.includes('/') ? url : `${url}/`}`} target="_blank">
 									<i className="fa fa-external-link" title="Confirm"></i>
 								</a>
 							</fragment>
@@ -1117,7 +1119,7 @@ class UsersWhitelistBlacklistChecker extends Module {
 		}
 	}
 
-	async wbc_checkUser(data, obj, username) {
+	async wbc_checkUser(data, obj, user) {
 		if (obj.Canceled || obj.manualSkip) {
 			return;
 		}
@@ -1171,31 +1173,24 @@ class UsersWhitelistBlacklistChecker extends Module {
 			(Settings.get('wbc_checkBlacklist') && obj.B && data.ga)
 		) {
 			obj.Timestamp = data.timestamp;
-			await this.wbc_checkGiveaway(data, obj, username, true);
+			await this.wbc_checkGiveaway(data, obj, user, true);
 		} else {
 			obj.Timestamp = 0;
-			const match = Shared.esgst.locationHref.match(
-				new RegExp(`/user/${username}(/search?page=(\\d+))?`)
-			);
-			await this.wbc_getGiveaways(
-				match ? (match[2] ? parseInt(match[2]) : 1) : 0,
-				data,
-				obj,
-				username
-			);
+			await this.wbc_getGiveaways(data, obj, user);
 		}
 	}
 
-	async wbc_checkGiveaway(data, obj, username, cached) {
+	async wbc_checkGiveaway(data, obj, user, cached) {
 		if (obj.Canceled) {
 			return;
 		}
+		const url = data.wl_ga || data.g_wl_ga || data.ga;
 		let responseHtml = DOM.parse(
 			(
 				await request({
 					method: 'GET',
 					queue: true,
-					url: `/giveaway/${data.wl_ga || data.g_wl_ga || data.ga}/`,
+					url: `/giveaway/${url.includes('/') ? url : `${url}/`}`,
 				})
 			).responseText
 		);
@@ -1241,15 +1236,7 @@ class UsersWhitelistBlacklistChecker extends Module {
 				} else {
 					obj.Timestamp = 0;
 					obj.GroupGiveaways = [];
-					let match = Shared.esgst.locationHref.match(
-						new RegExp(`/user/${username}(/search?page=(\\d+))?`)
-					);
-					await this.wbc_getGiveaways(
-						match ? (match[2] ? parseInt(match[2]) : 1) : 0,
-						data,
-						obj,
-						username
-					);
+					await this.wbc_getGiveaways(data, obj, user);
 				}
 			} else {
 				data.result = 'whitelisted';
@@ -1264,65 +1251,56 @@ class UsersWhitelistBlacklistChecker extends Module {
 		return stop;
 	}
 
-	async wbc_getGiveaways(currentPage, data, obj, username) {
+	async wbc_getGiveaways(data, obj, user) {
 		if (obj.Canceled) {
 			return;
 		}
 
 		let isStopped = false;
+		let hasCheckedGa = false;
+		let response = null;
+		let giveaways = [];
 		let nextPage = 1;
-		let pagination = null;
-		const url = `/user/${username}/search?page=`;
+		const url = `/user/${user.username}?format=json&page=`;
 		do {
-			let context = null;
-			if (currentPage === nextPage) {
-				context = document;
+			response = await FetchRequest.get(`${url}${nextPage}`, { queue: true });
+			if (response.url.includes('/user/') && response.json.success) {
+				giveaways = response.json.results;
+				user.steamId = response.json.user.steam_id;
+				user.id = response.json.user.id;
 			} else {
-				const response = await request({
-					method: 'GET',
-					queue: true,
-					url: `${url}${nextPage}`,
-				});
-				if (response.finalUrl.match(/\/user\//)) {
-					context = DOM.parse(response.responseText);
-				} else {
-					isStopped = true;
-					break;
+				isStopped = true;
+				break;
+			}
+			obj.progressBar.setMessage(`Retrieving ${user.username}'s giveaways (page ${nextPage})...`);
+			const groupGiveaways = [];
+			const now = Date.now();
+			for (const giveaway of giveaways) {
+				if (!giveaway.link) {
+					continue;
 				}
-			}
-			if (nextPage === 1) {
-				obj.lastPage = Shared.esgst.modules.generalLastPageLink.lpl_getLastPage(
-					context,
-					context === document,
-					false,
-					true
-				);
-				obj.lastPage = obj.lastPage === 999999999 ? '' : ` of ${obj.lastPage}`;
-			}
-			obj.progressBar.setMessage(
-				`Retrieving ${username}'s giveaways (page ${nextPage}${obj.lastPage})...`
-			);
-			if (!data.ga) {
-				const element = context.querySelector(
-					`[class*="giveaway__heading__name"][href*="/giveaway/"]`
-				);
-				data.ga = element ? element.getAttribute('href').match(/\/giveaway\/(.+?)\//)[1] : null;
-			}
-			const giveaway = context.getElementsByClassName('giveaway__summary')[0];
-			if (giveaway && obj.Timestamp === 0) {
-				obj.Timestamp =
-					parseInt(
-						giveaway
-							.querySelector(`.giveaway__columns span[data-timestamp]`)
-							.getAttribute('data-timestamp')
-					) * 1e3;
-				if (obj.Timestamp >= Date.now()) {
-					obj.Timestamp = 0;
+				if (obj.Timestamp === 0) {
+					const timestamp = giveaway.end_timestamp * 1e3;
+					if (timestamp < now) {
+						obj.Timestamp = timestamp;
+					}
+				}
+				const url = giveaway.link.split('/giveaway/')[1];
+				if (!data.ga) {
+					data.ga = url;
+				}
+				if (giveaway.whitelist) {
+					if (giveaway.group) {
+						groupGiveaways.push(url);
+					} else {
+						data.wl_ga = url;
+					}
 				}
 			}
 			let doStop = false;
-			if (data.ga) {
-				doStop = await this.wbc_checkGiveaway(data, obj, username);
+			if (data.ga && !hasCheckedGa) {
+				hasCheckedGa = true;
+				doStop = await this.wbc_checkGiveaway(data, obj, user);
 				if (
 					data.result !== 'notBlacklisted' ||
 					doStop ||
@@ -1331,34 +1309,15 @@ class UsersWhitelistBlacklistChecker extends Module {
 					break;
 				}
 			}
-			let groupGiveaways = [];
-			const elements = context.getElementsByClassName('giveaway__column--whitelist');
 			doStop = false;
-			for (const element of elements) {
-				const groupElement = element.parentElement.getElementsByClassName(
-					'giveaway__column--group'
-				)[0];
-				if (groupElement) {
-					groupGiveaways.push(groupElement.getAttribute('href').match(/\/giveaway\/(.+?)\//)[1]);
-				} else {
-					data.wl_ga = element
-						.closest('.giveaway__summary')
-						.getElementsByClassName('giveaway__heading__name')[0]
-						.getAttribute('href')
-						.match(/\/giveaway\/(.+?)\//)[1];
-				}
-				if (data.wl_ga) {
-					await this.wbc_checkGiveaway(data, obj, username);
-					doStop = true;
-					break;
-				}
-			}
-			if (doStop) {
+			if (data.wl_ga) {
+				await this.wbc_checkGiveaway(data, obj, user);
+				doStop = true;
 				break;
 			}
 			if ((data.g_wl_gas && Object.keys(data.g_wl_gas).length) || groupGiveaways.length) {
 				if (groupGiveaways.length) {
-					const result = await this.wbc_getGroupGiveaways(data, groupGiveaways, obj, username);
+					const result = await this.wbc_getGroupGiveaways(data, groupGiveaways, obj, user);
 					if (result) {
 						break;
 					}
@@ -1385,15 +1344,13 @@ class UsersWhitelistBlacklistChecker extends Module {
 				}
 			}
 			nextPage += 1;
-			pagination = context.getElementsByClassName('pagination__navigation')[0];
 			obj.autoSkip = Settings.get('wbc_skipUsers') && nextPage > Settings.get('wbc_pages');
 		} while (
 			!obj.Canceled &&
 			!obj.manualSkip &&
 			!obj.autoSkip &&
 			(obj.Timestamp >= data.timestamp || obj.Timestamp === 0) &&
-			pagination &&
-			!pagination.lastElementChild.classList.contains('is-selected')
+			giveaways.length === response.json.per_page
 		);
 
 		if (isStopped || (!data.ga && !data.wl_ga && !data.g_wl_ga)) {
@@ -1403,11 +1360,13 @@ class UsersWhitelistBlacklistChecker extends Module {
 		}
 	}
 
-	async wbc_getGroupGiveaways(data, groupGiveaways, obj, username) {
+	async wbc_getGroupGiveaways(data, groupGiveaways, obj, user) {
 		const n = groupGiveaways.length;
 		for (let i = 0; i < n; i++) {
 			const groupGiveaway = groupGiveaways[i];
-			obj.progressBar.setMessage(`Retrieving ${username}'s group giveaways (${i + 1} of ${n})...`);
+			obj.progressBar.setMessage(
+				`Retrieving ${user.username}'s group giveaways (${i + 1} of ${n})...`
+			);
 			if (data.groupGiveaways && data.groupGiveaways[groupGiveaway]) {
 				continue;
 			}
@@ -1424,7 +1383,9 @@ class UsersWhitelistBlacklistChecker extends Module {
 
 	async wbc_getGroups(data, groupGiveaway, obj) {
 		let nextPage = 1;
-		let url = `/giveaway/${groupGiveaway}/_/groups/search?page=`;
+		let url = `/giveaway/${
+			groupGiveaway.includes('/') ? groupGiveaway : `${groupGiveaway}/_`
+		}/groups/search?page=`;
 		do {
 			const response = await request({
 				method: 'GET',
