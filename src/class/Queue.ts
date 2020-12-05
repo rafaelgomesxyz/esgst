@@ -15,6 +15,8 @@ interface RequestQueueList {
 
 class _RequestQueue {
 	queue: Record<string, RequestQueueList> = {};
+	isChecking = false;
+	isCheckingLocalRequests = false;
 
 	constructor() {
 		this.queue.sg = {
@@ -46,6 +48,11 @@ class _RequestQueue {
 	};
 
 	check = (): void => {
+		if (this.isChecking) {
+			return;
+		}
+		this.isChecking = true;
+
 		const now = Date.now();
 		for (const [key, queue] of Object.entries(this.queue)) {
 			if (queue.requests.length === 0) {
@@ -72,9 +79,11 @@ class _RequestQueue {
 	};
 
 	checkLocalRequests = async (): Promise<void> => {
-		if (!this.queue.sg.wasRequesting) {
+		if (this.isCheckingLocalRequests || !this.queue.sg.wasRequesting) {
+			setTimeout(this.checkLocalRequests, 15000);
 			return;
 		}
+		this.isCheckingLocalRequests = true;
 		this.queue.sg.wasRequesting = false;
 
 		if (!this.queue.sg.thresholds) {
