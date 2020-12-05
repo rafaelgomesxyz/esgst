@@ -42,7 +42,7 @@ class _RequestQueue {
 
 	continuouslyCheck = (): void => {
 		this.check();
-		window.setTimeout(this.continuouslyCheck, 100);
+		setTimeout(this.continuouslyCheck, 100);
 	};
 
 	check = (): void => {
@@ -124,7 +124,7 @@ class _RequestQueue {
 			this.queue.sg.threshold = this.queue.sg.thresholds.default * 1000;
 		}
 
-		window.setTimeout(this.checkLocalRequests, 15000);
+		setTimeout(this.checkLocalRequests, 15000);
 	};
 
 	loadRequestThresholds = async (): Promise<Record<string, number>> => {
