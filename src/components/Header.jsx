@@ -155,7 +155,7 @@ class SgHeader extends IHeader {
 				>
 					<a
 						className="nav__button"
-						href={params.url}
+						href={params.url || null}
 						target={params.openInNewTab ? '_blank' : null}
 						title={params.buttonName}
 					>
@@ -176,7 +176,7 @@ class SgHeader extends IHeader {
 				<div className="nav__button-container" ref={(ref) => (buttonContainerNode = ref)}>
 					<a
 						className="nav__button"
-						href={params.url}
+						href={params.url || null}
 						target={params.openInNewTab ? '_blank' : null}
 					>
 						{params.buttonName}
@@ -679,7 +679,11 @@ class StHeader extends IHeader {
 				context,
 				position,
 				<div className="nav_btn_container" ref={(ref) => (buttonContainerNode = ref)}>
-					<a className="nav_btn" href={params.url} target={params.openInNewTab ? '_blank' : null}>
+					<a
+						className="nav_btn"
+						href={params.url || null}
+						target={params.openInNewTab ? '_blank' : null}
+					>
 						{params.buttonIcon ? <i className={params.buttonIcon}></i> : null}
 						{params.buttonImage ? <img src={params.buttonImage} /> : null}
 						{params.counter ? (
@@ -695,7 +699,11 @@ class StHeader extends IHeader {
 				context,
 				position,
 				<div className="nav_btn_container" ref={(ref) => (buttonContainerNode = ref)}>
-					<a className="nav_btn" href={params.url} target={params.openInNewTab ? '_blank' : null}>
+					<a
+						className="nav_btn"
+						href={params.url || null}
+						target={params.openInNewTab ? '_blank' : null}
+					>
 						{params.buttonIcon ? <i className={params.buttonIcon}></i> : null}
 						{params.buttonImage ? <img src={params.buttonImage} /> : null}
 						<span>
