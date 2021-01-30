@@ -47,9 +47,6 @@ const TYPE_DEL = 2;
 
 const workers = new Set();
 let storage = {};
-let isTemporaryStorage = false;
-let storageChanges = null;
-let lastSaved = 0;
 
 // @ts-ignore
 buttons.ActionButton({
@@ -162,9 +159,6 @@ const loadStorage = () => handle_storage(TYPE_GET, null).then((result) => (stora
 
 loadStorage().then(async () => {
 	const settings = storage.settings ? JSON.parse(storage.settings) : {};
-	if (settings.useTemporaryStorage_sg || settings.useTemporaryStorage_st) {
-		isTemporaryStorage = true;
-	}
 	if (!settings.activateTab_sg && !settings.activateTab_st) {
 		return;
 	}
@@ -184,28 +178,6 @@ loadStorage().then(async () => {
 		currentTab.activate();
 	}
 });
-
-let checkSaveTimeout = 0;
-
-const keepCheckingSave = async () => {
-	await checkSave();
-	checkSaveTimeout = setTimeout(keepCheckingSave, 60000);
-};
-
-const checkSave = async (force) => {
-	const now = Date.now();
-	//Cu.reportError(JSON.stringify(storageChanges));
-	//Cu.reportError(`Checking... ${force} ${now - lastSaved}`);
-	if (storageChanges && (force || now - lastSaved > 60000)) {
-		const storageChangesBkp = storageChanges;
-		storageChanges = null;
-		lastSaved = now;
-		//Cu.reportError('Saving storage...');
-		await handle_storage(TYPE_SET, storageChangesBkp);
-		//Cu.reportError('Storage saved!');
-		sendMessage('storageSaved', null, now, true);
-	}
-};
 
 function sendMessage(action, sender, values, sendToAll) {
 	for (const worker of workers) {
@@ -286,14 +258,6 @@ function doFetch(parameters, request) {
 async function detachWorker(worker) {
 	//Cu.reportError(worker);
 	workers.delete(worker);
-	if (workers.size > 0) {
-		return;
-	}
-	await checkSave(true);
-	if (checkSaveTimeout) {
-		clearTimeout(checkSaveTimeout);
-		checkSaveTimeout = 0;
-	}
 }
 
 const locks = {};
@@ -461,65 +425,8 @@ PageMod({
 			worker.port.emit(`open_tab_${request.uuid}_response`, 'null');
 		});
 
-		worker.port.on('get_storage', async (request) => {
-			if (isTemporaryStorage) {
-				if (!checkSaveTimeout) {
-					await keepCheckingSave();
-				}
-				if (Object.keys(storage).length === 0) {
-					await loadStorage();
-				}
-				worker.port.emit(`get_storage_${request.uuid}_response`, JSON.stringify(storage));
-			} else {
-				worker.port.emit(`get_storage_${request.uuid}_response`, 'null');
-			}
-		});
-
-		worker.port.on('set_values', async (request) => {
-			if (!storageChanges) {
-				storageChanges = {};
-			}
-			const newValues = {
-				changes: {},
-				areaName: 'local',
-			};
-			const values = JSON.parse(request.values);
-			for (const key in values) {
-				storage[key] = values[key];
-				storageChanges[key] = values[key];
-				newValues.changes[key] = { newValue: values[key] };
-			}
-			await checkSave();
-			sendMessage('storageChanged', worker, newValues, true);
-			worker.port.emit(`set_values_${request.uuid}_response`, 'null');
-		});
-
-		worker.port.on('del_values', async (request) => {
-			if (!storageChanges) {
-				storageChanges = {};
-			}
-			const newValues = {
-				changes: {},
-				areaName: 'local',
-			};
-			const keys = JSON.parse(request.keys);
-			for (const key of keys) {
-				storage[key] = null;
-				storageChanges[key] = null;
-				newValues.changes[key] = { newValue: null };
-			}
-			await checkSave();
-			sendMessage('storageChanged', worker, newValues, true);
-			worker.port.emit(`del_values_${request.uuid}_response`, 'null');
-		});
-
-		worker.port.on('get_last_saved', () => {
-			worker.port.emit(`get_last_saved_${request.uuid}_response`, lastSaved);
-		});
-
-		worker.port.on('save', async (request) => {
-			await checkSave(true);
-			worker.port.emit(`save_${request.uuid}_response`, 'null');
+		worker.port.on('register_tab', async (request) => {
+			worker.port.emit(`register_tab_${request.uuid}_response`, 'null');
 		});
 	},
 });

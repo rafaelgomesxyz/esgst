@@ -51,15 +51,6 @@ import { runSilentSync } from './modules/Sync';
 				case 'storageChanged':
 					Shared.common.getChanges(message.values.changes, message.values.areaName);
 					break;
-				case 'storageSaved':
-					if (Shared.header) {
-						Shared.header.buttonContainers['esgst'].dropdownItems[
-							'currentVersion'
-						].nodes.description.textContent = `Last saved on ${new Date(
-							message.values
-						).toLocaleString()}. Click to force a save.`;
-					}
-					break;
 				case 'update':
 					common.createConfirmation(
 						`Hi! A new version of ESGST (${message.values.version}) is available. Do you want to force an update now? If you choose to force an update, ESGST will stop working in any SteamGifts/SteamTrades tab that is open, along with any operation that you might be performing (such as syncing, checking something etc), so you will have to refresh them. If you choose not to force an update, your browser will automatically update the extension when you are not using it (for example, when you restart the browser).`,
@@ -73,23 +64,17 @@ import { runSilentSync } from './modules/Sync';
 		});
 
 		// set default values or correct values
+		await browser.runtime.sendMessage({
+			action: 'register_tab',
+			url: window.location.href,
+		});
 		/**
 		 * @property {object} esgst.storage.Emojis
 		 * @property {object} esgst.storage.filterPresets
 		 * @property {object} esgst.storage.dfPresets
 		 */
-		const storage = await browser.runtime.sendMessage({
-			action: 'get_storage',
-			url: window.location.href,
-		});
-		if (storage && storage !== 'null') {
-			esgst.storage = JSON.parse(storage);
-			esgst.isTemporaryStorage = true;
-		} else {
-			esgst.storage = await browser.storage.local.get(null);
-			esgst.isTemporaryStorage = false;
-			browser.storage.onChanged.addListener(Shared.common.getChanges.bind(Shared.common));
-		}
+		esgst.storage = await browser.storage.local.get(null);
+		browser.storage.onChanged.addListener(Shared.common.getChanges.bind(Shared.common));
 
 		esgst.features = common.getFeatures();
 		[esgst.featuresById, esgst.featuresAncestors] = common.getFeaturesById();
