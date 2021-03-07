@@ -433,9 +433,6 @@ class Esgst {
 
 		this.pinnedGiveaways = null;
 
-		/** @type {boolean} */
-		this.addNoCvGames = undefined;
-
 		this.discussions = null;
 
 		this.tickets = null;

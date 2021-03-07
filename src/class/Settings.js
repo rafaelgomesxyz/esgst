@@ -467,7 +467,6 @@ class _Settings {
 			],
 			cdr_days: 7,
 			cdr_aDays: 7,
-			addNoCvGames_sg: false,
 			hgm_addOwned: false,
 			hgm_addIgnored: false,
 			hgm_addBanned: false,
