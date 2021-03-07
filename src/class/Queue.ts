@@ -68,6 +68,8 @@ class _RequestQueue {
 				}
 			}
 		}
+
+		this.isChecking = false;
 	};
 
 	getLastRequest = (key: string): number => {
