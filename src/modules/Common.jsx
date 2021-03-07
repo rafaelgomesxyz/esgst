@@ -673,6 +673,7 @@ class Common extends Module {
 	// Helper
 
 	async saveComment(context, tradeCode, parentId, description, url, status, goToLocation) {
+		const username = Settings.get('username');
 		const obj = {
 			context,
 			comment: description,
@@ -689,16 +690,23 @@ class Common extends Module {
 		if (this.esgst.sg) {
 			if (response.redirected) {
 				responseHtml = DOM.parse(response.responseText);
+				let commentEls;
 				if (parentId) {
-					id = responseHtml
-						.querySelector(`[data-comment-id="${parentId}"]`)
-						.getElementsByClassName('comment__children')[0]
-						.lastElementChild.getElementsByClassName('comment__summary')[0].id;
+					commentEls =
+						responseHtml
+							.querySelector(`[data-comment-id="${parentId}"]`)
+							?.querySelector('.comment__children')?.children ?? [];
 				} else {
-					const elements = responseHtml.getElementsByClassName('comments');
-					id = elements[elements.length - 1].lastElementChild.getElementsByClassName(
-						'comment__summary'
-					)[0].id;
+					const els = responseHtml.querySelectorAll('.comments') ?? [];
+					commentEls = els[els.length - 1].children;
+				}
+				commentEls = Array.from(commentEls).reverse();
+				for (const commentEl of commentEls) {
+					const author = commentEl.querySelector('.comment__username')?.textContent.trim() ?? '';
+					if (author === username) {
+						id = commentEl.querySelector('.comment__summary')?.id ?? '';
+						break;
+					}
 				}
 			} else {
 				success = false;
@@ -707,7 +715,7 @@ class Common extends Module {
 			const responseJson = JSON.parse(response.responseText);
 			if (responseJson.success) {
 				responseHtml = DOM.parse(responseJson.html);
-				id = responseHtml.getElementsByClassName('comment_outer')[0].id;
+				id = responseHtml.querySelector('.comment_outer')?.id ?? '';
 			} else {
 				success = false;
 			}
