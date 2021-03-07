@@ -5468,19 +5468,17 @@ class Common extends Module {
 
 	/**
 	 * @param steamIds
-	 * @returns {SuspensionsApiResponse}
+	 * @returns {Promise<SuspensionsApiResponse>}
 	 */
 	async getSuspensions(steamIds) {
 		return JSON.parse(
 			(
 				await this.request({
 					method: 'GET',
-					url: `https://script.google.com/macros/s/AKfycbwdKNormCJs-hEKV0GVwawgWj1a26oVtPylgmxOOvNk1Gf17A/exec?steamIds=${steamIds.join(
-						`,`
-					)}`,
+					url: `https://rafaelgssa.com/esgst/users/ust?steam_ids=${steamIds.join(`,`)}`,
 				})
 			).responseText
-		);
+		).result.found;
 	}
 
 	async submitComment(obj) {
@@ -5935,7 +5933,7 @@ class Common extends Module {
 				}
 				resolve();
 			})
-		);		
+		);
 	}
 
 	setValue(key, value) {

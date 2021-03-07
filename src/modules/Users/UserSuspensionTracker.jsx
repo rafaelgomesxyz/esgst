@@ -1,10 +1,11 @@
 import { Checkbox } from '../../class/Checkbox';
-import { Module } from '../../class/Module';
-import { Popup } from '../../class/Popup';
-import { common } from '../Common';
-import { Shared } from '../../class/Shared';
-import { permissions } from '../../class/Permissions';
 import { DOM } from '../../class/DOM';
+import { FetchRequest } from '../../class/FetchRequest';
+import { Module } from '../../class/Module';
+import { permissions } from '../../class/Permissions';
+import { Popup } from '../../class/Popup';
+import { Shared } from '../../class/Shared';
+import { common } from '../Common';
 
 const createElements = common.createElements.bind(common),
 	createHeadingButton = common.createHeadingButton.bind(common),
@@ -15,9 +16,9 @@ const createElements = common.createElements.bind(common),
 class UsersUserSuspensionTracker extends Module {
 	constructor() {
 		super();
+		this.callback = null;
 		this.checkboxes = {};
-		this.tickets = [];
-		this.numTickets = 0;
+		this.tickets = {};
 		this.info = {
 			description: () => (
 				<ul>
@@ -94,7 +95,8 @@ class UsersUserSuspensionTracker extends Module {
 				icons: ['fa-paper-plane'],
 				title: 'Send selected tickets to the User Suspension Tracker database',
 			});
-			Shared.esgst.ustButton.addEventListener('click', this.ust_sendAll.bind(this));
+			this.callback = this.ust_sendAll.bind(this, null);
+			Shared.esgst.ustButton.addEventListener('click', this.callback);
 		} else if (
 			Shared.esgst.ticketPath &&
 			document
@@ -139,18 +141,19 @@ class UsersUserSuspensionTracker extends Module {
 							},
 						]
 					);
-					Shared.esgst.ustButton.addEventListener('click', this.ust_send.bind(this));
+					this.callback = this.ust_sendAll.bind(this, code);
+					Shared.esgst.ustButton.addEventListener('click', this.callback);
 				}
 			}
 		}
 	}
 
-	async ust_sendAll() {
-		if (!(await permissions.contains([['googleWebApp']]))) {
+	async ust_sendAll(code) {
+		if (!(await permissions.contains([['server']]))) {
 			return;
 		}
 
-		Shared.esgst.ustButton.removeEventListener('click', this.ust_sendAll);
+		Shared.esgst.ustButton.removeEventListener('click', this.callback);
 		createElements(Shared.esgst.ustButton, 'atinner', [
 			{
 				attributes: {
@@ -159,49 +162,26 @@ class UsersUserSuspensionTracker extends Module {
 				type: 'i',
 			},
 		]);
-		let n = Object.keys(this.checkboxes).length;
-		let numError = 0;
-		let promises = [];
-		let obj = {
-			data: '',
+		const obj = {
+			tickets: [],
 		};
-		for (let code in this.checkboxes) {
-			if (this.checkboxes.hasOwnProperty(code)) {
+		const promises = [];
+		if (code) {
+			promises.push(this.ust_check(code, obj));
+		} else {
+			const codes = Object.keys(this.checkboxes);
+			for (const code of codes) {
 				promises.push(this.ust_check(code, obj));
 			}
 		}
 		await Promise.all(promises);
-		let error = JSON.parse(
-			(
-				await request({
-					data: obj.data.slice(0, -1),
-					method: 'POST',
-					url: `https://script.google.com/macros/s/AKfycbwdKNormCJs-hEKV0GVwawgWj1a26oVtPylgmxOOvNk1Gf17A/exec`,
-				})
-			).responseText
-		).error;
-		let tickets = JSON.parse(getValue('tickets'));
-		for (let code in this.checkboxes) {
-			if (this.checkboxes.hasOwnProperty(code)) {
-				if (error.indexOf(code) < 0) {
-					if (!tickets[code]) {
-						tickets[code] = {
-							readComments: {},
-						};
-					}
-					tickets[code].sent = 1;
-					this.numTickets -= 1;
-					this.checkboxes[code].remove();
-					delete this.checkboxes[code];
-				} else {
-					numError += 1;
-				}
-			}
-		}
-		await setValue('tickets', JSON.stringify(tickets));
-		if (n === this.numTickets) {
-			Shared.esgst.ustButton.remove();
-		} else {
+		const response = await FetchRequest.post('https://rafaelgssa.com/esgst/users/ust', {
+			data: JSON.stringify(obj),
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		});
+		if (!response.json || response.json.error) {
 			createElements(Shared.esgst.ustButton, 'atinner', [
 				{
 					attributes: {
@@ -210,18 +190,35 @@ class UsersUserSuspensionTracker extends Module {
 					type: 'i',
 				},
 			]);
-			Shared.esgst.ustButton.addEventListener('click', this.ust_sendAll.bind(this));
+			Shared.esgst.ustButton.addEventListener('click', this.callback);
+			new Popup({
+				icon: '',
+				isTemp: true,
+				title: 'Failed to send tickets! Try again later.',
+			}).open();
+		} else {
+			let tickets = JSON.parse(getValue('tickets'));
+			for (let code in this.checkboxes) {
+				if (this.checkboxes.hasOwnProperty(code)) {
+					if (!tickets[code]) {
+						tickets[code] = {
+							readComments: {},
+						};
+					}
+					tickets[code].sent = 1;
+					this.checkboxes[code].remove();
+					delete this.checkboxes[code];
+				}
+			}
+			await setValue('tickets', JSON.stringify(tickets));
+			Shared.esgst.ustButton.remove();
+			new Popup({
+				icon: '',
+				isTemp: true,
+				title:
+					'Tickets sent! It could take from 48 hours to 1 week until they are added to the database.',
+			}).open();
 		}
-		new Popup({
-			addScrollable: true,
-			icon: '',
-			isTemp: true,
-			title: `${
-				n - numError
-			} out of ${n} tickets sent! They will be analyzed and, if accepted, added to the database in 48 hours at most.${
-				numError > 0 ? ' Try sending the tickets that failed again later.' : ''
-			}`,
-		}).open();
 	}
 
 	async ust_check(code, obj) {
@@ -243,79 +240,14 @@ class UsersUserSuspensionTracker extends Module {
 				closeElement &&
 				authorElement.textContent.trim() !== closeElement.textContent.trim()
 			) {
-				obj.data += `${code}=${encodeURIComponent(
-					responseHtml
+				obj.tickets.push({
+					ticketId: code,
+					ticket: responseHtml
 						.getElementsByClassName('sidebar')[0]
 						.nextElementSibling.innerHTML.replace(/\n|\r|\r\n|\s{2,}/g, '')
-						.trim()
-				)}&`;
+						.trim(),
+				});
 			}
-		}
-	}
-
-	async ust_send() {
-		if (!(await permissions.contains([['googleWebApp']]))) {
-			return;
-		}
-
-		let code = Shared.esgst.locationHref.match(/\/ticket\/(.+?)\//)[1];
-		Shared.esgst.ustButton.removeEventListener('click', this.ust_send);
-		createElements(Shared.esgst.ustButton, 'atinner', [
-			{
-				attributes: {
-					class: 'fa fa-circle-o-notch fa-spin',
-				},
-				type: 'i',
-			},
-		]);
-		let error = JSON.parse(
-			(
-				await request({
-					data: `${code}=${encodeURIComponent(
-						DOM.parse(
-							(await request({ method: 'GET', url: Shared.esgst.locationHref })).responseText
-						)
-							.getElementsByClassName('sidebar')[0]
-							.nextElementSibling.innerHTML.replace(/\n|\r|\r\n|\s{2,}/g, '')
-							.trim()
-					)}`,
-					method: 'POST',
-					url: `https://script.google.com/macros/s/AKfycbwdKNormCJs-hEKV0GVwawgWj1a26oVtPylgmxOOvNk1Gf17A/exec`,
-				})
-			).responseText
-		).error;
-		if (error.length === 0) {
-			let tickets = JSON.parse(getValue('tickets'));
-			if (!tickets[code]) {
-				tickets[code] = {
-					readComments: {},
-				};
-			}
-			tickets[code].sent = 1;
-			await setValue('tickets', JSON.stringify(tickets));
-			Shared.esgst.ustButton.remove();
-			new Popup({
-				addScrollable: true,
-				icon: '',
-				isTemp: true,
-				title: `Ticket sent! It will be analyzed and, if accepted, added to the database in 48 hours at most.`,
-			}).open();
-		} else {
-			createElements(Shared.esgst.ustButton, 'atinner', [
-				{
-					attributes: {
-						class: 'fa fa-paper-plane',
-					},
-					type: 'i',
-				},
-			]);
-			Shared.esgst.ustButton.addEventListener('click', this.ust_send.bind(this));
-			new Popup({
-				addScrollable: true,
-				icon: '',
-				isTemp: true,
-				title: 'An error occurred. Please try again later.',
-			}).open();
 		}
 	}
 
@@ -363,7 +295,6 @@ class UsersUserSuspensionTracker extends Module {
 				}
 				delete this.checkboxes[code];
 			};
-			this.numTickets += 1;
 		}
 	}
 }

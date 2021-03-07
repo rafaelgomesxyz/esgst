@@ -361,7 +361,7 @@ class CommentsCommentTracker extends Module {
 			this.esgst.modules.discussionsDiscussionFilters.filters_filter(this.esgst.df, false, endless);
 		}
 		if (this.esgst.ustButton) {
-			if (this.esgst.modules.usersUserSuspensionTracker.numTickets > 0) {
+			if (Object.keys(this.esgst.modules.usersUserSuspensionTracker.tickets).length > 0) {
 				this.esgst.ustButton.classList.remove('esgst-hidden');
 			} else {
 				this.esgst.ustButton.classList.add('esgst-hidden');

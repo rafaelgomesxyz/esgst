@@ -338,7 +338,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 	}
 
 	async namwc_start(obj) {
-		if (Settings.get('ust') && !(await permissions.contains([['googleWebApp']]))) {
+		if (Settings.get('ust') && !(await permissions.contains([['server']]))) {
 			return;
 		}
 
@@ -511,20 +511,24 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 		obj.popup.progressBar.setMessage('Checking suspensions...');
 		users = [];
 		let savedUsers = JSON.parse(getValue('users'));
-		let suspensions = (await getSuspensions(steamIds)).suspensions;
-		for (let steamId in suspensions) {
-			let suspension = suspensions[steamId];
+		const suspensions = await getSuspensions(steamIds);
+		for (const steamId in suspensions) {
+			const suspension = suspensions[steamId];
+			const notActivated = suspension.not_activated
+				? new Date(suspension.not_activated).getTime()
+				: 0;
+			const multiple = suspension.multiple ? new Date(suspension.multiple).getTime() : 0;
 			let user = { steamId };
 			user.values = {
 				namwc: (await getUser(savedUsers, user)).namwc,
 			};
-			user.values.namwc.suspension = suspension;
+			user.values.namwc.suspension = { notActivated, multiple };
 			users.push(user);
 			if (Array.isArray(user.values.namwc.results.notActivated)) {
 				let i, n;
 				for (
 					i = 0, n = user.values.namwc.results.notActivated.length;
-					i < n && user.values.namwc.results.notActivated[i] <= suspension.notActivated;
+					i < n && user.values.namwc.results.notActivated[i] <= notActivated;
 					i++
 				) {}
 				if (i > 0) {
@@ -534,7 +538,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 								title: getFeatureTooltip(
 									'ust',
 									`This user already served suspension for ${i} of their not activated wins (until ${getTimestamp(
-										suspension.notActivated,
+										notActivated,
 										true,
 										true
 									)})`
@@ -551,7 +555,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 								title: getFeatureTooltip(
 									'ust',
 									`This user already served suspension for not activated wins until ${getTimestamp(
-										suspension.notActivated,
+										notActivated,
 										true,
 										true
 									)}`
@@ -567,7 +571,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 				let i, n;
 				for (
 					i = 0, n = user.values.namwc.results.multiple.length;
-					i < n && user.values.namwc.results.multiple[i] <= suspension.multiple;
+					i < n && user.values.namwc.results.multiple[i] <= multiple;
 					i++
 				) {}
 				if (i > 0) {
@@ -577,7 +581,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 								title: getFeatureTooltip(
 									'ust',
 									`This user already served suspension for ${i} of their multiple wins (until ${getTimestamp(
-										suspension.multiple,
+										multiple,
 										true,
 										true
 									)})`
@@ -594,7 +598,7 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 								title: getFeatureTooltip(
 									'ust',
 									`This user already served suspension for multiple wins until ${getTimestamp(
-										suspension.multiple,
+										multiple,
 										true,
 										true
 									)}`
