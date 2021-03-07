@@ -168,6 +168,20 @@ class GiveawaysGiveawaysSorter extends Module {
 					},
 					text: 'Rating - Descending',
 					type: 'option',
+				},
+				{
+					attributes: {
+						value: 'ratingQuantity_asc',
+					},
+					text: 'Rating Quantity - Ascending',
+					type: 'option',
+				},
+				{
+					attributes: {
+						value: 'ratingQuantity_desc',
+					},
+					text: 'Rating Quantity - Descending',
+					type: 'option',
 				}
 			);
 		}

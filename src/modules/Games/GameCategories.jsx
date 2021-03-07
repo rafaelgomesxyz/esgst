@@ -1169,6 +1169,9 @@ class GamesGameCategories extends Module {
 								.split(/,\s/);
 						} else if (id === 'rating') {
 							item.rating = parseInt(category.title.match(/(\d+)%/)[1]);
+							item.ratingQuantity = parseInt(
+								(category.title.match(/\((.+?)\)/)[1] || '0').replace(',', '')
+							);
 						} else if (id === 'reviews') {
 							item.reviews = parseInt(category.title.match(/\((.+?)\)/)[1].replace(/[^\d]/g, ''));
 						} else {
@@ -1176,6 +1179,7 @@ class GamesGameCategories extends Module {
 						}
 					} else if (id === 'rating') {
 						item.rating = -1;
+						item.ratingQuantity = 0;
 					} else if (id === 'releaseDate') {
 						item.releaseDate = -1;
 					} else if (id === 'reviews') {
