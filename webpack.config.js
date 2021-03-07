@@ -409,7 +409,9 @@ function getWebpackConfig(env, name) {
 			'./palemoon/data/esgst': ['./src/entry/sdk_index.js'],
 		};
 		cleanOnceBeforeBuildPatterns = [
-			path.join(process.cwd(), './build/**/*'),
+			path.join(process.cwd(), './build/chrome/*'),
+			path.join(process.cwd(), './build/firefox/*'),
+			path.join(process.cwd(), './build/palemoon/*'),
 			path.join(process.cwd(), './dist/*.zip'),
 			path.join(process.cwd(), './dist/*.xpi'),
 		];
@@ -428,6 +430,7 @@ function getWebpackConfig(env, name) {
 		config.entry = { './userscript/esgst.user': ['./src/entry/gm_index.js'] };
 		config.optimization = { minimize: false };
 		cleanOnceBeforeBuildPatterns = [
+			path.join(process.cwd(), './build/userscript/*'),
 			path.join(process.cwd(), './dist/*.meta.js'),
 			path.join(process.cwd(), `./dist/*.user.js`),
 		];
