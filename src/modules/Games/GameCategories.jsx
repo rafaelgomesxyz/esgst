@@ -420,6 +420,10 @@ class GamesGameCategories extends Module {
 							name: 'Color the table row in tables.',
 							sg: true,
 						},
+						gc_o_pw: {
+							name: 'Do not show if the game already has the Previously Won category.',
+							sg: true,
+						},
 					},
 					name: 'Owned',
 					sg: true,
@@ -2227,7 +2231,11 @@ class GamesGameCategories extends Module {
 								}
 							}
 						}
-						if (savedGame && savedGame.owned) {
+						if (
+							savedGame &&
+							savedGame.owned &&
+							(!Settings.get('gc_o_pw') || !Settings.get('gc_pw') || !savedGame.won)
+						) {
 							elements.push({
 								attributes: {
 									class: 'esgst-gc esgst-gc-owned',
