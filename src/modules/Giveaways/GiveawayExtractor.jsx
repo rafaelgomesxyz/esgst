@@ -575,9 +575,9 @@ class GiveawaysGiveawayExtractor extends Module {
 			});
 			for (let link of [...ge.cache[ge.cacheId].ithLinks, ...ge.cache[ge.cacheId].jigidiLinks]) {
 				if (Settings.get('ge_j')) {
-					const match = link.match(/id=(.+)/);
-					if (match) {
-						link = `https://www.jigidi.com/jigsaw-puzzle/${match[1]}`;
+					const id = this.extractJigidiId(link);
+					if (id) {
+						link = `https://www.jigidi.com/jigsaw-puzzle/${id}`;
 					}
 				}
 				items[0].children.push(
@@ -894,8 +894,9 @@ class GiveawaysGiveawayExtractor extends Module {
 			ge.cache[ge.cacheId].ithLinks.add(url);
 		}
 		const jigidiSelectors = [
-			`[href*="jigidi.com/jigsaw-puzzle/"]`,
-			`[href*="jigidi.com/solve.php"]`,
+			'[href*="jigidi.com/jigsaw-puzzle"]',
+			'[href*="jigidi.com/solve"]',
+			'[href*="jigidi.com/created"]',
 		];
 		let jigidiLinks;
 		if (ge.ignoreDiscussionComments && !description && op) {
@@ -910,9 +911,9 @@ class GiveawaysGiveawayExtractor extends Module {
 		for (const link of jigidiLinks) {
 			let url = link.getAttribute('href');
 			if (Settings.get('ge_j')) {
-				const match = url.match(/id=(.+)/);
-				if (match) {
-					url = `https://www.jigidi.com/jigsaw-puzzle/${match[1]}`;
+				const id = this.extractJigidiId(url);
+				if (id) {
+					url = `https://www.jigidi.com/jigsaw-puzzle/${id}`;
 				}
 			}
 			ge.cache[ge.cacheId].jigidiLinks.add(url);
@@ -1047,6 +1048,11 @@ class GiveawaysGiveawayExtractor extends Module {
 			ge.cache[ge.cacheId].jigidiLinks = Array.from(ge.cache[ge.cacheId].jigidiLinks);
 			await common.setValue('geCache', JSON.stringify(ge.cache));
 		}
+	}
+
+	extractJigidiId(url) {
+		const matches = url.match(/(jigsaw-puzzle|solve)\/([A-Za-z0-9]+)|id=([A-Za-z0-9]+)/);
+		return matches[2] || matches[3];
 	}
 }
 
