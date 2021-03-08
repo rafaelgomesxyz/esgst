@@ -347,7 +347,7 @@ class GeneralThreadSubscription extends Module {
 			const codes = [];
 
 			const response = await FetchRequest.get(
-				`/discussions${code ? `/${code}` : ''}/search?sort=new`
+				`https://www.steamgifts.com/discussions${code ? `/${code}` : ''}/search?sort=new`
 			);
 
 			const elements = response.html.querySelectorAll('.table__column__heading');

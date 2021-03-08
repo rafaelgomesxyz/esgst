@@ -130,13 +130,15 @@ class Comments extends Module {
 		const comment = {};
 		comment.comment = context;
 		comment.outerWrap = comment.comment;
+		comment.parent = comment.comment.parentElement;
 		const author = comment.comment.querySelector(`.comment__author, .author_name`);
 		if (!author) {
 			return;
 		}
 		comment.author = author.textContent.trim();
-		comment.summary = comment.comment.querySelector('.comment__summary', '.comment_inner');
-		comment.isOp = !comment.summary.id;
+		comment.summary = comment.comment.querySelector('.comment__summary, .comment_body');
+		comment.isOp =
+			(comment.summary && !comment.summary.id) || (comment.parent && !comment.parent.id);
 		comment.displayState = comment.comment.querySelector(
 			`.comment__display-state, .comment_body_default`
 		);

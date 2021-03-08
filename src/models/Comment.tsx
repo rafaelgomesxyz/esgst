@@ -526,7 +526,7 @@ class StComment extends Comment {
 			data.code = data.url.split('/')[3]; // /go/comment/...
 		}
 		data.isReview = !!nodes.rating;
-		data.isReviewPositive = nodes.rating.classList.contains('is_positive');
+		data.isReviewPositive = nodes.rating?.classList.contains('is_positive') ?? false;
 		this.data = data;
 		this.author.data = authorData;
 	}
