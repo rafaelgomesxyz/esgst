@@ -16,6 +16,13 @@ class GamesGameCategories extends Module {
 	constructor() {
 		super();
 
+		this.PRIORITIES = {
+			MISSING: 0,
+			FAILED: 1,
+			OUTDATED: 2,
+			ALMOST_OUTDATED: 3,
+		};
+
 		this.queueIndexes = {
 			apps: {},
 			subs: {},
@@ -55,6 +62,30 @@ class GamesGameCategories extends Module {
 						drop them between a giveaway's columns (where the end/start times and the creator's
 						username are).
 					</li>
+					<li>
+						While the information is being loaded, an hourglass icon is displayed. This icon can be
+						in different colors depending on the cache status:
+					</li>
+					<ul>
+						<li>
+							<i className="fa fa-hourglass fa-spin esgst-red"></i> - The information is missing and
+							will be retrieved from the server with highest priority.
+						</li>
+						<li>
+							<i className="fa fa-hourglass fa-spin esgst-orange"></i> - The information was not
+							successfully retrieved and it has been 24 hours since the last attempt, so another
+							attempt will be made with high priority.
+						</li>
+						<li>
+							<i className="fa fa-hourglass fa-spin esgst-yellow"></i> - The information is outdated
+							(hasn't been updated in 7 days) and will be updated with low priority.
+						</li>
+						<li>
+							<i className="fa fa-hourglass fa-spin esgst-green"></i> - The information is about to
+							become outdated (hasn't been updated in 6 days) and will be updated with lowest
+							priority.
+						</li>
+					</ul>
 				</ul>
 			),
 			features: {
@@ -791,22 +822,19 @@ class GamesGameCategories extends Module {
 						if (now - gc.cache.apps[id].lastCheck > 604800000) {
 							// Game has not been updated in 7 days.
 
-							priority = 2;
+							priority = this.PRIORITIES.OUTDATED;
 						} else if (now - gc.cache.apps[id].lastCheck > 518400000) {
 							// Game has not been updated in 6 days.
 
-							priority = 3;
+							priority = this.PRIORITIES.ALMOST_OUTDATED;
 						} else if (
-							now - gc.cache.apps[id].lastCheck > 86400000 &&
-							(!gc.cache.apps[id].name ||
-								gc.cache.apps[id].price === -1 ||
-								(Settings.get('gc_g_udt') && !gc.cache.apps[id].tags) ||
-								(Settings.get('gc_r') && !gc.cache.apps[id].rating) ||
-								(Settings.get('gc_rd') && gc.cache.apps[id].removed === -1))
+							!Utils.isSet(gc.cache.apps[id].learning) &&
+							(!gc.cache.apps[id].removed || gc.cache.apps[id].removed === -1) &&
+							now - gc.cache.apps[id].lastCheck > 86400000
 						) {
 							// Game was not successfully fetched and it has been more than 24 hours since the last attempt.
 
-							priority = 1;
+							priority = this.PRIORITIES.FAILED;
 						} else {
 							// Game is up to date.
 
@@ -829,13 +857,13 @@ class GamesGameCategories extends Module {
 					}
 				} else {
 					gc.cache.apps[id].lastCheck = now;
-					priority = 1;
+					priority = this.PRIORITIES.FAILED;
 				}
 				if (
 					games.apps[id] &&
 					games.apps[id].filter((item) => !item.container.classList.contains('esgst-hidden'))[0]
 				) {
-					if (priority > 2) {
+					if (priority > this.PRIORITIES.OUTDATED) {
 						this.gc_addCategory(
 							gc,
 							gc.cache.apps[id],
@@ -868,20 +896,11 @@ class GamesGameCategories extends Module {
 						if (now - gc.cache.subs[id].lastCheck > 604800000) {
 							// Game has not been updated in 7 days.
 
-							priority = 2;
+							priority = this.PRIORITIES.OUTDATED;
 						} else if (now - gc.cache.subs[id].lastCheck > 518400000) {
 							// Game has not been updated in 6 days.
 
-							priority = 3;
-						} else if (
-							now - gc.cache.subs[id].lastCheck > 86400000 &&
-							(!gc.cache.subs[id].name ||
-								gc.cache.subs[id].price === -1 ||
-								(Settings.get('gc_rd') && gc.cache.subs[id].removed === -1))
-						) {
-							// Game was not successfully fetched and it has been more than 24 hours since the last attempt.
-
-							priority = 1;
+							priority = this.PRIORITIES.ALMOST_OUTDATED;
 						} else {
 							// Game is up to date.
 
@@ -904,13 +923,13 @@ class GamesGameCategories extends Module {
 					}
 				} else {
 					gc.cache.subs[id].lastCheck = now;
-					priority = 1;
+					priority = this.PRIORITIES.FAILED;
 				}
 				if (
 					games.subs[id] &&
 					games.subs[id].filter((item) => !item.container.classList.contains('esgst-hidden'))[0]
 				) {
-					if (priority > 2) {
+					if (priority > this.PRIORITIES.OUTDATED) {
 						this.gc_addCategory(
 							gc,
 							gc.cache.subs[id],
@@ -939,7 +958,7 @@ class GamesGameCategories extends Module {
 				}
 				to_fetch.push({
 					id,
-					priority: 0,
+					priority: this.PRIORITIES.MISSING,
 					type: 'apps',
 					found: false,
 					realId: null,
@@ -952,7 +971,7 @@ class GamesGameCategories extends Module {
 				}
 				to_fetch.push({
 					id,
-					priority: 0,
+					priority: this.PRIORITIES.MISSING,
 					type: 'subs',
 					found: false,
 					realId: null,
@@ -991,16 +1010,16 @@ class GamesGameCategories extends Module {
 							loading.title = `This game is queued for fetching (the number indicates its queue position)`;
 							let color;
 							switch (item.priority) {
-								case 0:
+								case this.PRIORITIES.MISSING:
 									color = 'red';
 									break;
-								case 1:
+								case this.PRIORITIES.FAILED:
 									color = 'orange';
 									break;
-								case 2:
+								case this.PRIORITIES.OUTDATED:
 									color = 'yellow';
 									break;
-								case 3:
+								case this.PRIORITIES.ALMOST_OUTDATED:
 									color = 'green';
 									break;
 							}
@@ -1047,25 +1066,23 @@ class GamesGameCategories extends Module {
 						const item = to_fetch[i];
 						const data = json.result.found[item.realType][item.realId];
 
-						if (!data) {
+						if (!data || data.queued_for_update) {
 							continue;
 						}
 
 						const last_update = new Date(data.last_update).getTime();
 
-						if (now - last_update <= 604800000 && data.learning !== null) {
-							item.found = true;
-							const oldLength = to_fetch.length;
-							gc.cache[item.type][item.id] = await this.gc_fake_api(
-								gc,
-								to_fetch,
-								data,
-								item.id,
-								item.type,
-								last_update
-							);
-							i += to_fetch.length - oldLength;
-						}
+						item.found = true;
+						const oldLength = to_fetch.length;
+						gc.cache[item.type][item.id] = await this.gc_fake_api(
+							gc,
+							to_fetch,
+							data,
+							item.id,
+							item.type,
+							last_update
+						);
+						i += to_fetch.length - oldLength;
 					}
 
 					await lockAndSaveGames(Shared.esgst.games);
@@ -1318,7 +1335,7 @@ class GamesGameCategories extends Module {
 			free: data.price === 0,
 			genres: '',
 			lastCheck: last_update,
-			learning: data.learning ? 1 : 0,
+			learning: Utils.isSet(data.learning) ? (data.learning ? 1 : 0) : null,
 			linux: data.linux ? 1 : 0,
 			mac: data.mac ? 1 : 0,
 			multiplayer: data.multiplayer ? 1 : 0,
@@ -1361,7 +1378,7 @@ class GamesGameCategories extends Module {
 					} else {
 						to_fetch.unshift({
 							id: appId,
-							priority: 0,
+							priority: this.PRIORITIES.MISSING,
 							type: 'apps',
 						});
 					}
@@ -1412,7 +1429,7 @@ class GamesGameCategories extends Module {
 				} else {
 					to_fetch.unshift({
 						id: categories.base,
-						priority: 0,
+						priority: this.PRIORITIES.MISSING,
 						type: 'apps',
 					});
 				}
@@ -1437,317 +1454,271 @@ class GamesGameCategories extends Module {
 			}
 		}
 		try {
-			let real_id, real_type;
-			if (typeof id === 'string' && id.match(/^SteamBundle/)) {
-				real_id = id.replace(/^SteamBundle/, '');
-				real_type = 'bundles';
-			} else {
-				real_id = id;
-				real_type = type;
-			}
-			const json = JSON.parse(
-				(
-					await request({
-						method: 'GET',
-						url: `https://rafaelgssa.com/esgst/game/${real_type.slice(0, -1)}/${real_id}`,
-					})
-				).responseText
-			);
-			if (json.result) {
-				if (json.result.learning === null) {
-					throw `Adult game: ${type}/${id}. The learning category can only be retrieved locally if the user is logged in.`;
-				}
-				gc.cache[type][id] = await this.gc_fake_api(
-					gc,
-					to_fetch,
-					json.result,
-					id,
-					type,
-					currentTime,
-					games,
-					currentTime
-				);
-				this.gc_addCategory(
-					gc,
-					gc.cache[type][id],
-					games[type][id],
-					id,
-					Shared.esgst.games[type][id],
-					type,
-					type === 'apps' ? gc.cache.hltb : null
-				);
-				await lockAndSaveGames(Shared.esgst.games);
-				LocalStorage.set('gcCache', JSON.stringify(gc.cache));
-			} else {
-				throw new Error('No result.');
-			}
-		} catch (error) {
-			Logger.warning(error.message, error.stack);
-			try {
-				let categories = {
-					achievements: 0,
-					dlc: 0,
-					earlyAccess: 0,
-					genres: '',
-					lastCheck: currentTime,
-					learning: 0,
-					linux: 0,
-					mac: 0,
-					multiplayer: 0,
-					name: '',
-					price: -1,
-					rating: '',
-					ratingType: '',
-					releaseDate: '?',
-					removed: -1,
-					singleplayer: 0,
-					steamCloud: 0,
-					tags: '',
-					tradingCards: 0,
-				};
-				let responseJson =
-					typeof id === 'string' && id.match(/^SteamBundle/)
-						? await this.gc_fakeBundle(id)
-						: JSON.parse(
-								(
-									await request({
-										anon: true,
-										method: 'GET',
-										url: `https://store.steampowered.com/api/${
-											type === 'apps' ? `appdetails?appids=` : `packagedetails?packageids=`
-										}${id}&filters=achievements,apps,basic,categories,genres,name,packages,platforms,price,price_overview,release_date&cc=us&l=english`,
-									})
-								).responseText
-						  );
-				let data;
-				if (responseJson && responseJson[id]) {
-					data = responseJson[id].data;
-					if (data) {
-						if (data.steam_appid && id != data.steam_appid) {
-							if (!Shared.esgst.games[type][id]) {
-								Shared.esgst.games[type][id] = {};
-							}
-							Shared.esgst.games[type][id].alias = data.steam_appid;
-						}
-						if (type === 'apps' && data.packages) {
-							if (!Shared.esgst.games.apps[id]) {
-								Shared.esgst.games.apps[id] = {};
-							}
-							Shared.esgst.games.apps[id].subs = null;
-							Shared.esgst.games.apps[id].packages = data.packages.map((x) => parseInt(x));
-						}
-						if (type === 'subs' && data.apps) {
-							if (!Shared.esgst.games.subs[id]) {
-								Shared.esgst.games.subs[id] = {};
-							}
-							Shared.esgst.games.subs[id].apps = data.apps.map((x) => parseInt(x.id));
-							for (const appId of Shared.esgst.games.subs[id].apps) {
-								if (
-									!gc.cache.apps[appId] ||
-									!to_fetch.filter((x) => x.type === 'apps' && x.id == appId)[0]
-								) {
-									await this.gc_getCategories(gc, currentTime, games, appId, 'apps', to_fetch);
-								}
-							}
-						}
-						if (data.categories) {
-							for (let i = 0, n = data.categories.length; i < n; ++i) {
-								switch (data.categories[i].description.toLowerCase()) {
-									case 'steam achievements':
-										categories.achievements = 1;
-										break;
-									case 'single-player':
-										categories.singleplayer = 1;
-										break;
-									case 'multi-player':
-									case 'online multi-player':
-									case 'co-op':
-									case 'local co-op':
-									case 'online co-op':
-									case 'shared/split screen':
-										categories.multiplayer = 1;
-										break;
-									case 'steam cloud':
-										categories.steamCloud = 1;
-										break;
-									case 'steam trading cards':
-										categories.tradingCards = 1;
-										break;
-									default:
-										break;
-								}
-							}
-						}
-						if (categories.achievements && data.achievements && data.achievements.total) {
-							categories.achievements = data.achievements.total;
-						}
-						categories.free = !!data.is_free;
-						categories.dlc = data.type === 'dlc' ? 1 : 0;
-						if (categories.dlc && data.fullgame && data.fullgame.appid) {
-							categories.base = parseInt(data.fullgame.appid);
-						} else if (data.dlc) {
-							categories.dlcs = data.dlc;
-						}
-						let genres = [];
-						if (data.genres) {
-							for (let i = 0, n = data.genres.length; i < n; ++i) {
-								genres.push(data.genres[i].description.trim());
-							}
-						}
-						genres.sort((a, b) => {
-							return a.localeCompare(b, {
-								sensitivity: 'base',
-							});
-						});
-						categories.earlyAccess = genres.indexOf('Early Access') >= 0 ? 1 : 0;
-						categories.genres = genres.join(`, `);
-						let platforms = data.platforms;
-						categories.linux = platforms.linux ? 1 : 0;
-						categories.mac = platforms.mac ? 1 : 0;
-						categories.name = data.name;
-						let price = data.price || data.price_overview;
-						categories.price = price
-							? price.currency === 'USD'
-								? Math.ceil(price.initial / 100)
-								: -1
-							: 0;
-						if (data.release_date && data.release_date.date) {
-							// @ts-ignore
-							categories.releaseDate = new Date(data.release_date.date).getTime();
-						}
-					}
-				}
-				if (
-					(typeof id !== 'string' || !id.match(/^SteamBundle/)) &&
-					(Settings.get('gc_lg') ||
-						Settings.get('gc_r') ||
-						Settings.get('gc_rm') ||
-						Settings.get('gc_g_udt'))
-				) {
-					if (
-						Settings.get('gc_rm') &&
-						!Settings.get('gc_lg') &&
-						!Settings.get('gc_r') &&
-						!Settings.get('gc_g_udt') &&
-						type === 'apps' &&
-						Shared.esgst.delistedGames.removed.indexOf(parseInt(id)) > -1
-					) {
-						categories.removed = 1;
-					} else {
-						let response = await request({
-							headers: { ['Esgst-Cookie']: `birthtime=0; mature_content=1; ` },
-							method: 'GET',
-							url: `https://store.steampowered.com/${type.slice(0, -1)}/${id}?cc=us&l=english`,
-						});
-						let responseHtml = DOM.parse(response.responseText);
-						if (response.finalUrl.match(id)) {
-							let elements = responseHtml.getElementsByClassName('user_reviews_summary_row');
-							let n = elements.length;
-							if (n > 0) {
-								let rating = elements[n - 1].getAttribute('data-tooltip-html').replace(/[,.]/g, '');
-								let match = rating.match(/(\d+)%.+?(\d+)/);
-								let percentageIndex = 1;
-								let countIndex = 2;
-								if (!match) {
-									match = rating.match(/(\d+).+?(\d+)%/);
-									percentageIndex = 2;
-									countIndex = 1;
-								}
-								if (match) {
-									categories.rating = `${match[percentageIndex]}% (${match[countIndex]})`;
-									rating = parseInt(match[percentageIndex]);
-									if (rating >= 0) {
-										if (rating < 40) {
-											categories.ratingType = 'Negative';
-										} else if (rating < 70) {
-											categories.ratingType = 'Mixed';
-										} else {
-											categories.ratingType = 'Positive';
-										}
-									} else {
-										categories.ratingType = '?';
-									}
-								}
-							}
-							categories.removed = 0;
-							let tags = [];
-							elements = responseHtml.querySelectorAll('a.app_tag');
-							for (let i = 0, n = elements.length; i < n; ++i) {
-								tags.push(elements[i].textContent.trim());
-							}
-							tags.sort((a, b) => {
-								return a.localeCompare(b, {
-									sensitivity: 'base',
-								});
-							});
-							categories.tags = tags.join(`, `);
-							if (responseHtml.querySelector('.learning_about')) {
-								categories.learning = 1;
-							}
-						} else {
-							categories.removed = 1;
-						}
-					}
-				}
-				if (Settings.get('gc_dlc_b') && categories.dlc && categories.base) {
-					if (gc.cache.apps[categories.base]) {
-						categories.freeBase = gc.cache.apps[categories.base].free;
-					}
-					if (typeof categories.freeBase === 'undefined') {
-						categories.freeBase = JSON.parse(
+			let categories = {
+				achievements: 0,
+				dlc: 0,
+				earlyAccess: 0,
+				genres: '',
+				lastCheck: currentTime,
+				learning: null,
+				linux: 0,
+				mac: 0,
+				multiplayer: 0,
+				name: '',
+				price: -1,
+				rating: '',
+				ratingType: '',
+				releaseDate: '?',
+				removed: -1,
+				singleplayer: 0,
+				steamCloud: 0,
+				tags: '',
+				tradingCards: 0,
+			};
+			let responseJson =
+				typeof id === 'string' && id.match(/^SteamBundle/)
+					? await this.gc_fakeBundle(id)
+					: JSON.parse(
 							(
 								await request({
 									anon: true,
 									method: 'GET',
-									url: `https://store.steampowered.com/api/appdetails?appids=${categories.base}&filters=basic&cc=us&l=english`,
+									url: `https://store.steampowered.com/api/${
+										type === 'apps' ? `appdetails?appids=` : `packagedetails?packageids=`
+									}${id}&filters=achievements,apps,basic,categories,genres,name,packages,platforms,price,price_overview,release_date&cc=us&l=english`,
 								})
 							).responseText
-						)[data.fullgame.appid].data.is_free;
+					  );
+			let data;
+			if (responseJson && responseJson[id]) {
+				data = responseJson[id].data;
+				if (data) {
+					if (data.steam_appid && id != data.steam_appid) {
+						if (!Shared.esgst.games[type][id]) {
+							Shared.esgst.games[type][id] = {};
+						}
+						Shared.esgst.games[type][id].alias = data.steam_appid;
+					}
+					if (type === 'apps' && data.packages) {
+						if (!Shared.esgst.games.apps[id]) {
+							Shared.esgst.games.apps[id] = {};
+						}
+						Shared.esgst.games.apps[id].subs = null;
+						Shared.esgst.games.apps[id].packages = data.packages.map((x) => parseInt(x));
+					}
+					if (type === 'subs' && data.apps) {
+						if (!Shared.esgst.games.subs[id]) {
+							Shared.esgst.games.subs[id] = {};
+						}
+						Shared.esgst.games.subs[id].apps = data.apps.map((x) => parseInt(x.id));
+						for (const appId of Shared.esgst.games.subs[id].apps) {
+							if (
+								!gc.cache.apps[appId] ||
+								!to_fetch.filter((x) => x.type === 'apps' && x.id == appId)[0]
+							) {
+								await this.gc_getCategories(gc, currentTime, games, appId, 'apps', to_fetch);
+							}
+						}
+					}
+					if (data.categories) {
+						for (let i = 0, n = data.categories.length; i < n; ++i) {
+							switch (data.categories[i].description.toLowerCase()) {
+								case 'steam achievements':
+									categories.achievements = 1;
+									break;
+								case 'single-player':
+									categories.singleplayer = 1;
+									break;
+								case 'multi-player':
+								case 'online multi-player':
+								case 'co-op':
+								case 'local co-op':
+								case 'online co-op':
+								case 'shared/split screen':
+									categories.multiplayer = 1;
+									break;
+								case 'steam cloud':
+									categories.steamCloud = 1;
+									break;
+								case 'steam trading cards':
+									categories.tradingCards = 1;
+									break;
+								default:
+									break;
+							}
+						}
+					}
+					if (categories.achievements && data.achievements && data.achievements.total) {
+						categories.achievements = data.achievements.total;
+					}
+					categories.free = !!data.is_free;
+					categories.dlc = data.type === 'dlc' ? 1 : 0;
+					if (categories.dlc && data.fullgame && data.fullgame.appid) {
+						categories.base = parseInt(data.fullgame.appid);
+					} else if (data.dlc) {
+						categories.dlcs = data.dlc;
+					}
+					let genres = [];
+					if (data.genres) {
+						for (let i = 0, n = data.genres.length; i < n; ++i) {
+							genres.push(data.genres[i].description.trim());
+						}
+					}
+					genres.sort((a, b) => {
+						return a.localeCompare(b, {
+							sensitivity: 'base',
+						});
+					});
+					categories.earlyAccess = genres.indexOf('Early Access') >= 0 ? 1 : 0;
+					categories.genres = genres.join(`, `);
+					let platforms = data.platforms;
+					categories.linux = platforms.linux ? 1 : 0;
+					categories.mac = platforms.mac ? 1 : 0;
+					categories.name = data.name;
+					let price = data.price || data.price_overview;
+					categories.price = price
+						? price.currency === 'USD'
+							? Math.ceil(price.initial / 100)
+							: -1
+						: 0;
+					if (data.release_date && data.release_date.date) {
+						// @ts-ignore
+						categories.releaseDate = new Date(data.release_date.date).getTime();
 					}
 				}
-				gc.cache[type][id] = categories;
-				this.gc_addCategory(
-					gc,
-					gc.cache[type][id],
-					games[type][id],
-					id,
-					Shared.esgst.games[type][id],
-					type,
-					type === 'apps' ? gc.cache.hltb : null
-				);
-				await lockAndSaveGames(Shared.esgst.games);
-				LocalStorage.set('gcCache', JSON.stringify(gc.cache));
-			} catch (error) {
-				Logger.warning(error.message, error.stack);
-				for (const game of games[type][id]) {
-					const panel = game.container.getElementsByClassName('esgst-gc-panel')[0];
-					if (panel && !panel.getAttribute('data-gcReady')) {
-						if (Settings.get('gc_il') && !Shared.esgst.giveawayPath) {
-							panel.previousElementSibling.style.display = 'inline-block';
-							panel.classList.add('esgst-gc-panel-inline');
+			}
+			if (
+				(typeof id !== 'string' || !id.match(/^SteamBundle/)) &&
+				(Settings.get('gc_lg') ||
+					Settings.get('gc_r') ||
+					Settings.get('gc_rm') ||
+					Settings.get('gc_g_udt'))
+			) {
+				if (
+					Settings.get('gc_rm') &&
+					!Settings.get('gc_lg') &&
+					!Settings.get('gc_r') &&
+					!Settings.get('gc_g_udt') &&
+					type === 'apps' &&
+					Shared.esgst.delistedGames.removed.indexOf(parseInt(id)) > -1
+				) {
+					categories.removed = 1;
+				} else {
+					let response = await request({
+						headers: { ['Esgst-Cookie']: `birthtime=0; mature_content=1; ` },
+						method: 'GET',
+						url: `https://store.steampowered.com/${type.slice(0, -1)}/${id}?cc=us&l=english`,
+					});
+					let responseHtml = DOM.parse(response.responseText);
+					if (response.finalUrl.match(id)) {
+						let elements = responseHtml.getElementsByClassName('user_reviews_summary_row');
+						let n = elements.length;
+						if (n > 0) {
+							let rating = elements[n - 1].getAttribute('data-tooltip-html').replace(/[,.]/g, '');
+							let match = rating.match(/(\d+)%.+?(\d+)/);
+							let percentageIndex = 1;
+							let countIndex = 2;
+							if (!match) {
+								match = rating.match(/(\d+).+?(\d+)%/);
+								percentageIndex = 2;
+								countIndex = 1;
+							}
+							if (match) {
+								categories.rating = `${match[percentageIndex]}% (${match[countIndex]})`;
+								rating = parseInt(match[percentageIndex]);
+								if (rating >= 0) {
+									if (rating < 40) {
+										categories.ratingType = 'Negative';
+									} else if (rating < 70) {
+										categories.ratingType = 'Mixed';
+									} else {
+										categories.ratingType = 'Positive';
+									}
+								} else {
+									categories.ratingType = '?';
+								}
+							}
 						}
-						const loading = panel.getElementsByClassName('esgst-gc-loading')[0];
-						if (loading) {
-							loading.remove();
+						categories.removed = 0;
+						let tags = [];
+						elements = responseHtml.querySelectorAll('a.app_tag');
+						for (let i = 0, n = elements.length; i < n; ++i) {
+							tags.push(elements[i].textContent.trim());
 						}
-						createElements(panel, 'beforeend', [
-							{
-								attributes: {
-									class: 'esgst-bold esgst-red',
-								},
-								type: 'span',
-								children: [
-									{
-										attributes: {
-											class: 'fa fa-exclamation',
-											title: 'An error happened while loading game categories.',
-										},
-										type: 'i',
-									},
-								],
-							},
-						]);
+						tags.sort((a, b) => {
+							return a.localeCompare(b, {
+								sensitivity: 'base',
+							});
+						});
+						categories.tags = tags.join(`, `);
+						if (responseHtml.querySelector('.learning_about')) {
+							categories.learning = 1;
+						} else {
+							categories.learning = 0;
+						}
+					} else {
+						categories.removed = 1;
 					}
+				}
+			}
+			if (Settings.get('gc_dlc_b') && categories.dlc && categories.base) {
+				if (gc.cache.apps[categories.base]) {
+					categories.freeBase = gc.cache.apps[categories.base].free;
+				}
+				if (typeof categories.freeBase === 'undefined') {
+					categories.freeBase = JSON.parse(
+						(
+							await request({
+								anon: true,
+								method: 'GET',
+								url: `https://store.steampowered.com/api/appdetails?appids=${categories.base}&filters=basic&cc=us&l=english`,
+							})
+						).responseText
+					)[data.fullgame.appid].data.is_free;
+				}
+			}
+			gc.cache[type][id] = categories;
+			this.gc_addCategory(
+				gc,
+				gc.cache[type][id],
+				games[type][id],
+				id,
+				Shared.esgst.games[type][id],
+				type,
+				type === 'apps' ? gc.cache.hltb : null
+			);
+			await lockAndSaveGames(Shared.esgst.games);
+			LocalStorage.set('gcCache', JSON.stringify(gc.cache));
+		} catch (error) {
+			Logger.warning(error.message, error.stack);
+			for (const game of games[type][id]) {
+				const panel = game.container.getElementsByClassName('esgst-gc-panel')[0];
+				if (panel && !panel.getAttribute('data-gcReady')) {
+					if (Settings.get('gc_il') && !Shared.esgst.giveawayPath) {
+						panel.previousElementSibling.style.display = 'inline-block';
+						panel.classList.add('esgst-gc-panel-inline');
+					}
+					const loading = panel.getElementsByClassName('esgst-gc-loading')[0];
+					if (loading) {
+						loading.remove();
+					}
+					createElements(panel, 'beforeend', [
+						{
+							attributes: {
+								class: 'esgst-bold esgst-red',
+							},
+							type: 'span',
+							children: [
+								{
+									attributes: {
+										class: 'fa fa-exclamation',
+										title: 'An error happened while loading game categories.',
+									},
+									type: 'i',
+								},
+							],
+						},
+					]);
 				}
 			}
 		}
