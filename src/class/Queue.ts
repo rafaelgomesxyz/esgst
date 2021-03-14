@@ -37,9 +37,10 @@ class _RequestQueue {
 		};
 	}
 
-	init = (): void => {
+	init = async (): Promise<void> => {
+		await this.loadRequestThreshold();
 		this.continuouslyCheck();
-		void this.checkLocalRequests();
+		void this.continuouslyCheckLocalRequests();
 	};
 
 	continuouslyCheck = (): void => {
@@ -80,16 +81,20 @@ class _RequestQueue {
 		LocalStorage.set(`request_${key}`, lastRequest.toString());
 	};
 
+	continuouslyCheckLocalRequests = async (): Promise<void> => {
+		await this.checkLocalRequests();
+		setTimeout(this.continuouslyCheckLocalRequests, 15000);
+	};
+
 	checkLocalRequests = async (): Promise<void> => {
 		if (this.isCheckingLocalRequests || !this.queue.sg.wasRequesting) {
-			setTimeout(this.checkLocalRequests, 15000);
 			return;
 		}
 		this.isCheckingLocalRequests = true;
 		this.queue.sg.wasRequesting = false;
 
 		if (!this.queue.sg.thresholds) {
-			this.queue.sg.thresholds = await this.loadRequestThresholds();
+			this.queue.sg.thresholds = await this.getRequestThresholds();
 		}
 
 		const currentDate = new Date();
@@ -135,10 +140,15 @@ class _RequestQueue {
 			this.queue.sg.threshold = this.queue.sg.thresholds.default * 1000;
 		}
 
-		setTimeout(this.checkLocalRequests, 15000);
+		this.isCheckingLocalRequests = false;
 	};
 
-	loadRequestThresholds = async (): Promise<Record<string, number>> => {
+	loadRequestThreshold = async (): Promise<void> => {
+		this.queue.sg.thresholds = await this.getRequestThresholds();
+		this.queue.sg.threshold = this.queue.sg.thresholds.default * 1000;
+	};
+
+	getRequestThresholds = async (): Promise<Record<string, number>> => {
 		if (Settings.get('useCustomAdaReqLim')) {
 			const thresholds: Record<string, number> = {};
 			for (const [key, minThreshold] of Object.entries(this.queue.sg.minThresholds)) {

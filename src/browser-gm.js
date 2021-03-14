@@ -100,6 +100,11 @@ const browser = {
 						resolve();
 						break;
 					}
+					case 'update_adareqlim': {
+						await RequestQueue.loadRequestThreshold();
+						resolve();
+						break;
+					}
 				}
 			});
 		},

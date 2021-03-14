@@ -11,7 +11,7 @@ RequestQueue.setLastRequest = (key, lastRequest) => {
 	lastRequests[key] = lastRequest;
 };
 
-RequestQueue.loadRequestThresholds = async (key) => {
+RequestQueue.getRequestThresholds = async () => {
 	const values = await handle_storage(TYPE_GET, 'settings');
 	const settings = values.settings ? JSON.parse(values.settings) : {};
 	if (settings['useCustomAdaReqLim_sg']) {
@@ -427,6 +427,11 @@ PageMod({
 
 		worker.port.on('register_tab', async (request) => {
 			worker.port.emit(`register_tab_${request.uuid}_response`, 'null');
+		});
+
+		worker.port.on('update_adareqlim', async (request) => {
+			await RequestQueue.loadRequestThreshold();
+			worker.port.emit(`update_adareqlim_${request.uuid}_response`, 'null');
 		});
 	},
 });

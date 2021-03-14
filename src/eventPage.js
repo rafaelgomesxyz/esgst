@@ -11,7 +11,7 @@ RequestQueue.setLastRequest = (key, lastRequest) => {
 	lastRequests[key] = lastRequest;
 };
 
-RequestQueue.loadRequestThresholds = async (key) => {
+RequestQueue.getRequestThresholds = async () => {
 	const values = await browser.storage.local.get('settings');
 	const settings = values.settings ? JSON.parse(values.settings) : {};
 	if (settings['useCustomAdaReqLim_sg']) {
@@ -361,6 +361,10 @@ browser.runtime.onMessage.addListener((request, sender) => {
 					url: request.url,
 				});
 				resolve();
+				break;
+			}
+			case 'update_adareqlim': {
+				RequestQueue.loadRequestThreshold().then(resolve);
 				break;
 			}
 		}

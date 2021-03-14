@@ -412,6 +412,14 @@ class SettingsModule {
 							this.requiredPermissions = {};
 						}
 						await Shared.common.lockAndSaveSettings(this.toSave);
+						const adareqlimChanged = Object.keys(this.toSave).some((key) =>
+							key.startsWith('customAdaReqLim')
+						);
+						if (adareqlimChanged) {
+							await browser.runtime.sendMessage({
+								action: 'update_adareqlim',
+							});
+						}
 						this.toSave = {};
 						new Popup({
 							icon: 'fa-check',
