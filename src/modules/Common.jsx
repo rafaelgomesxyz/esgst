@@ -1643,7 +1643,7 @@ class Common extends Module {
 	}
 
 	getFeatureNumber(queryId) {
-		let n = 1;
+		let n = browser.runtime.getURL ? 2 : 1;
 		for (let type in this.esgst.features) {
 			if (this.esgst.features.hasOwnProperty(type)) {
 				let i = 1;
