@@ -783,6 +783,19 @@ class Common extends Module {
 			},
 			others: {
 				features: {
+					limitSteamStore: {
+						description: () => (
+							<ul>
+								<li>
+									With this option enabled, requests to the Steam store will be limited to 1 per 200
+									milliseconds, to prevent the user from running into potential blocks, specially
+									when using features like {Shared.common.getFeatureName(null, 'gc')}.
+								</li>
+							</ul>
+						),
+						name: 'Limit Steam store requests.',
+						sg: true,
+					},
 					useCustomAdaReqLim: {
 						name: 'Use custom adaptive request limits for SteamGifts.',
 						sg: true,
@@ -3751,7 +3764,10 @@ class Common extends Module {
 				deleteLock();
 			}
 			return response;
-		} else if (details.url.match(/^https?:\/\/store.steampowered.com/)) {
+		} else if (
+			details.url.match(/^https?:\/\/store.steampowered.com/) &&
+			Settings.get('limitSteamStore')
+		) {
 			const deleteLock = await this.createLock('steamStore', 200);
 			const response = await this.continueRequest(details);
 			deleteLock();

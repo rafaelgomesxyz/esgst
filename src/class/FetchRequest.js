@@ -64,7 +64,10 @@ class FetchRequest {
 				});
 			} else if (options.queue) {
 				deleteLock = await Shared.common.createLock('requestLock', 1000);
-			} else if (url.match(/^https?:\/\/store.steampowered.com/)) {
+			} else if (
+				url.match(/^https?:\/\/store.steampowered.com/) &&
+				Settings.get('limitSteamStore')
+			) {
 				deleteLock = await Shared.common.createLock('steamStore', 200);
 			}
 
