@@ -125,7 +125,7 @@ class Users extends Module {
 				username: sg ? id : savedUser && savedUser.username,
 			});
 		}
-		Scope.current?.addData('users', usersToAdd, endless);
+		Scope.addData('current', 'users', usersToAdd, endless);
 		for (const feature of this.esgst.userFeatures) {
 			await feature(users, main, source, endless);
 		}
@@ -139,7 +139,7 @@ class Users extends Module {
 				this.esgst.uscButton.parentElement.classList.remove('esgst-hidden');
 			}
 			if (Settings.get('mm_enableUsers') && this.esgst.mm_enable) {
-				this.esgst.mm_enable(Scope.current?.findData('users'), 'Users');
+				this.esgst.mm_enable(Scope.findData('current', 'users'), 'Users');
 			}
 		}
 	}

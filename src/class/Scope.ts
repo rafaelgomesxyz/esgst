@@ -96,14 +96,14 @@ export class Scope {
 	};
 
 	static addData = (id: string, key: keyof ScopeData, data: unknown[], page = 1): void => {
-		const scope = Scope.scopes.get(id);
+		const scope = id === 'current' ? Scope.current : Scope.scopes.get(id);
 		if (scope) {
 			scope.addData(key, data, page);
 		}
 	};
 
 	static find = (id: string): Scope | null => {
-		return Scope.scopes.get(id) || null;
+		return (id === 'current' ? Scope.current : Scope.scopes.get(id)) || null;
 	};
 
 	static findData(id: string | null, key: keyof ScopeData, page?: number): unknown[];

@@ -118,7 +118,7 @@ class GiveawaysOneClickHideGiveawayButton extends Module {
 
 	ochgb_completeProcess(giveaway, key, main) {
 		if (main && this.esgst.giveawayPath) return;
-		const giveaways = Scope.current?.findData('giveaways') || [];
+		const giveaways = Scope.findData('current', 'giveaways');
 		if (Settings.get('ochgb_f')) {
 			for (const giveaway of giveaways) {
 				if (giveaway.gameId === giveaway.gameId) {

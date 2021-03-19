@@ -23,7 +23,7 @@ class Discussions extends Module {
 		if (!discussions.length) return;
 		const discussionsToAdd = [];
 		const tradesToAdd = [];
-		let sortIndex = Scope.current?.findData('discussions').length || 0;
+		let sortIndex = Scope.findData('current', 'discussions').length;
 		for (let i = discussions.length - 1; i > -1; --i) {
 			discussions[i].sortIndex = sortIndex;
 			switch (discussions[i].type) {
@@ -36,8 +36,8 @@ class Discussions extends Module {
 					break;
 			}
 		}
-		Scope.current?.addData('discussions', discussionsToAdd, endless);
-		Scope.current?.addData('trades', tradesToAdd, endless);
+		Scope.addData('current', 'discussions', discussionsToAdd, endless);
+		Scope.addData('current', 'trades', tradesToAdd, endless);
 		if (!main || this.esgst.discussionsPath) {
 			if (
 				main &&
@@ -66,7 +66,7 @@ class Discussions extends Module {
 			}
 		}
 		if (Settings.get('mm_enableDiscussions') && this.esgst.mm_enable) {
-			this.esgst.mm_enable(Scope.current?.findData('discussions'), 'Discussions');
+			this.esgst.mm_enable(Scope.findData('current', 'discussions'), 'Discussions');
 		}
 		for (const feature of this.esgst.discussionFeatures) {
 			await feature(

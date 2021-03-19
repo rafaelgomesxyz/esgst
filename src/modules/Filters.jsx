@@ -2369,17 +2369,17 @@ class Filters extends Module {
 		Shared.common.purgeRemovedElements();
 		let items;
 		if (obj.id === 'gf') {
-			items = Scope.current?.findData('giveaways');
+			items = Scope.findData('current', 'giveaways');
 		} else if (obj.id === 'df') {
-			items = Scope.current?.findData('discussions');
+			items = Scope.findData('current', 'discussions');
 		} else if (obj.id === 'tf') {
-			items = Scope.current?.findData('trades');
+			items = Scope.findData('current', 'trades');
 		} else if (obj.id === 'gmf') {
-			items = Scope.current?.findData('games').map((game) => game.game);
+			items = Scope.findData('current', 'games').map((game) => game.game);
 		} else if (obj.id === 'gpf') {
-			items = Scope.current?.findData('groups');
+			items = Scope.findData('current', 'groups');
 		} else {
-			items = Scope.current?.findData('comments');
+			items = Scope.findData('current', 'comments');
 		}
 		const counters = document.getElementsByClassName('esgst-gf-filter-count');
 		for (const counter of counters) {

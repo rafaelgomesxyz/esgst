@@ -50,7 +50,7 @@ class Games extends Module {
 				}
 			}
 		});
-		Scope.current?.addData('games', gamesToAdd, endless);
+		Scope.addData('current', 'games', gamesToAdd, endless);
 		for (const feature of this.esgst.gameFeatures) {
 			await feature(games, main, source, endless, 'apps');
 		}

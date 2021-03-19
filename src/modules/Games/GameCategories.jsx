@@ -1737,7 +1737,7 @@ class GamesGameCategories extends Module {
 			}
 			this.queueIndexes.total -= 1;
 		}
-		const games = Scope.current?.findData('games');
+		const games = Scope.findData('current', 'games');
 		for (const game of games) {
 			const panel = game.game.container.getElementsByClassName('esgst-gc-panel')[0];
 			if (panel && !panel.getAttribute('data-gcReady')) {

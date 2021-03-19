@@ -390,7 +390,7 @@ class GiveawaysGiveawaysSorter extends Module {
 		]);
 		options.value = Settings.get(this.esgst.gas.optionKey);
 		let callback = () =>
-			saveAndSortContent(Scope.current?.findData('giveaways'), this.esgst.gas.optionKey, options);
+			saveAndSortContent(Scope.findData('current', 'giveaways'), this.esgst.gas.optionKey, options);
 		options.addEventListener('change', callback);
 		Button.create({
 			color: 'green',

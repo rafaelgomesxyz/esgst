@@ -21,14 +21,14 @@ class Comments extends Module {
 
 	async comments_load(context, main, source, endless, mainEndless) {
 		const commentsV2 = Comment.parseAll(context);
-		Scope.current?.addData('commentsV2', commentsV2, endless);
+		Scope.addData('current', 'commentsV2', commentsV2, endless);
 		for (const feature of Shared.esgst.commentV2Features) {
 			await feature(commentsV2, main);
 		}
 		let count, comments, i, n;
 		comments = await this.comments_get(context, document, main, endless);
 		if (!comments.length) return;
-		Scope.current?.addData('comments', comments, endless);
+		Scope.addData('current', 'comments', comments, endless);
 		for (i = 0, n = comments.length; i < n; ++i) {
 			comments[i].index = i;
 		}

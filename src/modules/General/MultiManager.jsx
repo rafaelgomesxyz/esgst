@@ -142,7 +142,7 @@ class GeneralMultiManager extends Module {
 	}
 
 	mm_getGames(games, main) {
-		this.esgst.mm_enable(Scope.current?.findData('games'), 'Games');
+		this.esgst.mm_enable(Scope.findData('current', 'games'), 'Games');
 	}
 
 	mm_openPopout(obj, items, itemsKey) {
@@ -246,7 +246,7 @@ class GeneralMultiManager extends Module {
 
 	mm_enable(obj, items, key) {
 		if (!items) {
-			items = Scope.current?.findData(key.toLowerCase());
+			items = Scope.findData('current', key.toLowerCase());
 		}
 		items.forEach((item) => {
 			let checkbox =
@@ -289,7 +289,7 @@ class GeneralMultiManager extends Module {
 	mm_disable(obj, items, key) {
 		obj.checkboxes[key] = {};
 		if (!items) {
-			items = Scope.current?.findData(key.toLowerCase());
+			items = Scope.findData('current', key.toLowerCase());
 		}
 		items.forEach((item) => {
 			let checkbox =
@@ -307,7 +307,7 @@ class GeneralMultiManager extends Module {
 		if (event) {
 			if (event.shiftKey) {
 				const currentKey = `mmCheckbox${key}`;
-				const items = Scope.current?.findData(key.toLowerCase());
+				const items = Scope.findData('current', key.toLowerCase());
 				const elements = document.querySelectorAll(`[data-mm-key="${key}"]`);
 				let foundStart = false;
 				// @ts-ignore
@@ -376,7 +376,7 @@ class GeneralMultiManager extends Module {
 
 	mm_setSection(obj, context, items, key) {
 		if (!items) {
-			items = Scope.current?.findData(key.toLowerCase());
+			items = Scope.findData('current', key.toLowerCase());
 		}
 		let sections = {
 			default: [

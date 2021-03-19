@@ -84,7 +84,7 @@ class Groups extends Module {
 			}
 			groups.push(group);
 		}
-		Scope.current?.addData('groups', groups, endless);
+		Scope.addData('current', 'groups', groups, endless);
 		if (
 			main &&
 			this.esgst.gpf &&
