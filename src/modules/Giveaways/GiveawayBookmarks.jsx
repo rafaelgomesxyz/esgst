@@ -2,6 +2,7 @@ import { Button } from '../../class/Button';
 import { DOM } from '../../class/DOM';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
+import { Scope } from '../../class/Scope';
 import { Settings } from '../../class/Settings';
 import { Shared } from '../../class/Shared';
 import { Button as ButtonComponent } from '../../components/Button';
@@ -118,7 +119,7 @@ class GiveawaysGiveawayBookmarks extends Module {
 
 		if (Settings.get('gb_ue') && this.esgst.enterGiveawayButton) {
 			this.esgst.enterGiveawayButton.onclick = () => {
-				let giveaway = this.esgst.scopes.main.giveaways[0];
+				let giveaway = Scope.findData('main', 'giveaways')[0];
 				if (giveaway && giveaway.gbButton) {
 					if (giveaway.gbButton.index === 3) {
 						// noinspection JSIgnoredPromiseFromCall
@@ -132,7 +133,7 @@ class GiveawaysGiveawayBookmarks extends Module {
 		}
 		if (this.esgst.leaveGiveawayButton) {
 			this.esgst.leaveGiveawayButton.onclick = () => {
-				let giveaway = this.esgst.scopes.main.giveaways[0];
+				let giveaway = Scope.findData('main', 'giveaways')[0];
 				if (giveaway && giveaway.gbButton) {
 					giveaway.gbButton.button.classList.remove('esgst-hidden');
 				}

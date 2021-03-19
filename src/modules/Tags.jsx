@@ -1,10 +1,11 @@
 import { Checkbox } from '../class/Checkbox';
+import { DOM } from '../class/DOM';
 import { Module } from '../class/Module';
 import { Popup } from '../class/Popup';
+import { Scope } from '../class/Scope';
+import { Settings } from '../class/Settings';
 import { Utils } from '../lib/jsUtils';
 import { common } from './Common';
-import { Settings } from '../class/Settings';
-import { DOM } from '../class/DOM';
 
 const createElements = common.createElements.bind(common),
 	formatTags = common.formatTags.bind(common),
@@ -525,17 +526,16 @@ class Tags extends Module {
 	async tags_addTags(item, obj, tags) {
 		let items = null;
 		switch (obj.key) {
-			case 'dt':
+			case 'dt': {
 				items = [];
-				for (const scopeKey in this.esgst.scopes) {
-					const scope = this.esgst.scopes[scopeKey];
-					items = items.concat(
-						scope.discussions.filter(
-							(discussion) => discussion.code === item.code || discussion.code === item.id
-						)
-					);
-				}
+				const discussions = Scope.findData(null, 'discussions');
+				items = items.concat(
+					discussions.filter(
+						(discussion) => discussion.code === item.code || discussion.code === item.id
+					)
+				);
 				break;
+			}
 			case 'gpt':
 				items = this.esgst.currentGroups[item.code || item.id].elements;
 				break;

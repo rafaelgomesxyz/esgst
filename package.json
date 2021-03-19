@@ -1,7 +1,7 @@
 {
 	"name": "esgst",
 	"version": "8.8.6",
-	"betaVersion": "8.8.7-beta.17",
+	"betaVersion": "8.8.7-beta.18",
 	"title": "Enhanced SteamGifts & SteamTrades (ESGST)",
 	"description": "A script that adds some cool features to SteamGifts and SteamTrades.",
 	"author": "rafaelgssa",
@@ -63,6 +63,7 @@
 		"jquery-ui": "^1.12.1",
 		"jszip": "3.2.2",
 		"simple-vdf": "^1.1.1",
+		"uuid": "^8.3.2",
 		"webextension-polyfill": "^0.4.0"
 	},
 	"devDependencies": {
@@ -79,6 +80,7 @@
 		"@types/mocha": "^8.0.0",
 		"@types/node": "^14.0.23",
 		"@types/sinon": "^9.0.4",
+		"@types/uuid": "^8.3.0",
 		"@typescript-eslint/eslint-plugin": "^3.6.1",
 		"@typescript-eslint/parser": "^3.6.1",
 		"babel-loader": "^8.1.0",

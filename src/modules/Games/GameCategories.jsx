@@ -3,6 +3,7 @@ import { LocalStorage } from '../../class/LocalStorage';
 import { Logger } from '../../class/Logger';
 import { Module } from '../../class/Module';
 import { permissions } from '../../class/Permissions';
+import { Scope } from '../../class/Scope';
 import { Settings } from '../../class/Settings';
 import { Shared } from '../../class/Shared';
 import { Utils } from '../../lib/jsUtils';
@@ -781,11 +782,9 @@ class GamesGameCategories extends Module {
 				this.isFetchableEnabled()
 			);
 		}
-		for (const scopeKey in Shared.esgst.scopes) {
-			const scope = Shared.esgst.scopes[scopeKey];
-			for (const giveaway of scope.giveaways) {
-				this.gc_addBorders(giveaway);
-			}
+		const giveaways = Scope.findData(null, 'giveaways');
+		for (const giveaway of giveaways) {
+			this.gc_addBorders(giveaway);
 		}
 
 		let to_fetch = [];
@@ -1148,66 +1147,62 @@ class GamesGameCategories extends Module {
 			'earlyAccess',
 			'releaseDate',
 		];
-		for (const scopeKey in Shared.esgst.scopes) {
-			const scope = Shared.esgst.scopes[scopeKey];
-			const items = scope.giveaways.concat(scope.games.map((game) => game.game));
-			for (const item of items) {
-				const loading = item.outerWrap.querySelector(
-					`.esgst-gc-loading:not([data-esgst-to-fetch])`
-				);
-				if (loading) {
-					loading.remove();
-				}
-				if (
-					item.gcReady ||
-					!item.outerWrap.querySelector(`[data-gcReady]`) ||
-					item.outerWrap.classList.contains('esgst-hidden')
-				) {
-					continue;
-				}
-				for (let j = 0, numCategories = categories.length; j < numCategories; ++j) {
-					let id = categories[j];
-					let category = item.outerWrap.getElementsByClassName(
-						`esgst-gc-${id === 'reviews' ? 'rating' : id}`
-					)[0];
-					if (category) {
-						if (id === 'releaseDate') {
-							item.releaseDate = category.getAttribute('data-timestamp');
-							if (item.releaseDate === '?') {
-								item.releaseDate = -1;
-							} else {
-								item.releaseDate = parseInt(item.releaseDate) * 1e3;
-							}
-						} else if (id === 'genres') {
-							item.genres = category.textContent
-								.toLowerCase()
-								.trim()
-								.replace(/\s{2,}/g, `, `)
-								.split(/,\s/);
-						} else if (id === 'rating') {
-							item.rating = parseInt(category.title.match(/(\d+)%/)[1]);
-							item.ratingQuantity = parseInt(
-								(category.title.match(/\((.+?)\)/)[1] || '0').replace(',', '')
-							);
-						} else if (id === 'reviews') {
-							item.reviews = parseInt(category.title.match(/\((.+?)\)/)[1].replace(/[^\d]/g, ''));
-						} else {
-							item[id] = true;
-						}
-					} else if (id === 'rating') {
-						item.rating = -1;
-						item.ratingQuantity = 0;
-					} else if (id === 'releaseDate') {
-						item.releaseDate = -1;
-					} else if (id === 'reviews') {
-						item.reviews = -1;
-					}
-				}
-				if (!item.isGame) {
-					this.gc_addBorders(item);
-				}
-				item.gcReady = true;
+		const data = Scope.findData(null, ['giveaways', 'games']);
+		const items = data.giveaways.concat(data.games.map((game) => game.game));
+		for (const item of items) {
+			const loading = item.outerWrap.querySelector(`.esgst-gc-loading:not([data-esgst-to-fetch])`);
+			if (loading) {
+				loading.remove();
 			}
+			if (
+				item.gcReady ||
+				!item.outerWrap.querySelector(`[data-gcReady]`) ||
+				item.outerWrap.classList.contains('esgst-hidden')
+			) {
+				continue;
+			}
+			for (let j = 0, numCategories = categories.length; j < numCategories; ++j) {
+				let id = categories[j];
+				let category = item.outerWrap.getElementsByClassName(
+					`esgst-gc-${id === 'reviews' ? 'rating' : id}`
+				)[0];
+				if (category) {
+					if (id === 'releaseDate') {
+						item.releaseDate = category.getAttribute('data-timestamp');
+						if (item.releaseDate === '?') {
+							item.releaseDate = -1;
+						} else {
+							item.releaseDate = parseInt(item.releaseDate) * 1e3;
+						}
+					} else if (id === 'genres') {
+						item.genres = category.textContent
+							.toLowerCase()
+							.trim()
+							.replace(/\s{2,}/g, `, `)
+							.split(/,\s/);
+					} else if (id === 'rating') {
+						item.rating = parseInt(category.title.match(/(\d+)%/)[1]);
+						item.ratingQuantity = parseInt(
+							(category.title.match(/\((.+?)\)/)[1] || '0').replace(',', '')
+						);
+					} else if (id === 'reviews') {
+						item.reviews = parseInt(category.title.match(/\((.+?)\)/)[1].replace(/[^\d]/g, ''));
+					} else {
+						item[id] = true;
+					}
+				} else if (id === 'rating') {
+					item.rating = -1;
+					item.ratingQuantity = 0;
+				} else if (id === 'releaseDate') {
+					item.releaseDate = -1;
+				} else if (id === 'reviews') {
+					item.reviews = -1;
+				}
+			}
+			if (!item.isGame) {
+				this.gc_addBorders(item);
+			}
+			item.gcReady = true;
 		}
 		if (!filtersChanged) {
 			if (
@@ -1742,7 +1737,8 @@ class GamesGameCategories extends Module {
 			}
 			this.queueIndexes.total -= 1;
 		}
-		for (const game of Shared.esgst.currentScope.games) {
+		const games = Scope.current?.findData('games');
+		for (const game of games) {
 			const panel = game.game.container.getElementsByClassName('esgst-gc-panel')[0];
 			if (panel && !panel.getAttribute('data-gcReady')) {
 				const loading = panel.getElementsByClassName('esgst-gc-loading')[0];

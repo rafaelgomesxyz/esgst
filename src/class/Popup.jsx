@@ -1,6 +1,7 @@
 import { Button } from '../components/Button';
 import { NotificationBar } from '../components/NotificationBar';
 import { DOM } from './DOM';
+import { Scope } from './Scope';
 import { Settings } from './Settings';
 import { Shared } from './Shared';
 
@@ -147,11 +148,11 @@ class Popup {
 				.insert(this.description, 'beforeend')
 				.hide();
 		}
-		this.id = Shared.common.addScope(details.name, this.popup);
+		this.id = Scope.create(null, this.popup).id;
 	}
 
 	open(callback) {
-		Shared.common.setCurrentScope(this.id);
+		Scope.setCurrent(this.id);
 		this.isOpen = true;
 		let n =
 			999 +
@@ -179,9 +180,9 @@ class Popup {
 	}
 
 	close(byUser) {
-		Shared.common.resetCurrentScope();
+		Scope.resetCurrent();
 		if (this.temp) {
-			Shared.common.removeScope(this.id);
+			Scope.remove(this.id);
 			this.layer.remove();
 		} else {
 			this.layer.classList.add('esgst-hidden');

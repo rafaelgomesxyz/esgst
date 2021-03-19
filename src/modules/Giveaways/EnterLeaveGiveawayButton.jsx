@@ -4,6 +4,7 @@ import { LocalStorage } from '../../class/LocalStorage';
 import { Logger } from '../../class/Logger';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
+import { Scope } from '../../class/Scope';
 import { Session } from '../../class/Session';
 import { Settings } from '../../class/Settings';
 import { Shared } from '../../class/Shared';
@@ -439,7 +440,10 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
 				url: giveaway.url,
 			},
 		]).insert(popup.description, 'afterbegin');
-		Shared.esgst.scopes[popup.id].sourceLink = heading.nodes.breadcrumbs[1];
+		const scope = Scope.find(popup.id);
+		if (scope) {
+			scope.sourceLink = heading.nodes.breadcrumbs[1];
+		}
 		if ((Settings.get('cf') && Settings.get('cf_m')) || Settings.get('mm')) {
 			if (Settings.get('cf') && Settings.get('cf_m')) {
 				heading.nodes.outer.appendChild(
@@ -850,8 +854,9 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
 
 	elgb_updateButtons() {
 		let giveaway, i, n;
-		for (i = 0, n = this.esgst.scopes.main.giveaways.length; i < n; ++i) {
-			giveaway = this.esgst.scopes.main.giveaways[i];
+		const giveaways = Scope.findData('main', 'giveaways');
+		for (i = 0, n = giveaways.length; i < n; ++i) {
+			giveaway = giveaways[i];
 			if (giveaway.elgbButton && !giveaway.entered) {
 				if (giveaway.error === 'Not Enough Points') {
 					giveaway.error = null;
@@ -860,10 +865,7 @@ class GiveawaysEnterLeaveGiveawayButton extends Module {
 			}
 		}
 		if (Settings.get('ttec')) {
-			this.esgst.modules.giveawaysTimeToEnterCalculator.ttec_calculateTime(
-				this.esgst.scopes.main.giveaways,
-				true
-			);
+			this.esgst.modules.giveawaysTimeToEnterCalculator.ttec_calculateTime(giveaways, true);
 		}
 	}
 }

@@ -2,6 +2,7 @@ import { Utils } from '../lib/jsUtils';
 import { Parsedown } from '../lib/parsedown';
 import { modules } from '../modules';
 import { LocalStorage } from './LocalStorage';
+import { Scope } from './Scope';
 import { Shared } from './Shared';
 
 class Esgst {
@@ -523,11 +524,8 @@ class Esgst {
 		this.documentEvents.click = new Set();
 		this.documentEvents.keydown = new Set();
 
-		this.scopes = {};
-		this.currentScope = null;
-		this.scopeHistory = [];
-		this.modules.common.addScope('main', document);
-		this.modules.common.setCurrentScope('main');
+		Scope.create('main', document);
+		Scope.setCurrent('main');
 
 		this.parameters = Utils.getQueryParams();
 

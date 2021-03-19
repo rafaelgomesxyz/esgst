@@ -383,10 +383,10 @@ class Common extends Module {
 			await this.endless_load(document, !this.esgst.parameters.esgst);
 		}
 
-		if (this.esgst.wbcButton && !this.esgst.scopes.main.users.length) {
+		if (this.esgst.wbcButton && !Scope.findData('main', 'users').length) {
 			this.esgst.wbcButton.classList.add('esgst-hidden');
 		}
-		if (this.esgst.uscButton && !this.esgst.scopes.main.users.length) {
+		if (this.esgst.uscButton && !Scope.findData('main', 'users').length) {
 			this.esgst.uscButton.classList.add('esgst-hidden');
 		}
 
@@ -635,15 +635,7 @@ class Common extends Module {
 	purgeRemovedElements() {
 		// there are more elements that need to be purged,
 		// but for now these are the most critical ones
-		for (const scopeKey in this.esgst.scopes) {
-			const scope = this.esgst.scopes[scopeKey];
-			for (const dataKey in scope.data) {
-				for (let i = scope.data[dataKey].length - 1; i > -1; i--) {
-					if (document.contains(scope.data[dataKey][i].outerWrap)) continue;
-					scope.data[dataKey].splice(i, 1);
-				}
-			}
-		}
+		Scope.purge();
 		const keys = ['attachedImages', 'tsTables'];
 		for (const key of keys) {
 			for (let i = this.esgst[key].length - 1; i > -1; i--) {
@@ -6329,33 +6321,6 @@ class Common extends Module {
 			selectors = selectors.map((x) => x.replace(/X/, '')).join(`, `);
 		}
 		return selectors;
-	}
-
-	addScope(name, context) {
-		const scope = new Scope(name, context);
-		if (!this.esgst.scopes[scope.id]) {
-			this.esgst.scopes[scope.id] = scope;
-		}
-		return scope.id;
-	}
-
-	removeScope(id) {
-		if (this.esgst.scopes[id]) {
-			delete this.esgst.scopes[id];
-		}
-	}
-
-	setCurrentScope(id) {
-		this.esgst.currentScope = this.esgst.scopes[id];
-		this.esgst.scopeHistory.push(id);
-		//Logger.info(`Current scope: `, this.esgst.currentScope.id);
-	}
-
-	resetCurrentScope() {
-		this.esgst.scopeHistory.pop();
-		const id = this.esgst.scopeHistory[this.esgst.scopeHistory.length - 1];
-		this.esgst.currentScope = this.esgst.scopes[id];
-		//Logger.info(`Current scope: `, this.esgst.currentScope.id);
 	}
 
 	getLevelFromCv(cv) {

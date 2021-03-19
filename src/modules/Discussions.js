@@ -1,7 +1,8 @@
 import { Module } from '../class/Module';
-import { common } from './Common';
+import { Scope } from '../class/Scope';
 import { Settings } from '../class/Settings';
 import { Shared } from '../class/Shared';
+import { common } from './Common';
 
 const getUser = common.getUser.bind(common),
 	sortContent = common.sortContent.bind(common);
@@ -20,17 +21,23 @@ class Discussions extends Module {
 	async discussions_load(context, main, source, endless) {
 		let discussions = await this.discussions_get(context, main, endless);
 		if (!discussions.length) return;
+		const discussionsToAdd = [];
+		const tradesToAdd = [];
+		let sortIndex = Scope.current?.findData('discussions').length || 0;
 		for (let i = discussions.length - 1; i > -1; --i) {
-			discussions[i].sortIndex = this.esgst.currentScope.discussions.length;
+			discussions[i].sortIndex = sortIndex;
 			switch (discussions[i].type) {
 				case 'discussion':
-					this.esgst.currentScope.discussions.push(discussions[i]);
+					discussionsToAdd.push(discussions[i]);
+					sortIndex += 1;
 					break;
 				case 'trade':
-					this.esgst.currentScope.trades.push(discussions[i]);
+					tradesToAdd.push(discussions[i]);
 					break;
 			}
 		}
+		Scope.current?.addData('discussions', discussionsToAdd, endless);
+		Scope.current?.addData('trades', tradesToAdd, endless);
 		if (!main || this.esgst.discussionsPath) {
 			if (
 				main &&
@@ -45,7 +52,7 @@ class Discussions extends Module {
 				);
 			}
 			if (Settings.get('ds') && Settings.get('ds_auto')) {
-				sortContent(this.esgst.scopes.main.discussions, Settings.get('ds_option'));
+				sortContent(Scope.findData('main', 'discussions'), Settings.get('ds_option'));
 			}
 		}
 		if (!main || this.esgst.tradesPath) {
@@ -59,7 +66,7 @@ class Discussions extends Module {
 			}
 		}
 		if (Settings.get('mm_enableDiscussions') && this.esgst.mm_enable) {
-			this.esgst.mm_enable(this.esgst.currentScope.discussions, 'Discussions');
+			this.esgst.mm_enable(Scope.current?.findData('discussions'), 'Discussions');
 		}
 		for (const feature of this.esgst.discussionFeatures) {
 			await feature(

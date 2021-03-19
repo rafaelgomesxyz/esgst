@@ -1,4 +1,5 @@
 import { Module } from '../class/Module';
+import { Scope } from '../class/Scope';
 import { Settings } from '../class/Settings';
 
 class Groups extends Module {
@@ -81,9 +82,9 @@ class Groups extends Module {
 				group.tagContext = group.context;
 				group.tagPosition = 'afterend';
 			}
-			this.esgst.currentScope.groups.push(group);
 			groups.push(group);
 		}
+		Scope.current?.addData('groups', groups, endless);
 		if (
 			main &&
 			this.esgst.gpf &&

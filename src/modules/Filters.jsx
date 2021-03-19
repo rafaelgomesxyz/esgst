@@ -3,6 +3,7 @@ import { DOM } from '../class/DOM';
 import { Logger } from '../class/Logger';
 import { Module } from '../class/Module';
 import { Popup } from '../class/Popup';
+import { Scope } from '../class/Scope';
 import { Session } from '../class/Session';
 import { Settings } from '../class/Settings';
 import { Shared } from '../class/Shared';
@@ -2368,17 +2369,17 @@ class Filters extends Module {
 		Shared.common.purgeRemovedElements();
 		let items;
 		if (obj.id === 'gf') {
-			items = this.esgst.currentScope.giveaways;
+			items = Scope.current?.findData('giveaways');
 		} else if (obj.id === 'df') {
-			items = this.esgst.currentScope.discussions;
+			items = Scope.current?.findData('discussions');
 		} else if (obj.id === 'tf') {
-			items = this.esgst.currentScope.trades;
+			items = Scope.current?.findData('trades');
 		} else if (obj.id === 'gmf') {
-			items = this.esgst.currentScope.games.map((game) => game.game);
+			items = Scope.current?.findData('games').map((game) => game.game);
 		} else if (obj.id === 'gpf') {
-			items = this.esgst.currentScope.groups;
+			items = Scope.current?.findData('groups');
 		} else {
-			items = this.esgst.currentScope.comments;
+			items = Scope.current?.findData('comments');
 		}
 		const counters = document.getElementsByClassName('esgst-gf-filter-count');
 		for (const counter of counters) {

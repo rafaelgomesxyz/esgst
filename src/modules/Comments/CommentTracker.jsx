@@ -1,10 +1,11 @@
 import { Button } from '../../class/Button';
-import { Module } from '../../class/Module';
-import { Shared } from '../../class/Shared';
-import { Settings } from '../../class/Settings';
 import { DOM } from '../../class/DOM';
-import { Session } from '../../class/Session';
 import { LocalStorage } from '../../class/LocalStorage';
+import { Module } from '../../class/Module';
+import { Scope } from '../../class/Scope';
+import { Session } from '../../class/Session';
+import { Settings } from '../../class/Settings';
+import { Shared } from '../../class/Shared';
 import { Tabs } from '../../class/Tabs';
 
 class CommentsCommentTracker extends Module {
@@ -324,13 +325,10 @@ class CommentsCommentTracker extends Module {
 								diff = count;
 							}
 							let discussion = null;
-							for (
-								j = this.esgst.scopes.main.discussions.length - 1;
-								j > -1 && this.esgst.scopes.main.discussions[j].code !== code;
-								--j
-							) {}
+							const discussions = Scope.findData('main', 'discussions');
+							for (j = discussions.length - 1; j > -1 && discussions[j].code !== code; --j) {}
 							if (j > -1) {
-								discussion = this.esgst.scopes.main.discussions[j];
+								discussion = discussions[j];
 							}
 							if (key === 'discussions' && diff > 0 && discussion) {
 								discussion.unread = true;
@@ -737,7 +735,7 @@ class CommentsCommentTracker extends Module {
 		DOM.insert(button, 'atinner', <i className="fa fa-circle-o-notch fa-spin"></i>);
 		await this.ct_getComments(
 			0,
-			this.esgst.scopes.main.comments,
+			Scope.findData('main', 'comments'),
 			comment.index,
 			false,
 			true,
@@ -779,7 +777,7 @@ class CommentsCommentTracker extends Module {
 		DOM.insert(button, 'atinner', <i className="fa fa-circle-o-notch fa-spin"></i>);
 		await this.ct_getComments(
 			0,
-			this.esgst.scopes.main.comments,
+			Scope.findData('main', 'comments'),
 			comment.index,
 			false,
 			false,
@@ -838,7 +836,7 @@ class CommentsCommentTracker extends Module {
 		button.innerHTML = '';
 		this.ct_addUnreadCommentButton(button, comment);
 		// noinspection JSIgnoredPromiseFromCall
-		this.ct_getComments(0, this.esgst.scopes.main.comments, null, true);
+		this.ct_getComments(0, Scope.findData('main', 'comments'), null, true);
 	}
 
 	ct_addUnreadCommentButton(button, comment) {
@@ -931,7 +929,7 @@ class CommentsCommentTracker extends Module {
 		DOM.insert(goToUnread, 'atinner', <i className="fa fa-circle-o-notch fa-spin"></i>);
 		const found = await this.ct_getComments(
 			0,
-			this.esgst.scopes.main.comments,
+			Scope.findData('main', 'comments'),
 			null,
 			true,
 			false,
@@ -945,13 +943,13 @@ class CommentsCommentTracker extends Module {
 
 	async ct_markCommentsRead(markRead) {
 		DOM.insert(markRead, 'atinner', <i className="fa fa-circle-o-notch fa-spin"></i>);
-		await this.ct_getComments(0, this.esgst.scopes.main.comments, null, false, true, false);
+		await this.ct_getComments(0, Scope.findData('main', 'comments'), null, false, true, false);
 		DOM.insert(markRead, 'atinner', <i className="fa fa-eye"></i>);
 	}
 
 	async ct_markCommentsUnread(markUnread) {
 		DOM.insert(markUnread, 'atinner', <i className="fa fa-circle-o-notch fa-spin"></i>);
-		await this.ct_getComments(0, this.esgst.scopes.main.comments, null, false, false, true);
+		await this.ct_getComments(0, Scope.findData('main', 'comments'), null, false, false, true);
 		DOM.insert(markUnread, 'atinner', <i className="fa fa-eye-slash"></i>);
 	}
 

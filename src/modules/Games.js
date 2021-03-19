@@ -1,8 +1,9 @@
+import { DOM } from '../class/DOM';
 import { Module } from '../class/Module';
-import { common } from './Common';
+import { Scope } from '../class/Scope';
 import { Settings } from '../class/Settings';
 import { Shared } from '../class/Shared';
-import { DOM } from '../class/DOM';
+import { common } from './Common';
 
 const getValue = common.getValue.bind(common),
 	lockAndSaveGames = common.lockAndSaveGames.bind(common),
@@ -32,11 +33,12 @@ class Games extends Module {
 			endless
 		);
 		if (!Object.keys(games.apps).length && !Object.keys(games.subs).length) return;
+		const gamesToAdd = [];
 		['apps', 'subs'].forEach((type) => {
 			for (let id in games[type]) {
 				if (games[type].hasOwnProperty(id)) {
 					games[type][id].forEach((game) => {
-						this.esgst.currentScope.games.push({
+						gamesToAdd.push({
 							game,
 							code: id,
 							innerWrap: game.headingName,
@@ -48,6 +50,7 @@ class Games extends Module {
 				}
 			}
 		});
+		Scope.current?.addData('games', gamesToAdd, endless);
 		for (const feature of this.esgst.gameFeatures) {
 			await feature(games, main, source, endless, 'apps');
 		}
@@ -115,7 +118,7 @@ class Games extends Module {
 		}
 		matches = context.querySelectorAll(matchesQuery);
 		for (i = 0, n = matches.length; i < n; ++i) {
-			game = this.esgst.scopes.main.giveaways.filter((x) => x.outerWrap === matches[i])[0];
+			game = Scope.findData('main', 'giveaways').filter((x) => x.outerWrap === matches[i])[0];
 			if (!game) {
 				game = {
 					isGame: true,
@@ -302,7 +305,7 @@ class Games extends Module {
 			subs: {},
 		};
 		games[giveaway.gameType][giveaway.gameSteamId] = { name };
-		this.esgst.scopes.main.giveaways.map((x) => {
+		Scope.findData('main', 'giveaways').map((x) => {
 			if (x.name !== name || x.id) {
 				return x;
 			}

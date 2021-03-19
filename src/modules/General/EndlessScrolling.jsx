@@ -1,13 +1,14 @@
-import { Module } from '../../class/Module';
-import { common } from '../Common';
 import IntersectionObserver from 'intersection-observer-polyfill';
-import { Settings } from '../../class/Settings';
-import { Shared } from '../../class/Shared';
 import { DOM } from '../../class/DOM';
 import { EventDispatcher } from '../../class/EventDispatcher';
-import { Events } from '../../constants/Events';
 import { FetchRequest } from '../../class/FetchRequest';
+import { Module } from '../../class/Module';
+import { Scope } from '../../class/Scope';
+import { Settings } from '../../class/Settings';
+import { Shared } from '../../class/Shared';
 import { NotificationBar } from '../../components/NotificationBar';
+import { Events } from '../../constants/Events';
+import { common } from '../Common';
 
 const animateScroll = common.animateScroll.bind(common),
 	checkMissingDiscussions = common.checkMissingDiscussions.bind(common),
@@ -211,7 +212,7 @@ class GeneralEndlessScrolling extends Module {
 				for (let i = 0, n = es.mainContext.children.length; i < n; ++i) {
 					es.mainContext.children[0].remove();
 				}
-				this.esgst.scopes.main.reset('comments');
+				Scope.find('main')?.resetData('comments');
 				this.esgst.pagination.firstElementChild.firstElementChild.nextElementSibling.textContent =
 					'0';
 				if (this.esgst.paginationNavigation) {

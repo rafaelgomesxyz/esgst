@@ -1,9 +1,10 @@
 import { Button } from '../../class/Button';
-import { Module } from '../../class/Module';
-import { common } from '../Common';
-import { Settings } from '../../class/Settings';
-import { Session } from '../../class/Session';
 import { DOM } from '../../class/DOM';
+import { Module } from '../../class/Module';
+import { Scope } from '../../class/Scope';
+import { Session } from '../../class/Session';
+import { Settings } from '../../class/Settings';
+import { common } from '../Common';
 
 const request = common.request.bind(common),
 	updateHiddenGames = common.updateHiddenGames.bind(common);
@@ -117,24 +118,22 @@ class GiveawaysOneClickHideGiveawayButton extends Module {
 
 	ochgb_completeProcess(giveaway, key, main) {
 		if (main && this.esgst.giveawayPath) return;
+		const giveaways = Scope.current?.findData('giveaways') || [];
 		if (Settings.get('ochgb_f')) {
-			for (let i = 0, n = this.esgst.currentScope.giveaways.length; i < n; i++) {
-				if (this.esgst.currentScope.giveaways[i].gameId === giveaway.gameId) {
-					this.esgst.currentScope.giveaways[i][key]();
-					if (
-						this.esgst.currentScope.giveaways[i] !== giveaway &&
-						this.esgst.currentScope.giveaways[i].ochgbButton
-					) {
-						this.esgst.currentScope.giveaways[i].ochgbButton.index = key === 'fade' ? 2 : 0;
+			for (const giveaway of giveaways) {
+				if (giveaway.gameId === giveaway.gameId) {
+					giveaway[key]();
+					if (giveaway !== giveaway && giveaway.ochgbButton) {
+						giveaway.ochgbButton.index = key === 'fade' ? 2 : 0;
 						// noinspection JSIgnoredPromiseFromCall
-						this.esgst.currentScope.giveaways[i].ochgbButton.change();
+						giveaway.ochgbButton.change();
 					}
 				}
 			}
 		} else {
-			for (let i = 0, n = this.esgst.currentScope.giveaways.length; i < n; i++) {
-				if (this.esgst.currentScope.giveaways[i].gameId === giveaway.gameId) {
-					this.esgst.currentScope.giveaways[i].outerWrap.remove();
+			for (const giveaway of giveaways) {
+				if (giveaway.gameId === giveaway.gameId) {
+					giveaway.outerWrap.remove();
 				}
 			}
 		}

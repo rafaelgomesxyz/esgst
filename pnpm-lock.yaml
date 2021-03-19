@@ -12,6 +12,7 @@ dependencies:
   jquery-ui: 1.12.1
   jszip: 3.2.2
   simple-vdf: 1.1.1
+  uuid: 8.3.2
   webextension-polyfill: 0.4.0
 devDependencies:
   '@babel/core': 7.10.5
@@ -27,6 +28,7 @@ devDependencies:
   '@types/mocha': 8.0.0
   '@types/node': 14.0.23
   '@types/sinon': 9.0.4
+  '@types/uuid': 8.3.0
   '@typescript-eslint/eslint-plugin': 3.6.1_bc8d11cb3e8b1afcde085af04d885b08
   '@typescript-eslint/parser': 3.6.1_eslint@7.5.0+typescript@3.9.7
   babel-loader: 8.1.0_13c776b87d2822e76e5e552d0872621e
@@ -1329,6 +1331,10 @@ packages:
     dev: true
     resolution:
       integrity: sha512-KswB5C7Kwduwjj04Ykz+AjvPcfgv/37Za24O2EDzYNbwyzOo8+ydtvzUfZ5UMguiVu29Gx44l1A6VsPPcmYu9w==
+  /@types/uuid/8.3.0:
+    dev: true
+    resolution:
+      integrity: sha512-eQ9qFW/fhfGJF8WKHGEHZEyVWfZxrT+6CLIJGBcZPfxUh/+BnEj+UCGYMlr9qZuX/2AltsvwrGqp0LhEW8D0zQ==
   /@types/webpack-sources/1.4.0:
     dependencies:
       '@types/node': 14.0.23
@@ -8181,6 +8187,11 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==
+  /uuid/8.3.2:
+    dev: false
+    hasBin: true
+    resolution:
+      integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
   /v8-compile-cache/2.1.1:
     dev: true
     resolution:
@@ -8602,6 +8613,7 @@ specifiers:
   '@types/mocha': ^8.0.0
   '@types/node': ^14.0.23
   '@types/sinon': ^9.0.4
+  '@types/uuid': ^8.3.0
   '@typescript-eslint/eslint-plugin': ^3.6.1
   '@typescript-eslint/parser': ^3.6.1
   awesome-bootstrap-checkbox: ^0.3.7
@@ -8649,6 +8661,7 @@ specifiers:
   sinon-chrome: ^3.0.1
   style-loader: ^1.2.1
   typescript: ^3.9.7
+  uuid: ^8.3.2
   web-ext-types: ^3.2.1
   webextension-polyfill: ^0.4.0
   webpack: ^4.43.0

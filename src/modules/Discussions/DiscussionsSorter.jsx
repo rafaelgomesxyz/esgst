@@ -1,6 +1,7 @@
 import { DOM } from '../../class/DOM';
 import { Module } from '../../class/Module';
 import { Popout } from '../../class/Popout';
+import { Scope } from '../../class/Scope';
 import { Settings } from '../../class/Settings';
 import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { Button } from '../../components/Button';
@@ -76,7 +77,7 @@ class DiscussionsDiscussionsSorter extends Module {
 		options.value = Settings.get('ds_option');
 		let callback = saveAndSortContent.bind(
 			common,
-			this.esgst.scopes.main.discussions,
+			Scope.findData('main', 'discussions'),
 			'ds_option',
 			options
 		);

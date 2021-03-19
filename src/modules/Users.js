@@ -1,4 +1,5 @@
 import { Module } from '../class/Module';
+import { Scope } from '../class/Scope';
 import { Settings } from '../class/Settings';
 import { Shared } from '../class/Shared';
 
@@ -22,6 +23,7 @@ class Users extends Module {
 			return;
 		}
 		let found = false;
+		const usersToAdd = [];
 		const users = [];
 		for (let i = elements.length - 1; i > -1; i--) {
 			let element = elements[i];
@@ -100,7 +102,7 @@ class Users extends Module {
 				}
 			}
 
-			this.esgst.currentScope.users.push(userObj);
+			usersToAdd.push(userObj);
 			if (!found) {
 				found = true;
 			}
@@ -123,6 +125,7 @@ class Users extends Module {
 				username: sg ? id : savedUser && savedUser.username,
 			});
 		}
+		Scope.current?.addData('users', usersToAdd, endless);
 		for (const feature of this.esgst.userFeatures) {
 			await feature(users, main, source, endless);
 		}
@@ -136,7 +139,7 @@ class Users extends Module {
 				this.esgst.uscButton.parentElement.classList.remove('esgst-hidden');
 			}
 			if (Settings.get('mm_enableUsers') && this.esgst.mm_enable) {
-				this.esgst.mm_enable(this.esgst.currentScope.users, 'Users');
+				this.esgst.mm_enable(Scope.current?.findData('users'), 'Users');
 			}
 		}
 	}
