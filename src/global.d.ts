@@ -31,29 +31,34 @@ interface IUser {
 }
 
 interface IUserNodes {
-	avatarOuter: HTMLAnchorElement | HTMLDivElement;
-	avatarInner: HTMLDivElement;
-	usernameOuter: HTMLDivElement;
-	usernameInner: HTMLAnchorElement;
-	role: HTMLAnchorElement;
-	patreon: HTMLAnchorElement;
-	reputation: HTMLAnchorElement;
-	positiveReputation: HTMLSpanElement;
-	negativeReputation: HTMLSpanElement;
+	avatarOuter: HTMLAnchorElement | HTMLDivElement | null;
+	avatarInner: HTMLDivElement | HTMLImageElement | null;
+	usernameOuter: HTMLDivElement | null;
+	usernameInner: HTMLAnchorElement | null;
+	role: HTMLAnchorElement | null;
+	patreon: HTMLAnchorElement | null;
+	reputation: HTMLAnchorElement | null;
+	positiveReputation: HTMLSpanElement | null;
+	negativeReputation: HTMLSpanElement | null;
 }
 
-interface IUserData {
-	id: string;
-	steamId: string;
-	avatar: string;
-	username: string;
-	url: string;
-	isOp: boolean;
-	roleId: string;
-	roleName: string;
-	isPatron: boolean;
-	positiveReputation: number;
-	negativeReputation: number;
+type IUserData = IUserBaseData & IUserExtraData;
+
+interface IUserBaseData {
+	id: string | null;
+	steamId: string | null;
+	username: string | null;
+	avatar: string | null;
+	isOp: boolean | null;
+	roleId: string | null;
+	roleName: string | null;
+	isPatron: boolean | null;
+	positiveReputation: number | null;
+	negativeReputation: number | null;
+}
+
+interface IUserExtraData {
+	url: string | null;
 }
 
 interface ICommentEntity {

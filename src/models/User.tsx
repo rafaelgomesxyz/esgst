@@ -1,7 +1,7 @@
 import { Session } from '../class/Session';
 import { Namespaces } from '../constants/Namespaces';
 
-abstract class User implements IUser {
+export abstract class User implements IUser {
 	nodes: IUserNodes;
 	data: IUserData;
 
@@ -10,7 +10,7 @@ abstract class User implements IUser {
 		this.data = User.getDefaultData();
 	}
 
-	static getDefaultNodes(): IUserNodes {
+	static getDefaultNodes = (): IUserNodes => {
 		return {
 			avatarOuter: null,
 			avatarInner: null,
@@ -22,47 +22,70 @@ abstract class User implements IUser {
 			positiveReputation: null,
 			negativeReputation: null,
 		};
-	}
+	};
 
-	static getDefaultData(): IUserData {
+	static getDefaultData = (): IUserData => {
 		return {
-			id: '',
-			steamId: '',
-			avatar: '',
-			username: '',
-			url: '',
-			isOp: false,
-			roleId: '',
-			roleName: '',
-			isPatron: false,
-			positiveReputation: 0,
-			negativeReputation: 0,
+			...User.getDefaultBaseData(),
+			...User.getDefaultExtraData(),
 		};
-	}
+	};
 
-	static create(): IUser {
+	static getDefaultBaseData = (): IUserBaseData => {
+		return {
+			id: null,
+			steamId: null,
+			avatar: null,
+			username: null,
+			isOp: null,
+			roleId: null,
+			roleName: null,
+			isPatron: null,
+			positiveReputation: null,
+			negativeReputation: null,
+		};
+	};
+
+	static getDefaultExtraData = (): IUserExtraData => {
+		return {
+			url: null,
+		};
+	};
+
+	static create = (): IUser | null => {
 		switch (Session.namespace) {
-			case Namespaces.SG: {
+			case Namespaces.SG:
 				return new SgUser();
-			}
-			case Namespaces.ST: {
+			case Namespaces.ST:
 				return new StUser();
-			}
+			default:
+				return null;
 		}
-		return null;
-	}
+	};
+
+	abstract parseExtraData(): void;
 }
 
 class SgUser extends User {
 	constructor() {
 		super();
 	}
+
+	parseExtraData = () => {
+		if (this.data.username) {
+			this.data.url = `/user/${this.data.username}`;
+		}
+	};
 }
 
 class StUser extends User {
 	constructor() {
 		super();
 	}
-}
 
-export { User };
+	parseExtraData = () => {
+		if (this.data.steamId) {
+			this.data.url = `/user/${this.data.steamId}`;
+		}
+	};
+}
