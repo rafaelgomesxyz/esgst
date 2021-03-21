@@ -174,11 +174,8 @@ export class Scope {
 		for (const scope of Scope.scopes.values()) {
 			for (const scopeData of Object.values(scope.data)) {
 				for (let i = scopeData.length - 1; i > -1; i--) {
-					if (
-						!document.contains(
-							scopeData[i].nodes ? scopeData[i].nodes.outer : scopeData[i].outerWrap
-						)
-					) {
+					const outerNode = scopeData[i].nodes ? scopeData[i].nodes.outer : scopeData[i].outerWrap;
+					if (outerNode && !document.contains(outerNode)) {
 						scopeData.splice(i, 1);
 					}
 				}
