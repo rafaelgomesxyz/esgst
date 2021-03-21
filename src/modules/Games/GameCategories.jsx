@@ -1035,36 +1035,13 @@ class GamesGameCategories extends Module {
 			}
 
 			if (toFetch.length > 0) {
-				await this.fetchFromServer(gc, toFetch); // Fetch missing items from server.
-				await this.fetchFromServer(gc, toFetch); // Fetch sub apps and DLC bases from server, if any.
+				this.fetchedApps = [];
+
+				await this.fetchFromServer(gc, games, toFetch); // Fetch missing items from server.
+				await this.fetchFromServer(gc, games, toFetch); // Fetch sub apps and DLC bases from server, if any.
 				await this.fetchFromSteam(gc, games, toFetch, now); // Fetch missing items from Steam.
-				await this.fetchFromServer(gc, toFetch); // Fetch sub apps and DLC bases from server, if any.
+				await this.fetchFromServer(gc, games, toFetch); // Fetch sub apps and DLC bases from server, if any.
 				await this.fetchFromSteam(gc, games, toFetch, now); // Fetch sub apps and DLC bases from Steam, if any.
-
-				for (const item of toFetch) {
-					if (!item.found) {
-						continue;
-					}
-
-					const categories = gc.cache[item.type][item.id];
-					if (
-						Settings.get('gc_dlc_b') &&
-						categories.dlc &&
-						categories.base &&
-						gc.cache.apps[categories.base]
-					) {
-						categories.freeBase = gc.cache.apps[categories.base].free;
-					}
-					this.gc_addCategory(
-						gc,
-						gc.cache[item.type][item.id],
-						games[item.type][item.id],
-						item.id,
-						Shared.esgst.games[item.type][item.id],
-						item.type,
-						item.type === 'apps' ? gc.cache.hltb : null
-					);
-				}
 
 				await lockAndSaveGames(Shared.esgst.games);
 				LocalStorage.set('gcCache', JSON.stringify(gc.cache));
@@ -1268,7 +1245,7 @@ class GamesGameCategories extends Module {
 		};
 	}
 
-	async fakeApi(gc, toFetch, data, id, type, last_update, hasIndex) {
+	async fakeApi(gc, toFetch, data, id, type, last_update, item) {
 		const categories = {
 			achievements: data.achievements || 0,
 			base: data.base,
@@ -1313,10 +1290,12 @@ class GamesGameCategories extends Module {
 			Shared.esgst.games.subs[id].apps = data.apps;
 			for (const appId of Shared.esgst.games.subs[id].apps) {
 				if (
-					hasIndex &&
+					item.hasIndex &&
 					!gc.cache.apps[appId] &&
 					!toFetch.filter((x) => x.type === 'apps' && x.id == appId)[0]
 				) {
+					item.isComplete = false;
+					item.dependencies.push(appId);
 					toFetch.push({
 						id: appId,
 						lastCheck: 0,
@@ -1365,10 +1344,12 @@ class GamesGameCategories extends Module {
 				categories.freeBase = gc.cache.apps[categories.base].free;
 			}
 			if (
-				hasIndex &&
+				item.hasIndex &&
 				typeof categories.freeBase === 'undefined' &&
 				!toFetch.filter((x) => x.type === 'apps' && x.id == categories.base)[0]
 			) {
+				item.isComplete = false;
+				item.dependencies.push(categories.base);
 				toFetch.push({
 					id: categories.base,
 					lastCheck: 0,
@@ -1380,8 +1361,8 @@ class GamesGameCategories extends Module {
 		return categories;
 	}
 
-	async gc_getCategories(gc, currentTime, games, id, type, toFetch, hasIndex) {
-		if (hasIndex && games[type][id]) {
+	async gc_getCategories(gc, currentTime, games, id, type, toFetch, item) {
+		if (item.hasIndex && games[type][id]) {
 			for (const game of games[type][id]) {
 				const panel = game.container.getElementsByClassName('esgst-gc-panel')[0];
 				if (panel && !panel.getAttribute('data-gcReady')) {
@@ -1455,10 +1436,12 @@ class GamesGameCategories extends Module {
 						Shared.esgst.games.subs[id].apps = data.apps.map((x) => parseInt(x.id));
 						for (const appId of Shared.esgst.games.subs[id].apps) {
 							if (
-								hasIndex &&
+								item.hasIndex &&
 								!gc.cache.apps[appId] &&
 								!toFetch.filter((x) => x.type === 'apps' && x.id == appId)[0]
 							) {
+								item.isComplete = false;
+								item.dependencies.push(appId);
 								toFetch.push({
 									id: appId,
 									lastCheck: 0,
@@ -1614,10 +1597,12 @@ class GamesGameCategories extends Module {
 					categories.freeBase = gc.cache.apps[categories.base].free;
 				}
 				if (
-					hasIndex &&
+					item.hasIndex &&
 					typeof categories.freeBase === 'undefined' &&
 					!toFetch.filter((x) => x.type === 'apps' && x.id == categories.base)[0]
 				) {
+					item.isComplete = false;
+					item.dependencies.push(appId);
 					toFetch.push({
 						id: categories.base,
 						lastCheck: 0,
@@ -1628,7 +1613,7 @@ class GamesGameCategories extends Module {
 			}
 		} catch (error) {
 			Logger.warning(error.message, error.stack);
-			if (hasIndex && games[type][id]) {
+			if (item.hasIndex && games[type][id]) {
 				for (const game of games[type][id]) {
 					const panel = game.container.getElementsByClassName('esgst-gc-panel')[0];
 					if (panel && !panel.getAttribute('data-gcReady')) {
@@ -1664,23 +1649,32 @@ class GamesGameCategories extends Module {
 		return categories;
 	}
 
-	updateIndexes() {
+	updateIndexes(type, id) {
 		if (this.queueIndexes.total > 0) {
+			const index = id ? this.queueIndexes[type][id] : -1;
 			for (const queueId in this.queueIndexes.apps) {
 				if (this.queueIndexes.apps[queueId] > 0) {
-					this.queueIndexes.apps[queueId] -= 1;
+					if (!id || this.queueIndexes.apps[queueId] > index) {
+						this.queueIndexes.apps[queueId] -= 1;
+					}
 				} else {
 					delete this.queueIndexes.apps[queueId];
 				}
 			}
 			for (const queueId in this.queueIndexes.subs) {
 				if (this.queueIndexes.subs[queueId] > 0) {
-					this.queueIndexes.subs[queueId] -= 1;
+					if (!id || this.queueIndexes.subs[queueId] > index) {
+						this.queueIndexes.subs[queueId] -= 1;
+					}
 				} else {
 					delete this.queueIndexes.subs[queueId];
 				}
 			}
-			this.queueIndexes.total -= 1;
+			if (id) {
+				this.queueIndexes[type][id] = this.queueIndexes.total - 1;
+			} else {
+				this.queueIndexes.total -= 1;
+			}
 		}
 		const games = Scope.findData('current', 'games');
 		for (const game of games) {
@@ -1688,7 +1682,9 @@ class GamesGameCategories extends Module {
 			if (panel && !panel.getAttribute('data-gcReady')) {
 				const loading = panel.getElementsByClassName('esgst-gc-loading')[0];
 				if (loading && loading.lastElementChild) {
-					loading.lastElementChild.textContent = ` ${this.queueIndexes[game.type][game.code] || 0}`;
+					loading.lastElementChild.textContent = ` ${
+						this.queueIndexes[game.type][game.code] || ''
+					}`;
 				}
 			}
 		}
@@ -3510,7 +3506,7 @@ class GamesGameCategories extends Module {
 			.replace(/%hltb-id%/g, values.hltbId);
 	};
 
-	fetchFromServer = async (gc, toFetch) => {
+	fetchFromServer = async (gc, games, toFetch) => {
 		const params = {
 			apps: [],
 			subs: [],
@@ -3555,6 +3551,8 @@ class GamesGameCategories extends Module {
 					const lastUpdate = new Date(data.last_update).getTime();
 
 					item.found = true;
+					item.isComplete = true;
+					item.dependencies = [];
 					gc.cache[item.type][item.id] = await this.fakeApi(
 						gc,
 						toFetch,
@@ -3562,12 +3560,13 @@ class GamesGameCategories extends Module {
 						item.id,
 						item.type,
 						lastUpdate,
-						item.hasIndex
+						item
 					);
-
-					if (item.hasIndex) {
-						this.updateIndexes();
+					if (item.type === 'apps') {
+						this.fetchedApps.push(item.id);
 					}
+
+					this.checkCategories(gc, games, toFetch, item);
 				}
 			} catch (err) {
 				Logger.warning(err.message, err.stack);
@@ -3585,6 +3584,8 @@ class GamesGameCategories extends Module {
 
 			item.fetched = true;
 			item.found = true;
+			item.isComplete = true;
+			item.dependencies = [];
 			gc.cache[item.type][item.id] = await this.gc_getCategories(
 				gc,
 				now,
@@ -3592,17 +3593,62 @@ class GamesGameCategories extends Module {
 				item.id,
 				item.type,
 				toFetch,
-				item.hasIndex
+				item
 			);
-
-			if (item.hasIndex) {
-				this.updateIndexes();
+			if (item.type === 'apps') {
+				this.fetchedApps.push(item.id);
 			}
+
+			this.checkCategories(gc, games, toFetch, item);
 
 			await Shared.common.updateLock(lockObj.lock);
 		}
 
 		lockObj.deleteLock();
+	};
+
+	checkCategories = (gc, games, toFetch, item) => {
+		if (item.hasIndex) {
+			if (item.isComplete) {
+				this.addCategories(gc, games, item);
+				this.updateIndexes();
+			} else {
+				this.updateIndexes(item.type, item.id);
+			}
+		} else {
+			for (const subItem of toFetch) {
+				if (subItem.dependencies && subItem.dependencies.length > 0) {
+					subItem.dependencies = subItem.dependencies.filter(
+						(subId) => !this.fetchedApps.includes(subId)
+					);
+					if (subItem.dependencies.length === 0) {
+						this.addCategories(gc, games, subItem);
+						this.updateIndexes();
+					}
+				}
+			}
+		}
+	};
+
+	addCategories = (gc, games, item) => {
+		const categories = gc.cache[item.type][item.id];
+		if (
+			Settings.get('gc_dlc_b') &&
+			categories.dlc &&
+			categories.base &&
+			gc.cache.apps[categories.base]
+		) {
+			categories.freeBase = gc.cache.apps[categories.base].free;
+		}
+		this.gc_addCategory(
+			gc,
+			gc.cache[item.type][item.id],
+			games[item.type][item.id],
+			item.id,
+			Shared.esgst.games[item.type][item.id],
+			item.type,
+			item.type === 'apps' ? gc.cache.hltb : null
+		);
 	};
 }
 
