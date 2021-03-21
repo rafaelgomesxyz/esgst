@@ -15,7 +15,7 @@ async function notify() {
 
 			const payload = payloadJson.comment || payloadJson.issue;
 
-			if (payload.user.login !== 'rafaelgssa') {
+			if (payload.user.login !== 'rafaelgomesxyz') {
 				console.log('Not triggered by repo owner.');
 
 				break;
@@ -67,7 +67,7 @@ async function notify() {
 
 			console.log(permalink, commentId, issueNumber);
 
-			const message = `Beep bop! ESGST bot here to let you know that your report / suggestion is being looked into. For reference, visit the GitHub issue: [#${issueNumber}](https://github.com/rafaelgssa/esgst/issues/${issueNumber})`;
+			const message = `Beep bop! ESGST bot here to let you know that your report / suggestion is being looked into. For reference, visit the GitHub issue: [#${issueNumber}](https://github.com/rafaelgomesxyz/esgst/issues/${issueNumber})`;
 
 			await fetch(url, {
 				body: `xsrf_token=${xsrfToken}&do=comment_new&parent_id=${commentId}&description=${encodeURIComponent(
@@ -89,7 +89,7 @@ async function notify() {
 
 			const payload = payloadJson.comment || payloadJson.issue;
 
-			if (payload.user.login !== 'rafaelgssa') {
+			if (payload.user.login !== 'rafaelgomesxyz') {
 				console.log('Not triggered by repo owner.');
 
 				break;
@@ -141,7 +141,7 @@ async function notify() {
 
 			console.log(permalink, commentId, issueNumber);
 
-			const message = `Beep bop! ESGST bot here to let you know that a new version is being deployed which should fix your issue. If you're on Chrome, it may take a while until the update is available. For reference, visit the GitHub issue: [#${issueNumber}](https://github.com/rafaelgssa/esgst/issues/${issueNumber})`;
+			const message = `Beep bop! ESGST bot here to let you know that a new version is being deployed which should fix your issue. If you're on Chrome, it may take a while until the update is available. For reference, visit the GitHub issue: [#${issueNumber}](https://github.com/rafaelgomesxyz/esgst/issues/${issueNumber})`;
 
 			await fetch(url, {
 				body: `xsrf_token=${xsrfToken}&do=comment_new&parent_id=${commentId}&description=${encodeURIComponent(

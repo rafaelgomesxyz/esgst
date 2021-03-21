@@ -1300,8 +1300,8 @@ class Common extends Module {
 						<fragment>
 							ESGST has updated from v{Shared.esgst.previousVersion} to v
 							{Shared.esgst.currentVersion}! Please go to{' '}
-							<a href="https://github.com/rafaelgssa/esgst/-/releases">
-								https://github.com/rafaelgssa/esgst/-/releases
+							<a href="https://github.com/rafaelgomesxyz/esgst/-/releases">
+								https://github.com/rafaelgomesxyz/esgst/-/releases
 							</a>{' '}
 							to view the changelog. If you want the changelog to be automatically retrieved from
 							GitHub and shown in this popup when updating, then go to the settings menu and grant
@@ -1327,7 +1327,7 @@ class Common extends Module {
 				let changelog = '';
 
 				const refsResponse = await FetchRequest.get(
-					'https://api.github.com/repos/rafaelgssa/esgst/git/matching-refs/tags'
+					'https://api.github.com/repos/rafaelgomesxyz/esgst/git/matching-refs/tags'
 				);
 
 				if (!refsResponse || !refsResponse.json) {
@@ -1347,12 +1347,12 @@ class Common extends Module {
 					while (currentIndex < previousIndex) {
 						const version = refs[currentIndex].ref.split('/tags/')[1];
 						const releaseResponse = await FetchRequest.get(
-							`https://api.github.com/repos/rafaelgssa/esgst/releases/tags/${version}`
+							`https://api.github.com/repos/rafaelgomesxyz/esgst/releases/tags/${version}`
 						);
 						if (releaseResponse && releaseResponse.json) {
 							changelog = `${changelog}## ${version}\n\n${releaseResponse.json.body.replace(
 								/#(\d+)/g,
-								'[$1](https://github.com/rafaelgssa/esgst/issues/$1)'
+								'[$1](https://github.com/rafaelgomesxyz/esgst/issues/$1)'
 							)}\n\n`;
 						}
 
@@ -1375,8 +1375,8 @@ class Common extends Module {
 					<fragment>
 						ESGST has updated from v{Shared.esgst.previousVersion} to v{Shared.esgst.currentVersion}
 						! An error occurred when retrieving the changelog from GitHub, please go to{' '}
-						<a href="https://github.com/rafaelgssa/esgst/releases">
-							https://github.com/rafaelgssa/esgst/releases
+						<a href="https://github.com/rafaelgomesxyz/esgst/releases">
+							https://github.com/rafaelgomesxyz/esgst/releases
 						</a>{' '}
 						to view it.
 					</fragment>
@@ -5940,7 +5940,7 @@ class Common extends Module {
 				<div>
 					<a
 						class="table__column__secondary-link"
-						href={`https://www.buymeacoffee.com/rafaelgssa`}
+						href={`https://www.buymeacoffee.com/rafaelgomesxyz`}
 						target="_blank"
 					>
 						<strong>Buy Me A Coffee</strong>
@@ -5956,7 +5956,8 @@ class Common extends Module {
 					</a>
 				</div>
 				<div>
-					<strong>Paypal:</strong> rafael.gssa@pm.me {this.getCopyIcon('rafael.gssa@pm.me')}
+					<strong>Paypal:</strong> rafaelgomesxyz@gmail.com{' '}
+					{this.getCopyIcon('rafaelgomesxyz@gmail.com')}
 				</div>
 				<div>
 					<strong>Bitcoin:</strong> 32WY96ch5MSZ3FNubL5f7QZ9K3WWNHNpV9{' '}
@@ -6235,21 +6236,21 @@ class Common extends Module {
 					icon: 'fa fa-fw fa-github icon-grey grey',
 					name: 'GitHub',
 					openInNewTab: true,
-					url: 'https://github.com/rafaelgssa/esgst',
+					url: 'https://github.com/rafaelgomesxyz/esgst',
 				},
 				{
 					description: 'Report bugs and / or make suggestions.',
 					icon: 'fa fa-fw fa-bug icon-red red',
 					name: 'Bugs / Suggestions',
 					openInNewTab: true,
-					url: 'https://github.com/rafaelgssa/esgst/issues',
+					url: 'https://github.com/rafaelgomesxyz/esgst/issues',
 				},
 				{
 					description: "Check out what's coming in the next versions.",
 					icon: 'fa fa-fw fa-map-signs icon-blue blue',
 					name: 'Milestones',
 					openInNewTab: true,
-					url: 'https://github.com/rafaelgssa/esgst/milestones',
+					url: 'https://github.com/rafaelgomesxyz/esgst/milestones',
 				},
 				{
 					description: 'Visit the discussion page.',
@@ -6269,7 +6270,7 @@ class Common extends Module {
 					icon: 'fa fa-fw fa-file-text-o icon-yellow yellow',
 					name: 'Changelog',
 					openInNewTab: true,
-					url: 'https://github.com/rafaelgssa/esgst/releases',
+					url: 'https://github.com/rafaelgomesxyz/esgst/releases',
 				},
 				{
 					description: 'Help make ESGST better!',

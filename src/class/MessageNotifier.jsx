@@ -18,7 +18,7 @@ class _MessageNotifier {
 		try {
 			const messages = (
 				await FetchRequest.get(
-					'https://raw.githubusercontent.com/rafaelgssa/esgst/main/messages.json'
+					'https://raw.githubusercontent.com/rafaelgomesxyz/esgst/main/messages.json'
 				)
 			).json;
 			// Only get messages from the last 30 days.

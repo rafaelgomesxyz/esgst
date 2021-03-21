@@ -1,14 +1,14 @@
 /* @preserve
 // ==UserScript==
 // @name Enhanced SteamGifts & SteamTrades (ESGST)
-// @namespace https://rafaelgssa.github.io/esgst
+// @namespace https://rafaelgomesxyz.github.io/esgst
 // @description Enhances SteamGifts and SteamTrades by adding some cool features to them.
-// @icon https://github.com/rafaelgssa/esgst/raw/main/src/assets/images/icon.png
+// @icon https://github.com/rafaelgomesxyz/esgst/raw/main/src/assets/images/icon.png
 // @version <% package.version %>
 // @author <% package.author %>
 // @contributor Royalgamer06
-// @updateURL https://github.com/rafaelgssa/esgst/releases/latest/download/userscript.meta.js
-// @downloadURL https://github.com/rafaelgssa/esgst/releases/latest/download/userscript.user.js
+// @updateURL https://github.com/rafaelgomesxyz/esgst/releases/latest/download/userscript.meta.js
+// @downloadURL https://github.com/rafaelgomesxyz/esgst/releases/latest/download/userscript.user.js
 // @match https://www.steamgifts.com/*
 // @match https://www.steamtrades.com/*
 // @connect steamtrades.com
