@@ -7,6 +7,7 @@ import { permissions } from './Permissions';
 import { PermissionsUi } from './PermissionsUi';
 import { Popup } from './Popup';
 import { Shared } from './Shared';
+import { v4 as uuidv4 } from 'uuid';
 
 export interface SettingsAnalyticsValues {
 	v: number;
@@ -33,6 +34,9 @@ class _SettingsAnalytics {
 		analytics.v = this.v;
 		if (analytics.lastSubmission) {
 			if (await permissions.contains([['server']])) {
+				if (!analytics.uuid) {
+					analytics.uuid = uuidv4();
+				}
 				void this.send(analytics);
 			} else {
 				analytics.lastSubmission = Date.now();
@@ -84,13 +88,10 @@ class _SettingsAnalytics {
 							<h3>Perfect! Please wait a while until your data is submitted...</h3>
 						</fragment>
 					);
-					if (!analytics.uuid) {
-						analytics.uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
-							/[xy]/g,
-							Utils.createUuid
-						);
-					}
 					try {
+						if (!analytics.uuid) {
+							analytics.uuid = uuidv4();
+						}
 						await this.send(analytics);
 					} catch (err) {
 						console.log(err);
