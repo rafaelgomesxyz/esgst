@@ -139,9 +139,9 @@ export class Scope {
 					const foundData = scope.findData(keyOrKeys, page);
 					for (const [key, scopeData] of Object.entries(foundData) as [
 						keyof ScopeData,
-						ScopeData
+						unknown[]
 					][]) {
-						data[key].push(...scopeData[key]);
+						data[key].push(...scopeData);
 					}
 				}
 			}
