@@ -247,9 +247,10 @@ function doFetch(parameters, request) {
 		}
 		resolve(
 			JSON.stringify({
-				finalUrl: response.url,
+				status: response.status,
+				url: response.url,
 				redirected: response.redirected,
-				responseText: responseText,
+				text: responseText,
 			})
 		);
 	});

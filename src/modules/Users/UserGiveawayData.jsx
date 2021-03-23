@@ -1,5 +1,6 @@
 import dateFns_format from 'date-fns/format';
 import { DOM } from '../../class/DOM';
+import { FetchRequest } from '../../class/FetchRequest';
 import { LocalStorage } from '../../class/LocalStorage';
 import { Logger } from '../../class/Logger';
 import { Module } from '../../class/Module';
@@ -18,7 +19,6 @@ const createElements = common.createElements.bind(common),
 	getUser = common.getUser.bind(common),
 	getValue = common.getValue.bind(common),
 	lockAndSaveGiveaways = common.lockAndSaveGiveaways.bind(common),
-	request = common.request.bind(common),
 	saveUser = common.saveUser.bind(common),
 	setSetting = common.setSetting.bind(common);
 class UsersUserGiveawayData extends Module {
@@ -509,17 +509,9 @@ class UsersUserGiveawayData extends Module {
 			let id = giveaway.gameSteamId;
 			if (!id) {
 				if (obj.user.username === Settings.get('username') && obj.key === 'sent') {
-					const response = await common.request({
-						method: 'GET',
-						url: `/giveaway/${giveaway.code}/`,
-					});
-					const responseHtml = DOM.parse(response.responseText);
+					const response = await FetchRequest.get(`/giveaway/${giveaway.code}/`);
 					giveaway = (
-						await Shared.esgst.modules.giveaways.giveaways_get(
-							responseHtml,
-							false,
-							response.finalUrl
-						)
+						await Shared.esgst.modules.giveaways.giveaways_get(response.html, false, response.url)
 					)[0];
 					id = giveaway && giveaway.gameSteamId;
 					if (!id) {
@@ -817,14 +809,12 @@ class UsersUserGiveawayData extends Module {
 			obj.popup.progressBar.setLoading('Retrieving playtime stats...').show();
 			obj.ugdCache.playtimes = {};
 			try {
-				const response = await request({
-					method: 'GET',
-					url: `https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${Settings.get(
+				const response = await FetchRequest.get(
+					`https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${Settings.get(
 						'steamApiKey'
-					)}&steamid=${obj.user.steamId}&format=json`,
-				});
-				const responseText = response.responseText;
-				obj.playtimes = JSON.parse(responseText).response.games;
+					)}&steamid=${obj.user.steamId}&format=json`
+				);
+				obj.playtimes = response.json.response.games;
 			} catch (e) {
 				Logger.warning(e.message, e.stack);
 				window.alert(
@@ -874,13 +864,10 @@ class UsersUserGiveawayData extends Module {
 				let apps = gcCache.subs[id] && gcCache.subs[id].apps;
 				if (!apps) {
 					try {
-						const response = await request({
-							method: 'GET',
-							url: `http://store.steampowered.com/api/packagedetails?packageids=${id}&filters=basic`,
-						});
-						const responseText = response.responseText;
-						const responseJson = JSON.parse(responseText);
-						apps = responseJson[id].data.apps;
+						const response = await FetchRequest.get(
+							`http://store.steampowered.com/api/packagedetails?packageids=${id}&filters=basic`
+						);
+						apps = response.json[id].data.apps;
 						if (!gcCache.subs[id]) {
 							gcCache.subs[id] = {};
 						}
@@ -1235,7 +1222,7 @@ class UsersUserGiveawayData extends Module {
 			});
 		}
 		if (details.nextPage === 1) {
-			details.url = `${response.finalUrl}/search?page=`;
+			details.url = `${response.url}/search?page=`;
 		}
 	}
 

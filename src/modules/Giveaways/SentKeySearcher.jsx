@@ -1,4 +1,5 @@
 import { DOM } from '../../class/DOM';
+import { FetchRequest } from '../../class/FetchRequest';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { Session } from '../../class/Session';
@@ -12,8 +13,7 @@ const createElements = common.createElements.bind(common),
 	createHeadingButton = common.createHeadingButton.bind(common),
 	downloadFile = common.downloadFile.bind(common),
 	observeChange = common.observeChange.bind(common),
-	observeNumChange = common.observeNumChange.bind(common),
-	request = common.request.bind(common);
+	observeNumChange = common.observeNumChange.bind(common);
 class GiveawaysSentKeySearcher extends Module {
 	constructor() {
 		super();
@@ -236,14 +236,7 @@ class GiveawaysSentKeySearcher extends Module {
 				skipped = true;
 				continue;
 			} else {
-				context = DOM.parse(
-					(
-						await request({
-							method: 'GET',
-							url: `/giveaways/created/search?page=${nextPage}`,
-						})
-					).responseText
-				);
+				context = (await FetchRequest.get(`/giveaways/created/search?page=${nextPage}`)).html;
 				if (!sks.lastPage) {
 					sks.lastPage = this.esgst.modules.generalLastPageLink.lpl_getLastPage(context);
 					sks.lastPage = maxPage
@@ -281,15 +274,11 @@ class GiveawaysSentKeySearcher extends Module {
 					name: element.getAttribute('data-name'),
 				};
 				let heading = DOM.parse(
-					JSON.parse(
-						(
-							await request({
-								data: `xsrf_token=${Session.xsrfToken}&do=popup_keys&code=${giveaway.code}`,
-								method: 'POST',
-								url: '/ajax.php',
-							})
-						).responseText
-					).html
+					(
+						await FetchRequest.post('/ajax.php', {
+							data: `xsrf_token=${Session.xsrfToken}&do=popup_keys&code=${giveaway.code}`,
+						})
+					).json.html
 				).getElementsByClassName('popup__keys__heading')[0];
 				if (!heading || (heading.textContent !== 'Assigned' && !giveaway.active)) {
 					continue;

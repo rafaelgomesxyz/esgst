@@ -85,7 +85,13 @@ const browser = {
 										await Shared.common.readZip(response.responseText)
 									)[0].value;
 								}
-								resolve(response);
+								resolve({
+									status: response.status,
+									url: response.finalUrl,
+									redirected:
+										typeof response.finalUrl !== 'undefined' && response.finalUrl !== obj.url,
+									text: response.responseText,
+								});
 							},
 							onerror: (response) => resolve({ error: response.responseText }),
 						});

@@ -1,16 +1,16 @@
+import { DOM } from '../../class/DOM';
+import { FetchRequest } from '../../class/FetchRequest';
 import { Module } from '../../class/Module';
+import { permissions } from '../../class/Permissions';
 import { Popup } from '../../class/Popup';
+import { Settings } from '../../class/Settings';
+import { Shared } from '../../class/Shared';
 import { Utils } from '../../lib/jsUtils';
 import { common } from '../Common';
-import { Shared } from '../../class/Shared';
-import { Settings } from '../../class/Settings';
-import { permissions } from '../../class/Permissions';
-import { DOM } from '../../class/DOM';
 
 const createElements = common.createElements.bind(common),
 	endless_load = common.endless_load.bind(common),
-	getFeatureTooltip = common.getFeatureTooltip.bind(common),
-	request = common.request.bind(common);
+	getFeatureTooltip = common.getFeatureTooltip.bind(common);
 class UsersSharedGroupChecker extends Module {
 	constructor() {
 		super();
@@ -194,21 +194,17 @@ class UsersSharedGroupChecker extends Module {
 	async sgc_load(profile) {
 		const publicGroups = [];
 		const privateGroups = [];
-		let response = await request({
-			method: 'GET',
-			url: `http://steamcommunity.com/profiles/${profile.steamId}/groups/common`,
-		});
-		let responseHtml = DOM.parse(response.responseText);
+		let response = await FetchRequest.get(
+			`http://steamcommunity.com/profiles/${profile.steamId}/groups/common`
+		);
 		let isLoggedIn = true;
-		if (!responseHtml.getElementById('groups_list')) {
-			response = await request({
-				method: 'GET',
-				url: `http://steamcommunity.com/profiles/${profile.steamId}/groups`,
-			});
-			responseHtml = DOM.parse(response.responseText);
+		if (!response.html.getElementById('groups_list')) {
+			response = await FetchRequest.get(
+				`http://steamcommunity.com/profiles/${profile.steamId}/groups`
+			);
 			isLoggedIn = false;
 		}
-		const elements = responseHtml.getElementsByClassName('group_block');
+		const elements = response.html.getElementsByClassName('group_block');
 		for (const element of elements) {
 			const name = element.getElementsByClassName('linkTitle')[0].textContent;
 			const avatar = element

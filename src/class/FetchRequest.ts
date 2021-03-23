@@ -63,7 +63,10 @@ class FetchRequest {
 					key: 'sg',
 				});
 			} else if (options.queue) {
-				deleteLock = await Shared.common.createLock('requestLock', 1000);
+				deleteLock = await Shared.common.createLock(
+					'requestLock',
+					typeof options.queue === 'number' ? options.queue : 1000
+				);
 			} else if (
 				url.match(/^https?:\/\/store.steampowered.com/) &&
 				Settings.get('limitSteamStore')
@@ -128,9 +131,10 @@ class FetchRequest {
 		}
 
 		return {
+			status: response.status,
+			url: response.url,
 			redirected: response.redirected,
 			text,
-			url: response.url,
 		};
 	}
 
@@ -157,9 +161,10 @@ class FetchRequest {
 		}
 
 		return {
+			status: response.status,
+			url: response.url,
 			redirected: response.redirected,
-			text: response.responseText,
-			url: response.finalUrl,
+			text: response.text,
 		};
 	}
 

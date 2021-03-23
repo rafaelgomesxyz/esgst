@@ -1,10 +1,10 @@
-import { Module } from '../../class/Module';
-import { common } from '../Common';
-import { Shared } from '../../class/Shared';
 import { DOM } from '../../class/DOM';
+import { FetchRequest } from '../../class/FetchRequest';
+import { Module } from '../../class/Module';
+import { Shared } from '../../class/Shared';
+import { common } from '../Common';
 
-const createElements = common.createElements.bind(common),
-	request = common.request.bind(common);
+const createElements = common.createElements.bind(common);
 class UsersUserStats extends Module {
 	constructor() {
 		super();
@@ -104,7 +104,7 @@ class UsersUserStats extends Module {
 		let promises = [];
 		for (let username in users) {
 			if (users.hasOwnProperty(username)) {
-				let promise = request({ method: 'GET', url: `/user/${username}` });
+				let promise = FetchRequest.get(`/user/${username}`);
 				promise.then(this.us_load.bind(this, users[username], username));
 				promises.push(promise);
 			}
@@ -120,9 +120,7 @@ class UsersUserStats extends Module {
 		let element, elements, html, i, n, cvrow, rows;
 		html = [];
 		const profile = {};
-		elements = DOM.parse(response.responseText).getElementsByClassName(
-			'featured__table__row__left'
-		);
+		elements = response.html.getElementsByClassName('featured__table__row__left');
 		for (i = 0, n = elements.length; i < n; ++i) {
 			element = elements[i];
 			switch (element.textContent) {

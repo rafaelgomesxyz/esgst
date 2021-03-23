@@ -12,8 +12,7 @@ import { common } from '../Common';
 
 const createElements = common.createElements.bind(common),
 	getFeatureTooltip = common.getFeatureTooltip.bind(common),
-	lockAndSaveGames = common.lockAndSaveGames.bind(common),
-	request = common.request.bind(common);
+	lockAndSaveGames = common.lockAndSaveGames.bind(common);
 class GamesGameCategories extends Module {
 	constructor() {
 		super();
@@ -1225,20 +1224,20 @@ class GamesGameCategories extends Module {
 
 	async gc_fakeBundle(id) {
 		const bundleId = id.replace(/^SteamBundle/, '');
-		const response = await request({
-			headers: { ['Esgst-Cookie']: `birthtime=0; mature_content=1; ` },
-			method: 'GET',
-			url: `https://store.steampowered.com/bundle/${bundleId}?cc=us&l=english`,
-		});
-		const html = DOM.parse(response.responseText);
+		const response = await FetchRequest.get(
+			`https://store.steampowered.com/bundle/${bundleId}?cc=us&l=english`,
+			{
+				headers: { ['Esgst-Cookie']: `birthtime=0; mature_content=1; ` },
+			}
+		);
 		return {
 			[id]: {
 				success: true,
 				data: {
-					apps: Array.from(html.querySelectorAll(`[data-ds-appid]`)).map((x) => ({
+					apps: Array.from(response.html.querySelectorAll(`[data-ds-appid]`)).map((x) => ({
 						id: parseInt(x.getAttribute('data-ds-appid')),
 					})),
-					name: html.querySelector('.pageheader').textContent,
+					name: response.html.querySelector('.pageheader').textContent,
 					platforms: {},
 				},
 			},
@@ -1401,17 +1400,16 @@ class GamesGameCategories extends Module {
 			let responseJson =
 				typeof id === 'string' && id.match(/^SteamBundle/)
 					? await this.gc_fakeBundle(id)
-					: JSON.parse(
-							(
-								await request({
+					: (
+							await FetchRequest.get(
+								`https://store.steampowered.com/api/${
+									type === 'apps' ? `appdetails?appids=` : `packagedetails?packageids=`
+								}${id}&filters=achievements,apps,basic,categories,genres,name,packages,platforms,price,price_overview,release_date&cc=us&l=english`,
+								{
 									anon: true,
-									method: 'GET',
-									url: `https://store.steampowered.com/api/${
-										type === 'apps' ? `appdetails?appids=` : `packagedetails?packageids=`
-									}${id}&filters=achievements,apps,basic,categories,genres,name,packages,platforms,price,price_overview,release_date&cc=us&l=english`,
-								})
-							).responseText
-					  );
+								}
+							)
+					  ).json;
 			let data;
 			if (responseJson && responseJson[id]) {
 				data = responseJson[id].data;
@@ -1535,13 +1533,14 @@ class GamesGameCategories extends Module {
 				) {
 					categories.removed = 1;
 				} else {
-					let response = await request({
-						headers: { ['Esgst-Cookie']: `birthtime=0; mature_content=1; ` },
-						method: 'GET',
-						url: `https://store.steampowered.com/${type.slice(0, -1)}/${id}?cc=us&l=english`,
-					});
-					let responseHtml = DOM.parse(response.responseText);
-					if (response.finalUrl.match(id)) {
+					let response = await FetchRequest.get(
+						`https://store.steampowered.com/${type.slice(0, -1)}/${id}?cc=us&l=english`,
+						{
+							headers: { ['Esgst-Cookie']: `birthtime=0; mature_content=1; ` },
+						}
+					);
+					let responseHtml = response.html;
+					if (response.url.match(id)) {
 						let elements = responseHtml.getElementsByClassName('user_reviews_summary_row');
 						let n = elements.length;
 						if (n > 0) {

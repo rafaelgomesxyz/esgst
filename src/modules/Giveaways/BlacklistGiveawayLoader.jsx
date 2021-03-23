@@ -1,10 +1,10 @@
+import { DOM } from '../../class/DOM';
+import { FetchRequest } from '../../class/FetchRequest';
 import { Module } from '../../class/Module';
 import { common } from '../Common';
-import { DOM } from '../../class/DOM';
 
 const createElements = common.createElements.bind(common),
-	getElements = common.getElements.bind(common),
-	request = common.request.bind(common);
+	getElements = common.getElements.bind(common);
 class GiveawaysBlacklistGiveawayLoader extends Module {
 	constructor() {
 		super();
@@ -50,9 +50,7 @@ class GiveawaysBlacklistGiveawayLoader extends Module {
 				type: 'span',
 			},
 		]);
-		let responseHtml = DOM.parse(
-			(await request({ anon: true, method: 'GET', url: window.location.pathname })).responseText
-		);
+		let responseHtml = (await FetchRequest.get(window.location.pathname, { anon: true })).html;
 		if (responseHtml.getElementsByClassName('table--summary')[0]) {
 			createElements(this.esgst.pageOuterWrap, 'atinner', backup);
 			createElements(

@@ -1,10 +1,10 @@
-import { Module } from '../../class/Module';
-import { common } from '../Common';
-import { Settings } from '../../class/Settings';
 import { DOM } from '../../class/DOM';
+import { FetchRequest } from '../../class/FetchRequest';
+import { Module } from '../../class/Module';
+import { Settings } from '../../class/Settings';
+import { common } from '../Common';
 
-const endless_load = common.endless_load.bind(common),
-	request = common.request.bind(common);
+const endless_load = common.endless_load.bind(common);
 class DiscussionsOldActiveDiscussionsDesign extends Module {
 	constructor() {
 		super();
@@ -60,10 +60,8 @@ class DiscussionsOldActiveDiscussionsDesign extends Module {
 			response1Html,
 			response2Html,
 			revisedElements;
-		response1Html = DOM.parse((await request({ method: 'GET', url: '/discussions' })).responseText);
-		response2Html = DOM.parse(
-			(await request({ method: 'GET', url: '/discussions/deals' })).responseText
-		);
+		response1Html = (await FetchRequest.get('/discussions')).html;
+		response2Html = (await FetchRequest.get('/discussions/deals')).html;
 		this.esgst.activeDiscussions.classList.add('esgst-oadd');
 		DOM.insert(
 			this.esgst.activeDiscussions,

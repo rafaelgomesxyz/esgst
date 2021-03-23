@@ -479,14 +479,11 @@ async function sync(syncer) {
 		let pagination = null;
 		do {
 			let elements, responseHtml;
-			responseHtml = DOM.parse(
-				(
-					await Shared.common.request({
-						method: 'GET',
-						url: `https://www.steamgifts.com/account/steam/groups/search?page=${nextPage}`,
-					})
-				).responseText
-			);
+			responseHtml = (
+				await FetchRequest.get(
+					`https://www.steamgifts.com/account/steam/groups/search?page=${nextPage}`
+				)
+			).html;
 			elements = responseHtml.getElementsByClassName('table__row-outer-wrap');
 			for (let i = 0, n = elements.length; !syncer.canceled && i < n; i++) {
 				let code, element, heading, name;
@@ -510,14 +507,7 @@ async function sync(syncer) {
 					avatar = element
 						.getElementsByClassName('table_image_avatar')[0]
 						.style.backgroundImage.match(/\/avatars\/(.+)_medium/)[1];
-					steamId = DOM.parse(
-						(
-							await Shared.common.request({
-								method: 'GET',
-								url: `/group/${code}/`,
-							})
-						).responseText
-					)
+					steamId = (await FetchRequest.get(`/group/${code}/`)).html
 						.getElementsByClassName('sidebar__shortcut-inner-wrap')[0]
 						.firstElementChild.getAttribute('href')
 						.match(/\d+/)[0];
@@ -665,14 +655,12 @@ async function sync(syncer) {
 				const users = [];
 				syncer.progressBar.setMessage('Syncing your Steam friends...');
 				await Shared.common.deleteUserValues(['steamFriend']);
-				const response = await Shared.common.request({
-					method: 'GET',
-					url: `http://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=${Settings.get(
+				const response = await FetchRequest.get(
+					`http://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=${Settings.get(
 						'steamApiKey'
-					)}&steamid=${Settings.get('steamId')}&relationship=friend`,
-				});
-				const json = JSON.parse(response.responseText);
-				for (const friend of json.friendslist.friends) {
+					)}&steamid=${Settings.get('steamId')}&relationship=friend`
+				);
+				for (const friend of response.json.friendslist.friends) {
 					users.push({
 						steamId: friend.steamid,
 						values: {
@@ -719,14 +707,11 @@ async function sync(syncer) {
 		let pagination = null;
 		do {
 			let elements, responseHtml;
-			responseHtml = DOM.parse(
-				(
-					await Shared.common.request({
-						method: 'GET',
-						url: `https://www.steamgifts.com/account/settings/giveaways/filters/search?page=${nextPage}`,
-					})
-				).responseText
-			);
+			responseHtml = (
+				await FetchRequest.get(
+					`https://www.steamgifts.com/account/settings/giveaways/filters/search?page=${nextPage}`
+				)
+			).html;
 			elements = responseHtml.querySelectorAll(
 				`.table__column__secondary-link[href*="store.steampowered.com"]`
 			);
@@ -796,19 +781,17 @@ async function sync(syncer) {
 				syncer.jsx = [];
 				let apiResponse = null;
 				if (Settings.get('steamApiKey')) {
-					apiResponse = await Shared.common.request({
-						method: 'GET',
-						url: `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${Settings.get(
+					apiResponse = await FetchRequest.get(
+						`http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${Settings.get(
 							'steamApiKey'
-						)}&steamid=${Settings.get('steamId')}&format=json`,
-					});
+						)}&steamid=${Settings.get('steamId')}&format=json`
+					);
 				}
-				let storeResponse = await Shared.common.request({
-					method: 'GET',
-					url: `http://store.steampowered.com/dynamicstore/userdata?${
+				let storeResponse = await FetchRequest.get(
+					`http://store.steampowered.com/dynamicstore/userdata?${
 						Math.random().toString().split('.')[1]
-					}`,
-				});
+					}`
+				);
 				await syncGames(null, syncer, apiResponse, storeResponse);
 				if (Settings.get('gc_o_a')) {
 					const altAccounts = Settings.get('gc_o_altAccounts');
@@ -818,12 +801,11 @@ async function sync(syncer) {
 								if (syncer.canceled) {
 									break;
 								}
-								apiResponse = await Shared.common.request({
-									method: 'GET',
-									url: `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${Settings.get(
+								apiResponse = await FetchRequest.get(
+									`http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${Settings.get(
 										'steamApiKey'
-									)}&steamid=${altAccount.steamId}&format=json`,
-								});
+									)}&steamid=${altAccount.steamId}&format=json`
+								);
 								await syncGames(altAccount, syncer, apiResponse);
 							}
 							await Shared.common.setSetting('gc_o_altAccounts', altAccounts);
@@ -880,12 +862,8 @@ async function sync(syncer) {
 		const isPermitted = await permissions.contains([['steamCommunity']]);
 		if (isPermitted) {
 			syncer.progressBar.setMessage('Syncing your followed games...');
-			const response = await Shared.common.request({
-				method: 'GET',
-				url: `https://steamcommunity.com/my/followedgames/`,
-			});
-			const responseHtml = DOM.parse(response.responseText);
-			const elements = responseHtml.querySelectorAll('.gameListRow.followed');
+			const response = await FetchRequest.get('https://steamcommunity.com/my/followedgames/');
+			const elements = response.html.querySelectorAll('.gameListRow.followed');
 			const savedGames = JSON.parse(Shared.common.getValue('games'));
 			for (const id in savedGames.apps) {
 				if (savedGames.apps.hasOwnProperty(id)) {
@@ -1025,13 +1003,11 @@ async function sync(syncer) {
 		if (isPermitted) {
 			syncer.progressBar.setMessage('Syncing HLTB times...');
 			try {
-				const responseText = (
-					await Shared.common.request({
-						method: 'GET',
-						url: `https://script.google.com/macros/s/AKfycbysBF72c0VNylStaslLlOL7X4M0KQIgY0VVv6Q0x2vh72iGAtE/exec`,
-					})
-				).responseText;
-				const games = JSON.parse(responseText);
+				const games = (
+					await FetchRequest.get(
+						`https://script.google.com/macros/s/AKfycbysBF72c0VNylStaslLlOL7X4M0KQIgY0VVv6Q0x2vh72iGAtE/exec`
+					)
+				).json;
 				const hltb = {};
 				for (const game of games) {
 					if (game.steamId) {
@@ -1082,17 +1058,13 @@ async function sync(syncer) {
 		const isPermitted = await permissions.contains([['steamTracker']]);
 		if (isPermitted) {
 			syncer.progressBar.setMessage('Syncing delisted games...');
-			const response = await Shared.common.request({
-				method: 'GET',
-				url: `https://steam-tracker.com/api?action=GetAppListV3`,
-			});
+			const response = await FetchRequest.get('https://steam-tracker.com/api?action=GetAppListV3');
 			try {
-				const json = JSON.parse(response.responseText);
-				if (json.success) {
-					const banned = json.removed_apps
+				if (response.json.success) {
+					const banned = response.json.removed_apps
 						.filter((x) => x.type === 'game' && x.category === 'Banned')
 						.map((x) => parseInt(x.appid));
-					const removed = json.removed_apps
+					const removed = response.json.removed_apps
 						.filter((x) => x.type === 'game' && x.category === 'Delisted')
 						.map((x) => parseInt(x.appid));
 					await Shared.common.setValue('delistedGames', JSON.stringify({ banned, removed }));
@@ -1321,10 +1293,7 @@ async function syncWhitelistBlacklist(key, syncer, url) {
 	let pagination = null;
 	do {
 		let elements, responseHtml;
-		responseHtml = DOM.parse(
-			(await Shared.common.request({ method: 'GET', queue: 100, url: `${url}${nextPage}` }))
-				.responseText
-		);
+		responseHtml = (await FetchRequest.get(`${url}${nextPage}`, { queue: 100 })).html;
 		elements = responseHtml.getElementsByClassName('table__row-outer-wrap');
 		for (let i = 0, n = elements.length; i < n; ++i) {
 			let element, user;
@@ -1349,18 +1318,8 @@ async function syncWhitelistBlacklist(key, syncer, url) {
 }
 
 async function syncGames(altAccount, syncer, apiResponse, storeResponse) {
-	let apiJson = null,
-		storeJson = null;
-	try {
-		apiJson = JSON.parse(apiResponse.responseText);
-	} catch (e) {
-		/**/
-	}
-	try {
-		storeJson = JSON.parse(storeResponse.responseText);
-	} catch (e) {
-		/**/
-	}
+	const apiJson = apiResponse.json;
+	const storeJson = storeResponse.json;
 	/** @property storeJson.rgOwnedApps */
 	const hasApi =
 			apiJson && apiJson.response && apiJson.response.games && apiJson.response.games.length,
@@ -1528,15 +1487,10 @@ async function syncGames(altAccount, syncer, apiResponse, storeResponse) {
 
 		// get the wishlisted dates
 		try {
-			const responseText = (
-					await Shared.common.request({
-						method: 'GET',
-						url: `http://store.steampowered.com/wishlist/profiles/${Settings.get(
-							'steamId'
-						)}?cc=us&l=english`,
-					})
-				).responseText,
-				match = responseText.match(/g_rgWishlistData\s=\s(\[(.+?)]);/);
+			const response = await FetchRequest.get(
+				`http://store.steampowered.com/wishlist/profiles/${Settings.get('steamId')}?cc=us&l=english`
+			);
+			const match = response.text.match(/g_rgWishlistData\s=\s(\[(.+?)]);/);
 			if (match) {
 				JSON.parse(match[1]).forEach((item) => {
 					/**

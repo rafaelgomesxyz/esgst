@@ -1,14 +1,14 @@
-import { Module } from '../../class/Module';
-import { common } from '../Common';
-import { Shared } from '../../class/Shared';
-import { Settings } from '../../class/Settings';
 import { DOM } from '../../class/DOM';
+import { FetchRequest } from '../../class/FetchRequest';
+import { Module } from '../../class/Module';
 import { Session } from '../../class/Session';
+import { Settings } from '../../class/Settings';
+import { Shared } from '../../class/Shared';
+import { common } from '../Common';
 
 const createElements = common.createElements.bind(common),
 	createHeadingButton = common.createHeadingButton.bind(common),
 	getValue = common.getValue.bind(common),
-	request = common.request.bind(common),
 	setValue = common.setValue.bind(common);
 class TradesTradeBumper extends Module {
 	constructor() {
@@ -85,15 +85,13 @@ class TradesTradeBumper extends Module {
 		}
 		const elements = context.querySelectorAll(`.row_inner_wrap:not(.is_faded)`);
 		for (const element of elements) {
-			await request({
+			await FetchRequest.post('https://www.steamtrades.com/ajax.php', {
 				data: `xsrf_token=${Session.xsrfToken}&do=trade_bump&code=${
 					element
 						.querySelector(`[href*="/trade/"]`)
 						.getAttribute('href')
 						.match(/\/trade\/(.+?)\//)[1]
 				}`,
-				method: 'POST',
-				url: `https://www.steamtrades.com/ajax.php`,
 			});
 		}
 		if (button) {
@@ -127,15 +125,14 @@ class TradesTradeBumper extends Module {
 			// noinspection JSIgnoredPromiseFromCall
 			this.tb_getTrades(
 				null,
-				DOM.parse(
-					(
-						await request({
-							method: 'GET',
+				(
+					await FetchRequest.get(
+						`https://www.steamtrades.com/trades/search?user=${Settings.get('steamId')}`,
+						{
 							queue: true,
-							url: `https://www.steamtrades.com/trades/search?user=${Settings.get('steamId')}`,
-						})
-					).responseText
-				)
+						}
+					)
+				).html
 			);
 		}
 	}

@@ -1,4 +1,5 @@
 import { DOM } from '../../class/DOM';
+import { FetchRequest } from '../../class/FetchRequest';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { Settings } from '../../class/Settings';
@@ -347,14 +348,7 @@ class UsersUserSuspensionChecker extends Module {
 		for (i = 0, n = uscObj.users.length; i < n && !uscObj.canceled; i++) {
 			uscObj.progressBar.setMessage(`Checking users (${i} of ${n})...`);
 			const username = uscObj.users[i];
-			const html = DOM.parse(
-				(
-					await Shared.common.request({
-						method: 'GET',
-						url: `/user/${username}`,
-					})
-				).responseText
-			);
+			const html = (await FetchRequest.get(`/user/${username}`)).html;
 			if (uscObj.canceled) {
 				return;
 			}
@@ -403,14 +397,7 @@ class UsersUserSuspensionChecker extends Module {
 			if (nextPage === Shared.esgst.currentPage) {
 				html = Shared.esgst.pageOuterWrap;
 			} else {
-				html = DOM.parse(
-					(
-						await Shared.common.request({
-							method: 'GET',
-							url: `${Shared.esgst.searchUrl}${nextPage}`,
-						})
-					).responseText
-				);
+				html = (await FetchRequest.get(`${Shared.esgst.searchUrl}${nextPage}`)).html;
 			}
 			if (uscObj.canceled) {
 				return;

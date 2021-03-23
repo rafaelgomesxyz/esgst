@@ -1,5 +1,6 @@
 import { Button } from '../../class/Button';
 import { DOM } from '../../class/DOM';
+import { FetchRequest } from '../../class/FetchRequest';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { Scope } from '../../class/Scope';
@@ -15,7 +16,6 @@ const createElements = common.createElements.bind(common),
 	getFeatureTooltip = common.getFeatureTooltip.bind(common),
 	getValue = common.getValue.bind(common),
 	lockAndSaveGiveaways = common.lockAndSaveGiveaways.bind(common),
-	request = common.request.bind(common),
 	setValue = common.setValue.bind(common);
 class GiveawaysGiveawayBookmarks extends Module {
 	constructor() {
@@ -423,15 +423,11 @@ class GiveawaysGiveawayBookmarks extends Module {
 			let element = gb.popup.scrollable.children[i].firstElementChild;
 			if (!element.getAttribute('data-esgst')) {
 				let code = element.textContent;
-				element.textContent = DOM.parse(
-					(
-						await request({
-							method: 'GET',
-							queue: true,
-							url: element.getAttribute('href'),
-						})
-					).responseText
-				).getElementsByClassName('featured__heading__medium')[0].textContent;
+				element.textContent = (
+					await FetchRequest.get(element.getAttribute('href'), {
+						queue: true,
+					})
+				).html.getElementsByClassName('featured__heading__medium')[0].textContent;
 				giveaways[code] = {
 					name: element.textContent,
 				};
@@ -443,14 +439,12 @@ class GiveawaysGiveawayBookmarks extends Module {
 	async gb_loadGiveaways(i, n, bookmarked, gbGiveaways, info, popup, callback) {
 		if (i < n) {
 			if (bookmarked[i]) {
-				let response = await request({
-					method: 'GET',
+				let response = await FetchRequest.get(`/giveaway/${bookmarked[i].code}/`, {
 					queue: true,
-					url: `/giveaway/${bookmarked[i].code}/`,
 				});
 				let endTime;
-				let responseHtml = DOM.parse(response.responseText);
-				let url = response.finalUrl;
+				let responseHtml = response.html;
+				let url = response.url;
 				const buildResult = await Shared.common.buildGiveaway(responseHtml, url);
 				if (buildResult) {
 					endTime = 0;

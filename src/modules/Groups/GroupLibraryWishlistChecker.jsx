@@ -21,8 +21,7 @@ import { common } from '../Common';
 
 const createElements = common.createElements.bind(common),
 	createHeadingButton = common.createHeadingButton.bind(common),
-	createTooltip = common.createTooltip.bind(common),
-	request = common.request.bind(common);
+	createTooltip = common.createTooltip.bind(common);
 class GroupsGroupLibraryWishlistChecker extends Module {
 	constructor() {
 		super();
@@ -193,11 +192,8 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 				glwc.overallProgressBar.setMessage('Preparing...');
 				glwc.members = [];
 				const members = (
-					await request({
-						method: 'GET',
-						url: `http://steamcommunity.com/gid/${glwc.id}/memberslistxml?xml=1`,
-					})
-				).responseText.match(/<steamID64>.+?<\/steamID64>/g);
+					await FetchRequest.get(`http://steamcommunity.com/gid/${glwc.id}/memberslistxml?xml=1`)
+				).text.match(/<steamID64>.+?<\/steamID64>/g);
 				members.forEach((member) => {
 					glwc.members.push(member.match(/<steamID64>(.+?)<\/steamID64>/)[1]);
 				});
@@ -221,14 +217,7 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 		if (glwc.isCanceled) return;
 		glwc.progressBar.setMessage(`Retrieving users (page ${nextPage})...`);
 		let elements, i, n, pagination, responseHtml;
-		responseHtml = DOM.parse(
-			(
-				await request({
-					method: 'GET',
-					url: `/${glwc.url}/search?page=${nextPage}`,
-				})
-			).responseText
-		);
+		responseHtml = (await FetchRequest.get(`/${glwc.url}/search?page=${nextPage}`)).html;
 		elements = responseHtml.querySelectorAll(`.table__row-inner-wrap:not(.is-faded)`);
 		for (i = 0, n = elements.length; i < n; ++i) {
 			glwc.users.push({
@@ -287,16 +276,13 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 				if (!glwc.id || glwc.members.indexOf(glwc.users[i].steamId) >= 0) {
 					try {
 						glwc.users[i].library = [];
-						let elements = JSON.parse(
-							(
-								await request({
-									method: 'GET',
-									url: `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${Settings.get(
-										'steamApiKey'
-									)}&steamid=${glwc.users[i].steamId}&format=json`,
-								})
-							).responseText
-						).response.games;
+						let elements = (
+							await FetchRequest.get(
+								`http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${Settings.get(
+									'steamApiKey'
+								)}&steamid=${glwc.users[i].steamId}&format=json`
+							)
+						).json.response.games;
 						if (elements) {
 							elements.forEach((element) => {
 								let game = {
@@ -326,15 +312,12 @@ class GroupsGroupLibraryWishlistChecker extends Module {
 						/**/
 					}
 					glwc.users[i].wishlist = [];
-					let responseText = (
-						await request({
-							method: 'GET',
-							url: `http://store.steampowered.com/wishlist/profiles/${glwc.users[i].steamId}`,
-						})
-					).responseText;
-					let wishlistData = responseText.match(/g_rgWishlistData\s=\s(\[(.+?)]);/);
+					const response = await FetchRequest.get(
+						`http://store.steampowered.com/wishlist/profiles/${glwc.users[i].steamId}`
+					);
+					let wishlistData = response.text.match(/g_rgWishlistData\s=\s(\[(.+?)]);/);
 					if (wishlistData) {
-						let appInfo = responseText.match(/g_rgAppInfo\s=\s({(.+?)});/);
+						let appInfo = response.text.match(/g_rgAppInfo\s=\s({(.+?)});/);
 						let games = appInfo ? JSON.parse(appInfo[1]) : null;
 						const wishlistGames = JSON.parse(wishlistData[1]);
 						const maxWishlists = Settings.get('glwc_checkMaxWishlists')

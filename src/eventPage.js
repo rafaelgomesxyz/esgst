@@ -237,9 +237,10 @@ async function doFetch(parameters, request, sender, callback) {
 	}
 	callback(
 		JSON.stringify({
-			finalUrl: response.url,
+			status: response.status,
+			url: response.url,
 			redirected: response.redirected,
-			responseText: responseText,
+			text: responseText,
 		})
 	);
 }

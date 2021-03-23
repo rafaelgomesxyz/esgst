@@ -1,4 +1,5 @@
 import { DOM } from '../../class/DOM';
+import { FetchRequest } from '../../class/FetchRequest';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { Session } from '../../class/Session';
@@ -14,7 +15,6 @@ const createConfirmation = common.createConfirmation.bind(common),
 	createHeadingButton = common.createHeadingButton.bind(common),
 	downloadFile = common.downloadFile.bind(common),
 	formatTags = common.formatTags.bind(common),
-	request = common.request.bind(common),
 	setSetting = common.setSetting.bind(common);
 class UsersWhitelistBlacklistManager extends Module {
 	constructor() {
@@ -254,10 +254,8 @@ class UsersWhitelistBlacklistManager extends Module {
 			},
 		]);
 		if (i < n) {
-			await request({
+			await FetchRequest.post('/ajax.php', {
 				data: `xsrf_token=${Session.xsrfToken}&do=${wbm.key}&action=insert&child_user_id=${list[i]}`,
-				method: 'POST',
-				url: '/ajax.php',
 			});
 			window.setTimeout(() => this.wbm_insertUsers(wbm, list, ++i, n, callback), 0);
 		} else {
@@ -294,14 +292,11 @@ class UsersWhitelistBlacklistManager extends Module {
 				},
 			]);
 			let elements, i, n, pagination, responseHtml;
-			responseHtml = DOM.parse(
-				(
-					await request({
-						method: 'GET',
-						url: `https://www.steamgifts.com/account/manage/${wbm.key}/search?page=${nextPage}`,
-					})
-				).responseText
-			);
+			responseHtml = (
+				await FetchRequest.get(
+					`https://www.steamgifts.com/account/manage/${wbm.key}/search?page=${nextPage}`
+				)
+			).html;
 			elements = responseHtml.querySelectorAll(`[name="child_user_id"]`);
 			for (i = 0, n = elements.length; i < n; ++i) {
 				list.push(elements[i].value);
@@ -360,14 +355,11 @@ class UsersWhitelistBlacklistManager extends Module {
 				},
 			]);
 			let element, elements, i, n, pagination, responseHtml;
-			responseHtml = DOM.parse(
-				(
-					await request({
-						method: 'GET',
-						url: `https://www.steamgifts.com/account/manage/${wbm.key}/search?page=${nextPage}`,
-					})
-				).responseText
-			);
+			responseHtml = (
+				await FetchRequest.get(
+					`https://www.steamgifts.com/account/manage/${wbm.key}/search?page=${nextPage}`
+				)
+			).html;
 			elements = responseHtml.querySelectorAll(`[name="child_user_id"]`);
 			for (i = 0, n = elements.length; i < n; ++i) {
 				element = elements[i];
@@ -421,10 +413,8 @@ class UsersWhitelistBlacklistManager extends Module {
 			},
 		]);
 		if (i < n) {
-			await request({
+			await FetchRequest.post('/ajax.php', {
 				data: `xsrf_token=${Session.xsrfToken}&do=${wbm.key}&action=delete&child_user_id=${list[i]}`,
-				method: 'POST',
-				url: '/ajax.php',
 			});
 			window.setTimeout(() => this.wbm_deleteUsers(wbm, list, ++i, n, callback), 0);
 		} else {

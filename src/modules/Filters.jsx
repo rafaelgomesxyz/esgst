@@ -1,5 +1,6 @@
 import { Checkbox } from '../class/Checkbox';
 import { DOM } from '../class/DOM';
+import { FetchRequest } from '../class/FetchRequest';
 import { Logger } from '../class/Logger';
 import { Module } from '../class/Module';
 import { Popup } from '../class/Popup';
@@ -16,7 +17,6 @@ import { SYNC_KEYS } from './Sync';
 const createElements = common.createElements.bind(common),
 	createFadeMessage = common.createElements.bind(common),
 	getFeatureTooltip = common.getFeatureTooltip.bind(common),
-	request = common.request.bind(common),
 	setSetting = common.setSetting.bind(common);
 class Filters extends Module {
 	constructor(id) {
@@ -1124,7 +1124,7 @@ class Filters extends Module {
 						check.classList.add('esgst-hidden');
 						spinning.classList.remove('esgst-hidden');
 						await setSetting(filter.id, select.value);
-						await request({
+						await FetchRequest.post('/account/settings/giveaways', {
 							data: `filter_os=${Settings.get(
 								'filter_os'
 							)}&filter_giveaways_exist_in_account=${Settings.get(
@@ -1136,8 +1136,6 @@ class Filters extends Module {
 							)}&filter_giveaways_additional_games=${Settings.get(
 								'filter_giveaways_additional_games'
 							)}&xsrf_token=${Session.xsrfToken}`,
-							method: 'POST',
-							url: '/account/settings/giveaways',
 						});
 						spinning.classList.add('esgst-hidden');
 						check.classList.remove('esgst-hidden');
@@ -1148,7 +1146,7 @@ class Filters extends Module {
 						check.classList.add('esgst-hidden');
 						spinning.classList.remove('esgst-hidden');
 						await setSetting(filter.id, checkbox.value ? 1 : 0);
-						await request({
+						await FetchRequest.post('/account/settings/giveaways', {
 							data: `filter_os=${Settings.get(
 								'filter_os'
 							)}&filter_giveaways_exist_in_account=${Settings.get(
@@ -1160,8 +1158,6 @@ class Filters extends Module {
 							)}&filter_giveaways_additional_games=${Settings.get(
 								'filter_giveaways_additional_games'
 							)}&xsrf_token=${Session.xsrfToken}`,
-							method: 'POST',
-							url: '/account/settings/giveaways',
 						});
 						spinning.classList.add('esgst-hidden');
 						check.classList.remove('esgst-hidden');

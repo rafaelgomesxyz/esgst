@@ -17,7 +17,6 @@ import { common } from '../Common';
 
 const createElements = common.createElements.bind(common),
 	createHeadingButton = common.createHeadingButton.bind(common),
-	createResults = common.createResults.bind(common),
 	getFeatureNumber = common.getFeatureNumber.bind(common),
 	getFeatureTooltip = common.getFeatureTooltip.bind(common),
 	getTimestamp = common.getTimestamp.bind(common),
@@ -25,7 +24,6 @@ const createElements = common.createElements.bind(common),
 	getUserId = common.getUserId.bind(common),
 	getValue = common.getValue.bind(common),
 	observeNumChange = common.observeNumChange.bind(common),
-	request = common.request.bind(common),
 	saveUser = common.saveUser.bind(common);
 class UsersWhitelistBlacklistChecker extends Module {
 	constructor() {
@@ -1093,16 +1091,12 @@ class UsersWhitelistBlacklistChecker extends Module {
 			} else {
 				let success = false;
 				if (
-					JSON.parse(
-						(
-							await request({
-								data: `xsrf_token=${Session.xsrfToken}&do=${Type}&child_user_id=${id}&action=insert`,
-								method: 'POST',
-								queue: true,
-								url: '/ajax.php',
-							})
-						).responseText
-					).type === 'success'
+					(
+						await FetchRequest.post('/ajax.php', {
+							data: `xsrf_token=${Session.xsrfToken}&do=${Type}&child_user_id=${id}&action=insert`,
+							queue: true,
+						})
+					).json?.type === 'success'
 				) {
 					success = true;
 					if (Settings.get('wbc_n')) {
@@ -1185,15 +1179,11 @@ class UsersWhitelistBlacklistChecker extends Module {
 			return;
 		}
 		const url = data.wl_ga || data.g_wl_ga || data.ga;
-		let responseHtml = DOM.parse(
-			(
-				await request({
-					method: 'GET',
-					queue: true,
-					url: `/giveaway/${url.includes('/') ? url : `${url}/`}`,
-				})
-			).responseText
-		);
+		let responseHtml = (
+			await FetchRequest.get(`/giveaway/${url.includes('/') ? url : `${url}/`}`, {
+				queue: true,
+			})
+		).html;
 		let errorMessage = responseHtml.getElementsByClassName('table--summary')[0];
 		let stop;
 		if (errorMessage) {
@@ -1387,12 +1377,10 @@ class UsersWhitelistBlacklistChecker extends Module {
 			groupGiveaway.includes('/') ? groupGiveaway : `${groupGiveaway}/_`
 		}/groups/search?page=`;
 		do {
-			const response = await request({
-				method: 'GET',
+			const response = await FetchRequest.get(`${url}${nextPage}`, {
 				queue: true,
-				url: `${url}${nextPage}`,
 			});
-			const context = DOM.parse(response.responseText);
+			const context = response.html;
 			const groups = context.getElementsByClassName('table__column__heading');
 			const n = groups.length;
 			if (n < 1) {
@@ -1413,7 +1401,7 @@ class UsersWhitelistBlacklistChecker extends Module {
 			}
 			const pagination = context.getElementsByClassName('pagination__navigation')[0];
 			if (pagination && !pagination.lastElementChild.classList.contains('is-selected')) {
-				url = `${response.finalUrl}/search?page=`;
+				url = `${response.url}/search?page=`;
 			} else {
 				return false;
 			}
@@ -1463,15 +1451,11 @@ class UsersWhitelistBlacklistChecker extends Module {
 								CurrentPage,
 								URL,
 								Callback,
-								DOM.parse(
-									(
-										await request({
-											method: 'GET',
-											queue: true,
-											url: URL + NextPage,
-										})
-									).responseText
-								)
+								(
+									await FetchRequest.get(`${URL}${NextPage}`, {
+										queue: true,
+									})
+								).html
 							),
 						0
 					);

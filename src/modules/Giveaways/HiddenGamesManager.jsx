@@ -1,4 +1,5 @@
 import { DOM } from '../../class/DOM';
+import { FetchRequest } from '../../class/FetchRequest';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { Session } from '../../class/Session';
@@ -10,8 +11,7 @@ import { NotificationBar } from '../../components/NotificationBar';
 import { common } from '../Common';
 
 const createElements = common.createElements.bind(common),
-	createHeadingButton = common.createHeadingButton.bind(common),
-	request = common.request.bind(common);
+	createHeadingButton = common.createHeadingButton.bind(common);
 class GiveawaysHiddenGamesManager extends Module {
 	constructor() {
 		super();
@@ -349,9 +349,7 @@ class GiveawaysHiddenGamesManager extends Module {
 				nextPage += 1;
 				continue;
 			} else {
-				context = DOM.parse(
-					(await request({ method: 'GET', url: `${url}${nextPage}` })).responseText
-				);
+				context = (await FetchRequest.get(`${url}${nextPage}`)).html;
 			}
 			if (!obj.lastPage) {
 				obj.lastPage = this.esgst.modules.generalLastPageLink.lpl_getLastPage(
@@ -400,12 +398,10 @@ class GiveawaysHiddenGamesManager extends Module {
 				if (context === document) {
 					button.dispatchEvent(new Event('click'));
 				} else {
-					await request({
+					await FetchRequest.post('/ajax.php', {
 						data: `xsrf_token=${Session.xsrfToken}&do=remove_filter&game_id=${
 							button.parentElement.querySelector(`[name="game_id"]`).value
 						}`,
-						method: 'POST',
-						url: '/ajax.php',
 					});
 				}
 				createElements(obj.result, 'beforeend', [

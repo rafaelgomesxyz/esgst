@@ -1,13 +1,13 @@
-import { Module } from '../../class/Module';
-import { common } from '../Common';
 import { DOM } from '../../class/DOM';
+import { FetchRequest } from '../../class/FetchRequest';
+import { Module } from '../../class/Module';
 import { Session } from '../../class/Session';
 import { Tabs } from '../../class/Tabs';
+import { common } from '../Common';
 
 const createElements = common.createElements.bind(common),
 	delValue = common.delValue.bind(common),
 	getValue = common.getValue.bind(common),
-	request = common.request.bind(common),
 	setValue = common.setValue.bind(common);
 class GiveawaysGiveawayRecreator extends Module {
 	constructor() {
@@ -62,15 +62,15 @@ class GiveawaysGiveawayRecreator extends Module {
 			},
 		]);
 		if (this.esgst.createdPath) {
-			let response = await request({ method: 'GET', url: giveaway.url });
+			let response = await FetchRequest.get(giveaway.url);
 			// noinspection JSIgnoredPromiseFromCall
 			this.gr_saveTemplate(
 				button,
 				(
 					await this.esgst.modules.giveaways.giveaways_get(
-						DOM.parse(response.responseText),
+						response.html,
 						true,
-						response.finalUrl,
+						response.url,
 						false,
 						'giveaway'
 					)
@@ -109,17 +109,13 @@ class GiveawaysGiveawayRecreator extends Module {
 			template.whoCanEnter = 'everyone';
 		}
 		elements = DOM.parse(
-			JSON.parse(
-				(
-					await request({
-						data: `do=autocomplete_giveaway_game&page_number=1&search_query=${encodeURIComponent(
-							giveaway.name
-						)}`,
-						method: 'POST',
-						url: '/ajax.php',
-					})
-				).responseText
-			).html
+			(
+				await FetchRequest.post('/ajax.php', {
+					data: `do=autocomplete_giveaway_game&page_number=1&search_query=${encodeURIComponent(
+						giveaway.name
+					)}`,
+				})
+			).json.html
 		).getElementsByClassName('table__row-outer-wrap');
 		for (
 			i = 0, n = elements.length;
@@ -132,15 +128,11 @@ class GiveawaysGiveawayRecreator extends Module {
 		keys = [];
 		if (giveaway.entries === 0 || giveaway.entries < giveaway.copies) {
 			context = DOM.parse(
-				JSON.parse(
-					(
-						await request({
-							data: `xsrf_token=${Session.xsrfToken}&do=popup_keys&code=${giveaway.code}`,
-							method: 'POST',
-							url: '/ajax.php',
-						})
-					).responseText
-				).html
+				(
+					await FetchRequest.post('/ajax.php', {
+						data: `xsrf_token=${Session.xsrfToken}&do=popup_keys&code=${giveaway.code}`,
+					})
+				).json.html
 			).getElementsByClassName('popup__keys__heading');
 			if (context) {
 				context = context[context.length - 1];

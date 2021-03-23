@@ -11,7 +11,6 @@ const createElements = common.createElements.bind(common),
 	createHeadingButton = common.createHeadingButton.bind(common),
 	getFeatureTooltip = common.getFeatureTooltip.bind(common),
 	getValue = common.getValue.bind(common),
-	request = common.request.bind(common),
 	setValue = common.setValue.bind(common);
 class UsersUserSuspensionTracker extends Module {
 	constructor() {
@@ -222,9 +221,7 @@ class UsersUserSuspensionTracker extends Module {
 	}
 
 	async ust_check(code, obj) {
-		let responseHtml = DOM.parse(
-			(await request({ method: 'GET', url: `/support/ticket/${code}/` })).responseText
-		);
+		let responseHtml = (await FetchRequest.get(`/support/ticket/${code}/`)).html;
 		if (
 			responseHtml
 				.getElementsByClassName('table__column--width-fill')[1]

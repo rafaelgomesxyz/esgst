@@ -1,4 +1,4 @@
-import { DOM } from '../class/DOM';
+import { FetchRequest } from '../class/FetchRequest';
 import { Module } from '../class/Module';
 import { Scope } from '../class/Scope';
 import { Settings } from '../class/Settings';
@@ -7,7 +7,6 @@ import { common } from './Common';
 
 const getValue = common.getValue.bind(common),
 	lockAndSaveGames = common.lockAndSaveGames.bind(common),
-	request = common.request.bind(common),
 	updateHiddenGames = common.updateHiddenGames.bind(common);
 const WHITELIST = {
 	25657: { id: 3970, type: 'apps' }, // Prey (2006)
@@ -289,13 +288,9 @@ class Games extends Module {
 		if (!heading.getAttribute('href')) {
 			return null;
 		}
-		const response = await request({
-			method: 'GET',
-			url: heading.getAttribute('href'),
-		});
-		const html = DOM.parse(response.responseText);
+		const response = await FetchRequest.get(heading.getAttribute('href'));
 		const giveaway = (
-			await this.esgst.modules.giveaways.giveaways_get(html, false, response.finalUrl)
+			await this.esgst.modules.giveaways.giveaways_get(response.html, false, response.url)
 		)[0];
 		if (!giveaway || !giveaway.gameType || !giveaway.gameSteamId) {
 			return null;

@@ -1,4 +1,5 @@
 import { DOM } from '../../class/DOM';
+import { FetchRequest } from '../../class/FetchRequest';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { Settings } from '../../class/Settings';
@@ -15,7 +16,6 @@ const buildGiveaway = common.buildGiveaway.bind(common),
 	getFeatureTooltip = common.getFeatureTooltip.bind(common),
 	getValue = common.getValue.bind(common),
 	lockAndSaveGiveaways = common.lockAndSaveGiveaways.bind(common),
-	request = common.request.bind(common),
 	rot = common.rot.bind(common),
 	setValue = common.setValue.bind(common);
 class GiveawaysGiveawayEncrypterDecrypter extends Module {
@@ -264,12 +264,12 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
 	}
 
 	async ged_getGiveaway(code, currentGiveaways, isEnded, source) {
-		let response = await request({ method: 'GET', url: `/giveaway/${code}/` });
+		let response = await FetchRequest.get(`/giveaway/${code}/`);
 		let giveaway = (
 			await this.esgst.modules.giveaways.giveaways_get(
-				DOM.parse(response.responseText),
+				response.html,
 				false,
-				response.finalUrl,
+				response.url,
 				false,
 				null,
 				true
@@ -304,8 +304,8 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
 			i += 1;
 			let giveaway = ged.giveaways[ged.i];
 			ged.i += 1;
-			let response = await request({ method: 'GET', url: `/giveaway/${giveaway.code}/` });
-			let builtGiveaway = await buildGiveaway(DOM.parse(response.responseText), response.finalUrl);
+			let response = await FetchRequest.get(`/giveaway/${giveaway.code}/`);
+			let builtGiveaway = await buildGiveaway(response.html, response.url);
 			if (!builtGiveaway || !builtGiveaway.started) {
 				continue;
 			}

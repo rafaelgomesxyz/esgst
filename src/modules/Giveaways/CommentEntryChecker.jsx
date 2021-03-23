@@ -1,4 +1,5 @@
 import { DOM } from '../../class/DOM';
+import { FetchRequest } from '../../class/FetchRequest';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { Settings } from '../../class/Settings';
@@ -8,7 +9,6 @@ import { PageHeading } from '../../components/PageHeading';
 import { Utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 
-const request = common.request.bind(common);
 class GiveawaysCommentEntryChecker extends Module {
 	constructor() {
 		super();
@@ -125,8 +125,8 @@ class GiveawaysCommentEntryChecker extends Module {
 				obj.progressBar.setMessage(
 					`Retrieving ${i > 0 ? 'bumps ' : 'comments '} (page ${nextPage})...`
 				);
-				let response = await request({ method: 'GET', queue: true, url: `${url}${nextPage}` });
-				let responseHtml = DOM.parse(response.responseText);
+				let response = await FetchRequest.get(`${url}${nextPage}`, { queue: true });
+				let responseHtml = response.html;
 				let elements = responseHtml.querySelectorAll(
 					`.comment:not(.comment--submit) .comment__username:not(.comment__username--op):not(.comment__username--deleted)`
 				);
@@ -134,7 +134,7 @@ class GiveawaysCommentEntryChecker extends Module {
 					comments.push(elements[j].textContent.trim());
 				}
 				if (nextPage === 1) {
-					url = urls[i] = `${response.finalUrl}/search?page=`;
+					url = urls[i] = `${response.url}/search?page=`;
 				}
 				nextPage += 1;
 				pagination = responseHtml.getElementsByClassName('pagination__navigation')[0];
@@ -162,15 +162,11 @@ class GiveawaysCommentEntryChecker extends Module {
 		let url = urls[0].replace(/search\?page=/, `entries/search?page=`);
 		do {
 			obj.progressBar.setMessage(`Retrieving entries (page ${nextPage})...`);
-			let responseHtml = DOM.parse(
-				(
-					await request({
-						method: 'GET',
-						queue: true,
-						url: `${url}${nextPage}`,
-					})
-				).responseText
-			);
+			let responseHtml = (
+				await FetchRequest.get(`${url}${nextPage}`, {
+					queue: true,
+				})
+			).html;
 			let elements = responseHtml.getElementsByClassName('table__column__heading');
 			for (let i = elements.length - 1; i > -1; i--) {
 				entries.push(elements[i].textContent.trim());

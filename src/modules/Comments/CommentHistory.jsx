@@ -121,14 +121,14 @@ class CommentsCommentHistory extends Module {
 				DOM.insert(
 					comment.getElementsByClassName('action_list')[0].firstElementChild,
 					'afterend',
-					<a href={response.finalUrl}>{responseHtml.title}</a>
+					<a href={response.url}>{responseHtml.title}</a>
 				);
 			}
 			if (Shared.esgst.sg) {
 				fragmentChildren.push(
 					<div className="comments__entity">
 						<p className="comments__entity__name">
-							<a href={response.finalUrl}>{responseHtml.title}</a>
+							<a href={response.url}>{responseHtml.title}</a>
 						</p>
 					</div>
 				);

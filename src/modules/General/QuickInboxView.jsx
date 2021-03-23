@@ -1,16 +1,16 @@
+import { DOM } from '../../class/DOM';
+import { EventDispatcher } from '../../class/EventDispatcher';
+import { FetchRequest } from '../../class/FetchRequest';
 import { Module } from '../../class/Module';
 import { Popout } from '../../class/Popout';
-import { common } from '../Common';
-import { Settings } from '../../class/Settings';
-import { DOM } from '../../class/DOM';
 import { Session } from '../../class/Session';
+import { Settings } from '../../class/Settings';
 import { Shared } from '../../class/Shared';
-import { EventDispatcher } from '../../class/EventDispatcher';
 import { Events } from '../../constants/Events';
+import { common } from '../Common';
 
 const createElements = common.createElements.bind(common),
-	endless_load = common.endless_load.bind(common),
-	request = common.request.bind(common);
+	endless_load = common.endless_load.bind(common);
 class GeneralQuickInboxView extends Module {
 	constructor() {
 		super();
@@ -193,14 +193,9 @@ class GeneralQuickInboxView extends Module {
 					]
 				);
 				this.esgst.qiv.popout.reposition(Shared.header.buttonContainers['messages'].nodes.outer);
-				const context = DOM.parse(
-					(
-						await request({
-							method: 'GET',
-							url: `/messages/search?page=${this.esgst.qiv.nextPage}`,
-						})
-					).responseText
-				).querySelector(`.page__heading, .page_heading`).nextElementSibling;
+				const context = (
+					await FetchRequest.get(`/messages/search?page=${this.esgst.qiv.nextPage}`)
+				).html.querySelector(`.page__heading, .page_heading`).nextElementSibling;
 				loading.remove();
 
 				if (preload) {
@@ -343,7 +338,7 @@ class GeneralQuickInboxView extends Module {
 			url = '/ajax.php';
 		}
 		this.esgst.qiv.markReadButton.addEventListener('click', async () => {
-			await request({ data: `xsrf_token=${Session.xsrfToken}&do=${key}`, method: 'POST', url });
+			await FetchRequest.post(url, { data: `xsrf_token=${Session.xsrfToken}&do=${key}` });
 			this.esgst.qiv.markReadButton.remove();
 			this.esgst.qiv.markReadButton = null;
 			let elements = this.esgst.qiv.comments.querySelectorAll('.comment__envelope');

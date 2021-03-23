@@ -3,8 +3,8 @@
 // that will append styles to page in runtime
 import './assets/styles';
 import { browser } from './browser';
-import { DOM } from './class/DOM';
 import { esgst } from './class/Esgst';
+import { FetchRequest } from './class/FetchRequest';
 import { Logger } from './class/Logger';
 import { MessageNotifier } from './class/MessageNotifier';
 import { persistentStorage } from './class/PersistentStorage';
@@ -133,15 +133,9 @@ import { runSilentSync } from './modules/Sync';
 				}
 
 				if (!esgst.settings.registrationDate_sg || !esgst.settings.steamId) {
-					const responseHtml = DOM.parse(
-						(
-							await common.request({
-								method: 'GET',
-								url: `https://www.steamgifts.com/user/${esgst.settings.username_sg}`,
-							})
-						).responseText
-					);
-
+					const responseHtml = (
+						await FetchRequest.get(`https://www.steamgifts.com/user/${esgst.settings.username_sg}`)
+					).html;
 					const elements = responseHtml.getElementsByClassName('featured__table__row__left');
 
 					for (const element of elements) {

@@ -1,9 +1,10 @@
-import { Popup } from './Popup';
-import { Shared } from './Shared';
-import { Settings } from './Settings';
-import { permissions } from './Permissions';
-import { Logger } from './Logger';
 import { DOM } from './DOM';
+import { FetchRequest } from './FetchRequest';
+import { Logger } from './Logger';
+import { permissions } from './Permissions';
+import { Popup } from './Popup';
+import { Settings } from './Settings';
+import { Shared } from './Shared';
 
 class Process {
 	constructor(details) {
@@ -170,13 +171,10 @@ class Process {
 			if (!url) break;
 			url = url.url || url;
 			try {
-				const response = await Shared.common.request({
-					method: 'GET',
+				const response = await FetchRequest.get(url, {
 					queue: details.queue,
-					url: url,
 				});
-				const responseHtml = DOM.parse(response.responseText);
-				await details.request(this, details, response, responseHtml);
+				await details.request(this, details, response, response.html);
 				i += 1;
 			} catch (e) {
 				Logger.error(e.message, e.stack);
@@ -202,15 +200,12 @@ class Process {
 		let pagination = null;
 		let stop = false;
 		do {
-			let response = await Shared.common.request({
-				method: 'GET',
+			let response = await FetchRequest.get(`${details.url}${details.nextPage}`, {
 				queue: details.queue,
-				url: `${details.url}${details.nextPage}`,
 			});
-			let responseHtml = DOM.parse(response.responseText);
 			if (details.nextPage === backup) {
 				details.lastPage = Shared.esgst.modules.generalLastPageLink.lpl_getLastPage(
-					responseHtml,
+					response.html,
 					false,
 					details.discussion,
 					details.user,
@@ -221,9 +216,9 @@ class Process {
 				);
 				details.lastPage = details.lastPage === 999999999 ? '' : ` of ${details.lastPage}`;
 			}
-			stop = await details.request(this, details, response, responseHtml);
+			stop = await details.request(this, details, response, response.html);
 			details.nextPage += 1;
-			pagination = responseHtml.getElementsByClassName('pagination__navigation')[0];
+			pagination = response.html.getElementsByClassName('pagination__navigation')[0];
 		} while (
 			!stop &&
 			!this.isCanceled &&

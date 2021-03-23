@@ -1,13 +1,13 @@
 import { Button } from '../../class/Button';
 import { DOM } from '../../class/DOM';
+import { FetchRequest } from '../../class/FetchRequest';
 import { Module } from '../../class/Module';
 import { Scope } from '../../class/Scope';
 import { Session } from '../../class/Session';
 import { Settings } from '../../class/Settings';
 import { common } from '../Common';
 
-const request = common.request.bind(common),
-	updateHiddenGames = common.updateHiddenGames.bind(common);
+const updateHiddenGames = common.updateHiddenGames.bind(common);
 class GiveawaysOneClickHideGiveawayButton extends Module {
 	constructor() {
 		super();
@@ -95,10 +95,8 @@ class GiveawaysOneClickHideGiveawayButton extends Module {
 	}
 
 	async ochgb_hideGiveaway(giveaway, main) {
-		await request({
+		await FetchRequest.post('/ajax.php', {
 			data: `xsrf_token=${Session.xsrfToken}&do=hide_giveaways_by_game_id&game_id=${giveaway.gameId}`,
-			method: 'POST',
-			url: '/ajax.php',
 		});
 		this.ochgb_completeProcess(giveaway, 'fade', main);
 		await updateHiddenGames(giveaway.id, giveaway.type);
@@ -106,10 +104,8 @@ class GiveawaysOneClickHideGiveawayButton extends Module {
 	}
 
 	async ochgb_unhideGiveaway(giveaway, main) {
-		await request({
+		await FetchRequest.post('/ajax.php', {
 			data: `xsrf_token=${Session.xsrfToken}&do=remove_filter&game_id=${giveaway.gameId}`,
-			method: 'POST',
-			url: '/ajax.php',
 		});
 		this.ochgb_completeProcess(giveaway, 'unfade', main);
 		await updateHiddenGames(giveaway.id, giveaway.type, true);

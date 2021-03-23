@@ -1,15 +1,15 @@
-import { Module } from '../../class/Module';
-import { Popup } from '../../class/Popup';
-import { common } from '../Common';
-import { Shared } from '../../class/Shared';
-import { permissions } from '../../class/Permissions';
-import { LocalStorage } from '../../class/LocalStorage';
 import { DOM } from '../../class/DOM';
+import { FetchRequest } from '../../class/FetchRequest';
+import { LocalStorage } from '../../class/LocalStorage';
+import { Module } from '../../class/Module';
+import { permissions } from '../../class/Permissions';
+import { Popup } from '../../class/Popup';
+import { Shared } from '../../class/Shared';
+import { common } from '../Common';
 
 const createElements = common.createElements.bind(common),
 	createHeadingButton = common.createHeadingButton.bind(common),
-	getTextNodesIn = common.getTextNodesIn.bind(common),
-	request = common.request.bind(common);
+	getTextNodesIn = common.getTextNodesIn.bind(common);
 const WHITELIST = {
 	borderlandsgameoftheyear: 'borderlandsgoty',
 	mafia2: 'mafiaii',
@@ -205,12 +205,11 @@ class TradesHaveWantListChecker extends Module {
 		}
 
 		try {
-			const response = await request({
-				method: 'GET',
-				url: `https://api.steampowered.com/ISteamApps/GetAppList/v2/`,
-			});
+			const response = await FetchRequest.get(
+				'https://api.steampowered.com/ISteamApps/GetAppList/v2/'
+			);
 
-			const appList = JSON.parse(response.responseText);
+			const appList = response.json;
 
 			if (convertToObj) {
 				// eslint-disable-next-line require-atomic-updates
@@ -288,14 +287,12 @@ class TradesHaveWantListChecker extends Module {
 		if (key === 'want') {
 			try {
 				const steamId = document.querySelector('.author_name').getAttribute('href').match(/\d+/)[0];
-				const response = await request({
-					method: 'GET',
-					url: `http://store.steampowered.com/wishlist/profiles/${steamId}`,
-				});
-				const responseText = response.responseText;
-				const wishlistData = responseText.match(/g_rgWishlistData\s=\s(\[(.+?)]);/);
+				const response = await FetchRequest.get(
+					`http://store.steampowered.com/wishlist/profiles/${steamId}`
+				);
+				const wishlistData = response.text.match(/g_rgWishlistData\s=\s(\[(.+?)]);/);
 				if (wishlistData) {
-					const appInfo = responseText.match(/g_rgAppInfo\s=\s({(.+?)});/);
+					const appInfo = response.text.match(/g_rgAppInfo\s=\s({(.+?)});/);
 					JSON.parse(wishlistData[1]).forEach((item) => {
 						const id = parseInt(item.appid);
 						const found = obj.games[key].apps.filter((x) => x.id === id)[0];

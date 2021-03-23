@@ -1,5 +1,6 @@
 import dateFns_format from 'date-fns/format';
 import { DOM } from '../../class/DOM';
+import { FetchRequest } from '../../class/FetchRequest';
 import { LocalStorage } from '../../class/LocalStorage';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
@@ -9,9 +10,9 @@ import { Shared } from '../../class/Shared';
 import { Tabs } from '../../class/Tabs';
 import { ToggleSwitch } from '../../class/ToggleSwitch';
 import { Button } from '../../components/Button';
+import { PageHeading } from '../../components/PageHeading';
 import { Utils } from '../../lib/jsUtils';
 import { common } from '../Common';
-import { PageHeading } from '../../components/PageHeading';
 
 const buildGiveaway = common.buildGiveaway.bind(common),
 	copyValue = common.copyValue.bind(common),
@@ -24,7 +25,6 @@ const buildGiveaway = common.buildGiveaway.bind(common),
 	getUser = common.getUser.bind(common),
 	lockAndSaveGiveaways = common.lockAndSaveGiveaways.bind(common),
 	parseMarkdown = common.parseMarkdown.bind(common),
-	request = common.request.bind(common),
 	saveUser = common.saveUser.bind(common),
 	setCountdown = common.setCountdown.bind(common);
 class GiveawaysMultipleGiveawayCreator extends Module {
@@ -89,20 +89,16 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 					'mgcAttach_step3',
 					window.location.pathname.match(/\/discussion\/(.+?)\//)[1]
 				);
-				await request({
+				await FetchRequest.post(Shared.esgst.locationHref, {
 					data: `xsrf_token=${Session.xsrfToken}&do=close_discussion`,
-					method: 'POST',
-					url: Shared.esgst.locationHref,
 				});
 				window.close();
 			} else if (LocalStorage.get('mgcAttach_step4')) {
 				document.querySelector(`form[action="/discussions/edit"]`).submit();
 			} else if (LocalStorage.get('mgcAttach_step5')) {
 				LocalStorage.delete('mgcAttach_step5');
-				await request({
+				await FetchRequest.post(Shared.esgst.locationHref, {
 					data: `xsrf_token=${Session.xsrfToken}&do=reopen_discussion`,
-					method: 'POST',
-					url: Shared.esgst.locationHref,
 				});
 				LocalStorage.set('mgcAttach_step6', true);
 				window.location.reload();
@@ -1682,12 +1678,10 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 					values,
 					mainCallback,
 					callback,
-					await request({
+					await FetchRequest.post('/ajax.php', {
 						data: `do=autocomplete_giveaway_game&page_number=1&search_query=${encodeURIComponent(
 							(steamInfo && steamInfo.id) || name
 						)}`,
-						method: 'POST',
-						url: '/ajax.php',
 					})
 				);
 			} else {
@@ -1718,9 +1712,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 		response
 	) {
 		let conflictPopup, context, element, elements, exactMatch, info, k, matches, numElements, value;
-		elements = DOM.parse(JSON.parse(response.responseText).html).getElementsByClassName(
-			'table__row-outer-wrap'
-		);
+		elements = DOM.parse(response.json.html).getElementsByClassName('table__row-outer-wrap');
 		exactMatch = null;
 		matches = [];
 		for (k = 0, numElements = elements.length; k < numElements; k++) {
@@ -2197,10 +2189,8 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 					mgc,
 					n,
 					callback,
-					await request({
+					await FetchRequest.post('/giveaways/new', {
 						data: mgc.datas[j].replace(/start_time=(.+?)&/, this.mgc_correctTime.bind(this)),
-						method: 'POST',
-						url: '/giveaways/new',
 					})
 				);
 			} else {
@@ -2228,9 +2218,9 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 	async mgc_checkCreation(i, mgc, n, callback, response) {
 		let errors, errorsTitle, giveaway, j, numErrors, responseHtml;
 		giveaway = mgc.giveaways.children[i];
-		if (response.finalUrl.match(/\/giveaways\/new/)) {
+		if (response.url.match(/\/giveaways\/new/)) {
 			if (
-				response.responseText.match(
+				response.text.match(
 					/Error\.\sYou\salready\sposted\san\sidentical\sgiveaway\swithin\sthe\spast\s2\sminutes\.\sTo\sprevent\sdouble\sposts,\sit's\sbeen\sblocked\./
 				)
 			) {
@@ -2256,10 +2246,8 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 								mgc,
 								n,
 								callback,
-								await request({
+								await FetchRequest.post('/giveaways/new', {
 									data: mgc.datas[j].replace(/start_time=(.+?)&/, this.mgc_correctTime.bind(this)),
-									method: 'POST',
-									url: '/giveaways/new',
 								})
 							),
 						0
@@ -2267,7 +2255,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 				});
 			} else {
 				giveaway.classList.add('error');
-				errors = DOM.parse(response.responseText).getElementsByClassName('form__row__error');
+				errors = response.html.getElementsByClassName('form__row__error');
 				errorsTitle = `Errors:\n`;
 				for (j = 0, numErrors = errors.length; j < numErrors; ++j) {
 					errorsTitle += `${errors[j].textContent}\n`;
@@ -2278,11 +2266,11 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 			}
 		} else {
 			giveaway.classList.add('success');
-			responseHtml = DOM.parse(response.responseText);
+			responseHtml = response.html;
 			mgc.created.push({
 				giveaway: giveaway,
-				html: (await buildGiveaway(responseHtml, response.finalUrl)).html,
-				url: response.finalUrl,
+				html: (await buildGiveaway(responseHtml, response.url)).html,
+				url: response.url,
 			});
 			mgc.createdValues.push(mgc.values[i]);
 			if (
@@ -2292,7 +2280,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 				Settings.get('rcvc')
 			) {
 				giveaway = (
-					await this.esgst.modules.giveaways.giveaways_get(responseHtml, false, response.finalUrl)
+					await this.esgst.modules.giveaways.giveaways_get(responseHtml, false, response.url)
 				)[0];
 				if (giveaway) {
 					mgc.saveGiveaways[giveaway.code] = giveaway;
@@ -2399,9 +2387,7 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 		if (i >= n || n - 1 === 0) {
 			callback();
 		} else {
-			let responseHtml = DOM.parse(
-				(await request({ method: 'GET', url: mgc.created[i].url })).responseText
-			);
+			let responseHtml = (await FetchRequest.get(mgc.created[i].url)).html;
 			let id = responseHtml.querySelector(`[name="giveaway_id"]`).value;
 			let description = responseHtml.querySelector(`[name="description"]`).value;
 			let replaceCallback = null;
@@ -2433,14 +2419,12 @@ class GiveawaysMultipleGiveawayCreator extends Module {
 			} else {
 				description = description.replace(/\[ESGST-B](.+?)\[\/ESGST-B]/g, '');
 			}
-			await request({
+			await FetchRequest.post('/ajax.php', {
 				data: `xsrf_token=${
 					Session.xsrfToken
 				}&do=edit_giveaway_description&giveaway_id=${id}&description=${encodeURIComponent(
 					description.trim()
 				)}`,
-				method: 'POST',
-				url: '/ajax.php',
 			});
 			mgc.created[i].giveaway.classList.add('connected');
 			window.setTimeout(() => this.mgc_createTrain(i + 1, mgc, n, callback), 0);

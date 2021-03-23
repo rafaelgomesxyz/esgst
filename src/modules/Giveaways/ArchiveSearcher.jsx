@@ -1,4 +1,5 @@
 import { DOM } from '../../class/DOM';
+import { FetchRequest } from '../../class/FetchRequest';
 import { Module } from '../../class/Module';
 import { permissions } from '../../class/Permissions';
 import { Popup } from '../../class/Popup';
@@ -8,8 +9,7 @@ import { NotificationBar } from '../../components/NotificationBar';
 import { PageHeading } from '../../components/PageHeading';
 import { common } from '../Common';
 
-const endless_load = common.endless_load.bind(common),
-	request = common.request.bind(common);
+const endless_load = common.endless_load.bind(common);
 class GiveawaysArchiveSearcher extends Module {
 	constructor() {
 		super();
@@ -127,14 +127,9 @@ class GiveawaysArchiveSearcher extends Module {
 
 		// retrieve the game title from Steam
 		if (obj.isAppId) {
-			let title = DOM.parse(
-				(
-					await request({
-						method: 'GET',
-						url: `https://steamcommunity.com/app/${obj.query}`,
-					})
-				).responseText
-			).getElementsByClassName('apphub_AppName')[0];
+			let title = (
+				await FetchRequest.get(`https://steamcommunity.com/app/${obj.query}`)
+			).html.getElementsByClassName('apphub_AppName')[0];
 			if (title) {
 				obj.query = title.textContent;
 			} else {
@@ -180,11 +175,8 @@ class GiveawaysArchiveSearcher extends Module {
 		}
 		let pagination = null;
 		do {
-			const response = await request({
-				method: 'GET',
-				url: `${obj.url}${obj.page}`,
-			});
-			const responseHtml = DOM.parse(response.responseText);
+			const response = await FetchRequest.get(`${obj.url}${obj.page}`);
+			const responseHtml = response.html;
 			const elements = responseHtml.querySelectorAll('.table__row-outer-wrap');
 			for (const element of elements) {
 				if (

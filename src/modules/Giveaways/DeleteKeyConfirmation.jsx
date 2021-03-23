@@ -1,11 +1,11 @@
-import { Module } from '../../class/Module';
-import { common } from '../Common';
-import { Session } from '../../class/Session';
 import { DOM } from '../../class/DOM';
+import { FetchRequest } from '../../class/FetchRequest';
+import { Module } from '../../class/Module';
+import { Session } from '../../class/Session';
+import { common } from '../Common';
 
 const createConfirmation = common.createConfirmation.bind(common),
-	createElements = common.createElements.bind(common),
-	request = common.request.bind(common);
+	createElements = common.createElements.bind(common);
 class GiveawaysDeleteKeyConfirmation extends Module {
 	constructor() {
 		super();
@@ -69,12 +69,10 @@ class GiveawaysDeleteKeyConfirmation extends Module {
 		row.getElementsByClassName('form__key-loading')[0].classList.remove('is-hidden');
 		row.querySelector(`[name="key_value"]`).value = '';
 		row.getElementsByClassName('form__key-value')[0].textContent = '';
-		await request({
+		await FetchRequest.post('/ajax.php', {
 			data: `xsrf_token=${Session.xsrfToken}&do=set_gift_key&key_value=&winner_id=${
 				row.querySelector(`[name="winner_id"]`).value
 			}`,
-			method: 'POST',
-			url: '/ajax.php',
 		});
 		row.getElementsByClassName('form__key-loading')[0].classList.add('is-hidden');
 		row.getElementsByClassName('form__key-insert')[0].classList.remove('is-hidden');

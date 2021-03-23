@@ -1,5 +1,6 @@
 import { DOM } from '../../class/DOM';
 import { EventDispatcher } from '../../class/EventDispatcher';
+import { FetchRequest } from '../../class/FetchRequest';
 import { Module } from '../../class/Module';
 import { Session } from '../../class/Session';
 import { Settings } from '../../class/Settings';
@@ -180,7 +181,7 @@ class CommentsMultiReply extends Module {
 			let Reply;
 			if (Shared.esgst.sg) {
 				if (id) {
-					Reply = DOM.parse(Response.responseText).getElementById(id).closest('.comment');
+					Reply = Response.html.getElementById(id).closest('.comment');
 					if (Settings.get('rfi') && Settings.get('rfi_s')) {
 						await Shared.esgst.modules.commentsReplyFromInbox.rfi_saveReply(
 							id,
@@ -211,7 +212,7 @@ class CommentsMultiReply extends Module {
 				}
 			} else {
 				if (id) {
-					Reply = DOM.parse(JSON.parse(Response.responseText).html).getElementById(id);
+					Reply = DOM.parse(Response.json.html).getElementById(id);
 					if (Settings.get('rfi') && Settings.get('rfi_s')) {
 						await Shared.esgst.modules.commentsReplyFromInbox.rfi_saveReply(
 							id,
@@ -299,19 +300,15 @@ class CommentsMultiReply extends Module {
 				let ResponseJSON, ResponseHTML;
 				const obj = { comment: Description.value };
 				await EventDispatcher.dispatch(Events.BEFORE_COMMENT_SUBMIT, obj);
-				ResponseJSON = JSON.parse(
-					(
-						await Shared.common.request({
-							data: `xsrf_token=${
-								Session.xsrfToken
-							}&do=comment_edit&comment_id=${ID}&allow_replies=${AllowReplies}&description=${encodeURIComponent(
-								obj.comment
-							)}`,
-							method: 'POST',
-							url: '/ajax.php',
-						})
-					).responseText
-				);
+				ResponseJSON = (
+					await FetchRequest.post('/ajax.php', {
+						data: `xsrf_token=${
+							Session.xsrfToken
+						}&do=comment_edit&comment_id=${ID}&allow_replies=${AllowReplies}&description=${encodeURIComponent(
+							obj.comment
+						)}`,
+					})
+				).json;
 				if (ResponseJSON.type === 'success' || ResponseJSON.success) {
 					ResponseHTML = DOM.parse(ResponseJSON[Shared.esgst.sg ? 'comment' : 'html']);
 					if (Settings.get('rfi') && Settings.get('rfi_s')) {
@@ -415,10 +412,7 @@ class CommentsMultiReply extends Module {
 			mr.delete.previousElementSibling.remove();
 			mr.delete.addEventListener('click', async () => {
 				// noinspection JSIgnoredPromiseFromCall
-				this.mr_editReply(
-					mr,
-					await Shared.common.request({ data, method: 'POST', url: '/ajax.php' })
-				);
+				this.mr_editReply(mr, await FetchRequest.post('/ajax.php', { data }));
 			});
 		}
 	}
@@ -445,17 +439,14 @@ class CommentsMultiReply extends Module {
 			mr.undelete.previousElementSibling.remove();
 			mr.undelete.addEventListener('click', async () => {
 				// noinspection JSIgnoredPromiseFromCall
-				this.mr_editReply(
-					mr,
-					await Shared.common.request({ data, method: 'POST', url: '/ajax.php' })
-				);
+				this.mr_editReply(mr, await FetchRequest.post('/ajax.php', { data }));
 			});
 		}
 	}
 
 	async mr_editReply(mr, response) {
 		let responseHtml, responseJson;
-		responseJson = JSON.parse(response.responseText);
+		responseJson = response.json;
 		if (responseJson.type === 'success' || responseJson.success) {
 			responseHtml = DOM.parse(responseJson[Shared.esgst.sg ? 'comment' : 'html']);
 			if (Shared.esgst.sg) {

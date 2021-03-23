@@ -1,5 +1,6 @@
 import { Button } from '../../class/Button';
 import { DOM } from '../../class/DOM';
+import { FetchRequest } from '../../class/FetchRequest';
 import { LocalStorage } from '../../class/LocalStorage';
 import { Module } from '../../class/Module';
 import { Scope } from '../../class/Scope';
@@ -907,10 +908,8 @@ class CommentsCommentTracker extends Module {
 	}
 
 	async ct_markMessagesRead(key, markRead, url, event) {
-		await Shared.common.request({
+		await FetchRequest.post(url, {
 			data: `xsrf_token=${Session.xsrfToken}&do=${key}`,
-			method: 'POST',
-			url,
 		});
 		await this.ct_markCommentsRead(markRead);
 		this.ct_completeInboxRead(event.currentTarget);
@@ -1213,15 +1212,11 @@ class CommentsCommentTracker extends Module {
 			}
 		}
 		while (true) {
-			const context = DOM.parse(
-				(
-					await Shared.common.request({
-						method: 'GET',
-						queue: true,
-						url: `${url}${nextPage}`,
-					})
-				).responseText
-			);
+			const context = (
+				await FetchRequest.get(`${url}${nextPage}`, {
+					queue: true,
+				})
+			).html;
 			if (code) {
 				const elements = context.querySelectorAll(`[href*="/go/comment/"]`);
 				// @ts-ignore

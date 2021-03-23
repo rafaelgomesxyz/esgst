@@ -1,10 +1,11 @@
+import { DOM } from '../../class/DOM';
+import { FetchRequest } from '../../class/FetchRequest';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
+import { Session } from '../../class/Session';
+import { Shared } from '../../class/Shared';
 import { Utils } from '../../lib/jsUtils';
 import { common } from '../Common';
-import { Shared } from '../../class/Shared';
-import { Session } from '../../class/Session';
-import { DOM } from '../../class/DOM';
 
 const createElements = common.createElements.bind(common),
 	createHeadingButton = common.createHeadingButton.bind(common),
@@ -12,7 +13,6 @@ const createElements = common.createElements.bind(common),
 	endless_load = common.endless_load.bind(common),
 	getTimestamp = common.getTimestamp.bind(common),
 	getValue = common.getValue.bind(common),
-	request = common.request.bind(common),
 	setValue = common.setValue.bind(common);
 class UsersWhitelistBlacklistSorter extends Module {
 	constructor() {
@@ -265,10 +265,8 @@ class UsersWhitelistBlacklistSorter extends Module {
 	async wbs_removeMember(obj) {
 		obj.removeButton.classList.add('esgst-hidden');
 		obj.removingButton.classList.remove('esgst-hidden');
-		await request({
+		await FetchRequest.post('/ajax.php', {
 			data: `xsrf_token=${Session.xsrfToken}&do=${obj.key}&action=delete&child_user_id=${obj.user.id}`,
-			method: 'POST',
-			url: '/ajax.php',
 		});
 		let deleteLock = await createLock('userLock', 300);
 		let savedUsers = JSON.parse(getValue('users'));

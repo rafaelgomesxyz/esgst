@@ -1,11 +1,10 @@
 import { Button } from '../../class/Button';
-import { Module } from '../../class/Module';
-import { common } from '../Common';
-import { Settings } from '../../class/Settings';
 import { DOM } from '../../class/DOM';
+import { FetchRequest } from '../../class/FetchRequest';
+import { Module } from '../../class/Module';
 import { Session } from '../../class/Session';
+import { Settings } from '../../class/Settings';
 
-const request = common.request.bind(common);
 class DiscussionsCloseOpenDiscussionButton extends Module {
 	constructor() {
 		super();
@@ -69,12 +68,10 @@ class DiscussionsCloseOpenDiscussionButton extends Module {
 	}
 
 	async codb_close(discussion) {
-		let response = await request({
+		let response = await FetchRequest.post(discussion.url, {
 			data: `xsrf_token=${Session.xsrfToken}&do=close_discussion`,
-			method: 'POST',
-			url: discussion.url,
 		});
-		if (DOM.parse(response.responseText).getElementsByClassName('page__heading__button--red')[0]) {
+		if (response.html.getElementsByClassName('page__heading__button--red')[0]) {
 			discussion.closed = true;
 			discussion.innerWrap.classList.add('is-faded');
 			return true;
@@ -83,12 +80,10 @@ class DiscussionsCloseOpenDiscussionButton extends Module {
 	}
 
 	async codb_open(discussion) {
-		let response = await request({
+		let response = await FetchRequest.post(discussion.url, {
 			data: `xsrf_token=${Session.xsrfToken}&do=reopen_discussion`,
-			method: 'POST',
-			url: discussion.url,
 		});
-		if (!DOM.parse(response.responseText).getElementsByClassName('page__heading__button--red')[0]) {
+		if (!response.html.getElementsByClassName('page__heading__button--red')[0]) {
 			discussion.closed = false;
 			discussion.innerWrap.classList.remove('is-faded');
 			return true;

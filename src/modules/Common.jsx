@@ -676,12 +676,12 @@ class Common extends Module {
 			this.esgst.sg ? 'comment_new' : 'comment_insert'
 		}&trade_code=${tradeCode}&parent_id=${parentId}&description=${encodeURIComponent(description)}`;
 		let id = null;
-		let response = await this.request({ data, method: 'POST', url });
+		let response = await FetchRequest.post(url, { data });
 		let responseHtml = null;
 		let success = true;
 		if (this.esgst.sg) {
 			if (response.redirected) {
-				responseHtml = DOM.parse(response.responseText);
+				responseHtml = response.html;
 				let commentEls;
 				if (parentId) {
 					commentEls =
@@ -704,7 +704,7 @@ class Common extends Module {
 				success = false;
 			}
 		} else {
-			const responseJson = JSON.parse(response.responseText);
+			const responseJson = response.json;
 			if (responseJson.success) {
 				responseHtml = DOM.parse(responseJson.html);
 				id = responseHtml.querySelector('.comment_outer')?.id ?? '';
@@ -1815,16 +1815,12 @@ class Common extends Module {
 	}
 
 	async getUsername(list, save, user) {
-		let match, response, responseHtml;
-		response = await this.request({
-			method: 'GET',
-			url: `https://www.steamgifts.com/go/user/${user.steamId}`,
-		});
-		match = response.finalUrl.match(/\/user\/(.+)/);
-		responseHtml = DOM.parse(response.responseText);
+		let match;
+		const response = await FetchRequest.get(`https://www.steamgifts.com/go/user/${user.steamId}`);
+		match = response.url.match(/\/user\/(.+)/);
 		if (match) {
 			user.username = match[1];
-			let input = responseHtml.querySelector(`[name="child_user_id"]`);
+			let input = response.html.querySelector(`[name="child_user_id"]`);
 			if (input) {
 				user.id = input.value;
 			}
@@ -1839,7 +1835,7 @@ class Common extends Module {
 	}
 
 	async getSteamId(list, save, savedUsers, user) {
-		let input, responseHtml;
+		let input;
 		if (!save) {
 			if (!savedUsers) {
 				savedUsers = JSON.parse(this.getValue('users'));
@@ -2023,15 +2019,14 @@ class Common extends Module {
 			const element = elements[i],
 				match = element.getAttribute('href').match(/\/(app|sub)\/(.+)/);
 			if (!match) continue;
-			const id = match[2],
-				response = await this.request({
-					method: 'GET',
-					url: `http://store.steampowered.com/api/${
-						match[1] === 'app' ? 'appdetails?appids' : 'packagedetails?packageids'
-					}=${id}&filters=basic`,
-				});
+			const id = match[2];
 			try {
-				element.textContent = JSON.parse(response.responseText)[id].data.name;
+				const response = await FetchRequest.get(
+					`http://store.steampowered.com/api/${
+						match[1] === 'app' ? 'appdetails?appids' : 'packagedetails?packageids'
+					}=${id}&filters=basic`
+				);
+				element.textContent = response.json[id].data.name;
 			} catch (e) {
 				element.classList.add('esgst-red');
 				element.title = 'Unable to retrieve name for this game';
@@ -2192,9 +2187,7 @@ class Common extends Module {
 					savedGroups.push(savedGroup);
 				}
 				if (!savedGroup.avatar || !savedGroup.steamId) {
-					const html = DOM.parse(
-						(await this.request({ method: 'GET', url: `/group/${code}/` })).responseText
-					);
+					const html = (await FetchRequest.get(`/group/${code}/`)).html;
 					savedGroup.avatar = html
 						.getElementsByClassName('global__image-inner-wrap')[0]
 						.style.backgroundImage.match(/\/avatars\/(.+)_full/)[1];
@@ -2210,7 +2203,7 @@ class Common extends Module {
 	}
 
 	lookForPopups(response) {
-		const popup = (response.html || DOM.parse(response.responseText)).querySelector(
+		const popup = response.html.querySelector(
 			`.popup--gift-sent, .popup--gift-received`
 		);
 		if (!popup) {
@@ -2255,15 +2248,8 @@ class Common extends Module {
 			syncer.progressBar.setMessage(
 				`Syncing your won games (page ${nextPage}${lastPage ? ` of ${lastPage}` : ''})...`
 			);
-			const responseHtml = DOM.parse(
-					(
-						await this.request({
-							method: 'GET',
-							url: `/giveaways/won/search?page=${nextPage}`,
-						})
-					).responseText
-				),
-				elements = responseHtml.getElementsByClassName('table__row-outer-wrap');
+			const responseHtml = (await FetchRequest.get(`/giveaways/won/search?page=${nextPage}`)).html;
+			const elements = responseHtml.getElementsByClassName('table__row-outer-wrap');
 			if (!lastPage) {
 				lastPage = this.esgst.modules.generalLastPageLink.lpl_getLastPage(responseHtml);
 			}
@@ -2404,11 +2390,9 @@ class Common extends Module {
 		}
 		if (numDiscussions < 5 || numDeals < 5) {
 			let [response1, response2] = await Promise.all([
-				this.request({ method: 'GET', url: '/discussions' }),
-				this.request({ method: 'GET', url: '/discussions/deals' }),
+				FetchRequest.get('/discussions'),
+				FetchRequest.get('/discussions/deals'),
 			]);
-			let response1Html = DOM.parse(response1.responseText);
-			let response2Html = DOM.parse(response2.responseText);
 			let revisedElements = [];
 			let preset = null;
 			if (Settings.get('df') && Settings.get('df_m') && Settings.get('df_enable')) {
@@ -2425,7 +2409,7 @@ class Common extends Module {
 					}
 				}
 			}
-			(await this.esgst.modules.discussions.discussions_get(response1Html, true)).forEach(
+			(await this.esgst.modules.discussions.discussions_get(response1.html, true)).forEach(
 				(element) => {
 					// @ts-ignore
 					if (element.category !== 'Deals') {
@@ -2450,7 +2434,7 @@ class Common extends Module {
 				}
 				i -= 1;
 			}
-			let elements = await this.esgst.modules.discussions.discussions_get(response2Html, true);
+			let elements = await this.esgst.modules.discussions.discussions_get(response2.html, true);
 			i = elements.length - (numDeals + filteredDeals + 1);
 			while (numDeals < 5 && i > -1) {
 				if (
@@ -2699,12 +2683,13 @@ class Common extends Module {
 		let giveaway;
 		if (i < n) {
 			if (hidden[i]) {
-				let response = await this.request({
-					method: 'GET',
-					queue: true,
-					url: `https://www.steamgifts.com/giveaway/${hidden[i].code}/`,
-				});
-				giveaway = await this.buildGiveaway(DOM.parse(response.responseText), response.finalUrl);
+				let response = await FetchRequest.get(
+					`https://www.steamgifts.com/giveaway/${hidden[i].code}/`,
+					{
+						queue: true,
+					}
+				);
+				giveaway = await this.buildGiveaway(response.html, response.url);
 				if (giveaway) {
 					this.createElements(gfGiveaways, 'beforeend', giveaway.html);
 					await this.endless_load(gfGiveaways.lastElementChild, false, 'gf');
@@ -3714,61 +3699,6 @@ class Common extends Module {
 		}
 	}
 
-	async request(details) {
-		if (!details.headers) {
-			details.headers = {};
-		}
-		details.headers['From'] = 'esgst.extension@gmail.com';
-		details.headers['Esgst-Version'] = Shared.esgst.currentVersion;
-		if (!details.headers['Content-Type']) {
-			details.headers['Content-Type'] = 'application/x-www-form-urlencoded';
-		}
-		let isLocal =
-			details.url.match(/^\//) || details.url.match(new RegExp(window.location.hostname));
-		if (isLocal || details.queue) {
-			let deleteLock;
-			if (isLocal && !details.doNotQueue) {
-				await browser.runtime.sendMessage({
-					action: 'queue_request',
-					key: 'sg',
-				});
-			} else if (details.queue) {
-				deleteLock = await this.createLock(
-					'requestLock',
-					typeof details.queue === 'number' ? details.queue : 1000
-				);
-			}
-			let response = await this.continueRequest(details);
-			if (isLocal) {
-				Shared.esgst.requestLog.unshift({
-					url: details.url,
-					timestamp: Date.now(),
-				});
-				if (response.redirected) {
-					Shared.esgst.requestLog.unshift({
-						url: response.finalUrl,
-						timestamp: Date.now(),
-					});
-				}
-				await Shared.common.setValue('requestLog', JSON.stringify(Shared.esgst.requestLog));
-			}
-			if (deleteLock) {
-				deleteLock();
-			}
-			return response;
-		} else if (
-			details.url.match(/^https?:\/\/store.steampowered.com/) &&
-			Settings.get('limitSteamStore')
-		) {
-			const deleteLock = await this.createLock('steamStore', 200);
-			const response = await this.continueRequest(details);
-			deleteLock();
-			return response;
-		} else {
-			return await this.continueRequest(details);
-		}
-	}
-
 	hideGame(button, id, name, steamId, steamType) {
 		let elements, i, popup;
 		popup = new Popup({
@@ -3785,10 +3715,8 @@ class Common extends Module {
 				template: 'success',
 				name: 'Yes',
 				onClick: async () => {
-					await this.request({
+					await FetchRequest.post('/ajax.php', {
 						data: `xsrf_token=${Session.xsrfToken}&do=hide_giveaways_by_game_id&game_id=${id}`,
-						method: 'POST',
-						url: '/ajax.php',
 					});
 					await this.updateHiddenGames(steamId, steamType);
 					elements = document.querySelectorAll(`.giveaway__row-outer-wrap[data-game-id="${id}"]`);
@@ -3835,10 +3763,8 @@ class Common extends Module {
 				template: 'success',
 				name: 'Yes',
 				onClick: async () => {
-					await this.request({
+					await FetchRequest.post('/ajax.php', {
 						data: `xsrf_token=${Session.xsrfToken}&do=remove_filter&game_id=${id}`,
-						method: 'POST',
-						url: '/ajax.php',
 					});
 					await this.updateHiddenGames(steamId, steamType, true);
 					button.remove();
@@ -5327,15 +5253,13 @@ class Common extends Module {
 	 * @returns {PlayerAchievementsSteamApiResponse}
 	 */
 	async getPlayerAchievements(appId, steamId) {
-		const text = (
-			await this.request({
-				method: 'GET',
-				url: `http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid=${appId}&key=${Settings.get(
+		return (
+			await FetchRequest.get(
+				`http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid=${appId}&key=${Settings.get(
 					'steamApiKey'
-				)}&steamid=${steamId}`,
-			})
-		).responseText;
-		return JSON.parse(text);
+				)}&steamid=${steamId}`
+			)
+		).json;
 	}
 
 	/**
@@ -5343,14 +5267,12 @@ class Common extends Module {
 	 * @returns {Promise<SuspensionsApiResponse>}
 	 */
 	async getSuspensions(steamIds) {
-		return JSON.parse(
-			(
-				await this.request({
-					method: 'GET',
-					url: `https://rafaelgssa.com/esgst/users/ust?steam_ids=${steamIds.join(`,`)}`,
-				})
-			).responseText
-		).result.found;
+		return;
+		(
+			await FetchRequest.get(
+				`https://rafaelgssa.com/esgst/users/ust?steam_ids=${steamIds.join(`,`)}`
+			)
+		).json.result.found;
 	}
 
 	async submitComment(obj) {
@@ -5372,17 +5294,13 @@ class Common extends Module {
 			return;
 		}
 
-		const response = await this.request({
-				method: 'GET',
-				url: obj.commentUrl,
-			}),
-			responseHtml = DOM.parse(response.responseText),
-			comment = responseHtml.getElementById(obj.commentUrl.match(/\/comment\/(.+)/)[1]);
+		const response = await FetchRequest.get(obj.commentUrl);
+		const comment = response.html.getElementById(obj.commentUrl.match(/\/comment\/(.+)/)[1]);
 		obj.parentId = this.esgst.sg
 			? comment.closest('.comment').getAttribute('data-comment-id')
 			: comment.getAttribute('data-id');
-		obj.tradeCode = this.esgst.sg ? '' : response.finalUrl.match(/\/trade\/(.+?)\//)[1];
-		obj.url = this.esgst.sg ? response.finalUrl.match(/(.+?)(#.+?)?$/)[1] : '/ajax.php';
+		obj.tradeCode = this.esgst.sg ? '' : response.url.match(/\/trade\/(.+?)\//)[1];
+		obj.url = this.esgst.sg ? response.url.match(/(.+?)(#.+?)?$/)[1] : '/ajax.php';
 
 		if (obj.checked || !Settings.get('rfi_c')) {
 			const result = await this.saveComment(
@@ -5639,12 +5557,10 @@ class Common extends Module {
 
 			obj.update && obj.update(`${title} games (${index} of ${total})...`);
 
-			await this.request({
+			await FetchRequest.post('/ajax.php', {
 				data: `xsrf_token=${Session.xsrfToken}&do=${
 					unhide ? 'remove_filter' : 'hide_giveaways_by_game_id'
 				}&game_id=${id}`,
-				method: 'POST',
-				url: '/ajax.php',
 			});
 		}
 
@@ -5662,17 +5578,13 @@ class Common extends Module {
 
 	async getGameSgId(id, type) {
 		const elements = DOM.parse(
-			JSON.parse(
-				(
-					await this.request({
-						data: `do=autocomplete_giveaway_game&page_number=1&search_query=${encodeURIComponent(
-							id
-						)}`,
-						method: 'POST',
-						url: '/ajax.php',
-					})
-				).responseText
-			).html
+			(
+				await FetchRequest.post('/ajax.php', {
+					data: `do=autocomplete_giveaway_game&page_number=1&search_query=${encodeURIComponent(
+						id
+					)}`,
+				})
+			).json.html
 		).querySelectorAll('.table__row-outer-wrap');
 		for (const element of elements) {
 			const info = await this.esgst.modules.games.games_getInfo(element);
@@ -5837,94 +5749,6 @@ class Common extends Module {
 
 	delValue(key) {
 		return this.delValues([key]);
-	}
-
-	continueRequest(details) {
-		return new Promise(async (resolve, reject) => {
-			let isLocal =
-				details.url.match(/^\//) || details.url.match(new RegExp(window.location.hostname));
-			details.url = details.url
-				.replace(/^\//, `https://${window.location.hostname}/`)
-				.replace(/^https?:/, Shared.esgst.locationHref.match(/^http:/) ? 'http:' : 'https:');
-			if (isLocal) {
-				const requestOptions = {
-					body: details.data,
-					credentials: /** @type {"omit"|"include"} */ details.anon ? 'omit' : 'include',
-					headers: details.headers,
-					method: details.method,
-					redirect: 'follow',
-				};
-				let response = null;
-				let responseText = null;
-				try {
-					let _fetch;
-					let _requestOptions;
-					if (
-						(await this.getBrowserInfo()).name === 'Firefox' &&
-						Utils.isSet(window.wrappedJSObject)
-					) {
-						// @ts-ignore
-						_fetch = XPCNativeWrapper(window.wrappedJSObject.fetch);
-						// @ts-ignore
-						window.wrappedJSObject.requestOptions = cloneInto(requestOptions, window);
-						// @ts-ignore
-						_requestOptions = XPCNativeWrapper(window.wrappedJSObject.requestOptions);
-					} else {
-						_fetch = window.fetch;
-						_requestOptions = requestOptions;
-					}
-					response = await _fetch(details.url, _requestOptions);
-					responseText = await response.text();
-					if (!response.ok) {
-						throw responseText;
-					}
-				} catch (error) {
-					reject({ error });
-					return;
-				}
-				response = {
-					finalUrl: response.url,
-					redirected: response.redirected,
-					responseText,
-				};
-				resolve(response);
-				if (response.finalUrl.match(/www.steamgifts.com/)) {
-					this.lookForPopups(response);
-				}
-			} else {
-				const manipulateCookies =
-					(await this.getBrowserInfo()).name === 'Firefox' && Settings.get('manipulateCookies');
-
-				browser.runtime
-					.sendMessage({
-						action: 'fetch',
-						blob: details.blob,
-						fileName: details.fileName,
-						manipulateCookies,
-						parameters: JSON.stringify({
-							body: details.data,
-							credentials: details.anon || manipulateCookies ? 'omit' : 'include',
-							headers: details.headers,
-							method: details.method,
-							redirect: 'follow',
-						}),
-						url: details.url,
-					})
-					.then((response) => {
-						if (typeof response === 'string') {
-							response = JSON.parse(response);
-						}
-						if (Utils.isSet(response.error)) {
-							reject(response);
-							return;
-						}
-						resolve(response);
-						if (response.finalUrl.match(/www.steamgifts.com/)) {
-							this.lookForPopups(response);
-						}
-					});
-			}
-		});
 	}
 
 	openDonationsPopup() {

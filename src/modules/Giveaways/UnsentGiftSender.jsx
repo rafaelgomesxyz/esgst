@@ -1,4 +1,5 @@
 import { DOM } from '../../class/DOM';
+import { FetchRequest } from '../../class/FetchRequest';
 import { Module } from '../../class/Module';
 import { permissions } from '../../class/Permissions';
 import { Popup } from '../../class/Popup';
@@ -16,7 +17,6 @@ const createElements = common.createElements.bind(common),
 	getUser = common.getUser.bind(common),
 	getValue = common.getValue.bind(common),
 	observeNumChange = common.observeNumChange.bind(common),
-	request = common.request.bind(common),
 	saveUsers = common.saveUsers.bind(common),
 	setValue = common.setValue.bind(common);
 class GiveawaysUnsentGiftSender extends Module {
@@ -341,14 +341,7 @@ class GiveawaysUnsentGiftSender extends Module {
 				skipped = true;
 				continue;
 			} else {
-				context = DOM.parse(
-					(
-						await request({
-							method: 'GET',
-							url: `/giveaways/created/search?page=${nextPage}`,
-						})
-					).responseText
-				);
+				context = (await FetchRequest.get(`/giveaways/created/search?page=${nextPage}`)).html;
 			}
 			if (nextPage === 1) {
 				ugs.lastPage = this.esgst.modules.generalLastPageLink.lpl_getLastPage(
@@ -402,14 +395,8 @@ class GiveawaysUnsentGiftSender extends Module {
 			let nextPage = 1;
 			let pagination = null;
 			do {
-				let context = DOM.parse(
-					(
-						await request({
-							method: 'GET',
-							url: `${giveaway.url}/winners/search?page=${nextPage}`,
-						})
-					).responseText
-				);
+				let context = (await FetchRequest.get(`${giveaway.url}/winners/search?page=${nextPage}`))
+					.html;
 				if (nextPage === 1) {
 					ugs.lastWinnersPage = this.esgst.modules.generalLastPageLink.lpl_getLastPage(context);
 					ugs.lastWinnersPage =
@@ -492,14 +479,8 @@ class GiveawaysUnsentGiftSender extends Module {
 				let nextPage = 1;
 				let pagination = null;
 				do {
-					let context = DOM.parse(
-						(
-							await request({
-								method: 'GET',
-								url: `${giveaway.url}/groups/search?page=${nextPage}`,
-							})
-						).responseText
-					);
+					let context = (await FetchRequest.get(`${giveaway.url}/groups/search?page=${nextPage}`))
+						.html;
 					if (nextPage === 1) {
 						ugs.lastGroupsPage = this.esgst.modules.generalLastPageLink.lpl_getLastPage(context);
 						ugs.lastGroupsPage =
@@ -633,24 +614,16 @@ class GiveawaysUnsentGiftSender extends Module {
 										l = this.esgst.groups.length - 1;
 									}
 									if (!this.esgst.groups[l].steamId) {
-										this.esgst.groups[l].steamId = DOM.parse(
-											(
-												await request({
-													method: 'GET',
-													url: `/group/${code}/`,
-												})
-											).responseText
-										)
+										this.esgst.groups[l].steamId = (await FetchRequest.get(`/group/${code}/`)).html
 											.getElementsByClassName('sidebar__shortcut-inner-wrap')[0]
 											.firstElementChild.getAttribute('href')
 											.match(/\d+/)[0];
 									}
 									ugs.groups[code] = (
-										await request({
-											method: 'GET',
-											url: `http://steamcommunity.com/gid/${this.esgst.groups[l].steamId}/memberslistxml?xml=1`,
-										})
-									).responseText.match(/<steamID64>.+?<\/steamID64>/g);
+										await FetchRequest.get(
+											`http://steamcommunity.com/gid/${this.esgst.groups[l].steamId}/memberslistxml?xml=1`
+										)
+									).text.match(/<steamID64>.+?<\/steamID64>/g);
 									for (l = ugs.groups[code].length - 1; l > -1; l--) {
 										ugs.groups[code][l] = ugs.groups[code][l].match(
 											/<steamID64>(.+?)<\/steamID64>/
@@ -673,14 +646,11 @@ class GiveawaysUnsentGiftSender extends Module {
 								ugs.progressBar.setMessage(
 									`Checking if ${winner.username} has a gift difference higher than the one set...`
 								);
-								let element = DOM.parse(
-									(
-										await request({
-											method: 'GET',
-											url: `/group/${code}/${group.urlName}/users/search?q=${winner.username}`,
-										})
-									).responseText
-								).getElementsByClassName('table__row-outer-wrap')[0];
+								let element = (
+									await FetchRequest.get(
+										`/group/${code}/${group.urlName}/users/search?q=${winner.username}`
+									)
+								).html.getElementsByClassName('table__row-outer-wrap')[0];
 								if (
 									element &&
 									element.getElementsByClassName('table__column__heading')[0].textContent ===
@@ -810,10 +780,8 @@ class GiveawaysUnsentGiftSender extends Module {
 								},
 							]);
 						} else if (!ugs.isCanceled) {
-							await request({
+							await FetchRequest.post('/ajax.php', {
 								data: `xsrf_token=${Session.xsrfToken}&do=sent_feedback&action=1&winner_id=${winner.winnerId}`,
-								method: 'POST',
-								url: '/ajax.php',
 							});
 							if (!ugs.sentWinners[giveaway.code]) {
 								ugs.sentWinners[giveaway.code] = [];

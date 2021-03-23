@@ -1,10 +1,11 @@
+import { DOM } from '../../class/DOM';
+import { FetchRequest } from '../../class/FetchRequest';
+import { LocalStorage } from '../../class/LocalStorage';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
-import { Utils } from '../../lib/jsUtils';
-import { Shared } from '../../class/Shared';
 import { Settings } from '../../class/Settings';
-import { DOM } from '../../class/DOM';
-import { LocalStorage } from '../../class/LocalStorage';
+import { Shared } from '../../class/Shared';
+import { Utils } from '../../lib/jsUtils';
 
 class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
 	constructor() {
@@ -238,15 +239,11 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
 	}
 
 	async fetchDetails(giveaway, now) {
-		const response = await Shared.common.request({
-			method: 'GET',
-			url: giveaway.url,
-		});
-		const responseHtml = DOM.parse(response.responseText);
+		const response = await FetchRequest.get(giveaway.url);
 		const giveaways = await Shared.esgst.modules.giveaways.giveaways_get(
-			responseHtml,
+			response.html,
 			false,
-			response.finalUrl
+			response.url
 		);
 		if (giveaways.length > 0) {
 			const details = giveaways[0];
@@ -263,16 +260,13 @@ class GiveawaysCreatedEnteredWonGiveawayDetails extends Module {
 		let details = null;
 		let pagination = null;
 		do {
-			const response = await Shared.common.request({
-				method: 'GET',
-				url: `${giveaway.url}/winners/search?page=${nextPage}`,
-			});
-			const responseHtml = DOM.parse(response.responseText);
+			const response = await FetchRequest.get(`${giveaway.url}/winners/search?page=${nextPage}`);
+			const responseHtml = response.html;
 			if (!details) {
 				const giveaways = await Shared.esgst.modules.giveaways.giveaways_get(
 					responseHtml,
 					false,
-					response.finalUrl
+					response.url
 				);
 				if (giveaways.length > 0) {
 					details = giveaways[0];
