@@ -1,8 +1,8 @@
 .vscode
-**/build/
-**/dist/
-**/coverage/
-**/docs/
-**/node_modules/
+**/build
+**/dist
+**/coverage
+**/docs
+**/node_modules
 **/config.js
 **/package-lock.json
