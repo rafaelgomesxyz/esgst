@@ -75,11 +75,11 @@ async function generateCommit() {
 		commitMessage = args.msg;
 	}
 
-	exec(`npx prettier --write ${path.join(__dirname, '../package.json')}`, (err) => {
+	exec(`npx prettier --write "${path.join(__dirname, '../package.json')}"`, (err) => {
 		if (err) {
 			console.log(err);
 		} else {
-			exec(`git add ${path.join(__dirname, '../package.json')}`, (err) => {
+			exec(`git add "${path.join(__dirname, '../package.json')}"`, (err) => {
 				if (err) {
 					console.log(err);
 				} else {
