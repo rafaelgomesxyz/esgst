@@ -36,7 +36,7 @@ RequestQueue.getRequestLog = async () => {
 RequestQueue.init();
 
 // @ts-ignore
-Cu.importGlobalProperties(['fetch', 'FileReader']);
+Cu.importGlobalProperties(['fetch', 'AbortController', 'FileReader']);
 
 // @ts-ignore
 const file = FileUtils.getFile('ProfD', ['esgst.sqlite']);
@@ -226,7 +226,16 @@ function doFetch(parameters, request) {
 		let response = null;
 		let responseText = null;
 		try {
+			const abortController = new AbortController();
+
+			const { timeout = 10000 } = request;
+			const timeoutId = setTimeout(() => abortController.abort(), timeout);
+
+			parameters.signal = abortController.signal;
 			response = await fetch(request.url, parameters);
+
+			clearTimeout(timeoutId);
+
 			if (request.blob) {
 				const blob = await response.blob();
 				const reader = new FileReader();

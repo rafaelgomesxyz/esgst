@@ -224,7 +224,16 @@ async function doFetch(parameters, request, sender, callback) {
 	let response = null;
 	let responseText = null;
 	try {
+		const abortController = new AbortController();
+
+		const { timeout = 10000 } = request;
+		const timeoutId = window.setTimeout(() => abortController.abort(), timeout);
+
+		parameters.signal = abortController.signal;
 		response = await window.fetch(request.url, parameters);
+
+		window.clearTimeout(timeoutId);
+
 		responseText = request.blob
 			? (await readZip(await response.blob()))[0].value
 			: await response.text();

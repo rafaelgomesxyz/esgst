@@ -78,6 +78,7 @@ const browser = {
 							headers: parameters.headers,
 							method: parameters.method,
 							overrideMimeType: obj.blob ? `text/plain; charset=x-user-defined` : '',
+							timeout: obj.timeout ?? 10000,
 							url: obj.url,
 							onload: async (response) => {
 								if (obj.blob) {

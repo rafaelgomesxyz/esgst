@@ -1,5 +1,6 @@
 declare interface Window {
 	wrappedJSObject?: {
+		AbortController: typeof AbortController;
 		fetch: typeof window.fetch;
 		fetchOptions: RequestInit;
 	};

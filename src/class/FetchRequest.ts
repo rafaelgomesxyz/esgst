@@ -13,6 +13,7 @@ export interface FetchOptions {
 	queryParams?: Record<string, string>;
 	queue?: boolean | number;
 	doNotQueue?: boolean;
+	timeout?: number;
 	anon?: boolean;
 	blob?: string;
 	fileName?: string;
@@ -149,8 +150,15 @@ export class FetchRequest {
 	}
 
 	static async sendInternal(url: string, options: FetchOptions): Promise<FetchResponse> {
-		const { fetchObj, fetchOptions } = await FetchRequest.getFetchObj(options);
+		const { fetchObj, fetchOptions, abortController } = await FetchRequest.getFetchObj(options);
+
+		const { timeout = 10000 } = options;
+		const timeoutId = window.setTimeout(() => abortController.abort(), timeout);
+
 		const response = await fetchObj(url, fetchOptions);
+
+		window.clearTimeout(timeoutId);
+
 		const text = await response.text();
 
 		if (!response.ok) {
@@ -176,6 +184,7 @@ export class FetchRequest {
 			fileName: options.fileName,
 			manipulateCookies,
 			parameters: JSON.stringify(FetchRequest.getFetchOptions(options, manipulateCookies)),
+			timeout: options.timeout,
 			url,
 		};
 		let response = await browser.runtime.sendMessage(messageOptions);
@@ -198,6 +207,7 @@ export class FetchRequest {
 	static async getFetchObj(options: FetchOptions) {
 		let fetchObj = null;
 		let fetchOptions = FetchRequest.getFetchOptions(options);
+		let abortController = null;
 
 		if (
 			(await Shared.common.getBrowserInfo()).name === 'Firefox' &&
@@ -207,11 +217,15 @@ export class FetchRequest {
 			fetchObj = XPCNativeWrapper(window.wrappedJSObject.fetch);
 			window.wrappedJSObject.fetchOptions = cloneInto(fetchOptions, window);
 			fetchOptions = XPCNativeWrapper(window.wrappedJSObject.fetchOptions);
+			abortController = new (XPCNativeWrapper(window.wrappedJSObject.AbortController))();
 		} else {
 			fetchObj = window.fetch;
+			abortController = new AbortController();
 		}
 
-		return { fetchObj, fetchOptions };
+		fetchOptions.signal = abortController.signal;
+
+		return { fetchObj, fetchOptions, abortController };
 	}
 
 	static getFetchOptions(options: FetchOptions, manipulateCookies = false): RequestInit {
