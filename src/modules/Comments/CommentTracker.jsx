@@ -2,6 +2,7 @@ import { Button } from '../../class/Button';
 import { DOM } from '../../class/DOM';
 import { FetchRequest } from '../../class/FetchRequest';
 import { LocalStorage } from '../../class/LocalStorage';
+import { Lock } from '../../class/Lock';
 import { Module } from '../../class/Module';
 import { Scope } from '../../class/Scope';
 import { Session } from '../../class/Session';
@@ -373,9 +374,10 @@ class CommentsCommentTracker extends Module {
 		if (goToUnread) {
 			found = await this.ct_checkComments(count, comments, index, true, false, false, endless);
 		} else {
-			let deleteLock;
+			let lock;
 			if (!endless) {
-				deleteLock = await Shared.common.createLock('commentLock', 300);
+				lock = new Lock('comment', { threshold: 300 });
+				await lock.lock();
 			}
 			found = await this.ct_checkComments(
 				count,
@@ -386,8 +388,8 @@ class CommentsCommentTracker extends Module {
 				markUnread,
 				endless
 			);
-			if (deleteLock) {
-				deleteLock();
+			if (lock) {
+				await lock.unlock();
 			}
 		}
 		return found;
@@ -638,7 +640,8 @@ class CommentsCommentTracker extends Module {
 	async ct_markCommentRead(comment, comments, save) {
 		let count;
 		if (save) {
-			let deleteLock = await Shared.common.createLock('commentLock', 300);
+			const lock = new Lock('comment', { threshold: 300 });
+			await lock.lock();
 			comments = JSON.parse(Shared.common.getValue(comment.type));
 			if (
 				comment.id &&
@@ -650,7 +653,7 @@ class CommentsCommentTracker extends Module {
 			}
 			comments[comment.code].readComments[comment.id] = comment.timestamp;
 			await Shared.common.setValue(comment.type, JSON.stringify(comments));
-			deleteLock();
+			await lock.unlock();
 			if ((comment.isOp && Settings.get('ct_fop')) || (!comment.isOp && Settings.get('ct_f'))) {
 				comment.comment.classList.add('esgst-ct-comment-read');
 			}
@@ -675,7 +678,8 @@ class CommentsCommentTracker extends Module {
 	async ct_markCommentUnread(comment, comments, save) {
 		let count;
 		if (save) {
-			let deleteLock = await Shared.common.createLock('commentLock', 300);
+			const lock = new Lock('comment', { threshold: 300 });
+			await lock.lock();
 			comments = JSON.parse(Shared.common.getValue(comment.type));
 			if (comments[comment.code].readComments[comment.id]) {
 				delete comments[comment.code].readComments[comment.id];
@@ -685,7 +689,7 @@ class CommentsCommentTracker extends Module {
 				}
 			}
 			await Shared.common.setValue(comment.type, JSON.stringify(comments));
-			deleteLock();
+			await lock.unlock();
 			if ((comment.isOp && Settings.get('ct_fop')) || (!comment.isOp && Settings.get('ct_f'))) {
 				comment.comment.classList.remove('esgst-ct-comment-read');
 			}
@@ -1181,7 +1185,8 @@ class CommentsCommentTracker extends Module {
 		obj.markRead.classList.add('esgst-hidden');
 		obj.markUnread.classList.add('esgst-hidden');
 		obj.loadingIcon.classList.remove('esgst-hidden');
-		const deleteLock = await Shared.common.createLock('commentLock', 300);
+		const lock = new Lock('comment', { threshold: 300 });
+		await lock.lock();
 		const comments = JSON.parse(Shared.common.getValue('discussions'));
 		for (const key in comments[obj.code].readComments) {
 			if (comments[obj.code].readComments.hasOwnProperty(key)) {
@@ -1190,7 +1195,7 @@ class CommentsCommentTracker extends Module {
 		}
 		comments[obj.code].lastUsed = Date.now();
 		await Shared.common.setValue('discussions', JSON.stringify(comments));
-		deleteLock();
+		await lock.unlock();
 		obj.loadingIcon.classList.add('esgst-hidden');
 		obj.diffContainer.classList.remove('esgst-hidden');
 		obj.diffContainer.textContent = `(+${obj.count})`;

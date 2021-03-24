@@ -1,5 +1,6 @@
 import { DOM } from '../../class/DOM';
 import { FetchRequest } from '../../class/FetchRequest';
+import { Lock } from '../../class/Lock';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { Settings } from '../../class/Settings';
@@ -11,7 +12,6 @@ import { common } from '../Common';
 
 const buildGiveaway = common.buildGiveaway.bind(common),
 	createElements = common.createElements.bind(common),
-	createLock = common.createLock.bind(common),
 	endless_load = common.endless_load.bind(common),
 	getFeatureTooltip = common.getFeatureTooltip.bind(common),
 	getValue = common.getValue.bind(common),
@@ -208,7 +208,8 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
 		ged.i = 0;
 		let currentGiveaways = {};
 		let currentTime = Date.now();
-		const deleteLock = await createLock('gedLock', 300);
+		const lock = new Lock('ged', { threshold: 300 });
+		await lock.lock();
 		this.esgst.decryptedGiveaways = JSON.parse(getValue('decryptedGiveaways'));
 		for (let code in this.esgst.decryptedGiveaways) {
 			if (this.esgst.decryptedGiveaways.hasOwnProperty(code)) {
@@ -253,7 +254,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
 		}
 		await lockAndSaveGiveaways(currentGiveaways, firstRun);
 		await setValue('decryptedGiveaways', JSON.stringify(this.esgst.decryptedGiveaways));
-		deleteLock();
+		await lock.unlock();
 		ged.n = ged.giveaways.length;
 		if (ged.n > 0) {
 			if (ged.button) {
@@ -350,7 +351,7 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
 	async ged_addIcons(ged, comments) {
 		let currentGiveaways = {};
 		let currentTime = Date.now();
-		let deleteLock = null;
+		let lock = null;
 		let hasEnded = false;
 		let hasNew = false;
 		for (let i = comments.length - 1; i > -1; i--) {
@@ -363,8 +364,9 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
 			let links = comment.displayState.querySelectorAll(`[href^="ESGST-"]`);
 			for (let j = links.length - 1; j > -1; j--) {
 				let code = links[j].getAttribute('href').match(/ESGST-(.+)/)[1];
-				if (!deleteLock) {
-					deleteLock = await createLock('gedLock', 300);
+				if (!lock) {
+					lock = new Lock('ged', { threshold: 300 });
+					await lock.lock();
 					this.esgst.decryptedGiveaways = JSON.parse(getValue('decryptedGiveaways'));
 				}
 				code = this.ged_decryptCode(code);
@@ -415,10 +417,10 @@ class GiveawaysGiveawayEncrypterDecrypter extends Module {
 				]);
 			}
 		}
-		if (deleteLock) {
+		if (lock) {
 			await lockAndSaveGiveaways(currentGiveaways);
 			await setValue('decryptedGiveaways', JSON.stringify(this.esgst.decryptedGiveaways));
-			deleteLock();
+			await lock.unlock();
 		}
 		if (ged.button && (hasEnded || hasNew)) {
 			ged.button.nodes.outer.classList.remove('esgst-hidden');

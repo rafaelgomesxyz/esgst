@@ -1,11 +1,11 @@
 import { Button } from '../../class/Button';
-import { Module } from '../../class/Module';
-import { common } from '../Common';
-import { Settings } from '../../class/Settings';
 import { DOM } from '../../class/DOM';
+import { Lock } from '../../class/Lock';
+import { Module } from '../../class/Module';
+import { Settings } from '../../class/Settings';
+import { common } from '../Common';
 
-const createLock = common.createLock.bind(common),
-	getValue = common.getValue.bind(common),
+const getValue = common.getValue.bind(common),
 	setValue = common.setValue.bind(common);
 class DiscussionsPuzzleMarker extends Module {
 	constructor() {
@@ -89,7 +89,8 @@ class DiscussionsPuzzleMarker extends Module {
 	}
 
 	async pm_change(code, status) {
-		let deleteLock = await createLock('commentLock', 300);
+		const lock = new Lock('comment', { threshold: 300 });
+		await lock.lock();
 		let discussions = JSON.parse(getValue('discussions'));
 		if (!discussions[code]) {
 			discussions[code] = {
@@ -103,7 +104,7 @@ class DiscussionsPuzzleMarker extends Module {
 		}
 		discussions[code].lastUsed = Date.now();
 		await setValue('discussions', JSON.stringify(discussions));
-		deleteLock();
+		await lock.unlock();
 		return true;
 	}
 }

@@ -1,15 +1,15 @@
 import { Button } from '../../class/Button';
+import { DOM } from '../../class/DOM';
+import { Lock } from '../../class/Lock';
 import { Process } from '../../class/Process';
+import { Settings } from '../../class/Settings';
+import { Shared } from '../../class/Shared';
 import { Utils } from '../../lib/jsUtils';
 import { common } from '../Common';
 import { Filters } from '../Filters';
-import { Settings } from '../../class/Settings';
-import { Shared } from '../../class/Shared';
-import { DOM } from '../../class/DOM';
 
 const createElements = common.createElements.bind(common),
 	createHeadingButton = common.createHeadingButton.bind(common),
-	createLock = common.createLock.bind(common),
 	endless_load = common.endless_load.bind(common),
 	getValue = common.getValue.bind(common),
 	setValue = common.setValue.bind(common);
@@ -436,14 +436,15 @@ class TradesTradeFilters extends Filters {
 	}
 
 	async tf_hideTrade(trade, main) {
-		let deleteLock = await createLock('tradeLock', 300);
+		const lock = new Lock('trade', { threshold: 300 });
+		await lock.lock();
 		let trades = JSON.parse(getValue('trades', '{}'));
 		if (!trades[trade.code]) {
 			trades[trade.code] = {};
 		}
 		trades[trade.code].hidden = trades[trade.code].lastUsed = Date.now();
 		await setValue('trades', JSON.stringify(trades));
-		deleteLock();
+		await lock.unlock();
 		if (!main || !Shared.esgst.tradePath) {
 			trade.outerWrap.remove();
 		}
@@ -451,14 +452,15 @@ class TradesTradeFilters extends Filters {
 	}
 
 	async tf_unhideTrade(trade, main) {
-		let deleteLock = await createLock('tradeLock', 300);
+		const lock = new Lock('trade', { threshold: 300 });
+		await lock.lock();
 		let trades = JSON.parse(getValue('trades', '{}'));
 		if (trades[trade.code]) {
 			delete trades[trade.code].hidden;
 			trades[trade.code].lastUsed = Date.now();
 		}
 		await setValue('trades', JSON.stringify(trades));
-		deleteLock();
+		await lock.unlock();
 		if (!main || !Shared.esgst.tradePath) {
 			trade.outerWrap.remove();
 		}

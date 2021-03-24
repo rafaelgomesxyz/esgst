@@ -3,6 +3,7 @@ import { Checkbox } from '../class/Checkbox';
 import { DOM } from '../class/DOM';
 import { FetchRequest } from '../class/FetchRequest';
 import { LocalStorage } from '../class/LocalStorage';
+import { Lock } from '../class/Lock';
 import { Logger } from '../class/Logger';
 import { permissions } from '../class/Permissions';
 import { Popup } from '../class/Popup';
@@ -728,7 +729,8 @@ async function sync(syncer) {
 			pagination &&
 			!pagination.lastElementChild.classList.contains('is-selected')
 		);
-		let deleteLock = await Shared.common.createLock('gameLock', 300);
+		const lock = new Lock('game', { threshold: 300 });
+		await lock.lock();
 		let savedGames = JSON.parse(Shared.common.getValue('games'));
 		for (let key in savedGames.apps) {
 			if (savedGames.apps.hasOwnProperty(key)) {
@@ -753,7 +755,7 @@ async function sync(syncer) {
 			savedGames.subs[syncer.hiddenGames.subs[i]].hidden = true;
 		}
 		await Shared.common.setValue('games', JSON.stringify(savedGames));
-		deleteLock();
+		await lock.unlock();
 		DOM.insert(syncer.results, 'beforeend', <div>Hidden games synced.</div>);
 	}
 

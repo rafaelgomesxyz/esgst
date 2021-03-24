@@ -1,10 +1,10 @@
-import { Module } from '../../class/Module';
-import { Shared } from '../../class/Shared';
-import { Settings } from '../../class/Settings';
-import { Logger } from '../../class/Logger';
-import { FetchRequest } from '../../class/FetchRequest';
-import { Popout } from '../../class/Popout';
 import { DOM } from '../../class/DOM';
+import { FetchRequest } from '../../class/FetchRequest';
+import { Lock } from '../../class/Lock';
+import { Module } from '../../class/Module';
+import { Popout } from '../../class/Popout';
+import { Settings } from '../../class/Settings';
+import { Shared } from '../../class/Shared';
 
 class GeneralThreadSubscription extends Module {
 	constructor() {
@@ -47,7 +47,7 @@ class GeneralThreadSubscription extends Module {
 		};
 
 		this.button = null;
-		this.lockObj = null;
+		this.lock = null;
 		this.minutes = null;
 		this.popout = null;
 		this.subscribedItems = [];
@@ -285,7 +285,7 @@ class GeneralThreadSubscription extends Module {
 	async runDaemon(firstRun) {
 		//Logger.info('Running TDS daemon...');
 
-		await Shared.common.updateLock(this.lockObj.lock);
+		await this.lock?.update();
 
 		const oldDiff = this.subscribedItems
 			.filter((item) => item.diff)
@@ -383,12 +383,14 @@ class GeneralThreadSubscription extends Module {
 	}
 
 	async startDaemon() {
-		this.lockObj = await Shared.common.createLock('tdsLock', 300, {
-			lockOrDie: true,
+		this.lock = new Lock('tds', {
+			threshold: 300,
 			timeout: this.minutes + 15000,
+			tryOnce: true,
 		});
+		await this.lock.lock();
 
-		if (!this.lockObj.wasLocked) {
+		if (!this.lock.isLocked) {
 			//Logger.info('TDS Daemon already running....');
 
 			this.updateItems(await Shared.common.getTds());

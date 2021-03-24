@@ -199,11 +199,7 @@ browser.gm.addValueChangeListener('storageChanged', async (name, oldValue, newVa
 
 browser.gm.doLock = async (lock) => {
 	let locked = JSON.parse(await browser.gm.getValue(lock.key, '{}'));
-	if (
-		!locked ||
-		!locked.uuid ||
-		locked.timestamp < Date.now() - (lock.threshold + (lock.timeout || 15000))
-	) {
+	if (!locked || !locked.uuid || locked.timestamp < Date.now() - (lock.threshold + lock.timeout)) {
 		await browser.gm.setValue(
 			lock.key,
 			JSON.stringify({
@@ -214,7 +210,7 @@ browser.gm.doLock = async (lock) => {
 		await Shared.common.timeout(lock.threshold / 2);
 		locked = JSON.parse(await browser.gm.getValue(lock.key, '{}'));
 		if (!locked || locked.uuid !== lock.uuid) {
-			if (!lock.lockOrDie) {
+			if (!lock.tryOnce) {
 				return browser.gm.doLock(lock);
 			}
 
@@ -224,7 +220,7 @@ browser.gm.doLock = async (lock) => {
 		return 'true';
 	}
 
-	if (!lock.lockOrDie) {
+	if (!lock.tryOnce) {
 		await Shared.common.timeout(lock.threshold / 3);
 		return browser.gm.doLock(lock);
 	}

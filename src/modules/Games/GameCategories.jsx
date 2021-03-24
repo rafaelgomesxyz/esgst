@@ -1,6 +1,7 @@
 import { DOM } from '../../class/DOM';
 import { FetchRequest } from '../../class/FetchRequest';
 import { LocalStorage } from '../../class/LocalStorage';
+import { Lock } from '../../class/Lock';
 import { Logger } from '../../class/Logger';
 import { Module } from '../../class/Module';
 import { permissions } from '../../class/Permissions';
@@ -3574,7 +3575,8 @@ class GamesGameCategories extends Module {
 	};
 
 	fetchFromSteam = async (gc, games, toFetch, now) => {
-		const lockObj = await Shared.common.createLock('gc', 100, {});
+		const lock = new Lock('gc');
+		await lock.lock();
 
 		for (const item of toFetch) {
 			if (item.found) {
@@ -3600,10 +3602,10 @@ class GamesGameCategories extends Module {
 
 			this.checkCategories(gc, games, toFetch, item);
 
-			await Shared.common.updateLock(lockObj.lock);
+			await lock.update();
 		}
 
-		lockObj.deleteLock();
+		await lock.unlock();
 	};
 
 	checkCategories = (gc, games, toFetch, item) => {

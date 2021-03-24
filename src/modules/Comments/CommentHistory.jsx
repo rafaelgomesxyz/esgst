@@ -1,4 +1,5 @@
 import { DOM } from '../../class/DOM';
+import { Lock } from '../../class/Lock';
 import { Module } from '../../class/Module';
 import { Process } from '../../class/Process';
 import { Settings } from '../../class/Settings';
@@ -91,7 +92,8 @@ class CommentsCommentHistory extends Module {
 				}
 				const newId = comment.querySelector('.comment__summary')?.id ?? '';
 				const key = `${Shared.esgst.name}CommentHistory`;
-				const deleteLock = await Shared.common.createLock(`${key}Lock`, 300);
+				const lock = new Lock(key, { threshold: 300 });
+				await lock.lock();
 				let comments = JSON.parse(Shared.common.getValue(key, '[]'));
 				comments = comments.map((comment) => {
 					if (comment.id === id) {
@@ -100,7 +102,7 @@ class CommentsCommentHistory extends Module {
 					return comment;
 				});
 				await Shared.common.setValue(key, JSON.stringify(comments));
-				deleteLock();
+				await lock.unlock();
 			}
 			comment.firstElementChild.classList.remove('comment__parent');
 			comment.firstElementChild.classList.add('comment__child');
@@ -143,7 +145,8 @@ class CommentsCommentHistory extends Module {
 	}
 
 	async ch_saveComment(id, timestamp) {
-		let deleteLock = await Shared.common.createLock(`${Shared.esgst.name}CommentHistoryLock`, 300);
+		const lock = new Lock(`${Shared.esgst.name}CommentHistory`, { threshold: 300 });
+		await lock.lock();
 		let key = `${Shared.esgst.name}CommentHistory`;
 		let comments = JSON.parse(Shared.common.getValue(key, '[]'));
 		comments.unshift({
@@ -151,7 +154,7 @@ class CommentsCommentHistory extends Module {
 			timestamp: timestamp,
 		});
 		await Shared.common.setValue(key, JSON.stringify(comments));
-		deleteLock();
+		await lock.unlock();
 	}
 }
 

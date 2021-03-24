@@ -5,6 +5,7 @@ import { DOM } from '../class/DOM';
 import { EventDispatcher } from '../class/EventDispatcher';
 import { FetchRequest } from '../class/FetchRequest';
 import { LocalStorage } from '../class/LocalStorage';
+import { Lock } from '../class/Lock';
 import { Logger } from '../class/Logger';
 import { Module } from '../class/Module';
 import { permissions } from '../class/Permissions';
@@ -1536,7 +1537,8 @@ class Common extends Module {
 	}
 
 	async lockAndSaveSettings(settingsObj) {
-		const deleteLock = await this.createLock('settingsLock', 100);
+		const lock = new Lock('settings');
+		await lock.lock();
 		const settings = JSON.parse(this.getValue('settings', '{}'));
 		for (const key in settingsObj) {
 			if (settingsObj[key] === null) {
@@ -1548,11 +1550,12 @@ class Common extends Module {
 			}
 		}
 		await this.setValue('settings', JSON.stringify(settings));
-		deleteLock();
+		await lock.unlock();
 	}
 
 	async setSetting() {
-		const deleteLock = await this.createLock('settingsLock', 100);
+		const lock = new Lock('settings');
+		await lock.lock();
 		const settings = JSON.parse(this.getValue('settings', '{}'));
 		const values = Array.isArray(arguments[0])
 			? arguments[0]
@@ -1574,7 +1577,7 @@ class Common extends Module {
 			settings[value.id] = value.value;
 		}
 		await this.setValue('settings', JSON.stringify(settings));
-		deleteLock();
+		await lock.unlock();
 	}
 
 	dismissFeature(feature, id) {
@@ -1724,7 +1727,8 @@ class Common extends Module {
 				}
 				list.existing.push(user);
 			} else {
-				let deleteLock = await this.createLock('userLock', 300);
+				const lock = new Lock('user', { threshold: 300 });
+				await lock.lock();
 				this.checkUsernameChange(savedUsers, user);
 				for (let key in user.values) {
 					if (user.values.hasOwnProperty(key)) {
@@ -1738,7 +1742,7 @@ class Common extends Module {
 					}
 				}
 				await this.setValue('users', JSON.stringify(savedUsers));
-				deleteLock();
+				await lock.unlock();
 			}
 		} else {
 			if (user.steamId && user.username) {
@@ -1784,8 +1788,9 @@ class Common extends Module {
 	}
 
 	async addUser(user) {
-		let deleteLock, savedUser, savedUsers;
-		deleteLock = await this.createLock('userLock', 300);
+		let savedUser, savedUsers;
+		const lock = new Lock('user', { threshold: 300 });
+		await lock.lock();
 		savedUsers = JSON.parse(this.getValue('users'));
 		savedUser = await this.getUser(savedUsers, user);
 		if (!savedUser) {
@@ -1811,7 +1816,7 @@ class Common extends Module {
 			}
 		}
 		await this.setValue('users', JSON.stringify(savedUsers));
-		deleteLock();
+		await lock.unlock();
 	}
 
 	async getUsername(list, save, user) {
@@ -1878,7 +1883,8 @@ class Common extends Module {
 		for (let i = 0, n = users.length; i < n; i++) {
 			await this.saveUser(list, savedUsers, users[i]);
 		}
-		let deleteLock = await this.createLock('userLock', 300);
+		const lock = new Lock('user', { threshold: 300 });
+		await lock.lock();
 		savedUsers = JSON.parse(this.getValue('users'));
 		for (let i = 0, n = list.new.length; i < n; ++i) {
 			let savedUser, user;
@@ -1923,13 +1929,13 @@ class Common extends Module {
 			}
 		}
 		await this.setValue('users', JSON.stringify(savedUsers));
-		deleteLock();
+		await lock.unlock();
 	}
 
 	async deleteUserValues(values) {
-		let deleteLock, savedUsers;
-		deleteLock = await this.createLock('userLock', 300);
-		savedUsers = JSON.parse(this.getValue('users'));
+		const lock = new Lock('user', { threshold: 300 });
+		await lock.lock();
+		const savedUsers = JSON.parse(this.getValue('users'));
 		for (let key in savedUsers.users) {
 			if (savedUsers.users.hasOwnProperty(key)) {
 				for (let i = 0, n = values.length; i < n; ++i) {
@@ -1938,7 +1944,7 @@ class Common extends Module {
 			}
 		}
 		await this.setValue('users', JSON.stringify(savedUsers));
-		deleteLock();
+		await lock.unlock();
 	}
 
 	async getUserId(user) {
@@ -2041,12 +2047,13 @@ class Common extends Module {
 	async lockAndSaveGiveaways(giveaways, firstRun) {
 		if (!Object.keys(giveaways).length) return;
 
-		let deleteLock;
+		let lock;
 		let savedGiveaways;
 		if (firstRun) {
 			savedGiveaways = this.esgst.giveaways;
 		} else {
-			deleteLock = await this.createLock('giveawayLock', 300);
+			lock = new Lock('giveaway', { threshold: 300 });
+			await lock.lock();
 			savedGiveaways = JSON.parse(this.getValue('giveaways', '{}'));
 		}
 		for (let key in giveaways) {
@@ -2068,13 +2075,16 @@ class Common extends Module {
 		}
 		if (!firstRun) {
 			await this.setValue('giveaways', JSON.stringify(savedGiveaways));
-			deleteLock();
+			if (lock) {
+				await lock.unlock();
+			}
 		}
 	}
 
 	async lockAndSaveDiscussions(discussions) {
-		let deleteLock = await this.createLock('discussionLock', 300),
-			savedDiscussions = JSON.parse(this.getValue('discussions', '{}'));
+		const lock = new Lock('discussion', { threshold: 300 });
+		await lock.lock();
+		const savedDiscussions = JSON.parse(this.getValue('discussions', '{}'));
 		for (let key in discussions) {
 			if (discussions.hasOwnProperty(key)) {
 				if (savedDiscussions[key]) {
@@ -2096,11 +2106,12 @@ class Common extends Module {
 			}
 		}
 		await this.setValue('discussions', JSON.stringify(savedDiscussions));
-		deleteLock();
+		await lock.unlock();
 	}
 
 	async lockAndSaveTickets(items) {
-		const deleteLock = await this.createLock('ticketLock', 300);
+		const lock = new Lock('ticket', { threshold: 300 });
+		await lock.lock();
 		const saved = JSON.parse(this.getValue('tickets', '{}'));
 		for (const key in items) {
 			if (items.hasOwnProperty(key)) {
@@ -2123,11 +2134,12 @@ class Common extends Module {
 			}
 		}
 		await this.setValue('tickets', JSON.stringify(saved));
-		deleteLock();
+		await lock.unlock();
 	}
 
 	async lockAndSaveTrades(items) {
-		const deleteLock = await this.createLock('tradeLock', 300);
+		const lock = new Lock('trade', { threshold: 300 });
+		await lock.lock();
 		const saved = JSON.parse(this.getValue('trades', '{}'));
 		for (const key in items) {
 			if (items.hasOwnProperty(key)) {
@@ -2150,11 +2162,12 @@ class Common extends Module {
 			}
 		}
 		await this.setValue('trades', JSON.stringify(saved));
-		deleteLock();
+		await lock.unlock();
 	}
 
 	async lockAndSaveGroups(groups, sync) {
-		const deleteLock = await this.createLock('groupLock', 300);
+		const lock = new Lock('group', { threshold: 300 });
+		await lock.lock();
 		let savedGroups = JSON.parse(this.getValue('groups', '[]'));
 		if (!Array.isArray(savedGroups)) {
 			const newGroups = [];
@@ -2199,13 +2212,11 @@ class Common extends Module {
 			}
 		}
 		await this.setValue('groups', JSON.stringify(savedGroups));
-		deleteLock();
+		await lock.unlock();
 	}
 
 	lookForPopups(response) {
-		const popup = response.html.querySelector(
-			`.popup--gift-sent, .popup--gift-received`
-		);
+		const popup = response.html.querySelector(`.popup--gift-sent, .popup--gift-received`);
 		if (!popup) {
 			return;
 		}
@@ -3302,23 +3313,9 @@ class Common extends Module {
 		window.URL.revokeObjectURL(url);
 	}
 
-	async createLock(key, threshold, v2Obj) {
-		const lock = {
-			key,
-			threshold,
-			uuid: 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, Utils.createUuid.bind(Utils)),
-			...v2Obj,
-		};
-		const wasLocked = await this.do_lock(lock);
-		const deleteLock = this.do_unlock.bind(this, lock);
-		if (v2Obj) {
-			return { deleteLock, lock, wasLocked };
-		}
-		return deleteLock;
-	}
-
 	async lockAndSaveGames(games) {
-		let deleteLock = await this.createLock('gameLock', 300);
+		const lock = new Lock('game', { threshold: 300 });
+		await lock.lock();
 		let saved = JSON.parse(this.getValue('games'));
 		if (games.apps) {
 			for (let key in games.apps) {
@@ -3365,7 +3362,7 @@ class Common extends Module {
 			}
 		}
 		await this.setValue('games', JSON.stringify(saved));
-		deleteLock();
+		await lock.unlock();
 	}
 
 	async setSMManageFilteredUsers() {

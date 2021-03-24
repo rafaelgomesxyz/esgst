@@ -1,11 +1,11 @@
 import { DOM } from '../../class/DOM';
 import { FetchRequest } from '../../class/FetchRequest';
+import { Lock } from '../../class/Lock';
 import { Module } from '../../class/Module';
 import { permissions } from '../../class/Permissions';
 import { common } from '../Common';
 
 const createElements = common.createElements.bind(common),
-	createLock = common.createLock.bind(common),
 	getValue = common.getValue.bind(common),
 	setValue = common.setValue.bind(common);
 class GiveawaysIsThereAnyDealInfo extends Module {
@@ -132,14 +132,15 @@ class GiveawaysIsThereAnyDealInfo extends Module {
 				source: bundle.querySelector('.shopTitle').textContent.trim(),
 			});
 		}
-		const deleteLock = await createLock('gameLock', 300);
+		const lock = new Lock('game', { threshold: 300 });
+		await lock.lock();
 		const games = JSON.parse(getValue('games'));
 		if (!games[giveaway.type][giveaway.id]) {
 			games[giveaway.type][giveaway.id] = {};
 		}
 		games[giveaway.type][giveaway.id].itadi = itadi;
 		await setValue('games', JSON.stringify(games));
-		deleteLock();
+		await lock.unlock();
 		return itadi;
 	}
 

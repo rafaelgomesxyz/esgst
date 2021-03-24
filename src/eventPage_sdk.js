@@ -272,11 +272,7 @@ function do_lock(lock) {
 function _do_lock(lock, resolve) {
 	const now = Date.now();
 	let locked = locks[lock.key];
-	if (
-		!locked ||
-		!locked.uuid ||
-		locked.timestamp < now - (lock.threshold + (lock.timeout || 15000))
-	) {
+	if (!locked || !locked.uuid || locked.timestamp < now - (lock.threshold + lock.timeout)) {
 		locks[lock.key] = {
 			timestamp: now,
 			uuid: lock.uuid,
@@ -284,7 +280,7 @@ function _do_lock(lock, resolve) {
 		setTimeout(() => {
 			locked = locks[lock.key];
 			if (!locked || locked.uuid !== lock.uuid) {
-				if (!lock.lockOrDie) {
+				if (!lock.tryOnce) {
 					setTimeout(() => _do_lock(lock, resolve), 0);
 				} else {
 					resolve('false');
@@ -293,7 +289,7 @@ function _do_lock(lock, resolve) {
 				resolve('true');
 			}
 		}, lock.threshold / 2);
-	} else if (!lock.lockOrDie) {
+	} else if (!lock.tryOnce) {
 		setTimeout(() => _do_lock(lock, resolve), lock.threshold / 3);
 	} else {
 		resolve('false');

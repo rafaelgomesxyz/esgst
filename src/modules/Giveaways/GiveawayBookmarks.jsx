@@ -1,6 +1,7 @@
 import { Button } from '../../class/Button';
 import { DOM } from '../../class/DOM';
 import { FetchRequest } from '../../class/FetchRequest';
+import { Lock } from '../../class/Lock';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { Scope } from '../../class/Scope';
@@ -11,7 +12,6 @@ import { PageHeading } from '../../components/PageHeading';
 import { common } from '../Common';
 
 const createElements = common.createElements.bind(common),
-	createLock = common.createLock.bind(common),
 	endless_load = common.endless_load.bind(common),
 	getFeatureTooltip = common.getFeatureTooltip.bind(common),
 	getValue = common.getValue.bind(common),
@@ -463,12 +463,13 @@ class GiveawaysGiveawayBookmarks extends Module {
 					createElements(gbGiveaways, 'beforeend', buildResult.html);
 					await endless_load(gbGiveaways.lastElementChild, false, 'gb');
 					if (endTime > 0) {
-						let deleteLock = await createLock('giveawayLock', 300);
+						const lock = new Lock('giveaway', { threshold: 300 });
+						await lock.lock();
 						let giveaways = JSON.parse(getValue('giveaways'));
 						giveaways[bookmarked[i].code].started = true;
 						giveaways[bookmarked[i].code].endTime = endTime;
 						await setValue('giveaways', JSON.stringify(giveaways));
-						deleteLock();
+						await lock.unlock();
 						window.setTimeout(
 							() => this.gb_loadGiveaways(++i, n, bookmarked, gbGiveaways, info, popup, callback),
 							0
@@ -481,13 +482,14 @@ class GiveawaysGiveawayBookmarks extends Module {
 					}
 				} else {
 					if (Settings.get('gb_ui')) {
-						let deleteLock = await createLock('giveawayLock', 300);
+						const lock = new Lock('giveaway', { threshold: 300 });
+						await lock.lock();
 						let giveaways = JSON.parse(getValue('giveaways'));
 						if (giveaways[bookmarked[i].code]) {
 							delete giveaways[bookmarked[i].code].bookmarked;
 						}
 						await setValue('giveaways', JSON.stringify(giveaways));
-						deleteLock();
+						await lock.unlock();
 					}
 					window.setTimeout(
 						() => this.gb_loadGiveaways(++i, n, bookmarked, gbGiveaways, info, popup, callback),
@@ -547,7 +549,8 @@ class GiveawaysGiveawayBookmarks extends Module {
 	}
 
 	async gb_bookmarkGiveaway(giveaway) {
-		let deleteLock = await createLock('giveawayLock', 300);
+		const lock = new Lock('giveaway', { threshold: 300 });
+		await lock.lock();
 		let giveaways = JSON.parse(getValue('giveaways', '{}'));
 		if (!giveaways[giveaway.code]) {
 			giveaways[giveaway.code] = {};
@@ -559,19 +562,20 @@ class GiveawaysGiveawayBookmarks extends Module {
 		giveaways[giveaway.code].bookmarked = true;
 		giveaway.bookmarked = true;
 		await setValue('giveaways', JSON.stringify(giveaways));
-		deleteLock();
+		await lock.unlock();
 		return true;
 	}
 
 	async gb_unbookmarkGiveaway(giveaway) {
-		let deleteLock = await createLock('giveawayLock', 300);
+		const lock = new Lock('giveaway', { threshold: 300 });
+		await lock.lock();
 		let giveaways = JSON.parse(getValue('giveaways', '{}'));
 		if (giveaways[giveaway.code]) {
 			delete giveaways[giveaway.code].bookmarked;
 		}
 		delete giveaway.bookmarked;
 		await setValue('giveaways', JSON.stringify(giveaways));
-		deleteLock();
+		await lock.unlock();
 		return true;
 	}
 }

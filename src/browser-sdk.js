@@ -1,5 +1,5 @@
+import { v4 as uuidv4 } from 'uuid';
 import { setBrowser } from './browser';
-import { Utils } from './lib/jsUtils';
 
 const browser = {
 	gm: null,
@@ -24,10 +24,7 @@ const browser = {
 		},
 		sendMessage: (obj) => {
 			return new Promise((resolve) => {
-				obj.uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
-					/[xy]/g,
-					Utils.createUuid.bind(Utils)
-				);
+				obj.uuid = uuidv4();
 				// @ts-ignore
 				self.port.emit(obj.action, obj);
 				// @ts-ignore

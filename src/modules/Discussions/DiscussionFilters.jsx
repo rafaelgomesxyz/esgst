@@ -1,15 +1,15 @@
 import { Button } from '../../class/Button';
-import { Filters } from '../Filters';
+import { DOM } from '../../class/DOM';
+import { Lock } from '../../class/Lock';
 import { Process } from '../../class/Process';
-import { Utils } from '../../lib/jsUtils';
-import { common } from '../Common';
 import { Settings } from '../../class/Settings';
 import { Shared } from '../../class/Shared';
-import { DOM } from '../../class/DOM';
+import { Utils } from '../../lib/jsUtils';
+import { common } from '../Common';
+import { Filters } from '../Filters';
 
 const checkMissingDiscussions = common.checkMissingDiscussions.bind(common),
 	createHeadingButton = common.createHeadingButton.bind(common),
-	createLock = common.createLock.bind(common),
 	endless_load = common.endless_load.bind(common),
 	getValue = common.getValue.bind(common),
 	setValue = common.setValue.bind(common);
@@ -544,14 +544,15 @@ class DiscussionsDiscussionFilters extends Filters {
 	}
 
 	async df_hideDiscussion(discussion, main) {
-		let deleteLock = await createLock('discussionLock', 300);
+		const lock = new Lock('discussion', { threshold: 300 });
+		await lock.lock();
 		let discussions = JSON.parse(getValue('discussions', '{}'));
 		if (!discussions[discussion.code]) {
 			discussions[discussion.code] = {};
 		}
 		discussions[discussion.code].hidden = discussions[discussion.code].lastUsed = Date.now();
 		await setValue('discussions', JSON.stringify(discussions));
-		deleteLock();
+		await lock.unlock();
 		if (!main || !this.esgst.discussionPath) {
 			discussion.outerWrap.remove();
 		}
@@ -559,14 +560,15 @@ class DiscussionsDiscussionFilters extends Filters {
 	}
 
 	async df_unhideDiscussion(discussion, main) {
-		let deleteLock = await createLock('discussionLock', 300);
+		const lock = new Lock('discussion', { threshold: 300 });
+		await lock.lock();
 		let discussions = JSON.parse(getValue('discussions', '{}'));
 		if (discussions[discussion.code]) {
 			delete discussions[discussion.code].hidden;
 			discussions[discussion.code].lastUsed = Date.now();
 		}
 		await setValue('discussions', JSON.stringify(discussions));
-		deleteLock();
+		await lock.unlock();
 		if (!main || !this.esgst.discussionPath) {
 			discussion.outerWrap.remove();
 		}

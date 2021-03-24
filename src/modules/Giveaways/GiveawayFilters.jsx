@@ -1,12 +1,12 @@
 import { Button } from '../../class/Button';
+import { DOM } from '../../class/DOM';
+import { Lock } from '../../class/Lock';
+import { Settings } from '../../class/Settings';
+import { Shared } from '../../class/Shared';
 import { common } from '../Common';
 import { Filters } from '../Filters';
-import { Shared } from '../../class/Shared';
-import { Settings } from '../../class/Settings';
-import { DOM } from '../../class/DOM';
 
 const createHeadingButton = common.createHeadingButton.bind(common),
-	createLock = common.createLock.bind(common),
 	getValue = common.getValue.bind(common),
 	setValue = common.setValue.bind(common);
 class GiveawaysGiveawayFilters extends Filters {
@@ -1048,7 +1048,8 @@ class GiveawaysGiveawayFilters extends Filters {
 	}
 
 	async gf_hideGiveaway(giveaway, main) {
-		let deleteLock = await createLock('giveawayLock', 300);
+		const lock = new Lock('giveaway', { threshold: 300 });
+		await lock.lock();
 		let giveaways = JSON.parse(getValue('giveaways', '{}'));
 		if (!giveaways[giveaway.code]) {
 			giveaways[giveaway.code] = {};
@@ -1057,7 +1058,7 @@ class GiveawaysGiveawayFilters extends Filters {
 		giveaways[giveaway.code].endTime = giveaway.endTime;
 		giveaways[giveaway.code].hidden = Date.now();
 		await setValue('giveaways', JSON.stringify(giveaways));
-		deleteLock();
+		await lock.unlock();
 		if (!main || !this.esgst.giveawayPath) {
 			giveaway.outerWrap.remove();
 		}
@@ -1065,13 +1066,14 @@ class GiveawaysGiveawayFilters extends Filters {
 	}
 
 	async gf_unhideGiveaway(giveaway, main) {
-		let deleteLock = await createLock('giveawayLock', 300);
+		const lock = new Lock('giveaway', { threshold: 300 });
+		await lock.lock();
 		let giveaways = JSON.parse(getValue('giveaways', '{}'));
 		if (giveaways[giveaway.code]) {
 			delete giveaways[giveaway.code].hidden;
 		}
 		await setValue('giveaways', JSON.stringify(giveaways));
-		deleteLock();
+		await lock.unlock();
 		if (!main || !this.esgst.giveawayPath) {
 			giveaway.outerWrap.remove();
 		}

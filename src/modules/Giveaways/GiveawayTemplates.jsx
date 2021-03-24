@@ -1,6 +1,7 @@
 import { Checkbox } from '../../class/Checkbox';
 import { DOM } from '../../class/DOM';
 import { FetchRequest } from '../../class/FetchRequest';
+import { Lock } from '../../class/Lock';
 import { Module } from '../../class/Module';
 import { Popup } from '../../class/Popup';
 import { Session } from '../../class/Session';
@@ -11,7 +12,6 @@ import { common } from '../Common';
 
 const createElements = common.createElements.bind(common),
 	createHeadingButton = common.createHeadingButton.bind(common),
-	createLock = common.createLock.bind(common),
 	getValue = common.getValue.bind(common),
 	setSetting = common.setSetting.bind(common),
 	setValue = common.setValue.bind(common);
@@ -388,7 +388,8 @@ class GiveawaysGiveawayTemplates extends Module {
 								year: endDate.getFullYear(),
 							};
 						}
-						let deleteLock = await createLock('templateLock', 300);
+						const lock = new Lock('template', { threshold: 300 });
+						await lock.lock();
 						savedTemplates = JSON.parse(getValue('templates', '[]'));
 						for (
 							i = 0, n = savedTemplates.length;
@@ -421,7 +422,7 @@ class GiveawaysGiveawayTemplates extends Module {
 							}, 2000);
 						}
 						await setValue('templates', JSON.stringify(savedTemplates));
-						deleteLock();
+						await lock.unlock();
 					} else {
 						warning.classList.remove('esgst-hidden');
 					}
@@ -681,9 +682,9 @@ class GiveawaysGiveawayTemplates extends Module {
 					type: 'i',
 				},
 			]);
-			let deleteLock = await createLock('templateLock', 300),
-				savedTemplates = JSON.parse(getValue('templates', '[]')),
-				i = 0;
+			const lock = new Lock('template', { threshold: 300 });
+			await lock.lock();
+			(savedTemplates = JSON.parse(getValue('templates', '[]'))), (i = 0);
 			for (
 				const n = savedTemplates.length;
 				i < n && savedTemplates[i].name !== savedTemplate.name;
@@ -691,7 +692,7 @@ class GiveawaysGiveawayTemplates extends Module {
 			) {}
 			savedTemplates.splice(i, 1);
 			await setValue('templates', JSON.stringify(savedTemplates));
-			deleteLock();
+			await lock.unlock();
 			createElements(deleteButton, 'atinner', [
 				{
 					attributes: {

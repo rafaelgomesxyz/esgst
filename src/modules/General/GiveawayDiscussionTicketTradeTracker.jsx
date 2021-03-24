@@ -1,12 +1,12 @@
 import { DOM } from '../../class/DOM';
 import { LocalStorage } from '../../class/LocalStorage';
+import { Lock } from '../../class/Lock';
 import { Module } from '../../class/Module';
 import { Settings } from '../../class/Settings';
 import { Shared } from '../../class/Shared';
 import { common } from '../Common';
 
 const createElements = common.createElements.bind(common),
-	createLock = common.createLock.bind(common),
 	getFeatureTooltip = common.getFeatureTooltip.bind(common),
 	getValue = common.getValue.bind(common),
 	getValues = common.getValues.bind(common),
@@ -91,7 +91,8 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
 					cache[type].push(code);
 					LocalStorage.set('gdtttCache', JSON.stringify(cache));
 				}
-				let deleteLock = await createLock('commentLock', 300);
+				const lock = new Lock('comment', { threshold: 300 });
+				await lock.lock();
 				if (!savedComments[code]) {
 					savedComments[code] = {
 						readComments: {},
@@ -100,7 +101,7 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
 				savedComments[code].visited = true;
 				savedComments[code].lastUsed = Date.now();
 				await setValue(type, JSON.stringify(savedComments));
-				deleteLock();
+				await lock.unlock();
 			}
 		} else if (this.esgst.discussionPath || this.esgst.tradePath) {
 			if (savedComments[code] && savedComments[code].visited) {
@@ -125,8 +126,9 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
 
 	async gdttt_markVisited(code, container, count, diffContainer, type, doSave) {
 		if (doSave) {
-			let deleteLock = await createLock('commentLock', 300),
-				comments = JSON.parse(getValue(type));
+			const lock = new Lock('comment', { threshold: 300 });
+			await lock.lock();
+			const comments = JSON.parse(getValue(type));
 			if (!comments[code]) {
 				comments[code] = {
 					readComments: {},
@@ -139,7 +141,7 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
 			comments[code].visited = true;
 			comments[code].lastUsed = Date.now();
 			await setValue(type, JSON.stringify(comments));
-			deleteLock();
+			await lock.unlock();
 		}
 		container.classList.add('esgst-ct-visited');
 		return true;
@@ -147,8 +149,9 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
 
 	async gdttt_markUnvisited(code, container, count, diffContainer, type, doSave) {
 		if (doSave) {
-			let deleteLock = await createLock('commentLock', 300),
-				comments = JSON.parse(getValue(type));
+			const lock = new Lock('comment', { threshold: 300 });
+			await lock.lock();
+			const comments = JSON.parse(getValue(type));
 			if (Settings.get('ct_s')) {
 				delete comments[code].count;
 				diffContainer.textContent = `(+${count})`;
@@ -156,7 +159,7 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
 			delete comments[code].visited;
 			comments[code].lastUsed = Date.now();
 			await setValue(type, JSON.stringify(comments));
-			deleteLock();
+			await lock.unlock();
 		}
 		container.classList.remove('esgst-ct-visited');
 		return true;
@@ -256,7 +259,8 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
 						type: 'i',
 					},
 				]);
-				let deleteLock = await createLock('commentLock', 300);
+				const lock = new Lock('comment', { threshold: 300 });
+				await lock.lock();
 				comments = JSON.parse(getValue(type));
 				if (!comments[code]) {
 					comments[code] = {
@@ -269,7 +273,7 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
 				comments[code].visited = true;
 				comments[code].lastUsed = Date.now();
 				await setValue(type, JSON.stringify(comments));
-				deleteLock();
+				await lock.unlock();
 				this.gdttt_addMarkUnvisitedButton(button, code, context, count, type);
 			}
 		});
@@ -308,7 +312,8 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
 						type: 'i',
 					},
 				]);
-				let deleteLock = await createLock('commentLock', 300);
+				const lock = new Lock('comment', { threshold: 300 });
+				await lock.lock();
 				comments = JSON.parse(getValue(type));
 				if (Settings.get('ct_s')) {
 					delete comments[code].count;
@@ -316,7 +321,7 @@ class GeneralGiveawayDiscussionTicketTradeTracker extends Module {
 				delete comments[code].visited;
 				comments[code].lastUsed = Date.now();
 				await setValue(type, JSON.stringify(comments));
-				deleteLock();
+				await lock.unlock();
 				this.gdttt_addMarkVisitedButton(button, code, context, count, type);
 			}
 		});

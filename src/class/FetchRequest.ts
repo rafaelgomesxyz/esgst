@@ -1,6 +1,7 @@
 import { browser } from '../browser';
 import { Utils } from '../lib/jsUtils';
 import { DOM } from './DOM';
+import { Lock } from './Lock';
 import { Settings } from './Settings';
 import { Shared } from './Shared';
 
@@ -43,7 +44,7 @@ class FetchRequest {
 		}
 
 		let response = null;
-		let deleteLock = null;
+		let lock = null;
 
 		url = url
 			.replace(/^\//, `https://${window.location.hostname}/`)
@@ -63,15 +64,18 @@ class FetchRequest {
 					key: 'sg',
 				});
 			} else if (options.queue) {
-				deleteLock = await Shared.common.createLock(
-					'requestLock',
-					typeof options.queue === 'number' ? options.queue : 1000
-				);
+				lock = new Lock('request', {
+					threshold: typeof options.queue === 'number' ? options.queue : 1000,
+				});
 			} else if (
 				url.match(/^https?:\/\/store.steampowered.com/) &&
 				Settings.get('limitSteamStore')
 			) {
-				deleteLock = await Shared.common.createLock('steamStore', 200);
+				lock = new Lock('steamStore', { threshold: 200 });
+			}
+
+			if (lock) {
+				await lock.lock();
 			}
 
 			if (isInternal) {
@@ -92,8 +96,8 @@ class FetchRequest {
 				response = await FetchRequest.sendExternal(url, options);
 			}
 
-			if (deleteLock) {
-				deleteLock();
+			if (lock) {
+				await lock.unlock();
 			}
 
 			response.html = null;
@@ -113,8 +117,8 @@ class FetchRequest {
 
 			return response;
 		} catch (error) {
-			if (deleteLock) {
-				deleteLock();
+			if (lock) {
+				await lock.unlock();
 			}
 
 			throw error;
