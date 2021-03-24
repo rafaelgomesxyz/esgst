@@ -5,42 +5,60 @@ import { Lock } from './Lock';
 import { Settings } from './Settings';
 import { Shared } from './Shared';
 
-const DEFAULT_HEADERS = {
-	'Content-Type': 'application/x-www-form-urlencoded',
-};
-const REQUIRED_HEADERS = {
-	From: 'esgst.extension@gmail.com',
-};
+export interface FetchOptions {
+	method: 'DELETE' | 'GET' | 'PATCH' | 'POST' | 'PUT';
+	headers?: Record<string, string>;
+	data?: BodyInit;
+	pathParams?: Record<string, string>;
+	queryParams?: Record<string, string>;
+	queue?: boolean | number;
+	doNotQueue?: boolean;
+	anon?: boolean;
+	blob?: string;
+	fileName?: string;
+}
 
-class FetchRequest {
-	static delete(url, options = {}) {
-		options = Object.assign(options, { method: 'DELETE' });
-		return FetchRequest.send(url, options);
+export interface FetchResponse {
+	status: number;
+	url: string;
+	redirected: boolean;
+	text: string;
+	json?: Record<string, unknown> | null;
+	html?: Document | null;
+}
+
+export class FetchRequest {
+	static readonly DEFAULT_HEADERS = {
+		'Content-Type': 'application/x-www-form-urlencoded',
+	};
+	static readonly REQUIRED_HEADERS = {
+		'Esgst-Version': '',
+		From: 'esgst.extension@gmail.com',
+	};
+
+	static delete(url: string, options: Partial<FetchOptions> = {}): Promise<FetchResponse> {
+		return FetchRequest.send(url, { ...options, method: 'DELETE' });
 	}
 
-	static get(url, options = {}) {
-		options = Object.assign(options, { method: 'GET' });
-		return FetchRequest.send(url, options);
+	static get(url: string, options: Partial<FetchOptions> = {}): Promise<FetchResponse> {
+		return FetchRequest.send(url, { ...options, method: 'GET' });
 	}
 
-	static patch(url, options = {}) {
-		options = Object.assign(options, { method: 'PATCH' });
-		return FetchRequest.send(url, options);
+	static patch(url: string, options: Partial<FetchOptions> = {}): Promise<FetchResponse> {
+		return FetchRequest.send(url, { ...options, method: 'PATCH' });
 	}
 
-	static post(url, options = {}) {
-		options = Object.assign(options, { method: 'POST' });
-		return FetchRequest.send(url, options);
+	static post(url: string, options: Partial<FetchOptions> = {}): Promise<FetchResponse> {
+		return FetchRequest.send(url, { ...options, method: 'POST' });
 	}
 
-	static put(url, options = {}) {
-		options = Object.assign(options, { method: 'PUT' });
-		return FetchRequest.send(url, options);
+	static put(url: string, options: Partial<FetchOptions> = {}): Promise<FetchResponse> {
+		return FetchRequest.send(url, { ...options, method: 'PUT' });
 	}
 
-	static async send(url, options) {
-		if (!REQUIRED_HEADERS['Esgst-Version']) {
-			REQUIRED_HEADERS['Esgst-Version'] = Shared.esgst.currentVersion;
+	static async send(url: string, options: FetchOptions): Promise<FetchResponse> {
+		if (!FetchRequest.REQUIRED_HEADERS['Esgst-Version']) {
+			FetchRequest.REQUIRED_HEADERS['Esgst-Version'] = Shared.esgst.currentVersion;
 		}
 
 		let response = null;
@@ -55,7 +73,12 @@ class FetchRequest {
 		if (options.queryParams) {
 			url = FetchRequest.addQueryParams(url, options.queryParams);
 		}
-		options.headers = Object.assign({}, DEFAULT_HEADERS, options.headers, REQUIRED_HEADERS);
+		options.headers = {
+			...FetchRequest.DEFAULT_HEADERS,
+			...options.headers,
+			...FetchRequest.REQUIRED_HEADERS,
+		};
+
 		try {
 			const isInternal = url.match(new RegExp(window.location.hostname));
 			if (isInternal && !options.doNotQueue) {
@@ -100,15 +123,15 @@ class FetchRequest {
 				await lock.unlock();
 			}
 
-			response.html = null;
 			response.json = null;
+			response.html = null;
 			try {
 				response.json = JSON.parse(response.text);
-			} catch (error) {}
+			} catch (err) {}
 			if (!response.json) {
 				try {
 					response.html = DOM.parse(response.text);
-				} catch (error) {}
+				} catch (err) {}
 			}
 
 			if (response.url.match(/www.steamgifts.com/)) {
@@ -116,16 +139,16 @@ class FetchRequest {
 			}
 
 			return response;
-		} catch (error) {
+		} catch (err) {
 			if (lock) {
 				await lock.unlock();
 			}
 
-			throw error;
+			throw err;
 		}
 	}
 
-	static async sendInternal(url, options) {
+	static async sendInternal(url: string, options: FetchOptions): Promise<FetchResponse> {
 		const { fetchObj, fetchOptions } = await FetchRequest.getFetchObj(options);
 		const response = await fetchObj(url, fetchOptions);
 		const text = await response.text();
@@ -142,7 +165,7 @@ class FetchRequest {
 		};
 	}
 
-	static async sendExternal(url, options) {
+	static async sendExternal(url: string, options: FetchOptions): Promise<FetchResponse> {
 		const manipulateCookies =
 			(await Shared.common.getBrowserInfo()).name === 'Firefox' &&
 			Settings.get('manipulateCookies');
@@ -172,22 +195,17 @@ class FetchRequest {
 		};
 	}
 
-	static async getFetchObj(options) {
+	static async getFetchObj(options: FetchOptions) {
 		let fetchObj = null;
 		let fetchOptions = FetchRequest.getFetchOptions(options);
 
-		// @ts-ignore
 		if (
 			(await Shared.common.getBrowserInfo()).name === 'Firefox' &&
-			Utils.isSet(window.wrappedJSObject)
+			'wrappedJSObject' in window &&
+			window.wrappedJSObject
 		) {
-			// @ts-ignore
-			// eslint-disable-next-line no-undef
 			fetchObj = XPCNativeWrapper(window.wrappedJSObject.fetch);
-			// @ts-ignore
 			window.wrappedJSObject.fetchOptions = cloneInto(fetchOptions, window);
-			// @ts-ignore
-			// eslint-disable-next-line no-undef
 			fetchOptions = XPCNativeWrapper(window.wrappedJSObject.fetchOptions);
 		} else {
 			fetchObj = window.fetch;
@@ -196,7 +214,7 @@ class FetchRequest {
 		return { fetchObj, fetchOptions };
 	}
 
-	static getFetchOptions(options, manipulateCookies) {
+	static getFetchOptions(options: FetchOptions, manipulateCookies = false): RequestInit {
 		return {
 			body: options.data,
 			credentials: options.anon || manipulateCookies ? 'omit' : 'include',
@@ -206,7 +224,7 @@ class FetchRequest {
 		};
 	}
 
-	static addPathParams(url, params = {}) {
+	static addPathParams(url: string, params: Record<string, string> = {}) {
 		if (!Object.keys(params).length) {
 			return url;
 		}
@@ -217,7 +235,7 @@ class FetchRequest {
 		return url;
 	}
 
-	static addQueryParams(url, params = {}) {
+	static addQueryParams(url: string, params: Record<string, string> = {}) {
 		if (!Object.keys(params).length) {
 			return url;
 		}
@@ -229,5 +247,3 @@ class FetchRequest {
 		return `${url}?${queryParams.join('&')}`;
 	}
 }
-
-export { FetchRequest };

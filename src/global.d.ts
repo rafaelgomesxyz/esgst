@@ -1,3 +1,14 @@
+declare interface Window {
+	wrappedJSObject?: {
+		fetch: typeof window.fetch;
+		fetchOptions: RequestInit;
+	};
+}
+
+declare let XPCNativeWrapper: <T>(value: T) => T;
+
+declare let cloneInto: <T>(value: T, window: Window) => T;
+
 declare namespace JSX {
 	type IntrinsicElements = {
 		[K in keyof HTMLElementTagNameMap]: Omit<
