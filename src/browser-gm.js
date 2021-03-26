@@ -42,6 +42,11 @@ const browser = {
 						resolve(JSON.stringify(browserInfo));
 						break;
 					}
+					case 'queue_request': {
+						await RequestQueue.enqueue(obj.key);
+						resolve();
+						break;
+					}
 					case 'do_lock': {
 						const lock = JSON.parse(obj.lock);
 
