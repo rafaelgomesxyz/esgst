@@ -1,7 +1,23 @@
 import JSZip from 'jszip';
 import { RequestQueue } from './class/Queue';
 
+// Cu.import('resource://gre/modules/Console.jsm');
+Cu.importGlobalProperties(['fetch', 'FileReader']);
+
+const TYPE_SET = 0;
+const TYPE_GET = 1;
+const TYPE_DEL = 2;
+
+const window = Services.appShell.hiddenDOMWindow;
+
+// @ts-ignore
+const file = FileUtils.getFile('ProfD', ['esgst.sqlite']);
+
 const lastRequests = {};
+const locks = {};
+const workers = new Set();
+let storage = {};
+let tdsData = [];
 
 RequestQueue.getLastRequest = (key) => {
 	return lastRequests[key] ?? 0;
@@ -12,8 +28,8 @@ RequestQueue.setLastRequest = (key, lastRequest) => {
 };
 
 RequestQueue.getRequestThresholds = async () => {
-	const values = await handle_storage(TYPE_GET, 'settings');
-	const settings = values.settings ? JSON.parse(values.settings) : {};
+	const values = await handle_storage(TYPE_GET, { settings: '{}' });
+	const settings = JSON.parse(values.settings);
 	if (settings['useCustomAdaReqLim_sg']) {
 		const thresholds = {};
 		for (const [key, minThreshold] of Object.entries(RequestQueue.queue.sg.minThresholds)) {
@@ -29,36 +45,178 @@ RequestQueue.getRequestThresholds = async () => {
 };
 
 RequestQueue.getRequestLog = async () => {
-	const values = await handle_storage(TYPE_GET, 'requestLog');
+	const values = await handle_storage(TYPE_GET, { requestLog: '[]' });
 	return JSON.parse(values.requestLog);
 };
 
-RequestQueue.init();
+const loadStorage = () => handle_storage(TYPE_GET, null).then((result) => (storage = result));
 
-// @ts-ignore
-Cu.importGlobalProperties(['fetch', 'AbortController', 'FileReader']);
+if (window.document.readyState === 'loading') {
+	window.document.addEventListener('DOMContentLoaded', load);
+} else {
+	// noinspection JSIgnoredPromiseFromCall
+	load();
+}
 
-// @ts-ignore
-const file = FileUtils.getFile('ProfD', ['esgst.sqlite']);
+function load() {
+	RequestQueue.init();
 
-const TYPE_SET = 0;
-const TYPE_GET = 1;
-const TYPE_DEL = 2;
+	// @ts-ignore
+	buttons.ActionButton({
+		id: 'esgst',
+		label: 'ESGST',
+		icon: {
+			'16': './icon-16.png',
+			'32': './icon-32.png',
+			'64': './icon-64.png',
+		},
+		onClick: handleClick,
+	});
 
-const workers = new Set();
-let storage = {};
+	loadStorage().then(async () => {
+		const settings = storage.settings ? JSON.parse(storage.settings) : {};
+		if (!settings.activateTab_sg && !settings.activateTab_st) {
+			return;
+		}
+		// Get the currently active tab.
+		// @ts-ignore
+		const currentTab = tabs.activeTab;
+		if (settings.activateTab_sg) {
+			// Set the SG tab as active.
+			activateTab('steamgifts');
+		}
+		if (settings.activateTab_st) {
+			// Set the ST tab as active.
+			activateTab('steamtrades');
+		}
+		// Go back to the previously active tab.
+		if (currentTab && currentTab.id) {
+			currentTab.activate();
+		}
+	});
 
-// @ts-ignore
-buttons.ActionButton({
-	id: 'esgst',
-	label: 'ESGST',
-	icon: {
-		'16': './icon-16.png',
-		'32': './icon-32.png',
-		'64': './icon-64.png',
-	},
-	onClick: handleClick,
-});
+	// @ts-ignore
+	PageMod({
+		include: ['*.steamgifts.com', '*.steamtrades.com'],
+		// @ts-ignore
+		contentScriptFile: data.url('esgst.js'),
+		contentScriptWhen: 'start',
+		onAttach: (worker) => {
+			let parameters;
+
+			workers.add(worker);
+
+			worker.on('detach', () => {
+				detachWorker(worker);
+			});
+
+			worker.port.on('get-tds', (request) => {
+				worker.port.emit(`get-tds_${request.uuid}_response`, JSON.stringify(tdsData));
+			});
+
+			worker.port.on('notify-tds', (request) => {
+				tdsData = JSON.parse(request.data);
+
+				sendMessage('notify-tds', null, tdsData, true);
+
+				worker.port.emit(`notify-tds_${request.uuid}_response`, 'null');
+			});
+
+			worker.port.on('permissions_contains', (request) => {
+				worker.port.emit(`permissions_contains_${request.uuid}_response`, 'true');
+			});
+
+			worker.port.on('getBrowserInfo', (request) => {
+				worker.port.emit(`getBrowserInfo_${request.uuid}_response`, `{ "name": "?" }`);
+			});
+
+			worker.port.on('queue_request', async (request) => {
+				await RequestQueue.enqueue(request.key);
+				worker.port.emit(`queue_request_${request.uuid}_response`, 'null');
+			});
+
+			worker.port.on('do_lock', async (request) => {
+				const result = await do_lock(JSON.parse(request.lock));
+				worker.port.emit(`do_lock_${request.uuid}_response`, result);
+			});
+
+			worker.port.on('update_lock', (request) => {
+				update_lock(JSON.parse(request.lock));
+				worker.port.emit(`update_lock_${request.uuid}_response`, 'null');
+			});
+
+			worker.port.on('do_unlock', (request) => {
+				do_unlock(JSON.parse(request.lock));
+				worker.port.emit(`do_unlock_${request.uuid}_response`, 'null');
+			});
+
+			worker.port.on('delValues', async (request) => {
+				const keys = JSON.parse(request.keys);
+				await handle_storage(TYPE_DEL, keys);
+				worker.port.emit(`delValues_${request.uuid}_response`, 'null');
+				const changes = {};
+				for (const key of keys) {
+					changes[key] = {
+						newValue: 'null',
+					};
+				}
+				sendMessage('storageChanged', worker, { changes, areaName: 'local' });
+			});
+
+			worker.port.on('fetch', async (request) => {
+				parameters = JSON.parse(request.parameters);
+				const response = await doFetch(parameters, request);
+				worker.port.emit(`fetch_${request.uuid}_response`, response);
+			});
+
+			worker.port.on('getPackageJson', (request) => {
+				// @ts-ignore
+				worker.port.emit(`getPackageJson_${request.uuid}_response`, JSON.stringify(packageJson));
+			});
+
+			worker.port.on('getStorage', async (request) => {
+				const storage = await handle_storage(TYPE_GET, null);
+				worker.port.emit(`getStorage_${request.uuid}_response`, JSON.stringify(storage));
+			});
+
+			worker.port.on('reload', (request) => {
+				worker.port.emit(`reload_${request.uuid}_response`, 'null');
+			});
+
+			worker.port.on('setValues', async (request) => {
+				const values = JSON.parse(request.values);
+				await handle_storage(TYPE_SET, values);
+				worker.port.emit(`setValues_${request.uuid}_response`, 'null');
+				const changes = {};
+				for (const key in values) {
+					changes[key] = {
+						newValue: values[key],
+					};
+				}
+				sendMessage('storageChanged', worker, { changes, areaName: 'local' });
+			});
+
+			worker.port.on('tabs', (request) => {
+				getTabs(request);
+				worker.port.emit(`tabs_${request.uuid}_response`, 'null');
+			});
+
+			worker.port.on('open_tab', (request) => {
+				tabs.open(request.url);
+				worker.port.emit(`open_tab_${request.uuid}_response`, 'null');
+			});
+
+			worker.port.on('register_tab', async (request) => {
+				worker.port.emit(`register_tab_${request.uuid}_response`, 'null');
+			});
+
+			worker.port.on('update_adareqlim', async (request) => {
+				await RequestQueue.loadRequestThreshold();
+				worker.port.emit(`update_adareqlim_${request.uuid}_response`, 'null');
+			});
+		},
+	});
+}
 
 function handleClick(state) {
 	// @ts-ignore
@@ -155,29 +313,6 @@ function handle_storage(operation, values) {
 		dbConn.asyncClose(() => resolve(output));
 	});
 }
-const loadStorage = () => handle_storage(TYPE_GET, null).then((result) => (storage = result));
-
-loadStorage().then(async () => {
-	const settings = storage.settings ? JSON.parse(storage.settings) : {};
-	if (!settings.activateTab_sg && !settings.activateTab_st) {
-		return;
-	}
-	// Get the currently active tab.
-	// @ts-ignore
-	const currentTab = tabs.activeTab;
-	if (settings.activateTab_sg) {
-		// Set the SG tab as active.
-		activateTab('steamgifts');
-	}
-	if (settings.activateTab_st) {
-		// Set the ST tab as active.
-		activateTab('steamtrades');
-	}
-	// Go back to the previously active tab.
-	if (currentTab && currentTab.id) {
-		currentTab.activate();
-	}
-});
 
 function sendMessage(action, sender, values, sendToAll) {
 	for (const worker of workers) {
@@ -226,7 +361,7 @@ function doFetch(parameters, request) {
 		let response = null;
 		let responseText = null;
 		try {
-			const abortController = new AbortController();
+			const abortController = new window.AbortController();
 
 			const { timeout = 10000 } = request;
 			const timeoutId = setTimeout(() => abortController.abort(), timeout);
@@ -269,8 +404,6 @@ async function detachWorker(worker) {
 	//Cu.reportError(worker);
 	workers.delete(worker);
 }
-
-const locks = {};
 
 function do_lock(lock) {
 	return new Promise((resolve) => {
@@ -317,130 +450,6 @@ function do_unlock(lock) {
 		delete locks[lock.key];
 	}
 }
-
-let tdsData = [];
-
-// @ts-ignore
-PageMod({
-	include: ['*.steamgifts.com', '*.steamtrades.com'],
-	// @ts-ignore
-	contentScriptFile: data.url('esgst.js'),
-	contentScriptWhen: 'start',
-	onAttach: (worker) => {
-		let parameters;
-
-		workers.add(worker);
-
-		worker.on('detach', () => {
-			detachWorker(worker);
-		});
-
-		worker.port.on('get-tds', (request) => {
-			worker.port.emit(`get-tds_${request.uuid}_response`, JSON.stringify(tdsData));
-		});
-
-		worker.port.on('notify-tds', (request) => {
-			tdsData = JSON.parse(request.data);
-
-			sendMessage('notify-tds', null, tdsData, true);
-
-			worker.port.emit(`notify-tds_${request.uuid}_response`, 'null');
-		});
-
-		worker.port.on('permissions_contains', (request) => {
-			worker.port.emit(`permissions_contains_${request.uuid}_response`, 'true');
-		});
-
-		worker.port.on('getBrowserInfo', (request) => {
-			worker.port.emit(`getBrowserInfo_${request.uuid}_response`, `{ "name": "?" }`);
-		});
-
-		worker.port.on('queue_request', async (request) => {
-			await RequestQueue.enqueue(request.key);
-			worker.port.emit(`queue_request_${request.uuid}_response`, 'null');
-		});
-
-		worker.port.on('do_lock', async (request) => {
-			const result = await do_lock(JSON.parse(request.lock));
-			worker.port.emit(`do_lock_${request.uuid}_response`, result);
-		});
-
-		worker.port.on('update_lock', (request) => {
-			update_lock(JSON.parse(request.lock));
-			worker.port.emit(`update_lock_${request.uuid}_response`, 'null');
-		});
-
-		worker.port.on('do_unlock', (request) => {
-			do_unlock(JSON.parse(request.lock));
-			worker.port.emit(`do_unlock_${request.uuid}_response`, 'null');
-		});
-
-		worker.port.on('delValues', async (request) => {
-			const keys = JSON.parse(request.keys);
-			await handle_storage(TYPE_DEL, keys);
-			worker.port.emit(`delValues_${request.uuid}_response`, 'null');
-			const changes = {};
-			for (const key of keys) {
-				changes[key] = {
-					newValue: 'null',
-				};
-			}
-			sendMessage('storageChanged', worker, { changes, areaName: 'local' });
-		});
-
-		worker.port.on('fetch', async (request) => {
-			parameters = JSON.parse(request.parameters);
-			const response = await doFetch(parameters, request);
-			worker.port.emit(`fetch_${request.uuid}_response`, response);
-		});
-
-		worker.port.on('getPackageJson', (request) => {
-			// @ts-ignore
-			worker.port.emit(`getPackageJson_${request.uuid}_response`, JSON.stringify(packageJson));
-		});
-
-		worker.port.on('getStorage', async (request) => {
-			const storage = await handle_storage(TYPE_GET, null);
-			worker.port.emit(`getStorage_${request.uuid}_response`, JSON.stringify(storage));
-		});
-
-		worker.port.on('reload', (request) => {
-			worker.port.emit(`reload_${request.uuid}_response`, 'null');
-		});
-
-		worker.port.on('setValues', async (request) => {
-			const values = JSON.parse(request.values);
-			await handle_storage(TYPE_SET, values);
-			worker.port.emit(`setValues_${request.uuid}_response`, 'null');
-			const changes = {};
-			for (const key in values) {
-				changes[key] = {
-					newValue: values[key],
-				};
-			}
-			sendMessage('storageChanged', worker, { changes, areaName: 'local' });
-		});
-
-		worker.port.on('tabs', (request) => {
-			getTabs(request);
-			worker.port.emit(`tabs_${request.uuid}_response`, 'null');
-		});
-
-		worker.port.on('open_tab', (request) => {
-			tabs.open(request.url);
-			worker.port.emit(`open_tab_${request.uuid}_response`, 'null');
-		});
-
-		worker.port.on('register_tab', async (request) => {
-			worker.port.emit(`register_tab_${request.uuid}_response`, 'null');
-		});
-
-		worker.port.on('update_adareqlim', async (request) => {
-			await RequestQueue.loadRequestThreshold();
-			worker.port.emit(`update_adareqlim_${request.uuid}_response`, 'null');
-		});
-	},
-});
 
 function getTabs(request) {
 	let items = [

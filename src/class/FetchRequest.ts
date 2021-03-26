@@ -155,6 +155,7 @@ export class FetchRequest {
 		const { timeout = 10000 } = options;
 		const timeoutId = window.setTimeout(() => abortController.abort(), timeout);
 
+		fetchOptions.signal = abortController.signal;
 		const response = await fetchObj(url, fetchOptions);
 
 		window.clearTimeout(timeoutId);
@@ -222,8 +223,6 @@ export class FetchRequest {
 			fetchObj = window.fetch;
 			abortController = new AbortController();
 		}
-
-		fetchOptions.signal = abortController.signal;
 
 		return { fetchObj, fetchOptions, abortController };
 	}
