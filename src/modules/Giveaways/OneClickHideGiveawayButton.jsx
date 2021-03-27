@@ -112,14 +112,14 @@ class GiveawaysOneClickHideGiveawayButton extends Module {
 		return true;
 	}
 
-	ochgb_completeProcess(giveaway, key, main) {
+	ochgb_completeProcess(clickedGiveaway, key, main) {
 		if (main && this.esgst.giveawayPath) return;
 		const giveaways = Scope.findData('current', 'giveaways');
 		if (Settings.get('ochgb_f')) {
 			for (const giveaway of giveaways) {
-				if (giveaway.gameId === giveaway.gameId) {
+				if (giveaway.gameId === clickedGiveaway.gameId) {
 					giveaway[key]();
-					if (giveaway !== giveaway && giveaway.ochgbButton) {
+					if (giveaway !== clickedGiveaway && giveaway.ochgbButton) {
 						giveaway.ochgbButton.index = key === 'fade' ? 2 : 0;
 						// noinspection JSIgnoredPromiseFromCall
 						giveaway.ochgbButton.change();
@@ -128,7 +128,7 @@ class GiveawaysOneClickHideGiveawayButton extends Module {
 			}
 		} else {
 			for (const giveaway of giveaways) {
-				if (giveaway.gameId === giveaway.gameId) {
+				if (giveaway.gameId === clickedGiveaway.gameId) {
 					giveaway.outerWrap.remove();
 				}
 			}
