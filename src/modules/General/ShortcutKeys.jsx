@@ -108,7 +108,9 @@ class GeneralShortcutKeys extends Module {
 		if (Settings.get('sk_cp')) {
 			methods[Settings.get('sk_closePopups')] = (event) => {
 				if (!event.target.tagName.match(/^(INPUT|TEXTAREA)$/)) {
-					let buttons = document.querySelectorAll(`.b-close, .esgst-popup-close`),
+					let buttons = document.querySelectorAll(
+							`.b-close, .esgst-popup-close, .lightbox_header_icon--close`
+						),
 						i;
 					for (i = buttons.length - 1; i > -1; --i) {
 						buttons[i].click();
