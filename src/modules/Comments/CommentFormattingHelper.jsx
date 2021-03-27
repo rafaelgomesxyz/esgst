@@ -1741,7 +1741,7 @@ class CommentsCommentFormattingHelper extends Module {
 				name: 'Save',
 				onClick: () =>
 					this.cfh_saveReply(
-						reply,
+						null,
 						description,
 						descriptionArea,
 						name,
