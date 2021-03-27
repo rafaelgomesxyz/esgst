@@ -135,7 +135,7 @@ export class FetchRequest {
 				} catch (err) {}
 			}
 
-			if (response.url.match(/www.steamgifts.com/)) {
+			if (response.url.match(/www.steamgifts.com/) && response.html) {
 				Shared.common.lookForPopups(response);
 			}
 
