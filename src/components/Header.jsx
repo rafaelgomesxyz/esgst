@@ -1,10 +1,9 @@
 import { DOM } from '../class/DOM';
 import { EventDispatcher } from '../class/EventDispatcher';
+import { ISession, Session } from '../class/Session';
 import { Events } from '../constants/Events';
 import { Namespaces } from '../constants/Namespaces';
-import { ISession, Session } from '../class/Session';
-import { User } from './User';
-import { Utils } from '../lib/jsUtils';
+import { User } from '../models/User';
 
 class IHeader {
 	constructor() {
@@ -366,8 +365,13 @@ class SgHeader extends IHeader {
 			} else {
 				buttonContainer.data.buttonName = 'Avatar';
 
-				buttonContainer.user = new User(Namespaces.SG);
-				buttonContainer.user.parse(buttonContainer.nodes.outer);
+				const user = User.create(Namespaces.SG);
+				user.nodes.outer = buttonContainer.nodes.outer;
+				user.nodes.avatarOuter = user.nodes.outer.querySelector('.nav__avatar-outer-wrap');
+				user.nodes.avatarInner = user.nodes.avatarOuter.querySelector('.nav__avatar-inner-wrap');
+				user.parseData();
+				user.parseExtraData();
+				buttonContainer.user = user;
 
 				if (Session.namespace === Namespaces.SG) {
 					Session.user = Object.assign({}, buttonContainer.user.data);
@@ -878,8 +882,12 @@ class StHeader extends IHeader {
 			} else {
 				buttonContainer.data.buttonName = 'Avatar';
 
-				buttonContainer.user = new User(Namespaces.ST);
-				buttonContainer.user.parse(buttonContainer.nodes.outer);
+				const user = User.create(Namespaces.ST);
+				user.nodes.outer = buttonContainer.nodes.outer;
+				user.nodes.avatarInner = user.nodes.outer;
+				user.parseData();
+				user.parseExtraData();
+				buttonContainer.user = user;
 
 				if (Session.namespace === Namespaces.ST) {
 					Session.user = Object.assign({}, buttonContainer.user.data);

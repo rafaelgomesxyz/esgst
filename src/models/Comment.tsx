@@ -3,12 +3,12 @@ import { Session } from '../class/Session';
 import { Shared } from '../class/Shared';
 import { Namespaces } from '../constants/Namespaces';
 import { AttachedImage } from './AttachedImage';
-import { User } from './User';
+import { User, UserNodes } from './User';
 
 abstract class Comment implements IComment {
 	nodes: ICommentNodes;
 	data: ICommentData;
-	author: IUser;
+	author: User;
 	attachedImages: IAttachedImage[];
 	generation: number;
 	parent: IComment;
@@ -151,8 +151,9 @@ class SgComment extends Comment {
 
 	parseNodes(outer: SgCommentOuter): void {
 		const nodes: ICommentNodes = Comment.getDefaultNodes();
-		const authorNodes: IUserNodes = User.getDefaultNodes();
+		const authorNodes: UserNodes = User.getDefaultNodes();
 		nodes.outer = outer;
+		authorNodes.outer = outer;
 		nodes.inner = nodes.outer.querySelector('.comment__parent, .comment__child');
 		authorNodes.avatarOuter = nodes.inner.querySelector('.global__image-outer-wrap');
 		authorNodes.avatarInner = authorNodes.avatarOuter.querySelector('.global__image-inner-wrap');
@@ -197,22 +198,9 @@ class SgComment extends Comment {
 
 	parseData(): void {
 		const nodes = this.nodes;
-		const authorNodes = this.author.nodes;
 		const data: ICommentData = Comment.getDefaultData();
-		const authorData: IUserData = User.getDefaultData();
 		data.id = nodes.outer.dataset.commentId;
-		data.isDeleted = !authorNodes.avatarInner;
-		if (!data.isDeleted) {
-			authorData.avatar = authorNodes.avatarInner.style.backgroundImage.slice(4, -2); // url(...);
-			authorData.username = authorNodes.usernameInner.textContent.trim();
-			authorData.url = authorNodes.usernameInner.getAttribute('href');
-		}
-		authorData.isOp = authorNodes.usernameOuter.classList.contains('comment__username--op');
-		if (authorNodes.role) {
-			authorData.roleId = authorNodes.role.getAttribute('href').split('/')[2]; // /roles/...
-			authorData.roleName = authorNodes.role.textContent.trim().slice(1, -1); // (...)
-		}
-		authorData.isPatron = !!authorNodes.patreon;
+		data.isDeleted = !!nodes.deletedTimestamp;
 		if (nodes.editTextArea) {
 			data.markdown = nodes.editTextArea.value;
 		}
@@ -234,7 +222,8 @@ class SgComment extends Comment {
 		}
 		data.isOp = !nodes.summary.id;
 		this.data = data;
-		this.author.data = authorData;
+		this.author.parseData();
+		this.author.parseExtraData();
 	}
 
 	build(context: HTMLElement, position: string): void {
@@ -422,8 +411,9 @@ class StComment extends Comment {
 
 	parseNodes(outer: StCommentOuter): void {
 		const nodes: ICommentNodes = Comment.getDefaultNodes();
-		const authorNodes: IUserNodes = User.getDefaultNodes();
+		const authorNodes: UserNodes = User.getDefaultNodes();
 		nodes.outer = outer;
+		authorNodes.outer = outer;
 		nodes.editState = nodes.outer.querySelector('.edit_form');
 		if (nodes.editState) {
 			nodes.editTextArea = nodes.editState.querySelector('[name="description"]');
@@ -434,8 +424,8 @@ class StComment extends Comment {
 		nodes.author = nodes.inner.querySelector('.author');
 		nodes.collapseButton = nodes.author.querySelector('.comment_collapse_btn');
 		nodes.expandButton = nodes.author.querySelector('.comment_expand_btn');
-		authorNodes.avatarOuter = nodes.author.querySelector('.author_avatar');
-		authorNodes.usernameOuter = nodes.author.querySelector('.author_name');
+		authorNodes.avatarInner = nodes.author.querySelector('.author_avatar');
+		authorNodes.usernameInner = nodes.author.querySelector('.author_name');
 		authorNodes.reputation = nodes.author.querySelector('.author_small');
 		if (authorNodes.reputation) {
 			authorNodes.positiveReputation = authorNodes.reputation.querySelector('.is_positive');
@@ -478,29 +468,12 @@ class StComment extends Comment {
 
 	parseData(): void {
 		const nodes = this.nodes;
-		const authorNodes = this.author.nodes;
 		const data: ICommentData = Comment.getDefaultData();
-		const authorData: IUserData = User.getDefaultData();
 		data.id = nodes.outer.dataset.id;
 		if (nodes.editTextArea) {
 			data.markdown = nodes.editTextArea.value;
 		}
-		data.isDeleted = authorNodes.avatarOuter.classList.contains('is_icon');
-		if (!data.isDeleted) {
-			authorData.steamId = authorNodes.avatarOuter.getAttribute('href').split('/')[2]; // /go/...
-			authorData.avatar = authorNodes.avatarOuter.style.backgroundImage.slice(4, -2); // url(...);
-			authorData.username = authorNodes.usernameOuter.textContent.trim();
-			authorData.url = authorNodes.usernameOuter.getAttribute('href');
-		}
-		if (authorNodes.reputation) {
-			authorData.positiveReputation = parseInt(
-				authorNodes.positiveReputation.textContent.slice(1).replace(',', '')
-			); // +...
-			authorData.negativeReputation = parseInt(
-				authorNodes.negativeReputation.textContent.slice(1).replace(',', '')
-			); // -...
-		}
-		authorData.isOp = authorNodes.usernameOuter.classList.contains('is_op');
+		data.isDeleted = !!nodes.deletedTimestamp;
 		if (nodes.deletedTimestamp) {
 			data.deletedTimestamp = parseInt(nodes.deletedTimestamp.dataset.timestamp);
 		}
@@ -528,7 +501,8 @@ class StComment extends Comment {
 		data.isReview = !!nodes.rating;
 		data.isReviewPositive = nodes.rating?.classList.contains('is_positive') ?? false;
 		this.data = data;
-		this.author.data = authorData;
+		this.author.parseData();
+		this.author.parseExtraData();
 	}
 
 	build(context: HTMLElement, position: string): void {

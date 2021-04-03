@@ -37,42 +37,6 @@ declare interface Text {
 	textContent: string;
 }
 
-interface IUser {
-	nodes: IUserNodes;
-	data: IUserData;
-}
-
-interface IUserNodes {
-	avatarOuter: HTMLAnchorElement | HTMLDivElement | null;
-	avatarInner: HTMLDivElement | HTMLImageElement | null;
-	usernameOuter: HTMLDivElement | null;
-	usernameInner: HTMLAnchorElement | null;
-	role: HTMLAnchorElement | null;
-	patreon: HTMLAnchorElement | null;
-	reputation: HTMLAnchorElement | null;
-	positiveReputation: HTMLSpanElement | null;
-	negativeReputation: HTMLSpanElement | null;
-}
-
-type IUserData = IUserBaseData & IUserExtraData;
-
-interface IUserBaseData {
-	id: string | null;
-	steamId: string | null;
-	username: string | null;
-	avatar: string | null;
-	isOp: boolean | null;
-	roleId: string | null;
-	roleName: string | null;
-	isPatron: boolean | null;
-	positiveReputation: number | null;
-	negativeReputation: number | null;
-}
-
-interface IUserExtraData {
-	url: string | null;
-}
-
 interface ICommentEntity {
 	nodes: ICommentEntityNodes;
 	data: ICommentEntityData;
@@ -100,7 +64,7 @@ interface ICommentEntityData {
 interface IComment {
 	nodes: ICommentNodes;
 	data: ICommentData;
-	author: IUser;
+	author: import('./models/User').User;
 	attachedImages: IAttachedImage[];
 	generation: number;
 	parent: IComment;
@@ -211,7 +175,7 @@ interface IAttachedImageData {
 interface ICommentBox {
 	nodes: ICommentBoxNodes;
 	data: ICommentBoxData;
-	author: IUser;
+	author: import('./models/User').User;
 	parent: IComment;
 
 	parse(outer: HTMLDivElement): void;

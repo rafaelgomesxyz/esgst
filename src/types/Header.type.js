@@ -39,7 +39,7 @@
  * @property {IReputation} data.reputation
  * @property {string} [data.url]
  * @property {Object<string, IHeaderDropdownItem>} [dropdownItems]
- * @property {import('../components/User').IUser} [user]
+ * @property {import('../models/User').User} [user]
  */
 
 /**

@@ -37,7 +37,7 @@ class _Session extends ISession {
 		/** @type {number} */
 		this.namespace = Namespaces.SG;
 
-		/** @type {IUserData} */
+		/** @type {import('../models/User').UserData | null} */
 		this.user = null;
 
 		/** @type {string} */

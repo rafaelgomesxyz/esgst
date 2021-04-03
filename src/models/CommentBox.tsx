@@ -1,12 +1,12 @@
 import { DOM } from '../class/DOM';
 import { Session } from '../class/Session';
 import { Namespaces } from '../constants/Namespaces';
-import { User } from './User';
+import { User, UserNodes } from './User';
 
 abstract class CommentBox implements ICommentBox {
 	nodes: ICommentBoxNodes;
 	data: ICommentBoxData;
-	author: IUser;
+	author: User;
 	parent: IComment;
 
 	constructor(parent: IComment = null) {
@@ -102,8 +102,9 @@ class SgCommentBox extends CommentBox {
 
 	parseNodes(outer: HTMLDivElement): void {
 		const nodes: ICommentBoxNodes = CommentBox.getDefaultNodes();
-		const authorNodes: IUserNodes = User.getDefaultNodes();
+		const authorNodes: UserNodes = User.getDefaultNodes();
 		nodes.outer = outer;
+		authorNodes.outer = outer;
 		nodes.inner = nodes.outer.querySelector('.comment__parent');
 		authorNodes.avatarOuter = nodes.inner.querySelector('.global__image-outer-wrap');
 		authorNodes.avatarInner = authorNodes.avatarOuter.querySelector('.global__image-inner-wrap');
@@ -124,15 +125,11 @@ class SgCommentBox extends CommentBox {
 
 	parseData() {
 		const nodes = this.nodes;
-		const authorNodes = this.author.nodes;
 		const data: ICommentBoxData = CommentBox.getDefaultData();
-		const authorData: IUserData = User.getDefaultData();
-		authorData.avatar = authorNodes.avatarInner.style.backgroundImage.slice(4, -2); // url(...);
-		authorData.username = authorNodes.usernameInner.textContent.trim();
-		authorData.url = authorNodes.usernameInner.getAttribute('href');
 		data.markdown = nodes.textArea.value;
 		this.data = data;
-		this.author.data = authorData;
+		this.author.parseData();
+		this.author.parseExtraData();
 	}
 
 	build(context: HTMLElement, position: string): void {
@@ -217,6 +214,7 @@ class StCommentBox extends CommentBox {
 	parseNodes(outer: HTMLDivElement): void {
 		const nodes: ICommentBoxNodes = CommentBox.getDefaultNodes();
 		nodes.outer = outer;
+		authorNodes.outer = outer;
 		nodes.heading = nodes.outer.querySelector('.heading');
 		nodes.form = nodes.outer.querySelector('form');
 		nodes.tradeCodeField = nodes.form.querySelector('[name="trade_code"]');
