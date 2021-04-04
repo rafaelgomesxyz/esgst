@@ -5,10 +5,16 @@ import { Base, BaseData, BaseNodes } from './Base';
 export interface GameNodes extends BaseNodes {
 	name: HTMLAnchorElement | HTMLDivElement | null;
 	steam: HTMLAnchorElement | null;
-	screenshots: HTMLElement | null;
+	screenshots: GameScreenshotsNode | null;
 	thumbnailOuter: HTMLAnchorElement | null;
 	thumbnailInner: HTMLImageElement | null;
 }
+
+export type GameScreenshotsNode = HTMLElement & {
+	dataset: {
+		lightboxId?: string;
+	};
+};
 
 export type GameData = BaseData & GameBaseData & GameExtraData;
 
@@ -87,7 +93,7 @@ export abstract class Game extends Base<Game, GameNodes, GameData> {
 	};
 
 	static extractSteamData = (url: string): GameSteamData => {
-		const matches = url.match(/\/(app|sub|bundle)\/(\d+)/);
+		const matches = url.match(/\/(app|sub|bundle)s?\/(\d+)/);
 		return matches
 			? {
 					steamId: matches[2],
@@ -141,21 +147,22 @@ class SgGame extends Game {
 		const data = Game.getDefaultData();
 
 		data.id = nodes.outer?.dataset.gameId ?? nodes.screenshots?.dataset.lightboxId ?? null;
-		if (nodes.steam) {
-			const url = nodes.steam.getAttribute('href');
-			if (url) {
-				const steamData = Game.extractSteamData(url);
-				data.steamId = steamData.steamId;
-				data.steamType = steamData.steamType;
-			}
-		}
 		if (nodes.name) {
 			data.name = nodes.name.textContent.trim() || null;
 		}
 		if (nodes.thumbnailInner) {
 			data.thumbnail = nodes.thumbnailInner.src;
-		} else if (nodes.thumbnailOuter?.style.backgroundImage) {
-			data.thumbnail = Game.extractThumbnail(nodes.thumbnailOuter.style.backgroundImage);
+		} else if (nodes.thumbnailOuter) {
+			const imageUrl = nodes.thumbnailOuter.style.backgroundImage;
+			if (imageUrl) {
+				data.thumbnail = Game.extractThumbnail(imageUrl);
+			}
+		}
+		const steamUrl = nodes.steam?.getAttribute('href') || data.thumbnail;
+		if (steamUrl) {
+			const steamData = Game.extractSteamData(steamUrl);
+			data.steamId = steamData.steamId;
+			data.steamType = steamData.steamType;
 		}
 		this.data = data;
 

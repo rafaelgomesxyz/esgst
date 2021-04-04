@@ -230,7 +230,7 @@ class SgComment extends Comment {
 		if (this.nodes.outer) {
 			this.nodes.outer.remove();
 		}
-		const patron = this.author.data.isPatron && (
+		const patron = this.author.data.patron && (
 			<i
 				data-ui-tooltip='{"rows":[{"icon" : [{"class" : "fa-star", "color" : "#84cfda"}], "columns":[{"name" : "Patron"}]}]}'
 				className="fa fa-star"
@@ -266,7 +266,7 @@ class SgComment extends Comment {
 							) : (
 								<div
 									className={`comment__username${
-										this.author.data.isOp ? ' comment__username--op' : ''
+										this.author.data.op ? ' comment__username--op' : ''
 									}`}
 								>
 									<a href={this.author.data.url}>{this.author.data.username}</a>
@@ -278,7 +278,7 @@ class SgComment extends Comment {
 									className="comment__role-name"
 								>{`(${this.author.data.roleName})`}</a>
 							)}
-							{this.author.data.isPatron &&
+							{this.author.data.patron &&
 								(Session.isLoggedIn ? <a href="/account/settings/patreon">{patron}</a> : patron)}
 						</div>
 						{this.data.canEdit && (
@@ -424,7 +424,7 @@ class StComment extends Comment {
 		nodes.author = nodes.inner.querySelector('.author');
 		nodes.collapseButton = nodes.author.querySelector('.comment_collapse_btn');
 		nodes.expandButton = nodes.author.querySelector('.comment_expand_btn');
-		authorNodes.avatarInner = nodes.author.querySelector('.author_avatar');
+		authorNodes.avatarOuter = nodes.author.querySelector('.author_avatar');
 		authorNodes.usernameInner = nodes.author.querySelector('.author_name');
 		authorNodes.reputation = nodes.author.querySelector('.author_small');
 		if (authorNodes.reputation) {
@@ -534,7 +534,7 @@ class StComment extends Comment {
 							></a>
 							<a
 								href={this.author.data.url}
-								className={`author_name${this.author.data.isOp ? ' is_op' : ''}`}
+								className={`author_name${this.author.data.op ? ' is_op' : ''}`}
 							>
 								{this.author.data.username}
 							</a>

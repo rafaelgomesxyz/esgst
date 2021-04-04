@@ -884,7 +884,7 @@ class StHeader extends IHeader {
 
 				const user = User.create(Namespaces.ST);
 				user.nodes.outer = buttonContainer.nodes.outer;
-				user.nodes.avatarInner = user.nodes.outer;
+				user.nodes.avatarOuter = user.nodes.outer;
 				user.parseData();
 				user.parseExtraData();
 				buttonContainer.user = user;

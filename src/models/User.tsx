@@ -10,8 +10,8 @@ export interface UserNodes extends BaseNodes {
 	reputation: HTMLAnchorElement | null;
 	positiveReputation: HTMLSpanElement | null;
 	negativeReputation: HTMLSpanElement | null;
-	avatarOuter: HTMLAnchorElement | HTMLDivElement | null;
-	avatarInner: HTMLAnchorElement | null;
+	avatarOuter: HTMLAnchorElement | null;
+	avatarInner: HTMLDivElement | null;
 }
 
 export type UserData = BaseData & UserBaseData & UserExtraData;
@@ -144,8 +144,7 @@ class SgUser extends User {
 		const data = User.getDefaultData();
 
 		const url =
-			(nodes.usernameInner && nodes.usernameInner.getAttribute('href')) ||
-			(nodes.avatarOuter && nodes.avatarOuter.getAttribute('href'));
+			nodes.usernameInner?.getAttribute('href') || nodes.avatarOuter?.getAttribute('href');
 		if (url) {
 			data.username = User.extractUser(url);
 		}
@@ -157,8 +156,10 @@ class SgUser extends User {
 			data.roleName = nodes.role.textContent.trim().slice(1, -1) || null; // (...)
 		}
 		data.patron = !!nodes.patreon;
-		if (nodes.avatarInner?.style.backgroundImage) {
-			data.avatar = User.extractAvatar(nodes.avatarInner.style.backgroundImage);
+		const imageUrl =
+			nodes.avatarOuter?.style.backgroundImage || nodes.avatarInner?.style.backgroundImage;
+		if (imageUrl) {
+			data.avatar = User.extractAvatar(imageUrl);
 		}
 		this.data = data;
 
@@ -186,8 +187,7 @@ class StUser extends User {
 		const data = User.getDefaultData();
 
 		const url =
-			(nodes.usernameInner && nodes.usernameInner.getAttribute('href')) ||
-			(nodes.avatarInner && nodes.avatarInner.getAttribute('href'));
+			nodes.usernameInner?.getAttribute('href') || nodes.avatarOuter?.getAttribute('href');
 		if (url) {
 			data.steamId = User.extractUser(url);
 		}
@@ -203,8 +203,10 @@ class StUser extends User {
 				nodes.negativeReputation.textContent.slice(1).replace(',', '')
 			); // -...
 		}
-		if (nodes.avatarInner?.style.backgroundImage) {
-			data.avatar = User.extractAvatar(nodes.avatarInner.style.backgroundImage);
+		const imageUrl =
+			nodes.avatarOuter?.style.backgroundImage || nodes.avatarInner?.style.backgroundImage;
+		if (imageUrl) {
+			data.avatar = User.extractAvatar(imageUrl);
 		}
 		this.data = data;
 
