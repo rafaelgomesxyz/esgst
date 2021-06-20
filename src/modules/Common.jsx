@@ -5757,6 +5757,15 @@ class Common extends Module {
 				<div>
 					<a
 						class="table__column__secondary-link"
+						href={`https://www.patreon.com/rafaelgomesxyz`}
+						target="_blank"
+					>
+						<strong>Patreon</strong>
+					</a>
+				</div>
+				<div>
+					<a
+						class="table__column__secondary-link"
 						href={`https://steamcommunity.com/tradeoffer/new/?partner=214244550&token=LW6Selqp`}
 						target="_blank"
 					>
