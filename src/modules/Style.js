@@ -1337,13 +1337,6 @@ function addStyle() {
 		padding: 5px 10px;
 	}
 
-	.esgst-ust-checkbox {
-		cursor: pointer;
-		margin-left: -17px;
-		position: absolute;
-		top: calc(50% - 7px);
-	}
-
 	.esgst-pm-button {
 		margin-left: -17px;
 		position: absolute;

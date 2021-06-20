@@ -1142,7 +1142,6 @@ class SettingsModule {
 					uf_s_s: `User Filters (Single Filters Switch)`,
 					ugs: 'Unsent Gifts Sender',
 					usc: 'User Suspension Checker',
-					ust: 'User Suspension Tracker',
 					wbc: 'Whitelist/Blacklist Checker',
 					wbm: 'Whitelist/Blacklist Manager',
 					wbsAsc: `Whitelist/Blacklist Sorter (Ascending)`,

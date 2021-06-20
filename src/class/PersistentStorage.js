@@ -400,7 +400,6 @@ class PersistentStorage {
 					{ id: 'stbb', side: 'right' },
 					{ id: 'sttb', side: 'right' },
 					{ id: 'usc', side: 'left' },
-					{ id: 'ust', side: 'left' },
 					{ id: 'wbm', side: 'left' },
 					{ id: 'df_s_s', side: 'left' },
 					{ id: 'gf_s_s', side: 'left' },

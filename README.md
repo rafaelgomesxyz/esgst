@@ -195,7 +195,6 @@ To learn more about each feature you have to install ESGST.
 - User Giveaway Data
 - User Notes
 - User Stats
-- User Suspension Tracker
 - User Tags
 - Username History
 - Whitelist/Blacklist Checker

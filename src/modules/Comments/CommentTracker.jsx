@@ -295,17 +295,6 @@ class CommentsCommentTracker extends Module {
 					code = url.match(new RegExp(`/${key.slice(0, -1)}/(.+?)(/.*)?$`));
 					if (code) {
 						code = code[1];
-						if (
-							Settings.get('ust') &&
-							key === 'tickets' &&
-							(!comments[code] || !comments[code].sent) &&
-							match
-								.getElementsByClassName('table__column__secondary-link')[0]
-								.textContent.trim()
-								.match(/Request\sNew\sWinner|User\sReport/)
-						) {
-							this.esgst.modules.usersUserSuspensionTracker.ust_addCheckbox(code, match);
-						}
 						if (Settings.get('gdttt') || Settings.get('ct')) {
 							if (comments[code]) {
 								if (Settings.get('ct_s')) {
@@ -359,13 +348,6 @@ class CommentsCommentTracker extends Module {
 			Settings.get(`df_enable${this.esgst.df.type}`)
 		) {
 			this.esgst.modules.discussionsDiscussionFilters.filters_filter(this.esgst.df, false, endless);
-		}
-		if (this.esgst.ustButton) {
-			if (Object.keys(this.esgst.modules.usersUserSuspensionTracker.tickets).length > 0) {
-				this.esgst.ustButton.classList.remove('esgst-hidden');
-			} else {
-				this.esgst.ustButton.classList.add('esgst-hidden');
-			}
 		}
 	}
 

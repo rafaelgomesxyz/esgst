@@ -908,7 +908,6 @@ class _Settings {
 				'wbsAsc',
 				'wbm',
 				'wbc',
-				'ust',
 				'usc',
 				'ugs',
 				'uf_s_s',

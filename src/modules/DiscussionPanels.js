@@ -16,8 +16,7 @@ class DiscussionPanels extends Module {
 			(Settings.get('gdttt') &&
 				(this.esgst.giveawaysPath ||
 					this.esgst.discussionsPath ||
-					this.esgst.discussionsTicketsTradesPath)) ||
-			(Settings.get('ust') && this.esgst.ticketsPath)
+					this.esgst.discussionsTicketsTradesPath))
 		) {
 			this.esgst.endlessFeatures.push(
 				this.esgst.modules.commentsCommentTracker.ct_addDiscussionPanels.bind(

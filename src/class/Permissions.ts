@@ -97,9 +97,6 @@ class Permissions {
 					hgm:
 						'Optional for Hidden Game Manager to hide games, by converting Steam app IDs to SteamGifts game IDs.',
 					mm: 'Optional for Multi Manager to hide games.',
-					namwc:
-						"Required by Not Activated / Multiple Wins Checker to retrieve the user's suspensions from the database.",
-					ust: 'Required by User Suspension Tracker to send tickets to the database.',
 				},
 				values: ['*://*.rafaelgssa.com/*'],
 			},

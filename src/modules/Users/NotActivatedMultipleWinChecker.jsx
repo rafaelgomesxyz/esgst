@@ -16,7 +16,6 @@ const createElements = common.createElements.bind(common),
 	createOptions = common.createOptions.bind(common),
 	createResults = common.createResults.bind(common),
 	getFeatureTooltip = common.getFeatureTooltip.bind(common),
-	getSuspensions = common.getSuspensions.bind(common),
 	getTimestamp = common.getTimestamp.bind(common),
 	getUser = common.getUser.bind(common),
 	getValue = common.getValue.bind(common),
@@ -338,10 +337,6 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 	}
 
 	async namwc_start(obj) {
-		if (Settings.get('ust') && !(await permissions.contains([['server']]))) {
-			return;
-		}
-
 		obj.isCanceled = false;
 		obj.button.classList.add('esgst-busy');
 		obj.popup.progressBar.setLoading(null).show();
@@ -499,119 +494,6 @@ class UsersNotActivatedMultipleWinChecker extends Module {
 			return;
 		}
 
-		if (!Settings.get('ust') || obj.isMenu) {
-			obj.button.classList.remove('esgst-busy');
-			obj.popup.progressBar.reset().hide();
-			obj.popup.overallProgressBar.setSuccess('All users checked!');
-			obj.popup.setDone();
-			return;
-		}
-
-		// check for suspensions
-		obj.popup.progressBar.setMessage('Checking suspensions...');
-		users = [];
-		let savedUsers = JSON.parse(getValue('users'));
-		const suspensions = await getSuspensions(steamIds);
-		for (const steamId in suspensions) {
-			const suspension = suspensions[steamId];
-			const notActivated = suspension.not_activated
-				? new Date(suspension.not_activated).getTime()
-				: 0;
-			const multiple = suspension.multiple ? new Date(suspension.multiple).getTime() : 0;
-			let user = { steamId };
-			user.values = {
-				namwc: (await getUser(savedUsers, user)).namwc,
-			};
-			user.values.namwc.suspension = { notActivated, multiple };
-			users.push(user);
-			if (Array.isArray(user.values.namwc.results.notActivated)) {
-				let i, n;
-				for (
-					i = 0, n = user.values.namwc.results.notActivated.length;
-					i < n && user.values.namwc.results.notActivated[i] <= notActivated;
-					i++
-				) {}
-				if (i > 0) {
-					createElements(userElements[steamId].notActivated, 'beforeend', [
-						{
-							attributes: {
-								title: getFeatureTooltip(
-									'ust',
-									`This user already served suspension for ${i} of their not activated wins (until ${getTimestamp(
-										notActivated,
-										true,
-										true
-									)})`
-								),
-							},
-							text: `[-${i}]`,
-							type: 'span',
-						},
-					]);
-				} else if (userElements[steamId].activated) {
-					createElements(userElements[steamId].activated, 'beforeend', [
-						{
-							attributes: {
-								title: getFeatureTooltip(
-									'ust',
-									`This user already served suspension for not activated wins until ${getTimestamp(
-										notActivated,
-										true,
-										true
-									)}`
-								),
-							},
-							text: `[x]`,
-							type: 'span',
-						},
-					]);
-				}
-			}
-			if (Array.isArray(user.values.namwc.results.multiple)) {
-				let i, n;
-				for (
-					i = 0, n = user.values.namwc.results.multiple.length;
-					i < n && user.values.namwc.results.multiple[i] <= multiple;
-					i++
-				) {}
-				if (i > 0) {
-					createElements(userElements[steamId].multiple, 'beforeend', [
-						{
-							attributes: {
-								title: getFeatureTooltip(
-									'ust',
-									`This user already served suspension for ${i} of their multiple wins (until ${getTimestamp(
-										multiple,
-										true,
-										true
-									)})`
-								),
-							},
-							text: `[-${i}]`,
-							type: 'span',
-						},
-					]);
-				} else if (userElements[steamId].notMultiple) {
-					createElements(userElements[steamId].notMultiple, 'beforeend', [
-						{
-							attributes: {
-								title: getFeatureTooltip(
-									'ust',
-									`This user already served suspension for multiple wins until ${getTimestamp(
-										multiple,
-										true,
-										true
-									)}`
-								),
-							},
-							text: `[x]`,
-							type: 'span',
-						},
-					]);
-				}
-			}
-		}
-		await saveUsers(users);
 		obj.button.classList.remove('esgst-busy');
 		obj.popup.progressBar.reset().hide();
 		obj.popup.overallProgressBar.setSuccess('All users checked!');

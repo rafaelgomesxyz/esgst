@@ -5259,19 +5259,6 @@ class Common extends Module {
 		).json;
 	}
 
-	/**
-	 * @param steamIds
-	 * @returns {Promise<SuspensionsApiResponse>}
-	 */
-	async getSuspensions(steamIds) {
-		return;
-		(
-			await FetchRequest.get(
-				`https://rafaelgssa.com/esgst/users/ust?steam_ids=${steamIds.join(`,`)}`
-			)
-		).json.result.found;
-	}
-
 	async submitComment(obj) {
 		obj.status.innerHTML = '';
 
