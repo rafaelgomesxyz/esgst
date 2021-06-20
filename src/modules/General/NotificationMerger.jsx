@@ -13,7 +13,7 @@ class GeneralNotificationMerger extends Module {
 	constructor() {
 		super();
 		this.info = {
-			// by Royalgamer06
+			// by Revadike
 			description: () => (
 				<ul>
 					<li>
