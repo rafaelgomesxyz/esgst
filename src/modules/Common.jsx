@@ -22,6 +22,7 @@ import { Button } from '../components/Button';
 import { Collapsible } from '../components/Collapsible';
 import { NotificationBar } from '../components/NotificationBar';
 import { PageHeading } from '../components/PageHeading';
+import { ClassNames } from '../constants/ClassNames';
 import { Events } from '../constants/Events';
 import { Utils } from '../lib/jsUtils';
 import { settingsModule } from './Settings';
@@ -1609,13 +1610,13 @@ class Common extends Module {
 			const buttonContainer = Shared.header.buttonContainers[id];
 
 			if (buttonContainer.data.id === 'esgst') {
-				buttonContainer.nodes.relativeDropdown.classList.toggle('is-hidden');
-				buttonContainer.nodes.relativeDropdown.classList.toggle('is_hidden');
-				buttonContainer.nodes.arrow.classList.toggle('is-selected');
-				buttonContainer.nodes.arrow.classList.toggle('is_selected');
+				buttonContainer.nodes.relativeDropdown.classList.toggle(
+					ClassNames[Session.namespace].hidden
+				);
+				buttonContainer.nodes.arrow.classList.toggle(ClassNames[Session.namespace].selected);
 			} else if (buttonContainer.data.isDropdown) {
-				buttonContainer.nodes.relativeDropdown.classList.add('is-hidden', 'is_hidden');
-				buttonContainer.nodes.arrow.classList.remove('is-selected', 'is_selected');
+				buttonContainer.nodes.relativeDropdown.classList.add(ClassNames[Session.namespace].hidden);
+				buttonContainer.nodes.arrow.classList.remove(ClassNames[Session.namespace].selected);
 			}
 		}
 	}

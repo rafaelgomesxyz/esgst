@@ -58,6 +58,7 @@ export const ClassNames = {
 		pageHeading: 'page__heading',
 		pageHeadingBreadcrumbs: 'page__heading__breadcrumbs',
 		pageHeadingButton: 'page__heading__button',
+		selected: 'is-selected',
 	},
 	[Namespaces.ST]: {
 		button: {
@@ -102,5 +103,6 @@ export const ClassNames = {
 		pageHeading: 'page_heading',
 		pageHeadingBreadcrumbs: 'page_heading_breadcrumbs',
 		pageHeadingButton: 'page_heading_btn',
+		selected: 'is_selected',
 	},
 };

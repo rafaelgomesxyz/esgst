@@ -51,10 +51,13 @@ RequestQueue.getRequestLog = async () => {
 
 const loadStorage = () => handle_storage(TYPE_GET, null).then((result) => (storage = result));
 
-if (window.document.readyState === 'loading') {
-	window.document.addEventListener('DOMContentLoaded', load);
+if (document.readyState === 'loading') {
+	document.addEventListener('readystatechange', (e) => {
+		if (e.target && e.target.readyState !== 'loading') {
+			load();
+		}
+	});
 } else {
-	// noinspection JSIgnoredPromiseFromCall
 	load();
 }
 

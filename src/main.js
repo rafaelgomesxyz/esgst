@@ -97,11 +97,14 @@ import { runSilentSync } from './modules/Sync';
 		esgst.winners = JSON.parse(esgst.storage.winners);
 		esgst.notifiedMessages = JSON.parse(esgst.storage.notifiedMessages);
 
-		if (document.readyState === 'loading') {
-			document.addEventListener('DOMContentLoaded', load);
-		} else {
-			// noinspection JSIgnoredPromiseFromCall
+		if (document.readyState === 'complete') {
 			load();
+		} else {
+			document.addEventListener('readystatechange', (e) => {
+				if (e.target && e.target.readyState === 'complete') {
+					load();
+				}
+			});
 		}
 	}
 
