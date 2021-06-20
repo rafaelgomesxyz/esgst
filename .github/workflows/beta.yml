@@ -2,8 +2,8 @@ name: Beta Release
 
 on:
   push:
-    branches:
-      - releases/beta
+    tags:
+      - v*-beta.*
 
 jobs:
   beta:
