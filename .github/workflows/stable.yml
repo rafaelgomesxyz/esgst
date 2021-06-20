@@ -2,8 +2,8 @@ name: Stable Release
 
 on:
   push:
-    tags:
-      - v*
+    tags-ignore:
+      - beta
 
 jobs:
   stable:

@@ -114,7 +114,7 @@ async function generateRelease() {
 			body,
 			name: version,
 			prerelease: !!args.beta,
-			tag_name: version,
+			tag_name: args.beta ? 'beta' : version,
 		})
 	);
 
