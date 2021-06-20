@@ -2542,9 +2542,6 @@ class Filters extends Module {
 			case 'date':
 			case 'integer':
 			case 'double': {
-				if (key === 'minutesToEnd' && (item.ended || item.deleted)) break;
-				if (key === 'minutesFromStart' && !item.started) break;
-
 				const ruleValue = rules.type === 'date' ? new Date(rules.value).getTime() : rules.value;
 
 				const value =
