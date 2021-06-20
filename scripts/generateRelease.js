@@ -97,12 +97,6 @@ async function generateRelease() {
 					release_id: preRelease.id,
 				})
 			);
-
-			await octokit.git.deleteRef(
-				Object.assign({}, defaultParams, {
-					ref: `tags/${preRelease.tag_name}`,
-				})
-			);
 		}
 	}
 
