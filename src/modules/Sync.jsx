@@ -1320,8 +1320,8 @@ async function syncWhitelistBlacklist(key, syncer, url) {
 }
 
 async function syncGames(altAccount, syncer, apiResponse, storeResponse) {
-	const apiJson = apiResponse.json;
-	const storeJson = storeResponse.json;
+	const apiJson = apiResponse && apiResponse.json;
+	const storeJson = storeResponse && storeResponse.json;
 	/** @property storeJson.rgOwnedApps */
 	const hasApi =
 			apiJson && apiJson.response && apiJson.response.games && apiJson.response.games.length,
