@@ -6,7 +6,7 @@
 // @icon https://github.com/rafaelgomesxyz/esgst/raw/main/src/assets/images/icon.png
 // @version <% package.version %>
 // @author <% package.author %>
-// @contributor Royalgamer06
+// @contributor Revadike
 // @updateURL https://github.com/rafaelgomesxyz/esgst/releases/latest/download/userscript.meta.js
 // @downloadURL https://github.com/rafaelgomesxyz/esgst/releases/latest/download/userscript.user.js
 // @match https://www.steamgifts.com/*
