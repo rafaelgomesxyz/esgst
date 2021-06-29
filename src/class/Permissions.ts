@@ -34,7 +34,6 @@ class Permissions {
 			github: {
 				isOrigin: true,
 				messages: {
-					showMessages: 'Required to retrieve important messages from GitHub.',
 					showChangelog: 'Required to retrieve the changelog from GitHub when updating.',
 				},
 				values: ['*://*.github.com/*', '*://*.raw.githubusercontent.com/*'],

@@ -6,7 +6,6 @@ import { browser } from './browser';
 import { esgst } from './class/Esgst';
 import { FetchRequest } from './class/FetchRequest';
 import { Logger } from './class/Logger';
-import { MessageNotifier } from './class/MessageNotifier';
 import { persistentStorage } from './class/PersistentStorage';
 import { Session } from './class/Session';
 import { Settings } from './class/Settings';
@@ -94,7 +93,6 @@ import { runSilentSync } from './modules/Sync';
 		esgst.trades = JSON.parse(esgst.storage.trades);
 		esgst.users = JSON.parse(esgst.storage.users);
 		esgst.winners = JSON.parse(esgst.storage.winners);
-		esgst.notifiedMessages = JSON.parse(esgst.storage.notifiedMessages);
 
 		if (document.readyState === 'complete') {
 			load();
@@ -286,10 +284,6 @@ import { runSilentSync } from './modules/Sync';
 		await common.addHeaderMenu();
 
 		common.checkNewVersion();
-
-		if (Settings.get('showMessages')) {
-			await MessageNotifier.notify(esgst.notifiedMessages);
-		}
 
 		await common.loadFeatures(esgst.modules);
 	}

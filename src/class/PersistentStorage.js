@@ -20,7 +20,6 @@ class PersistentStorage {
 			gdtttCache: '{ "giveaways": [], "discussions": [], "tickets": [], "trades": [] }',
 			giveaways: '{}',
 			groups: '[]',
-			notifiedMessages: '{ "lastCheck": 0, "ids": [] }',
 			requestLog: '[]',
 			rerolls: '[]',
 			rfiCache: '{}',
@@ -817,7 +816,7 @@ class PersistentStorage {
 		if (version < 13) {
 			window.console.log('Upgrading storage to version 13...');
 
-			toDelete.push('settingsAnalytics');
+			toDelete.push('settingsAnalytics', 'notifiedMessages');
 		}
 
 		for (const key of Object.keys(toSet)) {

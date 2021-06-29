@@ -1091,20 +1091,6 @@ class Common extends Module {
 						sg: true,
 						st: true,
 					},
-					showMessages: {
-						description: () => (
-							<ul>
-								<li>
-									Important messages are used to inform ESGST users of something that needs their
-									attention. Because these messages are retrieved from GitHub, the extension doesn't
-									need to be updated in order for them to be hard-coded.
-								</li>
-							</ul>
-						),
-						name: 'Show important messages.',
-						sg: true,
-						st: true,
-					},
 					showChangelog: {
 						name: 'Show changelog from the new version when updating.',
 						sg: true,

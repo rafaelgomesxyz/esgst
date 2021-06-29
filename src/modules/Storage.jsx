@@ -1685,16 +1685,7 @@ async function manageData(dm, storageType, space, callback) {
 			for (const key of stringified) {
 				dm.data[key] = JSON.parse(dm.data[key]);
 			}
-
-			let notifiedMessages = JSON.parse(
-				Shared.common.getValue('notifiedMessages', '{ "lastCheck": 0, "ids": [] }')
-			);
-			notifiedMessages.ids = Array.from(
-				new Set([...notifiedMessages.ids, ...(dm.data.notifiedMessages.ids || [])])
-			);
-			await Shared.common.setValue('notifiedMessages', JSON.stringify(notifiedMessages));
 		} else if (dm.type === 'export') {
-			data.notifiedMessages = Shared.common.getValue('notifiedMessages');
 			data.v = Shared.common.getValue('v');
 		}
 	}
