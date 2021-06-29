@@ -95,7 +95,7 @@ function getWebExtensionManifest(env, browserName) {
 			'*://*.googleapis.com/*',
 			'*://*.graph.microsoft.com/*',
 			'*://*.isthereanydeal.com/*',
-			'*://*.rafaelgssa.com/*',
+			'*://*.esgst.rafaelgomes.xyz/*',
 			'*://*.raw.githubusercontent.com/*',
 			'*://*.script.google.com/*',
 			'*://*.script.googleusercontent.com/*',

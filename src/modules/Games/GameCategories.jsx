@@ -3529,7 +3529,7 @@ class GamesGameCategories extends Module {
 		if (params.apps.length > 0 || params.subs.length > 0 || params.bundles.length > 0) {
 			try {
 				const response = await FetchRequest.get(
-					`https://rafaelgssa.com/esgst/games?app_ids=${params.apps.join(
+					`https://esgst.rafaelgomes.xyz/api/games?app_ids=${params.apps.join(
 						`,`
 					)}&sub_ids=${params.subs.join(`,`)}&bundle_ids=${params.bundles.join(`,`)}`
 				);

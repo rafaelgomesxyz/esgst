@@ -94,8 +94,8 @@ class UsersUsernameHistory extends Module {
 				<div>
 					<i className="fa fa-times"></i>
 					<span>
-						No permissions granted for https://rafaelgssa.com. Please grant the permissions on the
-						settings menu so that the data can be retrieved from the ESGST API.
+						No permissions granted for https://esgst.rafaelgomes.xyz. Please grant the permissions
+						on the settings menu so that the data can be retrieved from the ESGST API.
 					</span>
 				</div>
 			);
@@ -145,7 +145,7 @@ class UsersUsernameHistory extends Module {
 	 */
 	async getUserNames(steamId, username) {
 		const response = await FetchRequest.get(
-			`https://rafaelgssa.com/esgst/user/+${steamId}/uh?username=${username}`
+			`https://esgst.rafaelgomes.xyz/api/user/+${steamId}/uh?username=${username}`
 		);
 		return response.json;
 	}

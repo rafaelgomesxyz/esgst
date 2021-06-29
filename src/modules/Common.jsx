@@ -3151,8 +3151,8 @@ class Common extends Module {
 				<div>
 					<i className="fa fa-times"></i>
 					<span>
-						No permissions granted for https://rafaelgssa.com. Please grant the permissions on the
-						settings menu so that the data can be retrieved from the ESGST API.
+						No permissions granted for https://esgst.rafaelgomes.xyz. Please grant the permissions
+						on the settings menu so that the data can be retrieved from the ESGST API.
 					</span>
 				</div>
 			);
@@ -3195,7 +3195,7 @@ class Common extends Module {
 
 	async getRecentChanges() {
 		const response = await FetchRequest.get(
-			'https://rafaelgssa.com/esgst/users/uh?format_array=true&show_recent=true'
+			'https://esgst.rafaelgomes.xyz/api/users/uh?format_array=true&show_recent=true'
 		);
 		return response.json.result.found;
 	}
@@ -5423,7 +5423,7 @@ class Common extends Module {
 				obj.update && obj.update('Updating API cache...');
 
 				try {
-					const response = await FetchRequest.get('https://rafaelgssa.com/esgst/games/sgids');
+					const response = await FetchRequest.get('https://esgst.rafaelgomes.xyz/api/games/sgids');
 					api = {
 						cache: {
 							appids: response.json.result.found.apps,

@@ -97,7 +97,7 @@ class Permissions {
 						'Optional for Hidden Game Manager to hide games, by converting Steam app IDs to SteamGifts game IDs.',
 					mm: 'Optional for Multi Manager to hide games.',
 				},
-				values: ['*://*.rafaelgssa.com/*'],
+				values: ['*://*.esgst.rafaelgomes.xyz/*'],
 			},
 			steamApi: {
 				isOrigin: true,

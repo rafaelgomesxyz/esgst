@@ -1227,7 +1227,7 @@ async function sync(syncer) {
 }
 
 async function syncReducedCvGames() {
-	const response = await FetchRequest.get('https://rafaelgssa.com/esgst/games/rcv');
+	const response = await FetchRequest.get('https://esgst.rafaelgomes.xyz/api/games/rcv');
 	const games = response.json.result.found;
 	for (const id in games.apps) {
 		if (games.apps.hasOwnProperty(id)) {
@@ -1259,7 +1259,7 @@ async function syncReducedCvGames() {
 }
 
 async function syncNoCvGames() {
-	const response = await FetchRequest.get('https://rafaelgssa.com/esgst/games/ncv');
+	const response = await FetchRequest.get('https://esgst.rafaelgomes.xyz/api/games/ncv');
 	const games = response.json.result.found;
 	for (const id in games.apps) {
 		if (games.apps.hasOwnProperty(id)) {
