@@ -31,7 +31,7 @@ class UsersUserLinks extends Module {
 
 	ul_add(profile) {
 		const items = [];
-		const iconRegex = /^fa-(.+?)($|\s)/;
+		const iconRegex = /^(fa-.+?)($|\s)/;
 		const imageRegex = /^(https?:\/\/.+?)($|\s)/;
 		const textRegex = /^(.+?)($|\s(fa-|https?:\/\/))/;
 		for (const link of Settings.get('ul_links')) {
