@@ -1927,8 +1927,6 @@ class Common extends Module {
 			LocalStorage.set('isSyncing', currentDate);
 			[
 				'Groups',
-				'Whitelist',
-				'Blacklist',
 				'SteamFriends',
 				'Games',
 				'FollowedGames',
