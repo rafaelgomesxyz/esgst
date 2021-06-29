@@ -8,7 +8,7 @@ import { browser } from '../browser';
 
 class PersistentStorage {
 	constructor() {
-		this.currentVersion = 12;
+		this.currentVersion = 13;
 
 		this.defaultValues = {
 			decryptedGiveaways: '{}',
@@ -812,6 +812,12 @@ class PersistentStorage {
 			}
 
 			toDelete.push('sgDarkGrey', 'sgv2Dark', 'steamGiftiesBlack', 'steamTradiesBlackBlue');
+		}
+
+		if (version < 13) {
+			window.console.log('Upgrading storage to version 13...');
+
+			toDelete.push('settingsAnalytics');
 		}
 
 		for (const key of Object.keys(toSet)) {
