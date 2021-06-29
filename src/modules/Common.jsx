@@ -953,19 +953,6 @@ class Common extends Module {
 						name: 'Open automatic sync in a new tab.',
 						sg: true,
 					},
-					updateWhitelistBlacklist: {
-						description: () => (
-							<ul>
-								<li>
-									With this enabled, you no longer have to sync your whitelist/blacklist every time
-									you add/remove a user to/from those lists.
-								</li>
-							</ul>
-						),
-						name:
-							'Automatically update whitelist/blacklist when adding/removing a user to/from those lists.',
-						sg: true,
-					},
 					calculateDelete: {
 						name: 'Calculate and show data sizes when opening the delete menu.',
 						sg: true,
@@ -3188,6 +3175,12 @@ class Common extends Module {
 	}
 
 	updateWhitelistBlacklist(key, profile, event) {
+		if (
+			(key === 'whitelisted' && Settings.get('lastSyncWhitelist') === 0) ||
+			(key === 'blacklisted' && Settings.get('lastSyncBlacklist') === 0)
+		) {
+			return;
+		}
 		let user;
 		user = {
 			steamId: profile.steamId,

@@ -246,7 +246,7 @@ async function setSync(isPopup = false, isSilent = false) {
 						{checkbox.checkbox} <span>{info.name}</span>
 					</div>
 				);
-				if (info.key !== 'HiddenGames') {
+				if (info.key !== 'HiddenGames' && info.key !== 'Whitelist' && info.key !== 'Blacklist') {
 					setAutoSync(info.key, info.name, syncer);
 				}
 				addNotificationBars(syncer, info);
@@ -449,6 +449,33 @@ async function sync(syncer) {
 			return;
 		}
 	}
+	if (
+		(syncer.parameters && (syncer.parameters.Whitelist || syncer.parameters.Blacklist)) ||
+		(!syncer.parameters && (Settings.get('syncWhitelist') || Settings.get('syncBlacklist')))
+	) {
+		if (
+			now - Settings.get('lastSyncWhitelist') > 2592000000 &&
+			now - Settings.get('lastSyncBlacklist') > 2592000000
+		) {
+			if (Settings.get('lastPageWhitelist') === 0 || Settings.get('lastPageBlacklist') === 0) {
+				const doContinue = await Shared.common.createConfirmationAsync(
+					`WARNING: You are going to sync your whitelist or blacklist. This is a process that may take a very long time, depending on how many users you have on your list, as the requests will be limited to 1 per second to avoid making a lot of requests to SteamGifts in a short period of time. Also keep in mind that this is a cumulative sync, which means that if you cancel the sync and sync again later, it will pick up from where it left off.${
+						Settings.get('lastSyncWhitelist') > 0 || Settings.get('lastSyncBlacklist') > 0
+							? ' Since you have already synced your whitelist or blacklist once before, you do not need to do it ever again, because ESGST detects when you add/remove a user to/from the list and automatically updates your data.'
+							: ''
+					} If you're sure you want to continue, click 'Yes', otherwise click 'No' and disable whitelist or blacklist sync. You can only sync your whitelist or blacklist once per 30 days.`
+				);
+				if (!doContinue) {
+					return;
+				}
+			}
+		} else {
+			Shared.common.createAlert(
+				'WARNING: You have synced your whitelist or blacklist in the last 30 days. Please disable it in order to continue.'
+			);
+			return;
+		}
+	}
 
 	syncer.canceled = false;
 
@@ -616,57 +643,58 @@ async function sync(syncer) {
 
 	// sync whitelist and blacklist
 	if (
-		(syncer.parameters && (syncer.parameters.Whitelist || syncer.parameters.Blacklist)) ||
-		(!syncer.parameters && (Settings.get('syncWhitelist') || Settings.get('syncBlacklist')))
+		(((syncer.parameters && syncer.parameters.Whitelist) ||
+			(!syncer.parameters && Settings.get('syncWhitelist'))) &&
+			(now - Settings.get('lastSyncWhitelist') > 2592000000 ||
+				Settings.get('lastPageWhitelist') > 0)) ||
+		(((syncer.parameters && syncer.parameters.Blacklist) ||
+			(!syncer.parameters && Settings.get('syncBlacklist'))) &&
+			(now - Settings.get('lastSyncBlacklist') > 2592000000 ||
+				Settings.get('lastPageBlacklist') > 0))
 	) {
 		if (
-			(syncer.parameters && syncer.parameters.Whitelist && syncer.parameters.Blacklist) ||
-			(!syncer.parameters && Settings.get('syncWhitelist') && Settings.get('syncBlacklist'))
-		) {
-			await Shared.common.deleteUserValues([
-				'whitelisted',
-				'whitelistedDate',
-				'blacklisted',
-				'blacklistedDate',
-			]);
-			syncer.users = [];
-			syncer.progressBar.setMessage('Syncing your whitelist...');
-			await syncWhitelistBlacklist(
-				'whitelisted',
-				syncer,
-				`https://www.steamgifts.com/account/manage/whitelist/search?page=`
-			);
-			syncer.progressBar.setMessage('Syncing your blacklist...');
-			await syncWhitelistBlacklist(
-				'blacklisted',
-				syncer,
-				`https://www.steamgifts.com/account/manage/blacklist/search?page=`
-			);
-		} else if (
 			(syncer.parameters && syncer.parameters.Whitelist) ||
 			(!syncer.parameters && Settings.get('syncWhitelist'))
 		) {
-			await Shared.common.deleteUserValues(['whitelisted', 'whitelistedDate']);
-			syncer.users = [];
+			if (Settings.get('lastPageWhitelist') === 0) {
+				await Shared.common.deleteUserValues(['whitelisted', 'whitelistedDate']);
+			}
 			syncer.progressBar.setMessage('Syncing your whitelist...');
 			await syncWhitelistBlacklist(
 				'whitelisted',
 				syncer,
 				`https://www.steamgifts.com/account/manage/whitelist/search?page=`
 			);
-		} else {
-			await Shared.common.deleteUserValues(['blacklisted', 'blacklistedDate']);
-			syncer.users = [];
+			if (!syncer.canceled) {
+				await Shared.common.setSetting('lastPageWhitelist', 0);
+			}
+		}
+
+		if (syncer.canceled) {
+			return;
+		}
+
+		if (
+			(syncer.parameters && syncer.parameters.Blacklist) ||
+			(!syncer.parameters && Settings.get('syncBlacklist'))
+		) {
+			if (Settings.get('lastPageBlacklist') === 0) {
+				await Shared.common.deleteUserValues(['blacklisted', 'blacklistedDate']);
+			}
 			syncer.progressBar.setMessage('Syncing your blacklist...');
 			await syncWhitelistBlacklist(
 				'blacklisted',
 				syncer,
 				`https://www.steamgifts.com/account/manage/blacklist/search?page=`
 			);
+			if (!syncer.canceled) {
+				await Shared.common.setSetting('lastPageBlacklist', 0);
+			}
 		}
-		syncer.progressBar.setMessage(`Saving your whitelist/blacklist (this may take a while)...`);
-		await Shared.common.saveUsers(syncer.users);
-		DOM.insert(syncer.results, 'beforeend', <div>Whitelist/blacklist synced.</div>);
+
+		if (!syncer.canceled) {
+			DOM.insert(syncer.results, 'beforeend', <div>Whitelist/blacklist synced.</div>);
+		}
 	}
 
 	// if sync has been canceled stop
@@ -725,11 +753,10 @@ async function sync(syncer) {
 
 	// sync hidden games
 	if (
-		(syncer.parameters && syncer.parameters.HiddenGames) ||
-		(!syncer.parameters &&
-			Settings.get('syncHiddenGames') &&
-			(now - Settings.get('lastSyncHiddenGames') > 2592000000 ||
-				Settings.get('lastPageHiddenGames') > 0))
+		((syncer.parameters && syncer.parameters.HiddenGames) ||
+			(!syncer.parameters && Settings.get('syncHiddenGames'))) &&
+		(now - Settings.get('lastSyncHiddenGames') > 2592000000 ||
+			Settings.get('lastPageHiddenGames') > 0)
 	) {
 		syncer.progressBar.setMessage('Syncing your hidden games...');
 		if (Settings.get('lastPageHiddenGames') === 0) {
@@ -1336,11 +1363,14 @@ async function syncNoCvGames() {
 }
 
 async function syncWhitelistBlacklist(key, syncer, url) {
-	let nextPage = 1;
+	const name = key === 'whitelisted' ? 'Whitelist' : 'Blacklist';
+	let nextPage = Settings.get(`lastPage${key}`) > 0 ? Settings.get(`lastPage${key}`) : 1;
 	let pagination = null;
 	do {
+		const users = [];
 		let elements, responseHtml;
-		responseHtml = (await FetchRequest.get(`${url}${nextPage}`, { queue: 100 })).html;
+		syncer.progressBar.setMessage(`Syncing your ${name.toLowerCase()} (page ${nextPage})...`);
+		responseHtml = (await FetchRequest.get(`${url}${nextPage}`, { queue: true })).html;
 		elements = responseHtml.getElementsByClassName('table__row-outer-wrap');
 		for (let i = 0, n = elements.length; i < n; ++i) {
 			let element, user;
@@ -1353,10 +1383,12 @@ async function syncWhitelistBlacklist(key, syncer, url) {
 			user.values[key] = true;
 			user.values[`${key}Date`] =
 				parseInt(element.querySelector(`[data-timestamp]`).getAttribute('data-timestamp')) * 1e3;
-			syncer.users.push(user);
+			users.push(user);
 		}
 		pagination = responseHtml.getElementsByClassName('pagination__navigation')[0];
 		nextPage += 1;
+		await Shared.common.saveUsers(users);
+		await Shared.common.setSetting(`lastPage${key}`, nextPage);
 	} while (
 		!syncer.canceled &&
 		pagination &&

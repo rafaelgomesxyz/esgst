@@ -5,8 +5,7 @@ import { Logger } from '../class/Logger';
 import { Shared } from '../class/Shared';
 
 const checkUsernameChange = common.checkUsernameChange.bind(common),
-	saveUser = common.saveUser.bind(common),
-	updateWhitelistBlacklist = common.updateWhitelistBlacklist.bind(common);
+	saveUser = common.saveUser.bind(common);
 class Profile extends Module {
 	constructor() {
 		super();
@@ -18,8 +17,8 @@ class Profile extends Module {
 
 	async init() {
 		if (
-			Settings.get('updateWhitelistBlacklist') &&
-			(Shared.esgst.whitelistPath || Shared.esgst.blacklistPath)
+			(Settings.get('lastSyncWhitelist') > 0 && Shared.esgst.whitelistPath) ||
+			(Settings.get('lastSyncBlacklist') > 0 && Shared.esgst.blacklistPath)
 		) {
 			const key = Shared.esgst.whitelistPath ? 'whitelisted' : 'blacklisted';
 			Shared.esgst.endlessFeatures.push(this.getUsers.bind(this, key));
@@ -144,18 +143,18 @@ class Profile extends Module {
 			'sidebar__shortcut__blacklist'
 		)[0];
 		if (profile.whitelistButton) {
-			if (Settings.get('updateWhitelistBlacklist')) {
+			if (Settings.get('lastSyncWhitelist') > 0) {
 				profile.whitelistButton.addEventListener(
 					'click',
-					updateWhitelistBlacklist.bind(common, 'whitelisted', profile)
+					common.updateWhitelistBlacklist.bind(common, 'whitelisted', profile)
 				);
 			}
 		}
 		if (profile.blacklistButton) {
-			if (Settings.get('updateWhitelistBlacklist')) {
+			if (Settings.get('lastSyncBlacklist') > 0) {
 				profile.blacklistButton.addEventListener(
 					'click',
-					updateWhitelistBlacklist.bind(common, 'blacklisted', profile)
+					common.updateWhitelistBlacklist.bind(common, 'blacklisted', profile)
 				);
 			}
 		}
