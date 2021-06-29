@@ -672,7 +672,7 @@ class Giveaways extends Module {
 						giveaway.type
 					)
 				);
-			} else if (Settings.get('updateHiddenGames')) {
+			} else if (Settings.get('lastSyncHiddenGames') > 0) {
 				hideButton.addEventListener('click', () => {
 					this.esgst.hidingGame = {
 						id: giveaway.id,

@@ -6,8 +6,7 @@ import { Shared } from '../class/Shared';
 import { common } from './Common';
 
 const getValue = common.getValue.bind(common),
-	lockAndSaveGames = common.lockAndSaveGames.bind(common),
-	updateHiddenGames = common.updateHiddenGames.bind(common);
+	lockAndSaveGames = common.lockAndSaveGames.bind(common);
 const WHITELIST = {
 	25657: { id: 3970, type: 'apps' }, // Prey (2006)
 };
@@ -206,7 +205,7 @@ class Games extends Module {
 						}
 					}
 					if (
-						Settings.get('updateHiddenGames') &&
+						Settings.get('lastSyncHiddenGames') > 0 &&
 						window.location.pathname.match(/^\/account\/settings\/giveaways\/filters/) &&
 						main
 					) {
@@ -214,7 +213,7 @@ class Games extends Module {
 						if (removeButton) {
 							removeButton.addEventListener(
 								'click',
-								updateHiddenGames.bind(common, id, type, true)
+								common.updateHiddenGames.bind(common, id, type, true)
 							);
 						}
 					}

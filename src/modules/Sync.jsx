@@ -246,7 +246,9 @@ async function setSync(isPopup = false, isSilent = false) {
 						{checkbox.checkbox} <span>{info.name}</span>
 					</div>
 				);
-				setAutoSync(info.key, info.name, syncer);
+				if (info.key !== 'HiddenGames') {
+					setAutoSync(info.key, info.name, syncer);
+				}
 				addNotificationBars(syncer, info);
 			}
 		}
@@ -421,10 +423,37 @@ function cancelSync(syncer) {
 
 //use: syncer.results, syncer.progressBar, syncer.parameters
 async function sync(syncer) {
+	const now = Date.now();
+
+	if (
+		(syncer.parameters && syncer.parameters.HiddenGames) ||
+		(!syncer.parameters && Settings.get('syncHiddenGames'))
+	) {
+		if (now - Settings.get('lastSyncHiddenGames') > 2592000000) {
+			if (Settings.get('lastPageHiddenGames') === 0) {
+				const doContinue = await Shared.common.createConfirmationAsync(
+					`WARNING: You are going to sync your hidden games. This is a process that may take a very long time, depending on how many games you have on your list, as the requests will be limited to 1 per second to avoid making a lot of requests to SteamGifts in a short period of time. Also keep in mind that this is a cumulative sync, which means that if you cancel the sync and sync again later, it will pick up from where it left off.${
+						Settings.get('lastSyncHiddenGames') > 0
+							? ' Since you have already synced your hidden games once before, you do not need to do it ever again, because ESGST detects when you add/remove a game to/from the list and automatically updates your data.'
+							: ''
+					} If you're sure you want to continue, click 'Yes', otherwise click 'No' and disable hidden games sync. You can only sync your hidden games once per 30 days.`
+				);
+				if (!doContinue) {
+					return;
+				}
+			}
+		} else {
+			Shared.common.createAlert(
+				'WARNING: You have synced your hidden games in the last 30 days. Please disable it in order to continue.'
+			);
+			return;
+		}
+	}
+
 	syncer.canceled = false;
 
 	if (!Shared.esgst.isFirstRun) {
-		await Shared.common.setSetting('lastSync', Date.now());
+		await Shared.common.setSetting('lastSync', now);
 		syncer.results.innerHTML = '';
 		syncer.progressBar.setLoading(null).show();
 	}
@@ -697,20 +726,43 @@ async function sync(syncer) {
 	// sync hidden games
 	if (
 		(syncer.parameters && syncer.parameters.HiddenGames) ||
-		(!syncer.parameters && Settings.get('syncHiddenGames'))
+		(!syncer.parameters &&
+			Settings.get('syncHiddenGames') &&
+			(now - Settings.get('lastSyncHiddenGames') > 2592000000 ||
+				Settings.get('lastPageHiddenGames') > 0))
 	) {
 		syncer.progressBar.setMessage('Syncing your hidden games...');
-		syncer.hiddenGames = {
-			apps: [],
-			subs: [],
-		};
-		let nextPage = 1;
+		if (Settings.get('lastPageHiddenGames') === 0) {
+			const lock = new Lock('game', { threshold: 300 });
+			await lock.lock();
+			let savedGames = JSON.parse(Shared.common.getValue('games'));
+			for (let key in savedGames.apps) {
+				if (savedGames.apps.hasOwnProperty(key)) {
+					delete savedGames.apps[key].hidden;
+				}
+			}
+			for (let key in savedGames.subs) {
+				if (savedGames.subs.hasOwnProperty(key)) {
+					delete savedGames.subs[key].hidden;
+				}
+			}
+			await Shared.common.setValue('games', JSON.stringify(savedGames));
+			await lock.unlock();
+		}
+		let nextPage =
+			Settings.get('lastPageHiddenGames') > 0 ? Settings.get('lastPageHiddenGames') : 1;
 		let pagination = null;
 		do {
+			const hiddenGames = {
+				apps: [],
+				subs: [],
+			};
 			let elements, responseHtml;
+			syncer.progressBar.setMessage(`Syncing your hidden games (page ${nextPage})...`);
 			responseHtml = (
 				await FetchRequest.get(
-					`https://www.steamgifts.com/account/settings/giveaways/filters/search?page=${nextPage}`
+					`https://www.steamgifts.com/account/settings/giveaways/filters/search?page=${nextPage}`,
+					{ queue: true }
 				)
 			).html;
 			elements = responseHtml.querySelectorAll(
@@ -719,44 +771,38 @@ async function sync(syncer) {
 			for (let i = 0, n = elements.length; i < n; ++i) {
 				let match = elements[i].getAttribute('href').match(/(app|sub)\/(\d+)/);
 				if (match) {
-					syncer.hiddenGames[`${match[1]}s`].push(match[2]);
+					hiddenGames[`${match[1]}s`].push(match[2]);
 				}
 			}
 			pagination = responseHtml.getElementsByClassName('pagination__navigation')[0];
 			nextPage += 1;
+			const lock = new Lock('game', { threshold: 300 });
+			await lock.lock();
+			let savedGames = JSON.parse(Shared.common.getValue('games'));
+			for (let i = 0, n = hiddenGames.apps.length; i < n; ++i) {
+				if (!savedGames.apps[hiddenGames.apps[i]]) {
+					savedGames.apps[hiddenGames.apps[i]] = {};
+				}
+				savedGames.apps[hiddenGames.apps[i]].hidden = true;
+			}
+			for (let i = 0, n = hiddenGames.subs.length; i < n; ++i) {
+				if (!savedGames.subs[hiddenGames.subs[i]]) {
+					savedGames.subs[hiddenGames.subs[i]] = {};
+				}
+				savedGames.subs[hiddenGames.subs[i]].hidden = true;
+			}
+			await Shared.common.setValue('games', JSON.stringify(savedGames));
+			await lock.unlock();
+			await Shared.common.setSetting('lastPageHiddenGames', nextPage);
 		} while (
 			!syncer.canceled &&
 			pagination &&
 			!pagination.lastElementChild.classList.contains('is-selected')
 		);
-		const lock = new Lock('game', { threshold: 300 });
-		await lock.lock();
-		let savedGames = JSON.parse(Shared.common.getValue('games'));
-		for (let key in savedGames.apps) {
-			if (savedGames.apps.hasOwnProperty(key)) {
-				delete savedGames.apps[key].hidden;
-			}
+		if (!syncer.canceled) {
+			await Shared.common.setSetting('lastPageHiddenGames', 0);
+			DOM.insert(syncer.results, 'beforeend', <div>Hidden games synced.</div>);
 		}
-		for (let key in savedGames.subs) {
-			if (savedGames.subs.hasOwnProperty(key)) {
-				delete savedGames.subs[key].hidden;
-			}
-		}
-		for (let i = 0, n = syncer.hiddenGames.apps.length; i < n; ++i) {
-			if (!savedGames.apps[syncer.hiddenGames.apps[i]]) {
-				savedGames.apps[syncer.hiddenGames.apps[i]] = {};
-			}
-			savedGames.apps[syncer.hiddenGames.apps[i]].hidden = true;
-		}
-		for (let i = 0, n = syncer.hiddenGames.subs.length; i < n; ++i) {
-			if (!savedGames.subs[syncer.hiddenGames.subs[i]]) {
-				savedGames.subs[syncer.hiddenGames.subs[i]] = {};
-			}
-			savedGames.subs[syncer.hiddenGames.subs[i]].hidden = true;
-		}
-		await Shared.common.setValue('games', JSON.stringify(savedGames));
-		await lock.unlock();
-		DOM.insert(syncer.results, 'beforeend', <div>Hidden games synced.</div>);
 	}
 
 	// if sync has been canceled stop
@@ -1188,7 +1234,6 @@ async function sync(syncer) {
 	// finish sync
 	if (!Shared.esgst.isFirstRun) {
 		syncer.progressBar.setMessage('Updating last sync date...');
-		const currentTime = Date.now();
 		let keys = [
 			'Groups',
 			'Whitelist',
@@ -1212,8 +1257,8 @@ async function sync(syncer) {
 				!syncer.failed[key] &&
 				((syncer.parameters && syncer.parameters[key]) || (!syncer.parameters && Settings.get(id)))
 			) {
-				Settings.set(`lastSync${key}`, currentTime);
-				toSave[`lastSync${key}`] = currentTime;
+				Settings.set(`lastSync${key}`, now);
+				toSave[`lastSync${key}`] = now;
 			}
 		}
 		await Shared.common.lockAndSaveSettings(toSave);

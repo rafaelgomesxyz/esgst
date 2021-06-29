@@ -7,7 +7,6 @@ import { Session } from '../../class/Session';
 import { Settings } from '../../class/Settings';
 import { common } from '../Common';
 
-const updateHiddenGames = common.updateHiddenGames.bind(common);
 class GiveawaysOneClickHideGiveawayButton extends Module {
 	constructor() {
 		super();
@@ -99,7 +98,7 @@ class GiveawaysOneClickHideGiveawayButton extends Module {
 			data: `xsrf_token=${Session.xsrfToken}&do=hide_giveaways_by_game_id&game_id=${giveaway.gameId}`,
 		});
 		this.ochgb_completeProcess(giveaway, 'fade', main);
-		await updateHiddenGames(giveaway.id, giveaway.type);
+		await common.updateHiddenGames(giveaway.id, giveaway.type);
 		return true;
 	}
 
@@ -108,7 +107,7 @@ class GiveawaysOneClickHideGiveawayButton extends Module {
 			data: `xsrf_token=${Session.xsrfToken}&do=remove_filter&game_id=${giveaway.gameId}`,
 		});
 		this.ochgb_completeProcess(giveaway, 'unfade', main);
-		await updateHiddenGames(giveaway.id, giveaway.type, true);
+		await common.updateHiddenGames(giveaway.id, giveaway.type, true);
 		return true;
 	}
 

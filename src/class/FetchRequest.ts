@@ -82,14 +82,14 @@ export class FetchRequest {
 
 		try {
 			const isInternal = url.match(new RegExp(window.location.hostname));
-			if (isInternal && !options.doNotQueue) {
+			if (options.queue) {
+				lock = new Lock('request', {
+					threshold: typeof options.queue === 'number' ? options.queue : 1000,
+				});
+			} else if (isInternal && !options.doNotQueue) {
 				await browser.runtime.sendMessage({
 					action: 'queue_request',
 					key: 'sg',
-				});
-			} else if (options.queue) {
-				lock = new Lock('request', {
-					threshold: typeof options.queue === 'number' ? options.queue : 1000,
 				});
 			} else if (
 				url.match(/^https?:\/\/store.steampowered.com/) &&

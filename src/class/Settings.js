@@ -894,6 +894,7 @@ class _Settings {
 			lastSyncBlacklist: 0,
 			lastSyncSteamFriends: 0,
 			lastSyncHiddenGames: 0,
+			lastPageHiddenGames: 0,
 			lastSyncGames: 0,
 			lastSyncFollowedGames: 0,
 			lastSyncWonGames: 0,

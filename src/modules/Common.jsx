@@ -402,7 +402,7 @@ class Common extends Module {
 		`
 		);
 
-		if (Settings.get('updateHiddenGames')) {
+		if (Settings.get('lastSyncHiddenGames') > 0) {
 			const hideButton = document.getElementsByClassName('js__submit-hide-games')[0];
 			if (hideButton) {
 				hideButton.addEventListener('click', () =>
@@ -951,18 +951,6 @@ class Common extends Module {
 					},
 					openAutoSyncNewTab: {
 						name: 'Open automatic sync in a new tab.',
-						sg: true,
-					},
-					updateHiddenGames: {
-						description: () => (
-							<ul>
-								<li>
-									With this enabled, you no longer have to sync your hidden games every time you
-									add/remove a game to/from the list.
-								</li>
-							</ul>
-						),
-						name: 'Automatically update hidden games when adding/removing a game to/from the list.',
 						sg: true,
 					},
 					updateWhitelistBlacklist: {
@@ -1955,7 +1943,6 @@ class Common extends Module {
 				'Whitelist',
 				'Blacklist',
 				'SteamFriends',
-				'HiddenGames',
 				'Games',
 				'FollowedGames',
 				'WonGames',
@@ -3225,7 +3212,7 @@ class Common extends Module {
 	 * @returns {Promise<void>}
 	 */
 	async updateHiddenGames(id, type, unhide) {
-		if (!Settings.get('updateHiddenGames')) {
+		if (Settings.get('lastSyncHiddenGames') === 0) {
 			return;
 		}
 		const games = {
@@ -5048,6 +5035,16 @@ class Common extends Module {
 			}
 		};
 		popup.open();
+	}
+
+	createConfirmationAsync(message) {
+		return new Promise((resolve) =>
+			this.createConfirmation(
+				message,
+				() => resolve(true),
+				() => resolve(false)
+			)
+		);
 	}
 
 	createFadeMessage(context, message) {
