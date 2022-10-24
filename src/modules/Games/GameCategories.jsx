@@ -1542,10 +1542,11 @@ class GamesGameCategories extends Module {
 					);
 					let responseHtml = response.html;
 					if (response.url.match(id)) {
-						let elements = responseHtml.getElementsByClassName('user_reviews_summary_row');
-						let n = elements.length;
-						if (n > 0) {
-							let rating = elements[n - 1].getAttribute('data-tooltip-html').replace(/[,.]/g, '');
+						const element = responseHtml.querySelector(
+							'#userReviews .user_reviews_summary_row:last-child'
+						);
+						if (element) {
+							let rating = element.getAttribute('data-tooltip-html').replace(/[,.]/g, '');
 							let match = rating.match(/(\d+)%.+?(\d+)/);
 							let percentageIndex = 1;
 							let countIndex = 2;
@@ -1572,7 +1573,7 @@ class GamesGameCategories extends Module {
 						}
 						categories.removed = 0;
 						let tags = [];
-						elements = responseHtml.querySelectorAll('a.app_tag');
+						const elements = responseHtml.querySelectorAll('a.app_tag');
 						for (let i = 0, n = elements.length; i < n; ++i) {
 							tags.push(elements[i].textContent.trim());
 						}
