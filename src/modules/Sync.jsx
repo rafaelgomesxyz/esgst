@@ -563,7 +563,7 @@ async function sync(syncer) {
 					let avatar, steamId;
 					avatar = element
 						.getElementsByClassName('table_image_avatar')[0]
-						.style.backgroundImage.match(/\/avatars\/(.+)_medium/)[1];
+						.style.backgroundImage.match(/url\("(.+)"\)/)[1];
 					steamId = (await FetchRequest.get(`/group/${code}/`)).html
 						.getElementsByClassName('sidebar__shortcut-inner-wrap')[0]
 						.firstElementChild.getAttribute('href')

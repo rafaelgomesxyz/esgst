@@ -2162,7 +2162,7 @@ class Common extends Module {
 					const html = (await FetchRequest.get(`/group/${code}/`)).html;
 					savedGroup.avatar = html
 						.getElementsByClassName('global__image-inner-wrap')[0]
-						.style.backgroundImage.match(/\/avatars\/(.+)_full/)[1];
+						.style.backgroundImage.match(/url\("(.+)"\)/)[1];
 					savedGroup.steamId = html
 						.getElementsByClassName('sidebar__shortcut-inner-wrap')[0]
 						.firstElementChild.getAttribute('href')

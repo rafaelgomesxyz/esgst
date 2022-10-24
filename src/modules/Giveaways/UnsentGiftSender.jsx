@@ -497,7 +497,7 @@ class GiveawaysUnsentGiftSender extends Module {
 						ugs.giveaways[giveaway.code].groups.push({
 							avatar: element
 								.getElementsByClassName('table_image_avatar')[0]
-								.style.backgroundImage.match(/\/avatars\/(.+)_medium/)[1],
+								.style.backgroundImage.match(/url\("(.+)"\)/)[1],
 							code: match[1],
 							name: heading.textContent,
 							urlName: match[2],

@@ -652,7 +652,7 @@ class GeneralContentLoader extends Module {
 			for (const element of elements) {
 				const imageElement = element.querySelector('.table_image_avatar');
 				const avatar = imageElement
-					? imageElement.style.backgroundImage.match(/\/avatars\/(.+)_medium/)[1]
+					? imageElement.style.backgroundImage.match(/url\("(.+)"\)/)[1]
 					: null;
 				const heading = element.querySelector('.table__column__heading');
 				const name = heading.textContent;
@@ -673,7 +673,7 @@ class GeneralContentLoader extends Module {
 										className="table_image_avatar"
 										href={`/user/${entry.name}`}
 										style={{
-											backgroundImage: `url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/${entry.avatar}_medium.jpg)`,
+											backgroundImage: `url(${entry.avatar})`,
 										}}
 									></a>
 								) : (
@@ -802,7 +802,7 @@ class GeneralContentLoader extends Module {
 				for (const element of elements) {
 					const imageElement = element.querySelector('.table_image_avatar');
 					const avatar = imageElement
-						? imageElement.style.backgroundImage.match(/\/avatars\/(.+)_medium/)[1]
+						? imageElement.style.backgroundImage.match(/url\("(.+)"\)/)[1]
 						: null;
 					const heading = element.querySelector('.table__column__heading');
 					const code = heading.getAttribute('href').match(/group\/(.+?)\//)[1];
@@ -861,7 +861,7 @@ class GeneralContentLoader extends Module {
 												className="table_image_avatar"
 												href={`/group/${group.code}`}
 												style={{
-													backgroundImage: `url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/${group.avatar}_medium.jpg)`,
+													backgroundImage: `url(${group.avatar})`,
 												}}
 											></a>
 										) : (
@@ -951,7 +951,7 @@ class GeneralContentLoader extends Module {
 									className="table_image_avatar"
 									href={`/group/${group.code}/`}
 									style={{
-										backgroundImage: `url(https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/${group.avatar}_medium.jpg)`,
+										backgroundImage: `url(${group.avatar})`,
 									}}
 								></a>
 							) : (
