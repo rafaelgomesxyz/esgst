@@ -585,7 +585,7 @@ class Common extends Module {
 				});
 			}
 		}
-		const discussionHeading = document.querySelector(`.homepage_heading[href="/discussions"]`);
+		const discussionHeading = document.querySelector(`.block_header[href="/discussions"]`);
 		this.esgst.activeDiscussions =
 			/** @type {HTMLElement} */ discussionHeading &&
 			discussionHeading.closest('.widget-container--margin-top');
