@@ -28,14 +28,14 @@ class DiscussionsRefreshActiveDiscussionsButton extends Module {
 	radb_addButtons() {
 		let elements, i;
 		elements = this.esgst.activeDiscussions.querySelectorAll(
-			`.homepage_heading, .esgst-heading-button`
+			`.block_header, .esgst-heading-button`
 		);
 		for (i = elements.length - 1; i > -1; --i) {
 			DOM.insert(
 				elements[i],
 				'beforebegin',
 				<div
-					className={`esgst-radb-button${Settings.get('oadd') ? '' : ' homepage_heading'}`}
+					className={`esgst-radb-button${Settings.get('oadd') ? '' : ' block_header'}`}
 					title={getFeatureTooltip('radb', 'Refresh active discussions/deals')}
 					onclick={(event) => {
 						let icon = event.currentTarget.firstElementChild;
