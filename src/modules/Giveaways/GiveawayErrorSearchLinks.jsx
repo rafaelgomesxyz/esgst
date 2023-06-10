@@ -26,7 +26,7 @@ class GiveawaysGiveawayErrorSearchLinks extends Module {
 						</li>
 						<li>
 							<i className="fa">
-								<img src="https://steamdb.info/static/logos/favicon-16x16.png"></img>
+								<img src="https://steamdb.info/static/logos/16px.png"></img>
 							</i>{' '}
 							allows you to search for the game on SteamDB.
 						</li>
@@ -83,7 +83,7 @@ class GiveawaysGiveawayErrorSearchLinks extends Module {
 							title="Search on SteamDB"
 						>
 							<i className="fa">
-								<img src="https://steamdb.info/static/logos/favicon-16x16.png" />
+								<img src="https://steamdb.info/static/logos/16px.png" />
 							</i>
 						</a>
 						<a
