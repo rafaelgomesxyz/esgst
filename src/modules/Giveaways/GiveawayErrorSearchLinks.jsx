@@ -11,8 +11,8 @@ class GiveawaysGiveawayErrorSearchLinks extends Module {
 			description: () => (
 				<ul>
 					<li>
-						If you cannot access a giveaway because of many different reasons, a "Search Links" row
-						is added to the table of the{' '}
+						If you cannot access a giveaway because of many different reasons, a &quot;Search
+						Links&quot; row is added to the table of the{' '}
 						<a href="https://www.steamgifts.com/giveaway/FN2PK/">error</a> page containing 4 links
 						that allow you to search for the game elsewhere:
 					</li>
