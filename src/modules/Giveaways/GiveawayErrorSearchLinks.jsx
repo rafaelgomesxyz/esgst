@@ -8,6 +8,7 @@ class GiveawaysGiveawayErrorSearchLinks extends Module {
 		super();
 		this.info = {
 			// by Revadike
+			// eslint-disable-next-line react/display-name
 			description: () => (
 				<ul>
 					<li>
