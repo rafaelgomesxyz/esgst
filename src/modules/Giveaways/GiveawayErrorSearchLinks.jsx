@@ -64,6 +64,7 @@ class GiveawaysGiveawayErrorSearchLinks extends Module {
 						<a
 							href={`https://www.steamgifts.com/giveaways/search?q=${name}`}
 							target="_blank"
+							rel="noreferrer"
 							title="Search for active giveaways"
 						>
 							<i className="fa">
@@ -73,6 +74,7 @@ class GiveawaysGiveawayErrorSearchLinks extends Module {
 						<a
 							href={`http://store.steampowered.com/search/?term=${name}`}
 							target="_blank"
+							rel="noreferrer"
 							title="Search on Steam"
 						>
 							<i className="fa fa-steam"></i>
@@ -80,6 +82,7 @@ class GiveawaysGiveawayErrorSearchLinks extends Module {
 						<a
 							href={`https://steamdb.info/search/?a=app&q=${name}`}
 							target="_blank"
+							rel="noreferrer"
 							title="Search on SteamDB"
 						>
 							<i className="fa">
@@ -89,6 +92,7 @@ class GiveawaysGiveawayErrorSearchLinks extends Module {
 						<a
 							href={`https://barter.vg/search?q=${name}`}
 							target="_blank"
+							rel="noreferrer"
 							title="Search on Barter.vg"
 						>
 							<i className="fa">
