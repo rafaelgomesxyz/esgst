@@ -47,10 +47,10 @@ class GiveawaysGiveawayErrorSearchLinks extends Module {
 		};
 	}
 
-	init() {
+	init = () => {
 		const table = document.getElementsByClassName('table--summary')[0];
 		if (!this.esgst.giveawayPath || !table) return;
-		let name = encodeURIComponent(
+		const name = encodeURIComponent(
 			table.getElementsByClassName('table__column__secondary-link')[0].textContent
 		);
 		DOM.insert(
@@ -104,7 +104,7 @@ class GiveawaysGiveawayErrorSearchLinks extends Module {
 				</div>
 			</div>
 		);
-	}
+	};
 }
 
 const giveawaysGiveawayErrorSearchLinks = new GiveawaysGiveawayErrorSearchLinks();
