@@ -160,9 +160,11 @@ class Comments extends Module {
 		comment.id = comment.permalink
 			? comment.permalink.getAttribute('href').match(/\/comment\/(.+)/)[1]
 			: '';
-		comment.timestamp = parseInt(
-			comment.actions.querySelector(`[data-timestamp]`).getAttribute('data-timestamp')
-		);
+		matches = comment.actions.querySelectorAll('[data-timestamp]');
+		n = matches.length;
+		if (n > 0) {
+			comment.timestamp = parseInt(matches[n - 1].getAttribute('data-timestamp'));
+		}
 		if (!main || Shared.common.isCurrentPath('Messages')) {
 			if (this.esgst.sg) {
 				try {
