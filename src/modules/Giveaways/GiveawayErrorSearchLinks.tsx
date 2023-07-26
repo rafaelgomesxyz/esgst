@@ -8,11 +8,12 @@ class GiveawaysGiveawayErrorSearchLinks extends Module {
 		super();
 		this.info = {
 			// by Revadike
+			// eslint-disable-next-line react/display-name
 			description: () => (
 				<ul>
 					<li>
-						If you cannot access a giveaway because of many different reasons, a "Search Links" row
-						is added to the table of the{' '}
+						If you cannot access a giveaway because of many different reasons, a &quot;Search
+						Links&quot; row is added to the table of the{' '}
 						<a href="https://www.steamgifts.com/giveaway/FN2PK/">error</a> page containing 4 links
 						that allow you to search for the game elsewhere:
 					</li>
@@ -26,7 +27,7 @@ class GiveawaysGiveawayErrorSearchLinks extends Module {
 						</li>
 						<li>
 							<i className="fa">
-								<img src="https://steamdb.info/static/logos/favicon-16x16.png"></img>
+								<img src="https://steamdb.info/static/logos/16px.png"></img>
 							</i>{' '}
 							allows you to search for the game on SteamDB.
 						</li>
@@ -46,10 +47,10 @@ class GiveawaysGiveawayErrorSearchLinks extends Module {
 		};
 	}
 
-	init() {
+	init = () => {
 		const table = document.getElementsByClassName('table--summary')[0];
 		if (!this.esgst.giveawayPath || !table) return;
-		let name = encodeURIComponent(
+		const name = encodeURIComponent(
 			table.getElementsByClassName('table__column__secondary-link')[0].textContent
 		);
 		DOM.insert(
@@ -64,6 +65,7 @@ class GiveawaysGiveawayErrorSearchLinks extends Module {
 						<a
 							href={`https://www.steamgifts.com/giveaways/search?q=${name}`}
 							target="_blank"
+							rel="noreferrer"
 							title="Search for active giveaways"
 						>
 							<i className="fa">
@@ -73,6 +75,7 @@ class GiveawaysGiveawayErrorSearchLinks extends Module {
 						<a
 							href={`http://store.steampowered.com/search/?term=${name}`}
 							target="_blank"
+							rel="noreferrer"
 							title="Search on Steam"
 						>
 							<i className="fa fa-steam"></i>
@@ -80,15 +83,17 @@ class GiveawaysGiveawayErrorSearchLinks extends Module {
 						<a
 							href={`https://steamdb.info/search/?a=app&q=${name}`}
 							target="_blank"
+							rel="noreferrer"
 							title="Search on SteamDB"
 						>
 							<i className="fa">
-								<img src="https://steamdb.info/static/logos/favicon-16x16.png" />
+								<img src="https://steamdb.info/static/logos/16px.png" />
 							</i>
 						</a>
 						<a
 							href={`https://barter.vg/search?q=${name}`}
 							target="_blank"
+							rel="noreferrer"
 							title="Search on Barter.vg"
 						>
 							<i className="fa">
@@ -99,7 +104,7 @@ class GiveawaysGiveawayErrorSearchLinks extends Module {
 				</div>
 			</div>
 		);
-	}
+	};
 }
 
 const giveawaysGiveawayErrorSearchLinks = new GiveawaysGiveawayErrorSearchLinks();
