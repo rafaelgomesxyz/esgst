@@ -84,6 +84,8 @@ class Giveaways extends Module {
 				'X.featured__outer-wrap--giveaway',
 				`.table:not(.table--summary) X.table__row-outer-wrap`,
 			]);
+		} else if (this.esgst.gamePath) {
+			query = Shared.common.getSelectors(endless, ['X.giveaway__row-outer-wrap']);
 		} else {
 			query = Shared.common.getSelectors(endless, [
 				'X.giveaway__row-outer-wrap',
@@ -194,6 +196,7 @@ class Giveaways extends Module {
 		);
 		const archivePath = common.testPath('Archive', 'sg', mainUrl || window.location.pathname);
 		const giveawaysPath = common.testPath('Giveaways', 'sg', mainUrl || window.location.pathname);
+		const gamePath = common.testPath('Game', 'sg', mainUrl || window.location.pathname);
 		const groupPath = common.testPath('Group', 'sg', mainUrl || window.location.pathname);
 		const userPath = common.testPath(
 			'User - Giveaways - Sent',
@@ -393,7 +396,7 @@ class Giveaways extends Module {
 		if (Settings.get('gf') && Settings.get('gf_s') && main) {
 			let savedGiveaway = this.esgst.giveaways[giveaway.code];
 			if (
-				(giveawaysPath || groupPath) &&
+				(giveawaysPath || gamePath || groupPath) &&
 				savedGiveaway &&
 				savedGiveaway.hidden &&
 				savedGiveaway.code &&

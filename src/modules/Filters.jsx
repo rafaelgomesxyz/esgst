@@ -83,7 +83,9 @@ class Filters extends Module {
 			rules: null,
 			type:
 				popup ||
-				(this.esgst.groupPath
+				(this.esgst.gamePath
+					? 'Games'
+					: this.esgst.groupPath
 					? 'Groups'
 					: window.location.search.match(/type/)
 					? {
@@ -2288,6 +2290,7 @@ class Filters extends Module {
 			'Created',
 			'Entered',
 			'Won',
+			'Games',
 			'Groups',
 			'User',
 			'Gb',
@@ -2604,6 +2607,7 @@ class Filters extends Module {
 						this.esgst.enteredPath ||
 						this.esgst.wonPath ||
 						this.esgst.userPath ||
+						this.esgst.gamePath ||
 						this.esgst.groupPath)
 				) {
 					this.esgst.stopEs = true;

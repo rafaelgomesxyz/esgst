@@ -102,6 +102,13 @@ class Esgst {
 					name: 'Giveaway - Region Restrictions',
 					pattern: `^/giveaway/.{5}/[A-Za-z0-9-]+/region-restrictions`,
 				},
+				{ name: 'Game', pattern: '^/game/' },
+				{ name: 'Game - Giveaways', pattern: `^/game/.+?/[^/]+($|/search)` },
+				{ name: 'Game - Coming Soon', pattern: `^/game/.+?/[^/]+/coming-soon` },
+				{ name: 'Game - Open', pattern: `^/game/.+?/[^/]+/open` },
+				{ name: 'Game - Closed', pattern: `^/game/.+?/[^/]+/closed` },
+				{ name: 'Game - Deleted', pattern: `^/game/.+?/[^/]+/deleted` },
+				{ name: 'Game - Stats', pattern: `^/game/.+?/[^/]+/stats` },
 				{ name: 'Group', pattern: '^/group/' },
 				{ name: 'Group - Giveaways', pattern: `^/group/.+?/[^/]+($|/search)` },
 				{ name: 'Group - Users', pattern: `^/group/.+?/[^/]+/users` },
@@ -293,6 +300,7 @@ class Esgst {
 		this.elgbCache = {};
 		this.originalHash = window.location.hash;
 		this.userPath = false;
+		this.gamePath = false;
 		this.groupPath = false;
 		this.regionsPath = false;
 		this.groupWishlistPath = false;
@@ -540,6 +548,7 @@ class Esgst {
 
 		this.userPath = window.location.pathname.match(/^\/user\//);
 		this.userWonPath = this.userPath && window.location.pathname.match(/\/giveaways\/won/);
+		this.gamePath = window.location.pathname.match(/^\/game\//);
 		this.groupPath = window.location.pathname.match(/^\/group\//);
 		this.regionsPath = window.location.pathname.match(/^\/regions\//);
 		this.groupWishlistPath = window.location.pathname.match(/^\/group\/(.*?)\/wishlist/);

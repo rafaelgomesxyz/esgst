@@ -916,6 +916,7 @@ class GiveawaysGiveawayFilters extends Filters {
 				this.esgst.createdPath ||
 				this.esgst.enteredPath ||
 				this.esgst.wonPath ||
+				this.esgst.gamePath ||
 				this.esgst.groupPath ||
 				this.esgst.userPath)
 		) {
@@ -1009,7 +1010,8 @@ class GiveawaysGiveawayFilters extends Filters {
 					}
 				}
 				if (
-					(source !== 'gc' && (this.esgst.giveawaysPath || this.esgst.groupPath)) ||
+					(source !== 'gc' &&
+						(this.esgst.giveawaysPath || this.esgst.gamePath || this.esgst.groupPath)) ||
 					this.esgst.giveawayPath
 				) {
 					if (

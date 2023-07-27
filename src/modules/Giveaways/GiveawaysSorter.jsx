@@ -47,6 +47,7 @@ class GiveawaysGiveawaysSorter extends Module {
 			!popup &&
 			!this.esgst.giveawaysPath &&
 			!this.esgst.enteredPath &&
+			!this.esgst.gamePath &&
 			!this.esgst.groupPath &&
 			!this.esgst.userPath
 		)
@@ -60,6 +61,8 @@ class GiveawaysGiveawaysSorter extends Module {
 			type = 'Entered';
 		} else if (this.esgst.userPath) {
 			type = 'User';
+		} else if (this.esgst.gamePath) {
+			type = 'Games';
 		} else if (this.esgst.groupPath) {
 			type = 'Groups';
 		} else if (popup) {
