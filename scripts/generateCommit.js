@@ -41,7 +41,7 @@ function bumpVersion(args) {
 			versionParts[1] = betaVersionParts.join('.');
 			version = versionParts.join('-');
 		} else {
-			const nextVersion = args.nextVersion || bumpVersion({ stable: true });
+			const nextVersion = args.nextVersion || bumpVersion({ ...args, stable: true });
 			version = `${nextVersion}-beta.1`;
 		}
 	}
