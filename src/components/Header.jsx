@@ -645,7 +645,7 @@ class StHeader extends IHeader {
 	addButtonContainer(params) {
 		const [context, position] = params.context
 			? [params.context, params.position]
-			: [this.nodes.logo, 'afterend'];
+			: [this.nodes.rightNav, 'afterbegin'];
 
 		let buttonContainerNode = null;
 
@@ -788,8 +788,8 @@ class StHeader extends IHeader {
 		this.nodes.outer = outerNode;
 		this.nodes.inner = this.nodes.outer.querySelector('.header_inner_wrap');
 		this.nodes.nav = this.nodes.inner.querySelector('nav');
-		this.nodes.leftNav = this.nodes.nav;
-		this.nodes.rightNav = this.nodes.nav;
+		this.nodes.leftNav = this.nodes.nav.querySelector('.nav_btns');
+		this.nodes.rightNav = this.nodes.leftNav;
 		this.nodes.logo = this.nodes.nav.querySelector('.nav_logo');
 
 		const buttonContainerNodes = Array.from(
