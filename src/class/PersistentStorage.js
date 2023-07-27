@@ -8,7 +8,7 @@ import { browser } from '../browser';
 
 class PersistentStorage {
 	constructor() {
-		this.currentVersion = 13;
+		this.currentVersion = 14;
 
 		this.defaultValues = {
 			decryptedGiveaways: '{}',
@@ -817,6 +817,25 @@ class PersistentStorage {
 			window.console.log('Upgrading storage to version 13...');
 
 			toDelete.push('settingsAnalytics', 'notifiedMessages');
+		}
+
+		if (version < 14) {
+			window.console.log('Upgrading storage to version 14...');
+
+			let settingsChanged = false;
+
+			const settings = JSON.parse(storage.settings);
+
+			if (Utils.isSet(settings.chfl_footer_st)) {
+				settings.chfl_footer_st.push('steamtrades', 'steamgifts');
+
+				settingsChanged = true;
+			}
+
+			if (settingsChanged) {
+				toSet.settings = JSON.stringify(settings);
+				storage.settings = toSet.settings;
+			}
 		}
 
 		for (const key of Object.keys(toSet)) {

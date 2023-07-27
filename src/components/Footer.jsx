@@ -157,10 +157,10 @@ class StFooter extends IFooter {
 		DOM.insert(
 			context,
 			position,
-			<li ref={(ref) => (linkContainerNode = ref)}>
+			<div ref={(ref) => (linkContainerNode = ref)}>
 				{params.icon ? <i className={params.icon}></i> : null}{' '}
 				{params.url ? <a href={params.url}>{params.name}</a> : params.name}
-			</li>
+			</div>
 		);
 
 		return this.parseLinkContainer(linkContainerNode);
@@ -181,15 +181,19 @@ class StFooter extends IFooter {
 		}
 
 		this.nodes.outer = outerNode;
-		this.nodes.inner = this.nodes.outer.querySelector('.footer_inner_wrap');
+		this.nodes.inner = this.nodes.outer.querySelector('.footer_lower .footer_inner_wrap');
 		this.nodes.nav = this.nodes.inner;
-		DOM.insert(this.nodes.nav, 'afterbegin', <ul ref={(ref) => (this.nodes.leftNav = ref)}></ul>);
-		this.nodes.leftNav.appendChild(this.nodes.nav.querySelector(':scope > div'));
-		this.nodes.rightNav = this.nodes.nav.querySelector(':scope > ul:last-child');
+		DOM.insert(
+			this.nodes.nav,
+			'afterbegin',
+			<div ref={(ref) => (this.nodes.leftNav = ref)} style="display: flex; gap: 15px;"></div>
+		);
+		this.nodes.leftNav.appendChild(this.nodes.nav.querySelector('.footer_steam'));
+		this.nodes.rightNav = this.nodes.nav.querySelector('.footer_sites');
 
 		const linkContainerNodes = [
-			...Array.from(this.nodes.leftNav.querySelectorAll(':scope > li, :scope > div')),
-			...Array.from(this.nodes.rightNav.querySelectorAll(':scope > li, :scope > div')),
+			...Array.from(this.nodes.leftNav.querySelectorAll(':scope > a')),
+			...Array.from(this.nodes.rightNav.querySelectorAll(':scope > a')),
 		];
 
 		for (const linkContainerNode of linkContainerNodes) {
@@ -223,10 +227,10 @@ class StFooter extends IFooter {
 			linkContainer.data.icon = linkContainer.nodes.icon.className;
 		}
 
-		const linkNode = linkContainer.nodes.outer.querySelector('a');
+		const linkNode = linkContainer.nodes.outer;
 
 		if (linkNode) {
-			linkContainer.nodes.link = linkContainer.nodes.outer.querySelector('a');
+			linkContainer.nodes.link = linkContainer.nodes.outer;
 
 			linkContainer.data.name =
 				linkContainer.nodes.link.textContent.trim() || linkContainer.nodes.outer.title;

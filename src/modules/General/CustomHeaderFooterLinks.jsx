@@ -696,8 +696,8 @@ class GeneralCustomHeaderFooterLinks extends Module {
 					} else {
 						description.value = editItem.data.description || '';
 						name.value = editItem.data.name;
-						icon.value = editItem.data.icon ? editItem.data.icon.match(/.+(fa-[a-z-]+)$/)[1] : '';
-						color.value = editItem.data.icon ? editItem.data.icon.match(/icon-(.+?)\s/)[1] : '';
+						icon.value = editItem.data.icon ? editItem.data.icon.match(/.+(fa-[a-z-]+)$/)?.[1] : '';
+						color.value = editItem.data.icon ? editItem.data.icon.match(/icon-(.+?)\s/)?.[1] : '';
 						url.value = editItem.data.url;
 					}
 
