@@ -61,7 +61,7 @@
 		"jQuery-QueryBuilder": "^2.5.2",
 		"jquery": "3.5.0",
 		"jquery-ui": "^1.12.1",
-		"jszip": "3.2.2",
+		"jszip": "3.8.0",
 		"simple-vdf": "^1.1.1",
 		"uuid": "^8.3.2",
 		"webextension-polyfill": "^0.4.0"
