@@ -30,7 +30,7 @@ class GeneralHiddenCommunityPoll extends Module {
 		if (
 			poll &&
 			poll.classList.contains('widget-container') &&
-			!poll.querySelector(`.block_header[href="/happy-holidays"]`)
+			!poll.querySelector(`.block_header_text[href="/happy-holidays"]`)
 		) {
 			if (!Settings.get('hcp_v') || poll.querySelector('.table__row-outer-wrap.is-selected')) {
 				poll.classList.add('esgst-hidden');
