@@ -868,15 +868,15 @@ function addStyle() {
 		display: inline-block;
 	}
 
-	.esgst-radb-button.block_header {
+	.esgst-radb-button.block_header_text {
 		margin-right: 5px;
 	}
 
-	:not(.page__heading) > .esgst-radb-button:not(.block_header) {
+	:not(.page__heading) > .esgst-radb-button:not(.block_header_text) {
 		margin-left: 5px;
 	}
 
-	.esgst-radb-button + .block_header {
+	.esgst-radb-button + .block_header_text {
 		display: inline-block;
 		width: calc(100% - 80px);
 	}
